@@ -1,0 +1,12 @@
+bin/gamescenes
+bin/js
+bin/local
+bin/remote
+bin/res
+bin/scenes
+bin/project.swan.json
+bin/swan-game-adapter.js
+.laya/chrome
+.laya/publish_oppogame.js
+.laya/publish_xmgame.js
+
