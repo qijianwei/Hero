@@ -30,7 +30,7 @@ export default class Player extends PaoYa.Component {
   onAwake() {
     //this.params=this.owner.params;
     let owner = this.owner;
-    this.typeAniName = ["", "Bot", "Mid", "Top"]; //对应轨迹的动画名称
+    this.typeAniName = ["", "Bot", "Mid", "Top","Top"]; //对应轨迹的动画名称
 
     let width = owner.width,
       height = owner.height;
@@ -48,7 +48,7 @@ export default class Player extends PaoYa.Component {
         return;
       }
       this.skeleton.playbackRate(1)
-      this.skeleton.play("stand", true);
+      this.skeleton.play('stand', true)
     })
     owner.addChild(skeleton);
 
@@ -67,15 +67,17 @@ export default class Player extends PaoYa.Component {
   initDress() {
     let url = "spine/npc/npc_7.sk";
     this.skeleton.load(url, Laya.Handler.create(this, () => {
-     // this.skeleton.play('freeze', true)
+       // this.skeleton.play('dizzy', true);
         this.skeleton.play('stand', true)
     }))
   }
+
+  //攻击
   attackEffect() {
     this.skeleton.playbackRate(3)
     this.skeleton.play("attack", false)
   }
-
+//受击打,所有武器碰到都有这效果
   injuredEffect(type, value) {
     this.canAction = false;
     if(this.isSelf){
@@ -135,10 +137,13 @@ export default class Player extends PaoYa.Component {
     this.aniPoison.stop();
   }
   //麻痹
-  palsyEffect(palsyTime,value) {
+  palsyEffect(palsyTime) {
     this.canAction = false;
+    if(this.isSelf){
+      Laya.MouseManager.enabled=false;
+    }
     this.boxAniPalsy.visible = true;
-    this.HPComp.changeHP(value)
+  //  this.HPComp.changeHP(value)
     this.aniPalsy.play(0, true);
     this.skeleton.play('dizzy', true);
     Laya.timer.once(palsyTime, this, this.removePalsy)
@@ -174,7 +179,7 @@ export default class Player extends PaoYa.Component {
       Laya.MouseManager.enabled=true;
     }
     this.freeze.visible = false;
-    this.skeleton.stop();
+    this.skeleton.play('stand',true);
   }
  changePerMp(time,valuePer){
    this.MPComp.changePerMp(this.MPComp.perAddMP*valuePer);

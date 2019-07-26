@@ -22,8 +22,8 @@ export default class GameView extends PaoYa.View{
       let lblName=boxInfo.getChildByName("lblName");
       imgIcon.skin=data.icon;
       lblName.text=data.name;
-      console.log(this.boxSelfInfo.getChildByName("boxMPBar"));
-      console.log(this.boxOtherInfo.getChildByName('boxHPBar'));
+   /*    console.log(this.boxSelfInfo.getChildByName("boxMPBar"));
+      console.log(this.boxOtherInfo.getChildByName('boxHPBar')); */
     }
     
     setHPbar(value,isSelf){

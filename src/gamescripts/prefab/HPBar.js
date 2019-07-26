@@ -17,19 +17,7 @@ export default class HPBar extends PaoYa.Component{
       this.originHP=this.curHP=HPValue;
       this.lblHpPct.text=`${this.curHP}/${this.originHP}`
     }
-    /* increaseHP(value){
-      this.curHP=this.curHP+value>this.originHP?this.originHP:this.curHP+value;
-      this.imgMask.width=Math.floor(this.curHP/this.originHP*this.originW);
-    }
-    decreaseHP(value){
-      if(this.curHP<=0){console.log("宣告死亡");return;}
-      this.curHP-=value;
-      if(this.curHP<=0){this.curHP=0}
-      let w=Math.floor(this.curHP/this.originHP*this.originW);
-      this.imgMask.width=w;
-    } */
     changeHP(value){
-      if(this.curHP<=0){console.log("已经死亡");return;}
       this.curHP+=value;
       if(this.curHP<=0){
         this.curHP=0;

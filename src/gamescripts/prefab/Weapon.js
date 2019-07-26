@@ -9,7 +9,8 @@ export default class Weapon extends PaoYa.Component {
   /** @prop {name:imgHp,tips:"武器血条图片",type:Node}*/
   constructor() {
     super();
-    this.pathsCurvature = [0, 0, 0.0012, 0.002,0.004];
+    this.pathsCurvature = [0, 0, 0.0012, 0.0025,0.006];
+    this.speedsArr=[0,680/60,680/80,680/100,680/100]
   }
   onAwake() {
     // console.error("进来几次")
@@ -18,7 +19,7 @@ export default class Weapon extends PaoYa.Component {
       console.warn('碰撞效果完成', new Date().getTime());
 
     })
-    console.log('当前的动画帧数:', this.boxAniCollision.count)
+   // console.log('当前的动画帧数:', this.boxAniCollision.count)
     //添加碰撞体
     let collideSp = new Laya.Sprite();
     this.collideSp = collideSp;
@@ -29,8 +30,7 @@ export default class Weapon extends PaoYa.Component {
   //可能执行多次
   onEnable() {
     this.params = this.owner.params;
-    this.initBar();
-    this.rotate = true;
+   
     if (this.params.weaponType != 1) {
       this.rotateAngle = 360
     }
@@ -40,21 +40,19 @@ export default class Weapon extends PaoYa.Component {
     this.imgWeapon.scaleX = 1;
     this.imgWeapon.scaleY = 1;
 
-    this.effectAni = false;
+    this.effectAni = false; //兵器是否在做碰撞动效
     this.boxAniWeapon.visible = false;
-    //this.boxAniCollision.interval=30;
-    //this.boxAniCollision.play(0,true);
+   
     //武器图片 
     this.imgWeapon.skin = `remote/weapons/${this.params.weaponId}.png`;
     this.weaponAttack = this.params.weaponAttack; //武器攻击力
     this.weaponDurable = this.params.weaponDurable;
     this.owner.zOrder = 100 - this.weaponDurable;
     let imgW = this.imgWeapon.width,
-      imgH = this.imgWeapon.height;
-    this.imgWeapon.pivot(imgW / 2, imgH / 2);
-    //this.imgWeapon.pivot(imgW/2,imgH/2)
-    //  this.imgWeapon.skin=`remote/game/weapon.png`
-    this.boxAniWeapon.pos(this.imgWeapon.x, this.imgWeapon.y);
+        imgH = this.imgWeapon.height;
+    this.imgWeapon.pivot(imgW / 2, imgH / 2);//图片的位置
+    this.boxAniWeapon.pos(this.imgWeapon.x, this.imgWeapon.y);//碰撞动效的位置
+    
 
     this.collideSp.size(Math.floor(imgW * 0.2), imgH);
     let collideW = this.collideSp.width,
@@ -78,7 +76,8 @@ export default class Weapon extends PaoYa.Component {
       y: 450
     }
   
-    this.speed = 680 / 100; //代表 像素/帧
+    let speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
+    console.error('速度....',speed)
     //暂时这么写  
     if (this.isSelf) {
       this.selfPlayerComp = GameControl.instance.selfPlayer.comp;
@@ -109,11 +108,10 @@ export default class Weapon extends PaoYa.Component {
     }]
     //根据weaponType不同，运动轨迹不同,造成curvature
    this.curvature = this.pathsCurvature[this.params.weaponType];
-   //this.curvature=0.004
+ 
     // X轴Y轴的偏移总量
     this.driftX = this.endPos.x - this.startPos.x;
     this.driftY = this.endPos.y - this.startPos.y;
-    //this.duration = 1000;
 
     /*
      * 因为经过(0, 0), 因此c = 0
@@ -125,19 +123,20 @@ export default class Weapon extends PaoYa.Component {
      * b = (y2+ a*x2*x2) / x2
      */
     this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
-
     this.beginTime = (new Date()).valueOf();
-
-    Laya.timer.frameLoop(1, this, this.startParabola);
+    //初始化血条状态
+    this.initBar();
+    Laya.timer.frameLoop(1, this, this.startParabola,[speed]);
   }
   initBar() {
     this.originHpW = this.imgHp.width;
-    this.originHP = this.curHP = this.params.weaponDurable;
+    this.originHP = this.curHP = this.weaponDurable;
     this.boxHpWeapon.visible = false;
+    this.imgHpMask.width=this.originHpW;
   }
   changeHP(value) {
-    // if(this.curHP<=0){console.log("已经死亡");return;}
     this.boxHpWeapon.visible = true;
+    
     this.curHP += value;
     if (this.curHP <= 0) {
       this.curHP = 0;
@@ -151,11 +150,11 @@ export default class Weapon extends PaoYa.Component {
   }
 
   //开始抛物线运动
-  startParabola() {
+  startParabola(speed) {
     let now = (new Date()).valueOf();
     let x, y, curAngle;
 
-    x = Math.floor((now - this.beginTime) * 0.06 * this.speed);
+    x = Math.floor((now - this.beginTime) * 0.06 * speed);
     y = Math.floor(this.curvature * x * x + this.b * x);
     curAngle = Math.floor(x / this.driftX * 360)
     this.doMove(x, y, curAngle);
@@ -178,7 +177,6 @@ export default class Weapon extends PaoYa.Component {
     this.owner.y = this.newY;
     if (this.firstAngle == undefined) {
       this.firstAngle = this.getDegreeByPos(x, y, this.newX, this.newY);
-      //this.owner.rotation=this.firstAngle;
     }
     if (this.params.weaponType != 1) {
       this.imgWeapon.rotation = this.firstAngle + curAngle;
@@ -203,30 +201,31 @@ export default class Weapon extends PaoYa.Component {
           sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
           sprite.zOrder=10000;
           sprite.rotation=this.imgWeapon.rotation */
-
-      // return
+     
       this.endMove();
       let skill = this.params.activeSkill;
       let skillConfig=skill.skillConfig;
       let skillId = skill.skillId;
       let skillEffect=this.params.skillEffect;
-      if (skillEffect) {
+      let attackNum=this.calcAttackNum(skillEffect);
+      if (skillEffect) { 
+        this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
         switch (skillId) {
           case 45 || 46:
             let arr=skillConfig.poison.split('-').map(Number);
             let time=arr[0];
-            this.otherPlayerComp.poisonEffect(time*1000,-arr[1]/time,-this.weaponAttack)
+            this.otherPlayerComp.poisonEffect(time*1000,-arr[1]/time)
             break;
           case 49||50:
-            this.otherPlayerComp.palsyEffect(skillConfig.mabi*1000,-this.weaponAttack);
+            this.otherPlayerComp.palsyEffect(skillConfig.mabi*1000);
             break;
           case 53:
             let stealHp=skillConfig.stealHp;
-            this.selfPlayerComp.hpRecoverEffect(this.weaponAttack*stealHp);//数值暂定，要算
+            this.selfPlayerComp.hpRecoverEffect(attackNum*stealHp);//数值暂定，要算
             break;
           case 54:
             let stealMp=skillConfig.stealMp;
-            this.selfPlayerComp.mpRecoverEffect(this.weaponAttack*stealMp)
+            this.selfPlayerComp.mpRecoverEffect(attackNum*stealMp)
             break;
           case 55:      
             let recoverDown=skillConfig.recoverDown.split('-').map(Number);
@@ -237,18 +236,35 @@ export default class Weapon extends PaoYa.Component {
             let freezeTime=skillConfig.freeze*1000
             this.otherPlayerComp.freezedEffect(freezeTime);
             break;
-          default:
-            console.error('触发技能，但是普通伤害')
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-this.weaponAttack);
-            break;
         }
+       
       }else{
-        this.otherPlayerComp.injuredEffect(this.params.weaponType,-this.weaponAttack);
+        this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
       }
     }
     if (this.isSelf) {
       this.collideWithWeapon();
     }
+  }
+  /* 
+      伤害公式=兵器攻击力*（攻击方臂力-防御方根骨）/攻击方臂力*[暴伤百分比]*[1+兵器炼器伤害加成百分比]*[1+英雄技能伤害加成百分比]*（1-防御方炼器减伤百分比）*兵器技能伤害百分比
+[暴伤百分比]=角色自身暴伤百分比+兵器技能附加暴伤百分比+兵器炼器暴伤百分比
+  */
+  calcAttackNum(skillEffect){
+    let randomNum=Math.floor(Math.random()*100+1);
+    let selfAttr=this.selfPlayerComp.attr,
+        otherAttr=this.otherPlayerComp.attr,
+        selfStrength=selfAttr.roleStrength,//臂力
+        selfCritHarm=(randomNum<this.selfPlayerComp.roleCritProb)?selfAttr.roleCritHarm/100:1,
+        otherBone=otherAttr.roleBone,
+        otherStrength=otherAttr.roleStrength,
+        skillHurtMulti=1;
+        if(skillEffect){
+          console.error('触发技能伤害，有莫有伤害倍数不知道')
+          skillHurtMulti=(this.params.activeSkill.skillConfig.hurt)?this.params.activeSkill.skillConfig.hurt:1;
+        }
+    let acttackNum=Math.floor(this.weaponAttack*(selfStrength-otherBone)/otherStrength*selfCritHarm*skillHurtMulti);
+    return acttackNum;
   }
   //根据抛物线的点求角度和计算矩形四个位置
   getDegreeByPos(x, y, newX, newY) {

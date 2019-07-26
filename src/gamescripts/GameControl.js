@@ -64,8 +64,8 @@ export default class GameControl extends PaoYa.Component {
     }
     onClick(e) {
         switch (e.target.name) {
-            case 'btnDoudge':
-                console.warn('使用闪避技能')
+            case 'btnDodge':
+                this.dodgeSkillShow();
                 break;
 
         }
@@ -88,6 +88,7 @@ export default class GameControl extends PaoYa.Component {
             let weaponBarComp = weaponBar.getComponent(WeaponBar);
             weaponBarComp.params = this.weaponList[i];
             weaponBarComp.isSelf = true;
+            weaponBarComp.index=i;
             this.weaponsBarArr.push(weaponBar);
             boxWeapon.addChild(weaponBar)
         }
@@ -150,6 +151,17 @@ export default class GameControl extends PaoYa.Component {
         //人物表现
         this.selfPlayer.comp.attackEffect();
 
+        
+        //暂时对方这么发射
+     /*     for (var i = 0; i < this.robotWeaponList.length; i++) {
+            if (targetComp.params.weaponType == this.robotWeaponList[i].weaponType) {
+                this.weaponByOther(this.robotWeaponList[i])
+                break;
+            }
+        } */
+        this.weaponByOther(this.robotWeaponList[targetComp.index])
+//return; */
+
         //判断是否触发兵器技能
         let skill = targetComp.params.activeSkill;
         let skillType = skill.skillType,
@@ -161,7 +173,7 @@ export default class GameControl extends PaoYa.Component {
         params.skillEffect = false;
         if (skillType == 1 && status == 1) {
             let random = Math.floor(Math.random() * 100 + 1);
-            if (random <= 100) {
+            if (random <= prob) {
                 /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                 if (skillId == 58) {
                     targetComp.startT(200); //快速冷却     
@@ -179,13 +191,6 @@ export default class GameControl extends PaoYa.Component {
         targetComp.startT();
         this.weaponBySelf(params);
 
-
-        //暂时对方这么发射
-        for (var i = 0; i < this.params.robotWeaponList.length; i++) {
-            if (targetComp.params.weaponType == this.params.robotWeaponList[i].weaponType) {
-                this.weaponByOther(this.params.robotWeaponList[i])
-            }
-        }
 
 
         // this.weaponByOther(target);
@@ -217,7 +222,8 @@ export default class GameControl extends PaoYa.Component {
         let durable = skillConfig.durable;
         params.skillEffect = true; //代表技能是触发的
         switch (skillId) {
-            case 43 || 44:
+            case 43:
+            case 44:
                 let weaponNum = skillConfig.weaponNum;
 
                 console.error("修改后的值:", params.weaponAttack)
@@ -227,8 +233,9 @@ export default class GameControl extends PaoYa.Component {
                 }
                 break;
                 //造成几倍伤害 兵器前方加气流
-            case 47 || 48:
-                params.weaponAttack = params.weaponAttack * hurt;
+            case 47:
+            case 48:
+               // params.weaponAttack = params.weaponAttack * hurt;
                 this.weaponBySelf(params);
                 break;
                 //向上中路各发出1件兵器 几率12%
@@ -248,16 +255,25 @@ export default class GameControl extends PaoYa.Component {
                 this.weaponBySelf(params);
                 break;
                 //100%伤害转化为生命 几率18%
-            case 45||46||49||50||53||54||55||59:
+            case 45:
+            case 46:
+            case 49:
+            case 50:
+            case 53:
+            case 54:
+            case 55:
+            case 59:
                 this.weaponBySelf(params);   
                 break;
             case 60:
                 params.weaponType = 4;
-                params.weaponBySelf(params);
+                this.weaponBySelf(params);
                 break;
                 //造成几倍伤害 兵器上加刀刃特效
-            case 56 || 57 || 61:
-                params.weaponAttack = params.weaponAttack * hurt;
+            case 56:
+            case 57:
+            case 61:
+               // params.weaponAttack = params.weaponAttack * hurt;
                 this.weaponBySelf(params);
                 break;
                 //兵器耐久提升100%
@@ -290,6 +306,10 @@ export default class GameControl extends PaoYa.Component {
             }
         }
         console.log('删除后数组' + target.isSelf, targetWeapons)
+    }
+    //闪避技能
+    dodgeSkillShow(){
+      console.error('闪避技能使用')
     }
     // 全局碰撞检测
     collisionDetection() {
