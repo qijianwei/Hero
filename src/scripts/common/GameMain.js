@@ -8,20 +8,20 @@ export default class GameMain extends PaoYa.Main {
 	setupConfig() {
 		let resList = [];
 		/**添加必要网络资源 */
-		[
+		/* [
 		].forEach(url => {
 			resList.push(`${PaoYa.DataCenter.CDNURL}${url}`)
-		})
+		}) */
 
 		/**加载必要首屏界面资源 */
-		let scenes = [
+	/* 	let scenes = [
 			
 		]
-		resList = resList.concat(scenes)
+		resList = resList.concat(scenes) */
 		/**加载游戏界面所需资源 */
-		resList = resList.concat(this.setupGameRes())
+		//resList = resList.concat(this.setupGameRes())
 
-		PaoYa.DataCenter.GAMERES = resList;
+		PaoYa.DataCenter.GAMERES = this.setupGameRes();
 		//分享地址
 		PaoYa.ShareManager.makeShareImageURLHandler = function () {
 			return PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img.randomItem;

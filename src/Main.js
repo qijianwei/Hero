@@ -24,6 +24,7 @@ export class Main extends GameMain {
 			adUnitId:'adunit-7860aaf8ed04aeb2',
 			bannerUnitId: 'adunit-4bec7f17587df319',//bannerID
 			portrait:"landscape",
+			loadNetworkRes:false,
 			is_config:0
 		};
 		super(params)
