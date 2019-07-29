@@ -104,7 +104,7 @@ var MiniFileMgr=(function(){
 
 	MiniFileMgr.getFileInfo=function(fileUrl){
 		var fileNativePath=fileUrl;
-		var fileObj=MiniFileMgr.filesListObj[fileNativePath];
+		var fileObj=MiniFileMgr.fakeObj[fileNativePath];
 		if (fileObj==null)
 			return null;
 		else
@@ -113,7 +113,7 @@ var MiniFileMgr=(function(){
 	}
 
 	MiniFileMgr.read=function(filePath,encoding,callBack,readyUrl,isSaveFile,fileType){
-		(encoding===void 0)&& (encoding="ascill");
+		(encoding===void 0)&& (encoding="utf8");
 		(readyUrl===void 0)&& (readyUrl="");
 		(isSaveFile===void 0)&& (isSaveFile=false);
 		(fileType===void 0)&& (fileType="");
@@ -158,7 +158,7 @@ var MiniFileMgr=(function(){
 	}
 
 	MiniFileMgr.readFile=function(filePath,encoding,callBack,readyUrl,isSaveFile,fileType,isAutoClear){
-		(encoding===void 0)&& (encoding="ascill");
+		(encoding===void 0)&& (encoding="utf8");
 		(readyUrl===void 0)&& (readyUrl="");
 		(isSaveFile===void 0)&& (isSaveFile=false);
 		(fileType===void 0)&& (fileType="");
@@ -167,8 +167,11 @@ var MiniFileMgr=(function(){
 		MiniFileMgr.fs.readFile({filePath:filePath,encoding:encoding,success:function (data){
 				if (filePath.indexOf("http://")!=-1 || filePath.indexOf("https://")!=-1){
 					if(MiniAdpter.autoCacheFile || isSaveFile){
-						MiniFileMgr.copyFile(filePath,readyUrl,callBack,encoding,isAutoClear);
+						callBack !=null && callBack.runWith([0,data]);
+						MiniFileMgr.copyFile(filePath,readyUrl,null,encoding,isAutoClear);
 					}
+					else
+					callBack !=null && callBack.runWith([0,data]);
 				}
 				else
 				callBack !=null && callBack.runWith([0,data]);
@@ -184,8 +187,10 @@ var MiniFileMgr=(function(){
 		(isAutoClear===void 0)&& (isAutoClear=true);
 		MiniFileMgr.wxdown({url:fileUrl,success:function (data){
 				if (data.statusCode===200){
-					if((MiniAdpter.autoCacheFile || isSaveFile)&& readyUrl.indexOf("qlogo.cn")==-1 && readyUrl.indexOf(".php")==-1)
-						MiniFileMgr.copyFile(data.tempFilePath,readyUrl,callBack,"",isAutoClear);
+					if ((MiniAdpter.autoCacheFile || isSaveFile)&& readyUrl.indexOf("qlogo.cn")==-1 && readyUrl.indexOf(".php")==-1){
+						callBack !=null && callBack.runWith([0,data.tempFilePath]);
+						MiniFileMgr.copyFile(data.tempFilePath,readyUrl,null,"",isAutoClear);
+					}
 					else
 					callBack !=null && callBack.runWith([0,data.tempFilePath]);
 					}else{
@@ -199,7 +204,7 @@ var MiniFileMgr=(function(){
 	MiniFileMgr.downLoadFile=function(fileUrl,fileType,callBack,encoding){
 		(fileType===void 0)&& (fileType="");
 		(encoding===void 0)&& (encoding="ascii");
-		if(/*__JS__ */window.navigator.userAgent.indexOf('MiniGame')<0){
+		if(MiniAdpter.window.navigator.userAgent.indexOf('MiniGame')<0){
 			Laya.loader.load(fileUrl,callBack);
 			}else{
 			if(fileType==/*laya.net.Loader.IMAGE*/"image" || fileType==/*laya.net.Loader.SOUND*/"sound")
@@ -217,6 +222,7 @@ var MiniFileMgr=(function(){
 		var fileurlkey=readyUrl;
 		var fileObj=MiniFileMgr.getFileInfo(readyUrl);
 		var saveFilePath=MiniFileMgr.getFileNativePath(tempFileName);
+		MiniFileMgr.fakeObj[fileurlkey]={md5:tempFileName,readyUrl:readyUrl,size:0,times:Browser.now(),encoding:encoding};
 		var totalSize=50 *1024 *1024;
 		var chaSize=4 *1024 *1024;
 		var fileUseSize=MiniFileMgr.getCacheUseSize();
@@ -355,8 +361,8 @@ var MiniFileMgr=(function(){
 		MiniFileMgr.fs.writeFile({filePath:listFilesPath,encoding:'utf8',data:filesListStr,success:function (data){
 				},fail:function (data){
 		}});
-		if(!MiniAdpter.isZiYu &&MiniAdpter.isPosMsgYu){
-			/*__JS__ */wx.postMessage({url:fileurlkey,data:MiniFileMgr.filesListObj[fileurlkey],isLoad:"filenative",isAdd:isAdd});
+		if(!MiniAdpter.isZiYu &&MiniAdpter.isPosMsgYu && MiniAdpter.window.wx.postMessage){
+			MiniAdpter.window.wx.postMessage({url:fileurlkey,data:MiniFileMgr.filesListObj[fileurlkey],isLoad:"filenative",isAdd:isAdd});
 		}
 	}
 
@@ -378,7 +384,7 @@ var MiniFileMgr=(function(){
 	}
 
 	MiniFileMgr.readSync=function(filePath,encoding,callBack,readyUrl){
-		(encoding===void 0)&& (encoding="ascill");
+		(encoding===void 0)&& (encoding="utf8");
 		(readyUrl===void 0)&& (readyUrl="");
 		var fileUrl=MiniFileMgr.getFileNativePath(filePath);
 		var filesListStr
@@ -392,10 +398,11 @@ var MiniFileMgr=(function(){
 	}
 
 	MiniFileMgr.setNativeFileDir=function(value){
-		MiniFileMgr.fileNativeDir=/*__JS__ */wx.env.USER_DATA_PATH+value;
+		MiniFileMgr.fileNativeDir=MiniAdpter.window.wx.env.USER_DATA_PATH+value;
 	}
 
 	MiniFileMgr.filesListObj={};
+	MiniFileMgr.fakeObj={};
 	MiniFileMgr.fileNativeDir=null;
 	MiniFileMgr.fileListName="layaairfiles.txt";
 	MiniFileMgr.ziyuFileData={};
@@ -404,7 +411,7 @@ var MiniFileMgr=(function(){
 	MiniFileMgr.DESCENDING=2;
 	MiniFileMgr.NUMERIC=16;
 	__static(MiniFileMgr,
-	['fs',function(){return this.fs=/*__JS__ */wx.getFileSystemManager();},'wxdown',function(){return this.wxdown=/*__JS__ */wx.downloadFile;}
+	['fs',function(){return this.fs=MiniAdpter.window.wx.getFileSystemManager();},'wxdown',function(){return this.wxdown=MiniAdpter.window.wx.downloadFile;}
 	]);
 	return MiniFileMgr;
 })()
@@ -465,6 +472,266 @@ var MiniLocalStorage=(function(){
 	MiniLocalStorage.support=true;
 	MiniLocalStorage.items=null;
 	return MiniLocalStorage;
+})()
+
+
+/**
+*视频类
+*@author xiaosong
+*@date-2019-04-22
+*/
+//class laya.wx.mini.MiniVideo
+var MiniVideo=(function(){
+	function MiniVideo(width,height){
+		/**视频是否播放结束**/
+		this.videoend=false;
+		this.videourl="";
+		this.videoElement=null;
+		this.onPlayFunc=null;
+		this.onEndedFunC=null;
+		/**视频的总时⻓长，单位为秒**/
+		this._duration=NaN;
+		/**视频播放的当前位置**/
+		this.position=NaN;
+		(width===void 0)&& (width=320);
+		(height===void 0)&& (height=240);
+		this.videoElement=MiniAdpter.window.wx.createVideo({width:width,height:height,autoplay:true});
+	}
+
+	__class(MiniVideo,'laya.wx.mini.MiniVideo');
+	var __proto=MiniVideo.prototype;
+	__proto.on=function(eventType,ths,callBack){
+		if(eventType=="loadedmetadata"){
+			this.onPlayFunc=callBack.bind(ths);
+			this.videoElement.onPlay=this.onPlayFunction.bind(this);
+			}else if(eventType=="ended"){
+			this.onEndedFunC=callBack.bind(ths);
+			this.videoElement.onEnded=this.onEndedFunction.bind(this);
+		}
+		this.videoElement.onTimeUpdate=this.onTimeUpdateFunc.bind(this);
+	}
+
+	__proto.onTimeUpdateFunc=function(data){
+		this.position=data.position;
+		this._duration=data.duration;
+	}
+
+	__proto.onPlayFunction=function(){
+		if(this.videoElement)
+			this.videoElement.readyState=200;
+		console.log("=====视频加载完成========");
+		this.onPlayFunc !=null && this.onPlayFunc();
+	}
+
+	__proto.onEndedFunction=function(){
+		if(!this.videoElement)
+			return;
+		this.videoend=true;
+		console.log("=====视频播放完毕========");
+		this.onEndedFunC !=null && this.onEndedFunC();
+	}
+
+	__proto.off=function(eventType,ths,callBack){
+		if(eventType=="loadedmetadata"){
+			this.onPlayFunc=callBack.bind(ths);
+			this.videoElement.offPlay=this.onPlayFunction.bind(this);
+			}else if(eventType=="ended"){
+			this.onEndedFunC=callBack.bind(ths);
+			this.videoElement.offEnded=this.onEndedFunction.bind(this);
+		}
+	}
+
+	/**
+	*设置播放源。
+	*@param url 播放源路径。
+	*/
+	__proto.load=function(url){
+		if(!this.videoElement)
+			return;
+		this.videoElement.src=url;
+	}
+
+	/**
+	*开始播放视频。
+	*/
+	__proto.play=function(){
+		if(!this.videoElement)
+			return;
+		this.videoend=false;
+		this.videoElement.play();
+	}
+
+	/**
+	*暂停视频播放。
+	*/
+	__proto.pause=function(){
+		if(!this.videoElement)
+			return;
+		this.videoend=true;
+		this.videoElement.pause();
+	}
+
+	/**
+	*设置大小
+	*@param width
+	*@param height
+	*/
+	__proto.size=function(width,height){
+		if(!this.videoElement)
+			return;
+		this.videoElement.width=width;
+		this.videoElement.height=height;
+	}
+
+	__proto.destroy=function(){
+		if(this.videoElement)
+			this.videoElement.destroy();
+		this.videoElement=null;
+		this.onEndedFunC=null;
+		this.onPlayFunc=null;
+		this.videoend=false;
+		this.videourl=null;
+	}
+
+	/**
+	*重新加载视频。
+	*/
+	__proto.reload=function(){
+		if(!this.videoElement)
+			return;
+		this.videoElement.src=this.videourl;
+	}
+
+	/**
+	*获取视频长度（秒）。ready事件触发后可用。
+	*/
+	__getset(0,__proto,'duration',function(){
+		return this._duration;
+	});
+
+	/**
+	*返回视频是否暂停
+	*/
+	__getset(0,__proto,'paused',function(){
+		if(!this.videoElement)
+			return false;
+		return this.videoElement.paused;
+	});
+
+	/**
+	*设置或返回音频/视频是否应在结束时重新播放。
+	*/
+	__getset(0,__proto,'loop',function(){
+		if(!this.videoElement)
+			return false;
+		return this.videoElement.loop;
+		},function(value){
+		if(!this.videoElement)
+			return;
+		this.videoElement.loop=value;
+	});
+
+	/**
+	*设置和获取当前播放头位置。
+	*/
+	__getset(0,__proto,'currentTime',function(){
+		if(!this.videoElement)
+			return 0;
+		return this.videoElement.initialTime;
+		},function(value){
+		if(!this.videoElement)
+			return;
+		this.videoElement.initialTime=value;
+	});
+
+	/**
+	*返回音频/视频的播放是否已结束
+	*/
+	__getset(0,__proto,'ended',function(){
+		return this.videoend;
+	});
+
+	/**
+	*获取和设置静音状态。
+	*/
+	__getset(0,__proto,'muted',function(){
+		if(!this.videoElement)
+			return false;
+		return this.videoElement.muted;
+		},function(value){
+		if(!this.videoElement)
+			return;
+		this.videoElement.muted=value;
+	});
+
+	/**
+	*获取视频源尺寸。ready事件触发后可用。
+	*/
+	__getset(0,__proto,'videoWidth',function(){
+		if(!this.videoElement)
+			return 0;
+		return this.videoElement.width;
+	});
+
+	__getset(0,__proto,'videoHeight',function(){
+		if(!this.videoElement)
+			return 0;
+		return this.videoElement.height;
+	});
+
+	/**
+	*playbackRate 属性设置或返回音频/视频的当前播放速度。如：
+	*<ul>
+	*<li>1.0 正常速度</li>
+	*<li>0.5 半速（更慢）</li>
+	*<li>2.0 倍速（更快）</li>
+	*<li>-1.0 向后，正常速度</li>
+	*<li>-0.5 向后，半速</li>
+	*</ul>
+	*<p>只有 Google Chrome 和 Safari 支持 playbackRate 属性。</p>
+	*/
+	__getset(0,__proto,'playbackRate',function(){
+		if(!this.videoElement)
+			return 0;
+		return this.videoElement.playbackRate;
+		},function(value){
+		if(!this.videoElement)
+			return;
+		this.videoElement.playbackRate=value;
+	});
+
+	__getset(0,__proto,'x',function(){
+		if(!this.videoElement)
+			return 0;
+		return this.videoElement.x;
+		},function(value){
+		if(!this.videoElement)
+			return;
+		this.videoElement.x=value;
+	});
+
+	__getset(0,__proto,'y',function(){
+		if(!this.videoElement)
+			return 0;
+		return this.videoElement.y;
+		},function(value){
+		if(!this.videoElement)
+			return;
+		this.videoElement.y=value;
+	});
+
+	/**
+	*获取当前播放源路径。
+	*/
+	__getset(0,__proto,'currentSrc',function(){
+		return this.videoElement.src;
+	});
+
+	MiniVideo.__init__=function(){
+		/*__JS__ */laya.device.media.Video=MiniVideo;
+	}
+
+	return MiniVideo;
 })()
 
 
@@ -739,7 +1006,7 @@ var MiniAdpter=(function(){
 		MiniAdpter.window=/*__JS__ */window;
 		if(!MiniAdpter.window.hasOwnProperty("wx"))
 			return;
-		if (MiniAdpter.window.navigator.userAgent.indexOf('MiniGame')< 0)return;
+		if(MiniAdpter.window.navigator.userAgent.indexOf('MiniGame')<0)return;
 		MiniAdpter.isZiYu=isSon;
 		MiniAdpter.isPosMsgYu=isPosMsg;
 		MiniAdpter.EnvConfig={};
@@ -774,8 +1041,8 @@ var MiniAdpter=(function(){
 		MiniAdpter.EnvConfig.load=Loader.prototype.load;
 		Loader.prototype.load=MiniLoader.prototype.load;
 		Loader.prototype._loadImage=MiniImage.prototype._loadImage;
-		MiniLocalStorage.__init__();
 		LocalStorage._baseClass=MiniLocalStorage;
+		MiniLocalStorage.__init__();
 		MiniAdpter.window.wx.onMessage(MiniAdpter._onMessage);
 	}
 
@@ -850,8 +1117,10 @@ var MiniAdpter=(function(){
 	}
 
 	MiniAdpter.onMkdirCallBack=function(errorCode,data){
-		if (!errorCode)
+		if (!errorCode){
 			MiniFileMgr.filesListObj=JSON.parse(data.data);
+			MiniFileMgr.fakeObj=MiniFileMgr.filesListObj;
+		}
 	}
 
 	MiniAdpter.pixelRatio=function(){
@@ -889,7 +1158,8 @@ var MiniAdpter=(function(){
 			node.removeChild=function (value){
 			};
 			return node;
-			}else {
+		}
+		else {
 			return MiniAdpter._preCreateElement(type);
 		}
 	}
@@ -1142,7 +1412,21 @@ var MiniLoader=(function(_super){
 				if (tempurl.indexOf("http://usr/")==-1&& (tempurl.indexOf("http://")!=-1 || tempurl.indexOf("https://")!=-1)&& !MiniAdpter.AutoCacheDownFile){
 					MiniAdpter.EnvConfig.load.call(thisLoader,url,type,cache,group,ignoreCache);
 					}else {
-					MiniFileMgr.readFile(url,encoding,new Handler(MiniLoader,MiniLoader.onReadNativeCallBack,[encoding,url,type,cache,group,ignoreCache,thisLoader]),url);
+					fileObj=MiniFileMgr.getFileInfo(url);
+					if(fileObj){
+						fileObj.encoding=fileObj.encoding==null ? "utf8" :fileObj.encoding;
+						MiniFileMgr.readFile(fileObj.url,encoding,new Handler(MiniLoader,MiniLoader.onReadNativeCallBack,[encoding,url,type,cache,group,ignoreCache,thisLoader]),url);
+						}else if (thisLoader.type=="image" || thisLoader.type=="htmlimage"){
+						MiniAdpter.EnvConfig.load.call(thisLoader,url,type,cache,group,ignoreCache);
+					}
+					else{
+						url=URL.formatURL(url);
+						if((url.indexOf("http://")==-1 && url.indexOf("https://")==-1)|| MiniFileMgr.isLocalNativeFile(url)){
+							MiniFileMgr.readFile(url,encoding,new Handler(MiniLoader,MiniLoader.onReadNativeCallBack,[encoding,url,type,cache,group,ignoreCache,thisLoader]),url);
+							}else{
+							MiniFileMgr.downFiles(url,encoding,new Handler(MiniLoader,MiniLoader.onReadNativeCallBack,[encoding,url,type,cache,group,ignoreCache,thisLoader]),url,cache);
+						}
+					}
 				}
 				}else {
 				var fileObj=MiniFileMgr.getFileInfo(url);
@@ -1273,26 +1557,30 @@ var MiniSound=(function(_super){
 	}
 
 	/**@private **/
-	__proto.onDownLoadCallBack=function(sourceUrl,errorCode){
+	__proto.onDownLoadCallBack=function(sourceUrl,errorCode,tempFilePath){
 		if (!errorCode){
 			var fileNativeUrl;
 			if(MiniAdpter.autoCacheFile){
-				if (MiniFileMgr.isLocalNativeFile(sourceUrl)){
-					var tempStr=URL.rootPath !="" ? URL.rootPath :URL._basePath;
-					var tempUrl=sourceUrl;
-					if(tempStr !="" && (sourceUrl.indexOf("http://")!=-1 || sourceUrl.indexOf("https://")!=-1))
-						fileNativeUrl=sourceUrl.split(tempStr)[1];
-					if(!fileNativeUrl){
-						fileNativeUrl=tempUrl;
+				if(!tempFilePath){
+					if (MiniFileMgr.isLocalNativeFile(sourceUrl)){
+						var tempStr=URL.rootPath !="" ? URL.rootPath :URL._basePath;
+						var tempUrl=sourceUrl;
+						if(tempStr !="" && (sourceUrl.indexOf("http://")!=-1 || sourceUrl.indexOf("https://")!=-1))
+							fileNativeUrl=sourceUrl.split(tempStr)[1];
+						if(!fileNativeUrl){
+							fileNativeUrl=tempUrl;
+						}
+						}else{
+						var fileObj=MiniFileMgr.getFileInfo(sourceUrl);
+						if(fileObj && fileObj.md5){
+							var fileMd5Name=fileObj.md5;
+							fileNativeUrl=MiniFileMgr.getFileNativePath(fileMd5Name);
+							}else{
+							fileNativeUrl=sourceUrl;
+						}
 					}
 					}else{
-					var fileObj=MiniFileMgr.getFileInfo(sourceUrl);
-					if(fileObj && fileObj.md5){
-						var fileMd5Name=fileObj.md5;
-						fileNativeUrl=MiniFileMgr.getFileNativePath(fileMd5Name);
-						}else{
-						fileNativeUrl=sourceUrl;
-					}
+					fileNativeUrl=tempFilePath;
 				}
 				this._sound=MiniSound._createSound();
 				this._sound.src=this.url=fileNativeUrl;
@@ -1460,18 +1748,18 @@ var MiniAccelerator=(function(_super){
 		if (MiniAccelerator._isListening)return;
 		MiniAccelerator._isListening=true;
 		try{
-			/*__JS__ */wx.onAccelerometerChange(MiniAccelerator.onAccelerometerChange);
+			MiniAdpter.window.wx.onAccelerometerChange(laya.wx.mini.MiniAccelerator.onDeviceOrientationChange);
 		}catch(e){}
 	}
 
 	MiniAccelerator.stopListen=function(){
 		MiniAccelerator._isListening=false;
 		try{
-			/*__JS__ */wx.stopAccelerometer({});
+			MiniAdpter.window.wx.stopAccelerometer({});
 		}catch(e){}
 	}
 
-	MiniAccelerator.onAccelerometerChange=function(res){
+	MiniAccelerator.onDeviceOrientationChange=function(res){
 		var e;
 		e={};
 		e.acceleration=res;

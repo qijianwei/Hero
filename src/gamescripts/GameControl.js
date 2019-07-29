@@ -3,6 +3,7 @@ import WeaponBar from './prefab/WeaponBar';
 import Player from './prefab/Player';
 import MPBar from './prefab/MPBar';
 import HPBar from './prefab/HPBar';
+import WeaponManager from './WeaponManager';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -49,6 +50,12 @@ export default class GameControl extends PaoYa.Component {
             name: '阿强',
             icon: 'remote/game/avstar_1.png'
         }, false);
+        Laya.timer.once(2000,this,()=>{
+           /*  Laya.timer.loop(500,this,this.startSelect); */
+           this.startSelect()
+        })
+        //机器人开始
+        
 
     }
     dealParams(weaponList) {
@@ -77,6 +84,7 @@ export default class GameControl extends PaoYa.Component {
 
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
     }
+    //初始化双方兵器库
     initWeaponsBar() {
         let owner = this.owner,
             boxWeapon = owner.boxWeapon;
@@ -92,7 +100,9 @@ export default class GameControl extends PaoYa.Component {
             this.weaponsBarArr.push(weaponBar);
             boxWeapon.addChild(weaponBar)
         }
-        console.log(this.weaponsBarArr);
+        //初始化机器人的兵器
+        //console.log(this.weaponsBarArr);
+        this.weaponManager=new WeaponManager(this.robotWeaponList);
     }
     initPlayer(isSelf) {
         let name = isSelf ? 'self' : 'other';
@@ -137,6 +147,18 @@ export default class GameControl extends PaoYa.Component {
             comp: component
         }
     }
+    startSelect(){
+        let sWeapon=this.weaponManager.seletedWeapon();
+        let curMp=this.otherPlayer.comp.MPComp.curMP;
+        if(curMp>=sWeapon.params.weaponConsume){
+            sWeapon.isSelf=false;
+            sWeapon.selectedHandler();
+            this.weaponBarClickHandler(sWeapon);
+            Laya.timer.once(500,this,this.startSelect);
+        }else{
+            Laya.timer.once(200,this,this.startSelect)
+        }
+    }
     //兵器点击后我方表现
     weaponBarClickHandler(targetComp) {
         //体力不够
@@ -149,7 +171,7 @@ export default class GameControl extends PaoYa.Component {
 
         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
         //人物表现
-        this.selfPlayer.comp.attackEffect();
+        this[name + 'Player'].comp.attackEffect();
 
         
         //暂时对方这么发射
@@ -159,7 +181,7 @@ export default class GameControl extends PaoYa.Component {
                 break;
             }
         } */
-        this.weaponByOther(this.robotWeaponList[targetComp.index])
+       // this.weaponByOther(this.robotWeaponList[targetComp.index])
 //return; */
 
         //判断是否触发兵器技能
@@ -187,10 +209,14 @@ export default class GameControl extends PaoYa.Component {
                 console.warn('不好意思,没有触发技能')
             }
         }
-        //正常开始技能冷却
+         //正常开始技能冷却
         targetComp.startT();
-        this.weaponBySelf(params);
-
+       if(targetComp.isSelf){
+         this.weaponBySelf(params);
+       }else{
+        this.weaponByOther(params);
+       }
+       
 
 
         // this.weaponByOther(target);

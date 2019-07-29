@@ -90,26 +90,8 @@ export default class WeaponBar extends PaoYa.Component {
         this.maskArea.visible=true;
         this.freezeing=true;
 
-     /*    //释放技能时当前时间
-        this.tickTime = new Date().getTime() 
-        //总恢复真实时间
-        this.totalTime = this.tickTime + this.cdTime;
-        //剩余倒计时时间
-        this.retime = Math.ceil((this.totalTime - new Date().getTime()))
-        //已经使用时间
-        this.useTime = this.cdTime - this.retime
-        //恢复已经计时的
-        this.angle += Math.ceil((this.maxAngle/this.cdTime)*this.useTime);
- 
-        if(this.retime < 0){
-            return; 
-        }  */
+  
         this.beiginTime=new Date().getTime();
-       /*  if(time==undefined){
-            this.endTime=this.beiginTime+this.cdTime;
-        }else{
-            this.endTime=this.beiginTime+time;
-        } */
         
         this.spMask.graphics.clear();
         this.spMask.graphics.drawPie(this.ownW / 2, this.ownH / 2, this.ownW, this.startAngle, this.endAngle, "#000000");
