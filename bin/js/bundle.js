@@ -55,6 +55,10 @@ var _GameBanner = require("./gamescripts/prefab/GameBanner");
 
 var _GameBanner2 = _interopRequireDefault(_GameBanner);
 
+var _Skill = require("./gamescripts/prefab/Skill");
+
+var _Skill2 = _interopRequireDefault(_Skill);
+
 var _Player = require("./gamescripts/prefab/Player");
 
 var _Player2 = _interopRequireDefault(_Player);
@@ -99,6 +103,7 @@ var GameConfig = function () {
 												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
 												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("gamescripts/prefab/GameBanner.js", _GameBanner2.default);
+												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("gamescripts/prefab/Player.js", _Player2.default);
 												reg("scripts/common/Loading/LoadingView.js", _LoadingView2.default);
 												reg("scripts/common/Loading/LoadingControl.js", _LoadingControl2.default);
@@ -128,7 +133,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/prefab/Dodge":8,"./gamescripts/prefab/GameBanner":9,"./gamescripts/prefab/HPBar":10,"./gamescripts/prefab/MPBar":11,"./gamescripts/prefab/Player":12,"./gamescripts/prefab/Weapon":13,"./gamescripts/prefab/WeaponBar":14,"./scripts/common/HomeControl":16,"./scripts/common/Loading/LoadingControl":17,"./scripts/common/Loading/LoadingView":18}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/prefab/Dodge":8,"./gamescripts/prefab/GameBanner":9,"./gamescripts/prefab/HPBar":10,"./gamescripts/prefab/MPBar":11,"./gamescripts/prefab/Player":12,"./gamescripts/prefab/Skill":13,"./gamescripts/prefab/Weapon":14,"./gamescripts/prefab/WeaponBar":15,"./scripts/common/HomeControl":17,"./scripts/common/Loading/LoadingControl":18,"./scripts/common/Loading/LoadingView":19}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -257,7 +262,7 @@ var Main = exports.Main = function (_GameMain) {
 
 new Main();
 
-},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":15}],4:[function(require,module,exports){
+},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":16}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -289,6 +294,10 @@ var _HPBar2 = _interopRequireDefault(_HPBar);
 var _WeaponManager = require('./WeaponManager');
 
 var _WeaponManager2 = _interopRequireDefault(_WeaponManager);
+
+var _Skill = require('./prefab/Skill');
+
+var _Skill2 = _interopRequireDefault(_Skill);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -322,8 +331,6 @@ var GameControl = function (_PaoYa$Component) {
     _createClass(GameControl, [{
         key: 'onAwake',
         value: function onAwake() {
-            var _this2 = this;
-
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -332,11 +339,6 @@ var GameControl = function (_PaoYa$Component) {
             this.robotWeaponList = this.params.robotWeaponList;
             this.dealParams(this.weaponList);
             this.dealParams(this.robotWeaponList);
-            console.error(this.weaponList);
-            console.error(this.robotWeaponList);
-            //17855823812
-            /*   this.spSelfCollide=this.owner.spSelfCollide;
-              this.spOtherCollide=this.owner.spOtherCollide; */
 
             this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；
 
@@ -347,6 +349,7 @@ var GameControl = function (_PaoYa$Component) {
             this.initWeaponsBar();
             this.initPlayer(true);
             this.initPlayer(false);
+            this.initSkill();
             this.owner.setInfo({
                 name: '阿强',
                 icon: 'remote/game/avstar_1.png'
@@ -357,7 +360,7 @@ var GameControl = function (_PaoYa$Component) {
             }, false);
             Laya.timer.once(2000, this, function () {
                 /*  Laya.timer.loop(500,this,this.startSelect); */
-                _this2.startSelect();
+                // this.startSelect()
             });
             //机器人开始
 
@@ -381,6 +384,12 @@ var GameControl = function (_PaoYa$Component) {
             switch (e.target.name) {
                 case 'btnDodge':
                     this.dodgeSkillShow();
+                    break;
+                case 'skill1':
+                    this.skillWithWeapon(true);
+                    break;
+                case 'skill2':
+                    this.skillWithoutWeapon(true);
                     break;
 
             }
@@ -432,6 +441,19 @@ var GameControl = function (_PaoYa$Component) {
             //let playerScr=player.getComponent(Player)
             var component = player.getComponent(_Player2.default);
             component.attr = this.params[role];
+            component.activeSkills = [];
+            //把人物主动技能挑选出来
+            for (var i = 0, len = this.params[role].skills.length; i < len; i++) {
+                if (this.params[role].skills[i].skillType == 1) {
+                    component.activeSkills.push(this.params[role].skills[i]);
+                }
+            }
+            console.error('人物技能');
+            console.error(component.activeSkills);
+
+            //component.attr.skillWeapon.params={};
+            component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
+            console.error(component.attr.skillWeapon);
             component.MPComp = this[name + 'MP'].getComponent(_MPBar2.default);
             component.HPComp = this[name + 'HP'].getComponent(_HPBar2.default);
             component.MPComp.initBar(this.params[role].roleMp);
@@ -463,6 +485,48 @@ var GameControl = function (_PaoYa$Component) {
             };
         }
     }, {
+        key: 'initSkill',
+        value: function initSkill() {
+            var owner = this.owner;
+            this.skillScrO = owner.skill1.getComponent(_Skill2.default);
+            this.skillScrT = owner.skill2.getComponent(_Skill2.default);
+            /* owenr.skill1.index=1;
+            owenr.skill2.index=2; */
+            // this.skillScrO.
+        }
+    }, {
+        key: 'skillWithWeapon',
+        value: function skillWithWeapon(isSelf) {
+            var name = isSelf ? 'self' : 'other';
+            var roleComp = this[name + 'Player'].comp,
+                skillWeapon = JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
+            var originMP = roleComp.MPComp.originMP;
+            var consumeMP = skillWeapon.weaponConsume * originMP;
+            if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
+                console.warn(name + 'Player' + "__体力不足");
+                return;
+            }
+
+            skillWeapon.isSelf = isSelf;
+            this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
+            skillWeapon.skillEffect = true;
+            switch (skillWeapon.activeSkill.skillId) {
+                case 88:
+                    var addCritProb = skillWeapon.activeSkill.skillConfig.critProb;
+                    this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb + addCritProb;
+                    break;
+                case 89:
+                    break;
+                case 90:
+                    break;
+            }
+
+            this.weaponBySelf(skillWeapon);
+        }
+    }, {
+        key: 'skillWithoutWeapon',
+        value: function skillWithoutWeapon(isSelf) {}
+    }, {
         key: 'startSelect',
         value: function startSelect() {
             var sWeapon = this.weaponManager.seletedWeapon();
@@ -484,7 +548,7 @@ var GameControl = function (_PaoYa$Component) {
             //体力不够
             var name = targetComp.isSelf ? 'self' : 'other';
             var consumeMP = targetComp.weaponConsume;
-            if (this[name + 'Player'].comp.attr.roleMp < consumeMP) {
+            if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
                 console.warn(name + 'Player' + "__体力不足");
                 return;
             }
@@ -492,17 +556,7 @@ var GameControl = function (_PaoYa$Component) {
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
             //人物表现
             this[name + 'Player'].comp.attackEffect();
-
-            //暂时对方这么发射
-            /*     for (var i = 0; i < this.robotWeaponList.length; i++) {
-                   if (targetComp.params.weaponType == this.robotWeaponList[i].weaponType) {
-                       this.weaponByOther(this.robotWeaponList[i])
-                       break;
-                   }
-               } */
-            // this.weaponByOther(this.robotWeaponList[targetComp.index])
-            //return; */
-
+            this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb;
             //判断是否触发兵器技能
             var skill = targetComp.params.activeSkill;
             var skillType = skill.skillType,
@@ -535,15 +589,13 @@ var GameControl = function (_PaoYa$Component) {
             } else {
                 this.weaponByOther(params);
             }
-
-            // this.weaponByOther(target);
         }
         //以下下是正常点击发射
 
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this3 = this;
+            var _this2 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -554,8 +606,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this3.owner.addChild(weapon);
-                    _this3.selfWeapons.push(weaponComp);
+                    _this2.owner.addChild(weapon);
+                    _this2.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -685,7 +737,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"./WeaponManager":6,"./prefab/HPBar":10,"./prefab/MPBar":11,"./prefab/Player":12,"./prefab/Weapon":13,"./prefab/WeaponBar":14}],5:[function(require,module,exports){
+},{"./WeaponManager":6,"./prefab/HPBar":10,"./prefab/MPBar":11,"./prefab/Player":12,"./prefab/Skill":13,"./prefab/Weapon":14,"./prefab/WeaponBar":15}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1588,6 +1640,103 @@ var Player = function (_PaoYa$Component) {
 exports.default = Player;
 
 },{"../config/HeroConfig":7}],13:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Skill = function (_PaoYa$Component) {
+    _inherits(Skill, _PaoYa$Component);
+
+    /* @prop {name:spShadow,tips:"阴影遮罩",type:Node} */
+    function Skill() {
+        _classCallCheck(this, Skill);
+
+        return _possibleConstructorReturn(this, (Skill.__proto__ || Object.getPrototypeOf(Skill)).call(this));
+    }
+
+    _createClass(Skill, [{
+        key: "onAwake",
+        value: function onAwake() {
+            var owner = this.owner;
+            this.ownW = owner.width;
+            this.ownH = owner.height;
+            this.spShadow.visible = false;
+            this.maskArea = new Laya.Sprite();
+            this.maskArea.texture = "remote/game/skill.png";
+            owner.addChild(this.maskArea);
+
+            this.spMask = new Laya.Sprite();
+            this.maskArea.mask = this.spMask;
+
+            this.cdTime = 1000;
+            this.freezeing = false;
+            this.maxAngle = 270;
+            this.startAngle = -90;
+            this.endAngle = -90;
+            owner.on(Laya.Event.CLICK, this, this.clickHandler);
+        }
+    }, {
+        key: "clickHandler",
+        value: function clickHandler() {
+            if (this.freezeing) {
+                console.warn("冷却中不接受点击");
+                return;
+            }
+        }
+    }, {
+        key: "startT",
+        value: function startT(time) {
+
+            this.spShadow.visible = true;
+            this.maskArea.visible = true;
+            this.freezeing = true;
+
+            this.beiginTime = new Date().getTime();
+
+            this.spMask.graphics.clear();
+            this.spMask.graphics.drawPie(this.ownW / 2, this.ownH / 2, this.ownW, this.startAngle, this.endAngle, "#000000");
+            var cdT = time == undefined ? this.cdTime : time;
+            Laya.timer.frameLoop(1, this, this.startCd, [cdT]);
+        }
+    }, {
+        key: "startCd",
+        value: function startCd(time) {
+            //  console.log("时间间隔：",this.frameCd);
+            if (this.endAngle >= this.maxAngle) {
+                this.endCD();
+                return;
+            }
+            this.endAngle += Laya.timer.delta * 360 / time;
+            this.spMask.graphics.clear();
+            this.spMask.graphics.drawPie(this.ownW / 2, this.ownH / 2, this.ownW, this.startAngle, this.endAngle, "#000000");
+        }
+    }, {
+        key: "endCD",
+        value: function endCD() {
+            Laya.timer.clearAll(this);
+            this.maskArea.visible = false;
+            this.spShadow.visible = false;
+            this.freezeing = false;
+            this.endAngle = -90;
+        }
+    }]);
+
+    return Skill;
+}(PaoYa.Component);
+
+exports.default = Skill;
+
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1835,11 +1984,12 @@ var Weapon = function (_PaoYa$Component) {
 
         this.endMove();
         var skill = this.params.activeSkill;
-        var skillConfig = skill.skillConfig;
-        var skillId = skill.skillId;
+
         var skillEffect = this.params.skillEffect;
         var attackNum = this.calcAttackNum(skillEffect);
         if (skillEffect) {
+          var skillConfig = skill.skillConfig,
+              skillId = skill.skillId;
           this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum);
           switch (skillId) {
             case 45 || 46:
@@ -1886,11 +2036,13 @@ var Weapon = function (_PaoYa$Component) {
     key: 'calcAttackNum',
     value: function calcAttackNum(skillEffect) {
       var randomNum = Math.floor(Math.random() * 100 + 1);
+      console.error('暴击百分比', this.selfPlayerComp.attr.calcCritProb);
       var selfAttr = this.selfPlayerComp.attr,
           otherAttr = this.otherPlayerComp.attr,
           selfStrength = selfAttr.roleStrength,
           //臂力
-      selfCritHarm = randomNum < this.selfPlayerComp.roleCritProb ? selfAttr.roleCritHarm / 100 : 1,
+      roleCritHarm = selfAttr.calcCritProb,
+          selfCritHarm = randomNum < roleCritHarm ? selfAttr.roleCritHarm / 100 : 1,
           otherBone = otherAttr.roleBone,
           otherStrength = otherAttr.roleStrength,
           skillHurtMulti = 1;
@@ -2105,7 +2257,7 @@ var Weapon = function (_PaoYa$Component) {
 
 exports.default = Weapon;
 
-},{"../GameControl":4}],14:[function(require,module,exports){
+},{"../GameControl":4}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2291,7 +2443,7 @@ exports.default = WeaponBar;
 
 WeaponBar.CLICK = "weanponBarClick";
 
-},{"../GameControl":4}],15:[function(require,module,exports){
+},{"../GameControl":4}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2386,7 +2538,7 @@ var GameMain = function (_PaoYa$Main) {
 
 exports.default = GameMain;
 
-},{"./Loading/LoadingView":18}],16:[function(require,module,exports){
+},{"./Loading/LoadingView":19}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2498,7 +2650,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2564,7 +2716,7 @@ var LoadingControl = function (_PaoYa$Component) {
 
 exports.default = LoadingControl;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

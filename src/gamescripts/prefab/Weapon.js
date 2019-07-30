@@ -204,11 +204,12 @@ export default class Weapon extends PaoYa.Component {
      
       this.endMove();
       let skill = this.params.activeSkill;
-      let skillConfig=skill.skillConfig;
-      let skillId = skill.skillId;
+       
       let skillEffect=this.params.skillEffect;
       let attackNum=this.calcAttackNum(skillEffect);
       if (skillEffect) { 
+        let skillConfig=skill.skillConfig,
+            skillId = skill.skillId;
         this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
         switch (skillId) {
           case 45 || 46:
@@ -252,10 +253,12 @@ export default class Weapon extends PaoYa.Component {
   */
   calcAttackNum(skillEffect){
     let randomNum=Math.floor(Math.random()*100+1);
-    let selfAttr=this.selfPlayerComp.attr,
+    console.error('暴击百分比',this.selfPlayerComp.attr.calcCritProb);
+    let selfAttr=this.selfPlayerComp.attr, 
         otherAttr=this.otherPlayerComp.attr,
         selfStrength=selfAttr.roleStrength,//臂力
-        selfCritHarm=(randomNum<this.selfPlayerComp.roleCritProb)?selfAttr.roleCritHarm/100:1,
+        roleCritHarm=selfAttr.calcCritProb,
+        selfCritHarm=(randomNum<roleCritHarm)?selfAttr.roleCritHarm/100:1,
         otherBone=otherAttr.roleBone,
         otherStrength=otherAttr.roleStrength,
         skillHurtMulti=1;

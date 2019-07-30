@@ -4,6 +4,7 @@ import Player from './prefab/Player';
 import MPBar from './prefab/MPBar';
 import HPBar from './prefab/HPBar';
 import WeaponManager from './WeaponManager';
+import Skill from './prefab/Skill';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -27,21 +28,19 @@ export default class GameControl extends PaoYa.Component {
         this.robotWeaponList = this.params.robotWeaponList;
         this.dealParams(this.weaponList)
         this.dealParams(this.robotWeaponList)
-        console.error(this.weaponList)
-        console.error(this.robotWeaponList)
-        //17855823812
-        /*   this.spSelfCollide=this.owner.spSelfCollide;
-          this.spOtherCollide=this.owner.spOtherCollide; */
+      
+
 
         this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；
 
         //暂时这么用;可能要用全局状态管理器
         this.selfWeapons = [];
         this.otherWeapons = [];
-
+        
         this.initWeaponsBar();
         this.initPlayer(true);
         this.initPlayer(false);
+        this.initSkill();
         this.owner.setInfo({
             name: '阿强',
             icon: 'remote/game/avstar_1.png'
@@ -52,7 +51,7 @@ export default class GameControl extends PaoYa.Component {
         }, false);
         Laya.timer.once(2000,this,()=>{
            /*  Laya.timer.loop(500,this,this.startSelect); */
-           this.startSelect()
+          // this.startSelect()
         })
         //机器人开始
         
@@ -73,6 +72,12 @@ export default class GameControl extends PaoYa.Component {
         switch (e.target.name) {
             case 'btnDodge':
                 this.dodgeSkillShow();
+                break;
+            case 'skill1':
+                this.skillWithWeapon(true);
+                break;
+            case 'skill2':
+                this.skillWithoutWeapon(true);
                 break;
 
         }
@@ -117,6 +122,19 @@ export default class GameControl extends PaoYa.Component {
         //let playerScr=player.getComponent(Player)
         let component = player.getComponent(Player);
         component.attr = this.params[role];
+        component.activeSkills=[];
+        //把人物主动技能挑选出来
+        for(let i=0,len=this.params[role].skills.length;i<len;i++){
+            if(this.params[role].skills[i].skillType==1){
+                component.activeSkills.push(this.params[role].skills[i]);
+            }
+        }
+        console.error('人物技能');
+        console.error(component.activeSkills)
+
+        //component.attr.skillWeapon.params={};
+        component.attr.skillWeapon.activeSkill=component.attr.skillWeapon.skills[0];
+        console.error(component.attr.skillWeapon)
         component.MPComp = this[name + 'MP'].getComponent(MPBar);
         component.HPComp = this[name + 'HP'].getComponent(HPBar);
         component.MPComp.initBar(this.params[role].roleMp);
@@ -147,6 +165,44 @@ export default class GameControl extends PaoYa.Component {
             comp: component
         }
     }
+    initSkill(){
+       let owner=this.owner;
+       this.skillScrO=owner.skill1.getComponent(Skill);
+       this.skillScrT=owner.skill2.getComponent(Skill);
+       /* owenr.skill1.index=1;
+       owenr.skill2.index=2; */
+      // this.skillScrO.
+    }
+    skillWithWeapon(isSelf){
+        let name=isSelf ? 'self' : 'other';
+        let roleComp=this[name+'Player'].comp,skillWeapon=JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
+        let originMP=roleComp.MPComp.originMP;
+        let consumeMP=skillWeapon.weaponConsume*originMP;
+        if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
+            console.warn(name + 'Player' + "__体力不足");
+            return;
+        }
+        
+        skillWeapon.isSelf=isSelf;
+        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
+        skillWeapon.skillEffect=true;
+        switch(skillWeapon.activeSkill.skillId){
+           case 88:
+               let addCritProb=skillWeapon.activeSkill.skillConfig.critProb;
+               this[name + 'Player'].comp.attr.calcCritProb=this[name + 'Player'].comp.attr.roleCritProb+addCritProb;
+               break;
+           case 89:
+               break;
+           case 90:
+               break;
+        }
+       
+        this.weaponBySelf(skillWeapon);
+
+    }
+    skillWithoutWeapon(isSelf){
+
+    }
     startSelect(){
         let sWeapon=this.weaponManager.seletedWeapon();
         let curMp=this.otherPlayer.comp.MPComp.curMP;
@@ -164,26 +220,15 @@ export default class GameControl extends PaoYa.Component {
         //体力不够
         let name = targetComp.isSelf ? 'self' : 'other';
         let consumeMP = targetComp.weaponConsume;
-        if (this[name + 'Player'].comp.attr.roleMp < consumeMP) {
+        if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
             console.warn(name + 'Player' + "__体力不足");
             return;
         }
-
+     
         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
         //人物表现
         this[name + 'Player'].comp.attackEffect();
-
-        
-        //暂时对方这么发射
-     /*     for (var i = 0; i < this.robotWeaponList.length; i++) {
-            if (targetComp.params.weaponType == this.robotWeaponList[i].weaponType) {
-                this.weaponByOther(this.robotWeaponList[i])
-                break;
-            }
-        } */
-       // this.weaponByOther(this.robotWeaponList[targetComp.index])
-//return; */
-
+        this[name + 'Player'].comp.attr.calcCritProb=this[name + 'Player'].comp.attr.roleCritProb;
         //判断是否触发兵器技能
         let skill = targetComp.params.activeSkill;
         let skillType = skill.skillType,
@@ -201,7 +246,7 @@ export default class GameControl extends PaoYa.Component {
                     targetComp.startT(200); //快速冷却     
                 } else {
                      //正常开始技能冷却
-                     targetComp.startT();
+                    targetComp.startT();
                 }
                 this.weaponWithSkills(params, skillId);
                 return;
@@ -210,16 +255,12 @@ export default class GameControl extends PaoYa.Component {
             }
         }
          //正常开始技能冷却
-        targetComp.startT();
+       targetComp.startT();
        if(targetComp.isSelf){
          this.weaponBySelf(params);
        }else{
         this.weaponByOther(params);
        }
-       
-
-
-        // this.weaponByOther(target);
     }
     //以下下是正常点击发射
     weaponBySelf(params, deltaT) {
