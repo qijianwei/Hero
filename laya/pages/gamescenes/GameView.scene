@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":194,
+    "selecteID":185,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
     "nodeParent":-1,
-    "maxID":197,
+    "maxID":198,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -627,18 +627,19 @@
             "type":"Box",
             "selectedBox":181,
             "selecteID":183,
-            "searchKey":"Box",
-            "props":{"y":582,"x":1071.5,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
+            "searchKey":"Box,btnDodge",
+            "props":{"y":582,"x":1071.5,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab","name":"btnDodge"},
             "nodeParent":2,
             "maxID":185,
-            "label":"Box(Dodge)",
-            "isOpen":false,
+            "label":"btnDodge",
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":185,
             "child":[
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button",
                     "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
@@ -653,6 +654,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
@@ -665,20 +667,22 @@
                     "compId":183,
                     "child":[
                         {
+                            "x":45,
                             "type":"Rect",
                             "searchKey":"Rect",
-                            "props":{"presetID":4,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
+                            "props":{"presetID":6,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
                             "nodeParent":183,
                             "label":"Rect(Dodge)",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":184,
+                            "compId":197,
                             "child":[
                                 ]
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/gamescripts/prefab/Dodge.js",
