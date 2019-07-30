@@ -43,13 +43,17 @@ var _HPBar = require("./gamescripts/prefab/HPBar");
 
 var _HPBar2 = _interopRequireDefault(_HPBar);
 
+var _Dodge = require("./gamescripts/prefab/Dodge");
+
+var _Dodge2 = _interopRequireDefault(_Dodge);
+
 var _GameControl = require("./gamescripts/GameControl");
 
 var _GameControl2 = _interopRequireDefault(_GameControl);
 
-var _Dodge = require("./gamescripts/prefab/Dodge");
+var _GameBanner = require("./gamescripts/prefab/GameBanner");
 
-var _Dodge2 = _interopRequireDefault(_Dodge);
+var _GameBanner2 = _interopRequireDefault(_GameBanner);
 
 var _Player = require("./gamescripts/prefab/Player");
 
@@ -92,8 +96,9 @@ var GameConfig = function () {
 												reg("gamescripts/GameView.js", _GameView2.default);
 												reg("gamescripts/prefab/MPBar.js", _MPBar2.default);
 												reg("gamescripts/prefab/HPBar.js", _HPBar2.default);
-												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
+												reg("gamescripts/GameControl.js", _GameControl2.default);
+												reg("gamescripts/prefab/GameBanner.js", _GameBanner2.default);
 												reg("gamescripts/prefab/Player.js", _Player2.default);
 												reg("scripts/common/Loading/LoadingView.js", _LoadingView2.default);
 												reg("scripts/common/Loading/LoadingControl.js", _LoadingControl2.default);
@@ -123,7 +128,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/prefab/Dodge":8,"./gamescripts/prefab/HPBar":9,"./gamescripts/prefab/MPBar":10,"./gamescripts/prefab/Player":11,"./gamescripts/prefab/Weapon":12,"./gamescripts/prefab/WeaponBar":13,"./scripts/common/HomeControl":15,"./scripts/common/Loading/LoadingControl":16,"./scripts/common/Loading/LoadingView":17}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/prefab/Dodge":8,"./gamescripts/prefab/GameBanner":9,"./gamescripts/prefab/HPBar":10,"./gamescripts/prefab/MPBar":11,"./gamescripts/prefab/Player":12,"./gamescripts/prefab/Weapon":13,"./gamescripts/prefab/WeaponBar":14,"./scripts/common/HomeControl":16,"./scripts/common/Loading/LoadingControl":17,"./scripts/common/Loading/LoadingView":18}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -252,7 +257,7 @@ var Main = exports.Main = function (_GameMain) {
 
 new Main();
 
-},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":14}],4:[function(require,module,exports){
+},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":15}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -680,7 +685,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"./WeaponManager":6,"./prefab/HPBar":9,"./prefab/MPBar":10,"./prefab/Player":11,"./prefab/Weapon":12,"./prefab/WeaponBar":13}],5:[function(require,module,exports){
+},{"./WeaponManager":6,"./prefab/HPBar":10,"./prefab/MPBar":11,"./prefab/Player":12,"./prefab/Weapon":13,"./prefab/WeaponBar":14}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -696,6 +701,10 @@ var _MPBar2 = _interopRequireDefault(_MPBar);
 var _HPBar = require("./prefab/HPBar");
 
 var _HPBar2 = _interopRequireDefault(_HPBar);
+
+var _GameBanner = require("./prefab/GameBanner");
+
+var _GameBanner2 = _interopRequireDefault(_GameBanner);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -722,10 +731,22 @@ var GameView = function (_PaoYa$View) {
 
             this.otherMPBarScr = this.boxOtherInfo.getChildByName('boxMPBar').getComponent(_MPBar2.default);
             this.otherHPBarScr = this.boxOtherInfo.getChildByName('boxHPBar').getComponent(_HPBar2.default);
+
+            this.gameBannerScr = this.boxGameBanner.getComponent(_GameBanner2.default);
+            this.gameBannerScr.changeStyle({ gameStyle: 'battle' });
         }
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "initView",
+        value: function initView() {}
+        //  GameStyle
+
+        /*  initGameStyle(bannerPrefab,params){
+            let banner= 
+         } */
+
     }, {
         key: "setInfo",
         value: function setInfo(data, isSelf) {
@@ -757,7 +778,7 @@ var GameView = function (_PaoYa$View) {
 
 exports.default = GameView;
 
-},{"./prefab/HPBar":9,"./prefab/MPBar":10}],6:[function(require,module,exports){
+},{"./prefab/GameBanner":9,"./prefab/HPBar":10,"./prefab/MPBar":11}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1062,6 +1083,74 @@ var Dodge = function (_PaoYa$Component) {
 exports.default = Dodge;
 
 },{}],9:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _GameControl = require("../GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GameBanner = function (_PaoYa$Component) {
+    _inherits(GameBanner, _PaoYa$Component);
+
+    /** @prop {name:spGameStyle,tips:'比赛类型精灵图',type:Node}*/
+    /** @prop {name:lblTime,tips:'时间label',type:Node}*/
+    function GameBanner() {
+        _classCallCheck(this, GameBanner);
+
+        return _possibleConstructorReturn(this, (GameBanner.__proto__ || Object.getPrototypeOf(GameBanner)).call(this));
+    }
+
+    _createClass(GameBanner, [{
+        key: "onAwake",
+        value: function onAwake() {
+            this.startCount();
+        }
+    }, {
+        key: "changeStyle",
+        value: function changeStyle(params) {
+            if (params.gameStyle == "macth") {
+                this.spGameStyle.texture = "remote/game/23.png";
+            } else {
+                this.spGameStyle.texture = "remote/game/23.png";
+            }
+        }
+    }, {
+        key: "startCount",
+        value: function startCount() {
+            var _this2 = this;
+
+            console.log(this.spGameStyle);
+            console.log(this.lblTime);
+            var timerService = new PaoYa.TimerService(1000, 1, true);
+            timerService.on(PaoYa.TimerService.PROGRESS, this, function (time) {
+                _this2.lblTime.text = time + "";
+            });
+            timerService.on(PaoYa.TimerService.STOP, this, function () {});
+            // GameControl.instance.timerService=timerService;
+            timerService.start();
+        }
+    }]);
+
+    return GameBanner;
+}(PaoYa.Component);
+
+exports.default = GameBanner;
+
+},{"../GameControl":4}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1131,7 +1220,7 @@ var HPBar = function (_PaoYa$Component) {
 
 exports.default = HPBar;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1230,7 +1319,7 @@ var MPBar = function (_PaoYa$Component) {
 
 exports.default = MPBar;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1498,7 +1587,7 @@ var Player = function (_PaoYa$Component) {
 
 exports.default = Player;
 
-},{"../config/HeroConfig":7}],12:[function(require,module,exports){
+},{"../config/HeroConfig":7}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2016,7 +2105,7 @@ var Weapon = function (_PaoYa$Component) {
 
 exports.default = Weapon;
 
-},{"../GameControl":4}],13:[function(require,module,exports){
+},{"../GameControl":4}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2202,7 +2291,7 @@ exports.default = WeaponBar;
 
 WeaponBar.CLICK = "weanponBarClick";
 
-},{"../GameControl":4}],14:[function(require,module,exports){
+},{"../GameControl":4}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2297,7 +2386,7 @@ var GameMain = function (_PaoYa$Main) {
 
 exports.default = GameMain;
 
-},{"./Loading/LoadingView":17}],15:[function(require,module,exports){
+},{"./Loading/LoadingView":18}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2409,7 +2498,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2475,7 +2564,7 @@ var LoadingControl = function (_PaoYa$Component) {
 
 exports.default = LoadingControl;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

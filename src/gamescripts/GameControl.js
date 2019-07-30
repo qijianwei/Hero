@@ -56,7 +56,7 @@ export default class GameControl extends PaoYa.Component {
         })
         //机器人开始
         
-
+       
     }
     dealParams(weaponList) {
         for (var i = 0; i < weaponList.length; i++) {

@@ -1,5 +1,7 @@
 import MPBar from "./prefab/MPBar";
 import HPBar from "./prefab/HPBar";
+import GameBanner from "./prefab/GameBanner";
+
 
 export default class GameView extends PaoYa.View{
     constructor(){
@@ -11,11 +13,20 @@ export default class GameView extends PaoYa.View{
 
       this.otherMPBarScr=this.boxOtherInfo.getChildByName('boxMPBar').getComponent(MPBar);  
       this.otherHPBarScr=this.boxOtherInfo.getChildByName('boxHPBar').getComponent(HPBar);
+
+      this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
+      this.gameBannerScr.changeStyle({gameStyle:'battle'})
     }
 
     onEnable(){
         
     }
+    initView(){
+     //  GameStyle
+    }
+   /*  initGameStyle(bannerPrefab,params){
+       let banner= 
+    } */
     setInfo(data,isSelf){
       let boxInfo=isSelf?this.boxSelfInfo:this.boxOtherInfo;
       let imgIcon=boxInfo.getChildByName('imgIcon');
