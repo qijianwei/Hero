@@ -22,6 +22,8 @@ export default class Player extends PaoYa.Component {
   /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
+  /** @prop {name:boxAniDodge,tips:"闪避动效box",type:Node} */
+  /** @prop {name:aniDodge,tips:"闪避动效节点",type:Node} */
 
 
   constructor() {
@@ -40,11 +42,25 @@ export default class Player extends PaoYa.Component {
       posY = height;
     skeleton.pos(posX, posY - 10);
     this.skeleton = skeleton;
-
+    this.sectionAni=0;//分段动画
     //不管什么状态播放完，都继续播放待机状态
     this.skeleton.on(Laya.Event.STOPPED, this, () => {
       Laya.MouseManager.enabled = true;
       if (this.HPComp.curHP <= 0) {
+        return;
+      }
+      if(this.sectionAni==1){
+        this.sectionAni+=1;
+        this.skeleton.play('dodge2', false)
+        return;
+      }
+      if(this.sectionAni==2){
+        this.sectionAni+=1;
+        this.skeleton.play('dodge3', false)
+        return;
+      }
+      if(this.sectionAni==3){
+        this.removeDodge();
         return;
       }
       this.skeleton.playbackRate(1)
@@ -180,6 +196,21 @@ export default class Player extends PaoYa.Component {
     }
     this.freeze.visible = false;
     this.skeleton.play('stand',true);
+  }
+  //闪避技能
+  dodgeEffect(){
+    this.sectionAni=true;
+    this.dodge=true;//闪避无敌状态
+    this.owner.zOrder=100;
+    this.skeleton.play('dodge1',false);
+    this.boxAniDodge.visible=true;
+    this.aniDodge.play(0,true);
+  }
+  removeDodge(){
+    this.owner.zOrder=20;
+    this.dodge=false;
+    this.boxAniDodge.visible=false;
+    this.aniDodge.stop();
   }
  changePerMp(time,valuePer){
    this.MPComp.changePerMP(this.MPComp.perAddMP*valuePer);

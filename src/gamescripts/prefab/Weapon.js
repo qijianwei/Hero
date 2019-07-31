@@ -201,6 +201,11 @@ export default class Weapon extends PaoYa.Component {
           sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
           sprite.zOrder=10000;
           sprite.rotation=this.imgWeapon.rotation */
+    //如果对方闪避状态，无敌
+    if(this.otherPlayerComp.dodge){
+      console.error('无敌状态')
+      return;
+    }
        //如果是roleId是2
     if(this.selfPlayerComp.attr.roleId==2){
       console.error('我是龙儿')

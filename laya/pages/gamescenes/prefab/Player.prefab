@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Box",
-    "selectedBox":106,
-    "selecteID":130,
+    "selectedBox":140,
+    "selecteID":142,
     "searchKey":"Box",
     "props":{"y":250,"x":105,"width":210,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Player.prefab","isPresetRoot":true,"height":250,"anchorY":1,"anchorX":0.5},
     "nodeParent":-1,
-    "maxID":140,
+    "maxID":143,
     "label":"Box(Player)",
     "isOpen":true,
     "isDirectory":true,
@@ -21,7 +21,7 @@
             "source":"src/gamescripts/prefab/Player.js",
             "searchKey":"Script,Player",
             "removeAble":true,
-            "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Player.prefab","boxAniUp":"@node:138","boxAniTop":"@node:120","boxAniSkill":"@node:136","boxAniPoison":"@node:130","boxAniPalsy":"@node:121","boxAniMp":"@node:134","boxAniMid":"@node:118","boxAniHp":"@node:132","boxAniDizzy":"@node:123","boxAniBot":"@node:116","aniUp":"@node:139","aniTop":"@node:119","aniSkill":"@node:137","aniPoison":"@node:131","aniPalsy":"@node:128","aniMp":"@node:135","aniMid":"@node:117","aniHp":"@node:133","aniDizzy":"@node:129","aniBot":"@node:115"},
+            "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Player.prefab","boxAniUp":"@node:138","boxAniTop":"@node:120","boxAniSkill":"@node:136","boxAniPoison":"@node:130","boxAniPalsy":"@node:121","boxAniMp":"@node:134","boxAniMid":"@node:118","boxAniHp":"@node:132","boxAniDodge":"@node:140","boxAniDizzy":"@node:123","boxAniBot":"@node:116","aniUp":"@node:139","aniTop":"@node:119","aniSkill":"@node:137","aniPoison":"@node:131","aniPalsy":"@node:128","aniMp":"@node:135","aniMid":"@node:117","aniHp":"@node:133","aniDodge":"@node:142","aniDizzy":"@node:129","aniBot":"@node:115"},
             "nodeParent":106,
             "label":"Player",
             "isDirectory":false,
@@ -94,14 +94,13 @@
             "props":{"zOrder":500,"y":228,"x":154,"visible":false,"presetID":8,"preset":"laya/pages/gamescenes/prefab/Player.prefab","pivotY":75,"pivotX":191,"name":"boxAniTop"},
             "nodeParent":106,
             "label":"boxAniTop",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":120,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"y":0,"x":0,"source":"gamescenes/animations/injured_top.ani","presetID":7,"preset":"laya/pages/gamescenes/prefab/Player.prefab"},
@@ -123,14 +122,13 @@
             "props":{"zOrder":500,"y":149,"x":105,"visible":false,"presetID":9,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniPalsy"},
             "nodeParent":106,
             "label":"boxAniPalsy",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":121,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"y":3,"x":0,"source":"gamescenes/animations/debuff_palsy.ani","presetID":12,"preset":"laya/pages/gamescenes/prefab/Player.prefab","blendMode":"lighter"},
@@ -151,14 +149,13 @@
             "props":{"zOrder":500,"y":-19,"x":105,"visible":false,"presetID":11,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniDizzy"},
             "nodeParent":106,
             "label":"boxAniDizzy",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":123,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"source":"gamescenes/animations/debuff_dizzy.ani","presetID":13,"preset":"laya/pages/gamescenes/prefab/Player.prefab","blendMode":"lighter"},
@@ -179,14 +176,13 @@
             "props":{"zOrder":500,"y":125,"x":105,"visible":false,"presetID":14,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniPoison"},
             "nodeParent":106,
             "label":"boxAniPoison",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":130,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"source":"gamescenes/animations/debuff_poison.ani","presetID":15,"preset":"laya/pages/gamescenes/prefab/Player.prefab"},
@@ -198,7 +194,8 @@
                     "compId":131,
                     "child":[
                         ]
-                }]
+                }],
+            "$HIDDEN":true
         },
         {
             "x":15,
@@ -207,14 +204,13 @@
             "props":{"zOrder":500,"y":113,"x":105,"visible":false,"presetID":16,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniHp"},
             "nodeParent":106,
             "label":"boxAniHp",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":132,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"source":"gamescenes/animations/recover_blood.ani","presetID":17,"preset":"laya/pages/gamescenes/prefab/Player.prefab","blendMode":"lighter"},
@@ -236,14 +232,13 @@
             "props":{"zOrder":500,"y":137,"x":95,"visible":false,"presetID":18,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniMp"},
             "nodeParent":106,
             "label":"boxAniMp",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":134,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation,aniMp",
                     "props":{"source":"gamescenes/animations/recover_power.ani","presetID":19,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"aniMp"},
@@ -256,7 +251,7 @@
                     "child":[
                         ]
                 }],
-            "$HIDDEN":false
+            "$HIDDEN":true
         },
         {
             "x":15,
@@ -265,14 +260,13 @@
             "props":{"zOrder":500,"visible":false,"presetID":20,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniSkill"},
             "nodeParent":106,
             "label":"boxAniSkill",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":136,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"y":132,"x":110,"source":"gamescenes/animations/trigger_skill.ani","presetID":21,"preset":"laya/pages/gamescenes/prefab/Player.prefab","blendMode":"lighter"},
@@ -294,14 +288,13 @@
             "props":{"zOrder":600,"visible":false,"presetID":22,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniUp"},
             "nodeParent":106,
             "label":"boxAniUp",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":138,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"y":48,"x":101,"source":"gamescenes/animations/lvup_hero.ani","presetID":23,"preset":"laya/pages/gamescenes/prefab/Player.prefab"},
@@ -315,6 +308,34 @@
                         ]
                 }],
             "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,boxAniDodge",
+            "props":{"visible":false,"presetID":24,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniDodge"},
+            "nodeParent":106,
+            "label":"boxAniDodge",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":140,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation",
+                    "props":{"y":245,"x":106,"source":"gamescenes/animations/hero1_skill2.ani","presetID":25,"preset":"laya/pages/gamescenes/prefab/Player.prefab","blendMode":"lighter"},
+                    "nodeParent":140,
+                    "label":"Animation(Player)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":142,
+                    "child":[
+                        ]
+                }]
         }],
     "animations":[
         {

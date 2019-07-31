@@ -299,6 +299,10 @@ var _Skill = require('./prefab/Skill');
 
 var _Skill2 = _interopRequireDefault(_Skill);
 
+var _Dodge = require('./prefab/Dodge');
+
+var _Dodge2 = _interopRequireDefault(_Dodge);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -347,7 +351,7 @@ var GameControl = function (_PaoYa$Component) {
             //暂时这么用;可能要用全局状态管理器
             this.selfWeapons = [];
             this.otherWeapons = [];
-
+            this.dodgeComp = this.owner.dodge.getComponent(_Dodge2.default);
             this.initWeaponsBar();
             this.initPlayer(true);
             this.initPlayer(false);
@@ -361,8 +365,8 @@ var GameControl = function (_PaoYa$Component) {
                 icon: 'remote/game/avstar_1.png'
             }, false);
             Laya.timer.once(2000, this, function () {
-                /*  Laya.timer.loop(500,this,this.startSelect); */
-                // this.startSelect()
+                /*    Laya.timer.loop(500,this,this.startSelect); 
+                  this.startSelect() */
             });
             //机器人开始
 
@@ -384,9 +388,7 @@ var GameControl = function (_PaoYa$Component) {
         key: 'onClick',
         value: function onClick(e) {
             switch (e.target.name) {
-                case 'btnDodge':
-                    this.dodgeSkillShow();
-                    break;
+
                 case 'skill1':
                     this.skillWithWeapon(true);
                     break;
@@ -495,7 +497,7 @@ var GameControl = function (_PaoYa$Component) {
             this.skillScrO = owner.skill1.getComponent(_Skill2.default);
             this.skillScrT = owner.skill2.getComponent(_Skill2.default);
             this.skillScrO.initCdTime(time1);
-            this.skillScrT.initCdTime(8000);
+            this.skillScrT.initCdTime(time2);
             /* owenr.skill1.index=1;
             owenr.skill2.index=2; */
             // this.skillScrO.
@@ -769,8 +771,10 @@ var GameControl = function (_PaoYa$Component) {
 
     }, {
         key: 'dodgeSkillShow',
-        value: function dodgeSkillShow() {
+        value: function dodgeSkillShow(isSelf) {
+            var name = isSelf ? 'self' : 'other';
             console.error('闪避技能使用');
+            this[name + 'Player'].comp.dodgeEffect();
         }
         // 全局碰撞检测
 
@@ -782,6 +786,11 @@ var GameControl = function (_PaoYa$Component) {
         value: function gameOver() {
             console.error('游戏结束');
         }
+    }, {
+        key: 'onDestroy',
+        value: function onDestroy() {
+            Laya.timer.clearAll(this);
+        }
     }]);
 
     return GameControl;
@@ -789,7 +798,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"./WeaponManager":6,"./prefab/HPBar":10,"./prefab/MPBar":11,"./prefab/Player":12,"./prefab/Skill":13,"./prefab/Weapon":14,"./prefab/WeaponBar":15}],5:[function(require,module,exports){
+},{"./WeaponManager":6,"./prefab/Dodge":8,"./prefab/HPBar":10,"./prefab/MPBar":11,"./prefab/Player":12,"./prefab/Skill":13,"./prefab/Weapon":14,"./prefab/WeaponBar":15}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1096,6 +1105,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _GameControl = require("../GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -1126,7 +1141,7 @@ var Dodge = function (_PaoYa$Component) {
             this.spMask = new Laya.Sprite();
             this.maskArea.mask = this.spMask;
 
-            this.cdTime = 1000;
+            this.cdTime = 20000;
             this.freezeing = false;
             this.maxAngle = 270;
             this.startAngle = -90;
@@ -1140,7 +1155,8 @@ var Dodge = function (_PaoYa$Component) {
                 console.warn("冷却中不接受点击");
                 return;
             }
-            this.startT(1000);
+            _GameControl2.default.instance.dodgeSkillShow(true);
+            this.startT();
         }
     }, {
         key: "startT",
@@ -1186,7 +1202,7 @@ var Dodge = function (_PaoYa$Component) {
 
 exports.default = Dodge;
 
-},{}],9:[function(require,module,exports){
+},{"../GameControl":4}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1469,6 +1485,8 @@ var Player = function (_PaoYa$Component) {
   /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
+  /** @prop {name:boxAniDodge,tips:"闪避动效box",type:Node} */
+  /** @prop {name:aniDodge,tips:"闪避动效节点",type:Node} */
 
   function Player() {
     _classCallCheck(this, Player);
@@ -1493,11 +1511,25 @@ var Player = function (_PaoYa$Component) {
           posY = height;
       skeleton.pos(posX, posY - 10);
       this.skeleton = skeleton;
-
+      this.sectionAni = 0; //分段动画
       //不管什么状态播放完，都继续播放待机状态
       this.skeleton.on(Laya.Event.STOPPED, this, function () {
         Laya.MouseManager.enabled = true;
         if (_this2.HPComp.curHP <= 0) {
+          return;
+        }
+        if (_this2.sectionAni == 1) {
+          _this2.sectionAni += 1;
+          _this2.skeleton.play('dodge2', false);
+          return;
+        }
+        if (_this2.sectionAni == 2) {
+          _this2.sectionAni += 1;
+          _this2.skeleton.play('dodge3', false);
+          return;
+        }
+        if (_this2.sectionAni == 3) {
+          _this2.removeDodge();
           return;
         }
         _this2.skeleton.playbackRate(1);
@@ -1668,6 +1700,26 @@ var Player = function (_PaoYa$Component) {
       this.freeze.visible = false;
       this.skeleton.play('stand', true);
     }
+    //闪避技能
+
+  }, {
+    key: "dodgeEffect",
+    value: function dodgeEffect() {
+      this.sectionAni = true;
+      this.dodge = true; //闪避无敌状态
+      this.owner.zOrder = 100;
+      this.skeleton.play('dodge1', false);
+      this.boxAniDodge.visible = true;
+      this.aniDodge.play(0, true);
+    }
+  }, {
+    key: "removeDodge",
+    value: function removeDodge() {
+      this.owner.zOrder = 20;
+      this.dodge = false;
+      this.boxAniDodge.visible = false;
+      this.aniDodge.stop();
+    }
   }, {
     key: "changePerMp",
     value: function changePerMp(time, valuePer) {
@@ -1746,6 +1798,7 @@ var Skill = function (_PaoYa$Component) {
                 console.warn("冷却中不接受点击");
                 return;
             }
+
             this.startT();
         }
     }, {
@@ -2050,6 +2103,11 @@ var Weapon = function (_PaoYa$Component) {
             sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
             sprite.zOrder=10000;
             sprite.rotation=this.imgWeapon.rotation */
+        //如果对方闪避状态，无敌
+        if (this.otherPlayerComp.dodge) {
+          console.error('无敌状态');
+          return;
+        }
         //如果是roleId是2
         if (this.selfPlayerComp.attr.roleId == 2) {
           console.error('我是龙儿');

@@ -27,7 +27,8 @@ export default class Skill extends PaoYa.Component{
         if(this.freezeing){
             console.warn("冷却中不接受点击");
             return;
-        }
+        }    
+      
         this.startT();
     }
     initCdTime(cdTime){

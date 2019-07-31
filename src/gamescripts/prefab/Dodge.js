@@ -1,3 +1,5 @@
+import GameControl from "../GameControl";
+
 export default class Dodge extends PaoYa.Component{
     /* @prop {name:spShadow,tips:"阴影遮罩",type:Node} */
     constructor(){
@@ -15,7 +17,7 @@ export default class Dodge extends PaoYa.Component{
       this.spMask=new Laya.Sprite();
       this.maskArea.mask=this.spMask;
       
-      this.cdTime=1000;
+      this.cdTime=20000;
       this.freezeing=false;
       this.maxAngle=270;
       this.startAngle=-90;
@@ -28,7 +30,8 @@ export default class Dodge extends PaoYa.Component{
             console.warn("冷却中不接受点击");
             return;
         }
-        this.startT(1000);
+        GameControl.instance.dodgeSkillShow(true);       
+        this.startT();
     }
     startT(time) {
        

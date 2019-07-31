@@ -5,6 +5,7 @@ import MPBar from './prefab/MPBar';
 import HPBar from './prefab/HPBar';
 import WeaponManager from './WeaponManager';
 import Skill from './prefab/Skill';
+import Dodge from './prefab/Dodge';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -37,7 +38,7 @@ export default class GameControl extends PaoYa.Component {
         //暂时这么用;可能要用全局状态管理器
         this.selfWeapons = [];
         this.otherWeapons = [];
-        
+        this.dodgeComp=this.owner.dodge.getComponent(Dodge);
         this.initWeaponsBar();
         this.initPlayer(true);
         this.initPlayer(false);
@@ -51,8 +52,8 @@ export default class GameControl extends PaoYa.Component {
             icon: 'remote/game/avstar_1.png'
         }, false);
         Laya.timer.once(2000,this,()=>{
-           /*  Laya.timer.loop(500,this,this.startSelect); */
-          // this.startSelect()
+         /*    Laya.timer.loop(500,this,this.startSelect); 
+           this.startSelect() */
         })
         //机器人开始
         
@@ -71,9 +72,7 @@ export default class GameControl extends PaoYa.Component {
     }
     onClick(e) {
         switch (e.target.name) {
-            case 'btnDodge':
-                this.dodgeSkillShow();
-                break;
+           
             case 'skill1':
                 this.skillWithWeapon(true);
                 break;
@@ -419,8 +418,10 @@ export default class GameControl extends PaoYa.Component {
         console.log('删除后数组' + target.isSelf, targetWeapons)
     }
     //闪避技能
-    dodgeSkillShow(){
+    dodgeSkillShow(isSelf){
+      let name=isSelf?'self':'other';
       console.error('闪避技能使用')
+      this[name+'Player'].comp.dodgeEffect();
     }
     // 全局碰撞检测
     collisionDetection() {
@@ -430,5 +431,7 @@ export default class GameControl extends PaoYa.Component {
     gameOver() {
         console.error('游戏结束');
     }
-   
+   onDestroy(){
+       Laya.timer.clearAll(this);
+   }
 }
