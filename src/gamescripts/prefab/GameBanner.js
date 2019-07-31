@@ -21,7 +21,8 @@ export default class GameBanner extends PaoYa.Component{
         console.log(this.lblTime)
         let timerService=new PaoYa.TimerService(1000,1,true);
         timerService.on(PaoYa.TimerService.PROGRESS, this, (time) => {
-            this.lblTime.text = time + ""
+            
+            this.lblTime.text = time.formatTime('M:S') + ""
         })
         timerService.on(PaoYa.TimerService.STOP, this, () => {
           

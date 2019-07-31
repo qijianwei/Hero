@@ -240,8 +240,8 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupGameRes() {
 			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/freeze/freeze.png', 'spine/freeze/freeze.sk',
 			/* 动效animation资源 */
-			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas' //cd发光效果
-			];
+			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
+			'res/atlas/remote/hero1_skill2.atlas'];
 			return list;
 		}
 	}, {
@@ -1257,7 +1257,8 @@ var GameBanner = function (_PaoYa$Component) {
             console.log(this.lblTime);
             var timerService = new PaoYa.TimerService(1000, 1, true);
             timerService.on(PaoYa.TimerService.PROGRESS, this, function (time) {
-                _this2.lblTime.text = time + "";
+
+                _this2.lblTime.text = time.formatTime('M:S') + "";
             });
             timerService.on(PaoYa.TimerService.STOP, this, function () {});
             // GameControl.instance.timerService=timerService;

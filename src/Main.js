@@ -79,7 +79,9 @@ export class Main extends GameMain {
 			'res/atlas/remote/recover_blood.atlas',
 			'res/atlas/remote/recover_power.atlas',
 			'res/atlas/remote/trigger_skill.atlas',
-			'res/atlas/remote/warn_arms.atlas'//cd发光效果
+			'res/atlas/remote/warn_arms.atlas',//cd发光效果
+			'res/atlas/remote/hero1_skill2.atlas',
+	
 		];		
 		return list
 	}
