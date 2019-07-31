@@ -30,7 +30,8 @@ export default class GameControl extends PaoYa.Component {
         this.dealParams(this.robotWeaponList)
       
 
-
+        this.selfMultiMP=1;//兵器造成的内力消耗倍数
+        this.otherMultiMP=1;//兵器造成的内力消耗倍数
         this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；
 
         //暂时这么用;可能要用全局状态管理器
@@ -102,7 +103,7 @@ export default class GameControl extends PaoYa.Component {
             weaponBarComp.params = this.weaponList[i];
             weaponBarComp.isSelf = true;
             weaponBarComp.index=i;
-            this.weaponsBarArr.push(weaponBar);
+            this.weaponsBarArr.push(weaponBarComp);
             boxWeapon.addChild(weaponBar)
         }
         //初始化机器人的兵器
@@ -167,8 +168,12 @@ export default class GameControl extends PaoYa.Component {
     }
     initSkill(){
        let owner=this.owner;
+       let time1=this.selfPlayer.comp.activeSkills[0].skillCd*1000;
+       let time2=this.selfPlayer.comp.activeSkills[1].skillCd*1000;
        this.skillScrO=owner.skill1.getComponent(Skill);
        this.skillScrT=owner.skill2.getComponent(Skill);
+       this.skillScrO.initCdTime(time1);
+       this.skillScrT.initCdTime(time2);
        /* owenr.skill1.index=1;
        owenr.skill2.index=2; */
       // this.skillScrO.
@@ -201,7 +206,46 @@ export default class GameControl extends PaoYa.Component {
 
     }
     skillWithoutWeapon(isSelf){
+       let name=isSelf?'self':'other';
+       let skillInfo=this[name+'Player'].comp.activeSkills[1];
+       switch(skillInfo.skillId){
+           case 33:
+               this.allWeaponsUnfreeze(skillInfo);
+               break;
+           case 36:
+               let t=skillInfo.skillConfig.time,
+                  perMP=skillInfo.skillConfig.recoverMp,
+                  originHP=this[name+'Player'].comp.HPComp.originHP,
+                  resumeHP=skillInfo.skillConfig.recoverHp;
+               this[name+'Player'].comp.changePerMp(t,perMP);
+               this[name+'Player'].comp.HPComp.changeHP(originHP*resumeHP);
+               break;
+            case 39:
+                /* this[name+'Player'].comp.changePerMp(); */
+                this[name+'MultiMP']=skillInfo.skillConfig.consumeMp;
+                console.error('内力消耗倍数:',skillInfo.skillConfig.consumeMp)
+                Laya.timer.once(skillInfo.skillConfig.time*1000,this,()=>{
+                    console.error('内力消耗倍数恢复:')
+                    this[name+'MultiMP']=1;
+                })
+                break;
+           case 45:
+               break; 
+       }
 
+    }
+    allWeaponsUnfreeze(skillInfo){
+       let time=skillInfo.skillConfig.time*1000;
+       this.weaponsBarArr.forEach((weaponBarComp)=>{
+          weaponBarComp.endCD();//探讨要不要
+          weaponBarComp.setCdTime(0)
+       })
+      
+       Laya.timer.once(time,this,()=>{
+           this.weaponsBarArr.forEach((weaponBarComp)=>{
+              weaponBarComp.setCdTime(weaponBarComp.originCdTime)
+           })
+       })
     }
     startSelect(){
         let sWeapon=this.weaponManager.seletedWeapon();
@@ -212,7 +256,7 @@ export default class GameControl extends PaoYa.Component {
             this.weaponBarClickHandler(sWeapon);
             Laya.timer.once(500,this,this.startSelect);
         }else{
-            Laya.timer.once(200,this,this.startSelect)
+            Laya.timer.once(200,this,this.startSelect);
         }
     }
     //兵器点击后我方表现
@@ -225,7 +269,7 @@ export default class GameControl extends PaoYa.Component {
             return;
         }
      
-        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
+        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP*this[name+'MultiMP']);
         //人物表现
         this[name + 'Player'].comp.attackEffect();
         this[name + 'Player'].comp.attr.calcCritProb=this[name + 'Player'].comp.attr.roleCritProb;
@@ -386,4 +430,5 @@ export default class GameControl extends PaoYa.Component {
     gameOver() {
         console.error('游戏结束');
     }
+   
 }

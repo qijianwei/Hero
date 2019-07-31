@@ -201,10 +201,16 @@ export default class Weapon extends PaoYa.Component {
           sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
           sprite.zOrder=10000;
           sprite.rotation=this.imgWeapon.rotation */
-     
+       //如果是roleId是2
+    if(this.selfPlayerComp.attr.roleId==2){
+      console.error('我是龙儿')
+      if(this.selfPlayerComp.attr.skills[1].skillType==1){
+         let addHitRecoverMp=this.selfPlayerComp.attr.skills[1].skillConfig.addHitRecoverMp;
+         this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
+      }
+    }
       this.endMove();
-      let skill = this.params.activeSkill;
-       
+      let skill = this.params.activeSkill;  
       let skillEffect=this.params.skillEffect;
       let attackNum=this.calcAttackNum(skillEffect);
       if (skillEffect) { 
@@ -217,8 +223,9 @@ export default class Weapon extends PaoYa.Component {
             let time=arr[0];
             this.otherPlayerComp.poisonEffect(time*1000,-arr[1]/time)
             break;
+            //麻痹和冰冻一个效果
           case 49||50:
-            this.otherPlayerComp.palsyEffect(skillConfig.mabi*1000);
+            this.otherPlayerComp.freezedEffect(skillConfig.mabi*1000);
             break;
           case 53:
             let stealHp=skillConfig.stealHp;
@@ -237,12 +244,23 @@ export default class Weapon extends PaoYa.Component {
             let freezeTime=skillConfig.freeze*1000
             this.otherPlayerComp.freezedEffect(freezeTime);
             break;
+          case 89:
+            console.error('释放人物技能89,让对方内力减少100点');
+            let downMP=skillConfig.downMp;
+            this.otherPlayerComp.MPComp.changeMP(-downMP);
+            break;
+            //命中后对手晕眩2秒
+          case 90:
+            let dizzyT=skillConfig.dizziness*1000;
+            this.otherPlayerComp.dizzyEffect(dizzyT);
+            break;
         }
        
       }else{
         this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
       }
     }
+   
     if (this.isSelf) {
       this.collideWithWeapon();
     }

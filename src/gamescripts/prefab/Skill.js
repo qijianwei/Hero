@@ -4,9 +4,11 @@ export default class Skill extends PaoYa.Component{
         super();
     }
     onAwake(){
-        let owner=this.owner;
+     let owner=this.owner;
       this.ownW = owner.width;
       this.ownH = owner.height;
+      this.centerX=Math.floor(this.ownW/2);
+      this.centerY=Math.floor(this.ownH/2);
       this.spShadow.visible=false;
       this.maskArea=new Laya.Sprite();
       this.maskArea.texture="remote/game/skill.png";
@@ -15,7 +17,6 @@ export default class Skill extends PaoYa.Component{
       this.spMask=new Laya.Sprite();
       this.maskArea.mask=this.spMask;
       
-      this.cdTime=1000;
       this.freezeing=false;
       this.maxAngle=270;
       this.startAngle=-90;
@@ -27,6 +28,17 @@ export default class Skill extends PaoYa.Component{
             console.warn("冷却中不接受点击");
             return;
         }
+        this.startT();
+    }
+    initCdTime(cdTime){
+        console.warn('初始化cd时间:',cdTime);
+        //cd 时间
+        this.cdTime = cdTime;   
+    }
+    setCdTime(cdTime) {
+        console.warn('修改cd时间:',cdTime);
+        //cd 时间
+        this.cdTime = cdTime;   
     }
     startT(time) {
        
@@ -37,7 +49,7 @@ export default class Skill extends PaoYa.Component{
         this.beiginTime=new Date().getTime();
       
         this.spMask.graphics.clear();
-        this.spMask.graphics.drawPie(this.ownW / 2, this.ownH / 2, this.ownW, this.startAngle, this.endAngle, "#000000");
+        this.spMask.graphics.drawPie(this.centerX, this.centerY, this.ownW, this.startAngle, this.endAngle, "#000000");
         let cdT=(time==undefined)?this.cdTime:time;
         Laya.timer.frameLoop(1,this,this.startCd,[cdT]);
     }
@@ -50,7 +62,7 @@ export default class Skill extends PaoYa.Component{
         }
         this.endAngle+=Laya.timer.delta*360/time;
         this.spMask.graphics.clear();
-        this.spMask.graphics.drawPie(this.ownW / 2, this.ownH / 2, this.ownW,
+        this.spMask.graphics.drawPie(this.centerX, this.centerY, this.ownW,
             this.startAngle, this.endAngle, "#000000");
     }
     endCD() {

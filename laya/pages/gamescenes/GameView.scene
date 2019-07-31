@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":3,
+    "selecteID":200,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
     "nodeParent":-1,
@@ -793,79 +793,6 @@
         {
             "x":15,
             "type":"Box",
-            "searchKey":"Box,skill2,skill2",
-            "props":{"y":467,"x":1188.5,"var":"skill2","presetID":1,"preset":"laya/pages/gamescenes/prefab/Skill.prefab","name":"skill2"},
-            "nodeParent":2,
-            "label":"skill2",
-            "isOpen":true,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":200,
-            "child":[
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
-                    "nodeParent":200,
-                    "label":"Sprite(Skill)",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":199,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
-                    "nodeParent":200,
-                    "label":"Sprite(Skill)",
-                    "isOpen":true,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":201,
-                    "child":[
-                        {
-                            "x":45,
-                            "type":"Circle",
-                            "searchKey":"Circle",
-                            "props":{"presetID":4,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
-                            "nodeParent":201,
-                            "label":"Circle(Skill)",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":202,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
-                    "x":30,
-                    "type":"Script",
-                    "switchAble":true,
-                    "source":"src/gamescripts/prefab/Skill.js",
-                    "searchKey":"Script,Skill",
-                    "removeAble":true,
-                    "props":{"presetID":5,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
-                    "nodeParent":200,
-                    "label":"Skill",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":203,
-                    "child":[
-                        ]
-                }]
-        },
-        {
-            "x":15,
-            "type":"Box",
             "selectedBox":200,
             "selecteID":199,
             "searchKey":"Box,skill1,skill1",
@@ -873,14 +800,13 @@
             "nodeParent":2,
             "maxID":204,
             "label":"skill1",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":204,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
@@ -894,7 +820,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
@@ -907,7 +832,6 @@
                     "compId":206,
                     "child":[
                         {
-                            "x":45,
                             "type":"Circle",
                             "searchKey":"Circle",
                             "props":{"presetID":4,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
@@ -922,13 +846,12 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/gamescripts/prefab/Skill.js",
                     "searchKey":"Script,Skill",
                     "removeAble":true,
-                    "props":{"presetID":5,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
+                    "props":{"spShadow":"@node:206","presetID":5,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
                     "nodeParent":204,
                     "label":"Skill",
                     "isDirectory":false,
@@ -946,6 +869,76 @@
                     "id":1,
                     "frameRate":24,
                     "action":0
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,skill2,skill2",
+            "props":{"y":467,"x":1189,"var":"skill2","presetID":1,"preset":"laya/pages/gamescenes/prefab/Skill.prefab","name":"skill2"},
+            "nodeParent":2,
+            "label":"skill2",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":200,
+            "child":[
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
+                    "nodeParent":200,
+                    "label":"Sprite(Skill)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":199,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
+                    "nodeParent":200,
+                    "label":"Sprite(Skill)",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":201,
+                    "child":[
+                        {
+                            "type":"Circle",
+                            "searchKey":"Circle",
+                            "props":{"presetID":4,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
+                            "nodeParent":201,
+                            "label":"Circle(Skill)",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":202,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":false
+                },
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/gamescripts/prefab/Skill.js",
+                    "searchKey":"Script,Skill",
+                    "removeAble":true,
+                    "props":{"spShadow":"@node:201","presetID":5,"preset":"laya/pages/gamescenes/prefab/Skill.prefab"},
+                    "nodeParent":200,
+                    "label":"Skill",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":203,
+                    "child":[
+                        ]
                 }]
         }],
     "animations":[

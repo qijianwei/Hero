@@ -39,7 +39,7 @@ export default class WeaponBar extends PaoYa.Component {
         this.freezeing=false;
        
         this.cdTime=this.params.weaponCd*1000;
-       
+        this.originCdTime=this.cdTime;
 
         this.weaponConsume=this.params.weaponConsume;//使用一次要消耗的体力值
         //暂时调用
@@ -75,17 +75,19 @@ export default class WeaponBar extends PaoYa.Component {
         this.postNotification(WeaponBar.CLICK,[this]);
     }
     setCdTime(cdTime) {
+        console.warn('修改cd时间:',cdTime);
         //cd 时间
-        this.cdTime = cdTime || 1000;
-        this.frameCd=Math.round(this.cdTime / 360);
-       
+        this.cdTime = cdTime;   
     }
     drawTexture(skin){
         this.maskArea.graphics.drawTexture(Laya.loader.getRes(skin), 0, 0, this.ownW, this.ownH);
     }
     //所谓冷却是一种障眼法
     startT(time) {
-       
+        if(this.cdTime==0){
+            console.error('冷却免疫');
+            return;
+        }
         this.spShadow.visible=true;
         this.maskArea.visible=true;
         this.freezeing=true;
@@ -95,8 +97,8 @@ export default class WeaponBar extends PaoYa.Component {
         
         this.spMask.graphics.clear();
         this.spMask.graphics.drawPie(this.ownW / 2, this.ownH / 2, this.ownW, this.startAngle, this.endAngle, "#000000");
-        //Laya.timer.loop(this.frameCd, this, this.startCd);
         let cdT=(time==undefined)?this.cdTime:time;
+       
         Laya.timer.frameLoop(1,this,this.startCd,[cdT]);
     }
     startCd(time) {
@@ -117,7 +119,7 @@ export default class WeaponBar extends PaoYa.Component {
     }
     //恢复cd
     resumeCd(){
-        Laya.timer.loop(this.frameCd,this,this.startCd);
+       /*  Laya.timer.loop(this.frameCd,this,this.startCd); */
     }
     endCD() {
         Laya.timer.clearAll(this);

@@ -67,6 +67,8 @@ export class Main extends GameMain {
 			'res/atlas/remote/weapons.atlas',
 			'spine/npc/npc_7.png',
 			'spine/npc/npc_7.sk',
+			'spine/hero/hero_1.png',
+			'spine/hero/hero_1.sk',
 			'spine/freeze/freeze.png',
 			'spine/freeze/freeze.sk',
 			/* 动效animation资源 */

@@ -65,7 +65,7 @@ export default class Player extends PaoYa.Component {
 
   }
   initDress() {
-    let url = "spine/npc/npc_7.sk";
+    let url = "spine/hero/hero_1.sk";
     this.skeleton.load(url, Laya.Handler.create(this, () => {
        // this.skeleton.play('dizzy', true);
         this.skeleton.play('stand', true)
@@ -136,8 +136,8 @@ export default class Player extends PaoYa.Component {
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
   }
-  //麻痹
-  palsyEffect(palsyTime) {
+  //x眩晕
+  dizzyEffect(dizzyTime) {
     this.canAction = false;
     if(this.isSelf){
       Laya.MouseManager.enabled=false;
@@ -146,9 +146,9 @@ export default class Player extends PaoYa.Component {
   //  this.HPComp.changeHP(value)
     this.aniPalsy.play(0, true);
     this.skeleton.play('dizzy', true);
-    Laya.timer.once(palsyTime, this, this.removePalsy)
+    Laya.timer.once(dizzyTime, this, this.removeDizzy)
   }
-  removePalsy() {
+  removeDizzy() {
     this.canAction = true;
     if(this.isSelf){
       Laya.MouseManager.enabled=true;
@@ -182,11 +182,11 @@ export default class Player extends PaoYa.Component {
     this.skeleton.play('stand',true);
   }
  changePerMp(time,valuePer){
-   this.MPComp.changePerMp(this.MPComp.perAddMP*valuePer);
+   this.MPComp.changePerMP(this.MPComp.perAddMP*valuePer);
    Laya.timer.once(time,this,this.recoverPerMp);
  }
  recoverPerMp(){
-  this.MPComp.changePerMp(this.MPComp.originPerAddMP);
+  this.MPComp.changePerMP(this.MPComp.originPerAddMP);
  }
   onDisable() {
 

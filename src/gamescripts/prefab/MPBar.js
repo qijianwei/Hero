@@ -32,6 +32,7 @@ export default class MPBar extends PaoYa.Component{
         }
         let addedValue=Number((this.curMP+this.perAddMP).toFixed(1));
         this.curMP=addedValue>this.originMP?this.originMP:addedValue;
+        this.lblMpPct.text=`${this.curMP}/${this.originMP}`;
         this.imgMask.width=Math.floor(this.curMP/this.originMP*this.originW);
     }
     changeMP(value){

@@ -2,7 +2,7 @@
     "x":0,
     "type":"Box",
     "selectedBox":200,
-    "selecteID":199,
+    "selecteID":201,
     "searchKey":"Box",
     "props":{"y":0,"x":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Skill.prefab","isPresetRoot":true},
     "nodeParent":-1,
@@ -54,7 +54,8 @@
                     "compId":202,
                     "child":[
                         ]
-                }]
+                }],
+            "$HIDDEN":true
         },
         {
             "x":15,
