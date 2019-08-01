@@ -2,12 +2,12 @@
     "x":0,
     "type":"Box",
     "selectedBox":12,
-    "selecteID":35,
-    "searchKey":"Box",
-    "props":{"y":-1,"x":0,"rotation":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","isPresetRoot":true},
+    "selecteID":92,
+    "searchKey":"Box,boxAniWeapon",
+    "props":{"y":-1,"x":0,"rotation":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniWeapon","isPresetRoot":true},
     "nodeParent":-1,
-    "maxID":82,
-    "label":"Box(Weapon)",
+    "maxID":94,
+    "label":"boxAniWeapon",
     "isOpen":true,
     "isDirectory":true,
     "isAniNode":true,
@@ -21,7 +21,7 @@
             "source":"src/gamescripts/prefab/Weapon.js",
             "searchKey":"Script,Weapon",
             "removeAble":true,
-            "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","imgWeapon":"@node:6","imgHpMask":"@node:34","imgHp":"@node:33","boxHpWeapon":"@node:35","boxAniWeapon":"@node:23","boxAniCollision":"@node:19"},
+            "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","imgWeapon":"@node:6","imgHpMask":"@node:34","imgHp":"@node:33","boxHpWeapon":"@node:35","boxAniWeapon":"@node:23","boxAniRepeat2":"@node:92","boxAniRepeat1":"@node:90","boxAniPoison2":"@node:88","boxAniPoison1":"@node:84","boxAniCrit2":"@node:86","boxAniCrit1":"@node:82","boxAniCollision":"@node:19","aniRepeat2":"@node:93","aniRepeat1":"@node:91","aniPoison2":"@node:89","aniPoison1":"@node:85","aniCrit2":"@node:87","aniCrit1":"@node:83"},
             "nodeParent":12,
             "label":"Weapon",
             "isDirectory":false,
@@ -82,14 +82,13 @@
             "props":{"zOrder":500,"y":101,"x":0,"width":115,"presetID":8,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","pivotY":10,"pivotX":56,"height":19},
             "nodeParent":12,
             "label":"Box(Weapon)",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":35,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"texture":"remote/game/wHpBg.png","presetID":9,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
@@ -104,7 +103,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"skin":"remote/game/wHp.png","presetID":11,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
@@ -117,7 +115,6 @@
                     "compId":33,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":0,"x":0,"width":115,"skin":"remote/game/wHpMask.png","renderType":"mask","presetID":12,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
@@ -132,6 +129,174 @@
                                 ],
                             "$HIDDEN":false
                         }]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,boxAniCrit1",
+            "props":{"visible":false,"presetID":13,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniCrit1"},
+            "nodeParent":12,
+            "label":"boxAniCrit1",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":82,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation",
+                    "props":{"source":"gamescenes/animations/weapon_crits1.ani","presetID":14,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
+                    "nodeParent":82,
+                    "label":"Animation(Weapon)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":83,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,boxAniPoison1",
+            "props":{"visible":false,"presetID":15,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniPoison1"},
+            "nodeParent":12,
+            "label":"boxAniPoison1",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":84,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation",
+                    "props":{"y":0,"x":0,"source":"gamescenes/animations/weapon_poison1.ani","presetID":16,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
+                    "nodeParent":84,
+                    "label":"Animation(Weapon)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":85,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,boxAniCrit2",
+            "props":{"visible":false,"presetID":17,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniCrit2"},
+            "nodeParent":12,
+            "label":"boxAniCrit2",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":86,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation",
+                    "props":{"source":"gamescenes/animations/weapon_crits2.ani","presetID":18,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
+                    "nodeParent":86,
+                    "label":"Animation(Weapon)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":87,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,boxAniPoison2",
+            "props":{"visible":false,"presetID":19,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniPoison2"},
+            "nodeParent":12,
+            "label":"boxAniPoison2",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":88,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation",
+                    "props":{"source":"gamescenes/animations/weapon_poison2.ani","presetID":20,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
+                    "nodeParent":88,
+                    "label":"Animation(Weapon)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":89,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,boxAniRepeat1",
+            "props":{"visible":false,"presetID":21,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniRepeat1"},
+            "nodeParent":12,
+            "label":"boxAniRepeat1",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":90,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation",
+                    "props":{"source":"gamescenes/animations/weapon_repeat1.ani","presetID":22,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
+                    "nodeParent":90,
+                    "label":"Animation(Weapon)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":91,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,boxAniRepeat2",
+            "props":{"visible":false,"presetID":23,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniRepeat2"},
+            "nodeParent":12,
+            "label":"boxAniRepeat2",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":92,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation",
+                    "props":{"source":"gamescenes/animations/weapon_repeat2.ani","presetID":24,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab"},
+                    "nodeParent":92,
+                    "label":"Animation(Weapon)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":93,
+                    "child":[
+                        ]
                 }]
         }],
     "animations":[

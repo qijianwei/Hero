@@ -7,6 +7,18 @@ export default class Weapon extends PaoYa.Component {
   /** @prop {name:boxHpWeapon,tips:"武器的血条",type:Node}*/
   /** @prop {name:imgHpMask,tips:"武器血条mask",type:Node}*/
   /** @prop {name:imgHp,tips:"武器血条图片",type:Node}*/
+   /** @prop {name:boxAniCrit1,tips:"致命特效box",type:Node}*/
+   /** @prop {name:aniCrit1,tips:"致命特效",type:Node}*/
+   /** @prop {name:boxAniCrit2,tips:"诛心特效box",type:Node}*/
+   /** @prop {name:aniCrit2,tips:"诛心特效",type:Node}*/
+   /** @prop {name:boxAniPoison1,tips:"浸毒特效box",type:Node}*/
+   /** @prop {name:aniPoison1,tips:"浸毒特效",type:Node}*/
+    /** @prop {name:boxAniPoison2,tips:"奇毒特效box",type:Node}*/
+   /** @prop {name:aniPoison2,tips:"奇毒特效",type:Node}*/
+    /** @prop {name:boxAniRepeat1,tips:"双刃特效box",type:Node}*/
+   /** @prop {name:aniRepeat1,tips:"双刃特效",type:Node}*/
+    /** @prop {name:boxAniRepeat2,tips:"影刃特效box",type:Node}*/
+   /** @prop {name:aniRepeat2,tips:"影刃特效",type:Node}*/
   constructor() {
     super();
     this.pathsCurvature = [0, 0, 0.0012, 0.0025,0.006];
@@ -50,9 +62,18 @@ export default class Weapon extends PaoYa.Component {
     this.owner.zOrder = 100 - this.weaponDurable;
     let imgW = this.imgWeapon.width,
         imgH = this.imgWeapon.height;
+       
     this.imgWeapon.pivot(imgW / 2, imgH / 2);//图片的位置
-    this.boxAniWeapon.pos(this.imgWeapon.x, this.imgWeapon.y);//碰撞动效的位置
-    
+    let  x=this.imgWeapon.x,
+         y=this.imgWeapon.y;
+    this.boxAniWeapon.pos(x, y);//碰撞动效的位置
+    this.boxAniPoison1.pos(x,y);
+    this.boxAniPoison2.pos(x,y);
+    this.boxAniCrit1.pos(x,y);
+    this.boxAniCrit2.pos(x,y);
+    this.boxAniRepeat1.pos(x,y);
+    this.boxAniRepeat2.pos(x,y);
+    /* this.aniPoison1.play(0,true); */
 
     this.collideSp.size(Math.floor(imgW * 0.2), imgH);
     let collideW = this.collideSp.width,

@@ -24,7 +24,10 @@ export default class GameControl extends PaoYa.Component {
         Laya.MouseManager.enabled = true;
 
         this.params = this.owner.params;
-
+        //暂定
+        this.gameType="pass";
+        this.passNum=1;
+        
         this.weaponList = this.params.weaponList;
         this.robotWeaponList = this.params.robotWeaponList;
         this.dealParams(this.weaponList)
@@ -451,6 +454,10 @@ export default class GameControl extends PaoYa.Component {
     // 全局碰撞检测
     collisionDetection() {
 
+
+    }
+    //关卡结束
+    passOver(){
 
     }
     gameOver(loserIsSelf) {
