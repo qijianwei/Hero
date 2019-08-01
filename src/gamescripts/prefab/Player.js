@@ -1,4 +1,5 @@
 import HeroConfig from "../config/HeroConfig";
+import GameControl from "../GameControl";
 
 export default class Player extends PaoYa.Component {
   /** @prop {name:boxAniBot,tips:"受击动效box",type:Node} */
@@ -90,7 +91,7 @@ export default class Player extends PaoYa.Component {
 
   //攻击
   attackEffect() {
-    this.skeleton.playbackRate(3)
+    this.skeleton.playbackRate(2)
     this.skeleton.play("attack", false)
   }
 //受击打,所有武器碰到都有这效果
@@ -102,6 +103,7 @@ export default class Player extends PaoYa.Component {
     this.HPComp.changeHP(value);
     if (this.HPComp.curHP <= 0) {
       console.error('死亡结束')
+      GameControl.instance.gameOver(this.isSelf);
       this.skeleton.play("death", false);
       return;
     }

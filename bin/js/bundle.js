@@ -364,9 +364,9 @@ var GameControl = function (_PaoYa$Component) {
                 name: '阿强',
                 icon: 'remote/game/avstar_1.png'
             }, false);
-            Laya.timer.once(2000, this, function () {
-                /*    Laya.timer.loop(500,this,this.startSelect); 
-                  this.startSelect() */
+            Laya.timer.once(5000, this, function () {
+                // Laya.timer.once(1000,this,this.startSelect); 
+
             });
             //机器人开始
 
@@ -444,6 +444,7 @@ var GameControl = function (_PaoYa$Component) {
 
             //let playerScr=player.getComponent(Player)
             var component = player.getComponent(_Player2.default);
+            component.isSelf = isSelf;
             component.attr = this.params[role];
             component.activeSkills = [];
             //把人物主动技能挑选出来
@@ -529,7 +530,7 @@ var GameControl = function (_PaoYa$Component) {
                     break;
             }
 
-            this.weaponBySelf(skillWeapon);
+            this.weaponLaunch(skillWeapon);
         }
     }, {
         key: 'skillWithoutWeapon',
@@ -589,9 +590,9 @@ var GameControl = function (_PaoYa$Component) {
                 sWeapon.isSelf = false;
                 sWeapon.selectedHandler();
                 this.weaponBarClickHandler(sWeapon);
-                Laya.timer.once(500, this, this.startSelect);
+                Laya.timer.once(2000, this, this.startSelect);
             } else {
-                Laya.timer.once(200, this, this.startSelect);
+                Laya.timer.once(500, this, this.startSelect);
             }
         }
         //兵器点击后我方表现
@@ -609,6 +610,9 @@ var GameControl = function (_PaoYa$Component) {
 
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
             //人物表现
+            if (this.isSelf) {
+                console.error('用户发射武器........');
+            }
             this[name + 'Player'].comp.attackEffect();
             this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb;
             //判断是否触发兵器技能
@@ -620,6 +624,7 @@ var GameControl = function (_PaoYa$Component) {
 
             var params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
             params.skillEffect = false;
+            params.isSelf = targetComp.isSelf;
             if (skillType == 1 && status == 1) {
                 var random = Math.floor(Math.random() * 100 + 1);
                 if (random <= prob) {
@@ -638,10 +643,33 @@ var GameControl = function (_PaoYa$Component) {
             }
             //正常开始技能冷却
             targetComp.startT();
-            if (targetComp.isSelf) {
-                this.weaponBySelf(params);
+            this.weaponLaunch(params);
+        }
+    }, {
+        key: 'weaponLaunch',
+        value: function weaponLaunch(params, deltaT) {
+            var _this4 = this;
+
+            var name = params.isSelf ? 'self' : 'other';
+            var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
+            var weaponComp = weapon.getComponent(_Weapon2.default);
+            weapon.params = params;
+            weaponComp.isSelf = params.isSelf;
+            if (params.isSelf) {
+                weapon.pos(340, 450);
             } else {
-                this.weaponByOther(params);
+                weapon.pos(953, 450);
+            }
+
+            //暂定
+            if (deltaT) {
+                Laya.timer.once(deltaT, this, function () {
+                    _this4.owner.addChild(weapon);
+                    _this4[name + 'Weapons'].push(weaponComp);
+                });
+            } else {
+                this.owner.addChild(weapon);
+                this[name + 'Weapons'].push(weaponComp);
             }
         }
         //以下下是正常点击发射
@@ -649,7 +677,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this4 = this;
+            var _this5 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -660,13 +688,27 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this4.owner.addChild(weapon);
-                    _this4.selfWeapons.push(weaponComp);
+                    _this5.owner.addChild(weapon);
+                    _this5.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
                 this.selfWeapons.push(weaponComp);
             }
+        }
+    }, {
+        key: 'weaponByOther',
+        value: function weaponByOther(target) {
+            var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
+            var weaponComp = weapon.getComponent(_Weapon2.default);
+            weapon.params = target;
+            weaponComp.isSelf = false;
+            // weapon.isSelf=true;
+            this.owner.addChild(weapon);
+            weapon.pos(953, 450);
+
+            //暂定
+            this.otherWeapons.push(weaponComp);
         }
         //带着技能发射
 
@@ -683,32 +725,32 @@ var GameControl = function (_PaoYa$Component) {
                     var weaponNum = skillConfig.weaponNum;
 
                     console.error("修改后的值:", params.weaponAttack);
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     for (var i = 0; i < weaponNum - 1; i++) {
-                        this.weaponBySelf(params, 350);
+                        this.weaponLaunch(params, 350);
                     }
                     break;
                 //造成几倍伤害 兵器前方加气流
                 case 47:
                 case 48:
                     // params.weaponAttack = params.weaponAttack * hurt;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     break;
                 //向上中路各发出1件兵器 几率12%
                 case 51:
                     params.weaponType = 2;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     params.weaponType = 3;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     break;
                 // 向上中下路各发出1件兵器 几率8%
                 case 52:
                     params.weaponType = 1;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     params.weaponType = 2;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     params.weaponType = 3;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     break;
                 //100%伤害转化为生命 几率18%
                 case 45:
@@ -719,40 +761,26 @@ var GameControl = function (_PaoYa$Component) {
                 case 54:
                 case 55:
                 case 59:
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     break;
                 case 60:
                     params.weaponType = 4;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     break;
                 //造成几倍伤害 兵器上加刀刃特效
                 case 56:
                 case 57:
                 case 61:
                     // params.weaponAttack = params.weaponAttack * hurt;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     break;
                 //兵器耐久提升100%
                 case 62:
                     params.weaponDurable = params.weaponDurable * durable;
-                    this.weaponBySelf(params);
+                    this.weaponLaunch(params);
                     break;
 
             }
-        }
-    }, {
-        key: 'weaponByOther',
-        value: function weaponByOther(target) {
-            var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
-            var weaponComp = weapon.getComponent(_Weapon2.default);
-            weapon.params = target;
-            weaponComp.isSelf = false;
-            // weapon.isSelf=true;
-            this.owner.addChild(weapon);
-            weapon.pos(953, 450);
-
-            //暂定
-            this.otherWeapons.push(weaponComp);
         }
     }, {
         key: 'removeWeapon',
@@ -783,7 +811,11 @@ var GameControl = function (_PaoYa$Component) {
         value: function collisionDetection() {}
     }, {
         key: 'gameOver',
-        value: function gameOver() {
+        value: function gameOver(loserIsSelf) {
+            if (!loserIsSelf) {
+                this.selfPlayer.comp.skeleton.play('win', true);
+            }
+            Laya.timer.clearAll(this);
             console.error('游戏结束');
         }
     }, {
@@ -1319,7 +1351,6 @@ var HPBar = function (_PaoYa$Component) {
       if (this.curHP <= 0) {
         this.curHP = 0;
         this.imgMask.width = 0;
-        //('游戏结束了')
         return;
       } else if (this.curHP > this.originHP) {
         this.curHP = this.originHP;
@@ -1454,6 +1485,10 @@ var _HeroConfig = require("../config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
+var _GameControl = require("../GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1566,7 +1601,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "attackEffect",
     value: function attackEffect() {
-      this.skeleton.playbackRate(3);
+      this.skeleton.playbackRate(2);
       this.skeleton.play("attack", false);
     }
     //受击打,所有武器碰到都有这效果
@@ -1581,6 +1616,7 @@ var Player = function (_PaoYa$Component) {
       this.HPComp.changeHP(value);
       if (this.HPComp.curHP <= 0) {
         console.error('死亡结束');
+        _GameControl2.default.instance.gameOver(this.isSelf);
         this.skeleton.play("death", false);
         return;
       }
@@ -1745,7 +1781,7 @@ var Player = function (_PaoYa$Component) {
 
 exports.default = Player;
 
-},{"../config/HeroConfig":7}],13:[function(require,module,exports){
+},{"../GameControl":4,"../config/HeroConfig":7}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

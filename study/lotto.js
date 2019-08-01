@@ -11,7 +11,7 @@ function initProbability() {
     }
 }
 initProbability();
-let promise=new Promise(function (resolve, reject) {
+var promiseDlt=new Promise(function (resolve, reject) {
     var http = new XMLHttpRequest();
     http.open("GET", "http://apis.juhe.cn/lottery/history?key=e0a95b3906ce0e3888d3aac2049a15bc&lottery_id=dlt&page_size=24&page=1");
     http.send();
@@ -33,11 +33,39 @@ let promise=new Promise(function (resolve, reject) {
             resolve(newArr);
         }
     }
-})
-promise.then((res)=>{
+}) 
+var  promiseSsq=new Promise(function (resolve, reject) {
+    var http = new XMLHttpRequest();
+    http.open("GET", "http://apis.juhe.cn/lottery/history?key=e0a95b3906ce0e3888d3aac2049a15bc&lottery_id=ssq&page_size=24&page=1");
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 1) {
+            console.log('请求已经开始,还没send')
+        }
+        if (this.readyState == 4 && this.status == 200) {
+            let tempArr=JSON.parse(this.responseText).result.lotteryResList;
+          //  console.error('origin ARR:',JSON.parse(JSON.stringify(tempArr)))
+            let newArr=[];
+            for(let i=0;i<8;i++){
+                let random=Math.floor(Math.random()*(tempArr.length-1));
+               // console.error('random:',random)
+                newArr.push(JSON.parse(JSON.stringify(tempArr[random])))
+                tempArr.splice(random, 1);
+            }
+           // console.error(newArr);
+            resolve(newArr);
+        }
+    }
+}) 
+promiseDlt.then((res)=>{
+    console.error('请求大乐透成功')
     lottoResponse(res)
 },(res)=>{
    console.error('请求失败',res);
+})
+Promise.all([promiseDlt,promiseSsq]).then((value)=>{
+    console.log('Dlt and Ssq:')
+    console.log(value)
 })
 
 

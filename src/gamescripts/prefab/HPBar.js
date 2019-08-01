@@ -22,7 +22,6 @@ export default class HPBar extends PaoYa.Component{
       if(this.curHP<=0){
         this.curHP=0;
         this.imgMask.width=0;
-       //('游戏结束了')
         return;
       }else if(this.curHP>this.originHP){
         this.curHP=this.originHP;
