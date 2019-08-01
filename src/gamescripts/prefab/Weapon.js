@@ -56,7 +56,7 @@ export default class Weapon extends PaoYa.Component {
 
     this.collideSp.size(Math.floor(imgW * 0.2), imgH);
     let collideW = this.collideSp.width,
-      collideH = this.collideSp.height;
+        collideH = this.collideSp.height;
     this.collideW = collideW;
     this.collideH = collideH;
 
@@ -78,21 +78,7 @@ export default class Weapon extends PaoYa.Component {
   
     let speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
     console.error('速度....',speed)
-    //暂时这么写  
-    if (this.isSelf) {
-      this.selfPlayerComp = GameControl.instance.selfPlayer.comp;
-      this.otherPlayerComp = GameControl.instance.otherPlayer.comp;
-      this.owner.scaleX = 1;
-      this.originX = 340;
-      this.originY = 450;
-    } else {
-      this.selfPlayerComp = GameControl.instance.otherPlayer.comp;
-      this.otherPlayerComp = GameControl.instance.selfPlayer.comp;
-      this.owner.scaleX = -1;
-      this.originX = 950;
-      this.originY = 450;
-    }
-
+   
     this.weaponPoint = [{
       x: Math.floor(this.originX - collideW / 2),
       y: Math.floor(this.originY - collideH / 2)
@@ -107,7 +93,7 @@ export default class Weapon extends PaoYa.Component {
       y: Math.floor(this.originY + collideH / 2)
     }]
     //根据weaponType不同，运动轨迹不同,造成curvature
-   this.curvature = this.pathsCurvature[this.params.weaponType];
+    this.curvature = this.pathsCurvature[this.params.weaponType];
  
     // X轴Y轴的偏移总量
     this.driftX = this.endPos.x - this.startPos.x;
@@ -123,7 +109,7 @@ export default class Weapon extends PaoYa.Component {
      * b = (y2+ a*x2*x2) / x2
      */
     this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
-    this.beginTime = (new Date()).valueOf();
+    this.initWeaponInfo();
     //初始化血条状态
     this.initBar();
     Laya.timer.frameLoop(1, this, this.startParabola,[speed]);
@@ -133,6 +119,23 @@ export default class Weapon extends PaoYa.Component {
     this.originHP = this.curHP = this.weaponDurable;
     this.boxHpWeapon.visible = false;
     this.imgHpMask.width=this.originHpW;
+  }
+  initWeaponInfo(){
+     //暂时这么写  
+     if (this.isSelf) {
+      this.selfPlayerComp = GameControl.instance.selfPlayer.comp;
+      this.otherPlayerComp = GameControl.instance.otherPlayer.comp;
+      this.owner.scaleX = 1;
+      this.originX = 340;
+      this.originY = 450;
+    } else {
+      this.selfPlayerComp = GameControl.instance.otherPlayer.comp;
+      this.otherPlayerComp = GameControl.instance.selfPlayer.comp;
+      this.owner.scaleX = -1;
+      this.originX = 950;
+      this.originY = 450;
+    }
+    this.beginTime = (new Date()).valueOf();
   }
   changeHP(value) {
     this.boxHpWeapon.visible = true;
@@ -205,6 +208,17 @@ export default class Weapon extends PaoYa.Component {
     if(this.otherPlayerComp.dodge){
       console.error('无敌状态')
       return;
+    }
+    //如果roleId=4,会20%反弹兵器。不会受到暴击。
+    //let targetName=this.isSelf?'other':'self';
+    if(this.otherPlayerComp.attr.roleId==4){
+       let random=Math.ceil(Math.random()*100);
+       let reboundRate=this.selfPlayerComp.attr.skills[1].skillConfig.reboundRate;
+        if(random<=reboundRate){
+          console.error('触发反弹')
+          this.goBack();
+          return;
+        } 
     }
        //如果是roleId是2
     if(this.selfPlayerComp.attr.roleId==2){
@@ -291,6 +305,11 @@ export default class Weapon extends PaoYa.Component {
         }
     let acttackNum=Math.floor(this.weaponAttack*(selfStrength-otherBone)/otherStrength*selfCritHarm*skillHurtMulti);
     return acttackNum;
+  }
+  //兵器反弹
+  goBack(){
+    this.isSelf=!this.isSelf;
+    this.initWeaponInfo();
   }
   //根据抛物线的点求角度和计算矩形四个位置
   getDegreeByPos(x, y, newX, newY) {

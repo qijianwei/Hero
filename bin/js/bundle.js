@@ -335,6 +335,8 @@ var GameControl = function (_PaoYa$Component) {
     _createClass(GameControl, [{
         key: 'onAwake',
         value: function onAwake() {
+            var _this2 = this;
+
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -365,8 +367,7 @@ var GameControl = function (_PaoYa$Component) {
                 icon: 'remote/game/avstar_1.png'
             }, false);
             Laya.timer.once(5000, this, function () {
-                // Laya.timer.once(1000,this,this.startSelect); 
-
+                Laya.timer.once(1000, _this2, _this2.startSelect);
             });
             //机器人开始
 
@@ -457,7 +458,9 @@ var GameControl = function (_PaoYa$Component) {
             console.error(component.activeSkills);
 
             //component.attr.skillWeapon.params={};
-            component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
+            if (component.attr.skillWeapon) {
+                component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
+            }
             console.error(component.attr.skillWeapon);
             component.MPComp = this[name + 'MP'].getComponent(_MPBar2.default);
             component.HPComp = this[name + 'HP'].getComponent(_HPBar2.default);
@@ -535,7 +538,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this2 = this;
+            var _this3 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
@@ -557,7 +560,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this2[name + 'MultiMP'] = 1;
+                        _this3[name + 'MultiMP'] = 1;
                     });
                     break;
                 case 45:
@@ -567,7 +570,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(skillInfo) {
-            var _this3 = this;
+            var _this4 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -576,7 +579,7 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this3.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this4.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
             });
@@ -648,7 +651,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params, deltaT) {
-            var _this4 = this;
+            var _this5 = this;
 
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
@@ -664,8 +667,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this4.owner.addChild(weapon);
-                    _this4[name + 'Weapons'].push(weaponComp);
+                    _this5.owner.addChild(weapon);
+                    _this5[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -677,7 +680,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this5 = this;
+            var _this6 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -688,8 +691,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this5.owner.addChild(weapon);
-                    _this5.selfWeapons.push(weaponComp);
+                    _this6.owner.addChild(weapon);
+                    _this6.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1552,6 +1555,7 @@ var Player = function (_PaoYa$Component) {
       this.skeleton.on(Laya.Event.STOPPED, this, function () {
         Laya.MouseManager.enabled = true;
         if (_this2.HPComp.curHP <= 0) {
+          _this2.skeleton.playbackRate(1);
           return;
         }
         if (_this2.sectionAni == 1) {
@@ -1592,7 +1596,9 @@ var Player = function (_PaoYa$Component) {
       var url = "spine/hero/hero_1.sk";
       this.skeleton.load(url, Laya.Handler.create(this, function () {
         // this.skeleton.play('dizzy', true);
-        _this3.skeleton.play('stand', true);
+        //this.skeleton.play('stand', true)
+        _this3.skeleton.playbackRate(1);
+        _this3.skeleton.play('win', true);
       }));
     }
 
@@ -1689,6 +1695,7 @@ var Player = function (_PaoYa$Component) {
       this.boxAniPalsy.visible = true;
       //  this.HPComp.changeHP(value)
       this.aniPalsy.play(0, true);
+
       this.skeleton.play('dizzy', true);
       Laya.timer.once(dizzyTime, this, this.removeDizzy);
     }
@@ -1699,7 +1706,7 @@ var Player = function (_PaoYa$Component) {
       if (this.isSelf) {
         Laya.MouseManager.enabled = true;
       }
-      this.skeleton.stop();
+      this.skeleton.play('stand', true);
       this.boxAniPalsy.visible = false;
       this.aniPalsy.stop();
     }
@@ -1753,6 +1760,7 @@ var Player = function (_PaoYa$Component) {
     key: "removeDodge",
     value: function removeDodge() {
       this.owner.zOrder = 20;
+      this.sectionAni = 0;
       this.dodge = false;
       this.boxAniDodge.visible = false;
       this.aniDodge.stop();
@@ -2004,20 +2012,6 @@ var Weapon = function (_PaoYa$Component) {
 
       var speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
       console.error('速度....', speed);
-      //暂时这么写  
-      if (this.isSelf) {
-        this.selfPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
-        this.otherPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
-        this.owner.scaleX = 1;
-        this.originX = 340;
-        this.originY = 450;
-      } else {
-        this.selfPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
-        this.otherPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
-        this.owner.scaleX = -1;
-        this.originX = 950;
-        this.originY = 450;
-      }
 
       this.weaponPoint = [{
         x: Math.floor(this.originX - collideW / 2),
@@ -2049,7 +2043,7 @@ var Weapon = function (_PaoYa$Component) {
        * b = (y2+ a*x2*x2) / x2
        */
       this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
-      this.beginTime = new Date().valueOf();
+      this.initWeaponInfo();
       //初始化血条状态
       this.initBar();
       Laya.timer.frameLoop(1, this, this.startParabola, [speed]);
@@ -2061,6 +2055,25 @@ var Weapon = function (_PaoYa$Component) {
       this.originHP = this.curHP = this.weaponDurable;
       this.boxHpWeapon.visible = false;
       this.imgHpMask.width = this.originHpW;
+    }
+  }, {
+    key: 'initWeaponInfo',
+    value: function initWeaponInfo() {
+      //暂时这么写  
+      if (this.isSelf) {
+        this.selfPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
+        this.otherPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
+        this.owner.scaleX = 1;
+        this.originX = 340;
+        this.originY = 450;
+      } else {
+        this.selfPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
+        this.otherPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
+        this.owner.scaleX = -1;
+        this.originX = 950;
+        this.originY = 450;
+      }
+      this.beginTime = new Date().valueOf();
     }
   }, {
     key: 'changeHP',
@@ -2144,6 +2157,17 @@ var Weapon = function (_PaoYa$Component) {
         if (this.otherPlayerComp.dodge) {
           console.error('无敌状态');
           return;
+        }
+        //如果roleId=4,会20%反弹兵器。不会受到暴击。
+        //let targetName=this.isSelf?'other':'self';
+        if (this.otherPlayerComp.attr.roleId == 4) {
+          var random = Math.ceil(Math.random() * 100);
+          var reboundRate = this.selfPlayerComp.attr.skills[1].skillConfig.reboundRate;
+          if (random <= reboundRate) {
+            console.error('触发反弹');
+            this.goBack();
+            return;
+          }
         }
         //如果是roleId是2
         if (this.selfPlayerComp.attr.roleId == 2) {
@@ -2234,6 +2258,14 @@ var Weapon = function (_PaoYa$Component) {
       }
       var acttackNum = Math.floor(this.weaponAttack * (selfStrength - otherBone) / otherStrength * selfCritHarm * skillHurtMulti);
       return acttackNum;
+    }
+    //兵器反弹
+
+  }, {
+    key: 'goBack',
+    value: function goBack() {
+      this.isSelf = !this.isSelf;
+      this.initWeaponInfo();
     }
     //根据抛物线的点求角度和计算矩形四个位置
 

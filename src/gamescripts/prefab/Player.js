@@ -48,6 +48,7 @@ export default class Player extends PaoYa.Component {
     this.skeleton.on(Laya.Event.STOPPED, this, () => {
       Laya.MouseManager.enabled = true;
       if (this.HPComp.curHP <= 0) {
+        this.skeleton.playbackRate(1)
         return;
       }
       if(this.sectionAni==1){
@@ -86,6 +87,8 @@ export default class Player extends PaoYa.Component {
     this.skeleton.load(url, Laya.Handler.create(this, () => {
        // this.skeleton.play('dizzy', true);
         this.skeleton.play('stand', true)
+      /*   this.skeleton.playbackRate(1)
+        this.skeleton.play('win',true); */
     }))
   }
 
@@ -163,6 +166,7 @@ export default class Player extends PaoYa.Component {
     this.boxAniPalsy.visible = true;
   //  this.HPComp.changeHP(value)
     this.aniPalsy.play(0, true);
+   
     this.skeleton.play('dizzy', true);
     Laya.timer.once(dizzyTime, this, this.removeDizzy)
   }
@@ -171,7 +175,7 @@ export default class Player extends PaoYa.Component {
     if(this.isSelf){
       Laya.MouseManager.enabled=true;
     }
-    this.skeleton.stop();
+    this.skeleton.play('stand',true);
     this.boxAniPalsy.visible = false;
     this.aniPalsy.stop();
   }
@@ -210,6 +214,7 @@ export default class Player extends PaoYa.Component {
   }
   removeDodge(){
     this.owner.zOrder=20;
+    this.sectionAni=0;
     this.dodge=false;
     this.boxAniDodge.visible=false;
     this.aniDodge.stop();

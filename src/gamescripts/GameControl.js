@@ -52,7 +52,7 @@ export default class GameControl extends PaoYa.Component {
             icon: 'remote/game/avstar_1.png'
         }, false);
         Laya.timer.once(5000,this,()=>{
-             // Laya.timer.once(1000,this,this.startSelect); 
+             Laya.timer.once(1000,this,this.startSelect); 
          
         })
         //机器人开始
@@ -134,7 +134,9 @@ export default class GameControl extends PaoYa.Component {
         console.error(component.activeSkills)
 
         //component.attr.skillWeapon.params={};
-        component.attr.skillWeapon.activeSkill=component.attr.skillWeapon.skills[0];
+        if(component.attr.skillWeapon){
+            component.attr.skillWeapon.activeSkill=component.attr.skillWeapon.skills[0];
+        }  
         console.error(component.attr.skillWeapon)
         component.MPComp = this[name + 'MP'].getComponent(MPBar);
         component.HPComp = this[name + 'HP'].getComponent(HPBar);
