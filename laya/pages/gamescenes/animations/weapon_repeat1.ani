@@ -1,7 +1,7 @@
 {
+    "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":3,
     "searchKey":"View,weapon_repeat1",
     "props":{"sceneWidth":1334,"sceneHeight":750,"sceneColor":"#000000","name":"weapon_repeat1","blendMode":"lighter"},
     "nodeParent":-1,
@@ -14,9 +14,10 @@
     "compId":2,
     "child":[
         {
+            "x":15,
             "type":"GraphicNode",
             "searchKey":"GraphicNode,weapon_repeat1",
-            "props":{"y":0,"x":0,"width":73,"skin":"remote/weapon_effect/weapon_repeat/weapon_repeat1_00.png","pivotY":14,"pivotX":37,"name":"weapon_repeat1","height":27},
+            "props":{"y":0,"x":0,"width":73,"skin":"remote/weapon_effect/weapon_repeat/weapon_repeat1_00.png","pivotY":14,"pivotX":73,"name":"weapon_repeat1","height":27},
             "nodeParent":2,
             "label":"weapon_repeat1",
             "isDirectory":false,

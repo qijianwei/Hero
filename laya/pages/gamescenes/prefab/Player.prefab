@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Box",
-    "selectedBox":140,
-    "selecteID":142,
+    "selectedBox":132,
+    "selecteID":133,
     "searchKey":"Box",
     "props":{"y":250,"x":105,"width":210,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Player.prefab","isPresetRoot":true,"height":250,"anchorY":1,"anchorX":0.5},
     "nodeParent":-1,
@@ -204,13 +204,14 @@
             "props":{"zOrder":500,"y":113,"x":105,"visible":false,"presetID":16,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniHp"},
             "nodeParent":106,
             "label":"boxAniHp",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":132,
             "child":[
                 {
+                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation",
                     "props":{"source":"gamescenes/animations/recover_blood.ani","presetID":17,"preset":"laya/pages/gamescenes/prefab/Player.prefab","blendMode":"lighter"},

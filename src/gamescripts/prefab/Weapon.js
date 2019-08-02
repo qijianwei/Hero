@@ -1,28 +1,32 @@
 import GameControl from "../GameControl";
-
+var WeaponAniType;
+(function(WeaponAniType){
+    WeaponAniType[WeaponAniType["aniRepeat1"]=43]="aniRepeat1";
+    WeaponAniType[WeaponAniType["aniRepeat2"]=44]="aniRepeat2";
+    WeaponAniType[WeaponAniType["aniPoison1"]=45]="aniPoison1";
+    WeaponAniType[WeaponAniType["aniPoison2"]=46]="aniPoison2";
+    WeaponAniType[WeaponAniType["aniCrit1"]=47]="aniCrit1";
+    WeaponAniType[WeaponAniType["aniCrit2"]=48]="aniCrit2";
+  
+})(WeaponAniType||(WeaponAniType={}));
 export default class Weapon extends PaoYa.Component {
   /** @prop {name:imgWeapon,tips:"四个点",type:Node}*/
   /** @prop {name:boxAniWeapon,tips:"武器碰撞动效Box",type:Node}*/
   /** @prop {name:boxAniCollision,tips:"武器碰撞动效",type:Node}*/
   /** @prop {name:boxHpWeapon,tips:"武器的血条",type:Node}*/
   /** @prop {name:imgHpMask,tips:"武器血条mask",type:Node}*/
-  /** @prop {name:imgHp,tips:"武器血条图片",type:Node}*/
-   /** @prop {name:boxAniCrit1,tips:"致命特效box",type:Node}*/
+  /** @prop {name:imgHp,tips:"武器血条图片",type:Node}*/ 
    /** @prop {name:aniCrit1,tips:"致命特效",type:Node}*/
-   /** @prop {name:boxAniCrit2,tips:"诛心特效box",type:Node}*/
    /** @prop {name:aniCrit2,tips:"诛心特效",type:Node}*/
-   /** @prop {name:boxAniPoison1,tips:"浸毒特效box",type:Node}*/
    /** @prop {name:aniPoison1,tips:"浸毒特效",type:Node}*/
-    /** @prop {name:boxAniPoison2,tips:"奇毒特效box",type:Node}*/
    /** @prop {name:aniPoison2,tips:"奇毒特效",type:Node}*/
-    /** @prop {name:boxAniRepeat1,tips:"双刃特效box",type:Node}*/
    /** @prop {name:aniRepeat1,tips:"双刃特效",type:Node}*/
-    /** @prop {name:boxAniRepeat2,tips:"影刃特效box",type:Node}*/
    /** @prop {name:aniRepeat2,tips:"影刃特效",type:Node}*/
+
   constructor() {
     super();
     this.pathsCurvature = [0, 0, 0.0012, 0.0025,0.006];
-    this.speedsArr=[0,680/60,680/80,680/100,680/100]
+    this.speedsArr=[0,680/100,680/80,680/100,680/100]
   }
   onAwake() {
     // console.error("进来几次")
@@ -65,16 +69,17 @@ export default class Weapon extends PaoYa.Component {
        
     this.imgWeapon.pivot(imgW / 2, imgH / 2);//图片的位置
     let  x=this.imgWeapon.x,
-         y=this.imgWeapon.y;
+         y=this.imgWeapon.y,
+         skillX=-Math.floor(imgW/2);
     this.boxAniWeapon.pos(x, y);//碰撞动效的位置
-    this.boxAniPoison1.pos(x,y);
-    this.boxAniPoison2.pos(x,y);
-    this.boxAniCrit1.pos(x,y);
-    this.boxAniCrit2.pos(x,y);
-    this.boxAniRepeat1.pos(x,y);
-    this.boxAniRepeat2.pos(x,y);
+    this.aniPoison1.pos(x,y);
+    this.aniPoison2.pos(skillX,y);
+  //  this.boxAniCrit1.pos(x,y);
+    this.aniCrit1.pos(x,y);
+    this.aniCrit2.pos(skillX+5,y);
+    this.aniRepeat1.pos(skillX+5,y);
+    this.aniRepeat2.pos(skillX+5,y);
     /* this.aniPoison1.play(0,true); */
-
     this.collideSp.size(Math.floor(imgW * 0.2), imgH);
     let collideW = this.collideSp.width,
         collideH = this.collideSp.height;
@@ -83,8 +88,9 @@ export default class Weapon extends PaoYa.Component {
 
     this.collideSp.pivot(collideW / 2, collideH / 2);
     this.collideSp.pos(imgW / 2, imgH / 2);
-    this.collideSp.graphics.clear();
-    this.collideSp.graphics.drawRect(0, 0, collideW, collideH, '#ff0000');
+    //碰撞区域画图显示
+    /* this.collideSp.graphics.clear();
+    this.collideSp.graphics.drawRect(0, 0, collideW, collideH, '#ff0000'); */
 
     this.newX = 0;
     this.newY = 0;
@@ -133,6 +139,7 @@ export default class Weapon extends PaoYa.Component {
     this.initWeaponInfo();
     //初始化血条状态
     this.initBar();
+    this.initSkillEffect();//兵器技能特效
     Laya.timer.frameLoop(1, this, this.startParabola,[speed]);
   }
   initBar() {
@@ -140,6 +147,24 @@ export default class Weapon extends PaoYa.Component {
     this.originHP = this.curHP = this.weaponDurable;
     this.boxHpWeapon.visible = false;
     this.imgHpMask.width=this.originHpW;
+  }
+  initSkillEffect(){
+    if(this.params.skillEffect){
+      let skillId=this.params.activeSkill.skillId;
+      if(WeaponAniType[skillId]){
+         this[WeaponAniType[skillId]].visible=true;
+         this[WeaponAniType[skillId]].play(0,true);
+      }
+    }
+  }
+  stopSkillEffect(){
+    if(this.params.skillEffect){
+      let skillId=this.params.activeSkill.skillId;
+      if(WeaponAniType[skillId]){
+         this[WeaponAniType[skillId]].visible=false;
+         this[WeaponAniType[skillId]].stop();
+      }
+    }
   }
   initWeaponInfo(){
      //暂时这么写  
@@ -430,6 +455,8 @@ export default class Weapon extends PaoYa.Component {
     this.boxAniWeapon.visible = true;
     this.effectAni = true;
     // this.imgWeapon.visible=false;
+    //兵器上带技能的隐藏
+    this.stopSkillEffect();
     this.stopParabola();
     this.tween.to(this.imgWeapon, {
       scaleX: 1.5,
@@ -500,6 +527,7 @@ export default class Weapon extends PaoYa.Component {
     return true;
   }
   endMove() {
+    this.stopSkillEffect();
     this.stopParabola();
     this.owner.removeSelf();
     GameControl.instance.removeWeapon(this);

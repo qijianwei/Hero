@@ -25,23 +25,23 @@ export default class GameControl extends PaoYa.Component {
 
         this.params = this.owner.params;
         //暂定
-        this.gameType="pass";
-        this.passNum=1;
-        
+        this.gameType = "pass";
+        this.passNum = 1;
+
         this.weaponList = this.params.weaponList;
         this.robotWeaponList = this.params.robotWeaponList;
         this.dealParams(this.weaponList)
         this.dealParams(this.robotWeaponList)
-      
 
-        this.selfMultiMP=1;//兵器造成的内力消耗倍数
-        this.otherMultiMP=1;//兵器造成的内力消耗倍数
+
+        this.selfMultiMP = 1; //兵器造成的内力消耗倍数
+        this.otherMultiMP = 1; //兵器造成的内力消耗倍数
         this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；
 
         //暂时这么用;可能要用全局状态管理器
         this.selfWeapons = [];
         this.otherWeapons = [];
-        this.dodgeComp=this.owner.dodge.getComponent(Dodge);
+        this.dodgeComp = this.owner.dodge.getComponent(Dodge);
         this.initWeaponsBar();
         this.initPlayer(true);
         this.initPlayer(false);
@@ -54,13 +54,13 @@ export default class GameControl extends PaoYa.Component {
             name: '阿强',
             icon: 'remote/game/avstar_1.png'
         }, false);
-        Laya.timer.once(5000,this,()=>{
-             Laya.timer.once(1000,this,this.startSelect); 
-         
+        Laya.timer.once(5000, this, () => {
+            // Laya.timer.once(1000,this,this.startSelect); 
+
         })
         //机器人开始
-        
-       
+
+
     }
     dealParams(weaponList) {
         for (var i = 0; i < weaponList.length; i++) {
@@ -75,7 +75,7 @@ export default class GameControl extends PaoYa.Component {
     }
     onClick(e) {
         switch (e.target.name) {
-           
+
             case 'skill1':
                 this.skillWithWeapon(true);
                 break;
@@ -104,13 +104,13 @@ export default class GameControl extends PaoYa.Component {
             let weaponBarComp = weaponBar.getComponent(WeaponBar);
             weaponBarComp.params = this.weaponList[i];
             weaponBarComp.isSelf = true;
-            weaponBarComp.index=i;
+            weaponBarComp.index = i;
             this.weaponsBarArr.push(weaponBarComp);
             boxWeapon.addChild(weaponBar)
         }
         //初始化机器人的兵器
         //console.log(this.weaponsBarArr);
-        this.weaponManager=new WeaponManager(this.robotWeaponList);
+        this.weaponManager = new WeaponManager(this.robotWeaponList);
     }
     initPlayer(isSelf) {
         let name = isSelf ? 'self' : 'other';
@@ -124,12 +124,12 @@ export default class GameControl extends PaoYa.Component {
 
         //let playerScr=player.getComponent(Player)
         let component = player.getComponent(Player);
-        component.isSelf=isSelf;
+        component.isSelf = isSelf;
         component.attr = this.params[role];
-        component.activeSkills=[];
+        component.activeSkills = [];
         //把人物主动技能挑选出来
-        for(let i=0,len=this.params[role].skills.length;i<len;i++){
-            if(this.params[role].skills[i].skillType==1){
+        for (let i = 0, len = this.params[role].skills.length; i < len; i++) {
+            if (this.params[role].skills[i].skillType == 1) {
                 component.activeSkills.push(this.params[role].skills[i]);
             }
         }
@@ -137,9 +137,9 @@ export default class GameControl extends PaoYa.Component {
         console.error(component.activeSkills)
 
         //component.attr.skillWeapon.params={};
-        if(component.attr.skillWeapon){
-            component.attr.skillWeapon.activeSkill=component.attr.skillWeapon.skills[0];
-        }  
+        if (component.attr.skillWeapon) {
+            component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
+        }
         console.error(component.attr.skillWeapon)
         component.MPComp = this[name + 'MP'].getComponent(MPBar);
         component.HPComp = this[name + 'HP'].getComponent(HPBar);
@@ -171,97 +171,98 @@ export default class GameControl extends PaoYa.Component {
             comp: component
         }
     }
-    initSkill(){
-       let owner=this.owner;
-       let time1=this.selfPlayer.comp.activeSkills[0].skillCd*1000;
-       let time2=this.selfPlayer.comp.activeSkills[1].skillCd*1000;
-       this.skillScrO=owner.skill1.getComponent(Skill);
-       this.skillScrT=owner.skill2.getComponent(Skill);
-       this.skillScrO.initCdTime(time1);
-       this.skillScrT.initCdTime(time2);
-       /* owenr.skill1.index=1;
-       owenr.skill2.index=2; */
-      // this.skillScrO.
+    initSkill() {
+        let owner = this.owner;
+        let time1 = this.selfPlayer.comp.activeSkills[0].skillCd * 1000;
+        let time2 = this.selfPlayer.comp.activeSkills[1].skillCd * 1000;
+        this.skillScrO = owner.skill1.getComponent(Skill);
+        this.skillScrT = owner.skill2.getComponent(Skill);
+        this.skillScrO.initCdTime(time1);
+        this.skillScrT.initCdTime(time2);
+        /* owenr.skill1.index=1;
+        owenr.skill2.index=2; */
+        // this.skillScrO.
     }
-    skillWithWeapon(isSelf){
-        let name=isSelf ? 'self' : 'other';
-        let roleComp=this[name+'Player'].comp,skillWeapon=JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
-        let originMP=roleComp.MPComp.originMP;
-        let consumeMP=skillWeapon.weaponConsume*originMP;
+    skillWithWeapon(isSelf) {
+        let name = isSelf ? 'self' : 'other';
+        let roleComp = this[name + 'Player'].comp,
+            skillWeapon = JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
+        let originMP = roleComp.MPComp.originMP;
+        let consumeMP = skillWeapon.weaponConsume * originMP;
         if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
             console.warn(name + 'Player' + "__体力不足");
             return;
         }
-        
-        skillWeapon.isSelf=isSelf;
+
+        skillWeapon.isSelf = isSelf;
         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
-        skillWeapon.skillEffect=true;
-        switch(skillWeapon.activeSkill.skillId){
-           case 88:
-               let addCritProb=skillWeapon.activeSkill.skillConfig.critProb;
-               this[name + 'Player'].comp.attr.calcCritProb=this[name + 'Player'].comp.attr.roleCritProb+addCritProb;
-               break;
-           case 89:
-               break;
-           case 90:
-               break;
+        skillWeapon.skillEffect = true;
+        switch (skillWeapon.activeSkill.skillId) {
+            case 88:
+                let addCritProb = skillWeapon.activeSkill.skillConfig.critProb;
+                this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb + addCritProb;
+                break;
+            case 89:
+                break;
+            case 90:
+                break;
         }
-       
+
         this.weaponLaunch(skillWeapon);
 
     }
-    skillWithoutWeapon(isSelf){
-       let name=isSelf?'self':'other';
-       let skillInfo=this[name+'Player'].comp.activeSkills[1];
-       switch(skillInfo.skillId){
-           case 33:
-               this.allWeaponsUnfreeze(skillInfo);
-               break;
-           case 36:
-               let t=skillInfo.skillConfig.time,
-                  perMP=skillInfo.skillConfig.recoverMp,
-                  originHP=this[name+'Player'].comp.HPComp.originHP,
-                  resumeHP=skillInfo.skillConfig.recoverHp;
-               this[name+'Player'].comp.changePerMp(t,perMP);
-               this[name+'Player'].comp.HPComp.changeHP(originHP*resumeHP);
-               break;
+    skillWithoutWeapon(isSelf) {
+        let name = isSelf ? 'self' : 'other';
+        let skillInfo = this[name + 'Player'].comp.activeSkills[1];
+        switch (skillInfo.skillId) {
+            case 33:
+                this.allWeaponsUnfreeze(skillInfo);
+                break;
+            case 36:
+                let t = skillInfo.skillConfig.time,
+                    perMP = skillInfo.skillConfig.recoverMp,
+                    originHP = this[name + 'Player'].comp.HPComp.originHP,
+                    resumeHP = skillInfo.skillConfig.recoverHp;
+                this[name + 'Player'].comp.changePerMp(t, perMP);
+                this[name + 'Player'].comp.HPComp.changeHP(originHP * resumeHP);
+                break;
             case 39:
                 /* this[name+'Player'].comp.changePerMp(); */
-                this[name+'MultiMP']=skillInfo.skillConfig.consumeMp;
-                console.error('内力消耗倍数:',skillInfo.skillConfig.consumeMp)
-                Laya.timer.once(skillInfo.skillConfig.time*1000,this,()=>{
+                this[name + 'MultiMP'] = skillInfo.skillConfig.consumeMp;
+                console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp)
+                Laya.timer.once(skillInfo.skillConfig.time * 1000, this, () => {
                     console.error('内力消耗倍数恢复:')
-                    this[name+'MultiMP']=1;
+                    this[name + 'MultiMP'] = 1;
                 })
                 break;
-           case 45:
-               break; 
-       }
+            case 45:
+                break;
+        }
 
     }
-    allWeaponsUnfreeze(skillInfo){
-       let time=skillInfo.skillConfig.time*1000;
-       this.weaponsBarArr.forEach((weaponBarComp)=>{
-          weaponBarComp.endCD();//探讨要不要
-          weaponBarComp.setCdTime(0)
-       })
-      
-       Laya.timer.once(time,this,()=>{
-           this.weaponsBarArr.forEach((weaponBarComp)=>{
-              weaponBarComp.setCdTime(weaponBarComp.originCdTime)
-           })
-       })
+    allWeaponsUnfreeze(skillInfo) {
+        let time = skillInfo.skillConfig.time * 1000;
+        this.weaponsBarArr.forEach((weaponBarComp) => {
+            weaponBarComp.endCD(); //探讨要不要
+            weaponBarComp.setCdTime(0)
+        })
+
+        Laya.timer.once(time, this, () => {
+            this.weaponsBarArr.forEach((weaponBarComp) => {
+                weaponBarComp.setCdTime(weaponBarComp.originCdTime)
+            })
+        })
     }
-    startSelect(){
-        let sWeapon=this.weaponManager.seletedWeapon();
-        let curMp=this.otherPlayer.comp.MPComp.curMP;
-        if(curMp>=sWeapon.params.weaponConsume){
-            sWeapon.isSelf=false;
+    startSelect() {
+        let sWeapon = this.weaponManager.seletedWeapon();
+        let curMp = this.otherPlayer.comp.MPComp.curMP;
+        if (curMp >= sWeapon.params.weaponConsume) {
+            sWeapon.isSelf = false;
             sWeapon.selectedHandler();
             this.weaponBarClickHandler(sWeapon);
-            Laya.timer.once(2000,this,this.startSelect);
-        }else{
-            Laya.timer.once(500,this,this.startSelect);
+            Laya.timer.once(2000, this, this.startSelect);
+        } else {
+            Laya.timer.once(500, this, this.startSelect);
         }
     }
     //兵器点击后我方表现
@@ -273,30 +274,105 @@ export default class GameControl extends PaoYa.Component {
             console.warn(name + 'Player' + "__体力不足");
             return;
         }
-     
-        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP*this[name+'MultiMP']);
+
+        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
         //人物表现
-        if(this.isSelf){console.error('用户发射武器........')}
+        if (this.isSelf) {
+            console.error('用户发射武器........')
+        }
         this[name + 'Player'].comp.attackEffect();
-        this[name + 'Player'].comp.attr.calcCritProb=this[name + 'Player'].comp.attr.roleCritProb;
+        this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb;
         //判断是否触发兵器技能
         let skill = targetComp.params.activeSkill;
         let skillType = skill.skillType,
             status = skill.status,
             skillId = skill.skillId,
             prob = skill.skillProb;
-
+        //测试用例
+        if (targetComp.isSelf && targetComp.params.weaponType == 2) {
+            let testId=48;
+            let tempArr=[{
+                skillId:43,
+                weaponId:['d001_1',"d005_2","d007_2","d008_2","d009_2","d011_2","d012_2"].randomItem
+            },{
+                skillId:44,
+                weaponId:"d013_3"
+            },{
+                skillId:45,
+                weaponId:"d009_2"
+            },{
+               skillId:46,
+               weaponId:"d014_3"
+            },{
+               skillId:47,
+               weaponId:"d006_2"
+            },{
+              skillId:48,
+              weaponId:"d006_2"
+            },{
+                skillId:49,
+                weaponId:"z009_2"
+            }];
+            let tempWeaponInfo={};
+            for(let i=0;i<tempArr.length;i++){
+                if(testId==tempArr[i].skillId){
+                    tempWeaponInfo=tempArr[i];
+                    break;
+                }
+            };
+            /* skill.skillId = [43, 44, 45, 46, 47, 48].randomItem;
+            skill.skillId=47;
+            targetComp.params.weaponId="d015_3" 48
+            targetComp.params.weaponId= "d006_2"; */
+           let {skillId,weaponId}=tempWeaponInfo;
+            skill.skillId=skillId;
+            targetComp.params.weaponId=weaponId;
+            console.error('释放特技:', skill.skillId)
+            switch (skill.skillId) {
+                case 43:
+                    skill.skillConfig = {
+                        weaponNum: 2
+                    }
+                    break;
+                case 44:
+                    skill.skillConfig = {
+                        weaponNum: 3
+                    }
+                    break;
+                case 45:
+                    skill.skillConfig = {
+                        poison: "6-60"
+                    };
+                    break;
+                case 46:
+                    skill.skillConfig = {
+                        poison: "6-210"
+                    };
+                    break;
+                case 47:
+                    skill.skillConfig = {
+                        hurt: 3
+                    };
+                    break;
+                case 48:
+                    skill.skillConfig = {
+                        poison: 5
+                    };
+                    break;
+                    
+            }
+        }
         let params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
         params.skillEffect = false;
-        params.isSelf=targetComp.isSelf;
+        params.isSelf = targetComp.isSelf;
         if (skillType == 1 && status == 1) {
             let random = Math.floor(Math.random() * 100 + 1);
-            if (random <= prob) {
+            if (random <= 100) {
                 /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                 if (skillId == 58) {
                     targetComp.startT(200); //快速冷却     
                 } else {
-                     //正常开始技能冷却
+                    //正常开始技能冷却
                     targetComp.startT();
                 }
                 this.weaponWithSkills(params, skillId);
@@ -305,31 +381,31 @@ export default class GameControl extends PaoYa.Component {
                 console.warn('不好意思,没有触发技能')
             }
         }
-         //正常开始技能冷却
-       targetComp.startT();
-       this.weaponLaunch(params);
+        //正常开始技能冷却
+        targetComp.startT();
+        this.weaponLaunch(params);
     }
-    weaponLaunch(params, deltaT){
-        let name=params.isSelf?'self':'other';
+    weaponLaunch(params, deltaT) {
+        let name = params.isSelf ? 'self' : 'other';
         let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
         let weaponComp = weapon.getComponent(Weapon);
         weapon.params = params;
         weaponComp.isSelf = params.isSelf;
-        if(params.isSelf){
+        if (params.isSelf) {
             weapon.pos(340, 450)
-        }else{
+        } else {
             weapon.pos(953, 450);
         }
-       
+
         //暂定
         if (deltaT) {
             Laya.timer.once(deltaT, this, () => {
                 this.owner.addChild(weapon);
-                this[name+'Weapons'].push(weaponComp);
+                this[name + 'Weapons'].push(weaponComp);
             });
         } else {
             this.owner.addChild(weapon);
-            this[name+'Weapons'].push(weaponComp);
+            this[name + 'Weapons'].push(weaponComp);
         }
     }
     //以下下是正常点击发射
@@ -384,8 +460,8 @@ export default class GameControl extends PaoYa.Component {
                 //造成几倍伤害 兵器前方加气流
             case 47:
             case 48:
-               // params.weaponAttack = params.weaponAttack * hurt;
-               this.weaponLaunch(params);
+                // params.weaponAttack = params.weaponAttack * hurt;
+                this.weaponLaunch(params);
                 break;
                 //向上中路各发出1件兵器 几率12%
             case 51:
@@ -412,7 +488,7 @@ export default class GameControl extends PaoYa.Component {
             case 54:
             case 55:
             case 59:
-                this.weaponLaunch(params);   
+                this.weaponLaunch(params);
                 break;
             case 60:
                 params.weaponType = 4;
@@ -422,8 +498,8 @@ export default class GameControl extends PaoYa.Component {
             case 56:
             case 57:
             case 61:
-               // params.weaponAttack = params.weaponAttack * hurt;
-               this.weaponLaunch(params);
+                // params.weaponAttack = params.weaponAttack * hurt;
+                this.weaponLaunch(params);
                 break;
                 //兵器耐久提升100%
             case 62:
@@ -433,7 +509,7 @@ export default class GameControl extends PaoYa.Component {
 
         }
     }
-   
+
     removeWeapon(target) {
         let targetWeapons = target.isSelf ? this.selfWeapons : this.otherWeapons;
         for (let i = 0, len = targetWeapons.length; i < len; i++) {
@@ -446,10 +522,10 @@ export default class GameControl extends PaoYa.Component {
         console.log('删除后数组' + target.isSelf, targetWeapons)
     }
     //闪避技能
-    dodgeSkillShow(isSelf){
-      let name=isSelf?'self':'other';
-      console.error('闪避技能使用')
-      this[name+'Player'].comp.dodgeEffect();
+    dodgeSkillShow(isSelf) {
+        let name = isSelf ? 'self' : 'other';
+        console.error('闪避技能使用')
+        this[name + 'Player'].comp.dodgeEffect();
     }
     // 全局碰撞检测
     collisionDetection() {
@@ -457,17 +533,17 @@ export default class GameControl extends PaoYa.Component {
 
     }
     //关卡结束
-    passOver(){
+    passOver() {
 
     }
     gameOver(loserIsSelf) {
-        if(!loserIsSelf){
-            this.selfPlayer.comp.skeleton.play('win',true);
+        if (!loserIsSelf) {
+            this.selfPlayer.comp.skeleton.play('win', true);
         }
         Laya.timer.clearAll(this);
-         console.error('游戏结束');
+        console.error('游戏结束');
     }
-   onDestroy(){
-       Laya.timer.clearAll(this);
-   }
+    onDestroy() {
+        Laya.timer.clearAll(this);
+    }
 }

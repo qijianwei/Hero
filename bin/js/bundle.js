@@ -129,7 +129,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -340,8 +340,6 @@ var GameControl = function (_PaoYa$Component) {
     _createClass(GameControl, [{
         key: 'onAwake',
         value: function onAwake() {
-            var _this2 = this;
-
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -375,7 +373,8 @@ var GameControl = function (_PaoYa$Component) {
                 icon: 'remote/game/avstar_1.png'
             }, false);
             Laya.timer.once(5000, this, function () {
-                Laya.timer.once(1000, _this2, _this2.startSelect);
+                // Laya.timer.once(1000,this,this.startSelect); 
+
             });
             //机器人开始
 
@@ -546,7 +545,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this3 = this;
+            var _this2 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
@@ -568,7 +567,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this3[name + 'MultiMP'] = 1;
+                        _this2[name + 'MultiMP'] = 1;
                     });
                     break;
                 case 45:
@@ -578,7 +577,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(skillInfo) {
-            var _this4 = this;
+            var _this3 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -587,7 +586,7 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this4.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this3.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
             });
@@ -632,13 +631,89 @@ var GameControl = function (_PaoYa$Component) {
                 status = skill.status,
                 skillId = skill.skillId,
                 prob = skill.skillProb;
+            //测试用例
+            if (targetComp.isSelf && targetComp.params.weaponType == 2) {
+                var testId = 48;
+                var tempArr = [{
+                    skillId: 43,
+                    weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
+                }, {
+                    skillId: 44,
+                    weaponId: "d013_3"
+                }, {
+                    skillId: 45,
+                    weaponId: "d009_2"
+                }, {
+                    skillId: 46,
+                    weaponId: "d014_3"
+                }, {
+                    skillId: 47,
+                    weaponId: "d006_2"
+                }, {
+                    skillId: 48,
+                    weaponId: "d006_2"
+                }, {
+                    skillId: 49,
+                    weaponId: "z009_2"
+                }];
+                var tempWeaponInfo = {};
+                for (var i = 0; i < tempArr.length; i++) {
+                    if (testId == tempArr[i].skillId) {
+                        tempWeaponInfo = tempArr[i];
+                        break;
+                    }
+                };
+                /* skill.skillId = [43, 44, 45, 46, 47, 48].randomItem;
+                skill.skillId=47;
+                targetComp.params.weaponId="d015_3" 48
+                targetComp.params.weaponId= "d006_2"; */
+                var _tempWeaponInfo = tempWeaponInfo,
+                    _skillId = _tempWeaponInfo.skillId,
+                    weaponId = _tempWeaponInfo.weaponId;
 
+                skill.skillId = _skillId;
+                targetComp.params.weaponId = weaponId;
+                console.error('释放特技:', skill.skillId);
+                switch (skill.skillId) {
+                    case 43:
+                        skill.skillConfig = {
+                            weaponNum: 2
+                        };
+                        break;
+                    case 44:
+                        skill.skillConfig = {
+                            weaponNum: 3
+                        };
+                        break;
+                    case 45:
+                        skill.skillConfig = {
+                            poison: "6-60"
+                        };
+                        break;
+                    case 46:
+                        skill.skillConfig = {
+                            poison: "6-210"
+                        };
+                        break;
+                    case 47:
+                        skill.skillConfig = {
+                            hurt: 3
+                        };
+                        break;
+                    case 48:
+                        skill.skillConfig = {
+                            poison: 5
+                        };
+                        break;
+
+                }
+            }
             var params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
             params.skillEffect = false;
             params.isSelf = targetComp.isSelf;
             if (skillType == 1 && status == 1) {
                 var random = Math.floor(Math.random() * 100 + 1);
-                if (random <= prob) {
+                if (random <= 100) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     if (skillId == 58) {
                         targetComp.startT(200); //快速冷却     
@@ -659,7 +734,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params, deltaT) {
-            var _this5 = this;
+            var _this4 = this;
 
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
@@ -675,8 +750,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this5.owner.addChild(weapon);
-                    _this5[name + 'Weapons'].push(weaponComp);
+                    _this4.owner.addChild(weapon);
+                    _this4[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -688,7 +763,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this6 = this;
+            var _this5 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -699,8 +774,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this6.owner.addChild(weapon);
-                    _this6.selfWeapons.push(weaponComp);
+                    _this5.owner.addChild(weapon);
+                    _this5.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1953,7 +2028,7 @@ var Skill = function (_PaoYa$Component) {
 exports.default = Skill;
 
 },{}],15:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1961,7 +2036,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _GameControl = require('../GameControl');
+var _GameControl = require("../GameControl");
 
 var _GameControl2 = _interopRequireDefault(_GameControl);
 
@@ -1973,6 +2048,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var WeaponAniType;
+(function (WeaponAniType) {
+  WeaponAniType[WeaponAniType["aniRepeat1"] = 43] = "aniRepeat1";
+  WeaponAniType[WeaponAniType["aniRepeat2"] = 44] = "aniRepeat2";
+  WeaponAniType[WeaponAniType["aniPoison1"] = 45] = "aniPoison1";
+  WeaponAniType[WeaponAniType["aniPoison2"] = 46] = "aniPoison2";
+  WeaponAniType[WeaponAniType["aniCrit1"] = 47] = "aniCrit1";
+  WeaponAniType[WeaponAniType["aniCrit2"] = 48] = "aniCrit2";
+})(WeaponAniType || (WeaponAniType = {}));
+
 var Weapon = function (_PaoYa$Component) {
   _inherits(Weapon, _PaoYa$Component);
 
@@ -1982,22 +2067,25 @@ var Weapon = function (_PaoYa$Component) {
   /** @prop {name:boxHpWeapon,tips:"武器的血条",type:Node}*/
   /** @prop {name:imgHpMask,tips:"武器血条mask",type:Node}*/
   /** @prop {name:imgHp,tips:"武器血条图片",type:Node}*/
-  /** @prop {name:boxAniCrit1,tips:"致命特效box",type:Node}*/
   /** @prop {name:aniCrit1,tips:"致命特效",type:Node}*/
-  /** @prop {name:boxAniPoison1,tips:"浸毒特效box",type:Node}*/
+  /** @prop {name:aniCrit2,tips:"诛心特效",type:Node}*/
   /** @prop {name:aniPoison1,tips:"浸毒特效",type:Node}*/
+  /** @prop {name:aniPoison2,tips:"奇毒特效",type:Node}*/
+  /** @prop {name:aniRepeat1,tips:"双刃特效",type:Node}*/
+  /** @prop {name:aniRepeat2,tips:"影刃特效",type:Node}*/
+
   function Weapon() {
     _classCallCheck(this, Weapon);
 
     var _this = _possibleConstructorReturn(this, (Weapon.__proto__ || Object.getPrototypeOf(Weapon)).call(this));
 
     _this.pathsCurvature = [0, 0, 0.0012, 0.0025, 0.006];
-    _this.speedsArr = [0, 680 / 60, 680 / 80, 680 / 100, 680 / 100];
+    _this.speedsArr = [0, 680 / 100, 680 / 80, 680 / 100, 680 / 100];
     return _this;
   }
 
   _createClass(Weapon, [{
-    key: 'onAwake',
+    key: "onAwake",
     value: function onAwake() {
       // console.error("进来几次")
       this.tween = new Laya.Tween();
@@ -2014,7 +2102,7 @@ var Weapon = function (_PaoYa$Component) {
     //可能执行多次
 
   }, {
-    key: 'onEnable',
+    key: "onEnable",
     value: function onEnable() {
       this.params = this.owner.params;
 
@@ -2031,17 +2119,26 @@ var Weapon = function (_PaoYa$Component) {
       this.boxAniWeapon.visible = false;
 
       //武器图片 
-      this.imgWeapon.skin = 'remote/weapons/' + this.params.weaponId + '.png';
+      this.imgWeapon.skin = "remote/weapons/" + this.params.weaponId + ".png";
       this.weaponAttack = this.params.weaponAttack; //武器攻击力
       this.weaponDurable = this.params.weaponDurable;
       this.owner.zOrder = 100 - this.weaponDurable;
       var imgW = this.imgWeapon.width,
           imgH = this.imgWeapon.height;
-      this.imgWeapon.pivot(imgW / 2, imgH / 2); //图片的位置
-      this.boxAniWeapon.pos(this.imgWeapon.x, this.imgWeapon.y); //碰撞动效的位置
-      this.boxAniPoison1.pos(this.imgWeapon.x, this.imgWeapon.y);
-      this.aniPoison1.play(0, true);
 
+      this.imgWeapon.pivot(imgW / 2, imgH / 2); //图片的位置
+      var x = this.imgWeapon.x,
+          y = this.imgWeapon.y,
+          skillX = -Math.floor(imgW / 2);
+      this.boxAniWeapon.pos(x, y); //碰撞动效的位置
+      this.aniPoison1.pos(x, y);
+      this.aniPoison2.pos(skillX, y);
+      //  this.boxAniCrit1.pos(x,y);
+      this.aniCrit1.pos(x, y);
+      this.aniCrit2.pos(skillX + 5, y);
+      this.aniRepeat1.pos(skillX + 5, y);
+      this.aniRepeat2.pos(skillX + 5, y);
+      /* this.aniPoison1.play(0,true); */
       this.collideSp.size(Math.floor(imgW * 0.2), imgH);
       var collideW = this.collideSp.width,
           collideH = this.collideSp.height;
@@ -2050,8 +2147,9 @@ var Weapon = function (_PaoYa$Component) {
 
       this.collideSp.pivot(collideW / 2, collideH / 2);
       this.collideSp.pos(imgW / 2, imgH / 2);
-      this.collideSp.graphics.clear();
-      this.collideSp.graphics.drawRect(0, 0, collideW, collideH, '#ff0000');
+      //碰撞区域画图显示
+      /* this.collideSp.graphics.clear();
+      this.collideSp.graphics.drawRect(0, 0, collideW, collideH, '#ff0000'); */
 
       this.newX = 0;
       this.newY = 0;
@@ -2100,10 +2198,11 @@ var Weapon = function (_PaoYa$Component) {
       this.initWeaponInfo();
       //初始化血条状态
       this.initBar();
+      this.initSkillEffect(); //兵器技能特效
       Laya.timer.frameLoop(1, this, this.startParabola, [speed]);
     }
   }, {
-    key: 'initBar',
+    key: "initBar",
     value: function initBar() {
       this.originHpW = this.imgHp.width;
       this.originHP = this.curHP = this.weaponDurable;
@@ -2111,7 +2210,29 @@ var Weapon = function (_PaoYa$Component) {
       this.imgHpMask.width = this.originHpW;
     }
   }, {
-    key: 'initWeaponInfo',
+    key: "initSkillEffect",
+    value: function initSkillEffect() {
+      if (this.params.skillEffect) {
+        var skillId = this.params.activeSkill.skillId;
+        if (WeaponAniType[skillId]) {
+          this[WeaponAniType[skillId]].visible = true;
+          this[WeaponAniType[skillId]].play(0, true);
+        }
+      }
+    }
+  }, {
+    key: "stopSkillEffect",
+    value: function stopSkillEffect() {
+      if (this.params.skillEffect) {
+        var skillId = this.params.activeSkill.skillId;
+        if (WeaponAniType[skillId]) {
+          this[WeaponAniType[skillId]].visible = false;
+          this[WeaponAniType[skillId]].stop();
+        }
+      }
+    }
+  }, {
+    key: "initWeaponInfo",
     value: function initWeaponInfo() {
       //暂时这么写  
       if (this.isSelf) {
@@ -2130,7 +2251,7 @@ var Weapon = function (_PaoYa$Component) {
       this.beginTime = new Date().valueOf();
     }
   }, {
-    key: 'changeHP',
+    key: "changeHP",
     value: function changeHP(value) {
       this.boxHpWeapon.visible = true;
 
@@ -2149,7 +2270,7 @@ var Weapon = function (_PaoYa$Component) {
     //开始抛物线运动
 
   }, {
-    key: 'startParabola',
+    key: "startParabola",
     value: function startParabola(speed) {
       var now = new Date().valueOf();
       var x = void 0,
@@ -2162,7 +2283,7 @@ var Weapon = function (_PaoYa$Component) {
       this.doMove(x, y, curAngle);
     }
   }, {
-    key: 'stopParabola',
+    key: "stopParabola",
     value: function stopParabola() {
       console.log("清除定时器");
       Laya.timer.clear(this, this.startParabola);
@@ -2170,7 +2291,7 @@ var Weapon = function (_PaoYa$Component) {
     //运动
 
   }, {
-    key: 'doMove',
+    key: "doMove",
     value: function doMove(x, y, curAngle) {
       if (this.isSelf) {
         this.newX = this.originX + x;
@@ -2293,7 +2414,7 @@ var Weapon = function (_PaoYa$Component) {
     */
 
   }, {
-    key: 'calcAttackNum',
+    key: "calcAttackNum",
     value: function calcAttackNum(skillEffect) {
       var randomNum = Math.floor(Math.random() * 100 + 1);
       console.error('暴击百分比', this.selfPlayerComp.attr.calcCritProb);
@@ -2316,7 +2437,7 @@ var Weapon = function (_PaoYa$Component) {
     //兵器反弹
 
   }, {
-    key: 'goBack',
+    key: "goBack",
     value: function goBack() {
       this.isSelf = !this.isSelf;
       this.initWeaponInfo();
@@ -2324,14 +2445,14 @@ var Weapon = function (_PaoYa$Component) {
     //根据抛物线的点求角度和计算矩形四个位置
 
   }, {
-    key: 'getDegreeByPos',
+    key: "getDegreeByPos",
     value: function getDegreeByPos(x, y, newX, newY) {
       var ratio = 2 * this.curvature * x + this.b;
       var degree = Math.round(180 * Math.atan(ratio) / Math.PI);
       return degree;
     }
   }, {
-    key: 'refreshWeaponPoint',
+    key: "refreshWeaponPoint",
     value: function refreshWeaponPoint(newX, newY) {
       var ratio = this.imgWeapon.rotation * Math.PI / 360;;
       this.weaponPoint = this.CalcCoord(newX, newY, this.collideW, this.collideH, ratio);
@@ -2345,7 +2466,7 @@ var Weapon = function (_PaoYa$Component) {
     //根据旋转角度求   
 
   }, {
-    key: 'CalcCoord',
+    key: "CalcCoord",
     value: function CalcCoord(centerX, centerY, rw, rh, radians) {
       var x1 = -rw / 2 + centerX,
           x2 = rw / 2 + centerX,
@@ -2379,7 +2500,7 @@ var Weapon = function (_PaoYa$Component) {
       }];
     }
   }, {
-    key: 'collideWithWeapon',
+    key: "collideWithWeapon",
     value: function collideWithWeapon() {
       //GameControl.instance.selfWeapons.forEach((weaponComp,index)=>{
       for (var i = 0; i < _GameControl2.default.instance.otherWeapons.length; i++) {
@@ -2425,13 +2546,15 @@ var Weapon = function (_PaoYa$Component) {
       //})
     }
   }, {
-    key: 'playWeaponCollideEffect',
+    key: "playWeaponCollideEffect",
     value: function playWeaponCollideEffect() {
       var _this2 = this;
 
       this.boxAniWeapon.visible = true;
       this.effectAni = true;
       // this.imgWeapon.visible=false;
+      //兵器上带技能的隐藏
+      this.stopSkillEffect();
       this.stopParabola();
       this.tween.to(this.imgWeapon, {
         scaleX: 1.5,
@@ -2444,7 +2567,7 @@ var Weapon = function (_PaoYa$Component) {
       this.boxAniCollision.play(0, false);
     }
   }, {
-    key: 'doPolygonsIntersect',
+    key: "doPolygonsIntersect",
     value: function doPolygonsIntersect(a, b) {
       var polygons = [a, b];
       var minA, maxA, projected, i, i1, j, minB, maxB;
@@ -2504,19 +2627,20 @@ var Weapon = function (_PaoYa$Component) {
       return true;
     }
   }, {
-    key: 'endMove',
+    key: "endMove",
     value: function endMove() {
+      this.stopSkillEffect();
       this.stopParabola();
       this.owner.removeSelf();
       _GameControl2.default.instance.removeWeapon(this);
     }
   }, {
-    key: 'onDisable',
+    key: "onDisable",
     value: function onDisable() {
       Laya.Pool.recover("weapon", this.owner);
     }
   }, {
-    key: 'onDestroy',
+    key: "onDestroy",
     value: function onDestroy() {}
   }]);
 

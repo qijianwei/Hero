@@ -18,7 +18,7 @@
             "x":15,
             "type":"GraphicNode",
             "searchKey":"GraphicNode,weapon_repeat2",
-            "props":{"y":0,"x":0,"width":112,"skin":"remote/weapon_effect/weapon_repeat/weapon_repeat2_00.png","pivotY":28,"pivotX":56,"name":"weapon_repeat2","height":55},
+            "props":{"y":0,"x":0,"width":112,"skin":"remote/weapon_effect/weapon_repeat/weapon_repeat2_00.png","pivotY":28,"pivotX":112,"name":"weapon_repeat2","height":55},
             "nodeParent":2,
             "label":"weapon_repeat2",
             "isDirectory":false,
