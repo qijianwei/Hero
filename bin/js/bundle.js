@@ -129,7 +129,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -340,6 +340,8 @@ var GameControl = function (_PaoYa$Component) {
     _createClass(GameControl, [{
         key: 'onAwake',
         value: function onAwake() {
+            var _this2 = this;
+
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -373,11 +375,48 @@ var GameControl = function (_PaoYa$Component) {
                 icon: 'remote/game/avstar_1.png'
             }, false);
             Laya.timer.once(5000, this, function () {
-                // Laya.timer.once(1000,this,this.startSelect); 
-
+                Laya.timer.once(1000, _this2, _this2.startSelect);
             });
             //机器人开始
 
+            //画出三条运动轨迹，便于调试
+            this.curvature = 0.0008;
+            this.drawParabola();
+            this.curvature = 0.0015;
+            this.drawParabola();
+        }
+    }, {
+        key: 'drawParabola',
+        value: function drawParabola() {
+            var space = 5;
+            var pathArr = [];
+            this.startPos = {
+                x: 180,
+                y: 450
+            };
+            this.endPos = {
+                x: 1150,
+                y: 450
+            };
+            pathArr.push(["moveTo", 0, 0]);
+
+            // X轴Y轴的偏移总量
+            this.driftX = this.endPos.x - this.startPos.x;
+            this.driftY = this.endPos.y - this.startPos.y;
+            this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
+            for (var i = 5; i <= this.driftX; i += space) {
+                var x = i;
+                var y = Math.floor(this.curvature * x * x + this.b * x);
+                pathArr.push(["lineTo", x, y]);
+            }
+            pathArr.push(["closePath"]);
+            // this.owner.spDraw.graphics.clear();
+            this.owner.spDraw.graphics.drawPath(this.startPos.x, this.startPos.y, pathArr, null, {
+                strokeStyle: "#ff0000",
+                lineWidth: 2,
+                lineCap: "round"
+            });
+            //this.owner.spDraw.graphics.drawPath(340,450,)
         }
     }, {
         key: 'dealParams',
@@ -545,7 +584,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this2 = this;
+            var _this3 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
@@ -567,7 +606,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this2[name + 'MultiMP'] = 1;
+                        _this3[name + 'MultiMP'] = 1;
                     });
                     break;
                 case 45:
@@ -577,7 +616,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(skillInfo) {
-            var _this3 = this;
+            var _this4 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -586,7 +625,7 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this3.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this4.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
             });
@@ -600,7 +639,7 @@ var GameControl = function (_PaoYa$Component) {
                 sWeapon.isSelf = false;
                 sWeapon.selectedHandler();
                 this.weaponBarClickHandler(sWeapon);
-                Laya.timer.once(2000, this, this.startSelect);
+                Laya.timer.once(5000, this, this.startSelect);
             } else {
                 Laya.timer.once(500, this, this.startSelect);
             }
@@ -713,7 +752,7 @@ var GameControl = function (_PaoYa$Component) {
             params.isSelf = targetComp.isSelf;
             if (skillType == 1 && status == 1) {
                 var random = Math.floor(Math.random() * 100 + 1);
-                if (random <= 100) {
+                if (random <= prob) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     if (skillId == 58) {
                         targetComp.startT(200); //快速冷却     
@@ -734,7 +773,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params, deltaT) {
-            var _this4 = this;
+            var _this5 = this;
 
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
@@ -742,16 +781,16 @@ var GameControl = function (_PaoYa$Component) {
             weapon.params = params;
             weaponComp.isSelf = params.isSelf;
             if (params.isSelf) {
-                weapon.pos(340, 450);
+                weapon.pos(280, 450);
             } else {
-                weapon.pos(953, 450);
+                weapon.pos(1050, 450);
             }
 
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this4.owner.addChild(weapon);
-                    _this4[name + 'Weapons'].push(weaponComp);
+                    _this5.owner.addChild(weapon);
+                    _this5[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -763,7 +802,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this5 = this;
+            var _this6 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -774,8 +813,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this5.owner.addChild(weapon);
-                    _this5.selfWeapons.push(weaponComp);
+                    _this6.owner.addChild(weapon);
+                    _this6.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1412,8 +1451,8 @@ var GameBanner = function (_PaoYa$Component) {
         value: function startCount() {
             var _this2 = this;
 
-            console.log(this.spGameStyle);
-            console.log(this.lblTime);
+            /*    console.log(this.spGameStyle)
+               console.log(this.lblTime) */
             var timerService = new PaoYa.TimerService(1000, 1, true);
             timerService.on(PaoYa.TimerService.PROGRESS, this, function (time) {
 
@@ -2154,11 +2193,11 @@ var Weapon = function (_PaoYa$Component) {
       this.newX = 0;
       this.newY = 0;
       this.startPos = {
-        x: 340,
+        x: 180,
         y: 450
       };
       this.endPos = {
-        x: 1100,
+        x: 1150,
         y: 450
       };
 
@@ -2239,13 +2278,13 @@ var Weapon = function (_PaoYa$Component) {
         this.selfPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
         this.otherPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
         this.owner.scaleX = 1;
-        this.originX = 340;
+        this.originX = 280;
         this.originY = 450;
       } else {
         this.selfPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
         this.otherPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
         this.owner.scaleX = -1;
-        this.originX = 950;
+        this.originX = 1050;
         this.originY = 450;
       }
       this.beginTime = new Date().valueOf();

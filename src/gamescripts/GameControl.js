@@ -55,11 +55,49 @@ export default class GameControl extends PaoYa.Component {
             icon: 'remote/game/avstar_1.png'
         }, false);
         Laya.timer.once(5000, this, () => {
-            // Laya.timer.once(1000,this,this.startSelect); 
+             Laya.timer.once(1000,this,this.startSelect); 
 
         })
         //机器人开始
 
+       //画出三条运动轨迹，便于调试
+       this.curvature = 0.0008;
+       this.drawParabola();
+       this.curvature=0.0015;
+       this.drawParabola();
+        
+    }
+    drawParabola(){ 
+        let space=5;
+        let pathArr=[];
+        this.startPos = {
+            x: 180,
+            y: 450
+          }
+          this.endPos = {
+            x: 1150,
+            y: 450
+          }
+           pathArr.push(["moveTo",0,0]);
+          
+ 
+    // X轴Y轴的偏移总量
+       this.driftX = this.endPos.x - this.startPos.x;
+       this.driftY = this.endPos.y - this.startPos.y;
+       this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
+       for(let i=5;i<=this.driftX;i+=space){
+         let x=i;
+         let y=Math.floor(this.curvature * x * x + this.b * x);
+         pathArr.push(["lineTo",x,y]);
+       }
+       pathArr.push(["closePath"]);
+      // this.owner.spDraw.graphics.clear();
+       this.owner.spDraw.graphics.drawPath(this.startPos.x,this.startPos.y,pathArr,null,{
+            strokeStyle:"#ff0000",
+            lineWidth:2,
+            lineCap:"round"
+        })
+        //this.owner.spDraw.graphics.drawPath(340,450,)
 
     }
     dealParams(weaponList) {
@@ -260,7 +298,7 @@ export default class GameControl extends PaoYa.Component {
             sWeapon.isSelf = false;
             sWeapon.selectedHandler();
             this.weaponBarClickHandler(sWeapon);
-            Laya.timer.once(2000, this, this.startSelect);
+            Laya.timer.once(5000, this, this.startSelect);
         } else {
             Laya.timer.once(500, this, this.startSelect);
         }
@@ -367,7 +405,7 @@ export default class GameControl extends PaoYa.Component {
         params.isSelf = targetComp.isSelf;
         if (skillType == 1 && status == 1) {
             let random = Math.floor(Math.random() * 100 + 1);
-            if (random <= 100) {
+            if (random <= prob) {
                 /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                 if (skillId == 58) {
                     targetComp.startT(200); //快速冷却     
@@ -392,9 +430,9 @@ export default class GameControl extends PaoYa.Component {
         weapon.params = params;
         weaponComp.isSelf = params.isSelf;
         if (params.isSelf) {
-            weapon.pos(340, 450)
+            weapon.pos(280, 450)
         } else {
-            weapon.pos(953, 450);
+            weapon.pos(1050, 450);
         }
 
         //暂定

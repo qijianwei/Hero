@@ -1,8 +1,7 @@
 {
     "x":0,
     "type":"Box",
-    "selectedBox":6,
-    "selecteID":96,
+    "selectedBox":12,
     "searchKey":"Box,boxAniWeapon",
     "props":{"y":-1,"x":0,"rotation":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniWeapon","isPresetRoot":true},
     "nodeParent":-1,

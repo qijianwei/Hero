@@ -95,11 +95,11 @@ export default class Weapon extends PaoYa.Component {
     this.newX = 0;
     this.newY = 0;
     this.startPos = {
-      x: 340,
+      x: 180,
       y: 450
     }
     this.endPos = {
-      x: 1100,
+      x: 1150,
       y: 450
     }
   
@@ -172,13 +172,13 @@ export default class Weapon extends PaoYa.Component {
       this.selfPlayerComp = GameControl.instance.selfPlayer.comp;
       this.otherPlayerComp = GameControl.instance.otherPlayer.comp;
       this.owner.scaleX = 1;
-      this.originX = 340;
+      this.originX = 280;
       this.originY = 450;
     } else {
       this.selfPlayerComp = GameControl.instance.otherPlayer.comp;
       this.otherPlayerComp = GameControl.instance.selfPlayer.comp;
       this.owner.scaleX = -1;
-      this.originX = 950;
+      this.originX = 1050;
       this.originY = 450;
     }
     this.beginTime = (new Date()).valueOf();
@@ -192,7 +192,7 @@ export default class Weapon extends PaoYa.Component {
       this.imgMask.width = 0;
       return;
     } else if (this.curHP > this.originHP) {
-      this.curHP = this.originHP;
+      this.curHP = this.originHP; 
     }
     let w = Math.floor(this.curHP / this.originHP * this.originHpW);
     this.imgHpMask.width = w;
