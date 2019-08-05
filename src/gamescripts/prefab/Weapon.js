@@ -40,7 +40,7 @@ export default class Weapon extends PaoYa.Component {
   constructor() {
     super();
     this.pathsCurvature = [0, 0,0.0008, 0.0015,0.0025];
-    this.speedsArr=[0,680/100,680/80,680/100,680/100]
+    this.speedsArr=[0,680/100,680/80,680/100,680/80]
   }
   onAwake() {
     this.tween = new Laya.Tween();
@@ -217,7 +217,7 @@ export default class Weapon extends PaoYa.Component {
 
     x = Math.floor((now - this.beginTime) * 0.06 * speed)+this.diffX;
     y = Math.floor(this.curvature * x * x + this.b * x);
-    curAngle = Math.floor(x / this.driftX * 360)
+    curAngle = Math.floor(x / this.driftX * 720)
     this.doMove(x, y, curAngle);
   }
   stopParabola() {

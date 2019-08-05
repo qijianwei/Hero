@@ -495,7 +495,7 @@ export default class GameControl extends PaoYa.Component {
         targetComp.startT();
         this.weaponLaunch(params);
     }
-    weaponLaunch(params, deltaT) {
+    weaponLaunch(params, deltaT=500) {
         let name = params.isSelf ? 'self' : 'other';
         let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
         let weaponComp = weapon.getComponent(Weapon);
@@ -564,7 +564,7 @@ export default class GameControl extends PaoYa.Component {
                 console.error("修改后的值:", params.weaponAttack)
                 this.weaponLaunch(params);
                 for (var i = 0; i < weaponNum - 1; i++) {
-                    this.weaponLaunch(params, 350);
+                    this.weaponLaunch(params);
                 }
                 break;
                 //造成几倍伤害 兵器前方加气流

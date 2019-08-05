@@ -129,7 +129,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -842,8 +842,10 @@ var GameControl = function (_PaoYa$Component) {
         }
     }, {
         key: 'weaponLaunch',
-        value: function weaponLaunch(params, deltaT) {
+        value: function weaponLaunch(params) {
             var _this4 = this;
+
+            var deltaT = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
 
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
@@ -922,7 +924,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error("修改后的值:", params.weaponAttack);
                     this.weaponLaunch(params);
                     for (var i = 0; i < weaponNum - 1; i++) {
-                        this.weaponLaunch(params, 350);
+                        this.weaponLaunch(params);
                     }
                     break;
                 //造成几倍伤害 兵器前方加气流
@@ -1840,7 +1842,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "attackEffect",
     value: function attackEffect() {
-      this.skeleton.playbackRate(2);
+      this.skeleton.playbackRate(1);
       this.skeleton.play("attack", false);
     }
     //受击打,所有武器碰到都有这效果
@@ -2204,7 +2206,7 @@ var Weapon = function (_PaoYa$Component) {
     var _this = _possibleConstructorReturn(this, (Weapon.__proto__ || Object.getPrototypeOf(Weapon)).call(this));
 
     _this.pathsCurvature = [0, 0, 0.0008, 0.0015, 0.0025];
-    _this.speedsArr = [0, 680 / 100, 680 / 80, 680 / 100, 680 / 100];
+    _this.speedsArr = [0, 680 / 100, 680 / 80, 680 / 100, 680 / 80];
     return _this;
   }
 
@@ -2400,7 +2402,7 @@ var Weapon = function (_PaoYa$Component) {
 
       x = Math.floor((now - this.beginTime) * 0.06 * speed) + this.diffX;
       y = Math.floor(this.curvature * x * x + this.b * x);
-      curAngle = Math.floor(x / this.driftX * 360);
+      curAngle = Math.floor(x / this.driftX * 720);
       this.doMove(x, y, curAngle);
     }
   }, {

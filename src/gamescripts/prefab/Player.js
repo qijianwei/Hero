@@ -94,7 +94,7 @@ export default class Player extends PaoYa.Component {
 
   //攻击
   attackEffect() {
-    this.skeleton.playbackRate(2)
+    this.skeleton.playbackRate(1)
     this.skeleton.play("attack", false)
   }
 //受击打,所有武器碰到都有这效果
