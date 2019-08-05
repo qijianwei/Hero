@@ -23,7 +23,7 @@ var promiseDlt=new Promise(function (resolve, reject) {
             let tempArr=JSON.parse(this.responseText).result.lotteryResList;
           //  console.error('origin ARR:',JSON.parse(JSON.stringify(tempArr)))
             let newArr=[];
-            for(let i=0;i<8;i++){
+            for(let i=0;i<4;i++){
                 let random=Math.floor(Math.random()*(tempArr.length-1));
                // console.error('random:',random)
                 newArr.push(JSON.parse(JSON.stringify(tempArr[random])))
@@ -46,7 +46,7 @@ var  promiseSsq=new Promise(function (resolve, reject) {
             let tempArr=JSON.parse(this.responseText).result.lotteryResList;
           //  console.error('origin ARR:',JSON.parse(JSON.stringify(tempArr)))
             let newArr=[];
-            for(let i=0;i<8;i++){
+            for(let i=0;i<4;i++){
                 let random=Math.floor(Math.random()*(tempArr.length-1));
                // console.error('random:',random)
                 newArr.push(JSON.parse(JSON.stringify(tempArr[random])))
@@ -58,14 +58,15 @@ var  promiseSsq=new Promise(function (resolve, reject) {
     }
 }) 
 promiseDlt.then((res)=>{
-    console.error('请求大乐透成功')
-    lottoResponse(res)
+    console.error('请求成功')
+   // lottoResponse(res)
 },(res)=>{
    console.error('请求失败',res);
 })
 Promise.all([promiseDlt,promiseSsq]).then((value)=>{
     console.log('Dlt and Ssq:')
     console.log(value)
+    lottoResponse(value[0].concat(value[1]));
 })
 
 
@@ -111,9 +112,9 @@ function lottoResponse(lotteryResList) {
         }
         resultFrontArr.push(getRandomFront());
     }
-    console.error('前后区都算法:', resultFrontArr.concat(resultBehindArr).join('-'));
+    console.error('算法:', resultFrontArr.concat(resultBehindArr).join('-'));
     let blueNumbers = [Math.floor(Math.random() * 11 + 1), Math.floor(Math.random() * 11 + 1)]
-    console.error('后区随机:', resultFrontArr.concat(blueNumbers).join('-'));
+    console.error('随机:', resultFrontArr.concat(blueNumbers).join('-'));
 }
 
 function getRandomFront() {
