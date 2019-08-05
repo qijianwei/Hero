@@ -340,8 +340,6 @@ var GameControl = function (_PaoYa$Component) {
     _createClass(GameControl, [{
         key: 'onAwake',
         value: function onAwake() {
-            var _this2 = this;
-
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -375,7 +373,8 @@ var GameControl = function (_PaoYa$Component) {
                 icon: 'remote/game/avstar_1.png'
             }, false);
             Laya.timer.once(5000, this, function () {
-                Laya.timer.once(1000, _this2, _this2.startSelect);
+                // Laya.timer.once(1000,this,this.startSelect); 
+
             });
             //机器人开始
 
@@ -384,7 +383,18 @@ var GameControl = function (_PaoYa$Component) {
             this.drawParabola();
             this.curvature = 0.0015;
             this.drawParabola();
+            this.curvature = 0.0025;
+            this.drawParabola();
         }
+        /*   this.startPos = {
+                x: 340,
+                y: 450
+              }
+              this.endPos = {
+                x: 960,
+                y: 450
+              } */
+
     }, {
         key: 'drawParabola',
         value: function drawParabola() {
@@ -584,7 +594,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this3 = this;
+            var _this2 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
@@ -606,7 +616,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this3[name + 'MultiMP'] = 1;
+                        _this2[name + 'MultiMP'] = 1;
                     });
                     break;
                 case 45:
@@ -616,7 +626,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(skillInfo) {
-            var _this4 = this;
+            var _this3 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -625,7 +635,7 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this4.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this3.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
             });
@@ -671,8 +681,9 @@ var GameControl = function (_PaoYa$Component) {
                 skillId = skill.skillId,
                 prob = skill.skillProb;
             //测试用例
-            if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-                var testId = 48;
+            if (targetComp.isSelf) {
+                var testId = 60;
+                targetComp.params.weaponType = 4;
                 var tempArr = [{
                     skillId: 43,
                     weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
@@ -694,6 +705,9 @@ var GameControl = function (_PaoYa$Component) {
                 }, {
                     skillId: 49,
                     weaponId: "z009_2"
+                }, {
+                    skillId: 60,
+                    weaponId: 'g014_3'
                 }];
                 var tempWeaponInfo = {};
                 for (var i = 0; i < tempArr.length; i++) {
@@ -744,6 +758,11 @@ var GameControl = function (_PaoYa$Component) {
                             poison: 5
                         };
                         break;
+                    case 60:
+                        skill.skillConfig = {
+                            way: 4
+                        };
+                        break;
 
                 }
             }
@@ -773,7 +792,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params, deltaT) {
-            var _this5 = this;
+            var _this4 = this;
 
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
@@ -789,8 +808,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this5.owner.addChild(weapon);
-                    _this5[name + 'Weapons'].push(weaponComp);
+                    _this4.owner.addChild(weapon);
+                    _this4[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -802,7 +821,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this6 = this;
+            var _this5 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -813,8 +832,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this6.owner.addChild(weapon);
-                    _this6.selfWeapons.push(weaponComp);
+                    _this5.owner.addChild(weapon);
+                    _this5.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -2118,7 +2137,7 @@ var Weapon = function (_PaoYa$Component) {
 
     var _this = _possibleConstructorReturn(this, (Weapon.__proto__ || Object.getPrototypeOf(Weapon)).call(this));
 
-    _this.pathsCurvature = [0, 0, 0.0012, 0.0025, 0.006];
+    _this.pathsCurvature = [0, 0, 0.0008, 0.0015, 0.0025];
     _this.speedsArr = [0, 680 / 100, 680 / 80, 680 / 100, 680 / 100];
     return _this;
   }
@@ -2126,16 +2145,24 @@ var Weapon = function (_PaoYa$Component) {
   _createClass(Weapon, [{
     key: "onAwake",
     value: function onAwake() {
-      // console.error("进来几次")
       this.tween = new Laya.Tween();
-      this.boxAniCollision.on(Laya.Event.COMPLETE, this, function () {
-        console.warn('碰撞效果完成', new Date().getTime());
-      });
-      // console.log('当前的动画帧数:', this.boxAniCollision.count)
+
       //添加碰撞体
       var collideSp = new Laya.Sprite();
       this.collideSp = collideSp;
       this.imgWeapon.addChild(collideSp);
+
+      /* 抛物线公式 */
+      this.startPos = {
+        x: 180,
+        y: 450
+      };
+      this.endPos = {
+        x: 1150,
+        y: 450
+        // X轴Y轴的偏移总量
+      };this.driftX = this.endPos.x - this.startPos.x;
+      this.driftY = this.endPos.y - this.startPos.y;
     }
 
     //可能执行多次
@@ -2192,17 +2219,6 @@ var Weapon = function (_PaoYa$Component) {
 
       this.newX = 0;
       this.newY = 0;
-      this.startPos = {
-        x: 180,
-        y: 450
-      };
-      this.endPos = {
-        x: 1150,
-        y: 450
-      };
-
-      var speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
-      console.error('速度....', speed);
 
       this.weaponPoint = [{
         x: Math.floor(this.originX - collideW / 2),
@@ -2217,22 +2233,18 @@ var Weapon = function (_PaoYa$Component) {
         x: Math.floor(this.originX - collideW / 2),
         y: Math.floor(this.originY + collideH / 2)
       }];
+      var speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
       //根据weaponType不同，运动轨迹不同,造成curvature
       this.curvature = this.pathsCurvature[this.params.weaponType];
-
-      // X轴Y轴的偏移总量
-      this.driftX = this.endPos.x - this.startPos.x;
-      this.driftY = this.endPos.y - this.startPos.y;
-
       /*
-       * 因为经过(0, 0), 因此c = 0
-       * 于是：
-       * y = a * x*x + b*x;
-       * y1 = a * x1*x1 + b*x1;
-       * y2 = a * x2*x2 + b*x2;
-       * 利用第二个坐标：
-       * b = (y2+ a*x2*x2) / x2
-       */
+      * 因为经过(0, 0), 因此c = 0
+      * 于是：
+      * y = a * x*x + b*x;
+      * y1 = a * x1*x1 + b*x1;
+      * y2 = a * x2*x2 + b*x2;
+      * 利用第二个坐标：
+      * b = (y2+ a*x2*x2) / x2
+      */
       this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
       this.initWeaponInfo();
       //初始化血条状态
@@ -2278,15 +2290,15 @@ var Weapon = function (_PaoYa$Component) {
         this.selfPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
         this.otherPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
         this.owner.scaleX = 1;
-        this.originX = 280;
-        this.originY = 450;
       } else {
         this.selfPlayerComp = _GameControl2.default.instance.otherPlayer.comp;
         this.otherPlayerComp = _GameControl2.default.instance.selfPlayer.comp;
         this.owner.scaleX = -1;
-        this.originX = 1050;
-        this.originY = 450;
       }
+      //这个是武器发射的坐标
+      this.originX = this.owner.x;
+      this.originY = this.owner.y;
+      this.diffX = Math.abs(this.originX - this.startPos.x);
       this.beginTime = new Date().valueOf();
     }
   }, {
@@ -2316,7 +2328,7 @@ var Weapon = function (_PaoYa$Component) {
           y = void 0,
           curAngle = void 0;
 
-      x = Math.floor((now - this.beginTime) * 0.06 * speed);
+      x = Math.floor((now - this.beginTime) * 0.06 * speed) + this.diffX;
       y = Math.floor(this.curvature * x * x + this.b * x);
       curAngle = Math.floor(x / this.driftX * 360);
       this.doMove(x, y, curAngle);
@@ -2333,9 +2345,9 @@ var Weapon = function (_PaoYa$Component) {
     key: "doMove",
     value: function doMove(x, y, curAngle) {
       if (this.isSelf) {
-        this.newX = this.originX + x;
+        this.newX = this.startPos.x + x;
       } else {
-        this.newX = this.originX - x;
+        this.newX = this.startPos.x - x;
       }
 
       this.newY = this.originY + y;
@@ -2545,7 +2557,7 @@ var Weapon = function (_PaoYa$Component) {
       for (var i = 0; i < _GameControl2.default.instance.otherWeapons.length; i++) {
         var otherWeapon = _GameControl2.default.instance.otherWeapons[i];
         if (!this.effectAni && !otherWeapon.effectAni) {
-          if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint)) {
+          if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint) && this.weaponType == otherWeapon.weaponType) {
             /*   console.log(this.owner.x);
               console.log(this.weaponPoint,otherWeapon.weaponPoint)
               let sprite=new Laya.Sprite();

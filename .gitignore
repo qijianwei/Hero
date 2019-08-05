@@ -9,4 +9,5 @@ bin/swan-game-adapter.js
 .laya/publish_oppogame.js
 .laya/publish_xmgame.js
 study/axios.js
+.svn
 

@@ -55,7 +55,7 @@ export default class GameControl extends PaoYa.Component {
             icon: 'remote/game/avstar_1.png'
         }, false);
         Laya.timer.once(5000, this, () => {
-             Laya.timer.once(1000,this,this.startSelect); 
+            // Laya.timer.once(1000,this,this.startSelect); 
 
         })
         //机器人开始
@@ -65,8 +65,18 @@ export default class GameControl extends PaoYa.Component {
        this.drawParabola();
        this.curvature=0.0015;
        this.drawParabola();
+       this.curvature=0.0025;
+       this.drawParabola();
         
     }
+    /*   this.startPos = {
+            x: 340,
+            y: 450
+          }
+          this.endPos = {
+            x: 960,
+            y: 450
+          } */
     drawParabola(){ 
         let space=5;
         let pathArr=[];
@@ -327,8 +337,9 @@ export default class GameControl extends PaoYa.Component {
             skillId = skill.skillId,
             prob = skill.skillProb;
         //测试用例
-        if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-            let testId=48;
+        if (targetComp.isSelf  ) {
+            let testId=60;
+            targetComp.params.weaponType =4
             let tempArr=[{
                 skillId:43,
                 weaponId:['d001_1',"d005_2","d007_2","d008_2","d009_2","d011_2","d012_2"].randomItem
@@ -350,6 +361,9 @@ export default class GameControl extends PaoYa.Component {
             },{
                 skillId:49,
                 weaponId:"z009_2"
+            },{
+                skillId:60,
+                weaponId:'g014_3'
             }];
             let tempWeaponInfo={};
             for(let i=0;i<tempArr.length;i++){
@@ -396,6 +410,11 @@ export default class GameControl extends PaoYa.Component {
                     skill.skillConfig = {
                         poison: 5
                     };
+                    break;
+                case 60:
+                        skill.skillConfig={
+                        way:4
+                    }
                     break;
                     
             }

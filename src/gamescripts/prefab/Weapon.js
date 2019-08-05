@@ -25,21 +25,29 @@ export default class Weapon extends PaoYa.Component {
 
   constructor() {
     super();
-    this.pathsCurvature = [0, 0, 0.0012, 0.0025,0.006];
+    this.pathsCurvature = [0, 0,0.0008, 0.0015,0.0025];
     this.speedsArr=[0,680/100,680/80,680/100,680/100]
   }
   onAwake() {
-    // console.error("进来几次")
     this.tween = new Laya.Tween();
-    this.boxAniCollision.on(Laya.Event.COMPLETE, this, () => {
-      console.warn('碰撞效果完成', new Date().getTime());
 
-    })
-   // console.log('当前的动画帧数:', this.boxAniCollision.count)
     //添加碰撞体
     let collideSp = new Laya.Sprite();
     this.collideSp = collideSp;
     this.imgWeapon.addChild(collideSp)
+
+    /* 抛物线公式 */
+    this.startPos = {
+      x: 180,
+      y: 450
+    }
+    this.endPos = {
+      x: 1150,
+      y: 450
+    }
+    // X轴Y轴的偏移总量
+    this.driftX = this.endPos.x - this.startPos.x;
+    this.driftY = this.endPos.y - this.startPos.y;
   }
 
 
@@ -94,18 +102,7 @@ export default class Weapon extends PaoYa.Component {
 
     this.newX = 0;
     this.newY = 0;
-    this.startPos = {
-      x: 180,
-      y: 450
-    }
-    this.endPos = {
-      x: 1150,
-      y: 450
-    }
-  
-    let speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
-    console.error('速度....',speed)
-   
+ 
     this.weaponPoint = [{
       x: Math.floor(this.originX - collideW / 2),
       y: Math.floor(this.originY - collideH / 2)
@@ -119,14 +116,10 @@ export default class Weapon extends PaoYa.Component {
       x: Math.floor(this.originX - collideW / 2),
       y: Math.floor(this.originY + collideH / 2)
     }]
+    let speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
     //根据weaponType不同，运动轨迹不同,造成curvature
     this.curvature = this.pathsCurvature[this.params.weaponType];
- 
-    // X轴Y轴的偏移总量
-    this.driftX = this.endPos.x - this.startPos.x;
-    this.driftY = this.endPos.y - this.startPos.y;
-
-    /*
+     /*
      * 因为经过(0, 0), 因此c = 0
      * 于是：
      * y = a * x*x + b*x;
@@ -172,15 +165,16 @@ export default class Weapon extends PaoYa.Component {
       this.selfPlayerComp = GameControl.instance.selfPlayer.comp;
       this.otherPlayerComp = GameControl.instance.otherPlayer.comp;
       this.owner.scaleX = 1;
-      this.originX = 280;
-      this.originY = 450;
+    
     } else {
       this.selfPlayerComp = GameControl.instance.otherPlayer.comp;
       this.otherPlayerComp = GameControl.instance.selfPlayer.comp;
       this.owner.scaleX = -1;
-      this.originX = 1050;
-      this.originY = 450;
     }
+    //这个是武器发射的坐标
+    this.originX = this.owner.x;
+    this.originY = this.owner.y;
+    this.diffX=Math.abs(this.originX-this.startPos.x);
     this.beginTime = (new Date()).valueOf();
   }
   changeHP(value) {
@@ -203,7 +197,7 @@ export default class Weapon extends PaoYa.Component {
     let now = (new Date()).valueOf();
     let x, y, curAngle;
 
-    x = Math.floor((now - this.beginTime) * 0.06 * speed);
+    x = Math.floor((now - this.beginTime) * 0.06 * speed)+this.diffX;
     y = Math.floor(this.curvature * x * x + this.b * x);
     curAngle = Math.floor(x / this.driftX * 360)
     this.doMove(x, y, curAngle);
@@ -215,9 +209,9 @@ export default class Weapon extends PaoYa.Component {
   //运动
   doMove(x, y, curAngle) {
     if (this.isSelf) {
-      this.newX = this.originX + x;
+      this.newX = this.startPos.x + x;
     } else {
-      this.newX = this.originX - x;
+      this.newX = this.startPos.x - x;
     }
 
     this.newY = this.originY + y;
@@ -412,7 +406,7 @@ export default class Weapon extends PaoYa.Component {
     for (let i = 0; i < GameControl.instance.otherWeapons.length; i++) {
       let otherWeapon = GameControl.instance.otherWeapons[i];
       if (!this.effectAni && !otherWeapon.effectAni) {
-        if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint)) {
+        if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint)&&this.weaponType==otherWeapon.weaponType) {
           /*   console.log(this.owner.x);
             console.log(this.weaponPoint,otherWeapon.weaponPoint)
             let sprite=new Laya.Sprite();
