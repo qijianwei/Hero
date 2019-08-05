@@ -129,7 +129,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -664,6 +664,7 @@ var GameControl = function (_PaoYa$Component) {
             var consumeMP = targetComp.weaponConsume;
             if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
                 console.warn(name + 'Player' + "__体力不足");
+                //展示内力不足文字提示
                 return;
             }
 
@@ -681,9 +682,9 @@ var GameControl = function (_PaoYa$Component) {
                 skillId = skill.skillId,
                 prob = skill.skillProb;
             //测试用例
-            if (targetComp.isSelf) {
-                var testId = 60;
-                targetComp.params.weaponType = 4;
+            if (targetComp.isSelf && targetComp.params.weaponType == 2) {
+                var testId = 55;
+
                 var tempArr = [{
                     skillId: 43,
                     weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
@@ -705,6 +706,15 @@ var GameControl = function (_PaoYa$Component) {
                 }, {
                     skillId: 49,
                     weaponId: "z009_2"
+                }, {
+                    skillId: 53,
+                    weaponId: ["z001_1", "z006_2", "z011_2"].randomItem
+                }, {
+                    skillId: 54,
+                    weaponId: ["z004_2", "z008_2"].randomItem
+                }, {
+                    skillId: 55,
+                    weaponId: "z015_3"
                 }, {
                     skillId: 60,
                     weaponId: 'g014_3'
@@ -758,6 +768,21 @@ var GameControl = function (_PaoYa$Component) {
                             poison: 5
                         };
                         break;
+                    case 53:
+                        skill.skillConfig = {
+                            stealHp: 1
+                        };
+                        break;
+                    case 54:
+                        skill.skillConfig = {
+                            stealMp: 0.4
+                        };
+                        break;
+                    case 55:
+                        skill.skillConfig = {
+                            recoverDown: "5-0.4"
+                        };
+                        break;
                     case 60:
                         skill.skillConfig = {
                             way: 4
@@ -771,7 +796,7 @@ var GameControl = function (_PaoYa$Component) {
             params.isSelf = targetComp.isSelf;
             if (skillType == 1 && status == 1) {
                 var random = Math.floor(Math.random() * 100 + 1);
-                if (random <= prob) {
+                if (random <= 100) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     if (skillId == 58) {
                         targetComp.startT(200); //快速冷却     
@@ -1827,7 +1852,7 @@ var Player = function (_PaoYa$Component) {
     value: function mpRecoverEffect(value) {
       this.boxAniMp.visible = true;
       this.aniMp.play(0, false);
-      this.MPComp.changeHP(value);
+      this.MPComp.changeMP(value);
     }
     //中毒
 
@@ -2114,6 +2139,9 @@ var WeaponAniType;
   WeaponAniType[WeaponAniType["aniPoison2"] = 46] = "aniPoison2";
   WeaponAniType[WeaponAniType["aniCrit1"] = 47] = "aniCrit1";
   WeaponAniType[WeaponAniType["aniCrit2"] = 48] = "aniCrit2";
+  WeaponAniType[WeaponAniType["aniBlood"] = 53] = "aniBlood";
+  WeaponAniType[WeaponAniType["aniBlue"] = 54] = "aniBlue";
+  WeaponAniType[WeaponAniType["aniReduce"] = 55] = "aniReduce";
 })(WeaponAniType || (WeaponAniType = {}));
 
 var Weapon = function (_PaoYa$Component) {
@@ -2131,6 +2159,9 @@ var Weapon = function (_PaoYa$Component) {
   /** @prop {name:aniPoison2,tips:"奇毒特效",type:Node}*/
   /** @prop {name:aniRepeat1,tips:"双刃特效",type:Node}*/
   /** @prop {name:aniRepeat2,tips:"影刃特效",type:Node}*/
+  /** @prop {name:aniBlood,tips:"嗜血特效",type:Node}*/
+  /** @prop {name:aniBlue,tips:"嗜魔特效",type:Node}*/
+  /** @prop {name:aniReduce,tips:"气绝特效",type:Node}*/
 
   function Weapon() {
     _classCallCheck(this, Weapon);
@@ -2204,6 +2235,10 @@ var Weapon = function (_PaoYa$Component) {
       this.aniCrit2.pos(skillX + 5, y);
       this.aniRepeat1.pos(skillX + 5, y);
       this.aniRepeat2.pos(skillX + 5, y);
+
+      this.aniBlood.pos(x, y);
+      this.aniBlue.pos(x, y);
+      this.aniReduce.pos(x, y);
       /* this.aniPoison1.play(0,true); */
       this.collideSp.size(Math.floor(imgW * 0.2), imgH);
       var collideW = this.collideSp.width,

@@ -7,6 +7,10 @@ var WeaponAniType;
     WeaponAniType[WeaponAniType["aniPoison2"]=46]="aniPoison2";
     WeaponAniType[WeaponAniType["aniCrit1"]=47]="aniCrit1";
     WeaponAniType[WeaponAniType["aniCrit2"]=48]="aniCrit2";
+    WeaponAniType[WeaponAniType["aniBlood"]=53]="aniBlood";
+    WeaponAniType[WeaponAniType["aniBlue"]=54]="aniBlue";
+    WeaponAniType[WeaponAniType["aniReduce"]=55]="aniReduce";
+  
   
 })(WeaponAniType||(WeaponAniType={}));
 export default class Weapon extends PaoYa.Component {
@@ -22,6 +26,9 @@ export default class Weapon extends PaoYa.Component {
    /** @prop {name:aniPoison2,tips:"奇毒特效",type:Node}*/
    /** @prop {name:aniRepeat1,tips:"双刃特效",type:Node}*/
    /** @prop {name:aniRepeat2,tips:"影刃特效",type:Node}*/
+   /** @prop {name:aniBlood,tips:"嗜血特效",type:Node}*/
+   /** @prop {name:aniBlue,tips:"嗜魔特效",type:Node}*/
+   /** @prop {name:aniReduce,tips:"气绝特效",type:Node}*/
 
   constructor() {
     super();
@@ -87,6 +94,10 @@ export default class Weapon extends PaoYa.Component {
     this.aniCrit2.pos(skillX+5,y);
     this.aniRepeat1.pos(skillX+5,y);
     this.aniRepeat2.pos(skillX+5,y);
+
+    this.aniBlood.pos(x,y);
+    this.aniBlue.pos(x,y);
+    this.aniReduce.pos(x,y);
     /* this.aniPoison1.play(0,true); */
     this.collideSp.size(Math.floor(imgW * 0.2), imgH);
     let collideW = this.collideSp.width,

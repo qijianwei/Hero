@@ -125,7 +125,7 @@ export default class Player extends PaoYa.Component {
   mpRecoverEffect(value) {
     this.boxAniMp.visible = true;
     this.aniMp.play(0, false);
-    this.MPComp.changeHP(value);
+    this.MPComp.changeMP(value);
   }
   //中毒
   poisonEffect(poisonTime, hpValue) {

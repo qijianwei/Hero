@@ -320,6 +320,7 @@ export default class GameControl extends PaoYa.Component {
         let consumeMP = targetComp.weaponConsume;
         if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
             console.warn(name + 'Player' + "__体力不足");
+            //展示内力不足文字提示
             return;
         }
 
@@ -337,9 +338,9 @@ export default class GameControl extends PaoYa.Component {
             skillId = skill.skillId,
             prob = skill.skillProb;
         //测试用例
-        if (targetComp.isSelf  ) {
-            let testId=60;
-            targetComp.params.weaponType =4
+        if (targetComp.isSelf&&targetComp.params.weaponType==2) {
+            let testId=55;
+            
             let tempArr=[{
                 skillId:43,
                 weaponId:['d001_1',"d005_2","d007_2","d008_2","d009_2","d011_2","d012_2"].randomItem
@@ -361,6 +362,15 @@ export default class GameControl extends PaoYa.Component {
             },{
                 skillId:49,
                 weaponId:"z009_2"
+            },{
+                skillId:53,
+                weaponId:["z001_1","z006_2","z011_2"].randomItem
+            },{
+                skillId:54,
+                weaponId:["z004_2","z008_2"].randomItem
+            },{
+                skillId:55,
+                weaponId:"z015_3"
             },{
                 skillId:60,
                 weaponId:'g014_3'
@@ -411,6 +421,21 @@ export default class GameControl extends PaoYa.Component {
                         poison: 5
                     };
                     break;
+                case 53:
+                    skill.skillConfig={
+                        stealHp:1
+                    }
+                    break;
+                case 54:
+                    skill.skillConfig={
+                       stealMp:0.4
+                    }  
+                    break;
+                case 55:
+                    skill.skillConfig={
+                        recoverDown:"5-0.4"
+                    }
+                    break;
                 case 60:
                         skill.skillConfig={
                         way:4
@@ -424,7 +449,7 @@ export default class GameControl extends PaoYa.Component {
         params.isSelf = targetComp.isSelf;
         if (skillType == 1 && status == 1) {
             let random = Math.floor(Math.random() * 100 + 1);
-            if (random <= prob) {
+            if (random <= 100) {
                 /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                 if (skillId == 58) {
                     targetComp.startT(200); //快速冷却     

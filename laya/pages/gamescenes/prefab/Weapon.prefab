@@ -2,10 +2,11 @@
     "x":0,
     "type":"Box",
     "selectedBox":12,
+    "selecteID":97,
     "searchKey":"Box,boxAniWeapon",
-    "props":{"y":-1,"x":0,"rotation":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniWeapon","isPresetRoot":true},
+    "props":{"y":-1,"x":0,"visible":true,"rotation":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniWeapon","isPresetRoot":true},
     "nodeParent":-1,
-    "maxID":97,
+    "maxID":100,
     "label":"boxAniWeapon",
     "isOpen":true,
     "isDirectory":true,
@@ -20,7 +21,7 @@
             "source":"src/gamescripts/prefab/Weapon.js",
             "searchKey":"Script,Weapon",
             "removeAble":true,
-            "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","imgWeapon":"@node:6","imgHpMask":"@node:34","imgHp":"@node:33","boxHpWeapon":"@node:35","boxAniWeapon":"@node:23","boxAniRepeat2":"@node:92","boxAniRepeat1":"@node:90","boxAniPoison2":"@node:88","boxAniPoison1":"@node:84","boxAniCrit2":"@node:86","boxAniCrit1":"@node:82","boxAniCollision":"@node:19","aniRepeat2":"@node:93","aniRepeat1":"@node:91","aniPoison2":"@node:89","aniPoison1":"@node:85","aniPlasy1":"@node:96","aniCrit2":"@node:87","aniCrit1":"@node:83"},
+            "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","imgWeapon":"@node:6","imgHpMask":"@node:34","imgHp":"@node:33","boxHpWeapon":"@node:35","boxAniWeapon":"@node:23","boxAniRepeat2":"@node:92","boxAniRepeat1":"@node:90","boxAniPoison2":"@node:88","boxAniPoison1":"@node:84","boxAniCrit2":"@node:86","boxAniCrit1":"@node:82","boxAniCollision":"@node:19","aniRepeat2":"@node:93","aniRepeat1":"@node:91","aniReduce":"@node:99","aniPoison2":"@node:89","aniPoison1":"@node:85","aniPlasy1":"@node:96","aniCrit2":"@node:87","aniCrit1":"@node:83","aniBlue":"@node:98","aniBlood":"@node:97"},
             "nodeParent":12,
             "label":"Weapon",
             "isDirectory":false,
@@ -218,6 +219,50 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":93,
+            "child":[
+                ],
+            "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Animation",
+            "searchKey":"Animation,aniBlood",
+            "props":{"visible":false,"source":"gamescenes/animations/weapon_blood.ani","presetID":25,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"aniBlood"},
+            "nodeParent":12,
+            "label":"aniBlood",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":97,
+            "child":[
+                ],
+            "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Animation",
+            "searchKey":"Animation,aniBlue",
+            "props":{"visible":false,"source":"gamescenes/animations/weapon_blue.ani","presetID":26,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"aniBlue"},
+            "nodeParent":12,
+            "label":"aniBlue",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":98,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Animation",
+            "searchKey":"Animation,aniReduce",
+            "props":{"visible":false,"source":"gamescenes/animations/weapon_reduce.ani","presetID":27,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"aniReduce"},
+            "nodeParent":12,
+            "label":"aniReduce",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":99,
             "child":[
                 ],
             "$HIDDEN":true
