@@ -60,14 +60,18 @@ export default class GameControl extends PaoYa.Component {
         })
         //机器人开始
 
-       //画出三条运动轨迹，便于调试
-       this.curvature = 0.0008;
-       this.drawParabola();
-       this.curvature=0.0015;
-       this.drawParabola();
-       this.curvature=0.0025;
-       this.drawParabola();
-        
+        //画出三条运动轨迹，便于调试
+        this.curvature = 0.0008;
+        this.drawParabola();
+        this.curvature = 0.0015;
+        this.drawParabola();
+        this.curvature = 0.0025;
+        this.drawParabola();
+
+    }
+    //游戏重新开始
+    restart() {
+
     }
     /*   this.startPos = {
             x: 340,
@@ -77,35 +81,35 @@ export default class GameControl extends PaoYa.Component {
             x: 960,
             y: 450
           } */
-    drawParabola(){ 
-        let space=5;
-        let pathArr=[];
+    drawParabola() {
+        let space = 5;
+        let pathArr = [];
         this.startPos = {
             x: 180,
             y: 450
-          }
-          this.endPos = {
+        }
+        this.endPos = {
             x: 1150,
             y: 450
-          }
-           pathArr.push(["moveTo",0,0]);
-          
- 
-    // X轴Y轴的偏移总量
-       this.driftX = this.endPos.x - this.startPos.x;
-       this.driftY = this.endPos.y - this.startPos.y;
-       this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
-       for(let i=5;i<=this.driftX;i+=space){
-         let x=i;
-         let y=Math.floor(this.curvature * x * x + this.b * x);
-         pathArr.push(["lineTo",x,y]);
-       }
-       pathArr.push(["closePath"]);
-      // this.owner.spDraw.graphics.clear();
-       this.owner.spDraw.graphics.drawPath(this.startPos.x,this.startPos.y,pathArr,null,{
-            strokeStyle:"#ff0000",
-            lineWidth:2,
-            lineCap:"round"
+        }
+        pathArr.push(["moveTo", 0, 0]);
+
+
+        // X轴Y轴的偏移总量
+        this.driftX = this.endPos.x - this.startPos.x;
+        this.driftY = this.endPos.y - this.startPos.y;
+        this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
+        for (let i = 5; i <= this.driftX; i += space) {
+            let x = i;
+            let y = Math.floor(this.curvature * x * x + this.b * x);
+            pathArr.push(["lineTo", x, y]);
+        }
+        pathArr.push(["closePath"]);
+        // this.owner.spDraw.graphics.clear();
+        this.owner.spDraw.graphics.drawPath(this.startPos.x, this.startPos.y, pathArr, null, {
+            strokeStyle: "#ff0000",
+            lineWidth: 2,
+            lineCap: "round"
         })
         //this.owner.spDraw.graphics.drawPath(340,450,)
 
@@ -134,10 +138,6 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     onEnable() {
-        /*   Laya.timer.once(2000,this,()=>{
-              this.owner.aniBot.play(0,false);
-          }) */
-
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
     }
     //初始化双方兵器库
@@ -337,58 +337,70 @@ export default class GameControl extends PaoYa.Component {
             status = skill.status,
             skillId = skill.skillId,
             prob = skill.skillProb;
-        //测试用例
-        if (targetComp.isSelf&&targetComp.params.weaponType==2) {
-            let testId=55;
-            
-            let tempArr=[{
-                skillId:43,
-                weaponId:['d001_1',"d005_2","d007_2","d008_2","d009_2","d011_2","d012_2"].randomItem
+        /*<---------- 测试用例start  */
+        if (targetComp.isSelf && targetComp.params.weaponType == 2) {
+            let testId = 61;
+
+            let tempArr = [{
+                skillId: 43,
+                weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
+            }, {
+                skillId: 44,
+                weaponId: "d013_3"
+            }, {
+                skillId: 45,
+                weaponId: "d009_2"
+            }, {
+                skillId: 46,
+                weaponId: "d014_3"
+            }, {
+                skillId: 47,
+                weaponId: "d006_2"
+            }, {
+                skillId: 48,
+                weaponId: "d006_2"
+            }, {
+                skillId: 49,
+                weaponId: "z009_2"
+            }, {
+                skillId: 53,
+                weaponId: ["z001_1", "z006_2", "z011_2"].randomItem
+            }, {
+                skillId: 54,
+                weaponId: ["z004_2", "z008_2"].randomItem
+            }, {
+                skillId: 55,
+                weaponId: "z015_3"
+            }, {
+                skillId: 60,
+                weaponId: 'g014_3'
             },{
-                skillId:44,
-                weaponId:"d013_3"
+                skillId:56,
+                weaponId:["g001_1","g007_2","g008_2","g011_2"].randomItem
             },{
-                skillId:45,
-                weaponId:"d009_2"
+                skillId:57,
+                weaponId:"g010_2"
             },{
-               skillId:46,
-               weaponId:"d014_3"
+                skillId:59,
+                weaponId:["z007_2","g009_2"].randomItem
             },{
-               skillId:47,
-               weaponId:"d006_2"
-            },{
-              skillId:48,
-              weaponId:"d006_2"
-            },{
-                skillId:49,
-                weaponId:"z009_2"
-            },{
-                skillId:53,
-                weaponId:["z001_1","z006_2","z011_2"].randomItem
-            },{
-                skillId:54,
-                weaponId:["z004_2","z008_2"].randomItem
-            },{
-                skillId:55,
-                weaponId:"z015_3"
-            },{
-                skillId:60,
-                weaponId:'g014_3'
+                skillId:61,
+                weaponId:"g013_3"
             }];
-            let tempWeaponInfo={};
-            for(let i=0;i<tempArr.length;i++){
-                if(testId==tempArr[i].skillId){
-                    tempWeaponInfo=tempArr[i];
+            let tempWeaponInfo = {};
+            for (let i = 0; i < tempArr.length; i++) {
+                if (testId == tempArr[i].skillId) {
+                    tempWeaponInfo = tempArr[i];
                     break;
                 }
             };
-            /* skill.skillId = [43, 44, 45, 46, 47, 48].randomItem;
-            skill.skillId=47;
-            targetComp.params.weaponId="d015_3" 48
-            targetComp.params.weaponId= "d006_2"; */
-           let {skillId,weaponId}=tempWeaponInfo;
-            skill.skillId=skillId;
-            targetComp.params.weaponId=weaponId;
+
+            let {
+                skillId,
+                weaponId
+            } = tempWeaponInfo;
+            skill.skillId = skillId;
+            targetComp.params.weaponId = weaponId;
             console.error('释放特技:', skill.skillId)
             switch (skill.skillId) {
                 case 43:
@@ -422,28 +434,44 @@ export default class GameControl extends PaoYa.Component {
                     };
                     break;
                 case 53:
-                    skill.skillConfig={
-                        stealHp:1
+                    skill.skillConfig = {
+                        stealHp: 1
                     }
                     break;
                 case 54:
-                    skill.skillConfig={
-                       stealMp:0.4
-                    }  
+                    skill.skillConfig = {
+                        stealMp: 0.4
+                    }
                     break;
                 case 55:
-                    skill.skillConfig={
-                        recoverDown:"5-0.4"
+                    skill.skillConfig = {
+                        recoverDown: "5-0.4"
+                    }
+                    break;
+                case 56:
+                    skill.skillConfig = {
+                        hurt: 1.5
+                    }
+                    break;
+                case 57:
+                    skill.skillConfig = {
+                        hurt: 2.5
                     }
                     break;
                 case 60:
-                        skill.skillConfig={
-                        way:4
+                    skill.skillConfig = {
+                        way: 4
                     }
                     break;
-                    
+                case 61:
+                    skill.skillConfig = {
+                        hurt: 3.5
+                    }
+                    break;
+
             }
         }
+        /*<---------- 测试用例end----------> */
         let params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
         params.skillEffect = false;
         params.isSelf = targetComp.isSelf;

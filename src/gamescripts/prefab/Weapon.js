@@ -10,8 +10,10 @@ var WeaponAniType;
     WeaponAniType[WeaponAniType["aniBlood"]=53]="aniBlood";
     WeaponAniType[WeaponAniType["aniBlue"]=54]="aniBlue";
     WeaponAniType[WeaponAniType["aniReduce"]=55]="aniReduce";
-  
-  
+    WeaponAniType[WeaponAniType["aniThump1"]=56]="aniThump1";
+    WeaponAniType[WeaponAniType["aniThump2"]=57]="aniThump2";
+    WeaponAniType[WeaponAniType["aniFreeze"]=59]="aniFreeze";
+    WeaponAniType[WeaponAniType["aniThump3"]=61]="aniThump3";
 })(WeaponAniType||(WeaponAniType={}));
 export default class Weapon extends PaoYa.Component {
   /** @prop {name:imgWeapon,tips:"四个点",type:Node}*/
@@ -29,6 +31,11 @@ export default class Weapon extends PaoYa.Component {
    /** @prop {name:aniBlood,tips:"嗜血特效",type:Node}*/
    /** @prop {name:aniBlue,tips:"嗜魔特效",type:Node}*/
    /** @prop {name:aniReduce,tips:"气绝特效",type:Node}*/
+
+    /** @prop {name:aniThump1,tips:"重击特效",type:Node}*/
+   /** @prop {name:aniThump2,tips:"碎石特效",type:Node}*/
+   /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
+   /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
 
   constructor() {
     super();

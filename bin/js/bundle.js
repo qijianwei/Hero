@@ -129,7 +129,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -386,6 +386,11 @@ var GameControl = function (_PaoYa$Component) {
             this.curvature = 0.0025;
             this.drawParabola();
         }
+        //游戏重新开始
+
+    }, {
+        key: 'restart',
+        value: function restart() {}
         /*   this.startPos = {
                 x: 340,
                 y: 450
@@ -458,10 +463,6 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'onEnable',
         value: function onEnable() {
-            /*   Laya.timer.once(2000,this,()=>{
-                  this.owner.aniBot.play(0,false);
-              }) */
-
             this.onNotification(_WeaponBar2.default.CLICK, this, this.weaponBarClickHandler);
         }
         //初始化双方兵器库
@@ -681,9 +682,9 @@ var GameControl = function (_PaoYa$Component) {
                 status = skill.status,
                 skillId = skill.skillId,
                 prob = skill.skillProb;
-            //测试用例
+            /*<---------- 测试用例start  */
             if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-                var testId = 55;
+                var testId = 61;
 
                 var tempArr = [{
                     skillId: 43,
@@ -718,6 +719,18 @@ var GameControl = function (_PaoYa$Component) {
                 }, {
                     skillId: 60,
                     weaponId: 'g014_3'
+                }, {
+                    skillId: 56,
+                    weaponId: ["g001_1", "g007_2", "g008_2", "g011_2"].randomItem
+                }, {
+                    skillId: 57,
+                    weaponId: "g010_2"
+                }, {
+                    skillId: 59,
+                    weaponId: ["z007_2", "g009_2"].randomItem
+                }, {
+                    skillId: 61,
+                    weaponId: "g013_3"
                 }];
                 var tempWeaponInfo = {};
                 for (var i = 0; i < tempArr.length; i++) {
@@ -726,10 +739,7 @@ var GameControl = function (_PaoYa$Component) {
                         break;
                     }
                 };
-                /* skill.skillId = [43, 44, 45, 46, 47, 48].randomItem;
-                skill.skillId=47;
-                targetComp.params.weaponId="d015_3" 48
-                targetComp.params.weaponId= "d006_2"; */
+
                 var _tempWeaponInfo = tempWeaponInfo,
                     _skillId = _tempWeaponInfo.skillId,
                     weaponId = _tempWeaponInfo.weaponId;
@@ -783,14 +793,30 @@ var GameControl = function (_PaoYa$Component) {
                             recoverDown: "5-0.4"
                         };
                         break;
+                    case 56:
+                        skill.skillConfig = {
+                            hurt: 1.5
+                        };
+                        break;
+                    case 57:
+                        skill.skillConfig = {
+                            hurt: 2.5
+                        };
+                        break;
                     case 60:
                         skill.skillConfig = {
                             way: 4
                         };
                         break;
+                    case 61:
+                        skill.skillConfig = {
+                            hurt: 3.5
+                        };
+                        break;
 
                 }
             }
+            /*<---------- 测试用例end----------> */
             var params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
             params.skillEffect = false;
             params.isSelf = targetComp.isSelf;
@@ -2142,6 +2168,10 @@ var WeaponAniType;
   WeaponAniType[WeaponAniType["aniBlood"] = 53] = "aniBlood";
   WeaponAniType[WeaponAniType["aniBlue"] = 54] = "aniBlue";
   WeaponAniType[WeaponAniType["aniReduce"] = 55] = "aniReduce";
+  WeaponAniType[WeaponAniType["aniThump1"] = 56] = "aniThump1";
+  WeaponAniType[WeaponAniType["aniThump2"] = 57] = "aniThump2";
+  WeaponAniType[WeaponAniType["aniFreeze"] = 59] = "aniFreeze";
+  WeaponAniType[WeaponAniType["aniThump3"] = 61] = "aniThump3";
 })(WeaponAniType || (WeaponAniType = {}));
 
 var Weapon = function (_PaoYa$Component) {
@@ -2162,6 +2192,11 @@ var Weapon = function (_PaoYa$Component) {
   /** @prop {name:aniBlood,tips:"嗜血特效",type:Node}*/
   /** @prop {name:aniBlue,tips:"嗜魔特效",type:Node}*/
   /** @prop {name:aniReduce,tips:"气绝特效",type:Node}*/
+
+  /** @prop {name:aniThump1,tips:"重击特效",type:Node}*/
+  /** @prop {name:aniThump2,tips:"碎石特效",type:Node}*/
+  /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
+  /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
 
   function Weapon() {
     _classCallCheck(this, Weapon);
