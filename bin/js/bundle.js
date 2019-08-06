@@ -266,6 +266,9 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
+console.log = function () {};
+console.warn = function () {};
+console.error = function () {};
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":17}],4:[function(require,module,exports){
 'use strict';

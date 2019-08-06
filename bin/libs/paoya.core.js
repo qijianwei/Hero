@@ -1449,8 +1449,8 @@ var DataCenter = /** @class */ (function () {
         });
     };
     /**CDN资源地址 */
-    DataCenter.CDNURL = 'https://res.xingqiu123.com/';
-    DataCenter.RESURL = 'https://res.xingqiu123.com/';
+    DataCenter.CDNURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
+    DataCenter.RESURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
     DataCenter.showBannerAdWhenDialogPopup = true;
     /**用户金币数变更监听 */
     DataCenter.gold = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -3529,7 +3529,7 @@ var Game = /** @class */ (function (_super) {
         }
         _this.initLaya();
         //初始化导航控制器
-        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://res.xingqiu123.com/" + _this.gameId + "/";
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/" + _this.gameId + "/";
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitId = params.adUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].bannerUnitId = params.bannerUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].qqViewId = params.qqViewId || 1003;

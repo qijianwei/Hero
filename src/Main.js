@@ -95,3 +95,6 @@ export class Main extends GameMain {
 }
 //激活启动类
 new Main();
+console.log=function(){};
+console.warn=function(){};
+console.error=function(){};
