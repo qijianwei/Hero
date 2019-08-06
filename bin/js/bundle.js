@@ -246,7 +246,7 @@ var Main = exports.Main = function (_GameMain) {
 			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/freeze/freeze.png', 'spine/freeze/freeze.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
-			'res/atlas/remote/hero1_skill2.atlas'];
+			'res/atlas/remote/hero1_skill2.atlas', 'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero1_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas'];
 			return list;
 		}
 	}, {
@@ -687,7 +687,7 @@ var GameControl = function (_PaoYa$Component) {
                 prob = skill.skillProb;
             /*<---------- 测试用例start  */
             if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-                var testId = 61;
+                var testId = 62;
 
                 var tempArr = [{
                     skillId: 43,
@@ -734,6 +734,9 @@ var GameControl = function (_PaoYa$Component) {
                 }, {
                     skillId: 61,
                     weaponId: "g013_3"
+                }, {
+                    skillId: 62,
+                    weaponId: ["d002_1", "d010_2", "z003_1", "g005_2", "g012_2"].randomItem
                 }];
                 var tempWeaponInfo = {};
                 for (var i = 0; i < tempArr.length; i++) {
@@ -816,7 +819,11 @@ var GameControl = function (_PaoYa$Component) {
                             hurt: 3.5
                         };
                         break;
-
+                    case 62:
+                        skill.skillConfig = {
+                            durable: 2
+                        };
+                        break;
                 }
             }
             /*<---------- 测试用例end----------> */
@@ -2177,6 +2184,7 @@ var WeaponAniType;
   WeaponAniType[WeaponAniType["aniThump2"] = 57] = "aniThump2";
   WeaponAniType[WeaponAniType["aniFreeze"] = 59] = "aniFreeze";
   WeaponAniType[WeaponAniType["aniThump3"] = 61] = "aniThump3";
+  WeaponAniType[WeaponAniType["aniPetrifie"] = 62] = "aniPetrifie";
 })(WeaponAniType || (WeaponAniType = {}));
 
 var Weapon = function (_PaoYa$Component) {
@@ -2202,6 +2210,7 @@ var Weapon = function (_PaoYa$Component) {
   /** @prop {name:aniThump2,tips:"碎石特效",type:Node}*/
   /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
   /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
+  /** @prop {name:aniPetrifie,tips:"石化特效",type:Node}*/
 
   function Weapon() {
     _classCallCheck(this, Weapon);
@@ -2279,6 +2288,10 @@ var Weapon = function (_PaoYa$Component) {
       this.aniBlood.pos(x, y);
       this.aniBlue.pos(x, y);
       this.aniReduce.pos(x, y);
+      this.aniThump1.pos(x, y);
+      this.aniThump2.pos(x, y);
+      this.aniThump3.pos(x, y);
+      this.aniPetrifie.pos(x, y);
       /* this.aniPoison1.play(0,true); */
       this.collideSp.size(Math.floor(imgW * 0.2), imgH);
       var collideW = this.collideSp.width,

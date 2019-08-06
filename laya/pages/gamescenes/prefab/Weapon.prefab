@@ -2,11 +2,11 @@
     "x":0,
     "type":"Box",
     "selectedBox":12,
-    "selecteID":100,
+    "selecteID":104,
     "searchKey":"Box,boxAniWeapon",
     "props":{"y":-1,"x":0,"visible":true,"rotation":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"boxAniWeapon","isPresetRoot":true},
     "nodeParent":-1,
-    "maxID":104,
+    "maxID":105,
     "label":"boxAniWeapon",
     "isOpen":true,
     "isDirectory":true,
@@ -21,7 +21,7 @@
             "source":"src/gamescripts/prefab/Weapon.js",
             "searchKey":"Script,Weapon",
             "removeAble":true,
-            "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","imgWeapon":"@node:6","imgHpMask":"@node:34","imgHp":"@node:33","boxHpWeapon":"@node:35","boxAniWeapon":"@node:23","boxAniRepeat2":"@node:92","boxAniRepeat1":"@node:90","boxAniPoison2":"@node:88","boxAniPoison1":"@node:84","boxAniCrit2":"@node:86","boxAniCrit1":"@node:82","boxAniCollision":"@node:19","aniThump3":"@node:103","aniThump2":"@node:102","aniThump1":"@node:101","aniRepeat2":"@node:93","aniRepeat1":"@node:91","aniReduce":"@node:99","aniPoison2":"@node:89","aniPoison1":"@node:85","aniPlasy1":"@node:96","aniFreeze":"@node:100","aniCrit2":"@node:87","aniCrit1":"@node:83","aniBlue":"@node:98","aniBlood":"@node:97"},
+            "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","imgWeapon":"@node:6","imgHpMask":"@node:34","imgHp":"@node:33","boxHpWeapon":"@node:35","boxAniWeapon":"@node:23","boxAniRepeat2":"@node:92","boxAniRepeat1":"@node:90","boxAniPoison2":"@node:88","boxAniPoison1":"@node:84","boxAniCrit2":"@node:86","boxAniCrit1":"@node:82","boxAniCollision":"@node:19","aniThump3":"@node:103","aniThump2":"@node:102","aniThump1":"@node:101","aniRepeat2":"@node:93","aniRepeat1":"@node:91","aniReduce":"@node:99","aniPoison2":"@node:89","aniPoison1":"@node:85","aniPlasy1":"@node:96","aniPetrifie":"@node:104","aniFreeze":"@node:100","aniCrit2":"@node:87","aniCrit1":"@node:83","aniBlue":"@node:98","aniBlood":"@node:97"},
             "nodeParent":12,
             "label":"Weapon",
             "isDirectory":false,
@@ -327,6 +327,20 @@
             "child":[
                 ],
             "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Animation",
+            "searchKey":"Animation,aniPetrifie",
+            "props":{"visible":false,"source":"gamescenes/animations/weapon_petrifie.ani","presetID":32,"preset":"laya/pages/gamescenes/prefab/Weapon.prefab","name":"aniPetrifie"},
+            "nodeParent":12,
+            "label":"aniPetrifie",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":104,
+            "child":[
+                ]
         }],
     "animations":[
         {

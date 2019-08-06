@@ -339,7 +339,7 @@ export default class GameControl extends PaoYa.Component {
             prob = skill.skillProb;
         /*<---------- 测试用例start  */
         if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-            let testId = 61;
+            let testId = 62;
 
             let tempArr = [{
                 skillId: 43,
@@ -386,6 +386,9 @@ export default class GameControl extends PaoYa.Component {
             },{
                 skillId:61,
                 weaponId:"g013_3"
+            },{
+                skillId:62,
+                weaponId:["d002_1","d010_2","z003_1","g005_2","g012_2"].randomItem
             }];
             let tempWeaponInfo = {};
             for (let i = 0; i < tempArr.length; i++) {
@@ -468,7 +471,11 @@ export default class GameControl extends PaoYa.Component {
                         hurt: 3.5
                     }
                     break;
-
+                case 62:
+                    skill.skillConfig={
+                        durable:2
+                    }
+                    break;
             }
         }
         /*<---------- 测试用例end----------> */

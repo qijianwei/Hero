@@ -65,6 +65,7 @@ export class Main extends GameMain {
 		let list = [
 			'res/atlas/remote/game.atlas',
 			'res/atlas/remote/weapons.atlas',
+
 			'spine/npc/npc_7.png',
 			'spine/npc/npc_7.sk',
 			'spine/hero/hero_1.png',
@@ -81,6 +82,25 @@ export class Main extends GameMain {
 			'res/atlas/remote/trigger_skill.atlas',
 			'res/atlas/remote/warn_arms.atlas',//cd发光效果
 			'res/atlas/remote/hero1_skill2.atlas',
+			'res/atlas/remote/collision.atlas',
+			'res/atlas/remote/debuff_dizzy.atlas',
+		
+			'res/atlas/remote/hero1_skill2.atlas',
+			'res/atlas/remote/recover_blood.atlas',
+			'res/atlas/remote/recover_power.atlas',
+			'res/atlas/remote/small_weapons.atlas',
+			'res/atlas/remote/trigger_skill.atlas',
+
+			'res/atlas/remote/weapon_effect/weapon_blood.atlas',
+			'res/atlas/remote/weapon_effect/weapon_blue.atlas',
+			'res/atlas/remote/weapon_effect/weapon_crits.atlas',
+			'res/atlas/remote/weapon_effect/weapon_freeze.atlas',
+			'res/atlas/remote/weapon_effect/weapon_palsy.atlas',
+			'res/atlas/remote/weapon_effect/weapon_poison.atlas',
+			'res/atlas/remote/weapon_effect/weapon_reduce.atlas',
+			'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
+			'res/atlas/remote/weapon_effect/weapon_thump.atlas'
+			
 	
 		];		
 		return list
