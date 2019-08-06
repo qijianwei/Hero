@@ -189,11 +189,27 @@ export default class Weapon extends PaoYa.Component {
       this.selfPlayerComp = GameControl.instance.selfPlayer.comp;
       this.otherPlayerComp = GameControl.instance.otherPlayer.comp;
       this.owner.scaleX = 1;
+      this.startPos = {
+        x: 180,
+        y: 450
+      }
+      this.endPos = {
+        x: 1150,
+        y: 450
+      }
     
     } else {
       this.selfPlayerComp = GameControl.instance.otherPlayer.comp;
       this.otherPlayerComp = GameControl.instance.selfPlayer.comp;
       this.owner.scaleX = -1;
+      this.startPos = {
+        x: 1150,
+        y: 450
+      }
+      this.endPos = {
+        x: 180,
+        y: 450
+      }
     }
     //这个是武器发射的坐标
     this.originX = this.owner.x;
@@ -295,47 +311,65 @@ export default class Weapon extends PaoYa.Component {
       this.endMove();
       let skill = this.params.activeSkill;  
       let skillEffect=this.params.skillEffect;
-      let attackNum=this.calcAttackNum(skillEffect);
+      let {attackNum,isCrit}=this.calcAttackNum(skillEffect);
       if (skillEffect) { 
         let skillConfig=skill.skillConfig,
             skillId = skill.skillId;
-        this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
+        //this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
         switch (skillId) {
           case 45 || 46:
             let arr=skillConfig.poison.split('-').map(Number);
             let time=arr[0];
-            this.otherPlayerComp.poisonEffect(time*1000,-arr[1]/time)
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+                this.otherPlayerComp.poisonEffect(time*1000,-arr[1]/time)
+            });
+            
             break;
             //麻痹和冰冻一个效果
           case 49||50:
-            this.otherPlayerComp.freezedEffect(skillConfig.mabi*1000);
+              this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+                this.otherPlayerComp.freezedEffect(skillConfig.mabi*1000);
+            });      
             break;
           case 53:
             let stealHp=skillConfig.stealHp;
-            this.selfPlayerComp.hpRecoverEffect(attackNum*stealHp);//数值暂定，要算
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+              this.selfPlayerComp.hpRecoverEffect(attackNum*stealHp);//数值暂定，要算
+            });   
             break;
           case 54:
             let stealMp=skillConfig.stealMp;
-            this.selfPlayerComp.mpRecoverEffect(attackNum*stealMp)
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+               this.selfPlayerComp.mpRecoverEffect(attackNum*stealMp)
+            }); 
             break;
           case 55:      
             let recoverDown=skillConfig.recoverDown.split('-').map(Number);
             let recoverDownT=recoverDown[0],recoverDownPer=recoverDown[1];
-            this.otherPlayerComp.changePerMp(recoverDownT*1000,recoverDownPer)
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,null,null); 
+            this.otherPlayerComp.changePerMp(recoverDownT*1000,recoverDownPer)  
             break;
           case 59:
             let freezeTime=skillConfig.freeze*1000
-            this.otherPlayerComp.freezedEffect(freezeTime);
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+              this.otherPlayerComp.freezedEffect(freezeTime);
+           });      
             break;
           case 89:
             console.error('释放人物技能89,让对方内力减少100点');
             let downMP=skillConfig.downMp;
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,null,null); 
             this.otherPlayerComp.MPComp.changeMP(-downMP);
             break;
             //命中后对手晕眩2秒
           case 90:
             let dizzyT=skillConfig.dizziness*1000;
-            this.otherPlayerComp.dizzyEffect(dizzyT);
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+              this.otherPlayerComp.dizzyEffect(dizzyT);
+            });   
+            break;
+          default :
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
             break;
         }
        
@@ -367,8 +401,11 @@ export default class Weapon extends PaoYa.Component {
           console.error('触发技能伤害，有莫有伤害倍数不知道')
           skillHurtMulti=(this.params.activeSkill.skillConfig.hurt)?this.params.activeSkill.skillConfig.hurt:1;
         }
-    let acttackNum=Math.floor(this.weaponAttack*(selfStrength-otherBone)/otherStrength*selfCritHarm*skillHurtMulti);
-    return acttackNum;
+    let attackNum=Math.floor(this.weaponAttack*(selfStrength-otherBone)/otherStrength*selfCritHarm*skillHurtMulti);
+    return {
+      attackNum:attackNum,
+      isCrit:randomNum<100
+    };
   }
   //兵器反弹
   goBack(){

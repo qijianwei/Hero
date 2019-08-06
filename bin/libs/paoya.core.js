@@ -2603,9 +2603,12 @@ var Navigator = /** @class */ (function (_super) {
             var screenHeight = Laya.Browser.height;
             var width = stage.designWidth;
             var height = stage.designHeight;
-            var scaleX = screenWidth / width;
+           /*  var scaleX = screenWidth / width;
             var y = (screenHeight - height * scaleX >> 1) / scaleX;
-            scene.y = Math.floor(y);
+            scene.y = Math.floor(y); */
+            var scaleY=screenHeight/height;
+            var x=(screenWidth-width*scaleY>>1)/scaleY;
+            scene.x=Math.floor(x);
             Laya.Scene.setLoadingPage(scene);
             cb && cb();
         }));
@@ -2616,9 +2619,12 @@ var Navigator = /** @class */ (function (_super) {
         var screenHeight = Laya.Browser.height;
         var width = stage.designWidth;
         var height = stage.designHeight;
-        var scaleX = screenWidth / width;
+        /* var scaleX = screenWidth / width;
         var y = (screenHeight - height * scaleX >> 1) / scaleX;
-        view.y = Math.floor(y);
+        view.y = Math.floor(y); */
+        var scaleY=screenHeight/height;
+        var x=(screenWidth-width*scaleY>>1)/scaleY;
+        view.x=Math.floor(x);
     };
     /**================= dispatch system event =================**/
     Navigator.prototype._onReceiveMessage = function (cmd, value, code, message) {
@@ -3569,14 +3575,16 @@ var Game = /** @class */ (function (_super) {
         //屏幕适配相关
         var stage = Laya.stage;
         var Stage = Laya.Stage;
-        stage.scaleMode = config.scaleMode || Stage.SCALE_FIXED_WIDTH;
+        console.log(Laya.Browser.width,Laya.Browser.height)
         stage.alignH = config.alignH || Stage.ALIGN_CENTER;
         stage.alignV = config.alignV || Stage.ALIGN_MIDDLE;
         if (config.portrait == undefined || config.portrait=="portrait") {
             stage.screenMode = Stage.SCREEN_VERTICAL;
+            stage.scaleMode = config.scaleMode || Stage.SCALE_FIXED_WIDTH;
         }
         else {
             stage.screenMode = Stage.SCREEN_HORIZONTAL;
+            stage.scaleMode = config.scaleMode || Stage.SCALE_FIXED_HEIGHT;
         }
         // stage.frameRate = Stage.FRAME_MOUSE;
         var sprite = new Laya.Sprite();

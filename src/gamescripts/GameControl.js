@@ -55,7 +55,7 @@ export default class GameControl extends PaoYa.Component {
             icon: 'remote/game/avstar_1.png'
         }, false);
         Laya.timer.once(5000, this, () => {
-            // Laya.timer.once(1000,this,this.startSelect); 
+             Laya.timer.once(1000,this,this.startSelect); 
 
         })
         //机器人开始
@@ -73,14 +73,6 @@ export default class GameControl extends PaoYa.Component {
     restart() {
 
     }
-    /*   this.startPos = {
-            x: 340,
-            y: 450
-          }
-          this.endPos = {
-            x: 960,
-            y: 450
-          } */
     drawParabola() {
         let space = 5;
         let pathArr = [];
@@ -339,7 +331,7 @@ export default class GameControl extends PaoYa.Component {
             prob = skill.skillProb;
         /*<---------- 测试用例start  */
         if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-            let testId = 62;
+            let testId = 45;
 
             let tempArr = [{
                 skillId: 43,

@@ -47,10 +47,7 @@ export default class Player extends PaoYa.Component {
     //不管什么状态播放完，都继续播放待机状态
     this.skeleton.on(Laya.Event.STOPPED, this, () => {
       Laya.MouseManager.enabled = true;
-      if (this.HPComp.curHP <= 0) {
-        this.skeleton.playbackRate(1)
-        return;
-      }
+      /* this.skeleton.off() */
       if(this.sectionAni==1){
         this.sectionAni+=1;
         this.skeleton.play('dodge2', false)
@@ -65,9 +62,9 @@ export default class Player extends PaoYa.Component {
         this.removeDodge();
         return;
       }
-      this.skeleton.playbackRate(1)
-      this.skeleton.play('stand', true)
+      this.skeleton.play('stand', true) 
     })
+   
     owner.addChild(skeleton);
 
     let freeze = HeroConfig.getSkeleton('freeze');
@@ -85,47 +82,64 @@ export default class Player extends PaoYa.Component {
   initDress() {
     let url = "spine/hero/hero_1.sk";
     this.skeleton.load(url, Laya.Handler.create(this, () => {
-       // this.skeleton.play('dizzy', true);
         this.skeleton.play('stand', true)
-      /*   this.skeleton.playbackRate(1)
-        this.skeleton.play('win',true); */
     }))
+    /* this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
+        console.log(e) 
+    }) */
   }
 
   //攻击
   attackEffect() {
-    this.skeleton.playbackRate(1)
-    this.skeleton.play("attack", false)
+   // this.skeleton.playbackRate(1)
+    this.skeleton.play("attack", false);
+   /*  if(this.isSelf){
+      this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
+        console.log(111111) 
+      })
+    } */
+   
   }
 //受击打,所有武器碰到都有这效果
-  injuredEffect(type, value) {
+  injuredEffect(posType,value,isCrit,cb) {
     this.canAction = false;
     if(this.isSelf){
       Laya.MouseManager.enabled = false;
     } 
     this.HPComp.changeHP(value);
+   if(isCrit){
+     this.showFontEffect("暴击"+value,"crit")
+   }else{
+      this.showFontEffect(value,"hurt")
+   }   
+  
     if (this.HPComp.curHP <= 0) {
       console.error('死亡结束')
       GameControl.instance.gameOver(this.isSelf);
       this.skeleton.play("death", false);
       return;
     }
-    let aniName = this.typeAniName[type];
+    let aniName = this.typeAniName[posType];
     this.skeleton.play("injured", false);
     this['boxAni' + aniName].visible = true;
     this['ani' + aniName].play(0, false);
+    cb&&this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
+      cb();
+    })
   }
-
+//恢复生命
   hpRecoverEffect(value) {
     this.boxAniHp.visible = true;
     this.aniHp.play(0, false);
     this.HPComp.changeHP(value);
+    this.showFontEffect(value,"recoverHP")
   }
   //恢复内力
   mpRecoverEffect(value) {
     this.boxAniMp.visible = true;
     this.aniMp.play(0, false);
     this.MPComp.changeMP(value);
+    this.showFontEffect(value,"recoverMP")
   }
   //中毒
   poisonEffect(poisonTime, hpValue) {
@@ -138,6 +152,8 @@ export default class Player extends PaoYa.Component {
     let startTime = new Date().getTime();
     let endTime = startTime + poisonTime;
     this.HPComp.changeHP(hpValue);
+    let showText=hpValue>0?"中毒+"+hpValue:"中毒"+hpValue;
+    this.showFontEffect(showText,"poision")
     Laya.timer.loop(1000, this, this.minusHp, [endTime, hpValue])
 
   }
@@ -147,6 +163,8 @@ export default class Player extends PaoYa.Component {
       Laya.timer.clear(this, this.minusHp);
       return;
     }
+    let showText=hpValue>0?"中毒+"+hpValue:"中毒"+hpValue;
+    this.showFontEffect(showText,"poision")
     this.HPComp.changeHP(hpValue);
   }
   removePoison() {
@@ -226,6 +244,33 @@ export default class Player extends PaoYa.Component {
  recoverPerMp(){
   this.MPComp.changePerMP(this.MPComp.originPerAddMP);
  }
+ showFontEffect(value, type) {
+  let hurt = Laya.Pool.getItemByClass('effectLabel', Laya.Label);
+  this.hurt = hurt;
+  hurt.text = value;
+/*   hurt.fontSize = 100;  */
+  hurt.font = type;
+  hurt.alpha = 1;
+  hurt.leading=30;
+  let endPos;
+  if (this.isSelf) {
+       hurt.scaleX = 1;
+     
+  } else {
+       hurt.scaleX = -1;      
+  }
+   endPos = {
+    y: -80
+  }
+  hurt.y=20;
+  hurt.centerX=0;
+  this.owner.addChild(hurt);
+  var tween = new Laya.Tween();
+  tween.to(hurt, {y: endPos.y }, 600, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
+      item.removeSelf();
+      Laya.Pool.recover('effectLabel', item);
+  }, [hurt]));
+}
   onDisable() {
 
   }

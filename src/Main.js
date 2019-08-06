@@ -24,7 +24,7 @@ export class Main extends GameMain {
 			adUnitId:'adunit-7860aaf8ed04aeb2',
 			bannerUnitId: 'adunit-4bec7f17587df319',//bannerID
 			portrait:"landscape",
-			loadNetworkRes:false,
+			loadNetworkRes:true,
 			is_config:0
 		};
 		super(params)
@@ -59,6 +59,28 @@ export class Main extends GameMain {
 		}
 		SoundManager.playMusic("mainBgm"); */
 		HeroConfig.loadAllSpine();
+		this.arrayFont = [
+            { fontUrl: "font/recMP.fnt", fontAni: "recoverMP" },
+            { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" },
+            { fontUrl: "font/hurt.fnt", fontAni: "hurt" },
+			{ fontUrl: "font/crit.fnt", fontAni: "crit" },
+			{fontUrl:"font/poision.fnt",fontAni:"poision"},
+			{fontUrl:"font/shanghai.fnt",fontAni:"shanghai"},
+			/* {} */
+        ]
+		this.loadFontFnt(0);
+	}
+	loadFontFnt(index) {
+		if (index < this.arrayFont.length) {
+			var font = new Laya.BitmapFont();
+			var itemFont = this.arrayFont[index];
+			var _this = this
+			font.loadFont(itemFont.fontUrl, Laya.Handler.create(_this, function () {
+				Laya.Text.registerBitmapFont(itemFont.fontAni, font);
+				index++;
+				_this.loadFontFnt(index);
+			}))
+		}
 	}
 	/**此处返回游戏需要提前加载的资源，必须返回一个数组 */
 	setupGameRes() {
@@ -115,6 +137,6 @@ export class Main extends GameMain {
 }
 //激活启动类
 new Main();
-console.log=function(){};
+/* console.log=function(){};
 console.warn=function(){};
-console.error=function(){};
+console.error=function(){}; */

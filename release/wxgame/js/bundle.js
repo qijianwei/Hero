@@ -200,7 +200,7 @@ var Main = exports.Main = function (_GameMain) {
 			adUnitId: 'adunit-7860aaf8ed04aeb2',
 			bannerUnitId: 'adunit-4bec7f17587df319', //bannerID
 			portrait: "landscape",
-			loadNetworkRes: false,
+			loadNetworkRes: true,
 			is_config: 0
 		};
 		return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, params));
