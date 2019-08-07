@@ -1,3 +1,5 @@
+import GameControl from "../GameControl";
+
 export default class Skill extends PaoYa.Component{
     /* @prop {name:spShadow,tips:"阴影遮罩",type:Node} */
     constructor(){
@@ -24,12 +26,16 @@ export default class Skill extends PaoYa.Component{
       owner.on(Laya.Event.CLICK,this,this.clickHandler);
     }
     clickHandler(){
+        if(!GameControl.instance.selfPlayer.comp.canAction||GameControl.instance.selfPlayer.comp.dodge){
+            GameControl.instance.showTips("无法行动");
+            return;
+        }
         if(this.freezeing){
-            console.warn("冷却中不接受点击");
+            GameControl.instance.showTips("技能未冷却");
             return;
         }    
-      
-        this.startT();
+        this.postNotification(Skill.CLICK,[this.owner.name]);
+       // this.startT();
     }
     initCdTime(cdTime){
         console.warn('初始化cd时间:',cdTime);
@@ -75,3 +81,4 @@ export default class Skill extends PaoYa.Component{
     }
    
 }
+Skill.CLICK="skillClick";

@@ -47,7 +47,9 @@ export default class WeaponBar extends PaoYa.Component {
 
         this.initView();
     }
-   
+    /* onUpdate(){
+        if(this.weaponConsume>)
+    } */
     onEnable() {
     //    console.log(this.spWeapon);
 
@@ -67,8 +69,12 @@ export default class WeaponBar extends PaoYa.Component {
 
     }
     clickHandler(e) {
+        if(!GameControl.instance.selfPlayer.comp.canAction||GameControl.instance.selfPlayer.comp.dodge){
+            GameControl.instance.showTips("无法行动");
+            return;
+        }
         if(this.freezeing){
-            console.warn("冷却状态不接受点击")
+            GameControl.instance.showTips("兵器未冷却");
           return; 
         }
         console.error('传出去的武器攻击值:',this.params.weaponAttack)

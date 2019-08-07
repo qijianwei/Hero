@@ -104,7 +104,7 @@ export default class Player extends PaoYa.Component {
   }
   //受击打,所有武器碰到都有这效果
   injuredEffect(posType, value, isCrit, cb) {
-    this.canAction = false;
+   // this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
     }
@@ -148,6 +148,7 @@ export default class Player extends PaoYa.Component {
     this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
+      GameControl.instance.allBtnsLock();
     }
     this.boxAniPoison.visible = true;
     this.aniPoison.play(0, true);
@@ -174,6 +175,7 @@ export default class Player extends PaoYa.Component {
     this.canAction = true;
     if (this.isSelf) {
       Laya.MouseManager.enabled = true;
+      GameControl.instance.allBtnsUnlock();
     }
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
@@ -183,6 +185,7 @@ export default class Player extends PaoYa.Component {
     this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
+      GameControl.instance.allBtnsLock();
     }
     this.boxAniPalsy.visible = true;
     //  this.HPComp.changeHP(value)
@@ -196,6 +199,7 @@ export default class Player extends PaoYa.Component {
     this.canAction = true;
     if (this.isSelf) {
       Laya.MouseManager.enabled = true;
+      GameControl.instance.allBtnsUnlock();
     }
     this.skeleton.play('stand', true);
     this.boxAniPalsy.visible = false;
@@ -211,6 +215,7 @@ export default class Player extends PaoYa.Component {
     this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
+      GameControl.instance.allBtnsLock();
     }
     this.freeze.visible = true;
     this.skeleton.play('freeze', true)
@@ -222,6 +227,7 @@ export default class Player extends PaoYa.Component {
     this.canAction = true;
     if (this.isSelf) {
       Laya.MouseManager.enabled = true;
+      GameControl.instance.allBtnsUnlock();
     }
     this.freeze.visible = false;
     this.skeleton.play('stand', true);
@@ -234,6 +240,9 @@ export default class Player extends PaoYa.Component {
     this.skeleton.play('dodge1', false);
     this.boxAniDodge.visible = true;
     this.aniDodge.play(0, true);
+    if(this.isSelf){
+      GameControl.instance.allBtnsLock();
+    }  
   }
   removeDodge() {
     this.owner.zOrder = 20;
@@ -241,6 +250,9 @@ export default class Player extends PaoYa.Component {
     this.dodge = false;
     this.boxAniDodge.visible = false;
     this.aniDodge.stop();
+    if(this.isSelf){
+      GameControl.instance.allBtnsUnlock();
+    }
   }
   changePerMp(time, valuePer) {
     this.MPComp.changePerMP(this.MPComp.perAddMP * valuePer);

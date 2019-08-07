@@ -26,12 +26,16 @@ export default class Dodge extends PaoYa.Component{
     }
 
     clickHandler(){
+        if(!GameControl.instance.selfPlayer.comp.canAction||GameControl.instance.selfPlayer.comp.dodge){
+            GameControl.instance.showTips("无法行动");
+            return;
+        }
         if(this.freezeing){
-            console.warn("冷却中不接受点击");
+            GameControl.instance.showTips("技能未冷却")
             return;
         }
         GameControl.instance.dodgeSkillShow(true);       
-        this.startT();
+      
     }
     startT(time) {
        

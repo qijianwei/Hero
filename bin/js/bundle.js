@@ -51,10 +51,6 @@ var _Dodge = require("./gamescripts/prefab/Dodge");
 
 var _Dodge2 = _interopRequireDefault(_Dodge);
 
-var _GameControl = require("./gamescripts/GameControl");
-
-var _GameControl2 = _interopRequireDefault(_GameControl);
-
 var _GameBanner = require("./gamescripts/prefab/GameBanner");
 
 var _GameBanner2 = _interopRequireDefault(_GameBanner);
@@ -66,6 +62,10 @@ var _Skill2 = _interopRequireDefault(_Skill);
 var _PlayerState = require("./gamescripts/prefab/PlayerState");
 
 var _PlayerState2 = _interopRequireDefault(_PlayerState);
+
+var _GameControl = require("./gamescripts/GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
 
 var _Player = require("./gamescripts/prefab/Player");
 
@@ -110,10 +110,10 @@ var GameConfig = function () {
 												reg("gamescripts/prefab/MPBar.js", _MPBar2.default);
 												reg("gamescripts/prefab/HPBar.js", _HPBar2.default);
 												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
-												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("gamescripts/prefab/GameBanner.js", _GameBanner2.default);
 												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("gamescripts/prefab/PlayerState.js", _PlayerState2.default);
+												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("gamescripts/prefab/Player.js", _Player2.default);
 												reg("scripts/common/Loading/LoadingView.js", _LoadingView2.default);
 												reg("scripts/common/Loading/LoadingControl.js", _LoadingControl2.default);
@@ -369,8 +369,6 @@ var GameControl = function (_PaoYa$Component) {
     _createClass(GameControl, [{
         key: 'onAwake',
         value: function onAwake() {
-            var _this2 = this;
-
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -385,12 +383,13 @@ var GameControl = function (_PaoYa$Component) {
 
             this.selfMultiMP = 1; //兵器造成的内力消耗倍数
             this.otherMultiMP = 1; //兵器造成的内力消耗倍数
-            this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；
+            this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；还有置灰功能
 
             //暂时这么用;可能要用全局状态管理器
             this.selfWeapons = [];
             this.otherWeapons = [];
             this.dodgeComp = this.owner.dodge.getComponent(_Dodge2.default);
+            this.dodgeOwner = this.dodgeComp.owner;
             this.playerStateComp = this.playerState.getComponent(_PlayerState2.default);
             this.initWeaponsBar();
             this.initPlayer(true);
@@ -405,7 +404,8 @@ var GameControl = function (_PaoYa$Component) {
                 icon: 'remote/game/avstar_1.png'
             }, false);
             Laya.timer.once(5000, this, function () {
-                Laya.timer.once(1000, _this2, _this2.startSelect);
+                // /Laya.timer.once(1000, this, this.startSelect);
+
             });
             //机器人开始
 
@@ -468,24 +468,76 @@ var GameControl = function (_PaoYa$Component) {
                 }
             }
         }
-    }, {
-        key: 'onClick',
-        value: function onClick(e) {
-            switch (e.target.name) {
+        /*   onClick(e) {
+              switch (e.target.name) {
+                    case 'skill1':
+                      if (this.skillOwner1.gray) {
+                          this.showTips("")
+                          return;
+                      }
+                      this.skillWithWeapon(true);
+                      break;
+                  case 'skill2':
+                      if (this.skillOwner2.gray) {
+                          this.showTips("")
+                          return;
+                      }
+                      this.skillWithoutWeapon(true);
+                      break;
+                }
+          } */
 
-                case 'skill1':
-                    this.skillWithWeapon(true);
-                    break;
-                case 'skill2':
-                    this.skillWithoutWeapon(true);
-                    break;
-
-            }
-        }
     }, {
         key: 'onEnable',
         value: function onEnable() {
             this.onNotification(_WeaponBar2.default.CLICK, this, this.weaponBarClickHandler);
+            this.onNotification(_Skill2.default.CLICK, this, this.skillClickHandler);
+        }
+        //测试内力够不够
+
+    }, {
+        key: 'onUpdate',
+        value: function onUpdate() {
+            if (!this.weaponsBarArr.length || !this.selfPlayer) {
+                return;
+            }
+            if (this.selfPlayer.comp.dodge) {
+
+                return;
+            }
+            var curMP = this.selfPlayer.comp.MPComp.curMP;
+            var originMP = this.selfPlayer.comp.MPComp.originMP;
+            this.weaponsBarArr.forEach(function (weaponBarComp) {
+                if (weaponBarComp.weaponConsume > curMP) {
+                    if (!weaponBarComp.freezeing) {
+                        weaponBarComp.owner.gray = true;
+                    }
+                } else {
+                    weaponBarComp.owner.gray = false;
+                }
+            });
+
+            if (curMP < originMP * 0.2) {
+                if (!this.dodgeComp.freezeing) {
+                    this.dodgeOwner.gray = true;
+                }
+            } else {
+                this.dodgeOwner.gray = false;
+            }
+            if (curMP < this.selfSkills[0].skillConsume * originMP) {
+                if (!this.skillScr1.freezeing) {
+                    this.skillOwner1.gray = true;
+                }
+            } else {
+                this.skillOwner1.gray = false;
+            }
+            if (curMP < this.selfSkills[2].skillConsume * originMP) {
+                if (!this.skillScr1.freezeing) {
+                    this.skillOwner2.gray = true;
+                }
+            } else {
+                this.skillOwner2.gray = false;
+            }
         }
         //初始化双方兵器库
 
@@ -526,6 +578,9 @@ var GameControl = function (_PaoYa$Component) {
             var component = player.getComponent(_Player2.default);
             component.isSelf = isSelf;
             component.attr = this.params[role];
+            if (self) {
+                this.selfSkills = this.params[role].skills;
+            }
             component.activeSkills = [];
             //把人物主动技能挑选出来
             for (var i = 0, len = this.params[role].skills.length; i < len; i++) {
@@ -577,13 +632,24 @@ var GameControl = function (_PaoYa$Component) {
             var owner = this.owner;
             var time1 = this.selfPlayer.comp.activeSkills[0].skillCd * 1000;
             var time2 = this.selfPlayer.comp.activeSkills[1].skillCd * 1000;
-            this.skillScrO = owner.skill1.getComponent(_Skill2.default);
-            this.skillScrT = owner.skill2.getComponent(_Skill2.default);
-            this.skillScrO.initCdTime(time1);
-            this.skillScrT.initCdTime(time2);
+            this.skillScr1 = owner.skill1.getComponent(_Skill2.default);
+            this.skillScr2 = owner.skill2.getComponent(_Skill2.default);
+            this.skillScr1.initCdTime(time1);
+            this.skillScr2.initCdTime(time2);
+            this.skillOwner1 = this.skillScr1.owner;
+            this.skillOwner2 = this.skillScr2.owner;
             /* owenr.skill1.index=1;
             owenr.skill2.index=2; */
-            // this.skillScrO.
+            // this.skillScr1.
+        }
+    }, {
+        key: 'skillClickHandler',
+        value: function skillClickHandler(name) {
+            if (name == "skill1") {
+                this.skillWithWeapon(true);
+            } else if (name == "skill2") {
+                this.skillWithoutWeapon(true);
+            }
         }
     }, {
         key: 'skillWithWeapon',
@@ -591,13 +657,19 @@ var GameControl = function (_PaoYa$Component) {
             var name = isSelf ? 'self' : 'other';
             var roleComp = this[name + 'Player'].comp,
                 skillWeapon = JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
+            var skillInfo = this[name + 'Player'].comp.activeSkills[1];
             var originMP = roleComp.MPComp.originMP;
-            var consumeMP = skillWeapon.weaponConsume * originMP;
+            var consumeMP = skillInfo.skillConsume * originMP;
             if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
                 console.warn(name + 'Player' + "__体力不足");
+                if (isSelf) {
+                    this.showTips("内力不足");
+                }
                 return;
             }
-
+            if (isSelf) {
+                this.skillScr1.startT();
+            }
             skillWeapon.isSelf = isSelf;
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
             skillWeapon.skillEffect = true;
@@ -617,10 +689,22 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this3 = this;
+            var _this2 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
+            var originMP = this[name + 'Player'].comp.MPComp.originMP;
+            var consumeMP = skillInfo.skillConsume * originMP;
+            if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
+                console.warn(name + 'Player' + "__体力不足");
+                if (isSelf) {
+                    this.showTips("内力不足");
+                }
+                return;
+            }
+            if (isSelf) {
+                this.skillScr2.startT();
+            }
             switch (skillInfo.skillId) {
                 case 33:
                     this.allWeaponsUnfreeze(skillInfo);
@@ -639,7 +723,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this3[name + 'MultiMP'] = 1;
+                        _this2[name + 'MultiMP'] = 1;
                     });
                     break;
                 case 45:
@@ -649,7 +733,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(skillInfo) {
-            var _this4 = this;
+            var _this3 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -658,10 +742,34 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this4.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this3.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
             });
+        }
+        //所有兵器选择框和技能框置灰
+
+    }, {
+        key: 'allBtnsLock',
+        value: function allBtnsLock() {
+            this.weaponsBarArr.forEach(function (weaponBarComp) {
+                weaponBarComp.owner.gray = true;
+            });
+            this.dodgeOwner.gray = true;
+            this.skillOwner1.gray = true;
+            this.skillOwner2.gray = true;
+        }
+        //所有兵器选择框和技能框置灰
+
+    }, {
+        key: 'allBtnsUnlock',
+        value: function allBtnsUnlock() {
+            this.weaponsBarArr.forEach(function (weaponBarComp) {
+                weaponBarComp.owner.gray = false;
+            });
+            this.dodgeOwner.gray = false;
+            this.skillOwner1.gray = false;
+            this.skillOwner2.gray = false;
         }
     }, {
         key: 'startSelect',
@@ -677,6 +785,11 @@ var GameControl = function (_PaoYa$Component) {
                 Laya.timer.once(500, this, this.startSelect);
             }
         }
+    }, {
+        key: 'showTips',
+        value: function showTips(value) {
+            this.playerStateComp.setStateText(value);
+        }
         //兵器点击后我方表现
 
     }, {
@@ -686,11 +799,13 @@ var GameControl = function (_PaoYa$Component) {
             var name = targetComp.isSelf ? 'self' : 'other';
             var consumeMP = targetComp.weaponConsume;
             if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
-                console.warn(name + 'Player' + "__体力不足");
-                this.playerStateComp.setStateText("内力不足");
+
+                if (targetComp.isSelf) {
+                    console.warn(name + 'Player' + "__体力不足");
+                    this.playerStateComp.setStateText("内力不足");
+                }
                 return;
             }
-
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
             //人物表现
             if (this.isSelf) {
@@ -872,7 +987,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params) {
-            var _this5 = this;
+            var _this4 = this;
 
             var deltaT = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
 
@@ -890,8 +1005,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this5.owner.addChild(weapon);
-                    _this5[name + 'Weapons'].push(weaponComp);
+                    _this4.owner.addChild(weapon);
+                    _this4[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -903,7 +1018,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this6 = this;
+            var _this5 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -914,8 +1029,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this6.owner.addChild(weapon);
-                    _this6.selfWeapons.push(weaponComp);
+                    _this5.owner.addChild(weapon);
+                    _this5.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1021,12 +1136,24 @@ var GameControl = function (_PaoYa$Component) {
             }
             console.log('删除后数组' + target.isSelf, targetWeapons);
         }
-        //闪避技能
+        //闪避技能 可能双方都要用
 
     }, {
         key: 'dodgeSkillShow',
         value: function dodgeSkillShow(isSelf) {
             var name = isSelf ? 'self' : 'other';
+            var originMP = this[name + 'Player'].comp.MPComp.originMP;
+            var consumeMP = 0.2 * originMP;
+            if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
+                if (isSelf) {
+                    this.playerStateComp.setStateText("内力不足");
+                }
+                return;
+            }
+            if (isSelf) {
+                this.dodgeComp.startT();
+            }
+            this[name + "Player"].comp.MPComp.changeMP(-consumeMP);
             console.error('闪避技能使用');
             this[name + 'Player'].comp.dodgeEffect();
         }
@@ -1450,12 +1577,15 @@ var Dodge = function (_PaoYa$Component) {
     }, {
         key: "clickHandler",
         value: function clickHandler() {
+            if (!_GameControl2.default.instance.selfPlayer.comp.canAction || _GameControl2.default.instance.selfPlayer.comp.dodge) {
+                _GameControl2.default.instance.showTips("无法行动");
+                return;
+            }
             if (this.freezeing) {
-                console.warn("冷却中不接受点击");
+                _GameControl2.default.instance.showTips("技能未冷却");
                 return;
             }
             _GameControl2.default.instance.dodgeSkillShow(true);
-            this.startT();
         }
     }, {
         key: "startT",
@@ -1681,7 +1811,7 @@ var MPBar = function (_PaoYa$Component) {
         value: function initBar(MPValue) {
             console.log('初始的体力值:', MPValue);
             this.originMP = this.curMP = MPValue;
-            this.perAddMP = Math.floor(this.originMP / 390 * 30);
+            this.perAddMP = Math.floor(this.originMP / 600 * 20);
             this.originPerAddMP = this.perAddMP;
             this.lblMpPct.text = this.curMP + '/' + this.originMP;
             this.startBar();
@@ -1882,7 +2012,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "injuredEffect",
     value: function injuredEffect(posType, value, isCrit, cb) {
-      this.canAction = false;
+      // this.canAction = false;
       if (this.isSelf) {
         Laya.MouseManager.enabled = false;
       }
@@ -1935,6 +2065,7 @@ var Player = function (_PaoYa$Component) {
       this.canAction = false;
       if (this.isSelf) {
         Laya.MouseManager.enabled = false;
+        _GameControl2.default.instance.allBtnsLock();
       }
       this.boxAniPoison.visible = true;
       this.aniPoison.play(0, true);
@@ -1964,6 +2095,7 @@ var Player = function (_PaoYa$Component) {
       this.canAction = true;
       if (this.isSelf) {
         Laya.MouseManager.enabled = true;
+        _GameControl2.default.instance.allBtnsUnlock();
       }
       this.boxAniPoison.visible = false;
       this.aniPoison.stop();
@@ -1976,12 +2108,14 @@ var Player = function (_PaoYa$Component) {
       this.canAction = false;
       if (this.isSelf) {
         Laya.MouseManager.enabled = false;
+        _GameControl2.default.instance.allBtnsLock();
       }
       this.boxAniPalsy.visible = true;
       //  this.HPComp.changeHP(value)
       this.aniPalsy.play(0, true);
 
       this.skeleton.play('dizzy', true);
+      this.showPlayerState("晕眩");
       Laya.timer.once(dizzyTime, this, this.removeDizzy);
     }
   }, {
@@ -1990,6 +2124,7 @@ var Player = function (_PaoYa$Component) {
       this.canAction = true;
       if (this.isSelf) {
         Laya.MouseManager.enabled = true;
+        _GameControl2.default.instance.allBtnsUnlock();
       }
       this.skeleton.play('stand', true);
       this.boxAniPalsy.visible = false;
@@ -2009,15 +2144,17 @@ var Player = function (_PaoYa$Component) {
     key: "freezedEffect",
     value: function freezedEffect() {
       var freezeTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3000;
+      var stateText = arguments[1];
 
       this.canAction = false;
       if (this.isSelf) {
         Laya.MouseManager.enabled = false;
+        _GameControl2.default.instance.allBtnsLock();
       }
       this.freeze.visible = true;
       this.skeleton.play('freeze', true);
       this.freeze.play('freeze', false);
-      this.showPlayerState("冰冻");
+      this.showPlayerState(stateText);
       Laya.timer.once(freezeTime, this, this.removeFreeze);
     }
   }, {
@@ -2026,6 +2163,7 @@ var Player = function (_PaoYa$Component) {
       this.canAction = true;
       if (this.isSelf) {
         Laya.MouseManager.enabled = true;
+        _GameControl2.default.instance.allBtnsUnlock();
       }
       this.freeze.visible = false;
       this.skeleton.play('stand', true);
@@ -2041,6 +2179,9 @@ var Player = function (_PaoYa$Component) {
       this.skeleton.play('dodge1', false);
       this.boxAniDodge.visible = true;
       this.aniDodge.play(0, true);
+      if (this.isSelf) {
+        _GameControl2.default.instance.allBtnsLock();
+      }
     }
   }, {
     key: "removeDodge",
@@ -2050,6 +2191,9 @@ var Player = function (_PaoYa$Component) {
       this.dodge = false;
       this.boxAniDodge.visible = false;
       this.aniDodge.stop();
+      if (this.isSelf) {
+        _GameControl2.default.instance.allBtnsUnlock();
+      }
     }
   }, {
     key: "changePerMp",
@@ -2182,20 +2326,31 @@ var PlayerState = function (_PaoYa$Component) {
     }, {
         key: "setStateText",
         value: function setStateText(value) {
-            var _this2 = this;
-
             this.owner.visible = true;
             this.lblState.text = value;
             this.lblState.font = "playerState";
-            this.owner.alpha = 0.5;
-            this.tween.complete();
-            this.tween.to(this.owner, { alpha: 1 }, 1000, null, Laya.Handler.create(this, function () {
-                _this2.owner.visible = false;
-            }));
+            // this.owner.alpha=1;
+            /*  this.tween.complete();
+             this.tween.to(this.owner,{alpha:1},1000,null,Laya.Handler.create(this,()=>{
+                this.owner.visible=false;
+             })); */
+            Laya.timer.clear(this, this.hide);
+            Laya.timer.once(500, this, this.hide);
+        }
+    }, {
+        key: "hide",
+        value: function hide() {
+            this.owner.visible = false;
         }
     }, {
         key: "onDisable",
         value: function onDisable() {}
+    }, {
+        key: "onDestroy",
+        value: function onDestroy() {
+            this.tween && this.tween.destroy();
+            this.tween = null;
+        }
     }]);
 
     return PlayerState;
@@ -2211,6 +2366,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _GameControl = require("../GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2253,12 +2414,16 @@ var Skill = function (_PaoYa$Component) {
     }, {
         key: "clickHandler",
         value: function clickHandler() {
-            if (this.freezeing) {
-                console.warn("冷却中不接受点击");
+            if (!_GameControl2.default.instance.selfPlayer.comp.canAction || _GameControl2.default.instance.selfPlayer.comp.dodge) {
+                _GameControl2.default.instance.showTips("无法行动");
                 return;
             }
-
-            this.startT();
+            if (this.freezeing) {
+                _GameControl2.default.instance.showTips("技能未冷却");
+                return;
+            }
+            this.postNotification(Skill.CLICK, [this.owner.name]);
+            // this.startT();
         }
     }, {
         key: "initCdTime",
@@ -2317,7 +2482,9 @@ var Skill = function (_PaoYa$Component) {
 
 exports.default = Skill;
 
-},{}],16:[function(require,module,exports){
+Skill.CLICK = "skillClick";
+
+},{"../GameControl":4}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2702,7 +2869,7 @@ var Weapon = function (_PaoYa$Component) {
             //麻痹和冰冻一个效果
             case 49 || 50:
               this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, function () {
-                _this2.otherPlayerComp.freezedEffect(skillConfig.mabi * 1000);
+                _this2.otherPlayerComp.freezedEffect(skillConfig.mabi * 1000, "麻痹");
               });
               break;
             case 53:
@@ -2727,7 +2894,7 @@ var Weapon = function (_PaoYa$Component) {
             case 59:
               var freezeTime = skillConfig.freeze * 1000;
               this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, function () {
-                _this2.otherPlayerComp.freezedEffect(freezeTime);
+                _this2.otherPlayerComp.freezedEffect(freezeTime, "冰冻");
               });
               break;
             case 89:
@@ -3075,6 +3242,10 @@ var WeaponBar = function (_PaoYa$Component) {
 
             this.initView();
         }
+        /* onUpdate(){
+            if(this.weaponConsume>)
+        } */
+
     }, {
         key: "onEnable",
         value: function onEnable() {}
@@ -3100,8 +3271,12 @@ var WeaponBar = function (_PaoYa$Component) {
     }, {
         key: "clickHandler",
         value: function clickHandler(e) {
+            if (!_GameControl2.default.instance.selfPlayer.comp.canAction || _GameControl2.default.instance.selfPlayer.comp.dodge) {
+                _GameControl2.default.instance.showTips("无法行动");
+                return;
+            }
             if (this.freezeing) {
-                console.warn("冷却状态不接受点击");
+                _GameControl2.default.instance.showTips("兵器未冷却");
                 return;
             }
             console.error('传出去的武器攻击值:', this.params.weaponAttack);

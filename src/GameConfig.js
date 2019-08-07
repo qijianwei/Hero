@@ -4,10 +4,10 @@ import GameView from "./gamescripts/GameView"
 import MPBar from "./gamescripts/prefab/MPBar"
 import HPBar from "./gamescripts/prefab/HPBar"
 import Dodge from "./gamescripts/prefab/Dodge"
-import GameControl from "./gamescripts/GameControl"
 import GameBanner from "./gamescripts/prefab/GameBanner"
 import Skill from "./gamescripts/prefab/Skill"
 import PlayerState from "./gamescripts/prefab/PlayerState"
+import GameControl from "./gamescripts/GameControl"
 import Player from "./gamescripts/prefab/Player"
 import LoadingView from "./scripts/common/Loading/LoadingView"
 import LoadingControl from "./scripts/common/Loading/LoadingControl"
@@ -24,10 +24,10 @@ export default class GameConfig {
 		reg("gamescripts/prefab/MPBar.js",MPBar);
 		reg("gamescripts/prefab/HPBar.js",HPBar);
 		reg("gamescripts/prefab/Dodge.js",Dodge);
-		reg("gamescripts/GameControl.js",GameControl);
 		reg("gamescripts/prefab/GameBanner.js",GameBanner);
 		reg("gamescripts/prefab/Skill.js",Skill);
 		reg("gamescripts/prefab/PlayerState.js",PlayerState);
+		reg("gamescripts/GameControl.js",GameControl);
 		reg("gamescripts/prefab/Player.js",Player);
 		reg("scripts/common/Loading/LoadingView.js",LoadingView);
 		reg("scripts/common/Loading/LoadingControl.js",LoadingControl);

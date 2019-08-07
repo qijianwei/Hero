@@ -7,4 +7,5 @@
    <item name="remote/game/weapon.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/game/dodge.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/weapon_effect/weapon_petrifie/weapon_petrifie.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/game/btnAgain.png" type="Button" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
 </res>
