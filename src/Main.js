@@ -65,7 +65,8 @@ export class Main extends GameMain {
             { fontUrl: "font/hurt.fnt", fontAni: "hurt" },
 			{ fontUrl: "font/crit.fnt", fontAni: "crit" },
 			{fontUrl:"font/poision.fnt",fontAni:"poision"},
-			{fontUrl:"font/shanghai.fnt",fontAni:"shanghai"},
+			{fontUrl:"font/playerState.fnt",fontAni:"playerState"},
+			{fontUrl:"font/playerSkill.fnt",fontAni:"playerSkill"},
 			/* {} */
         ]
 		this.loadFontFnt(0);

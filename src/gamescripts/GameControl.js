@@ -6,6 +6,7 @@ import HPBar from './prefab/HPBar';
 import WeaponManager from './WeaponManager';
 import Skill from './prefab/Skill';
 import Dodge from './prefab/Dodge';
+import PlayerState from './prefab/PlayerState';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -14,6 +15,7 @@ export default class GameControl extends PaoYa.Component {
     /** @prop {name:selfMP,tips:'自己的体力',type:Node}*/
     /** @prop {name:otherHP,tips:'对方的血条',type:Node}*/
     /** @prop {name:otherMP,tips:'对方的体力',type:Node}*/
+    /** @prop {name:playerState,tips:'人物状态',type:Node}*/
 
     constructor() {
         super();
@@ -42,6 +44,7 @@ export default class GameControl extends PaoYa.Component {
         this.selfWeapons = [];
         this.otherWeapons = [];
         this.dodgeComp = this.owner.dodge.getComponent(Dodge);
+        this.playerStateComp=this.playerState.getComponent(PlayerState);
         this.initWeaponsBar();
         this.initPlayer(true);
         this.initPlayer(false);
@@ -312,7 +315,7 @@ export default class GameControl extends PaoYa.Component {
         let consumeMP = targetComp.weaponConsume;
         if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
             console.warn(name + 'Player' + "__体力不足");
-            //展示内力不足文字提示
+            this.playerStateComp.setStateText("内力不足")
             return;
         }
 
@@ -331,7 +334,7 @@ export default class GameControl extends PaoYa.Component {
             prob = skill.skillProb;
         /*<---------- 测试用例start  */
         if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-            let testId = 45;
+            let testId = 59;
 
             let tempArr = [{
                 skillId: 43,

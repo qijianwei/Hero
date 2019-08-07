@@ -6,7 +6,7 @@
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
     "nodeParent":-1,
-    "maxID":211,
+    "maxID":217,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite",
-            "props":{"y":0,"x":0,"texture":"remote/game/bg.jpg","rotation":0},
+            "props":{"y":0,"x":-150,"texture":"remote/game/bg2.jpg","rotation":0},
             "nodeParent":2,
             "label":"Sprite",
             "isDirectory":false,
@@ -587,14 +587,13 @@
             "props":{"y":360,"x":182,"width":56,"var":"selfCollide","height":198},
             "nodeParent":2,
             "label":"selfCollide",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":117,
             "child":[
                 {
-                    "x":30,
                     "type":"Rect",
                     "searchKey":"Rect",
                     "props":{"width":56,"lineWidth":1,"height":198,"fillColor":"#ff0000"},
@@ -711,7 +710,7 @@
             "source":"src/gamescripts/GameControl.js",
             "searchKey":"Script,GameControl",
             "removeAble":true,
-            "props":{"y":-1,"x":0,"weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","selfMP":"@node:75","selfHP":"@node:82","player":"@Prefab:gamescenes/prefab/Player.prefab","otherMP":"@node:92","otherHP":"@node:164"},
+            "props":{"y":-1,"x":0,"weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","selfMP":"@node:75","selfHP":"@node:82","playerState":"@node:216","player":"@Prefab:gamescenes/prefab/Player.prefab","otherMP":"@node:92","otherHP":"@node:164","boxState":"@node:216"},
             "nodeParent":2,
             "label":"GameControl",
             "isDirectory":false,
@@ -955,6 +954,76 @@
             "child":[
                 ],
             "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "selectedBox":214,
+            "searchKey":"Box",
+            "props":{"y":529,"x":525.5,"visible":false,"presetID":1,"preset":"laya/pages/gamescenes/prefab/PlayerState.prefab"},
+            "nodeParent":2,
+            "maxID":216,
+            "label":"Box(PlayerState)",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":216,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/PlayerState.prefab"},
+                    "nodeParent":216,
+                    "label":"Sprite(PlayerState)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":212,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Label",
+                    "searchKey":"Label",
+                    "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/PlayerState.prefab"},
+                    "nodeParent":216,
+                    "label":"Label(PlayerState)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":213,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/gamescripts/prefab/PlayerState.js",
+                    "searchKey":"Script,PlayerState",
+                    "removeAble":true,
+                    "props":{"presetID":4,"preset":"laya/pages/gamescenes/prefab/PlayerState.prefab"},
+                    "nodeParent":216,
+                    "label":"PlayerState",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":215,
+                    "child":[
+                        ]
+                }],
+            "animations":[
+                {
+                    "nodes":[
+                        ],
+                    "name":"ani1",
+                    "id":1,
+                    "frameRate":24,
+                    "action":0
+                }]
         }],
     "animations":[
         {

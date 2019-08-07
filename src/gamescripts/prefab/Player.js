@@ -33,7 +33,7 @@ export default class Player extends PaoYa.Component {
   onAwake() {
     //this.params=this.owner.params;
     let owner = this.owner;
-    this.typeAniName = ["", "Bot", "Mid", "Top","Top"]; //对应轨迹的动画名称
+    this.typeAniName = ["", "Bot", "Mid", "Top", "Top"]; //对应轨迹的动画名称
 
     let width = owner.width,
       height = owner.height;
@@ -41,30 +41,31 @@ export default class Player extends PaoYa.Component {
     let skeleton = new Laya.Skeleton();
     let posX = Math.floor(width / 2),
       posY = height;
+    this.centerX = posX;
     skeleton.pos(posX, posY - 10);
     this.skeleton = skeleton;
-    this.sectionAni=0;//分段动画
+    this.sectionAni = 0; //分段动画
     //不管什么状态播放完，都继续播放待机状态
     this.skeleton.on(Laya.Event.STOPPED, this, () => {
       Laya.MouseManager.enabled = true;
       /* this.skeleton.off() */
-      if(this.sectionAni==1){
-        this.sectionAni+=1;
+      if (this.sectionAni == 1) {
+        this.sectionAni += 1;
         this.skeleton.play('dodge2', false)
         return;
       }
-      if(this.sectionAni==2){
-        this.sectionAni+=1;
+      if (this.sectionAni == 2) {
+        this.sectionAni += 1;
         this.skeleton.play('dodge3', false)
         return;
       }
-      if(this.sectionAni==3){
+      if (this.sectionAni == 3) {
         this.removeDodge();
         return;
       }
-      this.skeleton.play('stand', true) 
+      this.skeleton.play('stand', true)
     })
-   
+
     owner.addChild(skeleton);
 
     let freeze = HeroConfig.getSkeleton('freeze');
@@ -74,6 +75,7 @@ export default class Player extends PaoYa.Component {
 
     this.canAction = true;
     this.initDress();
+
   }
 
   onEnable() {
@@ -82,7 +84,7 @@ export default class Player extends PaoYa.Component {
   initDress() {
     let url = "spine/hero/hero_1.sk";
     this.skeleton.load(url, Laya.Handler.create(this, () => {
-        this.skeleton.play('stand', true)
+      this.skeleton.play('stand', true)
     }))
     /* this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
         console.log(e) 
@@ -91,28 +93,28 @@ export default class Player extends PaoYa.Component {
 
   //攻击
   attackEffect() {
-   // this.skeleton.playbackRate(1)
+    // this.skeleton.playbackRate(1)
     this.skeleton.play("attack", false);
-   /*  if(this.isSelf){
-      this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-        console.log(111111) 
-      })
-    } */
-   
+    /*  if(this.isSelf){
+       this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
+         console.log(111111) 
+       })
+     } */
+
   }
-//受击打,所有武器碰到都有这效果
-  injuredEffect(posType,value,isCrit,cb) {
+  //受击打,所有武器碰到都有这效果
+  injuredEffect(posType, value, isCrit, cb) {
     this.canAction = false;
-    if(this.isSelf){
+    if (this.isSelf) {
       Laya.MouseManager.enabled = false;
-    } 
+    }
     this.HPComp.changeHP(value);
-   if(isCrit){
-     this.showFontEffect("暴击"+value,"crit")
-   }else{
-      this.showFontEffect(value,"hurt")
-   }   
-  
+    if (isCrit) {
+      this.showFontEffect("暴击" + value, "crit")
+    } else {
+      this.showFontEffect(value, "hurt")
+    }
+
     if (this.HPComp.curHP <= 0) {
       console.error('死亡结束')
       GameControl.instance.gameOver(this.isSelf);
@@ -123,37 +125,38 @@ export default class Player extends PaoYa.Component {
     this.skeleton.play("injured", false);
     this['boxAni' + aniName].visible = true;
     this['ani' + aniName].play(0, false);
-    cb&&this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
+    cb && this.skeleton.once(Laya.Event.LABEL, this, (e) => {
       cb();
     })
   }
-//恢复生命
+  //恢复生命
   hpRecoverEffect(value) {
     this.boxAniHp.visible = true;
     this.aniHp.play(0, false);
     this.HPComp.changeHP(value);
-    this.showFontEffect(value,"recoverHP")
+    this.showFontEffect("+" + value, "recoverHP")
   }
   //恢复内力
   mpRecoverEffect(value) {
     this.boxAniMp.visible = true;
     this.aniMp.play(0, false);
     this.MPComp.changeMP(value);
-    this.showFontEffect(value,"recoverMP")
+    this.showFontEffect("+" + value, "recoverMP")
   }
   //中毒
   poisonEffect(poisonTime, hpValue) {
     this.canAction = false;
-    if(this.isSelf){
-      Laya.MouseManager.enabled=false;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = false;
     }
     this.boxAniPoison.visible = true;
-    this.aniPoison.play(0,true);
+    this.aniPoison.play(0, true);
     let startTime = new Date().getTime();
-    let endTime = startTime + poisonTime;
-    this.HPComp.changeHP(hpValue);
-    let showText=hpValue>0?"中毒+"+hpValue:"中毒"+hpValue;
-    this.showFontEffect(showText,"poision")
+    let endTime = startTime + poisonTime + 1000;
+    // this.HPComp.changeHP(hpValue);
+    this.showPlayerState("中毒")
+    // let showText=hpValue>0?"中毒+"+hpValue:"中毒"+hpValue;
+    // this.showFontEffect(showText,"poision")
     Laya.timer.loop(1000, this, this.minusHp, [endTime, hpValue])
 
   }
@@ -163,14 +166,14 @@ export default class Player extends PaoYa.Component {
       Laya.timer.clear(this, this.minusHp);
       return;
     }
-    let showText=hpValue>0?"中毒+"+hpValue:"中毒"+hpValue;
-    this.showFontEffect(showText,"poision")
+    let showText = hpValue > 0 ? "中毒+" + hpValue : "中毒" + hpValue;
+    this.showFontEffect(showText, "poision")
     this.HPComp.changeHP(hpValue);
   }
   removePoison() {
     this.canAction = true;
-    if(this.isSelf){
-      Laya.MouseManager.enabled=true;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = true;
     }
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
@@ -178,22 +181,23 @@ export default class Player extends PaoYa.Component {
   //x眩晕
   dizzyEffect(dizzyTime) {
     this.canAction = false;
-    if(this.isSelf){
-      Laya.MouseManager.enabled=false;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = false;
     }
     this.boxAniPalsy.visible = true;
-  //  this.HPComp.changeHP(value)
+    //  this.HPComp.changeHP(value)
     this.aniPalsy.play(0, true);
-   
+
     this.skeleton.play('dizzy', true);
+    this.showPlayerState("晕眩")
     Laya.timer.once(dizzyTime, this, this.removeDizzy)
   }
   removeDizzy() {
     this.canAction = true;
-    if(this.isSelf){
-      Laya.MouseManager.enabled=true;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = true;
     }
-    this.skeleton.play('stand',true);
+    this.skeleton.play('stand', true);
     this.boxAniPalsy.visible = false;
     this.aniPalsy.stop();
   }
@@ -203,74 +207,118 @@ export default class Player extends PaoYa.Component {
     this.aniSkill.play(0, false);
   }
   //冰冻
-  freezedEffect(freezeTime = 3000) {
-    this.canAction=false;
-    if(this.isSelf){
-      Laya.MouseManager.enabled=false;
+  freezedEffect(freezeTime = 3000,stateText) {
+    this.canAction = false;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = false;
     }
     this.freeze.visible = true;
     this.skeleton.play('freeze', true)
     this.freeze.play('freeze', false)
+    this.showPlayerState(stateText)
     Laya.timer.once(freezeTime, this, this.removeFreeze)
   }
   removeFreeze() {
-    this.canAction=true;
-    if(this.isSelf){
-      Laya.MouseManager.enabled=true;
+    this.canAction = true;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = true;
     }
     this.freeze.visible = false;
-    this.skeleton.play('stand',true);
+    this.skeleton.play('stand', true);
   }
   //闪避技能
-  dodgeEffect(){
-    this.sectionAni=true;
-    this.dodge=true;//闪避无敌状态
-    this.owner.zOrder=100;
-    this.skeleton.play('dodge1',false);
-    this.boxAniDodge.visible=true;
-    this.aniDodge.play(0,true);
+  dodgeEffect() {
+    this.sectionAni = true;
+    this.dodge = true; //闪避无敌状态
+    this.owner.zOrder = 100;
+    this.skeleton.play('dodge1', false);
+    this.boxAniDodge.visible = true;
+    this.aniDodge.play(0, true);
   }
-  removeDodge(){
-    this.owner.zOrder=20;
-    this.sectionAni=0;
-    this.dodge=false;
-    this.boxAniDodge.visible=false;
+  removeDodge() {
+    this.owner.zOrder = 20;
+    this.sectionAni = 0;
+    this.dodge = false;
+    this.boxAniDodge.visible = false;
     this.aniDodge.stop();
   }
- changePerMp(time,valuePer){
-   this.MPComp.changePerMP(this.MPComp.perAddMP*valuePer);
-   Laya.timer.once(time,this,this.recoverPerMp);
- }
- recoverPerMp(){
-  this.MPComp.changePerMP(this.MPComp.originPerAddMP);
- }
- showFontEffect(value, type) {
-  let hurt = Laya.Pool.getItemByClass('effectLabel', Laya.Label);
-  this.hurt = hurt;
-  hurt.text = value;
-/*   hurt.fontSize = 100;  */
-  hurt.font = type;
-  hurt.alpha = 1;
-  hurt.leading=30;
-  let endPos;
-  if (this.isSelf) {
-       hurt.scaleX = 1;
-     
-  } else {
-       hurt.scaleX = -1;      
+  changePerMp(time, valuePer) {
+    this.MPComp.changePerMP(this.MPComp.perAddMP * valuePer);
+    Laya.timer.once(time, this, this.recoverPerMp);
   }
-   endPos = {
-    y: -80
+  recoverPerMp() {
+    this.MPComp.changePerMP(this.MPComp.originPerAddMP);
   }
-  hurt.y=20;
-  hurt.centerX=0;
-  this.owner.addChild(hurt);
-  var tween = new Laya.Tween();
-  tween.to(hurt, {y: endPos.y }, 600, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
+  showPlayerState(value) {
+    let lblState = Laya.Pool.getItemByClass('effectState', Laya.Label);
+    this.lblState = lblState;
+    lblState.text = value;
+    /*   hurt.fontSize = 100;  */
+    lblState.font = "playerState";
+    lblState.alpha = 1;
+    lblState.leading = 30;
+    let endPos;
+    let targetScaleX;
+    if (this.isSelf) {
+      lblState.scaleX = 2;
+      targetScaleX = 1;
+    } else {
+      lblState.scaleX = -2;
+      targetScaleX = -1;
+    }
+    lblState.scaleY = 2;
+    endPos = {
+      y: -100
+    }
+    lblState.y = 40;
+    lblState.pivot(lblState.width / 2, lblState.height / 2);
+    lblState.x = this.centerX;
+    this.owner.addChild(lblState);
+
+    var tween = new Laya.Tween();
+    tween.to(lblState, {
+      y: endPos.y
+    }, 500, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
       item.removeSelf();
       Laya.Pool.recover('effectLabel', item);
-  }, [hurt]));
-}
+    }, [lblState]));
+  }
+  showFontEffect(value, type) {
+    let hurt = Laya.Pool.getItemByClass('effectLabel', Laya.Label);
+    this.hurt = hurt;
+    hurt.text = value;
+    /*   hurt.fontSize = 100;  */
+    hurt.font = type;
+    hurt.alpha = 1;
+    hurt.leading = 30;
+    let endPos;
+    let targetScaleX;
+    if (this.isSelf) {
+      hurt.scaleX = 2;
+      targetScaleX = 1;
+    } else {
+      hurt.scaleX = -2;
+      targetScaleX = -1;
+    }
+    hurt.scaleY = 2;
+    endPos = {
+      y: -60
+    }
+    hurt.y = 40;
+    hurt.pivot(hurt.width / 2, hurt.height / 2);
+    hurt.x = this.centerX;
+    this.owner.addChild(hurt);
+
+    var tween = new Laya.Tween();
+    tween.to(hurt, {
+      y: endPos.y,
+      scaleX: targetScaleX,
+      scaleY: 1
+    }, 600, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
+      item.removeSelf();
+      Laya.Pool.recover('effectLabel', item);
+    }, [hurt]));
+  }
   onDisable() {
 
   }
