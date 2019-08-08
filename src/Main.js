@@ -2,6 +2,7 @@
 import config from './Config'
 import GameMain from "./scripts/common/GameMain";
 import HeroConfig from "./gamescripts/config/HeroConfig";
+import { Global } from "./gamescripts/tool/Global";
 export class Main extends GameMain {
 	constructor() {
 		var params = {
@@ -67,7 +68,8 @@ export class Main extends GameMain {
 			{fontUrl:"font/poision.fnt",fontAni:"poision"},
 			{fontUrl:"font/playerState.fnt",fontAni:"playerState"},
 			{fontUrl:"font/playerSkill.fnt",fontAni:"playerSkill"},
-			{fontUrl:"font/weaponSkill.fnt",fontAni:"weaponSkill"},
+			{fontUrl:"font/weapon/detailfont.fnt",fontAni:"weaponDFont"},
+			{fontUrl:"font/weapon/lvfont.fnt",fontAni:"weaponNFontT"},
 			/* {} */
         ]
 		this.loadFontFnt(0);
