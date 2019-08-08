@@ -325,10 +325,10 @@ export default class Weapon extends PaoYa.Component {
             });
             
             break;
-            //麻痹和冰冻一个效果
+            //麻痹和冰冻一个效果 指的是skeleton
           case 49||50:
               this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
-                this.otherPlayerComp.freezedEffect(skillConfig.mabi*1000,"麻痹");
+                this.otherPlayerComp.palsyEffect(skillConfig.mabi*1000);
             });      
             break;
           case 53:
@@ -352,7 +352,7 @@ export default class Weapon extends PaoYa.Component {
           case 59:
             let freezeTime=skillConfig.freeze*1000
             this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
-              this.otherPlayerComp.freezedEffect(freezeTime,"冰冻");
+              this.otherPlayerComp.freezedEffect(freezeTime);
            });      
             break;
           case 89:

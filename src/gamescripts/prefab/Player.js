@@ -17,14 +17,14 @@ export default class Player extends PaoYa.Component {
   /** @prop {name:boxAniMp,tips:"回蓝动效box",type:Node} */
   /** @prop {name:aniMp,tips:"回蓝动效节点",type:Node} */
 
-  /** @prop {name:boxAniSkill,tips:"技能触发动效box",type:Node} */
-  /** @prop {name:aniSkill,tips:"技能动效节点",type:Node} */
+  /** @prop {name:boxAniSkill,tips:"兵器技能触发动效box",type:Node} */
+  /** @prop {name:aniSkill,tips:"兵器技能动效节点",type:Node} */
   /** @prop {name:boxAniUp,tips:"英雄升级动效box",type:Node} */
   /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
-  /** @prop {name:boxAniDodge,tips:"闪避动效box",type:Node} */
-  /** @prop {name:aniDodge,tips:"闪避动效节点",type:Node} */
+  /** @prop {name:boxAniSkill2,tips:"人物技能2box",type:Node} */
+  /** @prop {name:aniSkill2,tips:"人物技能2动效节点",type:Node} */
 
 
   constructor() {
@@ -86,15 +86,43 @@ export default class Player extends PaoYa.Component {
     this.skeleton.load(url, Laya.Handler.create(this, () => {
       this.skeleton.play('stand', true)
     }))
-    /* this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-        console.log(e) 
-    }) */
   }
-
+  //人物触发技能1
+  showSkill1(){
+    this.boxAniSkill1.visible=true;
+    this.aniSkill1.play(0,true);
+    this.skeleton.play("skill1",false);
+  }
+  removeSkill1(){
+    this.boxAniSkill1.visible=false;
+    this.aniSkill1.stop();
+  }
+  //人物触发技能2
+  showSkill2(){
+     this.boxAniSkill2.visible=true;
+     this.aniSkill2.play(0,true);
+     this.skeleton.play("skill2",false);
+  }
+  removeSkill2(){
+     this.boxAniSkill2.visible=false;
+     this.aniSkill2.stop();
+  }
+  //人物触发兵器技能特效
+  skillEffect() {
+    this.boxAniSkill.visible = true;
+    this.aniSkill.play(0, false);
+  }
+  removeSkillEffect(){
+    this.aniSkill.stop();
+    this.boxAniPoison.visible=false;
+  }
   //攻击
-  attackEffect() {
+  attackEffect(weaponSkillEffect) {
     // this.skeleton.playbackRate(1)
     this.skeleton.play("attack", false);
+    if(weaponSkillEffect){
+      this.skillEffect();
+    }
     /*  if(this.isSelf){
        this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
          console.log(111111) 
@@ -145,6 +173,10 @@ export default class Player extends PaoYa.Component {
   }
   //中毒
   poisonEffect(poisonTime, hpValue) {
+    if(this.attr.notPoison==1){
+      this.showPlayerState("免疫")
+      return;
+    }
     this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
@@ -182,15 +214,17 @@ export default class Player extends PaoYa.Component {
   }
   //x眩晕
   dizzyEffect(dizzyTime) {
+    if(this.attr.notDizzy==1){
+      this.showPlayerState("免疫")
+      return;
+    }
     this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
-    this.boxAniPalsy.visible = true;
-    //  this.HPComp.changeHP(value)
-    this.aniPalsy.play(0, true);
-
+    this.boxAniDizzy.visible=true;
+    this.aniDizzy.play(0,true);
     this.skeleton.play('dizzy', true);
     this.showPlayerState("晕眩")
     Laya.timer.once(dizzyTime, this, this.removeDizzy)
@@ -202,16 +236,42 @@ export default class Player extends PaoYa.Component {
       GameControl.instance.allBtnsUnlock();
     }
     this.skeleton.play('stand', true);
-    this.boxAniPalsy.visible = false;
-    this.aniPalsy.stop();
+    this.boxAniDizzy.visible=false;
+    this.aniDizzy.stop();
   }
-  //人物触发兵器技能特效
-  skillEffect() {
-    this.boxAniSkill.visible = true;
-    this.aniSkill.play(0, false);
+  //麻痹
+  palsyEffect(plasyTime){
+    if(this.attr.notPalsy==1){
+      this.showPlayerState("免疫")
+      return;
+    }
+    this.canAction=false;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = false;
+      GameControl.instance.allBtnsLock();
+    }
+    this.boxAniPlasy.visible=true;
+    this.aniPlasy.play(0,true);
+    this.skeleton.play('freeze',true);
+    this.showPlayerState("麻痹");
+    Laya.timer.once(plasyTime, this, this.removePalsy)
+  }
+  removePalsy(){
+    this.canAction = true;
+    if (this.isSelf) {
+      Laya.MouseManager.enabled = true;
+      GameControl.instance.allBtnsUnlock();
+    }
+    this.skeleton.play('stand', true);
+    this.boxAniPlasy.visible=false;
+    this.aniPlasy.stop();  
   }
   //冰冻
-  freezedEffect(freezeTime = 3000,stateText) {
+  freezedEffect(freezeTime = 3000) {
+    if(this.attr.notFrozen==1){
+      this.showPlayerState("免疫")
+      return;
+    }
     this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
@@ -220,7 +280,7 @@ export default class Player extends PaoYa.Component {
     this.freeze.visible = true;
     this.skeleton.play('freeze', true)
     this.freeze.play('freeze', false)
-    this.showPlayerState(stateText)
+    this.showPlayerState("冰冻")
     Laya.timer.once(freezeTime, this, this.removeFreeze)
   }
   removeFreeze() {
@@ -238,8 +298,6 @@ export default class Player extends PaoYa.Component {
     this.dodge = true; //闪避无敌状态
     this.owner.zOrder = 100;
     this.skeleton.play('dodge1', false);
-    this.boxAniDodge.visible = true;
-    this.aniDodge.play(0, true);
     if(this.isSelf){
       GameControl.instance.allBtnsLock();
     }  
@@ -248,8 +306,6 @@ export default class Player extends PaoYa.Component {
     this.owner.zOrder = 20;
     this.sectionAni = 0;
     this.dodge = false;
-    this.boxAniDodge.visible = false;
-    this.aniDodge.stop();
     if(this.isSelf){
       GameControl.instance.allBtnsUnlock();
     }
@@ -272,17 +328,17 @@ export default class Player extends PaoYa.Component {
     let endPos;
     let targetScaleX;
     if (this.isSelf) {
-      lblState.scaleX = 2;
+      lblState.scaleX = 1.5;
       targetScaleX = 1;
     } else {
-      lblState.scaleX = -2;
+      lblState.scaleX = -1.5;
       targetScaleX = -1;
     }
-    lblState.scaleY = 2;
+    lblState.scaleY = 1.5;
     endPos = {
-      y: -100
+      y: -60
     }
-    lblState.y = 40;
+    lblState.y = 60;
     lblState.pivot(lblState.width / 2, lblState.height / 2);
     lblState.x = this.centerX;
     this.owner.addChild(lblState);

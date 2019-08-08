@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":224,
+    "selecteID":232,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
     "nodeParent":-1,
-    "maxID":228,
+    "maxID":233,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -1012,7 +1012,7 @@
             "source":"src/gamescripts/GameControl.js",
             "searchKey":"Script,GameControl",
             "removeAble":true,
-            "props":{"y":-1,"x":0,"weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","selfMP":"@node:75","selfHP":"@node:82","playerState":"@node:216","player":"@Prefab:gamescenes/prefab/Player.prefab","otherMP":"@node:92","otherHP":"@node:164","boxState":"@node:216"},
+            "props":{"y":-1,"x":0,"weaponSkill":"@Prefab:gamescenes/prefab/WeaponSkill.prefab","weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","selfMP":"@node:75","selfHP":"@node:82","playerState":"@node:216","player":"@Prefab:gamescenes/prefab/Player.prefab","otherMP":"@node:92","otherHP":"@node:164","boxState":"@node:216"},
             "nodeParent":2,
             "label":"GameControl",
             "isDirectory":false,
@@ -1088,14 +1088,13 @@
             "nodeParent":2,
             "maxID":224,
             "label":"otherSkillText",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":224,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":44,"x":136,"width":272,"scaleX":-1,"presetID":2,"preset":"laya/pages/gamescenes/prefab/PlayerSkill.prefab","pivotY":44,"pivotX":136,"height":88},
@@ -1109,7 +1108,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label",
                     "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/PlayerSkill.prefab"},
@@ -1123,7 +1121,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/gamescripts/prefab/PlayerSkill.js",

@@ -8,10 +8,12 @@ import Skill from './prefab/Skill';
 import Dodge from './prefab/Dodge';
 import PlayerState from './prefab/PlayerState';
 import PlayerSkill from './prefab/PlayerSkill';
+import WeaponSkill from './prefab/WeaponSkill';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:player,tips:"人物预制体对象",type:Prefab} */
+    /** @prop {name:weaponSkill,tips:"兵器技能名称预制体对象",type:Prefab} */
     /** @prop {name:selfHP,tips:'自己的血条',type:Node}*/
     /** @prop {name:selfMP,tips:'自己的体力',type:Node}*/
     /** @prop {name:otherHP,tips:'对方的血条',type:Node}*/
@@ -343,6 +345,8 @@ export default class GameControl extends PaoYa.Component {
             return;
         }
         if(isSelf){this.skillScr2.startT()}
+        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
+        this[name + 'Player'].comp.showSkill2();//人物技能2展示
         this.showSkillText(isSelf,skillInfo.skillName);
         switch (skillInfo.skillId) {
             case 33:
@@ -353,8 +357,11 @@ export default class GameControl extends PaoYa.Component {
                     perMP = skillInfo.skillConfig.recoverMp,
                     originHP = this[name + 'Player'].comp.HPComp.originHP,
                     resumeHP = skillInfo.skillConfig.recoverHp;
-                this[name + 'Player'].comp.changePerMp(t, perMP);
+                this[name + 'Player'].comp.changePerMp(t*1000, perMP);
                 this[name + 'Player'].comp.HPComp.changeHP(originHP * resumeHP);
+                Laya.timer.once(t * 1000, this, () => {
+                    this[name + 'Player'].comp.removeSkill2();
+                })
                 break;
             case 39:
                 /* this[name+'Player'].comp.changePerMp(); */
@@ -363,6 +370,7 @@ export default class GameControl extends PaoYa.Component {
                 Laya.timer.once(skillInfo.skillConfig.time * 1000, this, () => {
                     console.error('内力消耗倍数恢复:')
                     this[name + 'MultiMP'] = 1;
+                    this[name + 'Player'].comp.removeSkill2();
                 })
                 break;
             case 45:
@@ -381,6 +389,7 @@ export default class GameControl extends PaoYa.Component {
             this.weaponsBarArr.forEach((weaponBarComp) => {
                 weaponBarComp.setCdTime(weaponBarComp.originCdTime)
             })
+            this[name + 'Player'].comp.removeSkill2();
         })
     }
     //所有兵器选择框和技能框置灰
@@ -438,7 +447,7 @@ export default class GameControl extends PaoYa.Component {
         if (this.isSelf) {
             console.error('用户发射武器........')
         }
-        this[name + 'Player'].comp.attackEffect();
+       
         this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb;
         //判断是否触发兵器技能
         let skill = targetComp.params.activeSkill;
@@ -448,7 +457,7 @@ export default class GameControl extends PaoYa.Component {
             prob = skill.skillProb;
         /*<---------- 测试用例start  */
         if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-            let testId = 59;
+            let testId = 49;
 
             let tempArr = [{
                 skillId: 43,
@@ -601,12 +610,15 @@ export default class GameControl extends PaoYa.Component {
                     //正常开始技能冷却
                     targetComp.startT();
                 }
+                params.skillEffect = true;
+                this[name + 'Player'].comp.attackEffect(params.skillEffect);//兵器技能是否触发
                 this.weaponWithSkills(params, skillId);
                 return;
             } else {
                 console.warn('不好意思,没有触发技能')
             }
         }
+        this[name + 'Player'].comp.attackEffect(false);
         //正常开始技能冷却
         targetComp.startT();
         this.weaponLaunch(params);
@@ -669,9 +681,21 @@ export default class GameControl extends PaoYa.Component {
 
     weaponWithSkills(params, skillId) {
         let skillConfig = params.activeSkill.skillConfig;
+        let skillName=params.activeSkill.skillName;
         let hurt = skillConfig.hurt;
         let durable = skillConfig.durable;
         params.skillEffect = true; //代表技能是触发的
+        let weaponSkillBox=Laya.Pool.getItemByCreateFun('weaponSkillBox', this.weaponSkill.create, this.weaponSkill);
+        weaponSkillBox.params={
+            skillName:skillName,
+            isSelf:params.isSelf
+        }     
+        if(params.isSelf){
+          weaponSkillBox.pos(-164,189)
+        }else{
+          weaponSkillBox.pos(1134+164,189) 
+        }
+        this.owner.addChild(weaponSkillBox);
         switch (skillId) {
             case 43:
             case 44:
