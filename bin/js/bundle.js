@@ -67,6 +67,10 @@ var _GameControl = require("./gamescripts/GameControl");
 
 var _GameControl2 = _interopRequireDefault(_GameControl);
 
+var _PlayerSkill = require("./gamescripts/prefab/PlayerSkill");
+
+var _PlayerSkill2 = _interopRequireDefault(_PlayerSkill);
+
 var _Player = require("./gamescripts/prefab/Player");
 
 var _Player2 = _interopRequireDefault(_Player);
@@ -114,6 +118,7 @@ var GameConfig = function () {
 												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("gamescripts/prefab/PlayerState.js", _PlayerState2.default);
 												reg("gamescripts/GameControl.js", _GameControl2.default);
+												reg("gamescripts/prefab/PlayerSkill.js", _PlayerSkill2.default);
 												reg("gamescripts/prefab/Player.js", _Player2.default);
 												reg("scripts/common/Loading/LoadingView.js", _LoadingView2.default);
 												reg("scripts/common/Loading/LoadingControl.js", _LoadingControl2.default);
@@ -143,7 +148,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/PassResultDialog":8,"./gamescripts/prefab/Dodge":9,"./gamescripts/prefab/GameBanner":10,"./gamescripts/prefab/HPBar":11,"./gamescripts/prefab/MPBar":12,"./gamescripts/prefab/Player":13,"./gamescripts/prefab/PlayerState":14,"./gamescripts/prefab/Skill":15,"./gamescripts/prefab/Weapon":16,"./gamescripts/prefab/WeaponBar":17,"./scripts/common/HomeControl":19,"./scripts/common/Loading/LoadingControl":20,"./scripts/common/Loading/LoadingView":21}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/PassResultDialog":8,"./gamescripts/prefab/Dodge":9,"./gamescripts/prefab/GameBanner":10,"./gamescripts/prefab/HPBar":11,"./gamescripts/prefab/MPBar":12,"./gamescripts/prefab/Player":13,"./gamescripts/prefab/PlayerSkill":14,"./gamescripts/prefab/PlayerState":15,"./gamescripts/prefab/Skill":16,"./gamescripts/prefab/Weapon":17,"./gamescripts/prefab/WeaponBar":18,"./scripts/common/HomeControl":20,"./scripts/common/Loading/LoadingControl":21,"./scripts/common/Loading/LoadingView":22}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -242,7 +247,7 @@ var Main = exports.Main = function (_GameMain) {
    	}
    	SoundManager.playMusic("mainBgm"); */
 			_HeroConfig2.default.loadAllSpine();
-			this.arrayFont = [{ fontUrl: "font/recMP.fnt", fontAni: "recoverMP" }, { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" }, { fontUrl: "font/hurt.fnt", fontAni: "hurt" }, { fontUrl: "font/crit.fnt", fontAni: "crit" }, { fontUrl: "font/poision.fnt", fontAni: "poision" }, { fontUrl: "font/playerState.fnt", fontAni: "playerState" }, { fontUrl: "font/playerSkill.fnt", fontAni: "playerSkill" }];
+			this.arrayFont = [{ fontUrl: "font/recMP.fnt", fontAni: "recoverMP" }, { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" }, { fontUrl: "font/hurt.fnt", fontAni: "hurt" }, { fontUrl: "font/crit.fnt", fontAni: "crit" }, { fontUrl: "font/poision.fnt", fontAni: "poision" }, { fontUrl: "font/playerState.fnt", fontAni: "playerState" }, { fontUrl: "font/playerSkill.fnt", fontAni: "playerSkill" }, { fontUrl: "font/weaponSkill.fnt", fontAni: "weaponSkill" }];
 			this.loadFontFnt(0);
 		}
 	}, {
@@ -291,7 +296,7 @@ new Main();
 console.warn=function(){};
 console.error=function(){}; */
 
-},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":18}],4:[function(require,module,exports){
+},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":19}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -335,6 +340,10 @@ var _Dodge2 = _interopRequireDefault(_Dodge);
 var _PlayerState = require('./prefab/PlayerState');
 
 var _PlayerState2 = _interopRequireDefault(_PlayerState);
+
+var _PlayerSkill = require('./prefab/PlayerSkill');
+
+var _PlayerSkill2 = _interopRequireDefault(_PlayerSkill);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -403,9 +412,13 @@ var GameControl = function (_PaoYa$Component) {
                 name: '阿强',
                 icon: 'remote/game/avstar_1.png'
             }, false);
+            this.selfSkillText = this.owner.selfSkillText;
+            this.otherSkillText = this.owner.otherSkillText;
+            this.selfSkillTextComp = this.selfSkillText.getComponent(_PlayerSkill2.default);
+            this.otherSkillTextComp = this.otherSkillText.getComponent(_PlayerSkill2.default);
             Laya.timer.once(5000, this, function () {
                 // /Laya.timer.once(1000, this, this.startSelect);
-
+                //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
             });
             //机器人开始
 
@@ -657,7 +670,7 @@ var GameControl = function (_PaoYa$Component) {
             var name = isSelf ? 'self' : 'other';
             var roleComp = this[name + 'Player'].comp,
                 skillWeapon = JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
-            var skillInfo = this[name + 'Player'].comp.activeSkills[1];
+            var skillInfo = this[name + 'Player'].comp.activeSkills[0];
             var originMP = roleComp.MPComp.originMP;
             var consumeMP = skillInfo.skillConsume * originMP;
             if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
@@ -670,6 +683,7 @@ var GameControl = function (_PaoYa$Component) {
             if (isSelf) {
                 this.skillScr1.startT();
             }
+            this.showSkillText(isSelf, skillInfo.skillName);
             skillWeapon.isSelf = isSelf;
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
             skillWeapon.skillEffect = true;
@@ -705,6 +719,7 @@ var GameControl = function (_PaoYa$Component) {
             if (isSelf) {
                 this.skillScr2.startT();
             }
+            this.showSkillText(isSelf, skillInfo.skillName);
             switch (skillInfo.skillId) {
                 case 33:
                     this.allWeaponsUnfreeze(skillInfo);
@@ -789,6 +804,12 @@ var GameControl = function (_PaoYa$Component) {
         key: 'showTips',
         value: function showTips(value) {
             this.playerStateComp.setStateText(value);
+        }
+    }, {
+        key: 'showSkillText',
+        value: function showSkillText(isSelf, value) {
+            var name = isSelf ? 'self' : 'other';
+            this[name + 'SkillTextComp'].setSkillText(value);
         }
         //兵器点击后我方表现
 
@@ -1153,6 +1174,7 @@ var GameControl = function (_PaoYa$Component) {
             if (isSelf) {
                 this.dodgeComp.startT();
             }
+            this.showSkillText(isSelf, "闪避");
             this[name + "Player"].comp.MPComp.changeMP(-consumeMP);
             console.error('闪避技能使用');
             this[name + 'Player'].comp.dodgeEffect();
@@ -1188,7 +1210,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"./WeaponManager":6,"./prefab/Dodge":9,"./prefab/HPBar":11,"./prefab/MPBar":12,"./prefab/Player":13,"./prefab/PlayerState":14,"./prefab/Skill":15,"./prefab/Weapon":16,"./prefab/WeaponBar":17}],5:[function(require,module,exports){
+},{"./WeaponManager":6,"./prefab/Dodge":9,"./prefab/HPBar":11,"./prefab/MPBar":12,"./prefab/Player":13,"./prefab/PlayerSkill":14,"./prefab/PlayerState":15,"./prefab/Skill":16,"./prefab/Weapon":17,"./prefab/WeaponBar":18}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2308,39 +2330,37 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PlayerState = function (_PaoYa$Component) {
-    _inherits(PlayerState, _PaoYa$Component);
+var PlayerSkill = function (_PaoYa$Component) {
+    _inherits(PlayerSkill, _PaoYa$Component);
 
     /** @prop {name:lblState,tips:"人物状态",type:Node} */
-    function PlayerState() {
-        _classCallCheck(this, PlayerState);
+    function PlayerSkill() {
+        _classCallCheck(this, PlayerSkill);
 
-        return _possibleConstructorReturn(this, (PlayerState.__proto__ || Object.getPrototypeOf(PlayerState)).call(this));
+        return _possibleConstructorReturn(this, (PlayerSkill.__proto__ || Object.getPrototypeOf(PlayerSkill)).call(this));
     }
 
-    _createClass(PlayerState, [{
+    _createClass(PlayerSkill, [{
         key: "onAwake",
         value: function onAwake() {
             this.tween = new Laya.Tween();
         }
     }, {
-        key: "setStateText",
-        value: function setStateText(value) {
+        key: "setSkillText",
+        value: function setSkillText(value) {
+            var _this2 = this;
+
             this.owner.visible = true;
+            this.owner.alpha = 1;
             this.lblState.text = value;
-            this.lblState.font = "playerState";
-            // this.owner.alpha=1;
-            /*  this.tween.complete();
-             this.tween.to(this.owner,{alpha:1},1000,null,Laya.Handler.create(this,()=>{
-                this.owner.visible=false;
-             })); */
-            Laya.timer.clear(this, this.hide);
-            Laya.timer.once(500, this, this.hide);
-        }
-    }, {
-        key: "hide",
-        value: function hide() {
-            this.owner.visible = false;
+            this.lblState.scale(5, 5);
+            this.lblState.font = "playerSkill";
+
+            this.tween.to(this.lblState, { scaleX: 1, scaleY: 1 }, 300, Laya.Ease.backIn, Laya.Handler.create(this, function () {
+                _this2.tween.to(_this2.owner, { alpha: 0 }, 300, null, Laya.Handler.create(_this2, function () {
+                    _this2.owner.visible = false;
+                }), 800);
+            }));
         }
     }, {
         key: "onDisable",
@@ -2353,12 +2373,77 @@ var PlayerState = function (_PaoYa$Component) {
         }
     }]);
 
-    return PlayerState;
+    return PlayerSkill;
+}(PaoYa.Component);
+
+exports.default = PlayerSkill;
+
+},{}],15:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+   value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PlayerState = function (_PaoYa$Component) {
+   _inherits(PlayerState, _PaoYa$Component);
+
+   /** @prop {name:lblState,tips:"人物状态",type:Node} */
+   function PlayerState() {
+      _classCallCheck(this, PlayerState);
+
+      return _possibleConstructorReturn(this, (PlayerState.__proto__ || Object.getPrototypeOf(PlayerState)).call(this));
+   }
+
+   _createClass(PlayerState, [{
+      key: "onAwake",
+      value: function onAwake() {
+         // this.tween = new Laya.Tween();
+      }
+   }, {
+      key: "setStateText",
+      value: function setStateText(value) {
+         this.owner.visible = true;
+         this.lblState.text = value;
+         this.lblState.font = "playerState";
+         // this.owner.alpha=1;
+         /*  this.tween.complete();
+          this.tween.to(this.owner,{alpha:1},1000,null,Laya.Handler.create(this,()=>{
+             this.owner.visible=false;
+          })); */
+         Laya.timer.clear(this, this.hide);
+         Laya.timer.once(500, this, this.hide);
+      }
+   }, {
+      key: "hide",
+      value: function hide() {
+         this.owner.visible = false;
+      }
+   }, {
+      key: "onDisable",
+      value: function onDisable() {}
+   }, {
+      key: "onDestroy",
+      value: function onDestroy() {
+         /*  this.tween&&this.tween.destroy();
+          this.tween=null; */
+      }
+   }]);
+
+   return PlayerState;
 }(PaoYa.Component);
 
 exports.default = PlayerState;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2484,7 +2569,7 @@ exports.default = Skill;
 
 Skill.CLICK = "skillClick";
 
-},{"../GameControl":4}],16:[function(require,module,exports){
+},{"../GameControl":4}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3167,7 +3252,7 @@ var Weapon = function (_PaoYa$Component) {
 
 exports.default = Weapon;
 
-},{"../GameControl":4}],17:[function(require,module,exports){
+},{"../GameControl":4}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3276,7 +3361,7 @@ var WeaponBar = function (_PaoYa$Component) {
                 return;
             }
             if (this.freezeing) {
-                _GameControl2.default.instance.showTips("兵器未冷却");
+                _GameControl2.default.instance.showTips(" ");
                 return;
             }
             console.error('传出去的武器攻击值:', this.params.weaponAttack);
@@ -3365,7 +3450,7 @@ exports.default = WeaponBar;
 
 WeaponBar.CLICK = "weanponBarClick";
 
-},{"../GameControl":4}],18:[function(require,module,exports){
+},{"../GameControl":4}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3460,7 +3545,7 @@ var GameMain = function (_PaoYa$Main) {
 
 exports.default = GameMain;
 
-},{"./Loading/LoadingView":21}],19:[function(require,module,exports){
+},{"./Loading/LoadingView":22}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3572,7 +3657,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3638,7 +3723,7 @@ var LoadingControl = function (_PaoYa$Component) {
 
 exports.default = LoadingControl;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

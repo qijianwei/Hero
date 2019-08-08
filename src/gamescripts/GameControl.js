@@ -7,6 +7,7 @@ import WeaponManager from './WeaponManager';
 import Skill from './prefab/Skill';
 import Dodge from './prefab/Dodge';
 import PlayerState from './prefab/PlayerState';
+import PlayerSkill from './prefab/PlayerSkill';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -58,9 +59,13 @@ export default class GameControl extends PaoYa.Component {
             name: '阿强',
             icon: 'remote/game/avstar_1.png'
         }, false);
+        this.selfSkillText=this.owner.selfSkillText;
+        this.otherSkillText=this.owner.otherSkillText;
+        this.selfSkillTextComp=this.selfSkillText.getComponent(PlayerSkill);
+        this.otherSkillTextComp=this.otherSkillText.getComponent(PlayerSkill);
         Laya.timer.once(5000, this, () => {
             // /Laya.timer.once(1000, this, this.startSelect);
-
+            //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
         })
         //机器人开始
 
@@ -296,7 +301,7 @@ export default class GameControl extends PaoYa.Component {
         let name = isSelf ? 'self' : 'other';
         let roleComp = this[name + 'Player'].comp,
             skillWeapon = JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
-        let skillInfo = this[name + 'Player'].comp.activeSkills[1];
+        let skillInfo = this[name + 'Player'].comp.activeSkills[0];
         let originMP = roleComp.MPComp.originMP;
         let consumeMP = skillInfo.skillConsume * originMP;
         if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
@@ -307,6 +312,7 @@ export default class GameControl extends PaoYa.Component {
             return;
         }
         if(isSelf){this.skillScr1.startT()}
+        this.showSkillText(isSelf,skillInfo.skillName);
         skillWeapon.isSelf = isSelf;
         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
         skillWeapon.skillEffect = true;
@@ -337,6 +343,7 @@ export default class GameControl extends PaoYa.Component {
             return;
         }
         if(isSelf){this.skillScr2.startT()}
+        this.showSkillText(isSelf,skillInfo.skillName);
         switch (skillInfo.skillId) {
             case 33:
                 this.allWeaponsUnfreeze(skillInfo);
@@ -408,6 +415,10 @@ export default class GameControl extends PaoYa.Component {
     }
     showTips(value) {
         this.playerStateComp.setStateText(value);
+    }
+    showSkillText(isSelf,value){
+        let name=isSelf?'self':'other';
+        this[name+'SkillTextComp'].setSkillText(value);
     }
     //兵器点击后我方表现
     weaponBarClickHandler(targetComp) {
@@ -748,6 +759,7 @@ export default class GameControl extends PaoYa.Component {
             return;
         }
         if(isSelf){this.dodgeComp.startT()}
+        this.showSkillText(isSelf,"闪避")
         this[name+"Player"].comp.MPComp.changeMP(-consumeMP)
         console.error('闪避技能使用')
         this[name + 'Player'].comp.dodgeEffect();

@@ -4,7 +4,7 @@ export default class PlayerState extends PaoYa.Component{
         super();
     }
     onAwake(){
-        this.tween = new Laya.Tween();
+       // this.tween = new Laya.Tween();
     }
     setStateText(value){
        this.owner.visible=true;
@@ -25,7 +25,7 @@ export default class PlayerState extends PaoYa.Component{
 
     }
     onDestroy(){
-        this.tween&&this.tween.destroy();
-        this.tween=null;
+       /*  this.tween&&this.tween.destroy();
+        this.tween=null; */
     }
 }

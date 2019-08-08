@@ -74,7 +74,7 @@ export default class WeaponBar extends PaoYa.Component {
             return;
         }
         if(this.freezeing){
-            GameControl.instance.showTips("兵器未冷却");
+            GameControl.instance.showTips(" ");
           return; 
         }
         console.error('传出去的武器攻击值:',this.params.weaponAttack)
