@@ -1974,7 +1974,6 @@ var Player = function (_PaoYa$Component) {
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
   /** @prop {name:boxAniSkill2,tips:"人物技能2box",type:Node} */
   /** @prop {name:aniSkill2,tips:"人物技能2动效节点",type:Node} */
-
   function Player() {
     _classCallCheck(this, Player);
 
@@ -2716,6 +2715,7 @@ var WeaponAniType;
   WeaponAniType[WeaponAniType["aniFreeze"] = 59] = "aniFreeze";
   WeaponAniType[WeaponAniType["aniThump3"] = 61] = "aniThump3";
   WeaponAniType[WeaponAniType["aniPetrifie"] = 62] = "aniPetrifie";
+  WeaponAniType[WeaponAniType["aniSkill1"] = 88] = "aniSkill1";
 })(WeaponAniType || (WeaponAniType = {}));
 
 var Weapon = function (_PaoYa$Component) {
@@ -2742,6 +2742,7 @@ var Weapon = function (_PaoYa$Component) {
   /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
   /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
   /** @prop {name:aniPetrifie,tips:"石化特效",type:Node}*/
+  /** @prop {name:aniSkill1,tips:"人物技能2特效",type:Node}*/
 
   function Weapon() {
     _classCallCheck(this, Weapon);
@@ -2823,6 +2824,7 @@ var Weapon = function (_PaoYa$Component) {
       this.aniThump2.pos(x, y);
       this.aniThump3.pos(x, y);
       this.aniPetrifie.pos(x, y);
+      this.aniSkill1.pos(0, y);
       /* this.aniPoison1.play(0,true); */
       this.collideSp.size(Math.floor(imgW * 0.2), imgH);
       var collideW = this.collideSp.width,

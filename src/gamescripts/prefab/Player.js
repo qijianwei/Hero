@@ -25,8 +25,6 @@ export default class Player extends PaoYa.Component {
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
   /** @prop {name:boxAniSkill2,tips:"人物技能2box",type:Node} */
   /** @prop {name:aniSkill2,tips:"人物技能2动效节点",type:Node} */
-
-
   constructor() {
     super();
   }
