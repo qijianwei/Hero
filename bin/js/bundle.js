@@ -344,7 +344,7 @@ var Main = exports.Main = function (_GameMain) {
 new Main();
 /*   console.log=function(){};
 console.warn=function(){};
-console.error=function(){};   */
+console.error=function(){};  */
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":20}],4:[function(require,module,exports){
 'use strict';
@@ -704,6 +704,8 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillWithWeapon',
         value: function skillWithWeapon(isSelf) {
+            var _this3 = this;
+
             var name = isSelf ? 'self' : 'other';
             var roleComp = this[name + 'Player'].comp,
                 skillWeapon = JSON.parse(JSON.stringify(roleComp.attr.skillWeapon));
@@ -723,6 +725,7 @@ var GameControl = function (_PaoYa$Component) {
             this.showSkillText(isSelf, skillInfo.skillName);
             skillWeapon.isSelf = isSelf;
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
+            //this[name + 'Player'].comp.showSkill1();
             skillWeapon.skillEffect = true;
             switch (skillWeapon.activeSkill.skillId) {
                 case 88:
@@ -734,13 +737,14 @@ var GameControl = function (_PaoYa$Component) {
                 case 90:
                     break;
             }
-
-            this.weaponLaunch(skillWeapon);
+            this[name + 'Player'].comp.showSkill1(function () {
+                _this3.weaponLaunch(skillWeapon);
+            });
         }
     }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this3 = this;
+            var _this4 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
@@ -771,7 +775,7 @@ var GameControl = function (_PaoYa$Component) {
                     this[name + 'Player'].comp.changePerMp(t * 1000, perMP);
                     this[name + 'Player'].comp.HPComp.changeHP(originHP * resumeHP);
                     Laya.timer.once(t * 1000, this, function () {
-                        _this3[name + 'Player'].comp.removeSkill2();
+                        _this4[name + 'Player'].comp.removeSkill2();
                     });
                     break;
                 case 39:
@@ -780,8 +784,8 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this3[name + 'MultiMP'] = 1;
-                        _this3[name + 'Player'].comp.removeSkill2();
+                        _this4[name + 'MultiMP'] = 1;
+                        _this4[name + 'Player'].comp.removeSkill2();
                     });
                     break;
                 case 45:
@@ -791,7 +795,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(name, skillInfo) {
-            var _this4 = this;
+            var _this5 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -800,10 +804,10 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this4.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this5.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
-                _this4[name + 'Player'].comp.removeSkill2();
+                _this5[name + 'Player'].comp.removeSkill2();
             });
         }
         //所有兵器选择框和技能框置灰
@@ -860,6 +864,8 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBarClickHandler',
         value: function weaponBarClickHandler(targetComp) {
+            var _this6 = this;
+
             //体力不够
             var name = targetComp.isSelf ? 'self' : 'other';
             var consumeMP = targetComp.weaponConsume;
@@ -885,144 +891,144 @@ var GameControl = function (_PaoYa$Component) {
                 skillId = skill.skillId,
                 prob = skill.skillProb;
             /*<---------- 测试用例start  */
-            /* if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-                let testId = 49;
-                  let tempArr = [{
-                    skillId: 43,
-                    weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
-                }, {
-                    skillId: 44,
-                    weaponId: "d013_3"
-                }, {
-                    skillId: 45,
-                    weaponId: "d009_2"
-                }, {
-                    skillId: 46,
-                    weaponId: "d014_3"
-                }, {
-                    skillId: 47,
-                    weaponId: "d006_2"
-                }, {
-                    skillId: 48,
-                    weaponId: "d006_2"
-                }, {
-                    skillId: 49,
-                    weaponId: "z009_2"
-                }, {
-                    skillId: 53,
-                    weaponId: ["z001_1", "z006_2", "z011_2"].randomItem
-                }, {
-                    skillId: 54,
-                    weaponId: ["z004_2", "z008_2"].randomItem
-                }, {
-                    skillId: 55,
-                    weaponId: "z015_3"
-                }, {
-                    skillId: 60,
-                    weaponId: 'g014_3'
-                }, {
-                    skillId: 56,
-                    weaponId: ["g001_1", "g007_2", "g008_2", "g011_2"].randomItem
-                }, {
-                    skillId: 57,
-                    weaponId: "g010_2"
-                }, {
-                    skillId: 59,
-                    weaponId: ["z007_2", "g009_2"].randomItem
-                }, {
-                    skillId: 61,
-                    weaponId: "g013_3"
-                }, {
-                    skillId: 62,
-                    weaponId: ["d002_1", "d010_2", "z003_1", "g005_2", "g012_2"].randomItem
-                }];
-                let tempWeaponInfo = {};
-                for (let i = 0; i < tempArr.length; i++) {
-                    if (testId == tempArr[i].skillId) {
-                        tempWeaponInfo = tempArr[i];
-                        break;
-                    }
-                };
-                  let {
-                    skillId,
-                    weaponId
-                } = tempWeaponInfo;
-                skill.skillId = skillId;
-                targetComp.params.weaponId = weaponId;
-                console.error('释放特技:', skill.skillId)
-                switch (skill.skillId) {
-                    case 43:
-                        skill.skillConfig = {
-                            weaponNum: 2
-                        }
-                        break;
-                    case 44:
-                        skill.skillConfig = {
-                            weaponNum: 3
-                        }
-                        break;
-                    case 45:
-                        skill.skillConfig = {
-                            poison: "6-60"
-                        };
-                        break;
-                    case 46:
-                        skill.skillConfig = {
-                            poison: "6-210"
-                        };
-                        break;
-                    case 47:
-                        skill.skillConfig = {
-                            hurt: 3
-                        };
-                        break;
-                    case 48:
-                        skill.skillConfig = {
-                            poison: 5
-                        };
-                        break;
-                    case 53:
-                        skill.skillConfig = {
-                            stealHp: 1
-                        }
-                        break;
-                    case 54:
-                        skill.skillConfig = {
-                            stealMp: 0.4
-                        }
-                        break;
-                    case 55:
-                        skill.skillConfig = {
-                            recoverDown: "5-0.4"
-                        }
-                        break;
-                    case 56:
-                        skill.skillConfig = {
-                            hurt: 1.5
-                        }
-                        break;
-                    case 57:
-                        skill.skillConfig = {
-                            hurt: 2.5
-                        }
-                        break;
-                    case 60:
-                        skill.skillConfig = {
-                            way: 4
-                        }
-                        break;
-                    case 61:
-                        skill.skillConfig = {
-                            hurt: 3.5
-                        }
-                        break;
-                    case 62:
-                        skill.skillConfig = {
-                            durable: 2
-                        }
-                        break;
-                }
-            } */
+            /*   if (targetComp.isSelf && targetComp.params.weaponType == 1) {
+                 let testId = 43;
+                   let tempArr = [{
+                     skillId: 43,
+                     weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
+                 }, {
+                     skillId: 44,
+                     weaponId: "d013_3"
+                 }, {
+                     skillId: 45,
+                     weaponId: "d009_2"
+                 }, {
+                     skillId: 46,
+                     weaponId: "d014_3"
+                 }, {
+                     skillId: 47,
+                     weaponId: "d006_2"
+                 }, {
+                     skillId: 48,
+                     weaponId: "d006_2"
+                 }, {
+                     skillId: 49,
+                     weaponId: "z009_2"
+                 }, {
+                     skillId: 53,
+                     weaponId: ["z001_1", "z006_2", "z011_2"].randomItem
+                 }, {
+                     skillId: 54,
+                     weaponId: ["z004_2", "z008_2"].randomItem
+                 }, {
+                     skillId: 55,
+                     weaponId: "z015_3"
+                 }, {
+                     skillId: 60,
+                     weaponId: 'g014_3'
+                 }, {
+                     skillId: 56,
+                     weaponId: ["g001_1", "g007_2", "g008_2", "g011_2"].randomItem
+                 }, {
+                     skillId: 57,
+                     weaponId: "g010_2"
+                 }, {
+                     skillId: 59,
+                     weaponId: ["z007_2", "g009_2"].randomItem
+                 }, {
+                     skillId: 61,
+                     weaponId: "g013_3"
+                 }, {
+                     skillId: 62,
+                     weaponId: ["d002_1", "d010_2", "z003_1", "g005_2", "g012_2"].randomItem
+                 }];
+                 let tempWeaponInfo = {};
+                 for (let i = 0; i < tempArr.length; i++) {
+                     if (testId == tempArr[i].skillId) {
+                         tempWeaponInfo = tempArr[i];
+                         break;
+                     }
+                 };
+                   let {
+                     skillId,
+                     weaponId
+                 } = tempWeaponInfo;
+                 skill.skillId = skillId;
+                 targetComp.params.weaponId = weaponId;
+                 console.error('释放特技:', skill.skillId)
+                 switch (skill.skillId) {
+                     case 43:
+                         skill.skillConfig = {
+                             weaponNum: 2
+                         }
+                         break;
+                     case 44:
+                         skill.skillConfig = {
+                             weaponNum: 3
+                         }
+                         break;
+                     case 45:
+                         skill.skillConfig = {
+                             poison: "6-60"
+                         };
+                         break;
+                     case 46:
+                         skill.skillConfig = {
+                             poison: "6-210"
+                         };
+                         break;
+                     case 47:
+                         skill.skillConfig = {
+                             hurt: 3
+                         };
+                         break;
+                     case 48:
+                         skill.skillConfig = {
+                             poison: 5
+                         };
+                         break;
+                     case 53:
+                         skill.skillConfig = {
+                             stealHp: 1
+                         }
+                         break;
+                     case 54:
+                         skill.skillConfig = {
+                             stealMp: 0.4
+                         }
+                         break;
+                     case 55:
+                         skill.skillConfig = {
+                             recoverDown: "5-0.4"
+                         }
+                         break;
+                     case 56:
+                         skill.skillConfig = {
+                             hurt: 1.5
+                         }
+                         break;
+                     case 57:
+                         skill.skillConfig = {
+                             hurt: 2.5
+                         }
+                         break;
+                     case 60:
+                         skill.skillConfig = {
+                             way: 4
+                         }
+                         break;
+                     case 61:
+                         skill.skillConfig = {
+                             hurt: 3.5
+                         }
+                         break;
+                     case 62:
+                         skill.skillConfig = {
+                             durable: 2
+                         }
+                         break;
+                 }
+             }  */
             /*<---------- 测试用例end----------> */
             var params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
             params.skillEffect = false;
@@ -1038,24 +1044,31 @@ var GameControl = function (_PaoYa$Component) {
                         targetComp.startT();
                     }
                     params.skillEffect = true;
-                    this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
-                    this.weaponWithSkills(params, skillId);
+                    this[name + 'Player'].attackPromise = new Promise(function (resolve, reject) {
+                        _this6[name + 'Player'].comp.attackEffect(params.skillEffect, resolve); //兵器技能是否触发
+                    });
+                    this[name + 'Player'].attackPromise.then(function () {
+                        _this6.weaponWithSkills(params, skillId);
+                    });
+
                     return;
                 } else {
                     console.warn('不好意思,没有触发技能');
                 }
             }
-            this[name + 'Player'].comp.attackEffect(false);
+            this[name + 'Player'].attackPromise = new Promise(function (resolve, reject) {
+                _this6[name + 'Player'].comp.attackEffect(false, resolve);
+            });
+            this[name + 'Player'].attackPromise.then(function () {
+                _this6.weaponLaunch(params);
+            });
             //正常开始技能冷却
             targetComp.startT();
-            this.weaponLaunch(params);
         }
     }, {
         key: 'weaponLaunch',
-        value: function weaponLaunch(params) {
-            var _this5 = this;
-
-            var deltaT = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
+        value: function weaponLaunch(params, deltaT) {
+            var _this7 = this;
 
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
@@ -1071,8 +1084,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this5.owner.addChild(weapon);
-                    _this5[name + 'Weapons'].push(weaponComp);
+                    _this7.owner.addChild(weapon);
+                    _this7[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1084,7 +1097,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this6 = this;
+            var _this8 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -1095,8 +1108,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this6.owner.addChild(weapon);
-                    _this6.selfWeapons.push(weaponComp);
+                    _this8.owner.addChild(weapon);
+                    _this8.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1146,7 +1159,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error("修改后的值:", params.weaponAttack);
                     this.weaponLaunch(params);
                     for (var i = 0; i < weaponNum - 1; i++) {
-                        this.weaponLaunch(params);
+                        this.weaponLaunch(params, 350);
                     }
                     break;
                 //造成几倍伤害 兵器前方加气流
@@ -2072,15 +2085,18 @@ var Player = function (_PaoYa$Component) {
 
   }, {
     key: "showSkill1",
-    value: function showSkill1() {
-      this.boxAniSkill1.visible = true;
-      this.aniSkill1.play(0, true);
+    value: function showSkill1(cb) {
+      /*  this.boxAniSkill1.visible=true;
+       this.aniSkill1.play(0,true); */
       this.skeleton.play("skill1", false);
+      this.skeleton.once(Laya.Event.LABEL, this, function (e) {
+        cb && cb();
+      });
     }
   }, {
     key: "removeSkill1",
     value: function removeSkill1() {
-      this.boxAniSkill1.visible = false;
+      /*   this.boxAniSkill1.visible=false; */
       this.aniSkill1.stop();
     }
     //人物触发技能2
@@ -2088,9 +2104,15 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "showSkill2",
     value: function showSkill2() {
-      this.boxAniSkill2.visible = true;
-      this.aniSkill2.play(0, true);
+      var _this4 = this;
+
       this.skeleton.play("skill2", false);
+      this.skeleton.once(Laya.Event.LABEL, this, function (e) {
+        if (e.name == "skill2") {
+          _this4.boxAniSkill2.visible = true;
+          _this4.aniSkill2.play(0, true);
+        }
+      });
     }
   }, {
     key: "removeSkill2",
@@ -2116,17 +2138,19 @@ var Player = function (_PaoYa$Component) {
 
   }, {
     key: "attackEffect",
-    value: function attackEffect(weaponSkillEffect) {
+    value: function attackEffect(weaponSkillEffect, resolve) {
       // this.skeleton.playbackRate(1)
       this.skeleton.play("attack", false);
       if (weaponSkillEffect) {
         this.skillEffect();
       }
-      /*  if(this.isSelf){
-         this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-           console.log(111111) 
-         })
-       } */
+      //this.attackPromise=new Promise(resov);
+      //   if(this.isSelf){
+
+      this.skeleton.once(Laya.Event.LABEL, this, function (e) {
+        resolve();
+      });
+      // } 
     }
     //受击打,所有武器碰到都有这效果
 
@@ -2155,7 +2179,9 @@ var Player = function (_PaoYa$Component) {
       this['boxAni' + aniName].visible = true;
       this['ani' + aniName].play(0, false);
       cb && this.skeleton.once(Laya.Event.LABEL, this, function (e) {
-        cb();
+        if (e.name === "injuredEnd") {
+          cb();
+        }
       });
     }
     //恢复生命

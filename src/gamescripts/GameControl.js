@@ -297,6 +297,7 @@ export default class GameControl extends PaoYa.Component {
         this.showSkillText(isSelf,skillInfo.skillName);
         skillWeapon.isSelf = isSelf;
         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
+        //this[name + 'Player'].comp.showSkill1();
         skillWeapon.skillEffect = true;
         switch (skillWeapon.activeSkill.skillId) {
             case 88:
@@ -308,8 +309,10 @@ export default class GameControl extends PaoYa.Component {
             case 90:
                 break;
         }
-
-        this.weaponLaunch(skillWeapon);
+        this[name + 'Player'].comp.showSkill1(()=>{
+           this.weaponLaunch(skillWeapon);
+        });
+        
 
     }
     skillWithoutWeapon(isSelf) {
@@ -436,8 +439,8 @@ export default class GameControl extends PaoYa.Component {
             skillId = skill.skillId,
             prob = skill.skillProb;
         /*<---------- 测试用例start  */
-        /* if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-            let testId = 49;
+       /*   if (targetComp.isSelf && targetComp.params.weaponType == 1) {
+            let testId = 43;
 
             let tempArr = [{
                 skillId: 43,
@@ -575,7 +578,7 @@ export default class GameControl extends PaoYa.Component {
                     }
                     break;
             }
-        } */
+        }  */
         /*<---------- 测试用例end----------> */
         let params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
         params.skillEffect = false;
@@ -591,19 +594,29 @@ export default class GameControl extends PaoYa.Component {
                     targetComp.startT();
                 }
                 params.skillEffect = true;
-                this[name + 'Player'].comp.attackEffect(params.skillEffect);//兵器技能是否触发
-                this.weaponWithSkills(params, skillId);
+                this[name+'Player'].attackPromise=new Promise((resolve,reject)=>{
+                    this[name + 'Player'].comp.attackEffect(params.skillEffect,resolve);//兵器技能是否触发
+                })
+                this[name+'Player'].attackPromise.then(()=>{
+                    this.weaponWithSkills(params, skillId);
+                })  
+                
                 return;
             } else {
                 console.warn('不好意思,没有触发技能')
             }
         }
-        this[name + 'Player'].comp.attackEffect(false);
+        this[name+'Player'].attackPromise=new Promise((resolve,reject)=>{
+            this[name + 'Player'].comp.attackEffect(false,resolve);
+        })
+        this[name+'Player'].attackPromise.then(()=>{
+            this.weaponLaunch(params);
+        }) 
         //正常开始技能冷却
         targetComp.startT();
-        this.weaponLaunch(params);
+         
     }
-    weaponLaunch(params, deltaT = 500) {
+    weaponLaunch(params, deltaT) {
         let name = params.isSelf ? 'self' : 'other';
         let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
         let weaponComp = weapon.getComponent(Weapon);
@@ -616,15 +629,15 @@ export default class GameControl extends PaoYa.Component {
         }
 
         //暂定
-        if (deltaT) {
+         if (deltaT) {
             Laya.timer.once(deltaT, this, () => {
                 this.owner.addChild(weapon);
                 this[name + 'Weapons'].push(weaponComp);
             });
-        } else {
+        } else { 
             this.owner.addChild(weapon);
             this[name + 'Weapons'].push(weaponComp);
-        }
+         } 
     }
     //以下下是正常点击发射
     weaponBySelf(params, deltaT) {
@@ -684,7 +697,7 @@ export default class GameControl extends PaoYa.Component {
                 console.error("修改后的值:", params.weaponAttack)
                 this.weaponLaunch(params);
                 for (var i = 0; i < weaponNum - 1; i++) {
-                    this.weaponLaunch(params);
+                    this.weaponLaunch(params,350);
                 }
                 break;
                 //造成几倍伤害 兵器前方加气流

@@ -86,20 +86,27 @@ export default class Player extends PaoYa.Component {
     }))
   }
   //人物触发技能1
-  showSkill1(){
-    this.boxAniSkill1.visible=true;
-    this.aniSkill1.play(0,true);
+  showSkill1(cb){
+   /*  this.boxAniSkill1.visible=true;
+    this.aniSkill1.play(0,true); */
     this.skeleton.play("skill1",false);
+    this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
+      cb&&cb();
+    })
   }
   removeSkill1(){
-    this.boxAniSkill1.visible=false;
+  /*   this.boxAniSkill1.visible=false; */
     this.aniSkill1.stop();
   }
   //人物触发技能2
-  showSkill2(){
-     this.boxAniSkill2.visible=true;
-     this.aniSkill2.play(0,true);
+  showSkill2(){ 
      this.skeleton.play("skill2",false);
+     this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
+      if(e.name=="skill2"){
+        this.boxAniSkill2.visible=true; 
+        this.aniSkill2.play(0,true);
+      }
+    })
   }
   removeSkill2(){
      this.boxAniSkill2.visible=false;
@@ -115,17 +122,19 @@ export default class Player extends PaoYa.Component {
     this.boxAniPoison.visible=false;
   }
   //攻击
-  attackEffect(weaponSkillEffect) {
+  attackEffect(weaponSkillEffect,resolve) {
     // this.skeleton.playbackRate(1)
     this.skeleton.play("attack", false);
     if(weaponSkillEffect){
       this.skillEffect();
     }
-    /*  if(this.isSelf){
+    //this.attackPromise=new Promise(resov);
+   //   if(this.isSelf){
+    
        this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-         console.log(111111) 
+        resolve();
        })
-     } */
+    // } 
 
   }
   //受击打,所有武器碰到都有这效果
@@ -152,7 +161,7 @@ export default class Player extends PaoYa.Component {
     this['boxAni' + aniName].visible = true;
     this['ani' + aniName].play(0, false);
     cb && this.skeleton.once(Laya.Event.LABEL, this, (e) => {
-      cb();
+      if(e.name==="injuredEnd"){ cb()} 
     })
   }
   //恢复生命
