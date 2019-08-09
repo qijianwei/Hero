@@ -66,18 +66,18 @@ export default class GameControl extends PaoYa.Component {
         this.selfSkillTextComp=this.selfSkillText.getComponent(PlayerSkill);
         this.otherSkillTextComp=this.otherSkillText.getComponent(PlayerSkill);
         Laya.timer.once(5000, this, () => {
-            Laya.timer.once(1000, this, this.startSelect);
+           Laya.timer.once(1000, this, this.startSelect);
             //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
         })
         //机器人开始
 
         //画出三条运动轨迹，便于调试
-        this.curvature = 0.0008;
+     /*    this.curvature = 0.0008;
         this.drawParabola();
         this.curvature = 0.0015;
         this.drawParabola();
         this.curvature = 0.0025;
-        this.drawParabola();
+        this.drawParabola(); */
 
     }
     //游戏重新开始
@@ -128,26 +128,7 @@ export default class GameControl extends PaoYa.Component {
             }
         }
     }
-  /*   onClick(e) {
-        switch (e.target.name) {
-
-            case 'skill1':
-                if (this.skillOwner1.gray) {
-                    this.showTips("")
-                    return;
-                }
-                this.skillWithWeapon(true);
-                break;
-            case 'skill2':
-                if (this.skillOwner2.gray) {
-                    this.showTips("")
-                    return;
-                }
-                this.skillWithoutWeapon(true);
-                break;
-
-        }
-    } */
+ 
     onEnable() {
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
         this.onNotification(Skill.CLICK,this,this.skillClickHandler);
@@ -180,20 +161,24 @@ export default class GameControl extends PaoYa.Component {
         } else {
             this.dodgeOwner.gray = false;
         }
-        if (curMP < this.selfSkills[0].skillConsume * originMP) {
-            if(!this.skillScr1.freezeing){
-                this.skillOwner1.gray = true;
-            }    
-        } else {
-            this.skillOwner1.gray = false;
+        if(!this.skillOwner1.disabled){
+            if (curMP < this.selfSkills[0].skillConsume * originMP) {
+                if(!this.skillScr1.freezeing){
+                    this.skillOwner1.gray = true;
+                }    
+            } else {
+                this.skillOwner1.gray = false;
+            }
         }
+       if(!this.skillOwner2.disabled){
         if (curMP < this.selfSkills[2].skillConsume * originMP) {
             if(!this.skillScr1.freezeing){
                 this.skillOwner2.gray = true;
             }     
         } else {
             this.skillOwner2.gray = false;
-        }
+         }
+       }   
     }
     //初始化双方兵器库
     initWeaponsBar() {
@@ -229,7 +214,7 @@ export default class GameControl extends PaoYa.Component {
         let component = player.getComponent(Player);
         component.isSelf = isSelf;
         component.attr = this.params[role];
-        if (self) {
+        if (isSelf) {
             this.selfSkills = this.params[role].skills
         }
         component.activeSkills = [];
@@ -279,17 +264,12 @@ export default class GameControl extends PaoYa.Component {
     }
     initSkill() {
         let owner = this.owner;
-        let time1 = this.selfPlayer.comp.activeSkills[0].skillCd * 1000;
-        let time2 = this.selfPlayer.comp.activeSkills[1].skillCd * 1000;
-        this.skillScr1 = owner.skill1.getComponent(Skill);
-        this.skillScr2 = owner.skill2.getComponent(Skill);
-        this.skillScr1.initCdTime(time1);
-        this.skillScr2.initCdTime(time2);
-        this.skillOwner1 = this.skillScr1.owner;
-        this.skillOwner2 = this.skillScr2.owner;
-        /* owenr.skill1.index=1;
-        owenr.skill2.index=2; */
-        // this.skillScr1.
+        let activeSkills=this.selfPlayer.comp.activeSkills;
+        for(let i=1;i<3;i++){
+            this['skillScr'+i]=owner['skill'+i].getComponent(Skill);
+            this['skillScr'+i].init(activeSkills[i-1]);
+            this['skillOwner'+i] = this['skillScr'+i].owner;
+        }
     }
     skillClickHandler(name){
         if(name=="skill1"){
@@ -350,7 +330,7 @@ export default class GameControl extends PaoYa.Component {
         this.showSkillText(isSelf,skillInfo.skillName);
         switch (skillInfo.skillId) {
             case 33:
-                this.allWeaponsUnfreeze(skillInfo);
+                this.allWeaponsUnfreeze(name,skillInfo);
                 break;
             case 36:
                 let t = skillInfo.skillConfig.time,
@@ -378,7 +358,7 @@ export default class GameControl extends PaoYa.Component {
         }
 
     }
-    allWeaponsUnfreeze(skillInfo) {
+    allWeaponsUnfreeze(name,skillInfo) {
         let time = skillInfo.skillConfig.time * 1000;
         this.weaponsBarArr.forEach((weaponBarComp) => {
             weaponBarComp.endCD(); //探讨要不要
@@ -389,7 +369,7 @@ export default class GameControl extends PaoYa.Component {
             this.weaponsBarArr.forEach((weaponBarComp) => {
                 weaponBarComp.setCdTime(weaponBarComp.originCdTime)
             })
-            this[name + 'Player'].comp.removeSkill2();
+            this[name+'Player'].comp.removeSkill2();
         })
     }
     //所有兵器选择框和技能框置灰
@@ -695,7 +675,7 @@ export default class GameControl extends PaoYa.Component {
         }else{
           weaponSkillBox.pos(1498,189) 
         }
-        this.owner.addChild(weaponSkillBox);
+        this.owner.addChild(weaponSkillBox); 
         switch (skillId) {
             case 43:
             case 44:

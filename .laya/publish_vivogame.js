@@ -1,4 +1,4 @@
-// v1.0.0
+// v1.0.1
 // publish 2.x 也是用这个文件，需要做兼容
 let isPublish2 = process.argv[2].includes("publish_vivogame.js") && process.argv[3].includes("--evn=publish2");
 // 获取Node插件和工作路径
@@ -166,7 +166,8 @@ gulp.task("createProj_VIVO", ["createGlobalQGame_VIVO"], function() {
 		let cmd = `qgame${commandSuffix}`;
 		let args = ["init", config.vivoInfo.projName];
         let opts = {
-			cwd: releaseDir
+			cwd: releaseDir,
+			shell: true
 		};
 
         let cp = childProcess.spawn(cmd, args, opts);
@@ -396,7 +397,7 @@ gulp.task("modifyFile_VIVO", ["deleteSignFile_VIVO"], function() {
 	manifestJson.versionName = config.vivoInfo.versionName;
 	manifestJson.versionCode = config.vivoInfo.versionCode;
 	manifestJson.minPlatformVersion = config.vivoInfo.minPlatformVersion;
-	manifestJson.icon = `./${path.basename(config.vivoInfo.icon)}`;
+	manifestJson.icon = `/${path.basename(config.vivoInfo.icon)}`;
 	fs.writeFileSync(manifestPath, JSON.stringify(manifestJson, null, 4), "utf8");
 
 	if (config.version) {
@@ -527,9 +528,6 @@ gulp.task("dealNoCompile1_VIVO", ["dealEngineFolder2_VIVO"], function() {
 	}
 	// 如果没有使用物理，则忽略这一步
 	let indexJsStr = (versionCon && versionCon["index.js"]) ? versionCon["index.js"] :  "index.js";
-	let box2dJsStr = (versionCon && versionCon["libs/box2d.js"]) ? versionCon["libs/box2d.js"] :  "libs/box2d.js";
-	let physicsJsStr = (versionCon && versionCon["libs/laya.physics.js"]) ? versionCon["libs/laya.physics.js"] :  "libs/laya.physics.js";
-	let physics3DJsStr = (versionCon && versionCon["libs/laya.physics3D.js"]) ? versionCon["libs/laya.physics3D.js"] :  "libs/laya.physics3D.js";
 	let filePath = path.join(projSrc, indexJsStr);
 	if (!fs.existsSync(filePath)) {
 		return;
@@ -552,11 +550,47 @@ gulp.task("dealNoCompile2_VIVO", ["dealNoCompile1_VIVO"], function() {
 		return;
 	}
 
+	// let indexJsStr = (versionCon && versionCon["index.js"]) ? versionCon["index.js"] :  "index.js";
+	// let bundleJsStr = (versionCon && versionCon["js/bundle.js"]) ? versionCon["js/bundle.js"] :  "js/bundle.js";
+	// let box2dJsStr = (versionCon && versionCon["libs/box2d.js"]) ? versionCon["libs/box2d.js"] :  "libs/box2d.js";
+	// let physicsJsStr = (versionCon && versionCon["libs/laya.physics.js"]) ? versionCon["libs/laya.physics.js"] :  "libs/laya.physics.js";
+	// let physics3DJsStr = (versionCon && versionCon["libs/laya.physics3D.js"]) ? versionCon["libs/laya.physics3D.js"] :  "libs/laya.physics3D.js";
+
+	// // 修改index.js，去掉物理库前面的libs
+	// let filePath = path.join(projSrc, indexJsStr);
+	// let fileContent = fs.readFileSync(filePath, "utf8");
+	// let physicsNameList = [];
+
+	// if (fileContent.includes(bundleJsStr)) {
+	// 	let adapterJsPath = path.join(projSrc, bundleJsStr);
+	// 	physicsNameList.push(bundleJsStr);
+	// 	physicsLibsPathList.push(adapterJsPath);
+	// }
+	// if (fileContent.includes(box2dJsStr)) {
+	// 	let libPath = path.join(projSrc, box2dJsStr);
+	// 	physicsNameList.push(box2dJsStr);
+	// 	physicsLibsPathList.push(libPath);
+	// }
+	// if (fileContent.includes(physicsJsStr)) {
+	// 	let libPath = path.join(projSrc, physicsJsStr);
+	// 	physicsNameList.push(physicsJsStr);
+	// 	physicsLibsPathList.push(libPath);
+	// }
+	// if (fileContent.includes(physics3DJsStr)) {
+	// 	let libPath = path.join(projSrc, physics3DJsStr);
+	// 	physicsNameList.push(physics3DJsStr);
+	// 	physicsLibsPathList.push(libPath);
+	// }
+	// if (physicsLibsPathList.length > 0) {
+	// 	let adapterJsPath = path.join(projSrc, "qgame-adapter.js");
+	// 	physicsNameList.push("qgame-adapter.js");
+	// 	physicsLibsPathList.push(adapterJsPath);
+	// }
+
+
+	// 将js/bundle.js | libs/*.* qgame-adapter.js 全放到engine文件夹中
 	let indexJsStr = (versionCon && versionCon["index.js"]) ? versionCon["index.js"] :  "index.js";
 	let bundleJsStr = (versionCon && versionCon["js/bundle.js"]) ? versionCon["js/bundle.js"] :  "js/bundle.js";
-	let box2dJsStr = (versionCon && versionCon["libs/box2d.js"]) ? versionCon["libs/box2d.js"] :  "libs/box2d.js";
-	let physicsJsStr = (versionCon && versionCon["libs/laya.physics.js"]) ? versionCon["libs/laya.physics.js"] :  "libs/laya.physics.js";
-	let physics3DJsStr = (versionCon && versionCon["libs/laya.physics3D.js"]) ? versionCon["libs/laya.physics3D.js"] :  "libs/laya.physics3D.js";
 
 	// 修改index.js，去掉物理库前面的libs
 	let filePath = path.join(projSrc, indexJsStr);
@@ -568,20 +602,13 @@ gulp.task("dealNoCompile2_VIVO", ["dealNoCompile1_VIVO"], function() {
 		physicsNameList.push(bundleJsStr);
 		physicsLibsPathList.push(adapterJsPath);
 	}
-	if (fileContent.includes(box2dJsStr)) {
-		let libPath = path.join(projSrc, box2dJsStr);
-		physicsNameList.push(box2dJsStr);
-		physicsLibsPathList.push(libPath);
-	}
-	if (fileContent.includes(physicsJsStr)) {
-		let libPath = path.join(projSrc, physicsJsStr);
-		physicsNameList.push(physicsJsStr);
-		physicsLibsPathList.push(libPath);
-	}
-	if (fileContent.includes(physics3DJsStr)) {
-		let libPath = path.join(projSrc, physics3DJsStr);
-		physicsNameList.push(physics3DJsStr);
-		physicsLibsPathList.push(libPath);
+	let libsList = fs.readdirSync(path.join(projSrc, "libs"));
+	let libsFileName, libsFilePath;
+	for (let i = 0, len = libsList.length; i < len; i++) {
+		libsFileName = libsList[i];
+		libsFilePath = path.join(projSrc, "libs", libsFileName);
+		physicsNameList.push(`libs/${libsFileName}`);
+		physicsLibsPathList.push(libsFilePath);
 	}
 	if (physicsLibsPathList.length > 0) {
 		let adapterJsPath = path.join(projSrc, "qgame-adapter.js");

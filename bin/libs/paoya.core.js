@@ -365,7 +365,7 @@ var Component = /** @class */ (function (_super) {
     };
     /**移除socket的事件监听 */
     Component.prototype.offMessageListener = function () {
-        this.socket.offAllCaller(this);
+        this.socket&&this.socket.offAllCaller(this);
     };
     /**向socket发送消息 */
     Component.prototype.sendMessage = function (cmd, params) {

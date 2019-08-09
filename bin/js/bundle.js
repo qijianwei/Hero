@@ -55,10 +55,6 @@ var _GameBanner = require("./gamescripts/prefab/GameBanner");
 
 var _GameBanner2 = _interopRequireDefault(_GameBanner);
 
-var _Skill = require("./gamescripts/prefab/Skill");
-
-var _Skill2 = _interopRequireDefault(_Skill);
-
 var _PlayerState = require("./gamescripts/prefab/PlayerState");
 
 var _PlayerState2 = _interopRequireDefault(_PlayerState);
@@ -71,6 +67,10 @@ var _PlayerSkill = require("./gamescripts/prefab/PlayerSkill");
 
 var _PlayerSkill2 = _interopRequireDefault(_PlayerSkill);
 
+var _Skill = require("./gamescripts/prefab/Skill");
+
+var _Skill2 = _interopRequireDefault(_Skill);
+
 var _LoadingView = require("./scripts/common/Loading/LoadingView");
 
 var _LoadingView2 = _interopRequireDefault(_LoadingView);
@@ -78,6 +78,38 @@ var _LoadingView2 = _interopRequireDefault(_LoadingView);
 var _LoadingControl = require("./scripts/common/Loading/LoadingControl");
 
 var _LoadingControl2 = _interopRequireDefault(_LoadingControl);
+
+var _WeaponHouse = require("./scripts/common/weapon/WeaponHouse");
+
+var _WeaponHouse2 = _interopRequireDefault(_WeaponHouse);
+
+var _WeaponHouseControl = require("./scripts/common/weapon/WeaponHouseControl");
+
+var _WeaponHouseControl2 = _interopRequireDefault(_WeaponHouseControl);
+
+var _WeaponStore = require("./scripts/common/weapon/WeaponStore");
+
+var _WeaponStore2 = _interopRequireDefault(_WeaponStore);
+
+var _WeaponStoreControl = require("./scripts/common/weapon/WeaponStoreControl");
+
+var _WeaponStoreControl2 = _interopRequireDefault(_WeaponStoreControl);
+
+var _GoldLack = require("./scripts/dialog/weapon/GoldLack");
+
+var _GoldLack2 = _interopRequireDefault(_GoldLack);
+
+var _UnlockFifth = require("./scripts/dialog/weapon/UnlockFifth");
+
+var _UnlockFifth2 = _interopRequireDefault(_UnlockFifth);
+
+var _UnlockFour = require("./scripts/dialog/weapon/UnlockFour");
+
+var _UnlockFour2 = _interopRequireDefault(_UnlockFour);
+
+var _UnlockTips = require("./scripts/dialog/weapon/UnlockTips");
+
+var _UnlockTips2 = _interopRequireDefault(_UnlockTips);
 
 var _HomeControl = require("./scripts/common/HomeControl");
 
@@ -119,12 +151,20 @@ var GameConfig = function () {
 												reg("gamescripts/prefab/HPBar.js", _HPBar2.default);
 												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
 												reg("gamescripts/prefab/GameBanner.js", _GameBanner2.default);
-												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("gamescripts/prefab/PlayerState.js", _PlayerState2.default);
 												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("gamescripts/prefab/PlayerSkill.js", _PlayerSkill2.default);
+												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("scripts/common/Loading/LoadingView.js", _LoadingView2.default);
 												reg("scripts/common/Loading/LoadingControl.js", _LoadingControl2.default);
+												reg("scripts/common/weapon/WeaponHouse.js", _WeaponHouse2.default);
+												reg("scripts/common/weapon/WeaponHouseControl.js", _WeaponHouseControl2.default);
+												reg("scripts/common/weapon/WeaponStore.js", _WeaponStore2.default);
+												reg("scripts/common/weapon/WeaponStoreControl.js", _WeaponStoreControl2.default);
+												reg("scripts/dialog/weapon/GoldLack.js", _GoldLack2.default);
+												reg("scripts/dialog/weapon/UnlockFifth.js", _UnlockFifth2.default);
+												reg("scripts/dialog/weapon/UnlockFour.js", _UnlockFour2.default);
+												reg("scripts/dialog/weapon/UnlockTips.js", _UnlockTips2.default);
 												reg("scripts/common/HomeControl.js", _HomeControl2.default);
 												reg("gamescripts/prefab/Player.js", _Player2.default);
 												reg("gamescripts/prefab/Weapon.js", _Weapon2.default);
@@ -153,7 +193,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/PassResultDialog":8,"./gamescripts/prefab/Dodge":9,"./gamescripts/prefab/GameBanner":10,"./gamescripts/prefab/HPBar":11,"./gamescripts/prefab/MPBar":12,"./gamescripts/prefab/Player":13,"./gamescripts/prefab/PlayerSkill":14,"./gamescripts/prefab/PlayerState":15,"./gamescripts/prefab/Skill":16,"./gamescripts/prefab/Weapon":17,"./gamescripts/prefab/WeaponBar":18,"./gamescripts/prefab/WeaponSkill":19,"./scripts/common/HomeControl":21,"./scripts/common/Loading/LoadingControl":22,"./scripts/common/Loading/LoadingView":23}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/PassResultDialog":8,"./gamescripts/prefab/Dodge":9,"./gamescripts/prefab/GameBanner":10,"./gamescripts/prefab/HPBar":11,"./gamescripts/prefab/MPBar":12,"./gamescripts/prefab/Player":13,"./gamescripts/prefab/PlayerSkill":14,"./gamescripts/prefab/PlayerState":15,"./gamescripts/prefab/Skill":16,"./gamescripts/prefab/Weapon":17,"./gamescripts/prefab/WeaponBar":18,"./gamescripts/prefab/WeaponSkill":19,"./scripts/common/HomeControl":21,"./scripts/common/Loading/LoadingControl":22,"./scripts/common/Loading/LoadingView":23,"./scripts/common/weapon/WeaponHouse":26,"./scripts/common/weapon/WeaponHouseControl":27,"./scripts/common/weapon/WeaponStore":28,"./scripts/common/weapon/WeaponStoreControl":29,"./scripts/dialog/weapon/GoldLack":30,"./scripts/dialog/weapon/UnlockFifth":31,"./scripts/dialog/weapon/UnlockFour":32,"./scripts/dialog/weapon/UnlockTips":33}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -203,7 +243,7 @@ var Main = exports.Main = function (_GameMain) {
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
-			userId: 11012, //151693, 109638
+			userId: 11058, //151693, 109638
 			offerId: "1450014295",
 			version: _Config2.default.version,
 			rankingType: PaoYa.RankingType.WIN,
@@ -227,8 +267,13 @@ var Main = exports.Main = function (_GameMain) {
 			//Laya.MouseManager.enabled=false;
 			Laya.MouseManager.multiTouchEnabled = false; //关闭多点触控
 			_get(Main.prototype.__proto__ || Object.getPrototypeOf(Main.prototype), "setupConfig", this).call(this);
-			//分享地址
-			PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
+
+			PaoYa.Navigator.scenesMap = {
+				WeaponHouse: "scenes/common/WeaponHouse",
+				WeaponStore: "scenes/common/WeaponStore"
+
+				//分享地址
+			};PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
 			PaoYa.DataCenter.GAMEPREPARE = null;
 
 			if (typeof wx != 'undefined' || Laya.Render.isConchApp) {
@@ -277,7 +322,7 @@ var Main = exports.Main = function (_GameMain) {
 			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/freeze/freeze.png', 'spine/freeze/freeze.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
-			'res/atlas/remote/hero1_skill2.atlas', 'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero1_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas'];
+			'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas'];
 			return list;
 		}
 	}, {
@@ -297,9 +342,9 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
-/* console.log=function(){};
+/*   console.log=function(){};
 console.warn=function(){};
-console.error=function(){}; */
+console.error=function(){};   */
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":20}],4:[function(require,module,exports){
 'use strict';
@@ -435,12 +480,12 @@ var GameControl = function (_PaoYa$Component) {
             //机器人开始
 
             //画出三条运动轨迹，便于调试
-            this.curvature = 0.0008;
-            this.drawParabola();
-            this.curvature = 0.0015;
-            this.drawParabola();
-            this.curvature = 0.0025;
-            this.drawParabola();
+            /*    this.curvature = 0.0008;
+               this.drawParabola();
+               this.curvature = 0.0015;
+               this.drawParabola();
+               this.curvature = 0.0025;
+               this.drawParabola(); */
         }
         //游戏重新开始
 
@@ -493,25 +538,6 @@ var GameControl = function (_PaoYa$Component) {
                 }
             }
         }
-        /*   onClick(e) {
-              switch (e.target.name) {
-                    case 'skill1':
-                      if (this.skillOwner1.gray) {
-                          this.showTips("")
-                          return;
-                      }
-                      this.skillWithWeapon(true);
-                      break;
-                  case 'skill2':
-                      if (this.skillOwner2.gray) {
-                          this.showTips("")
-                          return;
-                      }
-                      this.skillWithoutWeapon(true);
-                      break;
-                }
-          } */
-
     }, {
         key: 'onEnable',
         value: function onEnable() {
@@ -549,19 +575,23 @@ var GameControl = function (_PaoYa$Component) {
             } else {
                 this.dodgeOwner.gray = false;
             }
-            if (curMP < this.selfSkills[0].skillConsume * originMP) {
-                if (!this.skillScr1.freezeing) {
-                    this.skillOwner1.gray = true;
+            if (!this.skillOwner1.disabled) {
+                if (curMP < this.selfSkills[0].skillConsume * originMP) {
+                    if (!this.skillScr1.freezeing) {
+                        this.skillOwner1.gray = true;
+                    }
+                } else {
+                    this.skillOwner1.gray = false;
                 }
-            } else {
-                this.skillOwner1.gray = false;
             }
-            if (curMP < this.selfSkills[2].skillConsume * originMP) {
-                if (!this.skillScr1.freezeing) {
-                    this.skillOwner2.gray = true;
+            if (!this.skillOwner2.disabled) {
+                if (curMP < this.selfSkills[2].skillConsume * originMP) {
+                    if (!this.skillScr1.freezeing) {
+                        this.skillOwner2.gray = true;
+                    }
+                } else {
+                    this.skillOwner2.gray = false;
                 }
-            } else {
-                this.skillOwner2.gray = false;
             }
         }
         //初始化双方兵器库
@@ -603,7 +633,7 @@ var GameControl = function (_PaoYa$Component) {
             var component = player.getComponent(_Player2.default);
             component.isSelf = isSelf;
             component.attr = this.params[role];
-            if (self) {
+            if (isSelf) {
                 this.selfSkills = this.params[role].skills;
             }
             component.activeSkills = [];
@@ -655,17 +685,12 @@ var GameControl = function (_PaoYa$Component) {
         key: 'initSkill',
         value: function initSkill() {
             var owner = this.owner;
-            var time1 = this.selfPlayer.comp.activeSkills[0].skillCd * 1000;
-            var time2 = this.selfPlayer.comp.activeSkills[1].skillCd * 1000;
-            this.skillScr1 = owner.skill1.getComponent(_Skill2.default);
-            this.skillScr2 = owner.skill2.getComponent(_Skill2.default);
-            this.skillScr1.initCdTime(time1);
-            this.skillScr2.initCdTime(time2);
-            this.skillOwner1 = this.skillScr1.owner;
-            this.skillOwner2 = this.skillScr2.owner;
-            /* owenr.skill1.index=1;
-            owenr.skill2.index=2; */
-            // this.skillScr1.
+            var activeSkills = this.selfPlayer.comp.activeSkills;
+            for (var i = 1; i < 3; i++) {
+                this['skillScr' + i] = owner['skill' + i].getComponent(_Skill2.default);
+                this['skillScr' + i].init(activeSkills[i - 1]);
+                this['skillOwner' + i] = this['skillScr' + i].owner;
+            }
         }
     }, {
         key: 'skillClickHandler',
@@ -736,7 +761,7 @@ var GameControl = function (_PaoYa$Component) {
             this.showSkillText(isSelf, skillInfo.skillName);
             switch (skillInfo.skillId) {
                 case 33:
-                    this.allWeaponsUnfreeze(skillInfo);
+                    this.allWeaponsUnfreeze(name, skillInfo);
                     break;
                 case 36:
                     var t = skillInfo.skillConfig.time,
@@ -765,7 +790,7 @@ var GameControl = function (_PaoYa$Component) {
         }
     }, {
         key: 'allWeaponsUnfreeze',
-        value: function allWeaponsUnfreeze(skillInfo) {
+        value: function allWeaponsUnfreeze(name, skillInfo) {
             var _this4 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
@@ -860,10 +885,9 @@ var GameControl = function (_PaoYa$Component) {
                 skillId = skill.skillId,
                 prob = skill.skillProb;
             /*<---------- 测试用例start  */
-            if (targetComp.isSelf && targetComp.params.weaponType == 2) {
-                var testId = 49;
-
-                var tempArr = [{
+            /* if (targetComp.isSelf && targetComp.params.weaponType == 2) {
+                let testId = 49;
+                  let tempArr = [{
                     skillId: 43,
                     weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
                 }, {
@@ -912,31 +936,30 @@ var GameControl = function (_PaoYa$Component) {
                     skillId: 62,
                     weaponId: ["d002_1", "d010_2", "z003_1", "g005_2", "g012_2"].randomItem
                 }];
-                var tempWeaponInfo = {};
-                for (var i = 0; i < tempArr.length; i++) {
+                let tempWeaponInfo = {};
+                for (let i = 0; i < tempArr.length; i++) {
                     if (testId == tempArr[i].skillId) {
                         tempWeaponInfo = tempArr[i];
                         break;
                     }
                 };
-
-                var _tempWeaponInfo = tempWeaponInfo,
-                    _skillId = _tempWeaponInfo.skillId,
-                    weaponId = _tempWeaponInfo.weaponId;
-
-                skill.skillId = _skillId;
+                  let {
+                    skillId,
+                    weaponId
+                } = tempWeaponInfo;
+                skill.skillId = skillId;
                 targetComp.params.weaponId = weaponId;
-                console.error('释放特技:', skill.skillId);
+                console.error('释放特技:', skill.skillId)
                 switch (skill.skillId) {
                     case 43:
                         skill.skillConfig = {
                             weaponNum: 2
-                        };
+                        }
                         break;
                     case 44:
                         skill.skillConfig = {
                             weaponNum: 3
-                        };
+                        }
                         break;
                     case 45:
                         skill.skillConfig = {
@@ -961,52 +984,52 @@ var GameControl = function (_PaoYa$Component) {
                     case 53:
                         skill.skillConfig = {
                             stealHp: 1
-                        };
+                        }
                         break;
                     case 54:
                         skill.skillConfig = {
                             stealMp: 0.4
-                        };
+                        }
                         break;
                     case 55:
                         skill.skillConfig = {
                             recoverDown: "5-0.4"
-                        };
+                        }
                         break;
                     case 56:
                         skill.skillConfig = {
                             hurt: 1.5
-                        };
+                        }
                         break;
                     case 57:
                         skill.skillConfig = {
                             hurt: 2.5
-                        };
+                        }
                         break;
                     case 60:
                         skill.skillConfig = {
                             way: 4
-                        };
+                        }
                         break;
                     case 61:
                         skill.skillConfig = {
                             hurt: 3.5
-                        };
+                        }
                         break;
                     case 62:
                         skill.skillConfig = {
                             durable: 2
-                        };
+                        }
                         break;
                 }
-            }
+            } */
             /*<---------- 测试用例end----------> */
             var params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
             params.skillEffect = false;
             params.isSelf = targetComp.isSelf;
             if (skillType == 1 && status == 1) {
                 var random = Math.floor(Math.random() * 100 + 1);
-                if (random <= 100) {
+                if (random <= prob) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     if (skillId == 58) {
                         targetComp.startT(200); //快速冷却     
@@ -1109,12 +1132,9 @@ var GameControl = function (_PaoYa$Component) {
                 skillName: skillName,
                 isSelf: params.isSelf
             };
-            console.error(skillName, params.isSelf);
             if (params.isSelf) {
-                console.error('自己触发技能');
                 weaponSkillBox.pos(-164, 189);
             } else {
-                console.error('对方触发技能');
                 weaponSkillBox.pos(1498, 189);
             }
             this.owner.addChild(weaponSkillBox);
@@ -2463,11 +2483,12 @@ var PlayerSkill = function (_PaoYa$Component) {
 
             this.owner.visible = true;
             this.imgBg.alpha = 0;
-            // this.owner.alpha=1;
+            /*  console.log(this.imgBg) */
+            this.owner.alpha = 1;
             this.lblState.text = value;
             //this.owner.scale(5,5);
             this.lblState.scale(5, 5);
-
+            this.tweenImg.complete();
             this.tweenImg.to(this.imgBg, { alpha: 1 }, 500);
             this.tweenText.to(this.lblState, { scaleX: 1.5, scaleY: 1.5 }, 500, Laya.Ease.backOut, Laya.Handler.create(this, function () {
 
@@ -2582,6 +2603,7 @@ var Skill = function (_PaoYa$Component) {
     _inherits(Skill, _PaoYa$Component);
 
     /* @prop {name:spShadow,tips:"阴影遮罩",type:Node} */
+    /* @prop {name:lblLockTips,tips:"解锁等级提示",type:Node} */
     function Skill() {
         _classCallCheck(this, Skill);
 
@@ -2596,7 +2618,6 @@ var Skill = function (_PaoYa$Component) {
             this.ownH = owner.height;
             this.centerX = Math.floor(this.ownW / 2);
             this.centerY = Math.floor(this.ownH / 2);
-            this.spShadow.visible = false;
             this.maskArea = new Laya.Sprite();
             this.maskArea.texture = "remote/game/skill.png";
             owner.addChild(this.maskArea);
@@ -2622,14 +2643,22 @@ var Skill = function (_PaoYa$Component) {
                 return;
             }
             this.postNotification(Skill.CLICK, [this.owner.name]);
-            // this.startT();
         }
     }, {
-        key: "initCdTime",
-        value: function initCdTime(cdTime) {
-            console.warn('初始化cd时间:', cdTime);
-            //cd 时间
-            this.cdTime = cdTime;
+        key: "init",
+        value: function init(params) {
+            this.cdTime = params.skillCd * 1000;
+            if (!params.status) {
+                this.lblLockTips.visible = true;
+                this.lblLockTips.font = 'weaponNFontT';
+                this.lblLockTips.text = "LV." + params.skillUnlock + "\u89E3\u9501";
+                this.spShadow.visible = true;
+                this.lblLockTips.scale(0.5, 0.5);
+                this.owner.disabled = true;
+            } else {
+                this.spShadow.visible = false;
+                this.lblLockTips.visible = false;
+            }
         }
     }, {
         key: "setCdTime",
@@ -3569,7 +3598,7 @@ exports.default = WeaponBar;
 WeaponBar.CLICK = "weanponBarClick";
 
 },{"../GameControl":4}],19:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -3594,14 +3623,14 @@ var WeaponSkill = function (_PaoYa$Component) {
     }
 
     _createClass(WeaponSkill, [{
-        key: 'onAwake',
+        key: "onAwake",
         value: function onAwake() {
             this.timeLine = new Laya.TimeLine();
             this.lblWeaponSkill.font = "weaponSkill";
             this.timeLine.on(Laya.Event.COMPLETE, this, this.removeSelf);
         }
     }, {
-        key: 'onEnable',
+        key: "onEnable",
         value: function onEnable() {
             var params = this.owner.params;
             var skillName = params.skillName;
@@ -3610,8 +3639,6 @@ var WeaponSkill = function (_PaoYa$Component) {
             var owner = this.owner;
             owner.alpha = 1;
             var targetX = params.isSelf ? 0 : 1170;
-            console.error('原始位置:....', this.owner.x);
-            console.error('目标位置:.........', targetX);
             this.timeLine.to(owner, {
                 x: targetX
             }, 500, Laya.Ease.backOut, 0).to(owner, {
@@ -3620,20 +3647,19 @@ var WeaponSkill = function (_PaoYa$Component) {
             this.timeLine.play();
         }
     }, {
-        key: 'removeSelf',
+        key: "removeSelf",
         value: function removeSelf() {
             this.timeLine.reset();
-            console.error('删除自己');
             this.owner.removeSelf();
         }
     }, {
-        key: 'onDisable',
+        key: "onDisable",
         value: function onDisable() {
             //对象池回收
             Laya.Pool.recover('weaponSkillBox', this.owner);
         }
     }, {
-        key: 'onDestroy',
+        key: "onDestroy",
         value: function onDestroy() {
             this.timeLine && this.timeLine.destroy();
             this.timeLine = null;
@@ -3779,10 +3805,18 @@ var HomeControl = function (_PaoYa$Component) {
                 //兵器库
                 case "btnWeaponHouse":
                     console.log("进入兵器库");
+                    this.GET("martial_user_weapon_list", {}, function (res) {
+                        //console.log(res)
+                        _this2.navigator.push("WeaponHouse", res);
+                    });
                     break;
                 //兵器商店
                 case "btnWeaponStore":
                     console.log("进入兵器商店");
+                    this.POST("martial_shop_list", { refresh: 0 }, function (res) {
+                        //console.log(res)
+                        _this2.navigator.push("WeaponStore", res);
+                    });
                     break;
                 //兵器谱
                 case "btnWeaponSpectrum":
@@ -3980,5 +4014,1623 @@ var LoadingView = function (_PaoYa$View) {
 }(PaoYa.View);
 
 exports.default = LoadingView;
+
+},{}],24:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var Global = {
+    baseUrl: "https://xgamejuedixiaomie.goxiaochengxu.cn/1005/",
+    remoteUrl: '',
+    skTemplate: {},
+    shareNum: 0,
+    shareNumSuc: 0,
+    shareNumFail: 0,
+    skBank: {},
+    getTemplate: function getTemplate(cb) {
+        for (var key in this.skBank) {
+            if (this.skTemplate[key]) {} else {
+                skLoading.call(this, key);
+            }
+        }
+
+        function skLoading(key) {
+            var _this = this;
+
+            var mFactory = new Laya.Templet();
+            mFactory.on(Laya.Event.COMPLETE, this, function () {
+                parseComplete.call(_this, mFactory, key);
+            });
+            mFactory.loadAni(this.skBank[key]);
+        }
+
+        function parseComplete(mFactory, key) {
+            this.skTemplate[key] = mFactory;
+            if (key == "getheroY") {
+                cb && cb();
+            }
+        }
+    },
+
+    /**
+     * 
+     * @param {*} key String SK名
+     * @param {*} cb 回调
+     */
+    appointSk: function appointSk(caller, key, cb) {
+        var _this2 = this;
+
+        if (this.skTemplate[key]) {
+            cb && cb.call(caller, this.skTemplate[key]);
+        } else {
+            var _parseComplete = function _parseComplete(mFactory, key) {
+                this.skTemplate[key] = mFactory;
+                cb && cb.call(caller, this.skTemplate[key]);
+            };
+
+            var mFactory = new Laya.Templet();
+            mFactory.on(Laya.Event.COMPLETE, this, function () {
+                _parseComplete.call(_this2, mFactory, key);
+            });
+            mFactory.loadAni(this.skBank[key]);
+        }
+    },
+    regFont: function regFont() {
+        var weaponDFont = new Laya.BitmapFont();
+        weaponDFont.loadFont('font/weapon/detailfont.fnt', Laya.Handler.create(this, function () {
+            Laya.Text.registerBitmapFont('weaponDFont', weaponDFont);
+        }));
+
+        var weaponNFontT = new Laya.BitmapFont();
+        weaponNFontT.loadFont('font/weapon/lvfont.fnt', Laya.Handler.create(this, function () {
+            Laya.Text.registerBitmapFont('weaponNFontT', weaponNFontT);
+        }));
+    },
+    dataPoints: function dataPoints(data, obj)
+    //data汉字说明比如  点击数
+    //obj  比如  { points: "39,40" }
+    {
+        if (obj) {
+            PaoYa.Request.POST("game_point", obj);
+        }
+        // wx.aldSendEvent(data, obj)
+
+        if (typeof wx == 'undefined') {
+            return;
+        }
+        wx.aldSendEvent(data);
+    },
+    gameStartStat: function gameStartStat(num) {
+        if (typeof wx == 'undefined') {
+            return;
+        }
+        wx.aldStage.onStart({
+            stageId: "" + num,
+            stageName: "\u7B2C" + num + "\u5173"
+        });
+    },
+    gameEndStat: function gameEndStat(num, obj) {
+        if (typeof wx == 'undefined') {
+            return;
+        }
+        wx.aldStage.onEnd({
+            stageId: "" + num,
+            stageName: "\u7B2C" + num + "\u5173",
+            event: obj.static,
+            params: {
+                desc: obj.zhstatic
+            }
+        });
+    },
+    gameUsePropStat: function gameUsePropStat(num) {
+        if (typeof wx == 'undefined') {
+            return;
+        }
+        wx.aldStage.onRunning({
+            stageId: "" + num,
+            stageName: "\u7B2C" + num + "\u5173",
+            event: "tools",
+            params: {
+                itemName: "\u7535\u706F\u6CE1"
+            }
+        });
+    }
+};
+
+exports.Global = Global;
+
+},{}],25:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Global = require('./Global');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Tool = function () {
+    function Tool() {
+        _classCallCheck(this, Tool);
+    }
+
+    _createClass(Tool, null, [{
+        key: 'numFormat',
+
+        /**数字太大格式化成K */
+        value: function numFormat(num) {
+            if (num >= 10000) {
+                num = Math.floor(num / 1000) + 'K';
+            }
+            return num;
+        }
+
+        /**增加用户金币 */
+
+    }, {
+        key: 'addGold',
+        value: function addGold(num) {
+            PaoYa.DataCenter.user.user_info.member_gold += num;
+        }
+
+        /**获取格式化后的用户金币 */
+
+    }, {
+        key: 'getGold',
+        value: function getGold(num) {
+            return this.numFormat(PaoYa.DataCenter.user.user_info.member_gold);
+        }
+
+        /**增加用户宝石 */
+
+    }, {
+        key: 'addDiamond',
+        value: function addDiamond(num) {
+            PaoYa.DataCenter.user.user_info.member_diamond += num;
+        }
+
+        /**设置用户宝石 */
+
+    }, {
+        key: 'setDiamond',
+        value: function setDiamond(num) {
+            PaoYa.DataCenter.user.user_info.member_diamond = num;
+        }
+
+        /**更新用户金币，体力，宝石，道具，积分 */
+
+    }, {
+        key: 'updataUserInfo',
+        value: function updataUserInfo(data) {
+            var user = PaoYa.DataCenter.user.user_info;
+            user.member_gold = data.gold;
+            user.member_power = data.power;
+            user.member_diamond = data.diamond;
+            user.member_prop = data.prop;
+            user.member_integral = data.integral;
+        }
+    }, {
+        key: 'showVideoAD',
+        value: function showVideoAD(callBack, cancel, err, num) {
+            // Global.dataPoints(`点击观看视频次数`, { points: "103" })
+            var p = {
+                onLoad: function onLoad() {
+                    console.log('\u89C6\u9891\u5F39\u51FA');
+                    PaoYa.Request.POST('manage_data', { code: num });
+                },
+                onError: function onError() {
+                    // PaoYa.Request.GET("change_advertising", {}, () => {
+                    //     PaoYa.DataCenter.loginData.advertising = 1
+                    // })
+                    err && err();
+                },
+                onClose: function onClose(res) {
+                    if (res.isEnded) {
+                        // Global.dataPoints(`广告看完次数`, { points: "105" })
+                        callBack && callBack();
+                    } else {
+                        cancel && cancel();
+                        // let alert = new AlertDialog({ title: '提示', message: '请看完广告才能复活哦' })
+                        // alert.popup()
+                    }
+                }
+            };
+            PaoYa.RewardedVideoAd.show(p);
+        }
+
+        /**设置用户领钻石小红点值 */
+
+    }, {
+        key: 'setUserCanGetJewel',
+        value: function setUserCanGetJewel(state) {
+            PaoYa.DataCenter.user.can_receive = state;
+        }
+    }, {
+        key: 'inviteFriend',
+        value: function inviteFriend(e, num) {
+            if (PaoYa.DataCenter.loginData.is_review || typeof wx == 'undefined') {
+                return;
+            }
+            // PaoYa.Request.POST(`manage_data`, { code: num })
+
+            var title = PaoYa.DataCenter.config.game.share_list.randomItem;
+            PaoYa.ShareManager.shareTitle(title, {}, function () {});
+        }
+    }, {
+        key: 'noADshare',
+        value: function noADshare(suc, fail) {
+            if (PaoYa.DataCenter.loginData.is_review || typeof wx == 'undefined') {
+                suc && suc();
+                return;
+            }
+
+            // let probability = GameDataCenter.gameData.shareNum ? 100 : 70
+            var startTime = new Date().getTime();
+            var title = PaoYa.DataCenter.config.game.share_list.randomItem;
+            Laya.SoundManager.stopMusic();
+            PaoYa.ShareManager.shareTitle(title, {}, function () {
+
+                if (_Global.Global.shareNumFail > 1 && _Global.Global.shareNum < 5) {
+                    _Global.Global.shareNumFail = 0;
+                    suc && suc();
+                    _Global.Global.shareNum++;
+                    return;
+                }
+
+                if (_Global.Global.shareNum < 1) {
+                    _Global.Global.shareNumFail++;
+                    fail && fail();
+                }
+
+                if (_Global.Global.shareNum >= 1 && _Global.Global.shareNum <= 4) {
+                    var shareNumD = Math.random() * 100 < 50 ? true : false;
+                    if (new Date().getTime() - startTime > 2000 && shareNumD) {
+                        _Global.Global.shareNumSuc++;
+                        suc && suc();
+                    } else {
+                        _Global.Global.shareNumFail++;
+                        fail && fail();
+                    }
+                }
+
+                if (_Global.Global.shareNum > 4) {
+                    var _shareNumD = Math.random() * 100 < 10 ? true : false;
+                    if (new Date().getTime() - startTime > 2000 && _shareNumD) {
+                        _Global.Global.shareNumSuc++;
+                        suc && suc();
+                    } else {
+                        _Global.Global.shareNumFail++;
+                        fail && fail();
+                    }
+                }
+                _Global.Global.shareNum++;
+            });
+        }
+    }, {
+        key: 'wxShowFriendRank',
+        value: function wxShowFriendRank(num) {
+            var uerInfo = {
+                "wxgame": {
+                    "score": num,
+                    // "ladder_id": e.ladder_id,
+                    "update_time": Date.parse(new Date())
+                    // "city": PaoYa.DataCenter.rawData.member_city,
+                    // "ladder_name": e.ladder_name
+                } };
+            if (typeof wx == 'undefined') {
+                return;
+            } else {
+                wx.setUserCloudStorage({
+                    KVDataList: [{ key: 'score', value: JSON.stringify(uerInfo) }]
+                });
+            }
+        }
+    }, {
+        key: 'showBanner',
+        value: function showBanner() {
+            if (typeof wx == 'undefined') {
+                return;
+            }
+            var bannerAd = wx.createBannerAd({
+                adUnitId: 'adunit-1dbbf544daf9456a',
+                style: {
+                    left: (wx.getSystemInfoSync().windowWidth - 300) / 2,
+                    top: wx.getSystemInfoSync().screenHeight - 90,
+                    width: 300
+                }
+            });
+
+            bannerAd.onLoad(function () {
+                // Global.dataPoints(`banner曝光量`, { points: "104" })
+                console.log('banner 广告加载成功');
+            });
+
+            bannerAd.onError(function (err) {
+                console.log(err);
+            });
+
+            bannerAd.onResize(function (res) {
+                console.log(res.width, res.height);
+                console.log(bannerAd.style.realWidth, bannerAd.style.realHeight);
+                bannerAd.style.top = wx.getSystemInfoSync().screenHeight - bannerAd.style.realHeight;
+            });
+
+            // 在适合的场景显示 Banner 广告
+            return bannerAd;
+        }
+    }, {
+        key: 'hasVideoAD',
+        get: function get() {
+            return PaoYa.game.params.adUnitId ? true : false;
+        }
+    }]);
+
+    return Tool;
+}();
+
+exports.default = Tool;
+
+},{"./Global":24}],26:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _WeaponHouseControl = require("./WeaponHouseControl");
+
+var _WeaponHouseControl2 = _interopRequireDefault(_WeaponHouseControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WeaponHouse = function (_PaoYa$View) {
+    _inherits(WeaponHouse, _PaoYa$View);
+
+    function WeaponHouse() {
+        _classCallCheck(this, WeaponHouse);
+
+        return _possibleConstructorReturn(this, (WeaponHouse.__proto__ || Object.getPrototypeOf(WeaponHouse)).call(this));
+    }
+
+    _createClass(WeaponHouse, [{
+        key: "onAwake",
+        value: function onAwake() {}
+    }, {
+        key: "onEnable",
+        value: function onEnable() {
+            var _this2 = this;
+
+            // this.getComponent()
+            this.light.on(Laya.Event.CLICK, this, function () {
+                _this2.getWareBtnSkin("light");
+                _this2.lightNew.visible = false;
+                _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.lightList);
+            });
+
+            this.middle.on(Laya.Event.CLICK, this, function () {
+                _this2.getWareBtnSkin("middle");
+                _this2.middleNew.visible = false;
+                _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.middleList);
+            });
+
+            this.large.on(Laya.Event.CLICK, this, function () {
+                _this2.getWareBtnSkin("large");
+                _this2.largeNew.visible = false;
+                _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.heavyList);
+            });
+
+            this.benBack.on(Laya.Event.CLICK, this, function () {
+                _WeaponHouseControl2.default.ins.navigator.pop();
+            });
+
+            this.equip.on(Laya.Event.CLICK, this, function () {
+                _WeaponHouseControl2.default.ins.chargeWeapon();
+            });
+
+            this.upGrade.on(Laya.Event.CLICK, this, function () {
+                _WeaponHouseControl2.default.ins.upgradeWeapon();
+            });
+
+            this.Wp_1.font = "weaponDFont";
+            this.Wp_2.font = "weaponDFont";
+            this.Wp_3.font = "weaponDFont";
+            this.Wp_4.font = "weaponDFont";
+            this.Wp_5.font = "weaponDFont";
+        }
+    }, {
+        key: "getWareBtnSkin",
+        value: function getWareBtnSkin(name) {
+            var _this3 = this;
+
+            var arr = ["light", "middle", "large"];
+            arr.forEach(function (element) {
+                _this3[element].skin = "remote/weaponhouse/14.png";
+            });
+            this[name].skin = "remote/weaponhouse/13.png";
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+    }]);
+
+    return WeaponHouse;
+}(PaoYa.View);
+
+exports.default = WeaponHouse;
+
+},{"./WeaponHouseControl":27}],27:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WeaponHouseControl = function (_PaoYa$Component) {
+    _inherits(WeaponHouseControl, _PaoYa$Component);
+
+    function WeaponHouseControl() {
+        _classCallCheck(this, WeaponHouseControl);
+
+        var _this = _possibleConstructorReturn(this, (WeaponHouseControl.__proto__ || Object.getPrototypeOf(WeaponHouseControl)).call(this));
+
+        WeaponHouseControl.ins = _this;
+        return _this;
+    }
+
+    _createClass(WeaponHouseControl, [{
+        key: "onAwake",
+        value: function onAwake() {
+            var _this2 = this;
+
+            this.params = this.owner.params;
+            //武器数据
+            this.lightList = this.params.lightList;
+            this.heavyList = this.params.heavyList;
+            this.middleList = this.params.middleList;
+            this.allList = this.lightList.concat(this.heavyList, this.middleList);
+            console.log(this.allList, 132);
+            //新武器处理
+            this.params.newWeapon && this.chioceNewWp();
+            //我的武器数据
+            this.myUserList = [];
+            this.isUsingWeapon = {};
+            this.currentMyUserIdx = 0;
+            this.currentMyUserWeapDetail = "";
+            var arr = this.params.userWeapons.split(",");
+            arr.forEach(function (element) {
+                var obj = {
+                    name: element.split("-")[0],
+                    lv: element.split("-")[1]
+                };
+                _this2.myUserList.push(obj);
+            });
+            this.getMyUserDetailList();
+            // this.owner.userWeaponList.selectHandler = new Laya.Handler(this, this.userWeaponSelect);
+            this.owner.userWeaponList.renderHandler = new Laya.Handler(this, this.userWeaponUpdateItem);
+            this.owner.userWeaponList.array = this.myUserDetailList;
+            //仓库武器数据
+            // this.owner.warehouseList.selectHandler = new Laya.Handler(this, this.wareWeaponSelect);
+            this.isWareChoiceWp = null;
+            this.owner.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
+        }
+    }, {
+        key: "onEnable",
+        value: function onEnable() {
+            this.owner.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold;
+            this.owner.goldNum.font = "weaponNFontT";
+            this.owner.diamondNum.text = PaoYa.DataCenter.user.user_info.member_diamond;
+            this.owner.diamondNum.font = "weaponNFontT";
+        }
+        //获取装备武器详情
+
+    }, {
+        key: "getMyUserDetailList",
+        value: function getMyUserDetailList() {
+            switch (this.params.weaponGridNum) {
+                case 3:
+                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }, { type: 5 }];
+                    break;
+                case 4:
+                    if (this.params.shareGrid > 0) {
+                        this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }];
+                    } else {
+                        this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 5 }];
+                    }
+                    break;
+                case 5:
+                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }];
+                    break;
+            }
+            var al = this.allList.length;
+            var ml = this.myUserList.length;
+            var num = 0;
+            getNowWare: for (var j = 0; j < ml; j++) {
+                if (!this.myUserList[j]) {
+                    return;
+                }
+                for (var i = 0; i < al; i++) {
+                    if (this.allList[i].weaponId == this.myUserList[j].name && this.allList[i].weaponLevel == this.myUserList[j].lv && this.allList[i].num > 0) {
+                        this.myUserDetailList[num] = this.allList[i];
+                        num++;
+                        continue getNowWare;
+                    }
+                }
+            }
+        }
+        //新武器属性赋予
+
+    }, {
+        key: "chioceNewWp",
+        value: function chioceNewWp() {
+            var _this3 = this;
+
+            this.newWpList = [];
+            this.owner.lightNew.visible = this.params.newWeapon.indexOf("d") != -1 ? true : false;
+            this.owner.middleNew.visible = this.params.newWeapon.indexOf("z") != -1 ? true : false;
+            this.owner.largeNew.visible = this.params.newWeapon.indexOf("g") != -1 ? true : false;
+            if (this.params.newWeapon) {
+                var newaparr = this.params.newWeapon.split(",");
+                newaparr.forEach(function (element) {
+                    var obj = {
+                        name: element.split("-")[0],
+                        lv: element.split("-")[1]
+                    };
+                    _this3.newWpList.push(obj);
+                });
+            }
+        }
+    }, {
+        key: "userWeaponSelect",
+        value: function userWeaponSelect(cell, idx) {
+            console.log(cell, idx);
+        }
+        //正在使用武器渲染
+
+    }, {
+        key: "userWeaponUpdateItem",
+        value: function userWeaponUpdateItem(cell, idx) {
+            var _this4 = this;
+
+            // console.log(cell, idx)
+            //点击重新渲染
+            cell.offAll();
+
+            if (!cell._dataSource.weaponId) {
+                cell.getChildByName("bgwrap").visible = false;
+                cell.getChildByName("mark").visible = false;
+                cell.getChildByName("wp").visible = false;
+                cell.getChildByName("lv").visible = false;
+                cell.getChildByName("add").visible = false;
+                cell.getChildByName("invite").visible = false;
+                switch (cell._dataSource.type) {
+                    case 3:
+                        cell.getChildByName("add").visible = true;
+                        cell.on(Laya.Event.CLICK, this, function () {
+                            for (var i = 0; i < 5; i++) {
+                                _this4.owner["wpBg_" + (i + 1)].skin = "remote/weaponhouse/25.png";
+                            }
+                            // let newIndx = this.currentMyUserIdx
+                            _this4.currentMyUserIdx = idx;
+                            _this4.owner["wpBg_" + (_this4.currentMyUserIdx + 1)].skin = "remote/weaponhouse/26.png";
+                            // this.myUserList[this.currentMyUserIdx] = this.myUserList[newIndx]
+                            _this4.getMyUserDetailList();
+                            _this4.owner.userWeaponList.array = _this4.myUserDetailList;
+                        });
+                        break;
+                    case 4:
+                        cell.getChildByName("invite").visible = true;
+                        cell.on(Laya.Event.CLICK, this, function () {
+                            _this4.navigator.popup("weapon/UnlockFour");
+                        });
+                        break;
+                    case 5:
+                        cell.getChildByName("invite").visible = true;
+                        cell.on(Laya.Event.CLICK, this, function () {
+                            _this4.navigator.popup("weapon/UnlockFifth");
+                        });
+                        break;
+                }
+                return;
+            }
+
+            cell.getChildByName("bgwrap").visible = true;
+            cell.getChildByName("mark").visible = true;
+            cell.getChildByName("wp").visible = true;
+            cell.getChildByName("lv").visible = true;
+            cell.getChildByName("add").visible = false;
+            cell.getChildByName("invite").visible = false;
+
+            cell.on(Laya.Event.CLICK, this, function () {
+                for (var i = 0; i < 5; i++) {
+                    _this4.owner["wpBg_" + (i + 1)].skin = "remote/weaponhouse/25.png";
+                }
+                _this4.currentMyUserIdx = idx;
+                _this4.owner["wpBg_" + (_this4.currentMyUserIdx + 1)].skin = "remote/weaponhouse/26.png";
+                _this4.getMyUserDetailList();
+                _this4.owner.userWeaponList.array = _this4.myUserDetailList;
+            });
+
+            this.singleWeapon(cell, idx, 1);
+        }
+    }, {
+        key: "wareWeaponSelect",
+        value: function wareWeaponSelect(cell, idx) {
+            console.log(cell, idx);
+        }
+        //仓库武器渲染
+
+    }, {
+        key: "wareWeaponUpdateItem",
+        value: function wareWeaponUpdateItem(cell, idx) {
+            var _this5 = this;
+
+            // console.log(cell, idx)
+            cell.offAll();
+            cell.on(Laya.Event.CLICK, this, function () {
+                if (_this5.isWareChoiceWp) {
+                    _this5.isWareChoiceWp.getChildByName("beChioce").visible = false;
+                    _this5.isWareChoiceWp.skin = "local/common/frameBg.png";
+                    _this5.isWareChoiceWp._dataSource.isShowing = false;
+                    _this5.isWareChoiceWp = cell;
+                    _this5.isWareChoiceWp._dataSource.isShowing = true;
+                }
+                cell.getChildByName("beChioce").visible = true;
+                // console.log(cell.getChildByName(`beChioce`),123)
+                cell.skin = "local/common/currutFrameBg.png";
+                _this5.currentMyUserWeapDetail = cell._dataSource;
+                _this5.renderCenterData();
+                if (cell._dataSource.isNew) {
+                    cell._dataSource.isNew = false;
+                    cell.getChildByName("new").visible = false;
+                    _this5.newWpList[cell._dataSource.idIdx].isOdd = true;
+                    // let arr = newWpList
+                    // console.log(arr)
+                }
+            });
+            this.singleWeapon(cell, idx);
+        }
+        //渲染详情部分
+
+    }, {
+        key: "renderCenterData",
+        value: function renderCenterData(isUser) {
+            var _this6 = this;
+
+            this.owner["skillImg_1"].visible = false;
+            this.owner["skillImg_2"].visible = false;
+            var detail = this.currentMyUserWeapDetail;
+            this.owner.showWeapon.skin = "remote/small_weapons/s_" + detail.weaponId + ".png";
+            // this.owner.currtWeaponLevel.text = `LV.${detail.weaponLevel}`
+            // this.owner.currtWeaponLevel.font = `weaponNFontT`
+            // this.owner.currtWeaponLevel.scale(0.7, 0.7)
+            //选择重置
+            var arr = ["light", "middle", "large"];
+            arr.forEach(function (element) {
+                _this6.owner[element].skin = "remote/weaponhouse/14.png";
+            });
+            //兵器展示
+            var skinq = "";
+            var skint = "";
+            var wareList = [];
+            switch (detail.weaponStar) {
+                case 1:
+                    skinq = "local/common/quality_1.png";
+                    break;
+                case 2:
+                    skinq = "local/common/quality_2.png";
+                    break;
+                case 3:
+                    skinq = "local/common/quality_3.png";
+                    break;
+            }
+            switch (detail.weaponType) {
+                case 3:
+                    skint = "local/common/type_1.png";
+                    wareList = JSON.parse(JSON.stringify(this.heavyList));
+                    this.owner.large.skin = "remote/weaponhouse/13.png";
+                    break;
+                case 2:
+                    skint = "local/common/type_2.png";
+                    wareList = JSON.parse(JSON.stringify(this.middleList));
+                    this.owner.middle.skin = "remote/weaponhouse/13.png";
+                    break;
+                case 1:
+                    skint = "local/common/type_3.png";
+                    wareList = JSON.parse(JSON.stringify(this.lightList));
+                    this.owner.light.skin = "remote/weaponhouse/13.png";
+                    break;
+            }
+            this.owner.showWrap.skin = skinq;
+            this.owner.showMark.skin = skint;
+            //兵器属性
+            this.owner.currutWeapon.text = detail.weaponName;
+            this.owner.currutWeapon.font = "weaponDFont";
+            this.owner.currutWeapon.scale(0.8, 0.8);
+
+            this.owner.CDTime.text = "LV." + detail.weaponLevel + "/" + detail.weaponTopLevel;
+            this.owner.CDTime.font = "weaponNFontT";
+            this.owner.CDTime.scale(0.7, 0.7);
+
+            this.owner.attackNum.text = "\u653B\u51FB\uFF1A " + detail.weaponAttack;
+            this.owner.addattackNum.text = "+" + detail.weaponUpAttack;
+            this.owner.enduranceNum.text = "\u8010\u4E45\uFF1A " + detail.weaponDurable;
+            this.owner.addenduranceNum.text = "+" + detail.weaponUpDurable;
+            this.owner.consumeNum.text = "\u6D88\u8017\uFF1A " + detail.weaponConsume;
+            this.owner.addconsumeNum.text = "+" + detail.weaponDownConsume;
+            this.owner.wpcdNum.text = "\u51B7\u5374\uFF1A " + detail.weaponCd + "\u79D2";
+            //兵器技能
+            this.owner["skillName_1"].text = "";
+            this.owner["skillGl_1"].text = "";
+            this.owner["skillDetail_1"].text = "";
+            this.owner["skillImg_1"].visible = false;
+            this.owner["skillName_2"].text = "";
+            this.owner["skillGl_2"].text = "";
+            this.owner["skillDetail_2"].text = "";
+            this.owner["skillImg_2"].visible = false;
+            if (detail.skills.length > 0) {
+                detail.skills.forEach(function (element, index) {
+                    _this6.owner["skillName_" + (index + 1)].color = "#4a4948";
+                    _this6.owner["skillGl_" + (index + 1)].color = "#4a4948";
+                    _this6.owner["skillDetail_" + (index + 1)].color = "#4a4948";
+                    _this6.owner["skillName_" + (index + 1)].text = element.skillName;
+                    _this6.owner["skillGl_" + (index + 1)].text = "\u51E0\u7387" + element.skillProb;
+                    _this6.owner["skillDetail_" + (index + 1)].text = element.skillDesc;
+                    _this6.owner["skillImg_" + (index + 1)].visible = true;
+                    if (element.status) {
+                        _this6.owner["skillName_" + (index + 1)].color = "#004418";
+                        _this6.owner["skillGl_" + (index + 1)].color = "#004418";
+                        _this6.owner["skillDetail_" + (index + 1)].color = "#004418";
+                    }
+                });
+            }
+
+            this.owner.needGoldNum.text = detail.upgradeCost;
+            this.owner.needGoldNum.font = "weaponNFontT";
+            this.owner.needGoldNum.scale(0.7, 0.7);
+
+            this.owner.upGrade.disabled = detail.weaponLevel >= detail.weaponTopLevel ? true : false;
+            this.owner.equip.skin = detail.isUsingWp ? "remote/weaponhouse/20.png" : "remote/weaponhouse/10.png";
+
+            //否是为已装备武器
+            if (isUser) {
+                this.showWareList(wareList);
+            }
+        }
+
+        //仓库展示列表
+
+    }, {
+        key: "showWareList",
+        value: function showWareList(list) {
+            var _this7 = this;
+
+            var detail = this.currentMyUserWeapDetail;
+            var showList = JSON.parse(JSON.stringify(list));
+            var arr = [];
+            var unShowWeap = JSON.parse(JSON.stringify(this.myUserList));
+            unShowWeap.splice(this.currentMyUserIdx, 1);
+            //筛选仓库武器
+            showList.forEach(function (element, index) {
+                for (var i = 0; i < unShowWeap.length; i++) {
+                    if (element.weaponId == unShowWeap[i].name && element.weaponLevel == unShowWeap[i].lv) {
+                        element.num -= 1;
+                        element.isUsing = true;
+                    }
+                }
+                //选出已装备武器
+                var isChoice = false;
+                for (var _i = 0; _i < element.num; _i++) {
+                    var obj = JSON.parse(JSON.stringify(element));
+                    obj.originalIndex = index;
+                    obj.isUsingWp = false;
+                    if (obj.weaponId == _this7.myUserList[_this7.currentMyUserIdx].name && obj.weaponLevel == _this7.myUserList[_this7.currentMyUserIdx].lv && !isChoice) {
+                        obj.isUsingWp = true;
+                        obj.isShowing = true;
+                        isChoice = true;
+                    }
+                    obj.WpGrade = obj.weaponStar * 100 + obj.weaponLevel;
+                    arr.push(obj);
+                }
+            });
+
+            if (this.newWpList) {
+                var al = arr.length;
+                var ml = this.newWpList.length;
+                getNewList: for (var j = 0; j < ml; j++) {
+                    for (var i = 0; i < al; i++) {
+                        if (arr[i].weaponId == this.newWpList[j].name && arr[i].weaponLevel == this.newWpList[j].lv && !arr[i].isUsingWp && !this.newWpList[j].isOdd) {
+                            arr[i].isNew = true;
+                            arr[i].idIdx = j;
+                            continue getNewList;
+                        }
+                    }
+                }
+            }
+
+            arr.sort(function (a, b) {
+                return b.WpGrade - a.WpGrade;
+            });
+            this.isWareChoiceWp = null;
+            this.owner.warehouseList.array = arr;
+        }
+
+        //单个兵器图签
+
+    }, {
+        key: "singleWeapon",
+        value: function singleWeapon(cell, idx, isUser) {
+            cell.skin = "local/common/frameBg.png";
+            cell.getChildByName("beChioce").visible = false;
+            if (!isUser) {
+                cell.getChildByName("using").visible = false;
+                cell.getChildByName("new").visible = false;
+                if (cell._dataSource.isNew) {
+                    cell.getChildByName("new").visible = true;
+                }
+            }
+            //选定渲染
+            if (this.myUserList[this.currentMyUserIdx] && this.myUserList[this.currentMyUserIdx].name == cell._dataSource.weaponId && this.myUserList[this.currentMyUserIdx].lv == cell._dataSource.weaponLevel) {
+                if (isUser) {
+                    cell.getChildByName("beChioce").visible = true;
+                    cell.skin = "local/common/currutFrameBg.png";
+                } else if (cell._dataSource.isUsingWp) {
+                    cell.getChildByName("using").visible = true;
+                }
+                this.currentMyUserWeapDetail = cell._dataSource;
+                // this.isUsingWeapon = cell
+                this.renderCenterData(isUser);
+            }
+
+            if (cell._dataSource.isShowing) {
+                cell.getChildByName("beChioce").visible = true;
+                // console.log(cell.getChildByName(`beChioce`),123)
+                this.isWareChoiceWp = cell;
+                cell.skin = "local/common/currutFrameBg.png";
+                this.currentMyUserWeapDetail = cell._dataSource;
+                // this.isUsingWeapon = cell
+                this.renderCenterData(isUser);
+            }
+
+            cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
+            cell.getChildByName("lv").text = "LV." + cell._dataSource.weaponLevel;
+            cell.getChildByName("lv").font = "weaponNFontT";
+            cell.getChildByName("lv").scale(0.7, 0.7);
+
+            var skinq = "";
+            var skint = "";
+            switch (cell._dataSource.weaponStar) {
+                case 1:
+                    skinq = "local/common/quality_1.png";
+                    break;
+                case 2:
+                    skinq = "local/common/quality_2.png";
+                    break;
+                case 3:
+                    skinq = "local/common/quality_3.png";
+                    break;
+            }
+            switch (cell._dataSource.weaponType) {
+                case 3:
+                    skint = "local/common/type_1.png";
+                    break;
+                case 2:
+                    skint = "local/common/type_2.png";
+                    break;
+                case 1:
+                    skint = "local/common/type_3.png";
+                    break;
+            }
+            cell.getChildByName("bgwrap").skin = skinq;
+            cell.getChildByName("mark").skin = skint;
+        }
+
+        //更换武器
+
+    }, {
+        key: "chargeWeapon",
+        value: function chargeWeapon() {
+            var _this8 = this;
+
+            if (this.isRequesting) {
+                return;
+            }
+            var detail = this.currentMyUserWeapDetail;
+            var oldDetail = this.myUserDetailList[this.currentMyUserIdx];
+            if (detail.isUsingWp) {
+                return;
+            }
+            var wpType = 0;
+            if (!this.myUserList[this.currentMyUserIdx]) {
+                wpType = 1;
+            }
+            this.isRequesting = true;
+            Laya.timer.once(500, this, function () {
+                _this8.isRequesting = false;
+            });
+            PaoYa.Request.POST("martial_change_weapon", { oldWeaponId: oldDetail.weaponId + "-" + oldDetail.weaponLevel, newWeaponId: detail.weaponId + "-" + detail.weaponLevel, type: wpType, index: this.currentMyUserIdx }, function (res) {
+                _this8.myUserList = [];
+                var arr = res.userWeapons.split(",");
+                arr.forEach(function (element) {
+                    var obj = {
+                        name: element.split("-")[0],
+                        lv: element.split("-")[1]
+                    };
+                    _this8.myUserList.push(obj);
+                });
+                _this8.getMyUserDetailList();
+                _this8.owner.userWeaponList.array = _this8.myUserDetailList;
+            });
+        }
+
+        //升级武器
+
+    }, {
+        key: "upgradeWeapon",
+        value: function upgradeWeapon() {
+            var _this9 = this;
+
+            if (this.isRequesting) {
+                return;
+            }
+            if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
+                this.navigator.popup("weapon/GoldLack");
+                return;
+            } else {
+                PaoYa.DataCenter.user.user_info.member_gold -= Number(this.owner.needGoldNum.text);
+                this.owner.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold;
+            }
+
+            var detail = this.currentMyUserWeapDetail;
+            var isusing = detail.isUsingWp ? 1 : 0;
+            this.isRequesting = true;
+            Laya.timer.once(500, this, function () {
+                _this9.isRequesting = false;
+            });
+            PaoYa.Request.POST("martial_update_weapon", { weaponId: detail.weaponId + "-" + detail.weaponLevel, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, function (res) {
+                var newDetail = null;
+                _this9.owner.upeffects.visible = true;
+                _this9.owner.upeffects.play(0, false);
+                switch (detail.weaponType) {
+                    case 3:
+                        // this.heavyList[detail.originalIndex].num--
+                        // res.weapon.num = 1
+                        // this.heavyList.push(res.weapon)
+                        newDetail = "heavyList";
+                        break;
+                    case 2:
+                        // this.middleList[detail.originalIndex].num--
+                        // res.weapon.num = 1
+                        // this.middleList.push(res.weapon)
+                        newDetail = "middleList";
+                        break;
+                    case 1:
+                        // this.lightList[detail.originalIndex].num--
+                        // res.weapon.num = 1
+                        // this.lightList.push(res.weapon)
+                        newDetail = "middleList";
+                        break;
+                }
+
+                var al = _this9[newDetail].length;
+                var isNew = true;
+                res.weapon.num = 1;
+                for (var i = 0; i < al; i++) {
+                    var element = _this9[newDetail][i];
+                    if (element.weaponId == detail.weaponId && element.weaponLevel == detail.weaponLevel && element.num > 0) {
+                        element.num -= 1;
+                    }
+                    if (element.weaponId == res.weapon.weaponId && element.weaponLevel == res.weapon.weaponLevel) {
+                        isNew = false;
+                        for (var key in res.weapon) {
+                            element[key] = res.weapon[key];
+                        }
+                        element.num += 1;
+                    }
+                }
+                isNew && _this9[newDetail].push(res.weapon);
+
+                _this9.allList = [];
+                _this9.allList = _this9.lightList.concat(_this9.heavyList, _this9.middleList);
+                console.log(_this9.allList, 132);
+                if (res.userWeapons) {
+                    _this9.myUserList = [];
+                    var arr = res.userWeapons.split(",");
+                    arr.forEach(function (element) {
+                        var obj = {
+                            name: element.split("-")[0],
+                            lv: element.split("-")[1]
+                        };
+                        _this9.myUserList.push(obj);
+                    });
+                    _this9.getMyUserDetailList();
+
+                    _this9.owner.userWeaponList.array = _this9.myUserDetailList;
+                } else {
+                    for (var _key in res.weapon) {
+                        _this9.isWareChoiceWp._dataSource[_key] = res.weapon[_key];
+                    }
+
+                    // this.isWareChoiceWp._dataSource = res.weapon
+                    _this9.singleWeapon(_this9.isWareChoiceWp);
+                }
+            });
+        }
+    }]);
+
+    return WeaponHouseControl;
+}(PaoYa.Component);
+
+exports.default = WeaponHouseControl;
+
+},{}],28:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+        value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _WeaponStoreControl = require("./WeaponStoreControl");
+
+var _WeaponStoreControl2 = _interopRequireDefault(_WeaponStoreControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WeaponStore = function (_PaoYa$View) {
+        _inherits(WeaponStore, _PaoYa$View);
+
+        function WeaponStore() {
+                _classCallCheck(this, WeaponStore);
+
+                var _this = _possibleConstructorReturn(this, (WeaponStore.__proto__ || Object.getPrototypeOf(WeaponStore)).call(this));
+
+                WeaponStore.ins = _this;
+                return _this;
+        }
+
+        _createClass(WeaponStore, [{
+                key: "onEnable",
+                value: function onEnable() {
+                        this.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold;
+                        this.goldNum.font = "weaponNFontT";
+                        this.diamondNum.text = PaoYa.DataCenter.user.user_info.member_diamond;
+                        this.diamondNum.font = "weaponNFontT";
+
+                        this.sellText.font = "weaponDFont";
+                        this.buyText.font = "weaponDFont";
+                        this.needDiamon.text = 999;
+                        this.needDiamon.font = "weaponNFontT";
+                        this.needDiamon.scale(0.5, 0.5);
+                        this.refreshTxt.font = "weaponDFont";
+                        this.refreshTxt.scale(0.7, 0.7);
+                        this.buyBtnTxt.font = "weaponDFont";
+                        this.buyBtnTxt.scale(0.7, 0.7);
+                        this.sellBtnTxt.font = "weaponDFont";
+                        this.sellBtnTxt.scale(0.7, 0.7);
+
+                        this.refreshTimeNum.font = "weaponDFont";
+                        this.refreshTimeNum.scale(0.4, 0.4);
+
+                        this.benBack.on(Laya.Event.CLICK, this, function () {
+                                _WeaponStoreControl2.default.ins.navigator.pop();
+                        });
+
+                        this.refreshBtn.on(Laya.Event.CLICK, this, function () {});
+
+                        this.buyBtn.on(Laya.Event.CLICK, this, function () {});
+                }
+        }, {
+                key: "onDisable",
+                value: function onDisable() {}
+        }]);
+
+        return WeaponStore;
+}(PaoYa.View);
+
+exports.default = WeaponStore;
+
+},{"./WeaponStoreControl":29}],29:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WeaponStoreControl = function (_PaoYa$Component) {
+    _inherits(WeaponStoreControl, _PaoYa$Component);
+
+    function WeaponStoreControl() {
+        _classCallCheck(this, WeaponStoreControl);
+
+        var _this = _possibleConstructorReturn(this, (WeaponStoreControl.__proto__ || Object.getPrototypeOf(WeaponStoreControl)).call(this));
+
+        WeaponStoreControl.ins = _this;
+        return _this;
+    }
+
+    _createClass(WeaponStoreControl, [{
+        key: "onAwake",
+        value: function onAwake() {
+            this.params = this.owner.params;
+            this.sellList = this.owner.params.weaponList;
+            this.owner.buyList.renderHandler = new Laya.Handler(this, this.buyWpUpdateItem);
+            this.owner.buyList.array = this.sellList;
+            this.buyPresentIdx = 0;
+            this.downTimeStartF();
+        }
+    }, {
+        key: "onEnable",
+        value: function onEnable() {}
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+    }, {
+        key: "buyWpUpdateItem",
+        value: function buyWpUpdateItem(cell, idx) {
+            var _this2 = this;
+
+            this.singleWeapon(cell, idx);
+            cell.offAll();
+            cell.on(Laya.Event.CLICK, this, function () {
+                _this2.isWareChoiceWp.skin = "local/common/frameBg.png";
+                _this2.isWareChoiceWp.getChildByName("beChioce").visible = false;
+
+                cell.skin = "local/common/currutFrameBg.png";
+                cell.getChildByName("beChioce").visible = true;
+                _this2.currentMyUserWeapDetail = cell._dataSource;
+                _this2.isWareChoiceWp = cell;
+                _this2.renderCenterData();
+            });
+        }
+
+        //单个兵器图签
+
+    }, {
+        key: "singleWeapon",
+        value: function singleWeapon(cell, idx, isUser) {
+            cell.skin = "local/common/frameBg.png";
+            cell.getChildByName("beChioce").visible = false;
+            if (idx == this.buyPresentIdx) {
+                cell.skin = "local/common/currutFrameBg.png";
+                cell.getChildByName("beChioce").visible = true;
+                //当前详情
+                this.currentMyUserWeapDetail = cell._dataSource;
+                //当前列表
+                this.isWareChoiceWp = cell;
+                this.renderCenterData();
+            }
+
+            cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
+            cell.getChildByName("lv").text = "LV." + cell._dataSource.weaponLevel;
+            cell.getChildByName("lv").font = "weaponNFontT";
+            cell.getChildByName("lv").scale(0.7, 0.7);
+
+            cell.getChildByName("bg").getChildByName("txt").text = "" + cell._dataSource.weaponPrice;
+            cell.getChildByName("bg").getChildByName("txt").font = "weaponNFontT";
+            cell.getChildByName("bg").getChildByName("txt").scale(0.75, 0.75);
+
+            var skinq = "";
+            var skint = "";
+            switch (cell._dataSource.weaponStar) {
+                case 1:
+                    skinq = "local/common/quality_1.png";
+                    break;
+                case 2:
+                    skinq = "local/common/quality_2.png";
+                    break;
+                case 3:
+                    skinq = "local/common/quality_3.png";
+                    break;
+            }
+            switch (cell._dataSource.weaponType) {
+                case 3:
+                    skint = "local/common/type_1.png";
+                    break;
+                case 2:
+                    skint = "local/common/type_2.png";
+                    break;
+                case 1:
+                    skint = "local/common/type_3.png";
+                    break;
+            }
+            cell.getChildByName("bgwrap").skin = skinq;
+            cell.getChildByName("mark").skin = skint;
+        }
+        //渲染详情部分
+
+    }, {
+        key: "renderCenterData",
+        value: function renderCenterData() {
+            var _this3 = this;
+
+            this.owner["skillImg_1"].visible = false;
+            this.owner["skillImg_2"].visible = false;
+            var detail = this.currentMyUserWeapDetail;
+            this.owner.showWeapon.skin = "remote/small_weapons/s_" + detail.weaponId + ".png";
+            // this.owner.currtWeaponLevel.text = `LV.${detail.weaponLevel}`
+            // this.owner.currtWeaponLevel.font = `weaponNFontT`
+            // this.owner.currtWeaponLevel.scale(0.7, 0.7)
+            //选择重置
+            var arr = ["light", "middle", "large"];
+            arr.forEach(function (element) {
+                _this3.owner[element].skin = "remote/weaponhouse/14.png";
+            });
+            //兵器展示
+            var skinq = "";
+            var skint = "";
+            switch (detail.weaponStar) {
+                case 1:
+                    skinq = "local/common/quality_1.png";
+                    break;
+                case 2:
+                    skinq = "local/common/quality_2.png";
+                    break;
+                case 3:
+                    skinq = "local/common/quality_3.png";
+                    break;
+            }
+            switch (detail.weaponType) {
+                case 3:
+                    skint = "local/common/type_1.png";
+                    this.owner.large.skin = "remote/weaponhouse/13.png";
+                    break;
+                case 2:
+                    skint = "local/common/type_2.png";
+                    this.owner.middle.skin = "remote/weaponhouse/13.png";
+                    break;
+                case 1:
+                    skint = "local/common/type_3.png";
+                    this.owner.light.skin = "remote/weaponhouse/13.png";
+                    break;
+            }
+            this.owner.showWrap.skin = skinq;
+            this.owner.showMark.skin = skint;
+            //兵器属性
+            this.owner.currutWeapon.text = detail.weaponName;
+            this.owner.currutWeapon.font = "weaponDFont";
+            this.owner.currutWeapon.scale(0.8, 0.8);
+
+            this.owner.CDTime.text = "LV." + detail.weaponLevel + "/" + detail.weaponTopLevel;
+            this.owner.CDTime.font = "weaponNFontT";
+            this.owner.CDTime.scale(0.7, 0.7);
+
+            this.owner.attackNum.text = "\u653B\u51FB\uFF1A " + detail.weaponAttack;
+            this.owner.addattackNum.text = "+" + detail.weaponUpAttack;
+            this.owner.enduranceNum.text = "\u8010\u4E45\uFF1A " + detail.weaponDurable;
+            this.owner.addenduranceNum.text = "+" + detail.weaponUpDurable;
+            this.owner.consumeNum.text = "\u6D88\u8017\uFF1A " + detail.weaponConsume;
+            this.owner.addconsumeNum.text = "+" + detail.weaponDownConsume;
+            this.owner.wpcdNum.text = "\u51B7\u5374\uFF1A " + detail.weaponCd + "\u79D2";
+
+            if (!detail.weaponUpAttack && !detail.weaponDownConsume && !detail.weaponUpDurable) {
+                this.owner.addattackNum.visible = false;
+                this.owner.addenduranceNum.visible = false;
+                this.owner.addconsumeNum.visible = false;
+            }
+            //兵器技能
+            this.owner["skillName_1"].text = "";
+            this.owner["skillGl_1"].text = "";
+            this.owner["skillDetail_1"].text = "";
+            this.owner["skillImg_1"].visible = false;
+            this.owner["skillName_2"].text = "";
+            this.owner["skillGl_2"].text = "";
+            this.owner["skillDetail_2"].text = "";
+            this.owner["skillImg_2"].visible = false;
+            if (detail.skills.length > 0) {
+                detail.skills.forEach(function (element, index) {
+                    _this3.owner["skillName_" + (index + 1)].color = "#4a4948";
+                    _this3.owner["skillGl_" + (index + 1)].color = "#4a4948";
+                    _this3.owner["skillDetail_" + (index + 1)].color = "#4a4948";
+                    _this3.owner["skillName_" + (index + 1)].text = element.skillName;
+                    _this3.owner["skillGl_" + (index + 1)].text = "\u51E0\u7387" + element.skillProb;
+                    _this3.owner["skillDetail_" + (index + 1)].text = element.skillDesc;
+                    _this3.owner["skillImg_" + (index + 1)].visible = true;
+                    if (element.status) {
+                        _this3.owner["skillName_" + (index + 1)].color = "#004418";
+                        _this3.owner["skillGl_" + (index + 1)].color = "#004418";
+                        _this3.owner["skillDetail_" + (index + 1)].color = "#004418";
+                    }
+                });
+            }
+        }
+    }, {
+        key: "downTimeStartF",
+        value: function downTimeStartF() {
+            var nowtime = new Date().getTime();
+            var Stime = this.params.refreshTime - nowtime / 1000 | 0;
+            this.getPowerTimeDown(Stime);
+        }
+    }, {
+        key: "getPowerTimeDown",
+        value: function getPowerTimeDown(Stime) {
+            var _this4 = this;
+
+            var Ntime = Stime % 3600 | 0;
+            var h = Stime / 3600 | 0;
+            var m = Ntime / 60 | 0;
+            var s = Ntime % 60 | 0;
+
+            var hhh = h > 9 ? h : "0" + h;
+            var mmm = m > 9 ? m : "0" + m;
+            var sss = s > 9 ? s : "0" + s;
+            this.owner.refreshTimeNum.text = hhh + ":" + mmm + ":" + sss;
+            var NewT = Stime - 1;
+            if (NewT < 1) {
+                this.isReadyRefrensh = true;
+                return;
+            }
+            Laya.timer.once(1000, this, function () {
+                _this4.getPowerTimeDown(NewT);
+            });
+        }
+    }]);
+
+    return WeaponStoreControl;
+}(PaoYa.Component);
+
+exports.default = WeaponStoreControl;
+
+},{}],30:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GoldLack = function (_PaoYa$Dialog) {
+    _inherits(GoldLack, _PaoYa$Dialog);
+
+    function GoldLack() {
+        _classCallCheck(this, GoldLack);
+
+        /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+        var _this = _possibleConstructorReturn(this, (GoldLack.__proto__ || Object.getPrototypeOf(GoldLack)).call(this));
+
+        var intType = 1000;
+        /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+        var numType = 1000;
+        /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+        var strType = "hello laya";
+        /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+        var boolType = true;
+        // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        return _this;
+    }
+
+    _createClass(GoldLack, [{
+        key: "onEnable",
+        value: function onEnable() {
+            this.mask.on(Laya.Event.CLICK, this, this.close);
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+    }]);
+
+    return GoldLack;
+}(PaoYa.Dialog);
+
+exports.default = GoldLack;
+
+},{}],31:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Tool = require("../../common/tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UnlockFifth = function (_PaoYa$Dialog) {
+    _inherits(UnlockFifth, _PaoYa$Dialog);
+
+    function UnlockFifth() {
+        _classCallCheck(this, UnlockFifth);
+
+        /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+        var _this = _possibleConstructorReturn(this, (UnlockFifth.__proto__ || Object.getPrototypeOf(UnlockFifth)).call(this));
+
+        var intType = 1000;
+        /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+        var numType = 1000;
+        /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+        var strType = "hello laya";
+        /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+        var boolType = true;
+        // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        return _this;
+    }
+
+    _createClass(UnlockFifth, [{
+        key: "onEnable",
+        value: function onEnable() {
+            this.mask.on(Laya.Event.CLICK, this, this.close);
+            this.btn.on(Laya.Event.CLICK, this, function () {
+                _Tool2.default.inviteFriend();
+            });
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+    }]);
+
+    return UnlockFifth;
+}(PaoYa.Dialog);
+
+exports.default = UnlockFifth;
+
+},{"../../common/tool/Tool":25}],32:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _WeaponHouseControl = require("../../common/weapon/WeaponHouseControl");
+
+var _WeaponHouseControl2 = _interopRequireDefault(_WeaponHouseControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UnlockFour = function (_PaoYa$Dialog) {
+    _inherits(UnlockFour, _PaoYa$Dialog);
+
+    function UnlockFour() {
+        _classCallCheck(this, UnlockFour);
+
+        /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+        var _this = _possibleConstructorReturn(this, (UnlockFour.__proto__ || Object.getPrototypeOf(UnlockFour)).call(this));
+
+        var intType = 1000;
+        /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+        var numType = 1000;
+        /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+        var strType = "hello laya";
+        /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+        var boolType = true;
+        // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        return _this;
+    }
+
+    _createClass(UnlockFour, [{
+        key: "onEnable",
+        value: function onEnable() {
+            var _this2 = this;
+
+            this.mask.on(Laya.Event.CLICK, this, this.close);
+            this.btn.on(Laya.Event.CLICK, this, function () {
+                _WeaponHouseControl2.default.ins.params.weaponGridNum += 1;
+                _WeaponHouseControl2.default.ins.getMyUserDetailList();
+                _WeaponHouseControl2.default.ins.owner.userWeaponList.array = _WeaponHouseControl2.default.ins.myUserDetailList;
+                PaoYa.Request.POST("martial_buy_grid", {}, function (res) {
+                    _WeaponHouseControl2.default.ins.owner.diamondNum.text = res.diamond;
+                });
+
+                _this2.close();
+            });
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+    }]);
+
+    return UnlockFour;
+}(PaoYa.Dialog);
+
+exports.default = UnlockFour;
+
+},{"../../common/weapon/WeaponHouseControl":27}],33:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UnlockTips = function (_PaoYa$Dialog) {
+    _inherits(UnlockTips, _PaoYa$Dialog);
+
+    function UnlockTips() {
+        _classCallCheck(this, UnlockTips);
+
+        /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
+        var _this = _possibleConstructorReturn(this, (UnlockTips.__proto__ || Object.getPrototypeOf(UnlockTips)).call(this));
+
+        var intType = 1000;
+        /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
+        var numType = 1000;
+        /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
+        var strType = "hello laya";
+        /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
+        var boolType = true;
+        // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
+        return _this;
+    }
+
+    _createClass(UnlockTips, [{
+        key: "onEnable",
+        value: function onEnable() {
+            this.mask.on(Laya.Event.CLICK, this, this.close);
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+    }]);
+
+    return UnlockTips;
+}(PaoYa.Dialog);
+
+exports.default = UnlockTips;
 
 },{}]},{},[3]);

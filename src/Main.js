@@ -12,7 +12,7 @@ export class Main extends GameMain {
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
-			userId: 11012, //151693, 109638
+			userId: 11058, //151693, 109638
 			offerId: "1450014295",
 			version: config.version,
 			rankingType: PaoYa.RankingType.WIN,
@@ -34,6 +34,12 @@ export class Main extends GameMain {
 		//Laya.MouseManager.enabled=false;
 		Laya.MouseManager.multiTouchEnabled = false;//关闭多点触控
 		super.setupConfig();
+
+		PaoYa.Navigator.scenesMap={
+			WeaponHouse:`scenes/common/WeaponHouse`,
+			WeaponStore:`scenes/common/WeaponStore`
+		}
+
 		//分享地址
 		PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
 		PaoYa.DataCenter.GAMEPREPARE = null;
@@ -106,11 +112,11 @@ export class Main extends GameMain {
 			'res/atlas/remote/recover_power.atlas',
 			'res/atlas/remote/trigger_skill.atlas',
 			'res/atlas/remote/warn_arms.atlas',//cd发光效果
-			'res/atlas/remote/hero1_skill2.atlas',
+			'res/atlas/remote/hero_skill/hero1_skill2.atlas',
 			'res/atlas/remote/collision.atlas',
 			'res/atlas/remote/debuff_dizzy.atlas',
 		
-			'res/atlas/remote/hero1_skill2.atlas',
+			'res/atlas/remote/hero_skill/hero1_skill2.atlas',
 			'res/atlas/remote/recover_blood.atlas',
 			'res/atlas/remote/recover_power.atlas',
 			'res/atlas/remote/small_weapons.atlas',
@@ -124,7 +130,7 @@ export class Main extends GameMain {
 			'res/atlas/remote/weapon_effect/weapon_poison.atlas',
 			'res/atlas/remote/weapon_effect/weapon_reduce.atlas',
 			'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
-			'res/atlas/remote/weapon_effect/weapon_thump.atlas'
+			'res/atlas/remote/weapon_effect/weapon_thump.atlas',
 			
 	
 		];		
@@ -140,6 +146,6 @@ export class Main extends GameMain {
 }
 //激活启动类
 new Main();
-/* console.log=function(){};
+/*   console.log=function(){};
 console.warn=function(){};
-console.error=function(){}; */
+console.error=function(){};   */

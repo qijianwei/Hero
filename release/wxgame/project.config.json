@@ -4,10 +4,8 @@
 		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"autoAudits": false,
-		"checkInvalidKey": true
+		"minified": false,
+		"newFeature": true
 	},
 	"compileType": "game",
 	"libVersion": "game",

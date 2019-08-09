@@ -2,16 +2,16 @@ import GameControl from "../GameControl";
 
 export default class Skill extends PaoYa.Component{
     /* @prop {name:spShadow,tips:"阴影遮罩",type:Node} */
+    /* @prop {name:lblLockTips,tips:"解锁等级提示",type:Node} */
     constructor(){
         super();
     }
     onAwake(){
-     let owner=this.owner;
+      let owner=this.owner;
       this.ownW = owner.width;
       this.ownH = owner.height;
       this.centerX=Math.floor(this.ownW/2);
       this.centerY=Math.floor(this.ownH/2);
-      this.spShadow.visible=false;
       this.maskArea=new Laya.Sprite();
       this.maskArea.texture="remote/game/skill.png";
       owner.addChild(this.maskArea);
@@ -35,12 +35,20 @@ export default class Skill extends PaoYa.Component{
             return;
         }    
         this.postNotification(Skill.CLICK,[this.owner.name]);
-       // this.startT();
     }
-    initCdTime(cdTime){
-        console.warn('初始化cd时间:',cdTime);
-        //cd 时间
-        this.cdTime = cdTime;   
+    init(params){
+      this.cdTime=params.skillCd*1000;
+      if(!params.status){
+          this.lblLockTips.visible=true;
+          this.lblLockTips.font='weaponNFontT';
+          this.lblLockTips.text=`LV.${params.skillUnlock}解锁`;
+          this.spShadow.visible=true;
+          this.lblLockTips.scale(0.5,0.5)
+          this.owner.disabled=true;
+      }else{
+          this.spShadow.visible=false;
+          this.lblLockTips.visible=false;
+      }
     }
     setCdTime(cdTime) {
         console.warn('修改cd时间:',cdTime);

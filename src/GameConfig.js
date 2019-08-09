@@ -5,12 +5,20 @@ import MPBar from "./gamescripts/prefab/MPBar"
 import HPBar from "./gamescripts/prefab/HPBar"
 import Dodge from "./gamescripts/prefab/Dodge"
 import GameBanner from "./gamescripts/prefab/GameBanner"
-import Skill from "./gamescripts/prefab/Skill"
 import PlayerState from "./gamescripts/prefab/PlayerState"
 import GameControl from "./gamescripts/GameControl"
 import PlayerSkill from "./gamescripts/prefab/PlayerSkill"
+import Skill from "./gamescripts/prefab/Skill"
 import LoadingView from "./scripts/common/Loading/LoadingView"
 import LoadingControl from "./scripts/common/Loading/LoadingControl"
+import WeaponHouse from "./scripts/common/weapon/WeaponHouse"
+import WeaponHouseControl from "./scripts/common/weapon/WeaponHouseControl"
+import WeaponStore from "./scripts/common/weapon/WeaponStore"
+import WeaponStoreControl from "./scripts/common/weapon/WeaponStoreControl"
+import GoldLack from "./scripts/dialog/weapon/GoldLack"
+import UnlockFifth from "./scripts/dialog/weapon/UnlockFifth"
+import UnlockFour from "./scripts/dialog/weapon/UnlockFour"
+import UnlockTips from "./scripts/dialog/weapon/UnlockTips"
 import HomeControl from "./scripts/common/HomeControl"
 import Player from "./gamescripts/prefab/Player"
 import Weapon from "./gamescripts/prefab/Weapon"
@@ -27,12 +35,20 @@ export default class GameConfig {
 		reg("gamescripts/prefab/HPBar.js",HPBar);
 		reg("gamescripts/prefab/Dodge.js",Dodge);
 		reg("gamescripts/prefab/GameBanner.js",GameBanner);
-		reg("gamescripts/prefab/Skill.js",Skill);
 		reg("gamescripts/prefab/PlayerState.js",PlayerState);
 		reg("gamescripts/GameControl.js",GameControl);
 		reg("gamescripts/prefab/PlayerSkill.js",PlayerSkill);
+		reg("gamescripts/prefab/Skill.js",Skill);
 		reg("scripts/common/Loading/LoadingView.js",LoadingView);
 		reg("scripts/common/Loading/LoadingControl.js",LoadingControl);
+		reg("scripts/common/weapon/WeaponHouse.js",WeaponHouse);
+		reg("scripts/common/weapon/WeaponHouseControl.js",WeaponHouseControl);
+		reg("scripts/common/weapon/WeaponStore.js",WeaponStore);
+		reg("scripts/common/weapon/WeaponStoreControl.js",WeaponStoreControl);
+		reg("scripts/dialog/weapon/GoldLack.js",GoldLack);
+		reg("scripts/dialog/weapon/UnlockFifth.js",UnlockFifth);
+		reg("scripts/dialog/weapon/UnlockFour.js",UnlockFour);
+		reg("scripts/dialog/weapon/UnlockTips.js",UnlockTips);
 		reg("scripts/common/HomeControl.js",HomeControl);
 		reg("gamescripts/prefab/Player.js",Player);
 		reg("gamescripts/prefab/Weapon.js",Weapon);
