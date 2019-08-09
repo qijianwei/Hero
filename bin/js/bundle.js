@@ -252,7 +252,7 @@ var Main = exports.Main = function (_GameMain) {
    	}
    	SoundManager.playMusic("mainBgm"); */
 			_HeroConfig2.default.loadAllSpine();
-			this.arrayFont = [{ fontUrl: "font/recMP.fnt", fontAni: "recoverMP" }, { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" }, { fontUrl: "font/hurt.fnt", fontAni: "hurt" }, { fontUrl: "font/crit.fnt", fontAni: "crit" }, { fontUrl: "font/poision.fnt", fontAni: "poision" }, { fontUrl: "font/playerState.fnt", fontAni: "playerState" }, { fontUrl: "font/playerSkill.fnt", fontAni: "playerSkill" }, { fontUrl: "font/weaponSkill.fnt", fontAni: "weaponSkill" }];
+			this.arrayFont = [{ fontUrl: "font/recMP.fnt", fontAni: "recoverMP" }, { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" }, { fontUrl: "font/hurt.fnt", fontAni: "hurt" }, { fontUrl: "font/crit.fnt", fontAni: "crit" }, { fontUrl: "font/poision.fnt", fontAni: "poision" }, { fontUrl: "font/playerState.fnt", fontAni: "playerState" }, { fontUrl: "font/playerSkill.fnt", fontAni: "playerSkill" }, { fontUrl: "font/weapon/detailfont.fnt", fontAni: "weaponDFont" }, { fontUrl: "font/weapon/lvfont.fnt", fontAni: "weaponNFontT" }];
 			this.loadFontFnt(0);
 		}
 	}, {
@@ -388,6 +388,8 @@ var GameControl = function (_PaoYa$Component) {
     _createClass(GameControl, [{
         key: 'onAwake',
         value: function onAwake() {
+            var _this2 = this;
+
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -427,7 +429,7 @@ var GameControl = function (_PaoYa$Component) {
             this.selfSkillTextComp = this.selfSkillText.getComponent(_PlayerSkill2.default);
             this.otherSkillTextComp = this.otherSkillText.getComponent(_PlayerSkill2.default);
             Laya.timer.once(5000, this, function () {
-                // /Laya.timer.once(1000, this, this.startSelect);
+                Laya.timer.once(1000, _this2, _this2.startSelect);
                 //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
             });
             //机器人开始
@@ -713,7 +715,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this2 = this;
+            var _this3 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
@@ -744,7 +746,7 @@ var GameControl = function (_PaoYa$Component) {
                     this[name + 'Player'].comp.changePerMp(t * 1000, perMP);
                     this[name + 'Player'].comp.HPComp.changeHP(originHP * resumeHP);
                     Laya.timer.once(t * 1000, this, function () {
-                        _this2[name + 'Player'].comp.removeSkill2();
+                        _this3[name + 'Player'].comp.removeSkill2();
                     });
                     break;
                 case 39:
@@ -753,8 +755,8 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this2[name + 'MultiMP'] = 1;
-                        _this2[name + 'Player'].comp.removeSkill2();
+                        _this3[name + 'MultiMP'] = 1;
+                        _this3[name + 'Player'].comp.removeSkill2();
                     });
                     break;
                 case 45:
@@ -764,7 +766,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(skillInfo) {
-            var _this3 = this;
+            var _this4 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -773,10 +775,10 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this3.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this4.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
-                _this3[name + 'Player'].comp.removeSkill2();
+                _this4[name + 'Player'].comp.removeSkill2();
             });
         }
         //所有兵器选择框和技能框置灰
@@ -1028,7 +1030,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params) {
-            var _this4 = this;
+            var _this5 = this;
 
             var deltaT = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
 
@@ -1046,8 +1048,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this4.owner.addChild(weapon);
-                    _this4[name + 'Weapons'].push(weaponComp);
+                    _this5.owner.addChild(weapon);
+                    _this5[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1059,7 +1061,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBySelf',
         value: function weaponBySelf(params, deltaT) {
-            var _this5 = this;
+            var _this6 = this;
 
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -1070,8 +1072,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this5.owner.addChild(weapon);
-                    _this5.selfWeapons.push(weaponComp);
+                    _this6.owner.addChild(weapon);
+                    _this6.selfWeapons.push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1107,10 +1109,13 @@ var GameControl = function (_PaoYa$Component) {
                 skillName: skillName,
                 isSelf: params.isSelf
             };
+            console.error(skillName, params.isSelf);
             if (params.isSelf) {
+                console.error('自己触发技能');
                 weaponSkillBox.pos(-164, 189);
             } else {
-                weaponSkillBox.pos(1134 + 164, 189);
+                console.error('对方触发技能');
+                weaponSkillBox.pos(1498, 189);
             }
             this.owner.addChild(weaponSkillBox);
             switch (skillId) {
@@ -3029,7 +3034,8 @@ var Weapon = function (_PaoYa$Component) {
           var random = Math.ceil(Math.random() * 100);
           var reboundRate = this.selfPlayerComp.attr.skills[1].skillConfig.reboundRate;
           if (random <= reboundRate) {
-            console.error('触发反弹');
+            //反弹提示
+            this.otherPlayerComp.showPlayerState("游龙入水");
             this.goBack();
             return;
           }
@@ -3563,7 +3569,7 @@ exports.default = WeaponBar;
 WeaponBar.CLICK = "weanponBarClick";
 
 },{"../GameControl":4}],19:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -3588,14 +3594,14 @@ var WeaponSkill = function (_PaoYa$Component) {
     }
 
     _createClass(WeaponSkill, [{
-        key: "onAwake",
+        key: 'onAwake',
         value: function onAwake() {
             this.timeLine = new Laya.TimeLine();
             this.lblWeaponSkill.font = "weaponSkill";
             this.timeLine.on(Laya.Event.COMPLETE, this, this.removeSelf);
         }
     }, {
-        key: "onEnable",
+        key: 'onEnable',
         value: function onEnable() {
             var params = this.owner.params;
             var skillName = params.skillName;
@@ -3604,7 +3610,8 @@ var WeaponSkill = function (_PaoYa$Component) {
             var owner = this.owner;
             owner.alpha = 1;
             var targetX = params.isSelf ? 0 : 1170;
-
+            console.error('原始位置:....', this.owner.x);
+            console.error('目标位置:.........', targetX);
             this.timeLine.to(owner, {
                 x: targetX
             }, 500, Laya.Ease.backOut, 0).to(owner, {
@@ -3613,18 +3620,20 @@ var WeaponSkill = function (_PaoYa$Component) {
             this.timeLine.play();
         }
     }, {
-        key: "removeSelf",
+        key: 'removeSelf',
         value: function removeSelf() {
+            this.timeLine.reset();
+            console.error('删除自己');
             this.owner.removeSelf();
         }
     }, {
-        key: "onDisable",
+        key: 'onDisable',
         value: function onDisable() {
             //对象池回收
             Laya.Pool.recover('weaponSkillBox', this.owner);
         }
     }, {
-        key: "onDestroy",
+        key: 'onDestroy',
         value: function onDestroy() {
             this.timeLine && this.timeLine.destroy();
             this.timeLine = null;

@@ -16,7 +16,6 @@ export default class WeaponSkill extends PaoYa.Component{
         let owner=this.owner;
         owner.alpha=1;
         let targetX=params.isSelf?0:1170;
-        
         this.timeLine.to(owner,{
             x:targetX
         },500,Laya.Ease.backOut,0).to(owner,{
@@ -25,6 +24,7 @@ export default class WeaponSkill extends PaoYa.Component{
         this.timeLine.play();
     }
     removeSelf(){
+        this.timeLine.reset();
         this.owner.removeSelf();
     }
     onDisable(){

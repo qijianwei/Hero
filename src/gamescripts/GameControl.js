@@ -66,7 +66,7 @@ export default class GameControl extends PaoYa.Component {
         this.selfSkillTextComp=this.selfSkillText.getComponent(PlayerSkill);
         this.otherSkillTextComp=this.otherSkillText.getComponent(PlayerSkill);
         Laya.timer.once(5000, this, () => {
-            // /Laya.timer.once(1000, this, this.startSelect);
+            Laya.timer.once(1000, this, this.startSelect);
             //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
         })
         //机器人开始
@@ -456,7 +456,7 @@ export default class GameControl extends PaoYa.Component {
             skillId = skill.skillId,
             prob = skill.skillProb;
         /*<---------- 测试用例start  */
-        if (targetComp.isSelf && targetComp.params.weaponType == 2) {
+        /* if (targetComp.isSelf && targetComp.params.weaponType == 2) {
             let testId = 49;
 
             let tempArr = [{
@@ -595,14 +595,14 @@ export default class GameControl extends PaoYa.Component {
                     }
                     break;
             }
-        }
+        } */
         /*<---------- 测试用例end----------> */
         let params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
         params.skillEffect = false;
         params.isSelf = targetComp.isSelf;
         if (skillType == 1 && status == 1) {
             let random = Math.floor(Math.random() * 100 + 1);
-            if (random <= 100) {
+            if (random <= prob) {
                 /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                 if (skillId == 58) {
                     targetComp.startT(200); //快速冷却     
@@ -693,7 +693,7 @@ export default class GameControl extends PaoYa.Component {
         if(params.isSelf){
           weaponSkillBox.pos(-164,189)
         }else{
-          weaponSkillBox.pos(1134+164,189) 
+          weaponSkillBox.pos(1498,189) 
         }
         this.owner.addChild(weaponSkillBox);
         switch (skillId) {

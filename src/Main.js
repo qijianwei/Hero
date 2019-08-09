@@ -2,7 +2,6 @@
 import config from './Config'
 import GameMain from "./scripts/common/GameMain";
 import HeroConfig from "./gamescripts/config/HeroConfig";
-import { Global } from "./gamescripts/tool/Global";
 export class Main extends GameMain {
 	constructor() {
 		var params = {
