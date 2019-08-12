@@ -9,7 +9,7 @@ let workSpaceDir = useIDENode ? process.argv[2].replace("--gulpfile=", "").repla
 const gulp = require(ideModuleDir + "gulp");
 const fs = require("fs");
 const path = require("path");
-const uglify = require(ideModuleDir + 'gulp-uglify-es').default;
+const uglify = require(ideModuleDir + "gulp-uglify");
 const jsonminify = require(ideModuleDir + "gulp-jsonminify");
 const image = require(ideModuleDir + "gulp-image");
 const rev = require(ideModuleDir + "gulp-rev");
@@ -40,7 +40,6 @@ const QUICKGAMELIST = ["xmgame", "oppogame", "vivogame"];
 // 清理临时文件夹，加载配置
 let config,
 	releaseDir,
-	binPath,
 	platform,
 	isOpendataProj = false;
 gulp.task("loadConfig", function () {
@@ -55,12 +54,10 @@ gulp.task("loadConfig", function () {
 	if (!useIDENode) {
 		_path = platform + ".json";
 		releaseDir = "../release/" + platform;
-		binPath = "../bin/";
 	}
 	if (useIDENode) {
 		_path = path.join(workSpaceDir, ".laya", `${platform}.json`);
 		releaseDir = path.join(workSpaceDir, "release", platform).replace(/\\/g, "/");
-		binPath = path.join(workSpaceDir, "bin").replace(/\\/g, "/");
 	}
 	global.platform = platform;
 	let file = fs.readFileSync(_path, "utf-8");
@@ -121,7 +118,7 @@ gulp.task("clearReleaseDir", ["compile"], function (cb) {
 
 // copy bin文件到release文件夹
 gulp.task("copyFile", ["clearReleaseDir"], function () {
-	let baseCopyFilter = [`${workSpaceDir}/bin/**/*.*`, `!${workSpaceDir}/bin/indexmodule.html`, `!${workSpaceDir}/bin/import/*.*`];
+	let baseCopyFilter = [`${workSpaceDir}/bin/**/*.*`];
 	// 只拷贝index.js中引用的类库
 	if (config.onlyIndexJS) {
 		baseCopyFilter = baseCopyFilter.concat(`!${workSpaceDir}/bin/libs/*.*`);
@@ -135,7 +132,7 @@ gulp.task("copyFile", ["clearReleaseDir"], function () {
 		config.copyFilesFilter = baseCopyFilter.concat([`!${workSpaceDir}/bin/index.html`, `!${workSpaceDir}/bin/{project.swan.json,swan-game-adapter.js}`]);
 	} else if (platform === "bdgame") { // 百度项目，不拷贝index.html，不拷贝微信bin目录中的文件
 		config.copyFilesFilter = baseCopyFilter.concat([`!${workSpaceDir}/bin/index.html`, `!${workSpaceDir}/bin/{project.config.json,weapp-adapter.js}`]);
-	} else { // web|QQ项目|bili|快游戏，不拷贝微信、百度在bin目录中的文件
+	} else { // web|QQ项目|快游戏，不拷贝微信、百度在bin目录中的文件
 		config.copyFilesFilter = baseCopyFilter.concat([`!${workSpaceDir}/bin/{game.js,game.json,project.config.json,weapp-adapter.js,project.swan.json,swan-game-adapter.js}`]);
 	}
 	// bili/alipay/qq，不拷贝index.html
@@ -144,14 +141,8 @@ gulp.task("copyFile", ["clearReleaseDir"], function () {
 	}
 	// 快游戏，需要新建一个快游戏项目，拷贝的只是项目的一部分，将文件先拷贝到文件夹的临时目录中去
 	if (QUICKGAMELIST.includes(platform)) {
-		config.copyFilesFilter = config.copyFilesFilter.concat([`!${workSpaceDir}/bin/index.html`]);
+		config.copyFilesFilter = config.copyFilesFilter.concat(`!${workSpaceDir}/bin/index.html`);
 		releaseDir = global.tempReleaseDir = path.join(releaseDir, "temprelease");
-	}
-	if (config.exclude) { // 排除文件
-		config.excludeFilter.forEach(function(item, index, list) {
-			config.excludeFilter[index] = item.replace(releaseDir, binPath);
-		});
-		config.copyFilesFilter = config.copyFilesFilter.concat(config.excludeFilter);
 	}
 	global.releaseDir = releaseDir;
 	var stream = gulp.src(config.copyFilesFilter, { base: `${workSpaceDir}/bin` });
@@ -174,7 +165,7 @@ gulp.task("copyLibsJsFile", ["copyFile"], function () {
 	// 分析index.js
 	let indexJSPath = path.join(workSpaceDir, "bin", "index.js");
 	let indexJsContent = fs.readFileSync(indexJSPath, "utf8");
-	let libsList = indexJsContent.match(/loadLib\(['"]libs\/[\w-./]+\.(js|wasm)['"]\)/g);
+	let libsList = indexJsContent.match(/loadLib\(['"]libs\/[a-zA-z0-9\/\.]+\.(js|wasm)['"]\)/g);
 	if (!libsList) {
 		libsList = [];
 	}
@@ -184,7 +175,7 @@ gulp.task("copyLibsJsFile", ["copyFile"], function () {
 		libsStr = "";
 	for (let i = 0, len = libsList.length; i < len; i++) {
 		item = libsList[i];
-		libsName = item.match(/loadLib\(['"]libs\/([\w-./]+\.(js|wasm))['"]\)/);
+		libsName = item.match(/loadLib\(['"]libs\/([a-zA-z0-9\/\.]+\.(js|wasm))['"]\)/);
 		libsStr += libsStr ? `,${libsName[1]}` : libsName[1];
 	}
 	let copyLibsList = [`${workSpaceDir}/bin/libs/{${libsStr}}`];
@@ -292,9 +283,7 @@ gulp.task("compressJson", ["modifyFile"], function () {
 gulp.task("compressJs", ["compressJson"], function () {
 	if (config.compressJs) {
 		return gulp.src(config.compressJsFilter, { base: releaseDir })
-			.pipe(uglify({
-				mangle: false
-			}))
+			.pipe(uglify())
 			.on('error', function (err) {
 				console.warn(err.toString());
 			})

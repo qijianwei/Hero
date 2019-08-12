@@ -101,8 +101,6 @@ export class Main extends GameMain {
 			'spine/npc/npc_7.sk',
 			'spine/hero/hero_1.png',
 			'spine/hero/hero_1.sk',
-			'spine/freeze/freeze.png',
-			'spine/freeze/freeze.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas',
 			'res/atlas/remote/debuff_palsy.atlas',

@@ -26,15 +26,16 @@
         "",
         ""
     ],
-    "version": false,
+    "version": true,
     "versionFilter": [
         "$basePath/**/*.*",
         "!$basePath/*.html",
         "!$basePath/{version.json,game.js,game.json,project.config.json,weapp-adapter.js,project.swan.json,swan-game-adapter.js,main.js,gameConfig.json}",
         "!$basePath/layaforqq/**/*.*",
         "!$basePath/**/{*.js,*.json,*.ani}",
-        "$basePath/**/*.*",
-        "!$basePath/local/auth/*.*"
+        "!$basePath/local/*.*",
+        "!$basePath/res/atlas/local/*.*",
+        "!$basePath/font/*.*"
     ],
     "versionNoteList": [
         "",
@@ -43,13 +44,7 @@
         "",
         "",
         "",
-        ""
-    ],
-    "exclude": false,
-    "excludeFilter": [
-        "!$basePath/res/**/*.*"
-    ],
-    "vexcludeNoteList": [
+        "",
         ""
     ],
     "packfile": false,
@@ -69,8 +64,7 @@
     ],
     "clearReleaseDir": true,
     "compile": true,
-    "forceCompile": false,
     "onlyIndexJS": true,
     "projectType": "js",
-    "pubTime": 1565343471860
+    "pubTime": 1565586798422
 }
