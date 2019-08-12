@@ -30,6 +30,10 @@ var HeroConfig = {
         bomb: 0,
         templet: null
     },
+    scene1:{
+       path:"spine/scene/scene1.sk",
+       templet:null,
+    }
   },
   /* 提供给外部获取动画的接口，输入动画名字即可 */
   getSkeleton: function (spineName, index = 0) {

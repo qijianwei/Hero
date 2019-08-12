@@ -120,12 +120,12 @@ export default class WeaponBar extends PaoYa.Component {
             this.startAngle, this.endAngle, "#000000");
     }
     //暂停cd
-    suspendCd(){
+    pause(){
        Laya.timer.clear(this,this.startCd);
     }
     //恢复cd
-    resumeCd(){
-       /*  Laya.timer.loop(this.frameCd,this,this.startCd); */
+    resume(){
+        Laya.timer.frameLoop(1,this,this.startCd,[this.cdTime]);
     }
     endCD() {
         Laya.timer.clearAll(this);

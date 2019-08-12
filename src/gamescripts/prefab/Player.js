@@ -73,9 +73,35 @@ export default class Player extends PaoYa.Component {
 
     this.canAction = true;
     this.initDress();
+    this.onSkeletonLabel();
+  }
+  /* 监听事件帧 */
+  onSkeletonLabel(){
+    this.skeleton.on(Laya.Event.LABEL,this,(e)=>{
+      switch(e.name){
+        case 'skill1':
+          //  Laya.stage.renderingEnabled=true  
+          GameControl.instance.allResume(this.isSelf)
+           this.skill1Callback(); 
+          break;
+        case 'stop':
+            //Laya.stage.renderingEnabled=false;
+           // this.aniDizzy.play(0,true)
+           // Laya.timer.scale=0.2;
+            // /
+          /*  setInterval(()=>{
+              
+           },16)  */
+            //this.skeleton.play('attack',false);
+           GameControl.instance.allPause(this.isSelf)
+          break;
+      }
+     
+    })
+  }
+  skill1Callback(){
 
   }
-
   onEnable() {
 
   }
@@ -86,13 +112,11 @@ export default class Player extends PaoYa.Component {
     }))
   }
   //人物触发技能1
-  showSkill1(cb){
+  showSkill1(resolve){
    /*  this.boxAniSkill1.visible=true;
     this.aniSkill1.play(0,true); */
     this.skeleton.play("skill1",false);
-    this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-      cb&&cb();
-    })
+   
   }
   removeSkill1(){
   /*   this.boxAniSkill1.visible=false; */
@@ -128,14 +152,14 @@ export default class Player extends PaoYa.Component {
     if(weaponSkillEffect){
       this.skillEffect();
     }
-    //this.attackPromise=new Promise(resov);
-   //   if(this.isSelf){
     
        this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-        resolve();
+         if(e.name=='launch'){
+           console.error('launch launch launch')
+          resolve();
+         }
+       
        })
-    // } 
-
   }
   //受击打,所有武器碰到都有这效果
   injuredEffect(posType, value, isCrit, cb) {
@@ -152,8 +176,8 @@ export default class Player extends PaoYa.Component {
 
     if (this.HPComp.curHP <= 0) {
       console.error('死亡结束')
-      GameControl.instance.gameOver(this.isSelf);
       this.skeleton.play("death", false);
+      GameControl.instance.gameOver(this.isSelf);
       return;
     }
     let aniName = this.typeAniName[posType];

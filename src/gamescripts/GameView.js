@@ -1,6 +1,7 @@
 import MPBar from "./prefab/MPBar";
 import HPBar from "./prefab/HPBar";
 import GameBanner from "./prefab/GameBanner";
+import HeroConfig from "./config/HeroConfig";
 
 
 export default class GameView extends PaoYa.View{
@@ -15,7 +16,10 @@ export default class GameView extends PaoYa.View{
       this.otherHPBarScr=this.boxOtherInfo.getChildByName('boxHPBar').getComponent(HPBar);
 
       this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
-      this.gameBannerScr.changeStyle({gameStyle:'battle'})
+      this.gameBannerScr.changeStyle({gameStyle:'battle'});
+      let scene=HeroConfig.getSkeleton('scene1');
+      this.scenePoint.addChild(scene);
+      scene.play('stand',true);
     }
 
     onEnable(){
@@ -45,6 +49,7 @@ export default class GameView extends PaoYa.View{
        let MPBarScr=isSelf?this.selfMPBarScr:this.otherMPBarScr;
     }
     onDestroy(){
-        
+      //场景动画怎么处置
     }
+    
 }

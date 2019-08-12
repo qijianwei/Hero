@@ -144,6 +144,7 @@ export default class Weapon extends PaoYa.Component {
       y: Math.floor(this.originY + collideH / 2)
     }]
     let speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
+    this.speed=speed;
     //根据weaponType不同，运动轨迹不同,造成curvature
     this.curvature = this.pathsCurvature[this.params.weaponType];
      /*
@@ -156,6 +157,7 @@ export default class Weapon extends PaoYa.Component {
      * b = (y2+ a*x2*x2) / x2
      */
     this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
+    this.currentAni=null;//暂存当前的animation
     this.initWeaponInfo();
     //初始化血条状态
     this.initBar();
@@ -174,6 +176,7 @@ export default class Weapon extends PaoYa.Component {
       if(WeaponAniType[skillId]){
          this[WeaponAniType[skillId]].visible=true;
          this[WeaponAniType[skillId]].play(0,true);
+         this.currentAni=this[WeaponAniType[skillId]];
       }
     }
   }
@@ -183,6 +186,7 @@ export default class Weapon extends PaoYa.Component {
       if(WeaponAniType[skillId]){
          this[WeaponAniType[skillId]].visible=false;
          this[WeaponAniType[skillId]].stop();
+         this.currentAni=null;
       }
     }
   }
@@ -248,6 +252,20 @@ export default class Weapon extends PaoYa.Component {
   stopParabola() {
     console.log("清除定时器");
     Laya.timer.clear(this, this.startParabola);
+  }
+  //暂停动画
+  pause(){
+    Laya.timer.clear(this, this.startParabola);
+    this.pauseTime=(new Date()).valueOf();
+    this.playedTime=this.pauseTime-this.beginTime;
+    this.currentAni&&this.currentAni.stop();
+  }
+  //恢复动画
+  resume(){
+    let speed=this.speed;
+    this.beginTime=(new Date()).valueOf()-this.playedTime;
+    Laya.timer.frameLoop(1, this, this.startParabola,[speed]);
+    this.currentAni&&this.currentAni.play(0,true);
   }
   //运动
   doMove(x, y, curAngle) {

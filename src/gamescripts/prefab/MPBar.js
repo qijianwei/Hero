@@ -54,8 +54,17 @@ export default class MPBar extends PaoYa.Component{
         
         
     }
+    stopIncrease(){
+        Laya.timer.clear(this,this.autoIncreaseBar);
+    }
+    pause(){
+        Laya.timer.clear(this,this.autoIncreaseBar);
+    }
+    resume(){
+        Laya.timer.loop(500,this,this.autoIncreaseBar);
+    }
     onDisable(){
-       Laya.timer.clear(this,this.increaseBar);
+       Laya.timer.clear(this,this.autoIncreaseBar);
     }
     onDestroy(){
 

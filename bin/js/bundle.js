@@ -184,7 +184,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -319,7 +319,7 @@ var Main = exports.Main = function (_GameMain) {
 	}, {
 		key: "setupGameRes",
 		value: function setupGameRes() {
-			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/freeze/freeze.png', 'spine/freeze/freeze.sk',
+			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
 			'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas'];
@@ -431,6 +431,11 @@ var GameControl = function (_PaoYa$Component) {
     }
 
     _createClass(GameControl, [{
+        key: 'onDisappear',
+        value: function onDisappear() {
+            Laya.MouseManager.enabled = true;
+        }
+    }, {
         key: 'onAwake',
         value: function onAwake() {
             var _this2 = this;
@@ -675,6 +680,7 @@ var GameControl = function (_PaoYa$Component) {
                 x: spX,
                 y: spY + spH
             }];
+
             this.owner.addChild(player);
             this[name + 'Player'] = {
                 node: player,
@@ -696,8 +702,12 @@ var GameControl = function (_PaoYa$Component) {
         key: 'skillClickHandler',
         value: function skillClickHandler(name) {
             if (name == "skill1") {
+                /*    this.allPause();
+                   return; */
                 this.skillWithWeapon(true);
             } else if (name == "skill2") {
+                /*  this.allResume();
+                 return; */
                 this.skillWithoutWeapon(true);
             }
         }
@@ -737,9 +747,22 @@ var GameControl = function (_PaoYa$Component) {
                 case 90:
                     break;
             }
-            this[name + 'Player'].comp.showSkill1(function () {
+            //先展示技能，再展示攻击，再发射兵器
+            this[name + 'Player'].comp.showSkill1();
+            this[name + 'Player'].comp.skill1Callback = function () {
                 _this3.weaponLaunch(skillWeapon);
-            });
+            };
+            /*   this[name + 'Player'].skillPromise=new Promise((resolve)=>{
+                  this[name + 'Player'].comp.showSkill1(resolve);
+              })
+              this[name + 'Player'].skillPromise.then(()=>{
+                  this[name+'Player'].attackPromise=new Promise((resolve,reject)=>{
+                      this[name + 'Player'].comp.attackEffect(false,resolve);
+                  })
+              }) 
+              this[name+'Player'].attackPromise.then(()=>{
+                  this.weaponLaunch(params);
+              })  */
         }
     }, {
         key: 'skillWithoutWeapon',
@@ -833,6 +856,52 @@ var GameControl = function (_PaoYa$Component) {
             this.dodgeOwner.gray = false;
             this.skillOwner1.gray = false;
             this.skillOwner2.gray = false;
+        }
+        //所有暂停，除了出技能的人
+
+    }, {
+        key: 'allPause',
+        value: function allPause(isSelf) {
+            this.selfWeapons.forEach(function (weapon) {
+                weapon.pause();
+            });
+            this.otherWeapons.forEach(function (weapon) {
+                weapon.pause();
+            });
+            this.weaponsBarArr.forEach(function (weaponBarComp) {
+                weaponBarComp.pause();
+            });
+            if (isSelf) {
+                this.otherPlayer.comp.skeleton.paused();
+                this.selfPlayer.node.zOrder = this.otherPlayer.node.zOrder + 1;
+            } else {
+                this.selfPlayer.comp.skeleton.paused();
+                this.otherPlayer.node.zOrder = this.selfPlayer.node.zOrder + 1;
+            }
+            Laya.timer.clear(this, this.startSelect);
+            this.selfPlayer.comp.MPComp.pause();
+            this.otherPlayer.comp.MPComp.pause();
+        }
+    }, {
+        key: 'allResume',
+        value: function allResume(isSelf) {
+            this.selfWeapons.forEach(function (weapon) {
+                weapon.resume();
+            });
+            this.otherWeapons.forEach(function (weapon) {
+                weapon.resume();
+            });
+            this.weaponsBarArr.forEach(function (weaponBarComp) {
+                weaponBarComp.resume();
+            });
+            if (isSelf) {
+                this.otherPlayer.comp.skeleton.resume();
+            } else {
+                this.selfPlayer.comp.skeleton.resume();
+            }
+            Laya.timer.once(1000, this, this.startSelect);
+            this.selfPlayer.comp.MPComp.resume();
+            this.otherPlayer.comp.MPComp.resume();
         }
     }, {
         key: 'startSelect',
@@ -1267,11 +1336,15 @@ var GameControl = function (_PaoYa$Component) {
             }
             Laya.timer.clearAll(this);
             console.error('游戏结束');
+            this.selfPlayer.comp.MPComp.stopIncrease();
+            this.otherPlayer.comp.MPComp.stopIncrease();
+            this.navigator.pop();
         }
     }, {
         key: 'onDestroy',
         value: function onDestroy() {
             Laya.timer.clearAll(this);
+            Laya.MouseManager.enabled = true;
         }
     }]);
 
@@ -1301,6 +1374,10 @@ var _GameBanner = require("./prefab/GameBanner");
 
 var _GameBanner2 = _interopRequireDefault(_GameBanner);
 
+var _HeroConfig = require("./config/HeroConfig");
+
+var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1329,6 +1406,9 @@ var GameView = function (_PaoYa$View) {
 
             this.gameBannerScr = this.boxGameBanner.getComponent(_GameBanner2.default);
             this.gameBannerScr.changeStyle({ gameStyle: 'battle' });
+            var scene = _HeroConfig2.default.getSkeleton('scene1');
+            this.scenePoint.addChild(scene);
+            scene.play('stand', true);
         }
     }, {
         key: "onEnable",
@@ -1365,7 +1445,9 @@ var GameView = function (_PaoYa$View) {
         }
     }, {
         key: "onDestroy",
-        value: function onDestroy() {}
+        value: function onDestroy() {
+            //场景动画怎么处置
+        }
     }]);
 
     return GameView;
@@ -1373,7 +1455,7 @@ var GameView = function (_PaoYa$View) {
 
 exports.default = GameView;
 
-},{"./prefab/GameBanner":10,"./prefab/HPBar":11,"./prefab/MPBar":12}],6:[function(require,module,exports){
+},{"./config/HeroConfig":7,"./prefab/GameBanner":10,"./prefab/HPBar":11,"./prefab/MPBar":12}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1522,6 +1604,10 @@ var HeroConfig = {
       path: "spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
+      templet: null
+    },
+    scene1: {
+      path: "spine/scene/scene1.sk",
       templet: null
     }
   },
@@ -1784,6 +1870,12 @@ var GameBanner = function (_PaoYa$Component) {
             timerService.on(PaoYa.TimerService.STOP, this, function () {});
             // GameControl.instance.timerService=timerService;
             timerService.start();
+            this.timerService = timerService;
+        }
+    }, {
+        key: "onDestroy",
+        value: function onDestroy() {
+            this.timerService.stop();
         }
     }]);
 
@@ -1947,9 +2039,24 @@ var MPBar = function (_PaoYa$Component) {
         key: 'updateBar',
         value: function updateBar() {}
     }, {
+        key: 'stopIncrease',
+        value: function stopIncrease() {
+            Laya.timer.clear(this, this.autoIncreaseBar);
+        }
+    }, {
+        key: 'pause',
+        value: function pause() {
+            Laya.timer.clear(this, this.autoIncreaseBar);
+        }
+    }, {
+        key: 'resume',
+        value: function resume() {
+            Laya.timer.loop(500, this, this.autoIncreaseBar);
+        }
+    }, {
         key: 'onDisable',
         value: function onDisable() {
-            Laya.timer.clear(this, this.increaseBar);
+            Laya.timer.clear(this, this.autoIncreaseBar);
         }
     }, {
         key: 'onDestroy',
@@ -2067,31 +2174,60 @@ var Player = function (_PaoYa$Component) {
 
       this.canAction = true;
       this.initDress();
+      this.onSkeletonLabel();
     }
+    /* 监听事件帧 */
+
+  }, {
+    key: "onSkeletonLabel",
+    value: function onSkeletonLabel() {
+      var _this3 = this;
+
+      this.skeleton.on(Laya.Event.LABEL, this, function (e) {
+        switch (e.name) {
+          case 'skill1':
+            //  Laya.stage.renderingEnabled=true  
+            _GameControl2.default.instance.allResume(_this3.isSelf);
+            _this3.skill1Callback();
+            break;
+          case 'stop':
+            //Laya.stage.renderingEnabled=false;
+            // this.aniDizzy.play(0,true)
+            // Laya.timer.scale=0.2;
+            // /
+            /*  setInterval(()=>{
+                
+             },16)  */
+            //this.skeleton.play('attack',false);
+            _GameControl2.default.instance.allPause(_this3.isSelf);
+            break;
+        }
+      });
+    }
+  }, {
+    key: "skill1Callback",
+    value: function skill1Callback() {}
   }, {
     key: "onEnable",
     value: function onEnable() {}
   }, {
     key: "initDress",
     value: function initDress() {
-      var _this3 = this;
+      var _this4 = this;
 
       var url = "spine/hero/hero_1.sk";
       this.skeleton.load(url, Laya.Handler.create(this, function () {
-        _this3.skeleton.play('stand', true);
+        _this4.skeleton.play('stand', true);
       }));
     }
     //人物触发技能1
 
   }, {
     key: "showSkill1",
-    value: function showSkill1(cb) {
+    value: function showSkill1(resolve) {
       /*  this.boxAniSkill1.visible=true;
        this.aniSkill1.play(0,true); */
       this.skeleton.play("skill1", false);
-      this.skeleton.once(Laya.Event.LABEL, this, function (e) {
-        cb && cb();
-      });
     }
   }, {
     key: "removeSkill1",
@@ -2104,13 +2240,13 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "showSkill2",
     value: function showSkill2() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.skeleton.play("skill2", false);
       this.skeleton.once(Laya.Event.LABEL, this, function (e) {
         if (e.name == "skill2") {
-          _this4.boxAniSkill2.visible = true;
-          _this4.aniSkill2.play(0, true);
+          _this5.boxAniSkill2.visible = true;
+          _this5.aniSkill2.play(0, true);
         }
       });
     }
@@ -2144,13 +2280,13 @@ var Player = function (_PaoYa$Component) {
       if (weaponSkillEffect) {
         this.skillEffect();
       }
-      //this.attackPromise=new Promise(resov);
-      //   if(this.isSelf){
 
       this.skeleton.once(Laya.Event.LABEL, this, function (e) {
-        resolve();
+        if (e.name == 'launch') {
+          console.error('launch launch launch');
+          resolve();
+        }
       });
-      // } 
     }
     //受击打,所有武器碰到都有这效果
 
@@ -2170,8 +2306,8 @@ var Player = function (_PaoYa$Component) {
 
       if (this.HPComp.curHP <= 0) {
         console.error('死亡结束');
-        _GameControl2.default.instance.gameOver(this.isSelf);
         this.skeleton.play("death", false);
+        _GameControl2.default.instance.gameOver(this.isSelf);
         return;
       }
       var aniName = this.typeAniName[posType];
@@ -2915,6 +3051,7 @@ var Weapon = function (_PaoYa$Component) {
         y: Math.floor(this.originY + collideH / 2)
       }];
       var speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
+      this.speed = speed;
       //根据weaponType不同，运动轨迹不同,造成curvature
       this.curvature = this.pathsCurvature[this.params.weaponType];
       /*
@@ -2927,6 +3064,7 @@ var Weapon = function (_PaoYa$Component) {
       * b = (y2+ a*x2*x2) / x2
       */
       this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
+      this.currentAni = null; //暂存当前的animation
       this.initWeaponInfo();
       //初始化血条状态
       this.initBar();
@@ -2949,6 +3087,7 @@ var Weapon = function (_PaoYa$Component) {
         if (WeaponAniType[skillId]) {
           this[WeaponAniType[skillId]].visible = true;
           this[WeaponAniType[skillId]].play(0, true);
+          this.currentAni = this[WeaponAniType[skillId]];
         }
       }
     }
@@ -2960,6 +3099,7 @@ var Weapon = function (_PaoYa$Component) {
         if (WeaponAniType[skillId]) {
           this[WeaponAniType[skillId]].visible = false;
           this[WeaponAniType[skillId]].stop();
+          this.currentAni = null;
         }
       }
     }
@@ -3035,6 +3175,26 @@ var Weapon = function (_PaoYa$Component) {
     value: function stopParabola() {
       console.log("清除定时器");
       Laya.timer.clear(this, this.startParabola);
+    }
+    //暂停动画
+
+  }, {
+    key: "pause",
+    value: function pause() {
+      Laya.timer.clear(this, this.startParabola);
+      this.pauseTime = new Date().valueOf();
+      this.playedTime = this.pauseTime - this.beginTime;
+      this.currentAni && this.currentAni.stop();
+    }
+    //恢复动画
+
+  }, {
+    key: "resume",
+    value: function resume() {
+      var speed = this.speed;
+      this.beginTime = new Date().valueOf() - this.playedTime;
+      Laya.timer.frameLoop(1, this, this.startParabola, [speed]);
+      this.currentAni && this.currentAni.play(0, true);
     }
     //运动
 
@@ -3589,16 +3749,16 @@ var WeaponBar = function (_PaoYa$Component) {
         //暂停cd
 
     }, {
-        key: "suspendCd",
-        value: function suspendCd() {
+        key: "pause",
+        value: function pause() {
             Laya.timer.clear(this, this.startCd);
         }
         //恢复cd
 
     }, {
-        key: "resumeCd",
-        value: function resumeCd() {
-            /*  Laya.timer.loop(this.frameCd,this,this.startCd); */
+        key: "resume",
+        value: function resume() {
+            Laya.timer.frameLoop(1, this, this.startCd, [this.cdTime]);
         }
     }, {
         key: "endCD",

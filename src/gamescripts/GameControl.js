@@ -25,6 +25,9 @@ export default class GameControl extends PaoYa.Component {
         GameControl.instance = this;
         Laya.MouseManager.multiTouchEnabled = false;
     }
+    onDisappear(){
+        Laya.MouseManager.enabled = true;
+    }
     onAwake() {
         Laya.MouseManager.enabled = true;
 
@@ -66,7 +69,7 @@ export default class GameControl extends PaoYa.Component {
         this.selfSkillTextComp=this.selfSkillText.getComponent(PlayerSkill);
         this.otherSkillTextComp=this.otherSkillText.getComponent(PlayerSkill);
         Laya.timer.once(5000, this, () => {
-           Laya.timer.once(1000, this, this.startSelect);
+          Laya.timer.once(1000, this, this.startSelect);
             //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
         })
         //机器人开始
@@ -256,6 +259,7 @@ export default class GameControl extends PaoYa.Component {
             x: spX,
             y: spY + spH
         }]
+       
         this.owner.addChild(player);
         this[name + 'Player'] = {
             node: player,
@@ -273,8 +277,12 @@ export default class GameControl extends PaoYa.Component {
     }
     skillClickHandler(name){
         if(name=="skill1"){
+         /*    this.allPause();
+            return; */
             this.skillWithWeapon(true);
         }else if(name=="skill2"){
+           /*  this.allResume();
+            return; */
             this.skillWithoutWeapon(true);
         }
       
@@ -309,11 +317,23 @@ export default class GameControl extends PaoYa.Component {
             case 90:
                 break;
         }
-        this[name + 'Player'].comp.showSkill1(()=>{
-           this.weaponLaunch(skillWeapon);
-        });
-        
-
+        //先展示技能，再展示攻击，再发射兵器
+         this[name + 'Player'].comp.showSkill1(); 
+         this[name+'Player'].comp.skill1Callback=()=>{
+            this.weaponLaunch(skillWeapon);
+         }
+      /*   this[name + 'Player'].skillPromise=new Promise((resolve)=>{
+            this[name + 'Player'].comp.showSkill1(resolve);
+        })
+        this[name + 'Player'].skillPromise.then(()=>{
+            this[name+'Player'].attackPromise=new Promise((resolve,reject)=>{
+                this[name + 'Player'].comp.attackEffect(false,resolve);
+            })
+        }) 
+        this[name+'Player'].attackPromise.then(()=>{
+            this.weaponLaunch(params);
+        })  */
+    
     }
     skillWithoutWeapon(isSelf) {
         let name = isSelf ? 'self' : 'other';
@@ -392,6 +412,47 @@ export default class GameControl extends PaoYa.Component {
         this.dodgeOwner.gray = false;
         this.skillOwner1.gray = false;
         this.skillOwner2.gray = false;
+    }
+    //所有暂停，除了出技能的人
+    allPause(isSelf){
+        this.selfWeapons.forEach((weapon)=>{
+            weapon.pause();
+        })
+        this.otherWeapons.forEach((weapon)=>{
+            weapon.pause();
+        })
+        this.weaponsBarArr.forEach((weaponBarComp) => {
+            weaponBarComp.pause();
+        })
+        if(isSelf){
+            this.otherPlayer.comp.skeleton.paused()
+            this.selfPlayer.node.zOrder=this.otherPlayer.node.zOrder+1;
+        }else{
+            this.selfPlayer.comp.skeleton.paused();
+            this.otherPlayer.node.zOrder=this.selfPlayer.node.zOrder+1;
+        }
+        Laya.timer.clear(this, this.startSelect);
+        this.selfPlayer.comp.MPComp.pause();
+        this.otherPlayer.comp.MPComp.pause();
+    }
+    allResume(isSelf){
+        this.selfWeapons.forEach((weapon)=>{
+            weapon.resume();
+        })
+        this.otherWeapons.forEach((weapon)=>{
+            weapon.resume();
+        })
+        this.weaponsBarArr.forEach((weaponBarComp) => {
+            weaponBarComp.resume();
+        })
+        if(isSelf){
+            this.otherPlayer.comp.skeleton.resume()
+        }else{
+            this.selfPlayer.comp.skeleton.resume()
+        }
+        Laya.timer.once(1000, this, this.startSelect);
+        this.selfPlayer.comp.MPComp.resume();
+        this.otherPlayer.comp.MPComp.resume();
     }
     startSelect() {
         let sWeapon = this.weaponManager.seletedWeapon();
@@ -614,7 +675,7 @@ export default class GameControl extends PaoYa.Component {
         }) 
         //正常开始技能冷却
         targetComp.startT();
-         
+      
     }
     weaponLaunch(params, deltaT) {
         let name = params.isSelf ? 'self' : 'other';
@@ -796,8 +857,12 @@ export default class GameControl extends PaoYa.Component {
         }
         Laya.timer.clearAll(this);
         console.error('游戏结束');
+        this.selfPlayer.comp.MPComp.stopIncrease();
+        this.otherPlayer.comp.MPComp.stopIncrease();
+        this.navigator.pop();
     }
     onDestroy() {
         Laya.timer.clearAll(this);
+        Laya.MouseManager.enabled = true;
     }
 }
