@@ -184,7 +184,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -548,6 +548,7 @@ var GameControl = function (_PaoYa$Component) {
         value: function onEnable() {
             this.onNotification(_WeaponBar2.default.CLICK, this, this.weaponBarClickHandler);
             this.onNotification(_Skill2.default.CLICK, this, this.skillClickHandler);
+            this.gameState = 'start';
         }
         //测试内力够不够
 
@@ -655,7 +656,7 @@ var GameControl = function (_PaoYa$Component) {
             if (component.attr.skillWeapon) {
                 component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
             }
-            console.error(component.attr.skillWeapon);
+            // console.error(component.attr.skillWeapon)
             component.MPComp = this[name + 'MP'].getComponent(_MPBar2.default);
             component.HPComp = this[name + 'HP'].getComponent(_HPBar2.default);
             component.MPComp.initBar(this.params[role].roleMp);
@@ -912,6 +913,7 @@ var GameControl = function (_PaoYa$Component) {
                 if (this.otherPlayer.comp.canAction) {
                     sWeapon.isSelf = false;
                     sWeapon.selectedHandler();
+                    sWeapon.params.weaponType = 1;
                     this.weaponBarClickHandler(sWeapon);
                 } else {
                     console.error("无法动弹");
@@ -1108,7 +1110,7 @@ var GameControl = function (_PaoYa$Component) {
             params.isSelf = targetComp.isSelf;
             if (skillType == 1 && status == 1) {
                 var random = Math.floor(Math.random() * 100 + 1);
-                if (random <= 100) {
+                if (random <= prob) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     if (skillId == 58) {
                         targetComp.startT(200); //快速冷却     
@@ -1143,6 +1145,9 @@ var GameControl = function (_PaoYa$Component) {
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
             weapon.params = params;
+            console.log(weapon);
+            console.log(weaponComp);
+
             weaponComp.isSelf = params.isSelf;
             if (params.isSelf) {
                 weapon.pos(280, 450);
@@ -1161,44 +1166,7 @@ var GameControl = function (_PaoYa$Component) {
                 this[name + 'Weapons'].push(weaponComp);
             }
         }
-        //以下下是正常点击发射
 
-    }, {
-        key: 'weaponBySelf',
-        value: function weaponBySelf(params, deltaT) {
-            var _this8 = this;
-
-            var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
-            var weaponComp = weapon.getComponent(_Weapon2.default);
-            weapon.params = params;
-            weaponComp.isSelf = true;
-            /*  this.owner.addChild(weapon); */
-            weapon.pos(340, 450);
-            //暂定
-            if (deltaT) {
-                Laya.timer.once(deltaT, this, function () {
-                    _this8.owner.addChild(weapon);
-                    _this8.selfWeapons.push(weaponComp);
-                });
-            } else {
-                this.owner.addChild(weapon);
-                this.selfWeapons.push(weaponComp);
-            }
-        }
-    }, {
-        key: 'weaponByOther',
-        value: function weaponByOther(target) {
-            var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
-            var weaponComp = weapon.getComponent(_Weapon2.default);
-            weapon.params = target;
-            weaponComp.isSelf = false;
-            // weapon.isSelf=true;
-            this.owner.addChild(weapon);
-            weapon.pos(953, 450);
-
-            //暂定
-            this.otherWeapons.push(weaponComp);
-        }
         //带着技能发射
 
     }, {
@@ -1331,20 +1299,40 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'gameOver',
         value: function gameOver(loserIsSelf) {
+            this.gameState = 'over';
+            Laya.MouseManager.enabled = false;
             if (!loserIsSelf) {
                 this.selfPlayer.comp.skeleton.play('win', true);
+            } else {
+                this.otherPlayer.comp.skeleton.play('win', true);
             }
             Laya.timer.clearAll(this);
             console.error('游戏结束');
+
             this.selfPlayer.comp.MPComp.stopIncrease();
             this.otherPlayer.comp.MPComp.stopIncrease();
-            this.navigator.pop();
+
+            //删除界面上兵器
+            this.selfWeapons.forEach(function (weapon) {
+                weapon.endMove();
+            });
+            this.otherWeapons.forEach(function (weapon) {
+                weapon.endMove();
+            });
+            Laya.timer.once(3000, this, function () {
+                Laya.MouseManager.enabled = true;
+                // this.navigator.pop();
+            });
         }
     }, {
         key: 'onDestroy',
         value: function onDestroy() {
+            console.error('destroy111');
+            this.selfWeapons = null;
+            this.otherWeapons = null;
             Laya.timer.clearAll(this);
             Laya.MouseManager.enabled = true;
+            Laya.Pool.clearBySign('weapon');
         }
     }]);
 
@@ -1887,6 +1875,14 @@ var GameBanner = function (_PaoYa$Component) {
             this.timerService = timerService;
         }
     }, {
+        key: "pause",
+        value: function pause() {}
+    }, {
+        key: "resume",
+        value: function resume() {
+            //this.timerService.
+        }
+    }, {
         key: "onDestroy",
         value: function onDestroy() {
             this.timerService.stop();
@@ -2161,7 +2157,9 @@ var Player = function (_PaoYa$Component) {
       //不管什么状态播放完，都继续播放待机状态
       this.skeleton.on(Laya.Event.STOPPED, this, function () {
         Laya.MouseManager.enabled = true;
-        /* this.skeleton.off() */
+        if (_GameControl2.default.instance.gameState == 'over') {
+          return;
+        }
         if (_this2.sectionAni == 1) {
           _this2.sectionAni += 1;
           _this2.skeleton.play('dodge2', false);
@@ -2351,11 +2349,11 @@ var Player = function (_PaoYa$Component) {
         this.showPlayerState("免疫");
         return;
       }
-      this.canAction = false;
-      if (this.isSelf) {
-        Laya.MouseManager.enabled = false;
-        _GameControl2.default.instance.allBtnsLock();
-      }
+      /*    this.canAction = false;
+         if (this.isSelf) {
+           Laya.MouseManager.enabled = false;
+           GameControl.instance.allBtnsLock();
+         } */
       this.boxAniPoison.visible = true;
       this.aniPoison.play(0, true);
       var startTime = new Date().getTime();
@@ -2381,11 +2379,11 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removePoison",
     value: function removePoison() {
-      this.canAction = true;
-      if (this.isSelf) {
-        Laya.MouseManager.enabled = true;
-        _GameControl2.default.instance.allBtnsUnlock();
-      }
+      /*   this.canAction = true;
+        if (this.isSelf) {
+          Laya.MouseManager.enabled = true;
+          GameControl.instance.allBtnsUnlock();
+        } */
       this.boxAniPoison.visible = false;
       this.aniPoison.stop();
     }
@@ -3712,7 +3710,7 @@ var WeaponBar = function (_PaoYa$Component) {
                 return;
             }
             if (this.freezeing) {
-                _GameControl2.default.instance.showTips(" ");
+                _GameControl2.default.instance.showTips("技能未冷却");
                 return;
             }
             console.error('传出去的武器攻击值:', this.params.weaponAttack);
@@ -4022,6 +4020,10 @@ var HomeControl = function (_PaoYa$Component) {
                         _this2.navigator.push("WeaponStore", res);
                     });
                     break;
+                //炼器
+                case "btnRefiner":
+                    console.log("进入炼器");
+                    break;
                 //兵器谱
                 case "btnWeaponSpectrum":
                     console.log("进入兵器谱");
@@ -4065,8 +4067,8 @@ var HomeControl = function (_PaoYa$Component) {
                     console.log("玩法介绍");
                     break;
                 //设置
-                case "btnSet":
-                    console.log("设置");
+                case "btnTask":
+                    console.log("任务");
                     break;
 
             }

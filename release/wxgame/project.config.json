@@ -4,8 +4,10 @@
 		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
-		"minified": false,
-		"newFeature": true
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false,
+		"checkInvalidKey": true
 	},
 	"compileType": "game",
 	"libVersion": "game",

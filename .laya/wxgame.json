@@ -26,7 +26,7 @@
         "",
         ""
     ],
-    "version": true,
+    "version": false,
     "versionFilter": [
         "$basePath/**/*.*",
         "!$basePath/*.html",
@@ -47,6 +47,13 @@
         "",
         ""
     ],
+    "exclude": false,
+    "excludeFilter": [
+        "!$basePath/res/**/*.*"
+    ],
+    "vexcludeNoteList": [
+        ""
+    ],
     "packfile": false,
     "packfileFilter": [
         ""
@@ -64,7 +71,8 @@
     ],
     "clearReleaseDir": true,
     "compile": true,
+    "forceCompile": false,
     "onlyIndexJS": true,
     "projectType": "js",
-    "pubTime": 1565586798422
+    "pubTime": 1565672927294
 }

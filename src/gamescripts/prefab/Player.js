@@ -46,7 +46,9 @@ export default class Player extends PaoYa.Component {
     //不管什么状态播放完，都继续播放待机状态
     this.skeleton.on(Laya.Event.STOPPED, this, () => {
       Laya.MouseManager.enabled = true;
-      /* this.skeleton.off() */
+      if(GameControl.instance.gameState=='over'){
+        return;
+      }
       if (this.sectionAni == 1) {
         this.sectionAni += 1;
         this.skeleton.play('dodge2', false)
@@ -112,7 +114,7 @@ export default class Player extends PaoYa.Component {
   initDress() {
     let url = "spine/hero/hero_1.sk";
     this.skeleton.load(url, Laya.Handler.create(this, () => {
-      this.skeleton.play('stand', true)
+        this.skeleton.play('stand', true)
     }))
   }
   //人物触发技能1
@@ -194,11 +196,11 @@ export default class Player extends PaoYa.Component {
       this.showPlayerState("免疫")
       return;
     }
-    this.canAction = false;
+ /*    this.canAction = false;
     if (this.isSelf) {
       Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
-    }
+    } */
     this.boxAniPoison.visible = true;
     this.aniPoison.play(0, true);
     let startTime = new Date().getTime();
@@ -221,11 +223,11 @@ export default class Player extends PaoYa.Component {
     this.HPComp.changeHP(hpValue);
   }
   removePoison() {
-    this.canAction = true;
+  /*   this.canAction = true;
     if (this.isSelf) {
       Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
-    }
+    } */
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
   }

@@ -31,7 +31,12 @@ export default class GameBanner extends PaoYa.Component{
         timerService.start();
         this.timerService=timerService;
     }
-    
+    pause(){
+
+    }
+    resume(){
+        //this.timerService.
+    }
     onDestroy(){
        this.timerService.stop();
     }

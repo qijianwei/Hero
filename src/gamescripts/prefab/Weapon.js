@@ -521,17 +521,13 @@ export default class Weapon extends PaoYa.Component {
             otherWeapon.endMove();
             break;
           }
-
-          // alert('碰撞到了')
         }
       }
-      /* let ani=new Laya.Animation()
-      ani.play() */
     }
-    //})
   }
   playWeaponCollideEffect() {
     this.boxAniWeapon.visible = true;
+    this.boxHpWeapon.visible = false;
     this.effectAni = true;
     // this.imgWeapon.visible=false;
     //兵器上带技能的隐藏
@@ -617,6 +613,6 @@ export default class Weapon extends PaoYa.Component {
     Laya.Pool.recover("weapon", this.owner);
   }
   onDestroy() {
-
+   
   }
 }

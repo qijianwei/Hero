@@ -135,6 +135,7 @@ export default class GameControl extends PaoYa.Component {
     onEnable() {
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
         this.onNotification(Skill.CLICK, this, this.skillClickHandler);
+        this.gameState='start';
     }
     //测试内力够不够
     onUpdate() {
@@ -234,7 +235,7 @@ export default class GameControl extends PaoYa.Component {
         if (component.attr.skillWeapon) {
             component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
         }
-        console.error(component.attr.skillWeapon)
+       // console.error(component.attr.skillWeapon)
         component.MPComp = this[name + 'MP'].getComponent(MPBar);
         component.HPComp = this[name + 'HP'].getComponent(HPBar);
         component.MPComp.initBar(this.params[role].roleMp);
@@ -653,7 +654,7 @@ export default class GameControl extends PaoYa.Component {
         params.isSelf = targetComp.isSelf;
         if (skillType == 1 && status == 1) {
             let random = Math.floor(Math.random() * 100 + 1);
-            if (random <= 100) {
+            if (random <= prob) {
                 /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                 if (skillId == 58) {
                     targetComp.startT(200); //快速冷却     
@@ -685,6 +686,9 @@ export default class GameControl extends PaoYa.Component {
         let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
         let weaponComp = weapon.getComponent(Weapon);
         weapon.params = params;
+        console.log(weapon);
+        console.log(weaponComp)
+       
         weaponComp.isSelf = params.isSelf;
         if (params.isSelf) {
             weapon.pos(280, 450)
@@ -703,37 +707,7 @@ export default class GameControl extends PaoYa.Component {
             this[name + 'Weapons'].push(weaponComp);
         }
     }
-    //以下下是正常点击发射
-    weaponBySelf(params, deltaT) {
-        let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
-        let weaponComp = weapon.getComponent(Weapon);
-        weapon.params = params;
-        weaponComp.isSelf = true;
-        /*  this.owner.addChild(weapon); */
-        weapon.pos(340, 450)
-        //暂定
-        if (deltaT) {
-            Laya.timer.once(deltaT, this, () => {
-                this.owner.addChild(weapon);
-                this.selfWeapons.push(weaponComp);
-            });
-        } else {
-            this.owner.addChild(weapon);
-            this.selfWeapons.push(weaponComp);
-        }
-    }
-    weaponByOther(target) {
-        let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
-        let weaponComp = weapon.getComponent(Weapon);
-        weapon.params = target;
-        weaponComp.isSelf = false;
-        // weapon.isSelf=true;
-        this.owner.addChild(weapon);
-        weapon.pos(953, 450);
-
-        //暂定
-        this.otherWeapons.push(weaponComp);
-    }
+  
     //带着技能发射
 
     weaponWithSkills(params, skillId) {
@@ -857,17 +831,38 @@ export default class GameControl extends PaoYa.Component {
 
     }
     gameOver(loserIsSelf) {
+        this.gameState='over';
+        Laya.MouseManager.enabled = false;
         if (!loserIsSelf) {
             this.selfPlayer.comp.skeleton.play('win', true);
+        }else{
+            this.otherPlayer.comp.skeleton.play('win',true);
         }
         Laya.timer.clearAll(this);
         console.error('游戏结束');
+
         this.selfPlayer.comp.MPComp.stopIncrease();
         this.otherPlayer.comp.MPComp.stopIncrease();
-        this.navigator.pop();
+       
+        //删除界面上兵器
+        this.selfWeapons.forEach((weapon) => {
+            weapon.endMove();
+        })
+        this.otherWeapons.forEach((weapon) => {
+            weapon.endMove();
+        })
+        Laya.timer.once(3000,this,()=>{
+            Laya.MouseManager.enabled = true;
+           // this.navigator.pop();
+        })
+          
     }
     onDestroy() {
+        console.error('destroy111');
+        this.selfWeapons = null;
+        this.otherWeapons = null;
         Laya.timer.clearAll(this);
         Laya.MouseManager.enabled = true;
+        Laya.Pool.clearBySign('weapon');
     }
 }

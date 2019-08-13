@@ -19,6 +19,10 @@ export default class HomeControl extends PaoYa.Component {
                     this.navigator.push("WeaponStore", res);
                 })
                 break;
+                //炼器
+            case "btnRefiner":
+            console.log("进入炼器")
+            break;
             //兵器谱
             case "btnWeaponSpectrum":
                 console.log("进入兵器谱")
@@ -62,8 +66,8 @@ export default class HomeControl extends PaoYa.Component {
                 console.log("玩法介绍")
                 break;
             //设置
-            case "btnSet":
-                console.log("设置")
+            case "btnTask":
+                console.log("任务")
                 break;
 
         }
