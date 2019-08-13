@@ -749,20 +749,9 @@ var GameControl = function (_PaoYa$Component) {
             }
             //先展示技能，再展示攻击，再发射兵器
             this[name + 'Player'].comp.showSkill1();
-            this[name + 'Player'].comp.skill1Callback = function () {
+            this[name + 'Player'].comp.skillCallback = function () {
                 _this3.weaponLaunch(skillWeapon);
             };
-            /*   this[name + 'Player'].skillPromise=new Promise((resolve)=>{
-                  this[name + 'Player'].comp.showSkill1(resolve);
-              })
-              this[name + 'Player'].skillPromise.then(()=>{
-                  this[name+'Player'].attackPromise=new Promise((resolve,reject)=>{
-                      this[name + 'Player'].comp.attackEffect(false,resolve);
-                  })
-              }) 
-              this[name+'Player'].attackPromise.then(()=>{
-                  this.weaponLaunch(params);
-              })  */
         }
     }, {
         key: 'skillWithoutWeapon',
@@ -873,14 +862,21 @@ var GameControl = function (_PaoYa$Component) {
             });
             if (isSelf) {
                 this.otherPlayer.comp.skeleton.paused();
-                this.selfPlayer.node.zOrder = this.otherPlayer.node.zOrder + 1;
+                this.otherPlayer.node.zOrder = 100;
+                this.selfPlayer.node.zOrder = 101;
+                this.selfSkillText.zOrder = 103;
             } else {
                 this.selfPlayer.comp.skeleton.paused();
-                this.otherPlayer.node.zOrder = this.selfPlayer.node.zOrder + 1;
+                this.otherPlayer.node.zOrder = 101;
+                this.selfPlayer.node.zOrder = 100;
             }
+
             Laya.timer.clear(this, this.startSelect);
             this.selfPlayer.comp.MPComp.pause();
             this.otherPlayer.comp.MPComp.pause();
+            this.skillScr1.pause();
+            this.skillScr2.pause();
+            this.dodgeComp.pause();
         }
     }, {
         key: 'allResume',
@@ -896,12 +892,16 @@ var GameControl = function (_PaoYa$Component) {
             });
             if (isSelf) {
                 this.otherPlayer.comp.skeleton.resume();
+                this.selfSkillText.zOrder = 1;
             } else {
                 this.selfPlayer.comp.skeleton.resume();
             }
             Laya.timer.once(1000, this, this.startSelect);
             this.selfPlayer.comp.MPComp.resume();
             this.otherPlayer.comp.MPComp.resume();
+            this.skillScr1.resume();
+            this.skillScr2.resume();
+            this.dodgeComp.resume();
         }
     }, {
         key: 'startSelect',
@@ -909,9 +909,13 @@ var GameControl = function (_PaoYa$Component) {
             var sWeapon = this.weaponManager.seletedWeapon();
             var curMp = this.otherPlayer.comp.MPComp.curMP;
             if (curMp >= sWeapon.params.weaponConsume) {
-                sWeapon.isSelf = false;
-                sWeapon.selectedHandler();
-                this.weaponBarClickHandler(sWeapon);
+                if (this.otherPlayer.comp.canAction) {
+                    sWeapon.isSelf = false;
+                    sWeapon.selectedHandler();
+                    this.weaponBarClickHandler(sWeapon);
+                } else {
+                    console.error("无法动弹");
+                }
                 Laya.timer.once(5000, this, this.startSelect);
             } else {
                 Laya.timer.once(500, this, this.startSelect);
@@ -1104,7 +1108,7 @@ var GameControl = function (_PaoYa$Component) {
             params.isSelf = targetComp.isSelf;
             if (skillType == 1 && status == 1) {
                 var random = Math.floor(Math.random() * 100 + 1);
-                if (random <= prob) {
+                if (random <= 100) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     if (skillId == 58) {
                         targetComp.startT(200); //快速冷却     
@@ -1113,24 +1117,20 @@ var GameControl = function (_PaoYa$Component) {
                         targetComp.startT();
                     }
                     params.skillEffect = true;
-                    this[name + 'Player'].attackPromise = new Promise(function (resolve, reject) {
-                        _this6[name + 'Player'].comp.attackEffect(params.skillEffect, resolve); //兵器技能是否触发
-                    });
-                    this[name + 'Player'].attackPromise.then(function () {
+                    this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
+                    this[name + 'Player'].comp.attackCallback = function () {
                         _this6.weaponWithSkills(params, skillId);
-                    });
-
+                    };
                     return;
                 } else {
                     console.warn('不好意思,没有触发技能');
                 }
             }
-            this[name + 'Player'].attackPromise = new Promise(function (resolve, reject) {
-                _this6[name + 'Player'].comp.attackEffect(false, resolve);
-            });
-            this[name + 'Player'].attackPromise.then(function () {
+
+            this[name + 'Player'].comp.attackEffect(false);
+            this[name + 'Player'].comp.attackCallback = function () {
                 _this6.weaponLaunch(params);
-            });
+            };
             //正常开始技能冷却
             targetComp.startT();
         }
@@ -1793,6 +1793,20 @@ var Dodge = function (_PaoYa$Component) {
             this.spMask.graphics.clear();
             this.spMask.graphics.drawPie(this.ownW / 2, this.ownH / 2, this.ownW, this.startAngle, this.endAngle, "#000000");
         }
+        //暂停cd
+
+    }, {
+        key: "pause",
+        value: function pause() {
+            this.freezeing && Laya.timer.clear(this, this.startCd);
+        }
+        //恢复cd
+
+    }, {
+        key: "resume",
+        value: function resume() {
+            this.freezeing && Laya.timer.frameLoop(1, this, this.startCd, [this.cdTime]);
+        }
     }, {
         key: "endCD",
         value: function endCD() {
@@ -2186,27 +2200,33 @@ var Player = function (_PaoYa$Component) {
       this.skeleton.on(Laya.Event.LABEL, this, function (e) {
         switch (e.name) {
           case 'skill1':
-            //  Laya.stage.renderingEnabled=true  
             _GameControl2.default.instance.allResume(_this3.isSelf);
-            _this3.skill1Callback();
+            _this3.skillCallback();
             break;
           case 'stop':
-            //Laya.stage.renderingEnabled=false;
-            // this.aniDizzy.play(0,true)
-            // Laya.timer.scale=0.2;
-            // /
-            /*  setInterval(()=>{
-                
-             },16)  */
-            //this.skeleton.play('attack',false);
             _GameControl2.default.instance.allPause(_this3.isSelf);
+            break;
+          case 'skill2':
+            _GameControl2.default.instance.allResume(_this3.isSelf);
+            _this3.boxAniSkill2.visible = true;
+            _this3.aniSkill2.play(0, true);
+            break;
+          case 'launch':
+            _this3.attackCallback();
             break;
         }
       });
     }
+    //动态注册技能回调
+
   }, {
-    key: "skill1Callback",
-    value: function skill1Callback() {}
+    key: "skillCallback",
+    value: function skillCallback() {}
+    //动态注册攻击回调
+
+  }, {
+    key: "attackCallback",
+    value: function attackCallback() {}
   }, {
     key: "onEnable",
     value: function onEnable() {}
@@ -2224,15 +2244,12 @@ var Player = function (_PaoYa$Component) {
 
   }, {
     key: "showSkill1",
-    value: function showSkill1(resolve) {
-      /*  this.boxAniSkill1.visible=true;
-       this.aniSkill1.play(0,true); */
+    value: function showSkill1() {
       this.skeleton.play("skill1", false);
     }
   }, {
     key: "removeSkill1",
     value: function removeSkill1() {
-      /*   this.boxAniSkill1.visible=false; */
       this.aniSkill1.stop();
     }
     //人物触发技能2
@@ -2240,15 +2257,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "showSkill2",
     value: function showSkill2() {
-      var _this5 = this;
-
       this.skeleton.play("skill2", false);
-      this.skeleton.once(Laya.Event.LABEL, this, function (e) {
-        if (e.name == "skill2") {
-          _this5.boxAniSkill2.visible = true;
-          _this5.aniSkill2.play(0, true);
-        }
-      });
     }
   }, {
     key: "removeSkill2",
@@ -2274,19 +2283,12 @@ var Player = function (_PaoYa$Component) {
 
   }, {
     key: "attackEffect",
-    value: function attackEffect(weaponSkillEffect, resolve) {
+    value: function attackEffect(weaponSkillEffect) {
       // this.skeleton.playbackRate(1)
       this.skeleton.play("attack", false);
       if (weaponSkillEffect) {
         this.skillEffect();
       }
-
-      this.skeleton.once(Laya.Event.LABEL, this, function (e) {
-        if (e.name == 'launch') {
-          console.error('launch launch launch');
-          resolve();
-        }
-      });
     }
     //受击打,所有武器碰到都有这效果
 
@@ -2423,7 +2425,7 @@ var Player = function (_PaoYa$Component) {
 
   }, {
     key: "palsyEffect",
-    value: function palsyEffect(plasyTime) {
+    value: function palsyEffect(palsyTime) {
       if (this.attr.notPalsy == 1) {
         this.showPlayerState("免疫");
         return;
@@ -2433,11 +2435,11 @@ var Player = function (_PaoYa$Component) {
         Laya.MouseManager.enabled = false;
         _GameControl2.default.instance.allBtnsLock();
       }
-      this.boxAniPlasy.visible = true;
-      this.aniPlasy.play(0, true);
+      this.boxAniPalsy.visible = true;
+      this.aniPalsy.play(0, true);
       this.skeleton.play('freeze', true);
       this.showPlayerState("麻痹");
-      Laya.timer.once(plasyTime, this, this.removePalsy);
+      Laya.timer.once(palsyTime, this, this.removePalsy);
     }
   }, {
     key: "removePalsy",
@@ -2448,8 +2450,8 @@ var Player = function (_PaoYa$Component) {
         _GameControl2.default.instance.allBtnsUnlock();
       }
       this.skeleton.play('stand', true);
-      this.boxAniPlasy.visible = false;
-      this.aniPlasy.stop();
+      this.boxAniPalsy.visible = false;
+      this.aniPalsy.stop();
     }
     //冰冻
 
@@ -2855,6 +2857,20 @@ var Skill = function (_PaoYa$Component) {
             this.endAngle += Laya.timer.delta * 360 / time;
             this.spMask.graphics.clear();
             this.spMask.graphics.drawPie(this.centerX, this.centerY, this.ownW, this.startAngle, this.endAngle, "#000000");
+        }
+        //暂停cd
+
+    }, {
+        key: "pause",
+        value: function pause() {
+            this.freezeing && Laya.timer.clear(this, this.startCd);
+        }
+        //恢复cd
+
+    }, {
+        key: "resume",
+        value: function resume() {
+            this.freezeing && Laya.timer.frameLoop(1, this, this.startCd, [this.cdTime]);
         }
     }, {
         key: "endCD",
@@ -3276,7 +3292,8 @@ var Weapon = function (_PaoYa$Component) {
               skillId = skill.skillId;
           //this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
           switch (skillId) {
-            case 45 || 46:
+            case 45:
+            case 46:
               var arr = skillConfig.poison.split('-').map(Number);
               var time = arr[0];
               this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, function () {
@@ -3285,7 +3302,8 @@ var Weapon = function (_PaoYa$Component) {
 
               break;
             //麻痹和冰冻一个效果 指的是skeleton
-            case 49 || 50:
+            case 49:
+            case 50:
               this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, function () {
                 _this2.otherPlayerComp.palsyEffect(skillConfig.mabi * 1000);
               });
@@ -3751,14 +3769,14 @@ var WeaponBar = function (_PaoYa$Component) {
     }, {
         key: "pause",
         value: function pause() {
-            Laya.timer.clear(this, this.startCd);
+            this.freezeing && Laya.timer.clear(this, this.startCd);
         }
         //恢复cd
 
     }, {
         key: "resume",
         value: function resume() {
-            Laya.timer.frameLoop(1, this, this.startCd, [this.cdTime]);
+            this.freezeing && Laya.timer.frameLoop(1, this, this.startCd, [this.cdTime]);
         }
     }, {
         key: "endCD",

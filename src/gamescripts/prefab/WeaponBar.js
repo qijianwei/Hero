@@ -121,11 +121,11 @@ export default class WeaponBar extends PaoYa.Component {
     }
     //暂停cd
     pause(){
-       Laya.timer.clear(this,this.startCd);
+       this.freezeing&&Laya.timer.clear(this,this.startCd);
     }
     //恢复cd
     resume(){
-        Laya.timer.frameLoop(1,this,this.startCd,[this.cdTime]);
+        this.freezeing&&Laya.timer.frameLoop(1,this,this.startCd,[this.cdTime]);
     }
     endCD() {
         Laya.timer.clearAll(this);

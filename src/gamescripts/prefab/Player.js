@@ -80,26 +80,30 @@ export default class Player extends PaoYa.Component {
     this.skeleton.on(Laya.Event.LABEL,this,(e)=>{
       switch(e.name){
         case 'skill1':
-          //  Laya.stage.renderingEnabled=true  
           GameControl.instance.allResume(this.isSelf)
-           this.skill1Callback(); 
+           this.skillCallback(); 
           break;
         case 'stop':
-            //Laya.stage.renderingEnabled=false;
-           // this.aniDizzy.play(0,true)
-           // Laya.timer.scale=0.2;
-            // /
-          /*  setInterval(()=>{
-              
-           },16)  */
-            //this.skeleton.play('attack',false);
            GameControl.instance.allPause(this.isSelf)
+          break;
+        case 'skill2':
+            GameControl.instance.allResume(this.isSelf)
+            this.boxAniSkill2.visible=true; 
+            this.aniSkill2.play(0,true);
+          break;
+        case 'launch':
+          this.attackCallback();
           break;
       }
      
     })
   }
-  skill1Callback(){
+  //动态注册技能回调
+  skillCallback(){
+
+  }
+  //动态注册攻击回调
+  attackCallback(){
 
   }
   onEnable() {
@@ -112,25 +116,15 @@ export default class Player extends PaoYa.Component {
     }))
   }
   //人物触发技能1
-  showSkill1(resolve){
-   /*  this.boxAniSkill1.visible=true;
-    this.aniSkill1.play(0,true); */
+  showSkill1(){
     this.skeleton.play("skill1",false);
-   
   }
   removeSkill1(){
-  /*   this.boxAniSkill1.visible=false; */
     this.aniSkill1.stop();
   }
   //人物触发技能2
   showSkill2(){ 
      this.skeleton.play("skill2",false);
-     this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-      if(e.name=="skill2"){
-        this.boxAniSkill2.visible=true; 
-        this.aniSkill2.play(0,true);
-      }
-    })
   }
   removeSkill2(){
      this.boxAniSkill2.visible=false;
@@ -146,20 +140,12 @@ export default class Player extends PaoYa.Component {
     this.boxAniPoison.visible=false;
   }
   //攻击
-  attackEffect(weaponSkillEffect,resolve) {
+  attackEffect(weaponSkillEffect) {
     // this.skeleton.playbackRate(1)
     this.skeleton.play("attack", false);
     if(weaponSkillEffect){
       this.skillEffect();
     }
-    
-       this.skeleton.once(Laya.Event.LABEL,this,(e)=>{
-         if(e.name=='launch'){
-           console.error('launch launch launch')
-          resolve();
-         }
-       
-       })
   }
   //受击打,所有武器碰到都有这效果
   injuredEffect(posType, value, isCrit, cb) {
@@ -271,7 +257,7 @@ export default class Player extends PaoYa.Component {
     this.aniDizzy.stop();
   }
   //麻痹
-  palsyEffect(plasyTime){
+  palsyEffect(palsyTime){
     if(this.attr.notPalsy==1){
       this.showPlayerState("免疫")
       return;
@@ -281,11 +267,11 @@ export default class Player extends PaoYa.Component {
       Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
-    this.boxAniPlasy.visible=true;
-    this.aniPlasy.play(0,true);
+    this.boxAniPalsy.visible=true;
+    this.aniPalsy.play(0,true);
     this.skeleton.play('freeze',true);
     this.showPlayerState("麻痹");
-    Laya.timer.once(plasyTime, this, this.removePalsy)
+    Laya.timer.once(palsyTime, this, this.removePalsy)
   }
   removePalsy(){
     this.canAction = true;
@@ -294,8 +280,8 @@ export default class Player extends PaoYa.Component {
       GameControl.instance.allBtnsUnlock();
     }
     this.skeleton.play('stand', true);
-    this.boxAniPlasy.visible=false;
-    this.aniPlasy.stop();  
+    this.boxAniPalsy.visible=false;
+    this.aniPalsy.stop();  
   }
   //冰冻
   freezedEffect(freezeTime = 3000) {

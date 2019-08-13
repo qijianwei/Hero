@@ -339,7 +339,8 @@ export default class Weapon extends PaoYa.Component {
             skillId = skill.skillId;
         //this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
         switch (skillId) {
-          case 45 || 46:
+          case 45:
+          case 46:
             let arr=skillConfig.poison.split('-').map(Number);
             let time=arr[0];
             this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
@@ -348,7 +349,8 @@ export default class Weapon extends PaoYa.Component {
             
             break;
             //麻痹和冰冻一个效果 指的是skeleton
-          case 49||50:
+          case 49:
+          case 50:
               this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
                 this.otherPlayerComp.palsyEffect(skillConfig.mabi*1000);
             });      

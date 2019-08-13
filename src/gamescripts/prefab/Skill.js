@@ -80,6 +80,14 @@ export default class Skill extends PaoYa.Component{
         this.spMask.graphics.drawPie(this.centerX, this.centerY, this.ownW,
             this.startAngle, this.endAngle, "#000000");
     }
+     //暂停cd
+     pause(){
+        this.freezeing&&Laya.timer.clear(this,this.startCd);
+     }
+     //恢复cd
+     resume(){
+        this.freezeing&&Laya.timer.frameLoop(1,this,this.startCd,[this.cdTime]);
+     }
     endCD() {
         Laya.timer.clearAll(this);
         this.maskArea.visible=false;
