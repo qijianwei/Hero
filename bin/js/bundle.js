@@ -913,7 +913,6 @@ var GameControl = function (_PaoYa$Component) {
                 if (this.otherPlayer.comp.canAction) {
                     sWeapon.isSelf = false;
                     sWeapon.selectedHandler();
-                    sWeapon.params.weaponType = 1;
                     this.weaponBarClickHandler(sWeapon);
                 } else {
                     console.error("无法动弹");
@@ -1144,10 +1143,11 @@ var GameControl = function (_PaoYa$Component) {
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
+            weaponComp.weaponType = params.weaponType;
             weapon.params = params;
-            console.log(weapon);
-            console.log(weaponComp);
-
+            /*    console.log(weapon);
+               console.log(weaponComp)
+               */
             weaponComp.isSelf = params.isSelf;
             if (params.isSelf) {
                 weapon.pos(280, 450);
@@ -3051,19 +3051,6 @@ var Weapon = function (_PaoYa$Component) {
       this.newX = 0;
       this.newY = 0;
 
-      this.weaponPoint = [{
-        x: Math.floor(this.originX - collideW / 2),
-        y: Math.floor(this.originY - collideH / 2)
-      }, {
-        x: Math.floor(this.originX + collideW / 2),
-        y: Math.floor(this.originY - collideH / 2)
-      }, {
-        x: Math.floor(this.originX + collideW / 2),
-        y: Math.floor(this.originY + collideH / 2)
-      }, {
-        x: Math.floor(this.originX - collideW / 2),
-        y: Math.floor(this.originY + collideH / 2)
-      }];
       var speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
       this.speed = speed;
       //根据weaponType不同，运动轨迹不同,造成curvature
@@ -3151,6 +3138,20 @@ var Weapon = function (_PaoYa$Component) {
       this.originY = this.owner.y;
       this.diffX = Math.abs(this.originX - this.startPos.x);
       this.beginTime = new Date().valueOf();
+
+      this.weaponPoint = [{
+        x: Math.floor(this.originX - this.collideW / 2),
+        y: Math.floor(this.originY - this.collideH / 2)
+      }, {
+        x: Math.floor(this.originX + this.collideW / 2),
+        y: Math.floor(this.originY - this.collideH / 2)
+      }, {
+        x: Math.floor(this.originX + this.collideW / 2),
+        y: Math.floor(this.originY + this.collideH / 2)
+      }, {
+        x: Math.floor(this.originX - this.collideW / 2),
+        y: Math.floor(this.originY + this.collideH / 2)
+      }];
     }
   }, {
     key: "changeHP",
@@ -3457,8 +3458,8 @@ var Weapon = function (_PaoYa$Component) {
       //GameControl.instance.selfWeapons.forEach((weaponComp,index)=>{
       for (var i = 0; i < _GameControl2.default.instance.otherWeapons.length; i++) {
         var otherWeapon = _GameControl2.default.instance.otherWeapons[i];
-        if (!this.effectAni && !otherWeapon.effectAni) {
-          if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint) && this.weaponType == otherWeapon.weaponType) {
+        if (!this.effectAni && !otherWeapon.effectAni && this.weaponType == otherWeapon.weaponType) {
+          if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint)) {
             /*   console.log(this.owner.x);
               console.log(this.weaponPoint,otherWeapon.weaponPoint)
               let sprite=new Laya.Sprite();
@@ -3470,6 +3471,9 @@ var Weapon = function (_PaoYa$Component) {
               this.stopParabola();
               otherWeapon.stopParabola()
               return; */
+            console.error('碰撞啦啦啦啦.......................................');
+            console.error('我方类型:', this.weaponType, this.params.weaponId);
+            console.error('对方类型:', otherWeapon.weaponType, otherWeapon.params.weaponId);
             if (this.weaponDurable > otherWeapon.weaponDurable) {
               otherWeapon.playWeaponCollideEffect();
               this.weaponDurable -= otherWeapon.weaponDurable;
@@ -3488,14 +3492,9 @@ var Weapon = function (_PaoYa$Component) {
               otherWeapon.endMove();
               break;
             }
-
-            // alert('碰撞到了')
           }
         }
-        /* let ani=new Laya.Animation()
-        ani.play() */
       }
-      //})
     }
   }, {
     key: "playWeaponCollideEffect",
@@ -3503,6 +3502,7 @@ var Weapon = function (_PaoYa$Component) {
       var _this3 = this;
 
       this.boxAniWeapon.visible = true;
+      this.boxHpWeapon.visible = false;
       this.effectAni = true;
       // this.imgWeapon.visible=false;
       //兵器上带技能的隐藏

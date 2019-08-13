@@ -685,10 +685,11 @@ export default class GameControl extends PaoYa.Component {
         let name = params.isSelf ? 'self' : 'other';
         let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
         let weaponComp = weapon.getComponent(Weapon);
+        weaponComp.weaponType=params.weaponType;
         weapon.params = params;
-        console.log(weapon);
+     /*    console.log(weapon);
         console.log(weaponComp)
-       
+        */
         weaponComp.isSelf = params.isSelf;
         if (params.isSelf) {
             weapon.pos(280, 450)

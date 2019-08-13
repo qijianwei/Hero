@@ -130,19 +130,6 @@ export default class Weapon extends PaoYa.Component {
     this.newX = 0;
     this.newY = 0;
  
-    this.weaponPoint = [{
-      x: Math.floor(this.originX - collideW / 2),
-      y: Math.floor(this.originY - collideH / 2)
-    }, {
-      x: Math.floor(this.originX + collideW / 2),
-      y: Math.floor(this.originY - collideH / 2)
-    }, {
-      x: Math.floor(this.originX + collideW / 2),
-      y: Math.floor(this.originY + collideH / 2)
-    }, {
-      x: Math.floor(this.originX - collideW / 2),
-      y: Math.floor(this.originY + collideH / 2)
-    }]
     let speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
     this.speed=speed;
     //根据weaponType不同，运动轨迹不同,造成curvature
@@ -223,6 +210,20 @@ export default class Weapon extends PaoYa.Component {
     this.originY = this.owner.y;
     this.diffX=Math.abs(this.originX-this.startPos.x);
     this.beginTime = (new Date()).valueOf();
+
+    this.weaponPoint = [{
+      x: Math.floor(this.originX - this.collideW / 2),
+      y: Math.floor(this.originY - this.collideH / 2)
+    }, {
+      x: Math.floor(this.originX + this.collideW / 2),
+      y: Math.floor(this.originY - this.collideH / 2)
+    }, {
+      x: Math.floor(this.originX + this.collideW / 2),
+      y: Math.floor(this.originY + this.collideH / 2)
+    }, {
+      x: Math.floor(this.originX - this.collideW / 2),
+      y: Math.floor(this.originY + this.collideH / 2)
+    }] 
   }
   changeHP(value) {
     this.boxHpWeapon.visible = true;
@@ -490,8 +491,8 @@ export default class Weapon extends PaoYa.Component {
     //GameControl.instance.selfWeapons.forEach((weaponComp,index)=>{
     for (let i = 0; i < GameControl.instance.otherWeapons.length; i++) {
       let otherWeapon = GameControl.instance.otherWeapons[i];
-      if (!this.effectAni && !otherWeapon.effectAni) {
-        if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint)&&this.weaponType==otherWeapon.weaponType) {
+      if (!this.effectAni && !otherWeapon.effectAni&&this.weaponType==otherWeapon.weaponType) {
+        if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint)) {
           /*   console.log(this.owner.x);
             console.log(this.weaponPoint,otherWeapon.weaponPoint)
             let sprite=new Laya.Sprite();
@@ -503,6 +504,9 @@ export default class Weapon extends PaoYa.Component {
             this.stopParabola();
             otherWeapon.stopParabola()
             return; */
+            console.error('碰撞啦啦啦啦.......................................')
+            console.error('我方类型:',this.weaponType,this.params.weaponId)
+            console.error('对方类型:',otherWeapon.weaponType,otherWeapon.params.weaponId)
           if (this.weaponDurable > otherWeapon.weaponDurable) {
             otherWeapon.playWeaponCollideEffect();
             this.weaponDurable -= otherWeapon.weaponDurable;
