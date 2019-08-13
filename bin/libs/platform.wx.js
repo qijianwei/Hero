@@ -603,7 +603,9 @@ class AuthUserInfoDialog extends Laya.Dialog {
         var screenHeight = Laya.Browser.height;
         var width = stage.designWidth;
         var height = stage.designHeight;
-        var scaleX = screenWidth / width;
+        /* 这是竖版 */
+       /*  var scaleX = screenWidth / width; */
+        var scaleX = screenHeight / height;
         let scale = scaleX / Laya.Browser.pixelRatio;
         let style = {
             top: rect.y * scale,

@@ -184,7 +184,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
+GameConfig.startScene = "scenes/HomeView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -342,9 +342,9 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
-/*   console.log=function(){};
-console.warn=function(){};
-console.error=function(){};  */
+console.log = function () {};
+console.warn = function () {};
+console.error = function () {};
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":20}],4:[function(require,module,exports){
 'use strict';
@@ -440,6 +440,7 @@ var GameControl = function (_PaoYa$Component) {
         value: function onAwake() {
             var _this2 = this;
 
+            Laya.Pool.clearBySign('weapon');
             Laya.MouseManager.enabled = true;
 
             this.params = this.owner.params;
@@ -1299,6 +1300,8 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'gameOver',
         value: function gameOver(loserIsSelf) {
+            var _this8 = this;
+
             this.gameState = 'over';
             Laya.MouseManager.enabled = false;
             if (!loserIsSelf) {
@@ -1320,8 +1323,7 @@ var GameControl = function (_PaoYa$Component) {
                 weapon.endMove();
             });
             Laya.timer.once(3000, this, function () {
-                Laya.MouseManager.enabled = true;
-                // this.navigator.pop();
+                _this8.navigator.pop();
             });
         }
     }, {
@@ -1332,7 +1334,7 @@ var GameControl = function (_PaoYa$Component) {
             this.otherWeapons = null;
             Laya.timer.clearAll(this);
             Laya.MouseManager.enabled = true;
-            Laya.Pool.clearBySign('weapon');
+            // Laya.Pool.clearBySign('weapon');
         }
     }]);
 

@@ -29,6 +29,7 @@ export default class GameControl extends PaoYa.Component {
         Laya.MouseManager.enabled = true;
     }
     onAwake() {
+        Laya.Pool.clearBySign('weapon');
         Laya.MouseManager.enabled = true;
 
         this.params = this.owner.params;
@@ -853,8 +854,7 @@ export default class GameControl extends PaoYa.Component {
             weapon.endMove();
         })
         Laya.timer.once(3000,this,()=>{
-            Laya.MouseManager.enabled = true;
-           // this.navigator.pop();
+            this.navigator.pop();
         })
           
     }
@@ -864,6 +864,6 @@ export default class GameControl extends PaoYa.Component {
         this.otherWeapons = null;
         Laya.timer.clearAll(this);
         Laya.MouseManager.enabled = true;
-        Laya.Pool.clearBySign('weapon');
+       // Laya.Pool.clearBySign('weapon');
     }
 }

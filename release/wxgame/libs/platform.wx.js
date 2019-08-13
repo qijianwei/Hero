@@ -586,6 +586,7 @@ class AuthUserInfoDialog extends Laya.Dialog {
             width: 588,
             height: 85
         };
+      
         let pos = this.localToGlobal(new Laya.Point(frame.x, frame.y));
         this.showUserInfoButton({
             x: pos.x,
@@ -603,8 +604,9 @@ class AuthUserInfoDialog extends Laya.Dialog {
         var screenHeight = Laya.Browser.height;
         var width = stage.designWidth;
         var height = stage.designHeight;
-        var scaleX = screenWidth / width;
+        var scaleX = screenHeight / height;
         let scale = scaleX / Laya.Browser.pixelRatio;
+       
         let style = {
             top: rect.y * scale,
             left: rect.x * scale,
