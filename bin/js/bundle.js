@@ -184,7 +184,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -307,7 +307,7 @@ var Main = exports.Main = function (_GameMain) {
 				var font = new Laya.BitmapFont();
 				var itemFont = this.arrayFont[index];
 				var _this = this;
-				font.loadFont(itemFont.fontUrl, Laya.Handler.create(_this, function () {
+				font.loadFont(PaoYa.DataCenter.RESURL + itemFont.fontUrl, Laya.Handler.create(_this, function () {
 					Laya.Text.registerBitmapFont(itemFont.fontAni, font);
 					index++;
 					_this.loadFontFnt(index);
@@ -342,9 +342,9 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
-console.log = function () {};
-console.warn = function () {};
-console.error = function () {};
+/*   console.log=function(){};
+console.warn=function(){};
+console.error=function(){};  */
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":20}],4:[function(require,module,exports){
 'use strict';

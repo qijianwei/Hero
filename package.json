@@ -1,0 +1,31 @@
+{
+  "name": "hero",
+  "version": "1.0.0",
+  "description": "武林高高手",
+  "main": "src/Main.js",
+  "bin": {
+    "hero": "game.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qijianwei/Hero.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qijianwei/Hero/issues"
+  },
+  "homepage": "https://github.com/qijianwei/Hero#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "http-proxy-middleware": "^0.19.1",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
+  }
+}

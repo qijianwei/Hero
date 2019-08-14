@@ -10,5 +10,6 @@ bin/swan-game-adapter.js
 .laya/publish_xmgame.js
 study/axios.js
 .svn
+node_modules/
 
 
