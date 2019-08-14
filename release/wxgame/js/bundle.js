@@ -307,7 +307,7 @@ var Main = exports.Main = function (_GameMain) {
 				var font = new Laya.BitmapFont();
 				var itemFont = this.arrayFont[index];
 				var _this = this;
-				font.loadFont(itemFont.fontUrl, Laya.Handler.create(_this, function () {
+        font.loadFont(PaoYa.DataCenter.RESURL+itemFont.fontUrl, Laya.Handler.create(_this, function () {
 					Laya.Text.registerBitmapFont(itemFont.fontAni, font);
 					index++;
 					_this.loadFontFnt(index);
@@ -5842,3 +5842,6 @@ var UnlockTips = function (_PaoYa$Dialog) {
 exports.default = UnlockTips;
 
 },{}]},{},[3]);
+ console.log = function () { };
+console.warn = function () { };
+console.error = function () { };  

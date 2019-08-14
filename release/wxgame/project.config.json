@@ -10,7 +10,7 @@
 		"checkInvalidKey": true
 	},
 	"compileType": "game",
-	"libVersion": "game",
+	"libVersion": "2.7.3",
 	"appid": "wx7bc5ee0238f445b4",
 	"projectname": "layaWXTest",
 	"simulatorType": "wechat",
