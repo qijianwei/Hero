@@ -17,11 +17,12 @@ function rename(oldPath,newPath){
 };
 grab(filePath,(path,fileName)=>{
    let oldPath=path+fileName,
-       newPath=path+fileName.split('【')[0]+'.mp4';
+       newPath=path+fileName.replace(/(【.*?】)/,'');
     rename(oldPath,newPath);
 })
 
-//正则表达式 以=开头 以&结尾 取得的中间的内容
-//(?<==).*?(?=(&|$))
 
-
+//以下都可以
+/* "8-7 在小程序中携带令牌_batch[瑞客论坛 www.ruike1.com].mp4".match(/(\[.*?\])/)
+"8-8 Sequelize模型的序列化_batch【瑞客论坛 www.ruike1.com】.mp4".replace(/(\【.*?\】)/,'');
+"8-8 Sequelize模型的序列化_batch【瑞客论坛 www.ruike1.com】.mp4".replace(/(【.*?】)/,''); */
