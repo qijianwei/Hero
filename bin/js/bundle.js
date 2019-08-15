@@ -342,9 +342,9 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
-/*   console.log=function(){};
-console.warn=function(){};
-console.error=function(){};  */
+console.log = function () {};
+console.warn = function () {};
+console.error = function () {};
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":7,"./scripts/common/GameMain":20}],4:[function(require,module,exports){
 'use strict';
@@ -1334,7 +1334,6 @@ var GameControl = function (_PaoYa$Component) {
             this.otherWeapons = null;
             Laya.timer.clearAll(this);
             Laya.MouseManager.enabled = true;
-            // Laya.Pool.clearBySign('weapon');
         }
     }]);
 
@@ -2174,7 +2173,7 @@ var Player = function (_PaoYa$Component) {
         }
         if (_this2.sectionAni == 3) {
           _this2.removeDodge();
-          return;
+          // return;
         }
         _this2.skeleton.play('stand', true);
       });

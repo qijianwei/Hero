@@ -864,6 +864,5 @@ export default class GameControl extends PaoYa.Component {
         this.otherWeapons = null;
         Laya.timer.clearAll(this);
         Laya.MouseManager.enabled = true;
-       // Laya.Pool.clearBySign('weapon');
     }
 }

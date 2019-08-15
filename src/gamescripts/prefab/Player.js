@@ -61,7 +61,7 @@ export default class Player extends PaoYa.Component {
       }
       if (this.sectionAni == 3) {
         this.removeDodge();
-        return;
+       // return;
       }
       this.skeleton.play('stand', true)
     })
