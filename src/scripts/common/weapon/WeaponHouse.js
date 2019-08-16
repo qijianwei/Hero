@@ -11,11 +11,11 @@ export default class WeaponHouse extends PaoYa.View {
 
     onEnable() {
         // this.getComponent()
-        this.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold
+        this.goldNum.text = PaoYa.DataCenter.user.gold
         this.goldNum.font = `weaponNFontT`
         this.goldNum.scale(0.7,0.7)
         this.goldNum.pos(381,20)
-        this.diamondNum.text = PaoYa.DataCenter.user.user_info.member_diamond
+        this.diamondNum.text = PaoYa.DataCenter.user.diamond
         this.diamondNum.font = `weaponNFontT`
         this.diamondNum.scale(0.7,0.7)
         this.diamondNum.pos(622,20)

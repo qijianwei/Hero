@@ -11,22 +11,22 @@ export default class Tool {
 
     /**增加用户金币 */
     static addGold(num) {
-        PaoYa.DataCenter.user.user_info.member_gold += num;
+        PaoYa.DataCenter.user.gold += num;
     }
 
     /**获取格式化后的用户金币 */
     static getGold(num) {
-        return this.numFormat(PaoYa.DataCenter.user.user_info.member_gold);
+        return this.numFormat(PaoYa.DataCenter.user.gold);
     }
 
     /**增加用户宝石 */
     static addDiamond(num) {
-        PaoYa.DataCenter.user.user_info.member_diamond += num;
+        PaoYa.DataCenter.user.diamond += num;
     }
 
     /**设置用户宝石 */
     static setDiamond(num) {
-        PaoYa.DataCenter.user.user_info.member_diamond = num;
+        PaoYa.DataCenter.user.diamond = num;
     }
 
     /**更新用户金币，体力，宝石，道具，积分 */

@@ -17,6 +17,8 @@ import WeaponHouse from "./scripts/common/weapon/WeaponHouse"
 import WeaponHouseControl from "./scripts/common/weapon/WeaponHouseControl"
 import WeaponStore from "./scripts/common/weapon/WeaponStore"
 import WeaponStoreControl from "./scripts/common/weapon/WeaponStoreControl"
+import BuyHero from "./scripts/dialog/figure/BuyHero"
+import GetNewSkill from "./scripts/dialog/figure/GetNewSkill"
 import DiamondLack from "./scripts/dialog/weapon/DiamondLack"
 import GoldLack from "./scripts/dialog/weapon/GoldLack"
 import StoreSure from "./scripts/dialog/weapon/StoreSure"
@@ -52,6 +54,8 @@ export default class GameConfig {
 		reg("scripts/common/weapon/WeaponHouseControl.js",WeaponHouseControl);
 		reg("scripts/common/weapon/WeaponStore.js",WeaponStore);
 		reg("scripts/common/weapon/WeaponStoreControl.js",WeaponStoreControl);
+		reg("scripts/dialog/figure/BuyHero.js",BuyHero);
+		reg("scripts/dialog/figure/GetNewSkill.js",GetNewSkill);
 		reg("scripts/dialog/weapon/DiamondLack.js",DiamondLack);
 		reg("scripts/dialog/weapon/GoldLack.js",GoldLack);
 		reg("scripts/dialog/weapon/StoreSure.js",StoreSure);
@@ -72,7 +76,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

@@ -26,7 +26,7 @@ module.exports = {
        hot:true 
   },
    plugins: [
-     /*  new CleanWebpackPlugin(),  */
+       new CleanWebpackPlugin(),  
      new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: './bin/index.html', // 配置文件模板

@@ -1,6 +1,6 @@
 var HeroConfig = {
   ladderArr:["","无名小卒",'初出茅庐','后起之秀','江湖少侠','武林高手','名震江湖','独步武林','一代宗师','独孤求败'],
-  roleName: '独孤九剑',
+  roleName: '',
   roleIcon: '',
   roleHp: 100, //HP:hit point 生命值,roleUp为0,game over
   roleMp: 100, //MP:magic point 内力，体力  内力恢复公式：每30帧内力恢复量=roleUp/390*30。

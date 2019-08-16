@@ -1330,7 +1330,7 @@ var LoginService = /** @class */ (function () {
         for (var key in res) {
             params[key] = res[key];
         }
-        params['user_token'] = "1UFLZoN0b065UMj5PriBaHZPPEcHFiOGaQImF6Fa9Dk=" || '';
+        params['user_token'] = this.token || '';
         params = LoginConfig.makeLoginParamsHandler(params);
         _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].startTrackTime('l');
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);

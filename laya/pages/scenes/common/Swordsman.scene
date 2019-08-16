@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":109,
+    "selectedBox":184,
+    "selecteID":187,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
-    "maxID":176,
+    "maxID":188,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -520,13 +520,14 @@
                     "props":{"y":528,"x":316,"var":"equipbtn","stateNum":"1","skin":"local/common/btn_2.png","scaleY":0.8,"scaleX":0.8},
                     "nodeParent":130,
                     "label":"equipbtn",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":167,
                     "child":[
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,equipbtnTxt",
                             "props":{"y":0,"x":0,"var":"equipbtnTxt","text":"上阵"},
@@ -538,7 +539,8 @@
                             "compId":173,
                             "child":[
                                 ]
-                        }]
+                        }],
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,
@@ -547,14 +549,13 @@
                     "props":{"y":528,"x":316,"var":"already","stateNum":"1","skin":"local/common/btn_3.png","scaleY":0.8,"scaleX":0.8},
                     "nodeParent":130,
                     "label":"already",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":168,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,alreadyTxt",
                             "props":{"y":0,"x":0,"var":"alreadyTxt","text":"已上阵"},
@@ -567,7 +568,7 @@
                             "child":[
                                 ]
                         }],
-                    "$HIDDEN":false
+                    "$HIDDEN":true
                 },
                 {
                     "x":30,
@@ -633,7 +634,78 @@
                             "compId":172,
                             "child":[
                                 ]
-                        }]
+                        }],
+                    "$HIDDEN":true
+                },
+                {
+                    "x":30,
+                    "type":"Button",
+                    "searchKey":"Button,buyBtn",
+                    "props":{"y":512,"x":213,"visible":false,"var":"buyBtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
+                    "nodeParent":130,
+                    "label":"buyBtn",
+                    "isOpen":false,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":176,
+                    "child":[
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,needDiamon",
+                            "props":{"y":28.5,"x":91,"width":94,"var":"needDiamon","valign":"middle","text":"20","height":25,"align":"left"},
+                            "nodeParent":176,
+                            "label":"needDiamon",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":182,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"y":15.5,"x":39,"texture":"local/common/diamond.png","scaleY":0.8,"scaleX":0.8},
+                            "nodeParent":176,
+                            "label":"Sprite",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":183,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Button",
+                    "searchKey":"Button,signGet",
+                    "props":{"y":512,"x":213,"visible":false,"var":"signGet","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
+                    "nodeParent":130,
+                    "label":"signGet",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":184,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text,signGetTxt",
+                            "props":{"y":0,"x":0,"var":"signGetTxt","text":"签到"},
+                            "nodeParent":184,
+                            "label":"signGetTxt",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":187,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":false
                 }],
             "$HIDDEN":false
         },

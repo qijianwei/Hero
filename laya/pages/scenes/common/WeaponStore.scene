@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":37,
-    "selecteID":42,
+    "selectedBox":52,
+    "selecteID":100,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/weapon/WeaponStore.js","height":750},
     "nodeParent":-1,
@@ -120,13 +120,14 @@
             "props":{"y":169,"x":711,"width":415,"visible":false,"var":"sellPage","texture":"remote/weaponhouse/2.png","height":526},
             "nodeParent":2,
             "label":"sellPage",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":77,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":-48,"x":45,"texture":"local/common/fontBg.png"},
@@ -142,6 +143,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":-44,"x":169,"texture":"remote/weaponhouse/warehose.png"},
@@ -156,6 +158,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"List",
                     "searchKey":"List,warehouseList",
                     "props":{"y":4,"x":11,"width":395,"var":"warehouseList","spaceY":-6,"height":473},
@@ -278,45 +281,7 @@
                     "$HIDDEN":false
                 },
                 {
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":420,"x":-274,"texture":"local/common/currencyBg.png","scaleY":0.6,"scaleX":0.6},
-                    "nodeParent":77,
-                    "label":"Sprite",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":39,
-                    "child":[
-                        {
-                            "type":"Sprite",
-                            "searchKey":"Sprite",
-                            "props":{"y":-5,"x":-20,"texture":"local/common/icon.png"},
-                            "nodeParent":39,
-                            "label":"Sprite",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":40,
-                            "child":[
-                                ]
-                        },
-                        {
-                            "type":"Text",
-                            "searchKey":"Text,needGoldNum",
-                            "props":{"y":-3,"x":42,"width":139,"var":"needGoldNum","valign":"middle","text":"99999","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
-                            "nodeParent":39,
-                            "label":"needGoldNum",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":41,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
+                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,chioce",
                     "props":{"y":-134,"x":441,"width":100,"var":"chioce","height":750},
@@ -424,6 +389,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,sellBtn",
                     "props":{"y":447,"x":-318,"width":179,"var":"sellBtn","skin":"local/common/btn_1.png","height":71},
@@ -447,9 +413,48 @@
                             "compId":110,
                             "child":[
                                 ]
+                        },
+                        {
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"y":-27,"x":44,"texture":"local/common/currencyBg.png","scaleY":0.6,"scaleX":0.6},
+                            "nodeParent":109,
+                            "label":"Sprite",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":39,
+                            "child":[
+                                {
+                                    "type":"Sprite",
+                                    "searchKey":"Sprite",
+                                    "props":{"y":-5,"x":-20,"texture":"local/common/icon.png"},
+                                    "nodeParent":39,
+                                    "label":"Sprite",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":40,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Text",
+                                    "searchKey":"Text,needGoldNum",
+                                    "props":{"y":-3,"x":42,"width":139,"var":"needGoldNum","valign":"middle","text":"99999","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
+                                    "nodeParent":39,
+                                    "label":"needGoldNum",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":41,
+                                    "child":[
+                                        ]
+                                }]
                         }]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
             "x":15,
@@ -599,19 +604,6 @@
                     "compId":42,
                     "child":[
                         {
-                            "type":"Animation",
-                            "searchKey":"Animation,upeffects",
-                            "props":{"y":64,"x":64,"var":"upeffects","source":"gamescenes/animations/lvup_arms.ani","autoPlay":false},
-                            "nodeParent":42,
-                            "label":"upeffects",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":103,
-                            "child":[
-                                ]
-                        },
-                        {
                             "type":"Image",
                             "searchKey":"Image,showWrap",
                             "props":{"y":65,"x":64,"var":"showWrap","skin":"local/common/quality_1.png","anchorY":0.5,"anchorX":0.5},
@@ -701,13 +693,14 @@
                     "props":{"y":140,"x":11,"width":395,"var":"detailNum","height":147},
                     "nodeParent":37,
                     "label":"detailNum",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":52,
                     "child":[
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,attackNum",
                             "props":{"y":11,"x":55,"width":48,"var":"attackNum","height":27,"fontSize":24},
@@ -721,6 +714,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,enduranceNum",
                             "props":{"y":48,"x":55,"width":48,"var":"enduranceNum","height":27,"fontSize":24},
@@ -734,6 +728,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,consumeNum",
                             "props":{"y":85,"x":55,"width":48,"var":"consumeNum","height":27,"fontSize":24},
@@ -748,6 +743,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,wpcdNum",
                             "props":{"y":122,"x":55,"width":48,"var":"wpcdNum","height":27,"fontSize":24},
@@ -762,6 +758,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-4,"x":0,"texture":"remote/weaponhouse/22.png"},
@@ -776,6 +773,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addattackNum",
                             "props":{"y":11,"x":258,"width":48,"var":"addattackNum","height":27,"fontSize":24,"color":"#2e634a"},
@@ -789,6 +787,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addenduranceNum",
                             "props":{"y":48,"x":258,"width":48,"var":"addenduranceNum","height":27,"fontSize":24,"color":"#2e634a"},
@@ -802,6 +801,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addconsumeNum",
                             "props":{"y":85,"x":258,"width":48,"var":"addconsumeNum","height":27,"fontSize":24,"color":"#2e634a"},
@@ -984,7 +984,7 @@
                     "props":{"y":4,"x":11,"width":395,"var":"buyList","spaceY":16,"height":454},
                     "nodeParent":111,
                     "label":"buyList",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -996,7 +996,7 @@
                             "props":{"y":81,"x":68.5,"width":128,"skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"renderType":"render","height":129,"anchorY":0.5,"anchorX":0.5},
                             "nodeParent":114,
                             "label":"Image",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":false,
                             "hasChild":true,
@@ -1055,7 +1055,8 @@
                                     "hasChild":false,
                                     "compId":119,
                                     "child":[
-                                        ]
+                                        ],
+                                    "$HIDDEN":false
                                 },
                                 {
                                     "type":"Text",
@@ -1068,7 +1069,8 @@
                                     "hasChild":false,
                                     "compId":120,
                                     "child":[
-                                        ]
+                                        ],
+                                    "$HIDDEN":false
                                 },
                                 {
                                     "type":"Sprite",
@@ -1076,7 +1078,7 @@
                                     "props":{"y":134,"x":16,"width":164,"texture":"local/common/currencyBg.png","scaleY":0.65,"scaleX":0.65,"name":"bg","height":46},
                                     "nodeParent":115,
                                     "label":"bg",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":false,
                                     "hasChild":true,
@@ -1120,7 +1122,7 @@
                     "props":{"y":470,"x":142.5,"texture":"remote/weaponstore/8.png"},
                     "nodeParent":111,
                     "label":"Sprite",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -1146,7 +1148,7 @@
                     "props":{"y":506,"x":123,"var":"refreshBtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.8,"scaleX":0.8},
                     "nodeParent":111,
                     "label":"refreshBtn",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -1185,7 +1187,7 @@
                     "props":{"y":504,"x":-318,"width":179,"var":"buyBtn","skin":"local/common/btn_1.png","height":71},
                     "nodeParent":111,
                     "label":"buyBtn",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,

@@ -26,19 +26,15 @@ export default class GameView extends PaoYa.View{
         
     }
     initView(){
-     //  GameStyle
+     
     }
-   /*  initGameStyle(bannerPrefab,params){
-       let banner= 
-    } */
+   
     setInfo(data,isSelf){
       let boxInfo=isSelf?this.boxSelfInfo:this.boxOtherInfo;
       let imgIcon=boxInfo.getChildByName('imgIcon');
       let lblName=boxInfo.getChildByName("lblName");
       imgIcon.skin=data.icon;
       lblName.text=data.name;
-   /*    console.log(this.boxSelfInfo.getChildByName("boxMPBar"));
-      console.log(this.boxOtherInfo.getChildByName('boxHPBar')); */
     }
     
     setHPbar(value,isSelf){

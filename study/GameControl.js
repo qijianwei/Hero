@@ -502,40 +502,178 @@ export default class GameControl extends PaoYa.Component {
         }
 
         this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb;
-        
+        //判断是否触发兵器技能
+        let skill = targetComp.params.activeSkill;
+        let skillType = skill.skillType,
+            status = skill.status,
+            skillId = skill.skillId,
+            prob = skill.skillProb;
+        /*<---------- 测试用例start  */
+        /*   if (targetComp.isSelf && targetComp.params.weaponType == 1) {
+             let testId = 43;
+
+             let tempArr = [{
+                 skillId: 43,
+                 weaponId: ['d001_1', "d005_2", "d007_2", "d008_2", "d009_2", "d011_2", "d012_2"].randomItem
+             }, {
+                 skillId: 44,
+                 weaponId: "d013_3"
+             }, {
+                 skillId: 45,
+                 weaponId: "d009_2"
+             }, {
+                 skillId: 46,
+                 weaponId: "d014_3"
+             }, {
+                 skillId: 47,
+                 weaponId: "d006_2"
+             }, {
+                 skillId: 48,
+                 weaponId: "d006_2"
+             }, {
+                 skillId: 49,
+                 weaponId: "z009_2"
+             }, {
+                 skillId: 53,
+                 weaponId: ["z001_1", "z006_2", "z011_2"].randomItem
+             }, {
+                 skillId: 54,
+                 weaponId: ["z004_2", "z008_2"].randomItem
+             }, {
+                 skillId: 55,
+                 weaponId: "z015_3"
+             }, {
+                 skillId: 60,
+                 weaponId: 'g014_3'
+             }, {
+                 skillId: 56,
+                 weaponId: ["g001_1", "g007_2", "g008_2", "g011_2"].randomItem
+             }, {
+                 skillId: 57,
+                 weaponId: "g010_2"
+             }, {
+                 skillId: 59,
+                 weaponId: ["z007_2", "g009_2"].randomItem
+             }, {
+                 skillId: 61,
+                 weaponId: "g013_3"
+             }, {
+                 skillId: 62,
+                 weaponId: ["d002_1", "d010_2", "z003_1", "g005_2", "g012_2"].randomItem
+             }];
+             let tempWeaponInfo = {};
+             for (let i = 0; i < tempArr.length; i++) {
+                 if (testId == tempArr[i].skillId) {
+                     tempWeaponInfo = tempArr[i];
+                     break;
+                 }
+             };
+
+             let {
+                 skillId,
+                 weaponId
+             } = tempWeaponInfo;
+             skill.skillId = skillId;
+             targetComp.params.weaponId = weaponId;
+             console.error('释放特技:', skill.skillId)
+             switch (skill.skillId) {
+                 case 43:
+                     skill.skillConfig = {
+                         weaponNum: 2
+                     }
+                     break;
+                 case 44:
+                     skill.skillConfig = {
+                         weaponNum: 3
+                     }
+                     break;
+                 case 45:
+                     skill.skillConfig = {
+                         poison: "6-60"
+                     };
+                     break;
+                 case 46:
+                     skill.skillConfig = {
+                         poison: "6-210"
+                     };
+                     break;
+                 case 47:
+                     skill.skillConfig = {
+                         hurt: 3
+                     };
+                     break;
+                 case 48:
+                     skill.skillConfig = {
+                         poison: 5
+                     };
+                     break;
+                 case 53:
+                     skill.skillConfig = {
+                         stealHp: 1
+                     }
+                     break;
+                 case 54:
+                     skill.skillConfig = {
+                         stealMp: 0.4
+                     }
+                     break;
+                 case 55:
+                     skill.skillConfig = {
+                         recoverDown: "5-0.4"
+                     }
+                     break;
+                 case 56:
+                     skill.skillConfig = {
+                         hurt: 1.5
+                     }
+                     break;
+                 case 57:
+                     skill.skillConfig = {
+                         hurt: 2.5
+                     }
+                     break;
+                 case 60:
+                     skill.skillConfig = {
+                         way: 4
+                     }
+                     break;
+                 case 61:
+                     skill.skillConfig = {
+                         hurt: 3.5
+                     }
+                     break;
+                 case 62:
+                     skill.skillConfig = {
+                         durable: 2
+                     }
+                     break;
+             }
+         }  */
+        /*<---------- 测试用例end----------> */
         let params = JSON.parse(JSON.stringify(targetComp.params)); //深拷贝,便于修改
         params.skillEffect = false;
         params.isSelf = targetComp.isSelf;
-        //判断是否触发兵器技能
-        //前提是有主动技能
-        if(targetComp.params.activeSkill){
-            let skill = targetComp.params.activeSkill;
-            let skillType = skill.skillType,
-                status = skill.status,
-                skillId = skill.skillId,
-                prob = skill.skillProb;
-   
-            if (skillType == 1 && status == 1) {
-                let random = Math.floor(Math.random() * 100 + 1);
-                if (random <= prob) {
-                    /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
-                    if (skillId == 58) {
-                        targetComp.startT(200); //快速冷却     
-                    } else {
-                        //正常开始技能冷却
-                        targetComp.startT();
-                    }
-                    params.skillEffect = true;
-                    this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
-                    this[name + 'Player'].comp.attackCallback = () => {
-                        this.weaponWithSkills(params, skillId);
-                    }
-                    return;
+        if (skillType == 1 && status == 1) {
+            let random = Math.floor(Math.random() * 100 + 1);
+            if (random <= prob) {
+                /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
+                if (skillId == 58) {
+                    targetComp.startT(200); //快速冷却     
                 } else {
-                    console.warn('不好意思,没有触发技能')
+                    //正常开始技能冷却
+                    targetComp.startT();
                 }
+                params.skillEffect = true;
+                this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
+                this[name + 'Player'].comp.attackCallback = () => {
+                    this.weaponWithSkills(params, skillId);
+                }
+                return;
+            } else {
+                console.warn('不好意思,没有触发技能')
             }
         }
+
         this[name + 'Player'].comp.attackEffect(false);
         this[name + 'Player'].comp.attackCallback = () => {
             this.weaponLaunch(params);

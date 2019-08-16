@@ -35,9 +35,11 @@ export default class WeaponStoreControl extends PaoYa.Component {
         if (this.buyList.length > 0) {
             this.owner.weapon.visible = true
             this.owner.buyBtn.visible = true
+            this.owner.sellBtn.visible = true
         } else {
             this.owner.weapon.visible = false
             this.owner.buyBtn.visible = false
+            this.owner.sellBtn.visible = false
         }
         this.owner.buyList.array = this.buyList
         this.downTimeStartF(this.params.buyList.refreshTime)
@@ -217,13 +219,17 @@ export default class WeaponStoreControl extends PaoYa.Component {
         this.owner.enduranceNum.text = `耐久： ${detail.weaponDurable}`
         this.owner.addenduranceNum.text = `+${detail.weaponUpDurable}`
         this.owner.consumeNum.text = `消耗： ${detail.weaponConsume}`
-        this.owner.addconsumeNum.text = `+${detail.weaponDownConsume}`
+        this.owner.addconsumeNum.text = `-${detail.weaponDownConsume}`
         this.owner.wpcdNum.text = `冷却： ${detail.weaponCd}秒`
 
         if (!detail.weaponUpAttack && !detail.weaponDownConsume && !detail.weaponUpDurable) {
             this.owner.addattackNum.visible = false
             this.owner.addenduranceNum.visible = false
             this.owner.addconsumeNum.visible = false
+        }else{
+            this.owner.addattackNum.visible = true
+            this.owner.addenduranceNum.visible = true
+            this.owner.addconsumeNum.visible = true
         }
         //兵器技能
         this.owner[`skillName_1`].text = ``
@@ -240,7 +246,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
                 this.owner[`skillGl_${index + 1}`].color = `#4a4948`
                 this.owner[`skillDetail_${index + 1}`].color = `#4a4948`
                 this.owner[`skillName_${index + 1}`].text = element.skillName
-                this.owner[`skillGl_${index + 1}`].text = `几率${element.skillProb}`
+                this.owner[`skillGl_${index + 1}`].text = `几率${element.skillProb}%`
                 this.owner[`skillDetail_${index + 1}`].text = element.skillDesc
                 this.owner[`skillImg_${index + 1}`].visible = true
                 if (element.status) {
@@ -348,9 +354,11 @@ export default class WeaponStoreControl extends PaoYa.Component {
         if (arr.length > 0) {
             this.owner.weapon.visible = true
             this.owner.buyBtn.visible = true
+            this.owner.sellBtn.visible = true
         } else {
             this.owner.weapon.visible = false
             this.owner.buyBtn.visible = false
+            this.owner.sellBtn.visible = false
         }
         this.owner.warehouseList.array = arr
     }
@@ -358,7 +366,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
     buyWp() {
         let detail = this.currentBuyWeapDetail
         PaoYa.Request.POST(`martial_shop_buy`, { weaponId: detail.weaponId }, res => {
-            PaoYa.DataCenter.user.user_info.member_gold = res.gold
+            PaoYa.DataCenter.user.gold = res.gold
             this.owner.goldNum.text = res.gold
         })
 
@@ -409,9 +417,11 @@ export default class WeaponStoreControl extends PaoYa.Component {
             if (this.buyList.length > 0) {
                 this.owner.weapon.visible = true
                 this.owner.buyBtn.visible = true
+                this.owner.sellBtn.visible = true
             } else {
                 this.owner.weapon.visible = false
                 this.owner.buyBtn.visible = false
+                this.owner.sellBtn.visible = false
             }
             this.owner.buyList.array = this.buyList
         })
@@ -419,7 +429,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
     //出售武装
     sellWp(choice) {
         let detail = this.currentSellWeapDetail
-        if (detail.weaponStar == 2 && !choice) {
+        if (detail.weaponStar == 3 && !choice) {
             let obj = {
                 detail: this.currentSellWeapDetail,
                 type: `sell`
@@ -428,7 +438,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
             return
         }
         PaoYa.Request.POST(`martial_weapon_sale`, { weaponId: `${detail.weaponId}-${detail.weaponLevel}` }, res => {
-            PaoYa.DataCenter.user.user_info.member_gold = res.gold
+            PaoYa.DataCenter.user.gold = res.gold
             this.owner.goldNum.text = res.gold
         })
 
@@ -457,12 +467,12 @@ export default class WeaponStoreControl extends PaoYa.Component {
     refresF() {
         let num = null
         num = this.isReadyRefrensh ? 0 : 1
-        if (PaoYa.DataCenter.user.user_info.member_diamond < Number(this.owner.needDiamon.text)) {
+        if (PaoYa.DataCenter.user.diamond < Number(this.owner.needDiamon.text)) {
             this.navigator.popup("weapon/DiamondLack", 1);
             return
         }
-        PaoYa.DataCenter.user.user_info.member_diamond -= Number(this.owner.needDiamon.text)
-        this.owner.diamondNum.text = PaoYa.DataCenter.user.user_info.member_diamond
+        PaoYa.DataCenter.user.diamond -= Number(this.owner.needDiamon.text)
+        this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
         this.isRefrshing = true
 
         PaoYa.Request.POST(`martial_shop_list`, { refresh: num }, res => {
@@ -476,9 +486,11 @@ export default class WeaponStoreControl extends PaoYa.Component {
             if (this.buyList.length > 0) {
                 this.owner.weapon.visible = true
                 this.owner.buyBtn.visible = true
+                this.owner.sellBtn.visible = true
             } else {
                 this.owner.weapon.visible = false
                 this.owner.buyBtn.visible = false
+                this.owner.sellBtn.visible = false
             }
             this.owner.buyList.array = this.buyList
         })

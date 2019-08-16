@@ -8,14 +8,14 @@ export default class WeaponStore extends PaoYa.View {
     }
 
     onEnable() {
-        this.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold
+        this.goldNum.text = PaoYa.DataCenter.user.gold
         this.goldNum.font = `weaponNFontT`
-        this.goldNum.scale(0.7,0.7)
-        this.goldNum.pos(381,20)
-        this.diamondNum.text = PaoYa.DataCenter.user.user_info.member_diamond
+        this.goldNum.scale(0.7, 0.7)
+        this.goldNum.pos(381, 20)
+        this.diamondNum.text = PaoYa.DataCenter.user.diamond
         this.diamondNum.font = `weaponNFontT`
-        this.diamondNum.scale(0.7,0.7)
-        this.diamondNum.pos(622,20)
+        this.diamondNum.scale(0.7, 0.7)
+        this.diamondNum.pos(622, 20)
 
         this.sellText.font = `weaponDFont`
         this.buyText.font = `weaponDFont`
@@ -48,13 +48,13 @@ export default class WeaponStore extends PaoYa.View {
                     highDeatil = element
                 }
             });
-            if(isHigh){
+            if (isHigh) {
                 let obj = {
                     detail: highDeatil,
                     type: `buy`
                 }
                 WeaponStoreControl.ins.navigator.popup("weapon/StoreSure", obj);
-            }else{
+            } else {
                 WeaponStoreControl.ins.refresF()
             }
         })
@@ -78,12 +78,14 @@ export default class WeaponStore extends PaoYa.View {
             this.sellPage.visible = false
             this.buyPage.visible = true
             WeaponStoreControl.ins.buyPresentIdx = 0
-            if(WeaponStoreControl.ins.buyList.length>0){
+            if (WeaponStoreControl.ins.buyList.length > 0) {
                 this.weapon.visible = true
+                this.sellBtn.visible = true
                 this.buyBtn.visible = true
-            }else{
+            } else {
                 this.weapon.visible = false
                 this.buyBtn.visible = false
+                this.sellBtn.visible = false
             }
             this.buyList.array = WeaponStoreControl.ins.buyList
         })
@@ -115,8 +117,8 @@ export default class WeaponStore extends PaoYa.View {
                 WeaponStoreControl.ins.navigator.popup("weapon/GoldLack");
                 return
             } else {
-                PaoYa.DataCenter.user.user_info.member_gold -= Number(detail.weaponPrice)
-                this.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold
+                PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
+                this.goldNum.text = PaoYa.DataCenter.user.gold
                 WeaponStoreControl.ins.buyWp()
             }
         })

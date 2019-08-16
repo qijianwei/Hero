@@ -47,11 +47,7 @@ export default class WeaponBar extends PaoYa.Component {
 
         this.initView();
     }
-    /* onUpdate(){
-        if(this.weaponConsume>)
-    } */
     onEnable() {
-    //    console.log(this.spWeapon);
 
     }
     //根据武器参数，初始化视图

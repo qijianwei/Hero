@@ -542,7 +542,7 @@ export default class Weapon extends PaoYa.Component {
       scaleY: 1.5,
       alpha: 0.3
     }, 500, Laya.Ease.linearIn, Laya.Handler.create(this, () => {
-      console.log('变大效果播放完', new Date().getTime());
+     // console.log('变大效果播放完', new Date().getTime());
       this.endMove();
     }))
     this.boxAniCollision.play(0, false);

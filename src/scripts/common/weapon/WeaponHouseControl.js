@@ -38,10 +38,11 @@ export default class WeaponHouseControl extends PaoYa.Component {
     }
 
     onEnable() {
-        // this.owner.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold
+        // this.owner.goldNum.text = PaoYa.DataCenter.user.gold
         // this.owner.goldNum.font = `weaponNFontT`
-        // this.owner.diamondNum.text = PaoYa.DataCenter.user.user_info.member_diamond
+        // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
         // this.owner.diamondNum.font = `weaponNFontT`
+        
     }
     //获取装备武器详情
     getMyUserDetailList() {
@@ -259,7 +260,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         this.owner.enduranceNum.text = `耐久： ${detail.weaponDurable}`
         this.owner.addenduranceNum.text = `+${detail.weaponUpDurable}`
         this.owner.consumeNum.text = `消耗： ${detail.weaponConsume}`
-        this.owner.addconsumeNum.text = `+${detail.weaponDownConsume}`
+        this.owner.addconsumeNum.text = `-${detail.weaponDownConsume}`
         this.owner.wpcdNum.text = `冷却： ${detail.weaponCd}秒`
         //兵器技能
         this.owner[`skillName_1`].text = ``
@@ -276,7 +277,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 this.owner[`skillGl_${index + 1}`].color = `#4a4948`
                 this.owner[`skillDetail_${index + 1}`].color = `#4a4948`
                 this.owner[`skillName_${index + 1}`].text = element.skillName
-                this.owner[`skillGl_${index + 1}`].text = `几率${element.skillProb}`
+                this.owner[`skillGl_${index + 1}`].text = `几率${element.skillProb}%`
                 this.owner[`skillDetail_${index + 1}`].text = element.skillDesc
                 this.owner[`skillImg_${index + 1}`].visible = true
                 if (element.status) {
@@ -469,8 +470,8 @@ export default class WeaponHouseControl extends PaoYa.Component {
             this.navigator.popup("weapon/GoldLack");
             return
         } else {
-            PaoYa.DataCenter.user.user_info.member_gold -= Number(this.owner.needGoldNum.text)
-            this.owner.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold
+            PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
+            this.owner.goldNum.text = PaoYa.DataCenter.user.gold
         }
 
         let detail = this.currentMyUserWeapDetail
