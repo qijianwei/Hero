@@ -1344,6 +1344,7 @@ var LoginService = /** @class */ (function () {
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].gold.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.gold = res.member_gold;
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].rmb.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.rmb = res.member_rmb;
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].integral.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.integral = res.member_integral;
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].diamond.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.diamond = res.member_diamond;
             var token = res.token;
             _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["RequestConfig"].token = _this.token = token;
             localStorage.setItem(USER_TOKEN_KEY, token);
@@ -1444,6 +1445,14 @@ var DataCenter = /** @class */ (function () {
                 _this.integral.value = res.integral;
                 _this.user.integral = res.integral;
             }
+            if (res.gold != undefined) {
+                _this.gold.value = res.gold;
+                _this.user.gold = res.gold;
+            }
+            if (res.diamond != undefined) {
+                _this.diamond.value = res.diamond;
+                _this.user.diamond = res.diamond;
+            }
         }, function (res) {
             console.warn('更新用户信息失败');
         });
@@ -1458,6 +1467,8 @@ var DataCenter = /** @class */ (function () {
     DataCenter.rmb = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     /**用户积分变更监听 */
     DataCenter.integral = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+     /**用户钻石变更监听 */
+    DataCenter.diamond = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     return DataCenter;
 }());
 /* harmony default export */ __webpack_exports__["default"] = (DataCenter);
