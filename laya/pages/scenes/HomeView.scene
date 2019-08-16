@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":145,
+    "selecteID":164,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","height":750},
     "nodeParent":-1,
-    "maxID":148,
+    "maxID":167,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -28,6 +28,92 @@
             "child":[
                 ],
             "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite",
+            "props":{"y":532,"x":133,"texture":"local/home/6.png"},
+            "nodeParent":2,
+            "label":"Sprite",
+            "isOpen":true,
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":164,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,userInfo",
+            "props":{"y":0,"x":17,"name":"userInfo"},
+            "nodeParent":2,
+            "label":"userInfo",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":165,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,imgAvstar",
+                    "props":{"y":8,"x":19,"width":100,"var":"imgAvstar","height":104},
+                    "nodeParent":165,
+                    "label":"imgAvstar",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":166,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":1,"x":0,"texture":"local/home/5.png"},
+                    "nodeParent":165,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":163,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Label",
+                    "searchKey":"Label,lblName",
+                    "props":{"y":27,"x":134,"width":137,"valign":"middle","text":"label","name":"lblName","height":28,"fontSize":28,"color":"#ffffff","align":"center"},
+                    "nodeParent":165,
+                    "label":"lblName",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":149,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Label",
+                    "searchKey":"Label,lblLadder",
+                    "props":{"y":84,"x":202,"width":168,"valign":"middle","text":"label","pivotY":20,"pivotX":84,"name":"lblLadder","height":39,"fontSize":28,"color":"#ffffff","align":"center"},
+                    "nodeParent":165,
+                    "label":"lblLadder",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":148,
+                    "child":[
+                        ]
+                }]
         },
         {
             "x":15,
@@ -97,7 +183,8 @@
             "hasChild":false,
             "compId":10,
             "child":[
-                ]
+                ],
+            "$LOCKED":true
         },
         {
             "x":15,
@@ -257,12 +344,174 @@
         },
         {
             "x":15,
+            "type":"Box",
+            "selectedBox":109,
+            "selecteID":112,
+            "searchKey":"Box",
+            "props":{"y":16,"x":345,"presetID":1,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+            "nodeParent":2,
+            "maxID":113,
+            "label":"Box(BeanBox)",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":155,
+            "child":[
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"presetID":10,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+                    "nodeParent":155,
+                    "label":"beanBg",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":112,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"presetID":4,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+                    "nodeParent":155,
+                    "label":"imgLeft",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":156,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Label",
+                    "searchKey":"Label",
+                    "props":{"presetID":6,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+                    "nodeParent":155,
+                    "label":"label",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":157,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/scripts/prefab/BeanBox.js",
+                    "searchKey":"Script,BeanBox",
+                    "removeAble":true,
+                    "props":{"presetID":9,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+                    "nodeParent":155,
+                    "label":"BeanBox",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":111,
+                    "child":[
+                        ]
+                }],
+            "animations":[
+                {
+                    "nodes":[
+                        ],
+                    "name":"ani1",
+                    "id":1,
+                    "frameRate":24,
+                    "action":0
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "selectedBox":109,
+            "selecteID":112,
+            "searchKey":"Box",
+            "props":{"y":16,"x":555,"presetID":1,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+            "nodeParent":2,
+            "maxID":113,
+            "label":"Box(BeanBox)",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":158,
+            "child":[
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"presetID":10,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+                    "nodeParent":158,
+                    "label":"beanBg",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":159,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"presetID":4,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+                    "nodeParent":158,
+                    "label":"imgLeft",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":160,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Label",
+                    "searchKey":"Label",
+                    "props":{"presetID":6,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
+                    "nodeParent":158,
+                    "label":"label",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":161,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/scripts/prefab/BeanBox.js",
+                    "searchKey":"Script,BeanBox",
+                    "removeAble":true,
+                    "props":{"presetID":9,"preset":"laya/pages/scenes/prefab/BeanBox.prefab","boxType":"2"},
+                    "nodeParent":158,
+                    "label":"BeanBox",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":162,
+                    "child":[
+                        ]
+                }],
+            "animations":[
+                {
+                    "nodes":[
+                        ],
+                    "name":"ani1",
+                    "id":1,
+                    "frameRate":24,
+                    "action":0
+                }]
+        },
+        {
+            "x":15,
             "type":"Script",
             "switchAble":true,
             "source":"src/scripts/common/HomeControl.js",
             "searchKey":"Script,HomeControl",
             "removeAble":true,
-            "props":{"y":0,"x":0},
+            "props":{"y":0,"x":0,"lblName":"@node:149","lblLadder":"@node:148"},
             "nodeParent":2,
             "label":"HomeControl",
             "isDirectory":false,

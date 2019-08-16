@@ -1,5 +1,5 @@
 var HeroConfig = {
-
+  ladderArr:["","无名小卒",'初出茅庐','后起之秀','江湖少侠','武林高手','名震江湖','独步武林','一代宗师','独孤求败'],
   roleName: '独孤九剑',
   roleIcon: '',
   roleHp: 100, //HP:hit point 生命值,roleUp为0,game over
@@ -19,40 +19,40 @@ var HeroConfig = {
   }],
   spineMap: {
     freeze: {
-        path: "spine/freeze/freeze.sk",
-        name: ['continue','freeze'],
-        ready_go: 1,
-        templet: null
+      path: "spine/freeze/freeze.sk",
+      name: ['continue', 'freeze'],
+      ready_go: 1,
+      templet: null
     },
-    hero_1:{
-       path:'spine/hero/hero_1.sk',
-       name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
-       templet:null
+    hero_1: {
+      path: 'spine/hero/hero_1.sk',
+      name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
+      templet: null
     },
-    hero_2:{
-      path:'spine/hero/hero_1.sk',
-      name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
-      templet:null
-   },
-   hero_3:{
-    path:'spine/hero/hero_1.sk',
-    name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
-    templet:null
- },
- hero_4:{
-  path:'spine/hero/hero_1.sk',
-  name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
-  templet:null
-},
+    hero_2: {
+      path: 'spine/hero/hero_1.sk',
+      name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
+      templet: null
+    },
+    hero_3: {
+      path: 'spine/hero/hero_1.sk',
+      name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
+      templet: null
+    },
+    hero_4: {
+      path: 'spine/hero/hero_1.sk',
+      name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
+      templet: null
+    },
     npc_7: {
-        path: "spine/npc/npc_7.sk",
-        name: ['bomb'],
-        bomb: 0,
-        templet: null
+      path: "spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
     },
-    scene1:{
-       path:"spine/scene/scene1.sk",
-       templet:null,
+    scene1: {
+      path: "spine/scene/scene1.sk",
+      templet: null,
     }
   },
   /* 提供给外部获取动画的接口，输入动画名字即可 */

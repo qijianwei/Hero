@@ -380,13 +380,13 @@ export default class Player extends PaoYa.Component {
     let endPos;
     let targetScaleX;
     if (this.isSelf) {
-      hurt.scaleX = 2;
+      hurt.scaleX = 2.5;
       targetScaleX = 1;
     } else {
-      hurt.scaleX = -2;
+      hurt.scaleX = -2.5;
       targetScaleX = -1;
     }
-    hurt.scaleY = 2;
+    hurt.scaleY = 2.5;
     endPos = {
       y: -60
     }

@@ -1,13 +1,23 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
 
 export default class HomeControl extends PaoYa.Component {
+      /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
+       /** @prop {name:lblName,tips:"用户名字",type:Node} */
     onAwake() { 
         let name=PaoYa.DataCenter.user.defaultRoleId;
+        let ladder=PaoYa.DataCenter.user.ladder;
         let player=HeroConfig.getSkeleton('hero_'+name);
         player.pos(371,570);
         player.scale(1.5,1.5)
         this.owner.addChild(player);
         this.player=player;
+        
+        this.lblName.text=PaoYa.DataCenter.user.nickname;
+        this.lblLadder.font="weaponNFontT";
+        this.lblLadder.scale(0.8,0.8);
+        this.lblLadder.text=HeroConfig.ladderArr[ladder];
+
+        this.owner.imgAvstar.skin=PaoYa.DataCenter.user.avstar;
     }
     onAppear() { 
        this.player.play('stand',true);

@@ -127,6 +127,10 @@ var _UnlockTips = require("./scripts/dialog/weapon/UnlockTips");
 
 var _UnlockTips2 = _interopRequireDefault(_UnlockTips);
 
+var _BeanBox = require("./scripts/prefab/BeanBox");
+
+var _BeanBox2 = _interopRequireDefault(_BeanBox);
+
 var _HomeControl = require("./scripts/common/HomeControl");
 
 var _HomeControl2 = _interopRequireDefault(_HomeControl);
@@ -185,6 +189,7 @@ var GameConfig = function () {
 												reg("scripts/dialog/weapon/UnlockFifth.js", _UnlockFifth2.default);
 												reg("scripts/dialog/weapon/UnlockFour.js", _UnlockFour2.default);
 												reg("scripts/dialog/weapon/UnlockTips.js", _UnlockTips2.default);
+												reg("scripts/prefab/BeanBox.js", _BeanBox2.default);
 												reg("scripts/common/HomeControl.js", _HomeControl2.default);
 												reg("gamescripts/prefab/Player.js", _Player2.default);
 												reg("gamescripts/prefab/Weapon.js", _Weapon2.default);
@@ -213,7 +218,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/PassResultDialog":8,"./gamescripts/prefab/Dodge":9,"./gamescripts/prefab/GameBanner":10,"./gamescripts/prefab/HPBar":11,"./gamescripts/prefab/MPBar":12,"./gamescripts/prefab/Player":13,"./gamescripts/prefab/PlayerSkill":14,"./gamescripts/prefab/PlayerState":15,"./gamescripts/prefab/Skill":16,"./gamescripts/prefab/Weapon":17,"./gamescripts/prefab/WeaponBar":18,"./gamescripts/prefab/WeaponSkill":19,"./scripts/common/HomeControl":21,"./scripts/common/Loading/LoadingControl":22,"./scripts/common/Loading/LoadingView":23,"./scripts/common/figure/Swordsman":24,"./scripts/common/figure/SwordsmanControl":25,"./scripts/common/weapon/WeaponHouse":28,"./scripts/common/weapon/WeaponHouseControl":29,"./scripts/common/weapon/WeaponStore":30,"./scripts/common/weapon/WeaponStoreControl":31,"./scripts/dialog/weapon/DiamondLack":32,"./scripts/dialog/weapon/GoldLack":33,"./scripts/dialog/weapon/StoreSure":34,"./scripts/dialog/weapon/UnlockFifth":35,"./scripts/dialog/weapon/UnlockFour":36,"./scripts/dialog/weapon/UnlockTips":37}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/PassResultDialog":8,"./gamescripts/prefab/Dodge":9,"./gamescripts/prefab/GameBanner":10,"./gamescripts/prefab/HPBar":11,"./gamescripts/prefab/MPBar":12,"./gamescripts/prefab/Player":13,"./gamescripts/prefab/PlayerSkill":14,"./gamescripts/prefab/PlayerState":15,"./gamescripts/prefab/Skill":16,"./gamescripts/prefab/Weapon":17,"./gamescripts/prefab/WeaponBar":18,"./gamescripts/prefab/WeaponSkill":19,"./scripts/common/HomeControl":21,"./scripts/common/Loading/LoadingControl":22,"./scripts/common/Loading/LoadingView":23,"./scripts/common/figure/Swordsman":24,"./scripts/common/figure/SwordsmanControl":25,"./scripts/common/weapon/WeaponHouse":28,"./scripts/common/weapon/WeaponHouseControl":29,"./scripts/common/weapon/WeaponStore":30,"./scripts/common/weapon/WeaponStoreControl":31,"./scripts/dialog/weapon/DiamondLack":32,"./scripts/dialog/weapon/GoldLack":33,"./scripts/dialog/weapon/StoreSure":34,"./scripts/dialog/weapon/UnlockFifth":35,"./scripts/dialog/weapon/UnlockFour":36,"./scripts/dialog/weapon/UnlockTips":37,"./scripts/prefab/BeanBox":38}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1502,7 +1507,7 @@ var WeaponManager = function (_Laya$Script) {
       var weapons = [];
       for (var i = 0, len = this.weaponList.length; i < len; i++) {
         if (!this.weaponList[i].freezeing) {
-          console.warn("可用兵器id:", this.weaponList[i].params.weaponName);
+          /*  console.warn("可用兵器id:",this.weaponList[i].params.weaponName); */
           weapons.push(this.weaponList[i]);
         }
       }
@@ -1583,13 +1588,13 @@ function isPlainObject(val) {
 }
 
 },{}],7:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var HeroConfig = {
-
+  ladderArr: ["", "无名小卒", '初出茅庐', '后起之秀', '江湖少侠', '武林高手', '名震江湖', '独步武林', '一代宗师', '独孤求败'],
   roleName: '独孤九剑',
   roleIcon: '',
   roleHp: 100, //HP:hit point 生命值,roleUp为0,game over
@@ -2602,13 +2607,13 @@ var Player = function (_PaoYa$Component) {
       var endPos = void 0;
       var targetScaleX = void 0;
       if (this.isSelf) {
-        hurt.scaleX = 2;
+        hurt.scaleX = 2.5;
         targetScaleX = 1;
       } else {
-        hurt.scaleX = -2;
+        hurt.scaleX = -2.5;
         targetScaleX = -1;
       }
-      hurt.scaleY = 2;
+      hurt.scaleY = 2.5;
       endPos = {
         y: -60
       };
@@ -4004,7 +4009,7 @@ var GameMain = function (_PaoYa$Main) {
 exports.default = GameMain;
 
 },{"./Loading/LoadingView":23}],21:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -4012,7 +4017,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _HeroConfig = require('../../gamescripts/config/HeroConfig');
+var _HeroConfig = require("../../gamescripts/config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
@@ -4034,27 +4039,38 @@ var HomeControl = function (_PaoYa$Component) {
     }
 
     _createClass(HomeControl, [{
-        key: 'onAwake',
+        key: "onAwake",
+
+        /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
+        /** @prop {name:lblName,tips:"用户名字",type:Node} */
         value: function onAwake() {
             var name = PaoYa.DataCenter.user.defaultRoleId;
+            var ladder = PaoYa.DataCenter.user.ladder;
             var player = _HeroConfig2.default.getSkeleton('hero_' + name);
             player.pos(371, 570);
             player.scale(1.5, 1.5);
             this.owner.addChild(player);
             this.player = player;
+
+            this.lblName.text = PaoYa.DataCenter.user.nickname;
+            this.lblLadder.font = "weaponNFontT";
+            this.lblLadder.scale(0.8, 0.8);
+            this.lblLadder.text = _HeroConfig2.default.ladderArr[ladder];
+
+            this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
         }
     }, {
-        key: 'onAppear',
+        key: "onAppear",
         value: function onAppear() {
             this.player.play('stand', true);
         }
     }, {
-        key: 'onDisappear',
+        key: "onDisappear",
         value: function onDisappear() {
             this.player.stop();
         }
     }, {
-        key: 'onClick',
+        key: "onClick",
         value: function onClick(e) {
             var _this2 = this;
 
@@ -4151,16 +4167,16 @@ var HomeControl = function (_PaoYa$Component) {
             }
         }
     }, {
-        key: 'onDisappear',
+        key: "onDisappear",
         value: function onDisappear() {}
     }, {
-        key: 'onEnable',
+        key: "onEnable",
         value: function onEnable() {}
     }, {
-        key: 'onDisable',
+        key: "onDisable",
         value: function onDisable() {}
     }, {
-        key: 'onDestroy',
+        key: "onDestroy",
         value: function onDestroy() {}
     }]);
 
@@ -6740,5 +6756,108 @@ var UnlockTips = function (_PaoYa$Dialog) {
 }(PaoYa.Dialog);
 
 exports.default = UnlockTips;
+
+},{}],38:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BeanBox = function (_PaoYa$Component) {
+    _inherits(BeanBox, _PaoYa$Component);
+
+    function BeanBox() {
+        _classCallCheck(this, BeanBox);
+
+        return _possibleConstructorReturn(this, (BeanBox.__proto__ || Object.getPrototypeOf(BeanBox)).apply(this, arguments));
+    }
+
+    _createClass(BeanBox, [{
+        key: 'onAwake',
+
+        /** @prop {name:boxType,tips:"1-金币，2-钻石",type:Option,option:"1,2",default:1}*/
+        value: function onAwake() {
+            this.boxType = this.boxType || '1';
+            this.integBg = this.owner.getChildByName('beanBg');
+            this.labelBg = this.owner.getChildByName('labelBgCircle');
+            this.skinLeft = this.owner.getChildByName("imgLeft");
+            this.label = this.owner.getChildByName("label");
+            this.changeBox();
+        }
+    }, {
+        key: 'changeBox',
+        value: function changeBox() {
+            switch (this.boxType) {
+                case '1':
+                    PaoYa.DataCenter.gold.addObserver(this, this.handleGoldChange);
+                    break;
+                case '2':
+                    this.skinLeft.skin = 'local/common/diamond.png';
+                    this.skinLeft.y = -5;
+                    this.skinLeft.size(60, 60);
+                    PaoYa.DataCenter.diamond.addObserver(this, this.handleDiamondChange);
+                    break;
+
+            }
+        }
+    }, {
+        key: 'onClick',
+        value: function onClick() {
+            switch (this.boxType) {
+                case '1':
+                    console.log('点击金币');
+                    break;
+                case '2':
+                    console.log('点击砖石');
+                    break;
+            }
+        }
+    }, {
+        key: 'handleDiamondChange',
+        value: function handleDiamondChange(value) {
+            addNumberUnit(value) == 'undefined' ? this.label.text = '' : this.label.text = addNumberUnit(value);
+        }
+    }, {
+        key: 'handleGoldChange',
+        value: function handleGoldChange(value) {
+            addNumberUnit(value) == 'undefined' ? this.label.text = '' : this.label.text = addNumberUnit(value);
+        }
+    }, {
+        key: 'onDestroy',
+        value: function onDestroy() {
+            PaoYa.DataCenter.diamond.removeObserver(this, this.handleIntegralChange);
+            PaoYa.DataCenter.gold.removeObserver(this, this.handleGoldChange);
+        }
+    }]);
+
+    return BeanBox;
+}(PaoYa.Component);
+
+exports.default = BeanBox;
+
+function addNumberUnit(num) {
+    switch (true) {
+        case num >= 10000 && num < 100000000:
+            var integ = num / 10000;
+            return Math.floor(integ * 100) / 100 + '万';
+            break;
+        case num >= 100000000:
+            var integ1 = num / 100000000;
+            return Math.floor(integ1 * 100) / 100 + '亿';
+            break;
+        default:
+            return num + '';
+            break;
+    }
+};
 
 },{}]},{},[3]);

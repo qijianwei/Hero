@@ -23,6 +23,7 @@ import StoreSure from "./scripts/dialog/weapon/StoreSure"
 import UnlockFifth from "./scripts/dialog/weapon/UnlockFifth"
 import UnlockFour from "./scripts/dialog/weapon/UnlockFour"
 import UnlockTips from "./scripts/dialog/weapon/UnlockTips"
+import BeanBox from "./scripts/prefab/BeanBox"
 import HomeControl from "./scripts/common/HomeControl"
 import Player from "./gamescripts/prefab/Player"
 import Weapon from "./gamescripts/prefab/Weapon"
@@ -57,6 +58,7 @@ export default class GameConfig {
 		reg("scripts/dialog/weapon/UnlockFifth.js",UnlockFifth);
 		reg("scripts/dialog/weapon/UnlockFour.js",UnlockFour);
 		reg("scripts/dialog/weapon/UnlockTips.js",UnlockTips);
+		reg("scripts/prefab/BeanBox.js",BeanBox);
 		reg("scripts/common/HomeControl.js",HomeControl);
 		reg("gamescripts/prefab/Player.js",Player);
 		reg("gamescripts/prefab/Weapon.js",Weapon);
