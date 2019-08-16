@@ -808,7 +808,7 @@ export default class GameControl extends PaoYa.Component {
     dodgeSkillShow(isSelf) {
         let name = isSelf ? 'self' : 'other';
         let originMP = this[name + 'Player'].comp.MPComp.originMP;
-        let consumeMP = 0.2 * originMP;
+        let consumeMP = 0 * originMP;
         if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
             if (isSelf) {
                 this.playerStateComp.setStateText("内力不足")

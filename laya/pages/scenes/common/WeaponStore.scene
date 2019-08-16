@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":140,
+    "selectedBox":37,
+    "selecteID":42,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/weapon/WeaponStore.js","height":750},
     "nodeParent":-1,
-    "maxID":144,
+    "maxID":154,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -14,6 +14,20 @@
     "hasChild":true,
     "compId":2,
     "child":[
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite",
+            "props":{"y":0,"x":-150,"texture":"local/home/homeBg.jpg"},
+            "nodeParent":2,
+            "label":"Sprite",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":153,
+            "child":[
+                ]
+        },
         {
             "x":15,
             "type":"Sprite",
@@ -46,10 +60,10 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,sell",
-                    "props":{"y":315,"x":34,"var":"sell","skin":"remote/weaponstore/3.png"},
+                    "props":{"y":315,"x":34,"var":"sell","skin":"remote/weaponstore/2.png"},
                     "nodeParent":105,
                     "label":"sell",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -73,7 +87,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,buy",
-                    "props":{"y":35,"x":34,"var":"buy","skin":"remote/weaponstore/2.png"},
+                    "props":{"y":35,"x":34,"var":"buy","skin":"remote/weaponstore/3.png"},
                     "nodeParent":105,
                     "label":"buy",
                     "isOpen":true,
@@ -85,7 +99,7 @@
                         {
                             "type":"Text",
                             "searchKey":"Text,buyText",
-                            "props":{"y":46,"x":7,"wordWrap":true,"width":89,"var":"buyText","valign":"middle","text":"卖出","height":171,"align":"center"},
+                            "props":{"y":46,"x":7,"wordWrap":true,"width":89,"var":"buyText","valign":"middle","text":"购买","height":171,"align":"center"},
                             "nodeParent":107,
                             "label":"buyText",
                             "isDirectory":false,
@@ -291,7 +305,7 @@
                         {
                             "type":"Text",
                             "searchKey":"Text,needGoldNum",
-                            "props":{"y":-1,"x":42,"width":139,"var":"needGoldNum","valign":"middle","text":"99999","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
+                            "props":{"y":-3,"x":42,"width":139,"var":"needGoldNum","valign":"middle","text":"99999","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
                             "nodeParent":39,
                             "label":"needGoldNum",
                             "isDirectory":false,
@@ -408,6 +422,32 @@
                             "$HIDDEN":true
                         }],
                     "$HIDDEN":false
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image,sellBtn",
+                    "props":{"y":447,"x":-318,"width":179,"var":"sellBtn","skin":"local/common/btn_1.png","height":71},
+                    "nodeParent":77,
+                    "label":"sellBtn",
+                    "isOpen":false,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":109,
+                    "child":[
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,sellBtnTxt",
+                            "props":{"y":8,"x":29,"width":179,"var":"sellBtnTxt","valign":"middle","text":"卖出","height":71,"align":"center"},
+                            "nodeParent":109,
+                            "label":"sellBtnTxt",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":110,
+                            "child":[
+                                ]
+                        }]
                 }],
             "$HIDDEN":true
         },
@@ -545,62 +585,6 @@
             "hasChild":true,
             "compId":37,
             "child":[
-                {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,buyBtn",
-                    "props":{"y":511,"x":112,"width":179,"var":"buyBtn","skin":"local/common/btn_1.png","height":71},
-                    "nodeParent":37,
-                    "label":"buyBtn",
-                    "isOpen":true,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":38,
-                    "child":[
-                        {
-                            "x":45,
-                            "type":"Text",
-                            "searchKey":"Text,buyBtnTxt",
-                            "props":{"y":8,"x":29,"width":179,"var":"buyBtnTxt","valign":"middle","text":"购买","height":71,"align":"center"},
-                            "nodeParent":38,
-                            "label":"buyBtnTxt",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":108,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,sellBtn",
-                    "props":{"y":511,"x":112,"width":179,"var":"sellBtn","skin":"local/common/btn_1.png","height":71},
-                    "nodeParent":37,
-                    "label":"sellBtn",
-                    "isOpen":true,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":109,
-                    "child":[
-                        {
-                            "x":45,
-                            "type":"Text",
-                            "searchKey":"Text,sellBtnTxt",
-                            "props":{"y":8,"x":29,"width":179,"var":"sellBtnTxt","valign":"middle","text":"卖出","height":71,"align":"center"},
-                            "nodeParent":109,
-                            "label":"sellBtnTxt",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":110,
-                            "child":[
-                                ]
-                        }]
-                },
                 {
                     "x":30,
                     "type":"Image",
@@ -1000,7 +984,7 @@
                     "props":{"y":4,"x":11,"width":395,"var":"buyList","spaceY":16,"height":454},
                     "nodeParent":111,
                     "label":"buyList",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -1012,7 +996,7 @@
                             "props":{"y":81,"x":68.5,"width":128,"skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"renderType":"render","height":129,"anchorY":0.5,"anchorX":0.5},
                             "nodeParent":114,
                             "label":"Image",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":false,
                             "hasChild":true,
@@ -1088,11 +1072,11 @@
                                 },
                                 {
                                     "type":"Sprite",
-                                    "searchKey":"Sprite",
-                                    "props":{"y":134,"x":16,"width":164,"texture":"local/common/currencyBg.png","scaleY":0.65,"scaleX":0.65,"height":46},
+                                    "searchKey":"Sprite,bg",
+                                    "props":{"y":134,"x":16,"width":164,"texture":"local/common/currencyBg.png","scaleY":0.65,"scaleX":0.65,"name":"bg","height":46},
                                     "nodeParent":115,
-                                    "label":"Sprite",
-                                    "isOpen":false,
+                                    "label":"bg",
+                                    "isOpen":true,
                                     "isDirectory":true,
                                     "isAniNode":false,
                                     "hasChild":true,
@@ -1113,10 +1097,10 @@
                                         },
                                         {
                                             "type":"Text",
-                                            "searchKey":"Text",
-                                            "props":{"y":-1,"x":42,"width":139,"valign":"middle","text":"99999","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
+                                            "searchKey":"Text,txt",
+                                            "props":{"y":-1,"x":42,"width":139,"valign":"middle","text":"99999","name":"txt","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
                                             "nodeParent":132,
-                                            "label":"Text",
+                                            "label":"txt",
                                             "isDirectory":false,
                                             "isAniNode":false,
                                             "hasChild":false,
@@ -1145,7 +1129,7 @@
                         {
                             "type":"Text",
                             "searchKey":"Text,needDiamon",
-                            "props":{"y":3,"x":39,"width":94,"var":"needDiamon","valign":"middle","text":"text","height":25,"align":"center"},
+                            "props":{"y":4,"x":46,"width":94,"var":"needDiamon","valign":"middle","text":"20","height":25,"align":"center"},
                             "nodeParent":135,
                             "label":"needDiamon",
                             "isDirectory":false,
@@ -1184,16 +1168,42 @@
                 },
                 {
                     "type":"Text",
-                    "searchKey":"Text",
-                    "props":{"y":566,"x":136,"width":151,"valign":"middle","height":22,"align":"center"},
+                    "searchKey":"Text,refreshTimeNum",
+                    "props":{"y":566,"x":169,"width":151,"var":"refreshTimeNum","valign":"middle","height":22,"align":"center"},
                     "nodeParent":111,
-                    "label":"Text",
+                    "label":"refreshTimeNum",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":139,
                     "child":[
                         ]
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image,buyBtn",
+                    "props":{"y":504,"x":-318,"width":179,"var":"buyBtn","skin":"local/common/btn_1.png","height":71},
+                    "nodeParent":111,
+                    "label":"buyBtn",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":38,
+                    "child":[
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,buyBtnTxt",
+                            "props":{"y":8,"x":29,"width":179,"var":"buyBtnTxt","valign":"middle","text":"购买","height":71,"align":"center"},
+                            "nodeParent":38,
+                            "label":"buyBtnTxt",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":108,
+                            "child":[
+                                ]
+                        }]
                 }],
             "$HIDDEN":false
         },
@@ -1213,6 +1223,80 @@
             "compId":143,
             "child":[
                 ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,ware",
+            "props":{"y":652,"x":296,"visible":false,"var":"ware","skin":"remote/weaponstore/wpicon.png","anchorY":0.5,"anchorX":0.5},
+            "nodeParent":2,
+            "label":"ware",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":144,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,showani",
+            "props":{"zOrder":99,"y":204,"x":807,"width":128,"visible":false,"var":"showani","skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"height":129,"anchorY":0.5,"anchorX":0.5},
+            "nodeParent":2,
+            "label":"showani",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":145,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,showaniWrap",
+                    "props":{"y":65,"x":64,"var":"showaniWrap","skin":"local/common/quality_1.png","anchorY":0.5,"anchorX":0.5},
+                    "nodeParent":145,
+                    "label":"showaniWrap",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":147,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,showaniType",
+                    "props":{"y":-16,"x":-11,"var":"showaniType","skin":"local/common/type_2.png"},
+                    "nodeParent":145,
+                    "label":"showaniType",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":148,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,showaniC",
+                    "props":{"y":0,"x":0,"var":"showaniC","skin":"remote/small_weapons/s_g005_2.png"},
+                    "nodeParent":145,
+                    "label":"showaniC",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":149,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                }],
+            "$HIDDEN":false
         }],
     "animations":[
         {

@@ -2,7 +2,7 @@
     "x":0,
     "type":"Box",
     "selectedBox":106,
-    "selecteID":136,
+    "selecteID":123,
     "searchKey":"Box",
     "props":{"y":250,"x":105,"width":210,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Player.prefab","isPresetRoot":true,"height":250,"anchorY":1,"anchorX":0.5},
     "nodeParent":-1,
@@ -144,7 +144,7 @@
                     "child":[
                         ]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
             "x":15,
@@ -172,7 +172,7 @@
                     "child":[
                         ]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
             "x":15,
@@ -286,7 +286,7 @@
                         ],
                     "$HIDDEN":false
                 }],
-            "$HIDDEN":false
+            "$HIDDEN":true
         },
         {
             "x":15,

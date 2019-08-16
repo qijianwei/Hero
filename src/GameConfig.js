@@ -11,11 +11,15 @@ import PlayerSkill from "./gamescripts/prefab/PlayerSkill"
 import Skill from "./gamescripts/prefab/Skill"
 import LoadingView from "./scripts/common/Loading/LoadingView"
 import LoadingControl from "./scripts/common/Loading/LoadingControl"
+import Swordsman from "./scripts/common/figure/Swordsman"
+import SwordsmanControl from "./scripts/common/figure/SwordsmanControl"
 import WeaponHouse from "./scripts/common/weapon/WeaponHouse"
 import WeaponHouseControl from "./scripts/common/weapon/WeaponHouseControl"
 import WeaponStore from "./scripts/common/weapon/WeaponStore"
 import WeaponStoreControl from "./scripts/common/weapon/WeaponStoreControl"
+import DiamondLack from "./scripts/dialog/weapon/DiamondLack"
 import GoldLack from "./scripts/dialog/weapon/GoldLack"
+import StoreSure from "./scripts/dialog/weapon/StoreSure"
 import UnlockFifth from "./scripts/dialog/weapon/UnlockFifth"
 import UnlockFour from "./scripts/dialog/weapon/UnlockFour"
 import UnlockTips from "./scripts/dialog/weapon/UnlockTips"
@@ -41,11 +45,15 @@ export default class GameConfig {
 		reg("gamescripts/prefab/Skill.js",Skill);
 		reg("scripts/common/Loading/LoadingView.js",LoadingView);
 		reg("scripts/common/Loading/LoadingControl.js",LoadingControl);
+		reg("scripts/common/figure/Swordsman.js",Swordsman);
+		reg("scripts/common/figure/SwordsmanControl.js",SwordsmanControl);
 		reg("scripts/common/weapon/WeaponHouse.js",WeaponHouse);
 		reg("scripts/common/weapon/WeaponHouseControl.js",WeaponHouseControl);
 		reg("scripts/common/weapon/WeaponStore.js",WeaponStore);
 		reg("scripts/common/weapon/WeaponStoreControl.js",WeaponStoreControl);
+		reg("scripts/dialog/weapon/DiamondLack.js",DiamondLack);
 		reg("scripts/dialog/weapon/GoldLack.js",GoldLack);
+		reg("scripts/dialog/weapon/StoreSure.js",StoreSure);
 		reg("scripts/dialog/weapon/UnlockFifth.js",UnlockFifth);
 		reg("scripts/dialog/weapon/UnlockFour.js",UnlockFour);
 		reg("scripts/dialog/weapon/UnlockTips.js",UnlockTips);
@@ -62,7 +70,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "scenes/HomeView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

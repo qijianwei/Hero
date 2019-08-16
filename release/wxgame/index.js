@@ -21,4 +21,4 @@ if(window.qq){
     loadLib("libs/platform.browser.js")
 }
 loadLib("libs/paoya.core.js")
-loadLib("js/bundle.js");
+loadLib("js/bundle.js"); 

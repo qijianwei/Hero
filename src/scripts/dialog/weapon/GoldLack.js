@@ -15,6 +15,9 @@ export default class GoldLack extends PaoYa.Dialog {
 
     onEnable() {
         this.mask.on(Laya.Event.CLICK,this,this.close)
+        this.tipTxt.font = `weaponDFont`
+        this.tipTxt.scale(0.7, 0.7)
+        this.tipTxt.pos(45,12)
     }
 
     onDisable() {

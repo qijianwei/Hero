@@ -37,7 +37,9 @@ export class Main extends GameMain {
 
 		PaoYa.Navigator.scenesMap={
 			WeaponHouse:`scenes/common/WeaponHouse`,
-			WeaponStore:`scenes/common/WeaponStore`
+			WeaponStore:`scenes/common/WeaponStore`,
+			Swordsman: `scenes/common/Swordsman`
+
 		}
 
 		//分享地址
@@ -144,6 +146,6 @@ export class Main extends GameMain {
 }
 //激活启动类
 new Main();
-console.log=function(){};
+/* console.log=function(){};
 console.warn=function(){};
-console.error=function(){};  
+console.error=function(){};   */

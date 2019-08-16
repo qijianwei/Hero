@@ -1,11 +1,12 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":2,
+    "selectedBox":8,
+    "selecteID":9,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/dialog/weapon/GoldLack.js","height":750},
     "nodeParent":-1,
-    "maxID":8,
+    "maxID":10,
     "label":"Dialog",
     "isOpen":true,
     "isDirectory":true,
@@ -43,20 +44,6 @@
             "child":[
                 {
                     "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite,btn",
-                    "props":{"y":183,"x":170,"var":"btn","texture":"remote/weaponhousedialog/7.png"},
-                    "nodeParent":4,
-                    "label":"btn",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":5,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,tips",
                     "props":{"y":108,"x":0,"width":544,"var":"tips","valign":"middle","text":"机缘转盘可以获得大量金币哦","height":68,"fontSize":24,"font":"Helvetica","bold":true,"align":"center"},
@@ -82,6 +69,34 @@
                     "compId":7,
                     "child":[
                         ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,btn",
+                    "props":{"y":183,"x":170,"var":"btn","texture":"local/common/btn_1.png"},
+                    "nodeParent":4,
+                    "label":"btn",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":8,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text,tipTxt",
+                            "props":{"var":"tipTxt","text":"赚金币"},
+                            "nodeParent":8,
+                            "label":"tipTxt",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":9,
+                            "child":[
+                                ]
+                        }]
                 }]
         }],
     "animations":[

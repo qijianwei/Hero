@@ -24,6 +24,26 @@ var HeroConfig = {
         ready_go: 1,
         templet: null
     },
+    hero_1:{
+       path:'spine/hero/hero_1.sk',
+       name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
+       templet:null
+    },
+    hero_2:{
+      path:'spine/hero/hero_1.sk',
+      name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
+      templet:null
+   },
+   hero_3:{
+    path:'spine/hero/hero_1.sk',
+    name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
+    templet:null
+ },
+ hero_4:{
+  path:'spine/hero/hero_1.sk',
+  name:['dodge1','dodge2','dodge3','stand',"attack","injured","dizzy","freeze"],
+  templet:null
+},
     npc_7: {
         path: "spine/npc/npc_7.sk",
         name: ['bomb'],

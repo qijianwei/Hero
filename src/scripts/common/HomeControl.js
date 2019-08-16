@@ -1,6 +1,20 @@
+import HeroConfig from "../../gamescripts/config/HeroConfig";
+
 export default class HomeControl extends PaoYa.Component {
-    onAwake() { }
-    onAppear() { }
+    onAwake() { 
+        let name=PaoYa.DataCenter.user.defaultRoleId;
+        let player=HeroConfig.getSkeleton('hero_'+name);
+        player.pos(371,570);
+        player.scale(1.5,1.5)
+        this.owner.addChild(player);
+        this.player=player;
+    }
+    onAppear() { 
+       this.player.play('stand',true);
+    }
+    onDisappear(){
+        this.player.stop();
+    }
     onClick(e) {
         switch (e.target.name) {
             //兵器库
@@ -8,6 +22,9 @@ export default class HomeControl extends PaoYa.Component {
                 console.log("进入兵器库")
                 this.GET("martial_user_weapon_list", {}, res => {
                     //console.log(res)
+                    if (!res) {
+                        return
+                    }
                     this.navigator.push("WeaponHouse", res);
                 })
                 break;
@@ -15,8 +32,21 @@ export default class HomeControl extends PaoYa.Component {
             case "btnWeaponStore":
                 console.log("进入兵器商店")
                 this.POST("martial_shop_list", { refresh: 0 }, res => {
+                    if (!res) {
+                        return
+                    }
                     //console.log(res)
-                    this.navigator.push("WeaponStore", res);
+                    this.GET("martial_user_weapon_list", {}, data => {
+                        if (!data) {
+                            return
+                        }
+                        let obj = {
+                            buyList: res,
+                            sellList: data
+                        }
+                        this.navigator.push("WeaponStore", obj);
+                    })
+
                 })
                 break;
                 //炼器
@@ -30,6 +60,13 @@ export default class HomeControl extends PaoYa.Component {
             //英雄库
             case "btnHerosHouse":
                 console.log("进入英雄库")
+                this.GET("martial_role_list", {}, res => {
+                    //console.log(res)
+                    if (!res) {
+                        return
+                    }
+                    this.navigator.push("Swordsman", res);
+                })
                 break;
 
             //签到

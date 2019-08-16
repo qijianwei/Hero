@@ -10,12 +10,16 @@ export default class WeaponStore extends PaoYa.View {
     onEnable() {
         this.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold
         this.goldNum.font = `weaponNFontT`
+        this.goldNum.scale(0.7,0.7)
+        this.goldNum.pos(381,20)
         this.diamondNum.text = PaoYa.DataCenter.user.user_info.member_diamond
         this.diamondNum.font = `weaponNFontT`
+        this.diamondNum.scale(0.7,0.7)
+        this.diamondNum.pos(622,20)
 
         this.sellText.font = `weaponDFont`
         this.buyText.font = `weaponDFont`
-        this.needDiamon.text = 999
+        this.needDiamon.text = 20
         this.needDiamon.font = `weaponNFontT`
         this.needDiamon.scale(0.5, 0.5)
         this.refreshTxt.font = `weaponDFont`
@@ -32,13 +36,99 @@ export default class WeaponStore extends PaoYa.View {
             WeaponStoreControl.ins.navigator.pop()
         })
 
-        this.refreshBtn.on(Laya.Event.CLICK, this, () => { 
-
+        this.sellBtn.on(Laya.Event.CLICK, this, () => {
+            WeaponStoreControl.ins.sellWp()
         })
 
-        this.buyBtn.on(Laya.Event.CLICK, this, () => { 
-
+        this.refreshBtn.on(Laya.Event.CLICK, this, () => {
+            let isHigh = false, highDeatil
+            WeaponStoreControl.ins.buyList.forEach(element => {
+                if (element.weaponStar == 3) {
+                    isHigh = true
+                    highDeatil = element
+                }
+            });
+            if(isHigh){
+                let obj = {
+                    detail: highDeatil,
+                    type: `buy`
+                }
+                WeaponStoreControl.ins.navigator.popup("weapon/StoreSure", obj);
+            }else{
+                WeaponStoreControl.ins.refresF()
+            }
         })
+
+        this.sell.on(Laya.Event.CLICK, this, () => {
+            WeaponStoreControl.ins.wpdType = `sell`
+            this.sell.skin = `remote/weaponstore/3.png`
+            this.buy.skin = `remote/weaponstore/2.png`
+            this.sellPage.visible = true
+            this.buyPage.visible = false
+            this.getWareBtnSkin(`light`)
+            this.lightNew.visible = false
+            WeaponStoreControl.ins.sellPresentIdx = 0
+            WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.lightList)
+        })
+
+        this.buy.on(Laya.Event.CLICK, this, () => {
+            WeaponStoreControl.ins.wpdType = `buy`
+            this.sell.skin = `remote/weaponstore/2.png`
+            this.buy.skin = `remote/weaponstore/3.png`
+            this.sellPage.visible = false
+            this.buyPage.visible = true
+            WeaponStoreControl.ins.buyPresentIdx = 0
+            if(WeaponStoreControl.ins.buyList.length>0){
+                this.weapon.visible = true
+                this.buyBtn.visible = true
+            }else{
+                this.weapon.visible = false
+                this.buyBtn.visible = false
+            }
+            this.buyList.array = WeaponStoreControl.ins.buyList
+        })
+
+        this.light.on(Laya.Event.CLICK, this, () => {
+            this.getWareBtnSkin(`light`)
+            this.lightNew.visible = false
+            WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.lightList)
+        })
+
+        this.middle.on(Laya.Event.CLICK, this, () => {
+            this.getWareBtnSkin(`middle`)
+            this.middleNew.visible = false
+            WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.middleList)
+        })
+
+        this.large.on(Laya.Event.CLICK, this, () => {
+            this.getWareBtnSkin(`large`)
+            this.largeNew.visible = false
+            WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.heavyList)
+        })
+
+        this.buyBtn.on(Laya.Event.CLICK, this, () => {
+            let detail = WeaponStoreControl.ins.currentBuyWeapDetail
+            if (!detail) {
+                return
+            }
+            if (Number(detail.weaponPrice) > Number(this.goldNum.text)) {
+                WeaponStoreControl.ins.navigator.popup("weapon/GoldLack");
+                return
+            } else {
+                PaoYa.DataCenter.user.user_info.member_gold -= Number(detail.weaponPrice)
+                this.goldNum.text = PaoYa.DataCenter.user.user_info.member_gold
+                WeaponStoreControl.ins.buyWp()
+            }
+        })
+    }
+
+    getWareBtnSkin(name) {
+        WeaponStoreControl.ins.sellPresentIdx = 0
+        let arr = [`light`, `middle`, `large`]
+        arr.forEach(element => {
+            this[element].skin = `remote/weaponhouse/14.png`
+        });
+        this[name].skin = `remote/weaponhouse/13.png`
     }
 
     onDisable() {
