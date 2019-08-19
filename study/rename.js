@@ -6,33 +6,13 @@ let {
 let stat = promisify(fs.stat);
 let rename=promisify(fs.rename);
 let filePath = 'C:\\Users\\HI\\Desktop\\纯正商业级应用－Node.js Koa2开发微信小程序服务端\\';
-let filePath2 = 'C:\\Users\\HI\\Desktop\\node基础视频\\'
+let filePath2 = 'C:\\Users\\HI\\Desktop\\node基础视频\\';
 
-function grab(path, cb) {
-    let files = fs.readdirSync(path);
-    files.forEach((file) => {
-        if (fs.statSync(path + file).isFile()) {
-            cb(path, file);
-        }
-    })
-}
-
-/* function rename(oldPath, newPath) {
-    fs.rename(oldPath, newPath, (err) => {
-        if (err) {
-            throw err;
-        }
-    })
-}; */
-/* grab(filePath, (path, fileName) => {
-    let oldPath = path + fileName,
-        newPath = path + fileName.replace(/(【.*?】)||(\(.*?\))/, '');
-    rename(oldPath, newPath);
-})
- */
 /******************************** forEach问题了解清楚***************/
+//https://imweb.io/topic/5b3b7d624d378e703a4f4437 (forEach)
 (async function grabFile(path) {
-    let files = fs.readdirSync(path);
+    let files = await fs.readdir(path);
+    //可以用for of ,不能用foreach
     for(let i=0;i<files.length;i++){
         let file=files[i];
         try {

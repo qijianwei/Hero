@@ -11,4 +11,8 @@
    <item name="remote/game/playerSkillBg.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/figure/5.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/figure/11.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/pass_result/winPanel.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/pass_result/win.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/pass_result/losePanel.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/pass_result/lose.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
 </res>

@@ -35,6 +35,10 @@ var _PassResultDialog = require("./gamescripts/dialog/PassResultDialog");
 
 var _PassResultDialog2 = _interopRequireDefault(_PassResultDialog);
 
+var _WeaponBar = require("./gamescripts/prefab/WeaponBar");
+
+var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
+
 var _GameView = require("./gamescripts/GameView");
 
 var _GameView2 = _interopRequireDefault(_GameView);
@@ -151,10 +155,6 @@ var _Weapon = require("./gamescripts/prefab/Weapon");
 
 var _Weapon2 = _interopRequireDefault(_Weapon);
 
-var _WeaponBar = require("./gamescripts/prefab/WeaponBar");
-
-var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
-
 var _WeaponSkill = require("./gamescripts/prefab/WeaponSkill");
 
 var _WeaponSkill2 = _interopRequireDefault(_WeaponSkill);
@@ -174,6 +174,7 @@ var GameConfig = function () {
 												//注册Script或者Runtime引用
 												var reg = Laya.ClassUtils.regClass;
 												reg("gamescripts/dialog/PassResultDialog.js", _PassResultDialog2.default);
+												reg("gamescripts/prefab/WeaponBar.js", _WeaponBar2.default);
 												reg("gamescripts/GameView.js", _GameView2.default);
 												reg("gamescripts/prefab/MPBar.js", _MPBar2.default);
 												reg("gamescripts/prefab/HPBar.js", _HPBar2.default);
@@ -203,7 +204,6 @@ var GameConfig = function () {
 												reg("scripts/common/HomeControl.js", _HomeControl2.default);
 												reg("gamescripts/prefab/Player.js", _Player2.default);
 												reg("gamescripts/prefab/Weapon.js", _Weapon2.default);
-												reg("gamescripts/prefab/WeaponBar.js", _WeaponBar2.default);
 												reg("gamescripts/prefab/WeaponSkill.js", _WeaponSkill2.default);
 								}
 				}]);
@@ -219,7 +219,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -1196,11 +1196,41 @@ var GameControl = function (_PaoYa$Component) {
 
     }, {
         key: 'passOver',
-        value: function passOver() {}
+        value: function passOver(loserIsSelf) {
+            var _this8 = this;
+
+            this.gameState = 'over';
+            Laya.MouseManager.enabled = false;
+            if (!loserIsSelf) {
+                this.selfPlayer.comp.skeleton.play('win', true);
+            } else {
+                this.otherPlayer.comp.skeleton.play('win', true);
+            }
+            Laya.timer.clearAll(this);
+            console.error('闯关');
+
+            this.selfPlayer.comp.MPComp.stopIncrease();
+            this.otherPlayer.comp.MPComp.stopIncrease();
+
+            //删除界面上兵器
+            this.selfWeapons.forEach(function (weapon) {
+                weapon.endMove();
+            });
+            this.otherWeapons.forEach(function (weapon) {
+                weapon.endMove();
+            });
+            Laya.timer.once(3000, this, function () {
+                _this8.POST('martial_game_end', { killNum: 2 }, function (res) {
+                    //res.result=loserIsSelf?-1:1;
+                    res.result = 1;
+                    _this8.navigator.popup('/dialog/PassResultDialog', res);
+                });
+            });
+        }
     }, {
         key: 'gameOver',
         value: function gameOver(loserIsSelf) {
-            var _this8 = this;
+            var _this9 = this;
 
             this.gameState = 'over';
             Laya.MouseManager.enabled = false;
@@ -1223,7 +1253,11 @@ var GameControl = function (_PaoYa$Component) {
                 weapon.endMove();
             });
             Laya.timer.once(3000, this, function () {
-                _this8.navigator.pop();
+                _this9.POST('martial_game_end', null, function (res) {
+                    //res.result=loserIsSelf?-1:1;
+                    res.result = 1;
+                    _this9.navigator.popup('./dialog/PassResultDialog', res);
+                });
             });
         }
     }, {
@@ -1574,6 +1608,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _WeaponBar = require("../prefab/WeaponBar");
+
+var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -1593,6 +1633,53 @@ var PassResultDialog = function (_PaoYa$Dialog) {
         key: "onAwake",
         value: function onAwake() {
             console.log(this.params);
+            var result = this.params.result;
+            this.result = result;
+            if (result == -1) {
+                this.spIcon.texture = "remote/pass_result/lose.png";
+                this.spBtn.texture = "remote/pass_result/btnAgain.png";
+                this.boxWeapons.visible = false;
+                this.spPanel.texture = "remote/pass_result/losePanel.png";
+                this.boxPrize.y = 460;
+            } else {
+                this.spIcon.texture = "remote/pass_result/win.png";
+                this.spBtn.texture = "remote/pass_result/btnNext.png";
+                this.boxWeapons.visible = true;
+                this.spPanel.texture = "remote/pass_result/winPanel.png";
+                this.boxPrize.y = 379;
+                var weaponBarsArr = this.boxWeapons._children;
+                var weaponList = this.params.weaponList;
+                var len = weaponList.length;
+                /*    for(let i=0;i<len;i++){
+                       weaponBarsArr[i].visible=true;
+                       weaponBarsArr[i].getComponent(WeaponBar).params=weaponList[i];
+                       weaponBarsArr[i].getComponent(WeaponBar).initView();
+                       
+                   } */
+                weaponBarsArr[0].visible = true;
+                weaponBarsArr[0].getComponent(_WeaponBar2.default).params = weaponList[0];
+                weaponBarsArr[0].getComponent(_WeaponBar2.default).initView();
+                weaponBarsArr[1].visible = true;
+                weaponBarsArr[1].getComponent(_WeaponBar2.default).params = weaponList[1];
+                weaponBarsArr[1].getComponent(_WeaponBar2.default).initView();
+            }
+            this.lblPrize.text = this.params.gold;
+            this.spBtn.on(Laya.Event.CLICK, this, this.clickHandler);
+            this.btnBack.on(Laya.Event.CLICK, this, this.backHandler);
+        }
+    }, {
+        key: "clickHandler",
+        value: function clickHandler() {
+            if (this.result == -1) {
+                console.log("再试一次");
+            } else {
+                console.log("继续闯关");
+            }
+        }
+    }, {
+        key: "backHandler",
+        value: function backHandler() {
+            PaoYa.navigator.popToRootScene();
         }
     }]);
 
@@ -1601,7 +1688,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = PassResultDialog;
 
-},{}],9:[function(require,module,exports){
+},{"../prefab/WeaponBar":18}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2213,7 +2300,8 @@ var Player = function (_PaoYa$Component) {
       if (this.HPComp.curHP <= 0) {
         console.error('死亡结束');
         this.skeleton.play("death", false);
-        _GameControl2.default.instance.gameOver(this.isSelf);
+        _GameControl2.default.instance.passOver(this.isSelf);
+        /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
         return;
       }
       var aniName = this.typeAniName[posType];
@@ -3572,19 +3660,17 @@ var WeaponBar = function (_PaoYa$Component) {
             this.endAngle = -90;
             this.startAngle = -90;
             this.freezeing = false;
-
+        }
+    }, {
+        key: "onEnable",
+        value: function onEnable() {
             this.cdTime = this.params.weaponCd * 1000;
             this.originCdTime = this.cdTime;
 
             this.weaponConsume = this.params.weaponConsume; //使用一次要消耗的体力值
-            //暂时调用
-            // this.setCdTime(1000)
 
             this.initView();
         }
-    }, {
-        key: "onEnable",
-        value: function onEnable() {}
         //根据武器参数，初始化视图
 
     }, {

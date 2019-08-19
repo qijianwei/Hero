@@ -691,8 +691,34 @@ export default class GameControl extends PaoYa.Component {
 
     }
     //关卡结束
-    passOver() {
+    passOver(loserIsSelf) {
+        this.gameState='over';
+        Laya.MouseManager.enabled = false;
+        if (!loserIsSelf) {
+            this.selfPlayer.comp.skeleton.play('win', true);
+        }else{
+            this.otherPlayer.comp.skeleton.play('win',true);
+        }
+        Laya.timer.clearAll(this);
+        console.error('闯关');
 
+        this.selfPlayer.comp.MPComp.stopIncrease();
+        this.otherPlayer.comp.MPComp.stopIncrease();
+       
+        //删除界面上兵器
+        this.selfWeapons.forEach((weapon) => {
+            weapon.endMove();
+        })
+        this.otherWeapons.forEach((weapon) => {
+            weapon.endMove();
+        })
+        Laya.timer.once(3000,this,()=>{
+            this.POST('martial_game_end',{killNum:2},(res)=>{
+               //res.result=loserIsSelf?-1:1;
+               res.result=1;
+               this.navigator.popup('/dialog/PassResultDialog',res);
+            })
+         })
     }
     gameOver(loserIsSelf) {
         this.gameState='over';
@@ -716,7 +742,11 @@ export default class GameControl extends PaoYa.Component {
             weapon.endMove();
         })
         Laya.timer.once(3000,this,()=>{
-            this.navigator.pop();
+           this.POST('martial_game_end',null,(res)=>{
+               //res.result=loserIsSelf?-1:1;
+               res.result=1;
+               this.navigator.popup('./dialog/PassResultDialog',res);
+           })
         })
           
     }

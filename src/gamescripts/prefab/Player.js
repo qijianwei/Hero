@@ -162,7 +162,8 @@ export default class Player extends PaoYa.Component {
     if (this.HPComp.curHP <= 0) {
       console.error('死亡结束')
       this.skeleton.play("death", false);
-      GameControl.instance.gameOver(this.isSelf);
+      GameControl.instance.passOver(this.isSelf);
+     /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
       return;
     }
     let aniName = this.typeAniName[posType];

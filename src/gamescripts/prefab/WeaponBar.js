@@ -38,17 +38,15 @@ export default class WeaponBar extends PaoYa.Component {
         this.startAngle = -90;
         this.freezeing=false;
        
+        
+    }
+    onEnable() {
         this.cdTime=this.params.weaponCd*1000;
         this.originCdTime=this.cdTime;
 
         this.weaponConsume=this.params.weaponConsume;//使用一次要消耗的体力值
-        //暂时调用
-       // this.setCdTime(1000)
 
         this.initView();
-    }
-    onEnable() {
-
     }
     //根据武器参数，初始化视图
     initView(){
