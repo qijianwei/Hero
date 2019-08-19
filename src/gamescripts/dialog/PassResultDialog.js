@@ -23,18 +23,11 @@ export default class PassResultDialog extends PaoYa.Dialog{
             let weaponBarsArr=this.boxWeapons._children;
             let weaponList=this.params.weaponList;
             let len=weaponList.length;
-         /*    for(let i=0;i<len;i++){
+            for(let i=0;i<len;i++){
                 weaponBarsArr[i].visible=true;
                 weaponBarsArr[i].getComponent(WeaponBar).params=weaponList[i];
-                weaponBarsArr[i].getComponent(WeaponBar).initView();
-                
-            } */
-            weaponBarsArr[0].visible=true;
-            weaponBarsArr[0].getComponent(WeaponBar).params=weaponList[0];
-            weaponBarsArr[0].getComponent(WeaponBar).initView();
-            weaponBarsArr[1].visible=true;
-            weaponBarsArr[1].getComponent(WeaponBar).params=weaponList[1];
-            weaponBarsArr[1].getComponent(WeaponBar).initView();
+                weaponBarsArr[i].getComponent(WeaponBar).initView();         
+            } 
         }
         this.lblPrize.text=this.params.gold;
         this.spBtn.on(Laya.Event.CLICK,this,this.clickHandler);
