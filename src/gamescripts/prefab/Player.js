@@ -30,7 +30,7 @@ export default class Player extends PaoYa.Component {
   }
   onAwake() {
     let owner=this.owner;
-    this.killed = false;
+   
     let width = owner.width,
         height = owner.height;
     let posX = Math.floor(width / 2),
@@ -56,14 +56,17 @@ export default class Player extends PaoYa.Component {
     this.freeze = freeze;   
     this.index=0;
   }
-  //执行两次，找原因
+  //执行两次，找原因(因为player在GameControl的onAwake创建)
   onEnable() {
-    console.error('执行几次')
+    this.killed = false;
     this.index+=1;
-    if(this.index==2){
+    if(this.index>=2){
       console.log(222222)
+      let templet=HeroConfig.spineMap["hero_1"].templet;
+      this.skeleton.init(templet,0);
+      this.skeleton.play('stand',true)
     }
-   // this.skeleton=HeroConfig.getSkeleton(this.attr.roleDress);
+   // 
 
     this.canAction = true;
     this.sectionAni = 0; //分段动画

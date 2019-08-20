@@ -252,7 +252,7 @@ export default class Weapon extends PaoYa.Component {
     this.doMove(x, y, curAngle);
   }
   stopParabola() {
-    console.log("清除定时器");
+    //console.log("清除定时器");
     Laya.timer.clear(this, this.startParabola);
   }
   //暂停动画
@@ -505,9 +505,9 @@ export default class Weapon extends PaoYa.Component {
             this.stopParabola();
             otherWeapon.stopParabola()
             return; */
-            console.error('碰撞啦啦啦啦.......................................')
+         /*    console.error('碰撞啦啦啦啦.......................................')
             console.error('我方类型:',this.weaponType,this.params.weaponId)
-            console.error('对方类型:',otherWeapon.weaponType,otherWeapon.params.weaponId)
+            console.error('对方类型:',otherWeapon.weaponType,otherWeapon.params.weaponId) */
           if (this.weaponDurable > otherWeapon.weaponDurable) {
             otherWeapon.playWeaponCollideEffect();
             this.weaponDurable -= otherWeapon.weaponDurable;

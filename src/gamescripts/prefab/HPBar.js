@@ -13,6 +13,7 @@ export default class HPBar extends PaoYa.Component{
     }
     initBar(HPValue){
       this.originW=this.owner.width;
+      this.imgMask.width=this.owner.width;
       console.log('初始的血量值:',HPValue);
       this.originHP=this.curHP=HPValue;
       this.lblHpPct.text=`${this.curHP}/${this.originHP}`

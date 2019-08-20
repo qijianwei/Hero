@@ -17,6 +17,7 @@ export default class MPBar extends PaoYa.Component{
     initBar(MPValue){
         console.log('初始的体力值:',MPValue);
         this.originMP=this.curMP=MPValue;
+        this.imgMask.width=this.owner.width;
         this.perAddMP=Math.floor(((this.originMP/360)*20));
         this.originPerAddMP=this.perAddMP;
         this.lblMpPct.text=`${this.curMP}/${this.originMP}`;

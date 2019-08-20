@@ -16,7 +16,7 @@ export default class GameBanner extends PaoYa.Component{
         this.startCount();
       }else if(params.gameType=="pass"){
         this.lblGameType.text=`第${params.curNum}关`;
-        this.lblTime.text=`${params.curNum}/${params.monsterNum}`
+        this.lblTime.text=`${params.battleIndex}/${params.monsterNum}`
       }
     }
     startCount(){
@@ -41,6 +41,6 @@ export default class GameBanner extends PaoYa.Component{
         //this.timerService.
     }
     onDestroy(){
-       this.timerService.stop();
+        this.timerService&& this.timerService.stop();
     }
 }

@@ -1,4 +1,6 @@
 import WeaponBar from "../prefab/WeaponBar";
+import GameControl from "../GameControl";
+
 
 export default class PassResultDialog extends PaoYa.Dialog{
     constructor(){
@@ -36,12 +38,22 @@ export default class PassResultDialog extends PaoYa.Dialog{
     }
     clickHandler(){
        if(this.result==-1){
-           console.log("再试一次")
+           //console.log("再试一次")
+           this.close();
+           GameControl.instance.restart();
        }else{
            console.log("继续闯关")
+           PaoYa.Request.POST("hero_game_start", { stageId: 1 }, (res) => {
+            
+            res.gameType="pass";
+            PaoYa.navigator.replace("GameView", res);
+            this.close();
+        })
+          
        }
     }
     backHandler(){
+        this.close();
         PaoYa.navigator.popToRootScene();
     }
 }
