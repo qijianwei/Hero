@@ -1,19 +1,22 @@
 import GameControl from "../GameControl";
 
 export default class GameBanner extends PaoYa.Component{
-     /** @prop {name:spGameStyle,tips:'比赛类型精灵图',type:Node}*/
-    /** @prop {name:lblTime,tips:'时间label',type:Node}*/
+     /** @prop {name:lblGameType,tips:'比赛类型',type:Node}*/
+    /** @prop {name:lblTime,tips:'时间label或者闯关数字',type:Node}*/
     constructor(){
         super();     
     }
     onAwake(){
-        this.startCount();
+        this.lblGameType.font="weaponNFontT"; 
     }
     changeStyle(params){
-      if(params.gameStyle=="macth"){
-          this.spGameStyle.texture="remote/game/23.png";
-      }else{
-         this.spGameStyle.texture="remote/game/23.png"; 
+        
+      if(params.gameType=="macth"){  
+        this.lblGameType.text="匹配赛";
+        this.startCount();
+      }else if(params.gameType=="pass"){
+        this.lblGameType.text=`第${params.curNum}关`;
+        this.lblTime.text=`${params.curNum}/${params.monsterNum}`
       }
     }
     startCount(){

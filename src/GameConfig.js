@@ -7,9 +7,9 @@ import HPBar from "./gamescripts/prefab/HPBar"
 import Dodge from "./gamescripts/prefab/Dodge"
 import GameBanner from "./gamescripts/prefab/GameBanner"
 import PlayerState from "./gamescripts/prefab/PlayerState"
-import GameControl from "./gamescripts/GameControl"
 import PlayerSkill from "./gamescripts/prefab/PlayerSkill"
 import Skill from "./gamescripts/prefab/Skill"
+import GameControl from "./gamescripts/GameControl"
 import LoadingView from "./scripts/common/Loading/LoadingView"
 import LoadingControl from "./scripts/common/Loading/LoadingControl"
 import Swordsman from "./scripts/common/figure/Swordsman"
@@ -44,9 +44,9 @@ export default class GameConfig {
 		reg("gamescripts/prefab/Dodge.js",Dodge);
 		reg("gamescripts/prefab/GameBanner.js",GameBanner);
 		reg("gamescripts/prefab/PlayerState.js",PlayerState);
-		reg("gamescripts/GameControl.js",GameControl);
 		reg("gamescripts/prefab/PlayerSkill.js",PlayerSkill);
 		reg("gamescripts/prefab/Skill.js",Skill);
+		reg("gamescripts/GameControl.js",GameControl);
 		reg("scripts/common/Loading/LoadingView.js",LoadingView);
 		reg("scripts/common/Loading/LoadingControl.js",LoadingControl);
 		reg("scripts/common/figure/Swordsman.js",Swordsman);
@@ -76,7 +76,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

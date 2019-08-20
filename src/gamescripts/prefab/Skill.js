@@ -1,6 +1,7 @@
 import GameControl from "../GameControl";
 
 export default class Skill extends PaoYa.Component{
+    /* @prop {name:spSkill,tips:"技能精灵图",type:Node} */
     /* @prop {name:spShadow,tips:"阴影遮罩",type:Node} */
     /* @prop {name:lblLockTips,tips:"解锁等级提示",type:Node} */
     constructor(){
@@ -12,8 +13,9 @@ export default class Skill extends PaoYa.Component{
       this.ownH = owner.height;
       this.centerX=Math.floor(this.ownW/2);
       this.centerY=Math.floor(this.ownH/2);
+      this.spSkill.texture=`local/common/${this.params.skillId}.png`;
       this.maskArea=new Laya.Sprite();
-      this.maskArea.texture="remote/game/skill.png";
+      this.maskArea.texture=`local/common/${this.params.skillId}.png`;
       owner.addChild(this.maskArea);
      
       this.spMask=new Laya.Sprite();
@@ -37,7 +39,7 @@ export default class Skill extends PaoYa.Component{
         this.postNotification(Skill.CLICK,[this.owner.name]);
     }
     init(params){
-      this.cdTime=params.skillCd*1000;
+      this.cdTime=params.skillCd*1000; 
       if(!params.status){
           this.lblLockTips.visible=true;
           this.lblLockTips.font='weaponNFontT';

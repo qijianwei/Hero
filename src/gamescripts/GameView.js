@@ -15,8 +15,8 @@ export default class GameView extends PaoYa.View{
       this.otherMPBarScr=this.boxOtherInfo.getChildByName('boxMPBar').getComponent(MPBar);  
       this.otherHPBarScr=this.boxOtherInfo.getChildByName('boxHPBar').getComponent(HPBar);
 
-      this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
-      this.gameBannerScr.changeStyle({gameStyle:'battle'});
+     /*  this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
+      this.gameBannerScr.changeStyle({gameStyle:'battle'}); */
       let scene=HeroConfig.getSkeleton('scene1');
       this.scenePoint.addChild(scene);
       scene.play('stand',true);

@@ -63,10 +63,6 @@ var _PlayerState = require("./gamescripts/prefab/PlayerState");
 
 var _PlayerState2 = _interopRequireDefault(_PlayerState);
 
-var _GameControl = require("./gamescripts/GameControl");
-
-var _GameControl2 = _interopRequireDefault(_GameControl);
-
 var _PlayerSkill = require("./gamescripts/prefab/PlayerSkill");
 
 var _PlayerSkill2 = _interopRequireDefault(_PlayerSkill);
@@ -74,6 +70,10 @@ var _PlayerSkill2 = _interopRequireDefault(_PlayerSkill);
 var _Skill = require("./gamescripts/prefab/Skill");
 
 var _Skill2 = _interopRequireDefault(_Skill);
+
+var _GameControl = require("./gamescripts/GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
 
 var _LoadingView = require("./scripts/common/Loading/LoadingView");
 
@@ -181,9 +181,9 @@ var GameConfig = function () {
 												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
 												reg("gamescripts/prefab/GameBanner.js", _GameBanner2.default);
 												reg("gamescripts/prefab/PlayerState.js", _PlayerState2.default);
-												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("gamescripts/prefab/PlayerSkill.js", _PlayerSkill2.default);
 												reg("gamescripts/prefab/Skill.js", _Skill2.default);
+												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("scripts/common/Loading/LoadingView.js", _LoadingView2.default);
 												reg("scripts/common/Loading/LoadingControl.js", _LoadingControl2.default);
 												reg("scripts/common/figure/Swordsman.js", _Swordsman2.default);
@@ -219,7 +219,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -435,6 +435,10 @@ var _WeaponSkill = require('./prefab/WeaponSkill');
 
 var _WeaponSkill2 = _interopRequireDefault(_WeaponSkill);
 
+var _GameBanner = require('./prefab/GameBanner');
+
+var _GameBanner2 = _interopRequireDefault(_GameBanner);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -455,6 +459,7 @@ var GameControl = function (_PaoYa$Component) {
     /** @prop {name:otherHP,tips:'对方的血条',type:Node}*/
     /** @prop {name:otherMP,tips:'对方的体力',type:Node}*/
     /** @prop {name:playerState,tips:'人物状态',type:Node}*/
+    /** @prop {name:boxGameBanner,tips:'游戏类型Banner',type:Node}*/
 
     function GameControl() {
         _classCallCheck(this, GameControl);
@@ -481,8 +486,17 @@ var GameControl = function (_PaoYa$Component) {
 
             this.params = this.owner.params;
             //暂定
-            this.gameType = "pass";
-            this.passNum = 1;
+            this.gameType = this.params.gameType;
+            if (this.gameType == "pass") {
+                this.monsterNum = this.params.monsterList.length;
+                this.killNum = 0;
+                this.curNum = 1;
+                this.boxGameBanner.getComponent(_GameBanner2.default).changeStyle({
+                    gameType: 'pass',
+                    curNum: this.curNum,
+                    monsterNum: this.monsterNum
+                });
+            }
 
             this.weaponList = this.params.weaponList;
             this.robotWeaponList = this.params.robotWeaponList;
@@ -500,9 +514,10 @@ var GameControl = function (_PaoYa$Component) {
             this.dodgeOwner = this.dodgeComp.owner;
             this.playerStateComp = this.playerState.getComponent(_PlayerState2.default);
             this.initWeaponsBar();
-            this.initPlayer(true);
-            this.initPlayer(false);
-            this.initSkill();
+            /*    Laya.timer.once(5000,this,()=>{
+                
+               }) */
+
             this.owner.setInfo({
                 name: '阿强',
                 icon: 'remote/game/avstar_1.png'
@@ -517,17 +532,8 @@ var GameControl = function (_PaoYa$Component) {
             this.otherSkillTextComp = this.otherSkillText.getComponent(_PlayerSkill2.default);
             Laya.timer.once(5000, this, function () {
                 Laya.timer.once(1000, _this2, _this2.startSelect);
-                //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
             });
             //机器人开始
-
-            //画出三条运动轨迹，便于调试
-            /*    this.curvature = 0.0008;
-               this.drawParabola();
-               this.curvature = 0.0015;
-               this.drawParabola();
-               this.curvature = 0.0025;
-               this.drawParabola(); */
         }
         //游戏重新开始
 
@@ -586,6 +592,9 @@ var GameControl = function (_PaoYa$Component) {
             this.onNotification(_WeaponBar2.default.CLICK, this, this.weaponBarClickHandler);
             this.onNotification(_Skill2.default.CLICK, this, this.skillClickHandler);
             this.gameState = 'start';
+            this.initPlayer(true);
+            this.initPlayer(false);
+            this.initSkill();
         }
         //测试内力够不够
 
@@ -666,6 +675,8 @@ var GameControl = function (_PaoYa$Component) {
             var name = isSelf ? 'self' : 'other';
             var role = isSelf ? 'role' : 'robotRole';
             var player = Laya.Pool.getItemByCreateFun('player', this.player.create, this.player);
+
+            //let player=this.player.create();
             var spCollide = this.owner[name + 'Collide'];
             var spX = spCollide.x,
                 spY = spCollide.y,
@@ -732,6 +743,7 @@ var GameControl = function (_PaoYa$Component) {
             var activeSkills = this.selfPlayer.comp.activeSkills;
             for (var i = 1; i < 3; i++) {
                 this['skillScr' + i] = owner['skill' + i].getComponent(_Skill2.default);
+                this['skillScr' + i].params = activeSkills[i - 1];
                 this['skillScr' + i].init(activeSkills[i - 1]);
                 this['skillOwner' + i] = this['skillScr' + i].owner;
             }
@@ -1192,6 +1204,29 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'collisionDetection',
         value: function collisionDetection() {}
+    }, {
+        key: 'deathHandler',
+        value: function deathHandler(loserIsSelf) {
+            if (loserIsSelf) {
+                this.passOver(loserIsSelf);
+            } else {
+                this.killNum += 1;
+                if (this.killNum == this.monsterNum) {
+                    this.passOver(loserIsSelf);
+                } else {
+                    this.replacePlayer();
+                }
+            }
+        }
+        //换角色
+
+    }, {
+        key: 'replacePlayer',
+        value: function replacePlayer() {
+            this.params.robotRole = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotRole));
+            this.params.robotWeaponList = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotWeaponList));
+            this.initPlayer(false);
+        }
         //关卡结束
 
     }, {
@@ -1220,7 +1255,7 @@ var GameControl = function (_PaoYa$Component) {
                 weapon.endMove();
             });
             Laya.timer.once(3000, this, function () {
-                _this8.POST('martial_game_end', { killNum: 2 }, function (res) {
+                _this8.POST('martial_game_end', { killNum: _this8.killNum }, function (res) {
                     //res.result=loserIsSelf?-1:1;
                     res.result = 1;
                     _this8.navigator.popup('/dialog/PassResultDialog', res);
@@ -1276,7 +1311,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"./WeaponManager":6,"./prefab/Dodge":9,"./prefab/HPBar":11,"./prefab/MPBar":12,"./prefab/Player":13,"./prefab/PlayerSkill":14,"./prefab/PlayerState":15,"./prefab/Skill":16,"./prefab/Weapon":17,"./prefab/WeaponBar":18,"./prefab/WeaponSkill":19}],5:[function(require,module,exports){
+},{"./WeaponManager":6,"./prefab/Dodge":9,"./prefab/GameBanner":10,"./prefab/HPBar":11,"./prefab/MPBar":12,"./prefab/Player":13,"./prefab/PlayerSkill":14,"./prefab/PlayerState":15,"./prefab/Skill":16,"./prefab/Weapon":17,"./prefab/WeaponBar":18,"./prefab/WeaponSkill":19}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1327,8 +1362,8 @@ var GameView = function (_PaoYa$View) {
             this.otherMPBarScr = this.boxOtherInfo.getChildByName('boxMPBar').getComponent(_MPBar2.default);
             this.otherHPBarScr = this.boxOtherInfo.getChildByName('boxHPBar').getComponent(_HPBar2.default);
 
-            this.gameBannerScr = this.boxGameBanner.getComponent(_GameBanner2.default);
-            this.gameBannerScr.changeStyle({ gameStyle: 'battle' });
+            /*  this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
+             this.gameBannerScr.changeStyle({gameStyle:'battle'}); */
             var scene = _HeroConfig2.default.getSkeleton('scene1');
             this.scenePoint.addChild(scene);
             scene.play('stand', true);
@@ -1535,6 +1570,42 @@ var HeroConfig = {
       name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
       templet: null
     },
+    npc_1: {
+      path: "spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_2: {
+      path: "spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_3: {
+      path: "spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_4: {
+      path: "spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_5: {
+      path: "spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_6: {
+      path: "spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
     npc_7: {
       path: "spine/npc/npc_7.sk",
       name: ['bomb'],
@@ -1650,18 +1721,11 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 var weaponBarsArr = this.boxWeapons._children;
                 var weaponList = this.params.weaponList;
                 var len = weaponList.length;
-                /*    for(let i=0;i<len;i++){
-                       weaponBarsArr[i].visible=true;
-                       weaponBarsArr[i].getComponent(WeaponBar).params=weaponList[i];
-                       weaponBarsArr[i].getComponent(WeaponBar).initView();
-                       
-                   } */
-                weaponBarsArr[0].visible = true;
-                weaponBarsArr[0].getComponent(_WeaponBar2.default).params = weaponList[0];
-                weaponBarsArr[0].getComponent(_WeaponBar2.default).initView();
-                weaponBarsArr[1].visible = true;
-                weaponBarsArr[1].getComponent(_WeaponBar2.default).params = weaponList[1];
-                weaponBarsArr[1].getComponent(_WeaponBar2.default).initView();
+                for (var i = 0; i < len; i++) {
+                    weaponBarsArr[i].visible = true;
+                    weaponBarsArr[i].getComponent(_WeaponBar2.default).params = weaponList[i];
+                    weaponBarsArr[i].getComponent(_WeaponBar2.default).initView();
+                }
             }
             this.lblPrize.text = this.params.gold;
             this.spBtn.on(Laya.Event.CLICK, this, this.clickHandler);
@@ -1835,8 +1899,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var GameBanner = function (_PaoYa$Component) {
     _inherits(GameBanner, _PaoYa$Component);
 
-    /** @prop {name:spGameStyle,tips:'比赛类型精灵图',type:Node}*/
-    /** @prop {name:lblTime,tips:'时间label',type:Node}*/
+    /** @prop {name:lblGameType,tips:'比赛类型',type:Node}*/
+    /** @prop {name:lblTime,tips:'时间label或者闯关数字',type:Node}*/
     function GameBanner() {
         _classCallCheck(this, GameBanner);
 
@@ -1846,15 +1910,18 @@ var GameBanner = function (_PaoYa$Component) {
     _createClass(GameBanner, [{
         key: "onAwake",
         value: function onAwake() {
-            this.startCount();
+            this.lblGameType.font = "weaponNFontT";
         }
     }, {
         key: "changeStyle",
         value: function changeStyle(params) {
-            if (params.gameStyle == "macth") {
-                this.spGameStyle.texture = "remote/game/23.png";
-            } else {
-                this.spGameStyle.texture = "remote/game/23.png";
+
+            if (params.gameType == "macth") {
+                this.lblGameType.text = "匹配赛";
+                this.startCount();
+            } else if (params.gameType == "pass") {
+                this.lblGameType.text = "\u7B2C" + params.curNum + "\u5173";
+                this.lblTime.text = params.curNum + "/" + params.monsterNum;
             }
         }
     }, {
@@ -2138,84 +2205,100 @@ var Player = function (_PaoYa$Component) {
   _createClass(Player, [{
     key: "onAwake",
     value: function onAwake() {
-      var _this2 = this;
-
-      //this.params=this.owner.params;
       var owner = this.owner;
-      this.typeAniName = ["", "Bot", "Mid", "Top", "Top"]; //对应轨迹的动画名称
-
+      this.killed = false;
       var width = owner.width,
           height = owner.height;
-
-      var id = this.attr.roleId;
-      var skeleton = _HeroConfig2.default.getSkeleton('hero_' + id);
       var posX = Math.floor(width / 2),
           posY = height;
       this.centerX = posX;
+
+      console.error('角色服装:', this.attr.roleDress);
+      var dressIcon = this.attr.roleDress;
+      var skeleton = _HeroConfig2.default.getSkeleton(dressIcon);
+      skeleton.play('stand', true);
       skeleton.pos(posX, posY - 10);
-      this.skeleton = skeleton;
-      this.skeleton.play('stand', true);
-
-      this.sectionAni = 0; //分段动画
       //不管什么状态播放完，都继续播放待机状态
-      this.skeleton.on(Laya.Event.STOPPED, this, function () {
-        Laya.MouseManager.enabled = true;
-        if (_GameControl2.default.instance.gameState == 'over') {
-          return;
-        }
-        if (_this2.sectionAni == 1) {
-          _this2.sectionAni += 1;
-          _this2.skeleton.play('dodge2', false);
-          return;
-        }
-        if (_this2.sectionAni == 2) {
-          _this2.sectionAni += 1;
-          _this2.skeleton.play('dodge3', false);
-          return;
-        }
-        if (_this2.sectionAni == 3) {
-          _this2.removeDodge();
-          // return;
-        }
-        _this2.skeleton.play('stand', true);
-      });
+      skeleton.on(Laya.Event.STOPPED, this, this.stopHandler);
+      skeleton.on(Laya.Event.LABEL, this, this.labelHandler);
+      this.skeleton = skeleton;
 
-      owner.addChild(skeleton);
-
+      this.owner.addChild(skeleton);
+      //this.params=this.owner.params;
+      this.typeAniName = ["", "Bot", "Mid", "Top", "Top"]; //对应轨迹的动画名称
       var freeze = _HeroConfig2.default.getSkeleton('freeze');
       freeze.pos(posX, posY);
       this.owner.addChild(freeze);
       this.freeze = freeze;
+      this.index = 0;
+    }
+    //执行两次，找原因
+
+  }, {
+    key: "onEnable",
+    value: function onEnable() {
+      console.error('执行几次');
+      this.index += 1;
+      if (this.index == 2) {
+        console.log(222222);
+      }
+      // this.skeleton=HeroConfig.getSkeleton(this.attr.roleDress);
 
       this.canAction = true;
-      this.onSkeletonLabel();
+      this.sectionAni = 0; //分段动画
     }
     /* 监听事件帧 */
 
   }, {
-    key: "onSkeletonLabel",
-    value: function onSkeletonLabel() {
-      var _this3 = this;
+    key: "labelHandler",
+    value: function labelHandler(e) {
+      // this.skeleton.on(Laya.Event.LABEL, this, (e) => {
+      switch (e.name) {
+        case 'skill1':
+          _GameControl2.default.instance.allResume(this.isSelf);
+          this.skillCallback();
+          break;
+        case 'stop':
+          _GameControl2.default.instance.allPause(this.isSelf);
+          break;
+        case 'skill2':
+          _GameControl2.default.instance.allResume(this.isSelf);
+          this.boxAniSkill2.visible = true;
+          this.aniSkill2.play(0, true);
+          break;
+        case 'launch':
+          this.attackCallback();
+          break;
+      }
 
-      this.skeleton.on(Laya.Event.LABEL, this, function (e) {
-        switch (e.name) {
-          case 'skill1':
-            _GameControl2.default.instance.allResume(_this3.isSelf);
-            _this3.skillCallback();
-            break;
-          case 'stop':
-            _GameControl2.default.instance.allPause(_this3.isSelf);
-            break;
-          case 'skill2':
-            _GameControl2.default.instance.allResume(_this3.isSelf);
-            _this3.boxAniSkill2.visible = true;
-            _this3.aniSkill2.play(0, true);
-            break;
-          case 'launch':
-            _this3.attackCallback();
-            break;
-        }
-      });
+      // })
+    }
+    //监听动画停止；
+
+  }, {
+    key: "stopHandler",
+    value: function stopHandler() {
+      Laya.MouseManager.enabled = true;
+      if (this.killed) {
+        this.owner.removeSelf();
+        _GameControl2.default.instance.deathHandler(this.isSelf);
+        return;
+      }
+      if (this.sectionAni == 1) {
+        this.sectionAni += 1;
+        this.skeleton.play('dodge2', false);
+        return;
+      }
+      if (this.sectionAni == 2) {
+        this.sectionAni += 1;
+        this.skeleton.play('dodge3', false);
+        return;
+      }
+      if (this.sectionAni == 3) {
+        this.removeDodge();
+        // return;
+      }
+      this.skeleton.play('stand', true);
     }
     //动态注册技能回调
 
@@ -2227,9 +2310,6 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "attackCallback",
     value: function attackCallback() {}
-  }, {
-    key: "onEnable",
-    value: function onEnable() {}
 
     //人物触发技能1
 
@@ -2299,8 +2379,10 @@ var Player = function (_PaoYa$Component) {
 
       if (this.HPComp.curHP <= 0) {
         console.error('死亡结束');
+        this.killed = true;
         this.skeleton.play("death", false);
-        _GameControl2.default.instance.passOver(this.isSelf);
+
+        //  GameControl.instance.passOver(this.isSelf);
         /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
         return;
       }
@@ -2588,7 +2670,12 @@ var Player = function (_PaoYa$Component) {
     }
   }, {
     key: "onDisable",
-    value: function onDisable() {}
+    value: function onDisable() {
+      /*  this.skeleton.off(Laya.Event.STOPPED, this, this.stopHandler);
+       this.skeleton.off(Laya.Event.LABEL,this,this.labelHandler);
+       this.skeleton.removeSelf(); */
+      Laya.Pool.recover("player", this.owner);
+    }
   }, {
     key: "onDestroy",
     value: function onDestroy() {}
@@ -2758,6 +2845,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Skill = function (_PaoYa$Component) {
     _inherits(Skill, _PaoYa$Component);
 
+    /* @prop {name:spSkill,tips:"技能精灵图",type:Node} */
     /* @prop {name:spShadow,tips:"阴影遮罩",type:Node} */
     /* @prop {name:lblLockTips,tips:"解锁等级提示",type:Node} */
     function Skill() {
@@ -2769,13 +2857,15 @@ var Skill = function (_PaoYa$Component) {
     _createClass(Skill, [{
         key: "onAwake",
         value: function onAwake() {
+            return;
             var owner = this.owner;
             this.ownW = owner.width;
             this.ownH = owner.height;
             this.centerX = Math.floor(this.ownW / 2);
             this.centerY = Math.floor(this.ownH / 2);
+            this.spSkill.texture = "local/common/" + this.params.skillId + ".png";
             this.maskArea = new Laya.Sprite();
-            this.maskArea.texture = "remote/game/skill.png";
+            this.maskArea.texture = "local/common/" + this.params.skillId + ".png";
             owner.addChild(this.maskArea);
 
             this.spMask = new Laya.Sprite();
@@ -2986,6 +3076,7 @@ var Weapon = function (_PaoYa$Component) {
   }, {
     key: "onEnable",
     value: function onEnable() {
+
       this.params = this.owner.params;
 
       if (this.params.weaponType != 1) {
@@ -4085,6 +4176,7 @@ var HomeControl = function (_PaoYa$Component) {
                     console.log("开始游戏请求的数据......");
                     this.POST("hero_game_start", { stageId: 1 }, function (res) {
                         //console.log(res)
+                        res.gameType = "pass";
                         _this2.navigator.push("GameView", res);
                     });
                     // this.navigator.push("GameView",PaoYa.DataCenter.config)

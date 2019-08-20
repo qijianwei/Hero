@@ -71,6 +71,7 @@ export default class Weapon extends PaoYa.Component {
 
   //可能执行多次
   onEnable() {
+  
     this.params = this.owner.params;
    
     if (this.params.weaponType != 1) {

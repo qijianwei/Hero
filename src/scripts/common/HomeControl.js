@@ -92,6 +92,7 @@ export default class HomeControl extends PaoYa.Component {
                 console.log("开始游戏请求的数据......")
                 this.POST("hero_game_start", { stageId: 1 }, (res) => {
                     //console.log(res)
+                    res.gameType="pass";
                     this.navigator.push("GameView", res);
                 })
                 // this.navigator.push("GameView",PaoYa.DataCenter.config)

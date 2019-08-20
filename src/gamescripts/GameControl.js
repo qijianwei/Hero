@@ -9,6 +9,7 @@ import Dodge from './prefab/Dodge';
 import PlayerState from './prefab/PlayerState';
 import PlayerSkill from './prefab/PlayerSkill';
 import WeaponSkill from './prefab/WeaponSkill';
+import GameBanner from './prefab/GameBanner';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -19,6 +20,7 @@ export default class GameControl extends PaoYa.Component {
     /** @prop {name:otherHP,tips:'对方的血条',type:Node}*/
     /** @prop {name:otherMP,tips:'对方的体力',type:Node}*/
     /** @prop {name:playerState,tips:'人物状态',type:Node}*/
+     /** @prop {name:boxGameBanner,tips:'游戏类型Banner',type:Node}*/
 
     constructor() {
         super();
@@ -34,9 +36,18 @@ export default class GameControl extends PaoYa.Component {
 
         this.params = this.owner.params;
         //暂定
-        this.gameType = "pass";
-        this.passNum = 1;
-
+        this.gameType =this.params.gameType;
+        if(this.gameType=="pass"){
+            this.monsterNum = this.params.monsterList.length;
+            this.killNum=0;
+            this.curNum=1;
+            this.boxGameBanner.getComponent(GameBanner).changeStyle({
+                gameType:'pass',
+                curNum:this.curNum,
+                monsterNum:this.monsterNum
+            })
+        }
+       
         this.weaponList = this.params.weaponList;
         this.robotWeaponList = this.params.robotWeaponList;
         this.dealParams(this.weaponList)
@@ -54,9 +65,7 @@ export default class GameControl extends PaoYa.Component {
         this.dodgeOwner = this.dodgeComp.owner;
         this.playerStateComp = this.playerState.getComponent(PlayerState);
         this.initWeaponsBar();
-        this.initPlayer(true);
-        this.initPlayer(false);
-        this.initSkill();
+  
         this.owner.setInfo({
             name: '阿强',
             icon: 'remote/game/avstar_1.png'
@@ -71,22 +80,21 @@ export default class GameControl extends PaoYa.Component {
         this.otherSkillTextComp = this.otherSkillText.getComponent(PlayerSkill);
         Laya.timer.once(5000, this, () => {
             Laya.timer.once(1000, this, this.startSelect);
-            //this.owner.selfSkillText.getComponent(PlayerSkill).setSkillText("三仙剑")
+            
         })
         //机器人开始
-
-        //画出三条运动轨迹，便于调试
-        /*    this.curvature = 0.0008;
-           this.drawParabola();
-           this.curvature = 0.0015;
-           this.drawParabola();
-           this.curvature = 0.0025;
-           this.drawParabola(); */
-
     }
     //游戏重新开始
     restart() {
 
+    }
+    onEnable() {
+        this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
+        this.onNotification(Skill.CLICK, this, this.skillClickHandler);
+        this.gameState='start';
+        this.initPlayer(true);
+        this.initPlayer(false);
+        this.initSkill();
     }
     drawParabola() {
         let space = 5;
@@ -133,11 +141,7 @@ export default class GameControl extends PaoYa.Component {
         }
     }
 
-    onEnable() {
-        this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
-        this.onNotification(Skill.CLICK, this, this.skillClickHandler);
-        this.gameState='start';
-    }
+ 
     //测试内力够不够
     onUpdate() {
         if (!this.weaponsBarArr.length || !this.selfPlayer) {
@@ -209,6 +213,8 @@ export default class GameControl extends PaoYa.Component {
         let name = isSelf ? 'self' : 'other';
         let role = isSelf ? 'role' : 'robotRole';
         let player = Laya.Pool.getItemByCreateFun('player', this.player.create, this.player);
+       
+        //let player=this.player.create();
         let spCollide = this.owner[name + 'Collide'];
         let spX = spCollide.x,
             spY = spCollide.y,
@@ -266,13 +272,14 @@ export default class GameControl extends PaoYa.Component {
         this[name + 'Player'] = {
             node: player,
             comp: component
-        }
+        } 
     }
     initSkill() {
         let owner = this.owner;
         let activeSkills = this.selfPlayer.comp.activeSkills;
         for (let i = 1; i < 3; i++) {
             this['skillScr' + i] = owner['skill' + i].getComponent(Skill);
+            this['skillScr' + i].params=activeSkills[i - 1];
             this['skillScr' + i].init(activeSkills[i - 1]);
             this['skillOwner' + i] = this['skillScr' + i].owner;
         }
@@ -690,6 +697,24 @@ export default class GameControl extends PaoYa.Component {
 
 
     }
+    deathHandler(loserIsSelf){
+       if(loserIsSelf){
+           this.passOver(loserIsSelf);
+       }else{
+           this.killNum+=1;
+           if(this.killNum==this.monsterNum){
+               this.passOver(loserIsSelf);
+           }else{
+              this.replacePlayer();
+           }
+       }
+    }
+    //换角色
+    replacePlayer(){
+       this.params.robotRole=JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotRole));
+       this.params.robotWeaponList=JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotWeaponList))
+       this.initPlayer(false);
+    }
     //关卡结束
     passOver(loserIsSelf) {
         this.gameState='over';
@@ -713,7 +738,7 @@ export default class GameControl extends PaoYa.Component {
             weapon.endMove();
         })
         Laya.timer.once(3000,this,()=>{
-            this.POST('martial_game_end',{killNum:2},(res)=>{
+            this.POST('martial_game_end',{killNum:this.killNum},(res)=>{
                //res.result=loserIsSelf?-1:1;
                res.result=1;
                this.navigator.popup('/dialog/PassResultDialog',res);

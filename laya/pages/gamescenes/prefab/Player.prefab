@@ -2,7 +2,6 @@
     "x":0,
     "type":"Box",
     "selectedBox":106,
-    "selecteID":123,
     "searchKey":"Box",
     "props":{"y":250,"x":105,"width":210,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Player.prefab","isPresetRoot":true,"height":250,"anchorY":1,"anchorX":0.5},
     "nodeParent":-1,
@@ -14,23 +13,6 @@
     "hasChild":true,
     "compId":106,
     "child":[
-        {
-            "x":15,
-            "type":"Script",
-            "switchAble":true,
-            "source":"src/gamescripts/prefab/Player.js",
-            "searchKey":"Script,Player",
-            "removeAble":true,
-            "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Player.prefab","boxAniUp":"@node:138","boxAniTop":"@node:120","boxAniSkill2":"@node:140","boxAniSkill":"@node:136","boxAniPoison":"@node:130","boxAniPalsy":"@node:121","boxAniMp":"@node:134","boxAniMid":"@node:118","boxAniHp":"@node:132","boxAniDodge":"@node:140","boxAniDizzy":"@node:123","boxAniBot":"@node:116","aniUp":"@node:139","aniTop":"@node:119","aniSkill2":"@node:142","aniSkill":"@node:137","aniPoison":"@node:131","aniPalsy":"@node:128","aniMp":"@node:135","aniMid":"@node:117","aniHp":"@node:133","aniDodge":"@node:142","aniDizzy":"@node:129","aniBot":"@node:115"},
-            "nodeParent":106,
-            "label":"Player",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":107,
-            "child":[
-                ]
-        },
         {
             "x":15,
             "type":"Box",
@@ -344,6 +326,23 @@
                     "$HIDDEN":false
                 }],
             "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Script",
+            "switchAble":true,
+            "source":"src/gamescripts/prefab/Player.js",
+            "searchKey":"Script,Player",
+            "removeAble":true,
+            "props":{"y":0,"x":0,"presetID":2,"preset":"laya/pages/gamescenes/prefab/Player.prefab","enabled":true,"boxAniUp":"@node:138","boxAniTop":"@node:120","boxAniSkill2":"@node:140","boxAniSkill":"@node:136","boxAniPoison":"@node:130","boxAniPalsy":"@node:121","boxAniMp":"@node:134","boxAniMid":"@node:118","boxAniHp":"@node:132","boxAniDodge":"@node:140","boxAniDizzy":"@node:123","boxAniBot":"@node:116","aniUp":"@node:139","aniTop":"@node:119","aniSkill2":"@node:142","aniSkill":"@node:137","aniPoison":"@node:131","aniPalsy":"@node:128","aniMp":"@node:135","aniMid":"@node:117","aniHp":"@node:133","aniDodge":"@node:142","aniDizzy":"@node:129","aniBot":"@node:115"},
+            "nodeParent":106,
+            "label":"Player",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":107,
+            "child":[
+                ]
         }],
     "animations":[
         {
