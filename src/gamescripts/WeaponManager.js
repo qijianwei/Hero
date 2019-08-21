@@ -11,11 +11,12 @@ export default class WeaponManager extends Laya.Script{
       let weapons=[];
       for(let i=0,len=this.weaponList.length;i<len;i++){
           if(!this.weaponList[i].freezeing){
-            /*  console.warn("可用兵器id:",this.weaponList[i].params.weaponName); */
+             console.warn("可用兵器id:",this.weaponList[i].params.weaponName);
              weapons.push(this.weaponList[i])
           }
       }
       let random=Math.floor(Math.random()*weapons.length);
+      console.error('选中兵器:......:',weapons[random].params.weaponName)
       return weapons[random];
    }
 

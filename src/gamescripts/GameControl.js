@@ -41,42 +41,19 @@ export default class GameControl extends PaoYa.Component {
         if(this.gameType=="pass"){
             this.initGameBanner();
         }
-       
-        this.weaponList = this.params.weaponList;
-        this.robotWeaponList = this.params.robotWeaponList;
-        this.dealParams(this.weaponList)
-        this.dealParams(this.robotWeaponList)
+        this.restart(); //重置相关信息
 
-       
-         
-        this.selfMultiMP = 1; //兵器造成的内力消耗倍数
-        this.otherMultiMP = 1; //兵器造成的内力消耗倍数
-        this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；还有置灰功能
-
-        //暂时这么用;可能要用全局状态管理器
-        this.selfWeapons = [];
-        this.otherWeapons = [];
         this.dodgeComp = this.owner.dodge.getComponent(Dodge);
         this.dodgeOwner = this.dodgeComp.owner;
         this.playerStateComp = this.playerState.getComponent(PlayerState);
-        this.initWeaponsBar();
-  
-        this.owner.setInfo({
-            name: '阿强',
-            icon: 'remote/game/avstar_1.png'
-        }, true);
-        this.owner.setInfo({
-            name: '阿强',
-            icon: 'remote/game/avstar_1.png'
-        }, false);
+       
         this.selfSkillText = this.owner.selfSkillText;
         this.otherSkillText = this.owner.otherSkillText;
         this.selfSkillTextComp = this.selfSkillText.getComponent(PlayerSkill);
         this.otherSkillTextComp = this.otherSkillText.getComponent(PlayerSkill);
-        Laya.timer.once(5000, this, () => {
-            Laya.timer.once(1000, this, this.startSelect);
-            
-        })
+        this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；还有置灰功能
+        this.initWeaponsBar();
+        this.initSkill();
         //机器人开始
     }
     //游戏重新开始
@@ -93,13 +70,30 @@ export default class GameControl extends PaoYa.Component {
         this.robotWeaponList = JSON.parse(JSON.stringify(this.params.robotWeaponList));
         this.weaponManager=null;
         this.weaponManager = new WeaponManager(this.robotWeaponList);
+        this.role=JSON.parse(JSON.stringify(this.params.role))
+        this.robotRole=JSON.parse(JSON.stringify(this.params.robotRole))
         this.dealParams(this.weaponList);
         this.dealParams(this.robotWeaponList);
         this.initPlayer(true);
         this.initPlayer(false);
         this.initGameBanner();
+        this.resetPlayerInfo();
         //要加机器人定时器
+        Laya.timer.once(5000, this, () => {
+            this.firstWeaponSelect();
+            
+        })
 
+    }
+    resetPlayerInfo(){
+        this.owner.setInfo({
+            name: this.role.roleName,
+            icon:`local/common/${this.role.roleDress}.png`
+        }, true);
+        this.owner.setInfo({
+            name: this.robotRole.roleName,
+            icon: `local/common/${this.robotRole.roleDress}.png`
+        }, false);
     }
     initGameBanner(){
         this.monsterNum = this.params.monsterList.length;
@@ -118,11 +112,11 @@ export default class GameControl extends PaoYa.Component {
         this.onNotification(Skill.CLICK, this, this.skillClickHandler);
         this.gameState='start';
          //暂存数据
-        this.role=JSON.parse(JSON.stringify(this.params.role))
-        this.robotRole=JSON.parse(JSON.stringify(this.params.robotRole))
-        this.initPlayer(true);
-        this.initPlayer(false);
-        this.initSkill();
+      /*   this.role=JSON.parse(JSON.stringify(this.params.role))
+        this.robotRole=JSON.parse(JSON.stringify(this.params.robotRole)) */
+      /*   this.initPlayer(true);
+        this.initPlayer(false); */
+        
     }
     drawParabola() {
         let space = 5;
@@ -234,7 +228,6 @@ export default class GameControl extends PaoYa.Component {
             boxWeapon.addChild(weaponBar)
         }
         //初始化机器人的兵器
-        //console.log(this.weaponsBarArr);
         this.weaponManager = new WeaponManager(this.robotWeaponList);
     }
     initPlayer(isSelf) {
@@ -303,6 +296,7 @@ export default class GameControl extends PaoYa.Component {
             comp: component
         } 
     }
+    /* 人物技能 */
     initSkill() {
         let owner = this.owner;
         let activeSkills = this.selfPlayer.comp.activeSkills;
@@ -488,26 +482,36 @@ export default class GameControl extends PaoYa.Component {
         } else {
             this.selfPlayer.comp.skeleton.resume()
         }
-        Laya.timer.once(1000, this, this.startSelect);
+        /* Laya.timer.once(1000, this, this.startSelect); */
+        this.firstWeaponSelect();
         this.selfPlayer.comp.MPComp.resume();
         this.otherPlayer.comp.MPComp.resume();
         this.skillScr1.resume();
         this.skillScr2.resume();
         this.dodgeComp.resume();
     }
+    firstWeaponSelect(){
+        this.sWeapon = this.weaponManager.seletedWeapon();
+        Laya.timer.once(1000, this, this.startSelect);
+    }
     startSelect() {
-        let sWeapon = this.weaponManager.seletedWeapon();
+        //如果选中的已经发射了，才可以重新选
+        if(this.seletedLaunch){
+           this.sWeapon = this.weaponManager.seletedWeapon();
+        } 
         let curMp = this.otherPlayer.comp.MPComp.curMP;
-        if (curMp >= sWeapon.params.weaponConsume) {
+        if (curMp >= this.sWeapon.params.weaponConsume) {
+            this.seletedLaunch=true;
             if (this.otherPlayer.comp.canAction) {
-                sWeapon.isSelf = false;
-                sWeapon.selectedHandler();
-                this.weaponBarClickHandler(sWeapon);
+                this.sWeapon.isSelf = false;
+                this.sWeapon.selectedHandler();
+                this.weaponBarClickHandler(this.sWeapon);
             }else{
                 console.error("无法动弹")
             }
             Laya.timer.once(5000, this, this.startSelect);
         } else {
+            this.seletedLaunch=false;
             Laya.timer.once(500, this, this.startSelect);
         }
     }
@@ -741,9 +745,10 @@ export default class GameControl extends PaoYa.Component {
     }
     //换角色
     replacePlayer(){
-        Laya.timer.clear(this,this.startSelect)
+       Laya.timer.clear(this,this.startSelect)
        this.robotRole=JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotRole));
-       this.robotWeaponList=JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotWeaponList))
+       this.robotWeaponList=JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotWeaponList));
+       this.resetPlayerInfo();//主要是重置对方的名字信息
        this.initPlayer(false);
        this.battleIndex=this.killNum+1;
            this.boxGameBanner.getComponent(GameBanner).changeStyle({
@@ -755,7 +760,7 @@ export default class GameControl extends PaoYa.Component {
        console.error('换角色');
        this.weaponManager=null;
        this.weaponManager = new WeaponManager(this.robotWeaponList);
-       Laya.timer.once(1000, this, this.startSelect);
+       this.firstWeaponSelect();
     }
     //关卡结束
     passOver(loserIsSelf) {

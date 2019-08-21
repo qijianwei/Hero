@@ -22,6 +22,7 @@ export default class HPBar extends PaoYa.Component{
       this.curHP+=value;
       if(this.curHP<=0){
         this.curHP=0;
+        this.lblHpPct.text=`${this.curHP}/${this.originHP}`
         this.imgMask.width=0;
         return;
       }else if(this.curHP>this.originHP){

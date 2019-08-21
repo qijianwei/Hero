@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":3,
+    "selecteID":250,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
     "nodeParent":-1,
-    "maxID":250,
+    "maxID":252,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -105,13 +105,14 @@
             "props":{"y":14,"x":45,"var":"boxSelfInfo"},
             "nodeParent":2,
             "label":"boxSelfInfo",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":83,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":62,"x":84,"texture":"remote/game/pointBg.png"},
@@ -126,9 +127,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"texture":"remote/game/avstarBg.png"},
+                    "props":{"texture":"local/common/avstarBg.png"},
                     "nodeParent":83,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -136,9 +138,11 @@
                     "hasChild":false,
                     "compId":47,
                     "child":[
-                        ]
+                        ],
+                    "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,lblName",
                     "props":{"y":25,"x":152.390625,"text":"label","name":"lblName","fontSize":32,"font":"SimHei","color":"#ffffff","align":"left"},
@@ -152,6 +156,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,imgIcon",
                     "props":{"y":13,"x":15,"skin":"remote/game/avstar_1.png","name":"imgIcon"},
@@ -165,6 +170,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "selectedBox":74,
                     "selecteID":72,
@@ -245,6 +251,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "selectedBox":80,
                     "selecteID":78,
@@ -253,7 +260,7 @@
                     "nodeParent":83,
                     "maxID":82,
                     "label":"boxHPBar",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -333,13 +340,14 @@
             "props":{"y":21,"x":1283,"var":"boxOtherInfo","scaleX":-1},
             "nodeParent":2,
             "label":"boxOtherInfo",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":88,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":62,"x":84,"texture":"remote/game/pointBg.png"},
@@ -354,9 +362,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"texture":"remote/game/avstarBg.png"},
+                    "props":{"texture":"local/common/avstarBg.png"},
                     "nodeParent":88,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -367,6 +376,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,lblName",
                     "props":{"y":23,"x":298,"width":142,"text":"名字","scaleX":-1,"name":"lblName","height":32,"fontSize":32,"font":"SimHei","color":"#ffffff","align":"right"},
@@ -380,6 +390,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,imgIcon",
                     "props":{"y":13,"x":15,"skin":"remote/game/avstar_1.png","name":"imgIcon"},
@@ -393,6 +404,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "selectedBox":74,
                     "selecteID":72,
@@ -408,6 +420,7 @@
                     "compId":92,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/MPBar.prefab"},
@@ -434,6 +447,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":-5,"x":117,"scaleX":-1,"presetID":5,"preset":"laya/pages/gamescenes/prefab/MPBar.prefab"},
@@ -447,6 +461,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/gamescripts/prefab/MPBar.js",
@@ -473,6 +488,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "selectedBox":80,
                     "selecteID":78,
@@ -488,6 +504,7 @@
                     "compId":164,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/HPBar.prefab"},
@@ -514,6 +531,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":-1,"x":110,"scaleX":-1,"presetID":6,"preset":"laya/pages/gamescenes/prefab/HPBar.prefab"},
@@ -527,6 +545,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/gamescripts/prefab/HPBar.js",
