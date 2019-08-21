@@ -79,6 +79,14 @@ var _GameControl = require("./gamescripts/GameControl");
 
 var _GameControl2 = _interopRequireDefault(_GameControl);
 
+var _Grading = require("./scripts/common/figure/Grading");
+
+var _Grading2 = _interopRequireDefault(_Grading);
+
+var _GradingControl = require("./scripts/common/figure/GradingControl");
+
+var _GradingControl2 = _interopRequireDefault(_GradingControl);
+
 var _LoadingView = require("./scripts/common/Loading/LoadingView");
 
 var _LoadingView2 = _interopRequireDefault(_LoadingView);
@@ -86,6 +94,14 @@ var _LoadingView2 = _interopRequireDefault(_LoadingView);
 var _LoadingControl = require("./scripts/common/Loading/LoadingControl");
 
 var _LoadingControl2 = _interopRequireDefault(_LoadingControl);
+
+var _MatchView = require("./scripts/common/Match/MatchView");
+
+var _MatchView2 = _interopRequireDefault(_MatchView);
+
+var _MatchControl = require("./scripts/common/Match/MatchControl");
+
+var _MatchControl2 = _interopRequireDefault(_MatchControl);
 
 var _Swordsman = require("./scripts/common/figure/Swordsman");
 
@@ -189,8 +205,12 @@ var GameConfig = function () {
 												reg("gamescripts/prefab/PlayerSkill.js", _PlayerSkill2.default);
 												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("gamescripts/GameControl.js", _GameControl2.default);
+												reg("scripts/common/figure/Grading.js", _Grading2.default);
+												reg("scripts/common/figure/GradingControl.js", _GradingControl2.default);
 												reg("scripts/common/Loading/LoadingView.js", _LoadingView2.default);
 												reg("scripts/common/Loading/LoadingControl.js", _LoadingControl2.default);
+												reg("scripts/common/Match/MatchView.js", _MatchView2.default);
+												reg("scripts/common/Match/MatchControl.js", _MatchControl2.default);
 												reg("scripts/common/figure/Swordsman.js", _Swordsman2.default);
 												reg("scripts/common/figure/SwordsmanControl.js", _SwordsmanControl2.default);
 												reg("scripts/common/weapon/WeaponHouse.js", _WeaponHouse2.default);
@@ -233,7 +253,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/BattleResultDialog":8,"./gamescripts/dialog/PassResultDialog":9,"./gamescripts/prefab/Dodge":10,"./gamescripts/prefab/GameBanner":11,"./gamescripts/prefab/HPBar":12,"./gamescripts/prefab/MPBar":13,"./gamescripts/prefab/Player":14,"./gamescripts/prefab/PlayerSkill":15,"./gamescripts/prefab/PlayerState":16,"./gamescripts/prefab/Skill":17,"./gamescripts/prefab/Weapon":18,"./gamescripts/prefab/WeaponBar":19,"./gamescripts/prefab/WeaponSkill":20,"./scripts/common/HomeControl":22,"./scripts/common/Loading/LoadingControl":23,"./scripts/common/Loading/LoadingView":24,"./scripts/common/figure/Swordsman":25,"./scripts/common/figure/SwordsmanControl":26,"./scripts/common/weapon/WeaponHouse":29,"./scripts/common/weapon/WeaponHouseControl":30,"./scripts/common/weapon/WeaponStore":31,"./scripts/common/weapon/WeaponStoreControl":32,"./scripts/dialog/figure/BuyHero":33,"./scripts/dialog/figure/GetNewSkill":34,"./scripts/dialog/weapon/DiamondLack":35,"./scripts/dialog/weapon/GoldLack":36,"./scripts/dialog/weapon/StoreSure":37,"./scripts/dialog/weapon/UnlockFifth":38,"./scripts/dialog/weapon/UnlockFour":39,"./scripts/dialog/weapon/UnlockTips":40,"./scripts/prefab/BeanBox":41}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameView":5,"./gamescripts/dialog/BattleResultDialog":8,"./gamescripts/dialog/PassResultDialog":9,"./gamescripts/prefab/Dodge":10,"./gamescripts/prefab/GameBanner":11,"./gamescripts/prefab/HPBar":12,"./gamescripts/prefab/MPBar":13,"./gamescripts/prefab/Player":14,"./gamescripts/prefab/PlayerSkill":15,"./gamescripts/prefab/PlayerState":16,"./gamescripts/prefab/Skill":17,"./gamescripts/prefab/Weapon":18,"./gamescripts/prefab/WeaponBar":19,"./gamescripts/prefab/WeaponSkill":20,"./scripts/common/HomeControl":22,"./scripts/common/Loading/LoadingControl":23,"./scripts/common/Loading/LoadingView":24,"./scripts/common/Match/MatchControl":25,"./scripts/common/Match/MatchView":26,"./scripts/common/figure/Grading":27,"./scripts/common/figure/GradingControl":28,"./scripts/common/figure/Swordsman":29,"./scripts/common/figure/SwordsmanControl":30,"./scripts/common/weapon/WeaponHouse":33,"./scripts/common/weapon/WeaponHouseControl":34,"./scripts/common/weapon/WeaponStore":35,"./scripts/common/weapon/WeaponStoreControl":36,"./scripts/dialog/figure/BuyHero":37,"./scripts/dialog/figure/GetNewSkill":38,"./scripts/dialog/weapon/DiamondLack":39,"./scripts/dialog/weapon/GoldLack":40,"./scripts/dialog/weapon/StoreSure":41,"./scripts/dialog/weapon/UnlockFifth":42,"./scripts/dialog/weapon/UnlockFour":43,"./scripts/dialog/weapon/UnlockTips":44,"./scripts/prefab/BeanBox":45}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -262,6 +282,8 @@ var _HeroConfig = require("./gamescripts/config/HeroConfig");
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -304,17 +326,20 @@ var Main = exports.Main = function (_GameMain) {
 	_createClass(Main, [{
 		key: "setupConfig",
 		value: function setupConfig() {
+			var _PaoYa$Navigator$scen;
+
 			//Laya.MouseManager.enabled=false;
 			Laya.MouseManager.multiTouchEnabled = false; //关闭多点触控
 			_get(Main.prototype.__proto__ || Object.getPrototypeOf(Main.prototype), "setupConfig", this).call(this);
 
-			PaoYa.Navigator.scenesMap = {
+			PaoYa.Navigator.scenesMap = (_PaoYa$Navigator$scen = {
 				WeaponHouse: "scenes/common/WeaponHouse",
 				WeaponStore: "scenes/common/WeaponStore",
 				Swordsman: "scenes/common/Swordsman"
+			}, _defineProperty(_PaoYa$Navigator$scen, "Swordsman", "scenes/common/Swordsman"), _defineProperty(_PaoYa$Navigator$scen, "MatchView", 'scenes/common/Match/MatchView'), _defineProperty(_PaoYa$Navigator$scen, "Grading", 'scenes/common/Grading'), _PaoYa$Navigator$scen);
 
-				//分享地址
-			};PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
+			//分享地址
+			PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
 			PaoYa.DataCenter.GAMEPREPARE = null;
 
 			if (typeof wx != 'undefined' || Laya.Render.isConchApp) {
@@ -338,7 +363,7 @@ var Main = exports.Main = function (_GameMain) {
    	}
    	SoundManager.playMusic("mainBgm"); */
 			_HeroConfig2.default.loadAllSpine();
-			this.arrayFont = [{ fontUrl: "font/recMP.fnt", fontAni: "recoverMP" }, { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" }, { fontUrl: "font/hurt.fnt", fontAni: "hurt" }, { fontUrl: "font/crit.fnt", fontAni: "crit" }, { fontUrl: "font/poision.fnt", fontAni: "poision" }, { fontUrl: "font/playerState.fnt", fontAni: "playerState" }, { fontUrl: "font/playerSkill.fnt", fontAni: "playerSkill" }, { fontUrl: "font/weapon/detailfont.fnt", fontAni: "weaponDFont" }, { fontUrl: "font/weapon/lvfont.fnt", fontAni: "weaponNFontT" }];
+			this.arrayFont = [{ fontUrl: "font/recMP.fnt", fontAni: "recoverMP" }, { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" }, { fontUrl: "font/hurt.fnt", fontAni: "hurt" }, { fontUrl: "font/crit.fnt", fontAni: "crit" }, { fontUrl: "font/poision.fnt", fontAni: "poision" }, { fontUrl: "font/playerState.fnt", fontAni: "playerState" }, { fontUrl: "font/playerSkill.fnt", fontAni: "playerSkill" }, { fontUrl: "font/weapon/detailfont.fnt", fontAni: "weaponDFont" }, { fontUrl: "font/weapon/lvfont.fnt", fontAni: "weaponNFontT" }, { fontUrl: "font/figure/msz.fnt", fontAni: "figureDetail" }];
 			this.loadFontFnt(0);
 		}
 	}, {
@@ -1738,16 +1763,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _WeaponBar = require("../prefab/WeaponBar");
-
-var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
-
-var _GameControl = require("../GameControl");
-
-var _GameControl2 = _interopRequireDefault(_GameControl);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -1779,6 +1794,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
             this.btnBack.on(Laya.Event.CLICK, this, this.backHandler);
             this.btnHeroHouse.on(Laya.Event.CLICK, this, this.goHeroHouse);
         }
+
         //
 
     }, {
@@ -1806,7 +1822,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = BattleResultDialog;
 
-},{"../GameControl":4,"../prefab/WeaponBar":19}],9:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2074,6 +2090,11 @@ var GameBanner = function (_PaoYa$Component) {
                 this.lblGameType.text = "\u7B2C" + params.curNum + "\u5173";
                 this.lblTime.text = params.battleIndex + "/" + params.monsterNum;
             }
+        }
+    }, {
+        key: "setTimeText",
+        value: function setTimeText(value) {
+            this.lblTime.text = value;
         }
     }, {
         key: "startCount",
@@ -4302,6 +4323,13 @@ var HomeControl = function (_PaoYa$Component) {
                 //炼器
                 case "btnRefiner":
                     console.log("进入炼器");
+                    this.GET("martial_refiner_list", {}, function (res) {
+                        //console.log(res)
+                        if (!res) {
+                            return;
+                        }
+                        _this2.navigator.push("Devour", res);
+                    });
                     break;
                 //兵器谱
                 case "btnWeaponSpectrum":
@@ -4332,7 +4360,6 @@ var HomeControl = function (_PaoYa$Component) {
                     console.log("开始游戏请求的数据......");
                     this.POST("hero_game_start", { stageId: 1 }, function (res) {
                         //console.log(res)
-                        res.gameType = "pass";
                         _this2.navigator.push("GameView", res);
                     });
                     // this.navigator.push("GameView",PaoYa.DataCenter.config)
@@ -4340,6 +4367,13 @@ var HomeControl = function (_PaoYa$Component) {
                 //华山论剑
                 case "btnBattle":
                     console.log("华山论剑");
+                    this.GET("martial_role_list", {}, function (res) {
+                        //console.log(res)
+                        if (!res) {
+                            return;
+                        }
+                        _this2.navigator.push("Grading", res);
+                    });
                     break;
                 //决战紫禁城之巅
                 case "btnBoss":
@@ -4509,6 +4543,428 @@ var LoadingView = function (_PaoYa$View) {
 exports.default = LoadingView;
 
 },{}],25:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _GameBanner = require('../../../gamescripts/prefab/GameBanner');
+
+var _GameBanner2 = _interopRequireDefault(_GameBanner);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MatchControl = function (_PaoYa$Component) {
+    _inherits(MatchControl, _PaoYa$Component);
+
+    /** @prop {name:boxGameBanner,tips:'游戏类型Banner',type:Node}*/
+    function MatchControl() {
+        _classCallCheck(this, MatchControl);
+
+        return _possibleConstructorReturn(this, (MatchControl.__proto__ || Object.getPrototypeOf(MatchControl)).call(this));
+    }
+
+    _createClass(MatchControl, [{
+        key: 'onAwake',
+        value: function onAwake() {
+            this.gameBannerComp = this.boxGameBanner.getComponent(_GameBanner2.default);
+        }
+    }, {
+        key: 'onAppear',
+        value: function onAppear() {
+            var _this2 = this;
+
+            var timerService = new PaoYa.TimerService(1000, 1, true);
+            timerService.on(PaoYa.TimerService.PROGRESS, this, function (time) {
+                _this2.gameBannerComp.setTimeText('\u7B49\u5F85\u65F6\u95F4:' + time);
+            });
+            timerService.on(PaoYa.TimerService.STOP, this, function () {
+                console.log('停止计时器');
+            });
+            timerService.start();
+            this.timerService = timerService;
+            this.owner.startAni();
+            var randomTime = (Math.ceil(Math.random() * 5) + 5) * 1000;
+            Laya.timer.once(randomTime, this.owner, this.owner.matchOK);
+        }
+    }, {
+        key: 'onClick',
+        value: function onClick(e) {
+            switch (e.target.name) {
+                case 'btnBack':
+                    this.timerService.stop();
+                    this.navigator.pop();
+                    break;
+            }
+        }
+    }, {
+        key: 'onDisappear',
+        value: function onDisappear() {
+            this.timerService = null;
+            this.owner.stopAni();
+        }
+    }]);
+
+    return MatchControl;
+}(PaoYa.Component);
+
+exports.default = MatchControl;
+
+},{"../../../gamescripts/prefab/GameBanner":11}],26:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MatchView = function (_PaoYa$View) {
+    _inherits(MatchView, _PaoYa$View);
+
+    function MatchView() {
+        _classCallCheck(this, MatchView);
+
+        return _possibleConstructorReturn(this, (MatchView.__proto__ || Object.getPrototypeOf(MatchView)).call(this));
+    }
+
+    _createClass(MatchView, [{
+        key: 'onAwake',
+        value: function onAwake() {
+            this.lblTip.font = 'weaponNFontT';
+            this.lblTip.scale(0.8, 0.8);
+            this.ladderNameArr = ['无名小卒', '初出茅庐', '后起之秀', '江湖少侠', '武林高手', '名震江湖', '独步武林', '一代宗师', '独孤求败'];
+            this.initView();
+        }
+    }, {
+        key: 'initView',
+        value: function initView() {
+            var params = this.params;
+            this.selfRoleId = params.role.roleId;
+            this.otherRoleId = params.robotRole.roleId;
+            this.selfName.text = params.nickName;
+            this.selfLadderInfo = this.findLadderById(this.selfRoleId);
+            this.otherLadderInfo = this.findLadderById(this.otherRoleId);
+            this.selfLadderInfo.texture = 'local/common/badge_' + this.selfLadderInfo.ladderId;
+            //  this.otherLadderInfo.texture=`local/common/badge_${this.otherLadderInfo.ladderId}`;
+            this.selfLadderName.text = this.selfLadderInfo.ladderName;
+            // this.otherLadderName.text=this.otherLadderInfo.ladderName;  
+            this.resetStar(true);
+            this.resetStar(false);
+            this.otherStars.visible = false;
+        }
+    }, {
+        key: 'resetStar',
+        value: function resetStar(isSelf) {
+            var name = isSelf ? 'self' : 'other';
+            var ladder = isSelf ? 'ladder' : 'robotLadder';
+            if (this.params[ladder] > 8) {
+                var sprite = new Laya.Sprite();
+                /*   sprite.pivot(25,28);*/
+                sprite.size(50, 56);
+                this[name + 'Stars'].addChild(sprite);
+                var label = new Laya.Label();
+                label.text = '×' + this.params.ladderStar;
+                this[name + 'Stars'].addChild(label);
+            } else {
+                /*   let star=params[ladder+'Star'];
+                  let numStar=this[name+'LadderInfo'].ladderStar; */
+                var star = 1;
+                var numStar = 2;
+                for (var i = 0; i < numStar; i++) {
+                    var _sprite = new Laya.Sprite();
+                    _sprite.pivot(25, 28);
+                    if (i < star) {
+                        _sprite.texture = 'local/common/starLight.png';
+                    } else {
+                        _sprite.texture = 'local/common/starDark.png';
+                    }
+                    this[name + 'Stars'].addChild(_sprite);
+                }
+            }
+        }
+    }, {
+        key: 'startAni',
+        value: function startAni() {
+            var _this2 = this;
+
+            var point = "...";
+            var index = 1;
+            var ladderIndex = 1;
+            var nameIndex = 0;
+            Laya.timer.loop(300, this, function () {
+                index = index == 4 ? 1 : index + 1;
+                ladderIndex = ladderIndex == 9 ? 1 : ladderIndex + 1;
+                nameIndex = nameIndex == _this2.ladderNameArr.length - 1 ? 0 : nameIndex + 1;
+                point = point == '...' ? '.' : point + '.';
+                _this2.lblTip.text = '\u5339\u914D\u6210\u529F,\u53D1\u4FBF\u5F53\u4E2D' + point;
+                _this2.otherAvstar.texture = 'local/common/hero_' + index + '.png';
+                _this2.otherLadderName.text = _this2.ladderNameArr[nameIndex];
+                _this2.otherLadder.texture = 'local/common/badge_' + ladderIndex + '.png';
+            });
+        }
+    }, {
+        key: 'matchOK',
+        value: function matchOK() {
+            this.stopAni();
+            this.otherStars.visible = false;
+            this.otherName.text = this.params.robotNickName;
+            this.otherLadderInfo.texture = 'local/common/badge_' + this.otherLadderInfo.ladderId + '.png';
+            this.otherLadderName.text = this.otherLadderInfo.ladderName;
+        }
+    }, {
+        key: 'stopAni',
+        value: function stopAni() {
+            Laya.timer.clearAll(this);
+        }
+    }, {
+        key: 'findLadderById',
+        value: function findLadderById(id) {
+            var result = PaoYa.DataCenter.config.hero.ladderList.filter(function (item) {
+                return item.id == id;
+            });
+            return result[0];
+        }
+    }]);
+
+    return MatchView;
+}(PaoYa.View);
+
+exports.default = MatchView;
+
+},{}],27:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _GradingControl = require("./GradingControl");
+
+var _GradingControl2 = _interopRequireDefault(_GradingControl);
+
+var _HeroConfig = require("../../../gamescripts/config/HeroConfig");
+
+var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Grading = function (_PaoYa$View) {
+    _inherits(Grading, _PaoYa$View);
+
+    function Grading() {
+        _classCallCheck(this, Grading);
+
+        return _possibleConstructorReturn(this, (Grading.__proto__ || Object.getPrototypeOf(Grading)).call(this));
+    }
+
+    _createClass(Grading, [{
+        key: "onAwake",
+        value: function onAwake() {}
+    }, {
+        key: "onEnable",
+        value: function onEnable() {
+            var _this2 = this;
+
+            this.benBack.on(Laya.Event.CLICK, this, function () {
+                _GradingControl2.default.ins.navigator.pop();
+            });
+
+            this.gameStart.on(Laya.Event.CLICK, this, function () {
+                _GradingControl2.default.ins.gameRole(_this2.showDetail.roleId);
+            });
+
+            this.gameStartTxt.font = "weaponDFont";
+            this.gameStartTxt.scale(0.7, 0.7);
+            this.gameStartTxt.pos(22, 15);
+
+            this.gradingNum.skin = "local/common/badge_" + this.params.ladder + ".png";
+
+            this.canUseList = [];
+            this.params.roleList.forEach(function (element) {
+                if (element.roleStatus) {
+                    _this2.canUseList.push(element);
+                }
+            });
+
+            this.canUseList.forEach(function (element) {
+                if (element.roleId == _this2.params.defaultRole) {
+                    _this2.showDetail = element;
+                }
+            });
+
+            this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
+            this.herolist.array = this.canUseList;
+
+            if (this.params.ladder == 9) {
+                this.starNum.visible = false;
+                this.starNum2.visible = true;
+                this.starNumTxt.text = "\xD7" + this.params.ladderStar;
+                this.starNumTxt.font = "weaponNFontT";
+                this.starNumTxt.scale(0.8, 0.8);
+            } else {
+                this.starNum.visible = true;
+                this.starNum2.visible = false;
+                var arr = new Array(this.params.ladderFullStar);
+                this.starNum.renderHandler = new Laya.Handler(this, this.starNumRender);
+                this.starNum.array = arr;
+
+                this.starNum.x = 224 / 7 * (7 - this.params.ladderFullStar) + 121;
+            }
+
+            PaoYa.DataCenter.user.config_list.hero.ladderList.forEach(function (element) {
+                if (_this2.params.ladder == element.ladderId) {
+                    _this2.gradingNum.skin = "local/common/badge_" + element.ladderId + ".png";
+                    _this2.gradingname.text = element.ladderName;
+                    _this2.gradingname.font = "weaponNFontT";
+                    _this2.gradingname.scale(0.8, 0.8);
+                    _this2.gradingname.pos(258.5, 470);
+                }
+            });
+
+            this.initInfo();
+        }
+    }, {
+        key: "changeGold",
+        value: function changeGold() {}
+        //人物列表渲染
+
+    }, {
+        key: "figureRender",
+        value: function figureRender(cell, idx) {
+            var _this3 = this;
+
+            cell.getChildByName("icon").skin = "local/common/" + cell.dataSource.roleDress + ".png";
+            cell.getChildByName("bgwarp").visible = this.showDetail.roleId == cell.dataSource.roleId ? true : false;
+            if (this.showDetail.roleId == cell.dataSource.roleId) {
+                this.prole = cell;
+            }
+            cell.offAll();
+            cell.on(Laya.Event.CLICK, this, function () {
+                _this3.prole.getChildByName("bgwarp").visible = false;
+                _this3.prole = cell;
+                _this3.showDetail = cell.dataSource;
+                _this3.initInfo();
+                cell.getChildByName("bgwarp").visible = true;
+            });
+        }
+    }, {
+        key: "starNumRender",
+        value: function starNumRender(cell, idx) {
+            cell.skin = idx + 1 > this.params.ladderStar ? "remote/grading/5.png" : "remote/grading/4.png";
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+        //初始化展示信息
+
+    }, {
+        key: "initInfo",
+        value: function initInfo() {
+            if (this.heroSkin) {
+                this.heroSkin.stop();
+                this.heroSkin.destroy();
+                this.heroSkin = null;
+            }
+
+            this.heroSkin = _HeroConfig2.default.getSkeleton("npc_7");
+            this.skbox.addChild(this.heroSkin);
+            this.heroSkin.pos(100, 400);
+            this.heroSkin.scale(1.5, 1.5);
+            this.heroSkin.play("stand", true);
+
+            for (var i = 0; i < 5; i++) {
+                this["lv" + (i + 1)].visible = false;
+                if (i < this.showDetail.roleStar) {
+                    this["lv" + (i + 1)].visible = true;
+                }
+            }
+
+            this.heroname.text = this.showDetail.roleName + "LV." + this.showDetail.roleLevel + "/" + this.showDetail.roleTopLevel;
+            this.heroname.font = "weaponNFontT";
+            this.heroname.scale(0.8, 0.8);
+        }
+    }]);
+
+    return Grading;
+}(PaoYa.View);
+
+exports.default = Grading;
+
+},{"../../../gamescripts/config/HeroConfig":7,"./GradingControl":28}],28:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GradingControl = function (_PaoYa$Component) {
+    _inherits(GradingControl, _PaoYa$Component);
+
+    function GradingControl() {
+        _classCallCheck(this, GradingControl);
+
+        var _this = _possibleConstructorReturn(this, (GradingControl.__proto__ || Object.getPrototypeOf(GradingControl)).call(this));
+
+        GradingControl.ins = _this;
+        return _this;
+    }
+
+    _createClass(GradingControl, [{
+        key: "onAwake",
+        value: function onAwake() {}
+    }, {
+        key: "onEnable",
+        value: function onEnable() {}
+    }, {
+        key: "gameRole",
+        value: function gameRole(e) {
+            var _this2 = this;
+
+            this.POST("hero_match_game_start", { roleId: e }, function (res) {
+                res.gameType = "battle";
+                _this2.navigator.push('MatchView', res);
+            });
+        }
+    }]);
+
+    return GradingControl;
+}(PaoYa.Component);
+
+exports.default = GradingControl;
+
+},{}],29:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4520,6 +4976,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _SwordsmanControl = require("./SwordsmanControl");
 
 var _SwordsmanControl2 = _interopRequireDefault(_SwordsmanControl);
+
+var _HeroConfig = require("../../../gamescripts/config/HeroConfig");
+
+var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4584,16 +5044,44 @@ var Swordsman = function (_PaoYa$View) {
             });
 
             this.buyBtn.on(Laya.Event.CLICK, this, function () {
-                // SwordsmanControl.ins.navigator.popup("figure/BuyHero",this.showDetail);
+                _SwordsmanControl2.default.ins.navigator.popup("figure/BuyHero", _this2.showDetail);
             });
 
             this.signGet.on(Laya.Event.CLICK, this, function () {
                 // SwordsmanControl.ins.navigator.popup("figure/BuyHero",this.showDetail);
             });
+
+            this.skill1.on(Laya.Event.CLICK, this, function () {
+                _SwordsmanControl2.default.ins.showSkillDetail(0);
+            });
+
+            this.skill2.on(Laya.Event.CLICK, this, function () {
+                _SwordsmanControl2.default.ins.showSkillDetail(1);
+            });
+
+            this.skill3.on(Laya.Event.CLICK, this, function () {
+                _SwordsmanControl2.default.ins.showSkillDetail(2);
+            });
         }
+        //初始化展示信息
+
     }, {
         key: "initInfo",
         value: function initInfo() {
+            var _this3 = this;
+
+            if (this.heroSkin) {
+                this.heroSkin.stop();
+                this.heroSkin.destroy();
+                this.heroSkin = null;
+            }
+
+            this.heroSkin = _HeroConfig2.default.getSkeleton("npc_7");
+            this.skbox.addChild(this.heroSkin);
+            this.heroSkin.pos(100, 400);
+            this.heroSkin.scale(1.5, 1.5);
+            this.heroSkin.play(0, true);
+
             if (this.showDetail.roleId == this.params.defaultRole) {
                 this.isUse.visible = true;
             } else {
@@ -4625,6 +5113,21 @@ var Swordsman = function (_PaoYa$View) {
                     this["lv" + (i + 1)].visible = true;
                 }
             }
+
+            this.showDetail.skills.forEach(function (element, index) {
+                _this3["skill" + (index + 1)].skin = "local/common/" + element.skillId + ".png";
+                if (element.status) {
+                    _this3["skill" + (index + 1)].gray = false;
+                    _this3["skill" + (index + 1) + "Txt"].visible = false;
+                } else {
+                    _this3["skill" + (index + 1)].gray = true;
+                    _this3["skill" + (index + 1) + "Txt"].visible = true;
+                    _this3["skill" + (index + 1) + "Txt"].text = "LV." + element.skillUnlock + "\u89E3\u9501";
+                    _this3["skill" + (index + 1) + "Txt"].font = "weaponNFontT";
+                    _this3["skill" + (index + 1) + "Txt"].scale(0.4, 0.4);
+                    _this3["skill" + (index + 1) + "Txt"].pos(15, 40);
+                }
+            });
 
             this.heroname.text = this.showDetail.roleName + "LV." + this.showDetail.roleLevel + "/" + this.showDetail.roleTopLevel;
             this.heroname.font = "weaponNFontT";
@@ -4660,8 +5163,10 @@ var Swordsman = function (_PaoYa$View) {
                 this.lvupbtn.visible = true;
                 if (this.showDetail.roleId == this.params.defaultRole) {
                     this.already.visible = true;
+                    this.equipbtn.visible = false;
                 } else {
                     this.already.visible = false;
+                    this.equipbtn.visible = true;
                 }
             } else {
                 if (this.showDetail.rolePrice) {
@@ -4687,15 +5192,26 @@ var Swordsman = function (_PaoYa$View) {
             this.diamondNum.scale(0.7, 0.7);
             this.diamondNum.pos(622, 20);
         }
+        //人物列表渲染
+
     }, {
         key: "figureRender",
         value: function figureRender(cell, idx) {
-            var _this3 = this;
+            var _this4 = this;
 
+            console.log(cell.dataSource);
+            cell.getChildByName("icon").skin = "local/common/" + cell.dataSource.roleDress + ".png";
+            cell.getChildByName("bgwarp").visible = this.showDetail.roleId == cell.dataSource.roleId ? true : false;
+            if (this.showDetail.roleId == cell.dataSource.roleId) {
+                this.prole = cell;
+            }
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
-                _this3.showDetail = cell.dataSource;
-                _this3.initInfo();
+                _this4.prole.getChildByName("bgwarp").visible = false;
+                _this4.prole = cell;
+                _this4.showDetail = cell.dataSource;
+                _this4.initInfo();
+                cell.getChildByName("bgwarp").visible = true;
             });
         }
     }, {
@@ -4708,7 +5224,7 @@ var Swordsman = function (_PaoYa$View) {
 
 exports.default = Swordsman;
 
-},{"./SwordsmanControl":26}],26:[function(require,module,exports){
+},{"../../../gamescripts/config/HeroConfig":7,"./SwordsmanControl":30}],30:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4716,12 +5232,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _HeroConfig = require("../../../gamescripts/config/HeroConfig");
-
-var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4745,11 +5255,6 @@ var SwordsmanControl = function (_PaoYa$Component) {
         key: "onAwake",
         value: function onAwake() {
             this.params = this.owner.params;
-            this.heroSkin = _HeroConfig2.default.getSkeleton("npc_7");
-            this.owner.skbox.addChild(this.heroSkin);
-            this.heroSkin.pos(100, 400);
-            this.heroSkin.scale(1.5, 1.5);
-            this.heroSkin.play(0, true);
         }
     }, {
         key: "onEnable",
@@ -4770,8 +5275,9 @@ var SwordsmanControl = function (_PaoYa$Component) {
                 _this2.owner.params.roleList.forEach(function (element) {
                     if (element.roleId == res.role.roleId) {
                         for (var key in element) {
-                            _this2.owner.showDetail[key] = res.role[key];
+                            element[key] = res.role[key];
                         }
+                        _this2.owner.showDetail = element;
                     }
                 });
                 _this2.owner.initInfo();
@@ -4787,6 +5293,19 @@ var SwordsmanControl = function (_PaoYa$Component) {
                 _this3.owner.initInfo();
             });
         }
+    }, {
+        key: "showSkillDetail",
+        value: function showSkillDetail(num) {
+            var detail = this.owner.showDetail.skills[num];
+            if (!detail) {
+                return;
+            }
+            if (detail.status) {
+                this.navigator.popup("figure/SkillDetail", detail);
+            } else {
+                this.navigator.popup("figure/SkillDetail", detail);
+            }
+        }
     }]);
 
     return SwordsmanControl;
@@ -4794,7 +5313,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
 
 exports.default = SwordsmanControl;
 
-},{"../../../gamescripts/config/HeroConfig":7}],27:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4920,7 +5439,7 @@ var Global = {
 
 exports.Global = Global;
 
-},{}],28:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5154,7 +5673,7 @@ var Tool = function () {
 
 exports.default = Tool;
 
-},{"./Global":27}],29:[function(require,module,exports){
+},{"./Global":31}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5259,7 +5778,7 @@ var WeaponHouse = function (_PaoYa$View) {
 
 exports.default = WeaponHouse;
 
-},{"./WeaponHouseControl":30}],30:[function(require,module,exports){
+},{"./WeaponHouseControl":34}],34:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5883,7 +6402,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 
 exports.default = WeaponHouseControl;
 
-},{}],31:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6059,7 +6578,7 @@ var WeaponStore = function (_PaoYa$View) {
 
 exports.default = WeaponStore;
 
-},{"./WeaponStoreControl":32}],32:[function(require,module,exports){
+},{"./WeaponStoreControl":36}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6635,7 +7154,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
 
 exports.default = WeaponStoreControl;
 
-},{}],33:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6683,7 +7202,7 @@ var BuyHero = function (_PaoYa$Dialog) {
 
 exports.default = BuyHero;
 
-},{}],34:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6731,7 +7250,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{}],35:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6784,7 +7303,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
 exports.default = DiamondLack;
 
-},{}],36:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6837,7 +7356,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{}],37:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6941,7 +7460,7 @@ var StoreSure = function (_PaoYa$Dialog) {
 
 exports.default = StoreSure;
 
-},{"../../common/weapon/WeaponStoreControl":32}],38:[function(require,module,exports){
+},{"../../common/weapon/WeaponStoreControl":36}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7000,7 +7519,7 @@ var UnlockFifth = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFifth;
 
-},{"../../common/tool/Tool":28}],39:[function(require,module,exports){
+},{"../../common/tool/Tool":32}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7068,7 +7587,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFour;
 
-},{"../../common/weapon/WeaponHouseControl":30}],40:[function(require,module,exports){
+},{"../../common/weapon/WeaponHouseControl":34}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7118,7 +7637,7 @@ var UnlockTips = function (_PaoYa$Dialog) {
 
 exports.default = UnlockTips;
 
-},{}],41:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -1,7 +1,3 @@
-import WeaponBar from "../prefab/WeaponBar";
-import GameControl from "../GameControl";
-
-
 export default class BattleResultDialog extends PaoYa.Dialog{
     constructor(){
         super();
@@ -19,7 +15,10 @@ export default class BattleResultDialog extends PaoYa.Dialog{
         this.spBtn.on(Laya.Event.CLICK,this,this.matchHandler);
         this.btnBack.on(Laya.Event.CLICK,this,this.backHandler);
         this.btnHeroHouse.on(Laya.Event.CLICK,this,this.goHeroHouse);
+
+        
     }
+    
     //
     goHeroHouse(){
         console.log("进入英雄库")

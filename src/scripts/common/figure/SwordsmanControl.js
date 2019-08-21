@@ -1,5 +1,3 @@
-import HeroConfig from "../../../gamescripts/config/HeroConfig";
-
 export default class SwordsmanControl extends PaoYa.Component {
     constructor() {
         super();
@@ -8,11 +6,6 @@ export default class SwordsmanControl extends PaoYa.Component {
 
     onAwake() {
         this.params = this.owner.params
-        this.heroSkin = HeroConfig.getSkeleton(`npc_7`)
-        this.owner.skbox.addChild(this.heroSkin)
-        this.heroSkin.pos(100, 400)
-        this.heroSkin.scale(1.5, 1.5)
-        this.heroSkin.play(0, true)
     }
 
     onEnable() {
@@ -31,8 +24,9 @@ export default class SwordsmanControl extends PaoYa.Component {
             this.owner.params.roleList.forEach(element => {
                 if (element.roleId == res.role.roleId) {
                     for (const key in element) {
-                        this.owner.showDetail[key] = res.role[key]
+                        element[key] = res.role[key]
                     }
+                    this.owner.showDetail = element
                 }
             });
             this.owner.initInfo()
@@ -44,5 +38,18 @@ export default class SwordsmanControl extends PaoYa.Component {
             this.owner.params.defaultRole = res.roleId
             this.owner.initInfo()
         })
+    }
+
+    showSkillDetail(num) {
+        let detail = this.owner.showDetail.skills[num]
+        if (!detail) {
+            return
+        }
+        if (detail.status) {
+            this.navigator.popup("figure/SkillDetail", detail);
+        } else {
+            this.navigator.popup("figure/SkillDetail", detail);
+        }
+
     }
 }

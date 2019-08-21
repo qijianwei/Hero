@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":184,
-    "selecteID":187,
+    "selectedBox":2,
+    "selecteID":192,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
-    "maxID":188,
+    "maxID":194,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -35,16 +35,32 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite",
-            "props":{"y":7,"x":-164.5,"texture":"local/home/homeBg.jpg"},
+            "props":{"y":0,"x":-150,"texture":"local/home/homeBg.jpg"},
             "nodeParent":2,
             "label":"Sprite",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
-            "compId":110,
+            "compId":192,
             "child":[
                 ],
-            "$HIDDEN":true
+            "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite",
+            "props":{"y":529,"x":132,"texture":"local/home/6.png"},
+            "nodeParent":2,
+            "label":"Sprite",
+            "isOpen":true,
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":193,
+            "child":[
+                ],
+            "$HIDDEN":false
         },
         {
             "x":15,
@@ -53,13 +69,14 @@
             "props":{"y":147,"x":38,"texture":"remote/figure/2.png"},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":113,
             "child":[
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,speciality",
                     "props":{"y":30,"x":29,"wordWrap":true,"width":85,"var":"speciality","height":206},
@@ -73,9 +90,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":505,"x":-188,"texture":"remote/figure/3.png"},
+                    "props":{"y":512,"x":-188,"texture":"remote/figure/3.png"},
                     "nodeParent":113,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -86,9 +104,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":505,"x":68,"texture":"remote/figure/3.png"},
+                    "props":{"y":513,"x":68,"texture":"remote/figure/3.png"},
                     "nodeParent":113,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -99,9 +118,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":505,"x":324,"texture":"remote/figure/3.png"},
+                    "props":{"y":513,"x":324,"texture":"remote/figure/3.png"},
                     "nodeParent":113,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -112,9 +132,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":505,"x":580,"texture":"remote/figure/3.png"},
+                    "props":{"y":513,"x":580,"texture":"remote/figure/3.png"},
                     "nodeParent":113,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -125,9 +146,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":505,"x":836,"texture":"remote/figure/3.png"},
+                    "props":{"y":512,"x":836,"texture":"remote/figure/3.png"},
                     "nodeParent":113,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -138,9 +160,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":505,"x":1092,"texture":"remote/figure/3.png"},
+                    "props":{"y":512,"x":1092,"texture":"remote/figure/3.png"},
                     "nodeParent":113,
                     "label":"Sprite",
                     "isOpen":true,
@@ -152,9 +175,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"y":505,"x":1348,"width":98,"skin":"remote/figure/3.png","sizeGrid":"0,44,0,102"},
+                    "props":{"y":512,"x":1348,"width":98,"skin":"remote/figure/3.png","sizeGrid":"0,44,0,102"},
                     "nodeParent":113,
                     "label":"Image",
                     "isDirectory":false,
@@ -165,6 +189,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,heroname",
                     "props":{"y":-33,"x":434,"width":181,"var":"heroname","text":"text","height":48},
@@ -178,6 +203,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv1",
                     "props":{"y":15,"x":434,"var":"lv1","texture":"remote/figure/level.png"},
@@ -192,6 +218,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv2",
                     "props":{"y":15,"x":482,"var":"lv2","texture":"remote/figure/level.png"},
@@ -206,6 +233,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv3",
                     "props":{"y":15,"x":526,"var":"lv3","texture":"remote/figure/level.png"},
@@ -220,6 +248,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv4",
                     "props":{"y":15,"x":570,"var":"lv4","texture":"remote/figure/level.png"},
@@ -234,6 +263,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv5",
                     "props":{"y":15,"x":614,"var":"lv5","texture":"remote/figure/level.png"},
@@ -248,6 +278,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,isUse",
                     "props":{"zOrder":9,"y":392,"x":221,"var":"isUse","texture":"remote/figure/6.png"},
@@ -269,14 +300,13 @@
             "props":{"y":0,"x":703,"texture":"remote/figure/5.png"},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":130,
             "child":[
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,hp",
                     "props":{"y":161,"x":102,"var":"hp","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -290,7 +320,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionHp",
                     "props":{"y":161,"x":213,"var":"additionHp","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -304,7 +333,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,force",
                     "props":{"y":161,"x":304,"var":"force","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -319,7 +347,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,adddtionForce",
                     "props":{"y":161,"x":402,"var":"adddtionForce","text":"生命 999","fontSize":22,"font":"Arial","color":"#066117"},
@@ -333,7 +360,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,muscle",
                     "props":{"y":206,"x":102,"var":"muscle","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -347,7 +373,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionMuscle",
                     "props":{"y":206,"x":213,"var":"additionMuscle","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -361,7 +386,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,bone",
                     "props":{"y":206,"x":304,"var":"bone","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -375,7 +399,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionBone",
                     "props":{"y":206,"x":413,"var":"additionBone","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -389,7 +412,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,critical",
                     "props":{"y":252,"x":102,"var":"critical","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -403,7 +425,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionAritical",
                     "props":{"y":252,"x":213,"visible":false,"var":"additionAritical","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -417,7 +438,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,hurt",
                     "props":{"y":252,"x":304,"var":"hurt","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -431,7 +451,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionHurt",
                     "props":{"y":252,"x":415.326171875,"visible":false,"var":"additionHurt","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -445,49 +464,84 @@
                         ]
                 },
                 {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,skill2",
-                    "props":{"y":373,"x":250,"var":"skill2","skin":"remote/game/skill.png"},
+                    "type":"Button",
+                    "searchKey":"Button,skill2",
+                    "props":{"y":373,"x":250,"var":"skill2","stateNum":"1","skin":"remote/game/skill.png"},
                     "nodeParent":130,
                     "label":"skill2",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":163,
                     "child":[
-                        ]
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,skill2Txt",
+                            "props":{"var":"skill2Txt","text":"text"},
+                            "nodeParent":163,
+                            "label":"skill2Txt",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":188,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,skill1",
-                    "props":{"y":373,"x":123,"var":"skill1","skin":"remote/game/skill.png"},
+                    "type":"Button",
+                    "searchKey":"Button,skill1",
+                    "props":{"y":373,"x":123,"var":"skill1","stateNum":"1","skin":"remote/game/skill.png","disabled":false},
                     "nodeParent":130,
                     "label":"skill1",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":162,
                     "child":[
-                        ]
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,skill1Txt",
+                            "props":{"y":0,"x":0,"var":"skill1Txt","text":"text"},
+                            "nodeParent":162,
+                            "label":"skill1Txt",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":189,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,skill3",
-                    "props":{"y":373,"x":382,"var":"skill3","skin":"remote/game/skill.png"},
+                    "type":"Button",
+                    "searchKey":"Button,skill3",
+                    "props":{"y":373,"x":382,"var":"skill3","stateNum":"1","skin":"remote/game/skill.png"},
                     "nodeParent":130,
                     "label":"skill3",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":164,
                     "child":[
-                        ]
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,skill3Txt",
+                            "props":{"y":0,"x":0,"var":"skill3Txt","text":"text"},
+                            "nodeParent":164,
+                            "label":"skill3Txt",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":190,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":295,"x":144.4091796875,"texture":"local/common/fontBg.png"},
@@ -514,20 +568,18 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,equipbtn",
                     "props":{"y":528,"x":316,"var":"equipbtn","stateNum":"1","skin":"local/common/btn_2.png","scaleY":0.8,"scaleX":0.8},
                     "nodeParent":130,
                     "label":"equipbtn",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":167,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,equipbtnTxt",
                             "props":{"y":0,"x":0,"var":"equipbtnTxt","text":"上阵"},
@@ -543,7 +595,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,already",
                     "props":{"y":528,"x":316,"var":"already","stateNum":"1","skin":"local/common/btn_3.png","scaleY":0.8,"scaleX":0.8},
@@ -571,7 +622,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,lvupbtn",
                     "props":{"y":528,"x":124,"var":"lvupbtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.8,"scaleX":0.8},
@@ -638,7 +688,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,buyBtn",
                     "props":{"y":512,"x":213,"visible":false,"var":"buyBtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
@@ -679,20 +728,18 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,signGet",
                     "props":{"y":512,"x":213,"visible":false,"var":"signGet","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
                     "nodeParent":130,
                     "label":"signGet",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":184,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,signGetTxt",
                             "props":{"y":0,"x":0,"var":"signGetTxt","text":"签到"},
@@ -890,10 +937,10 @@
                         {
                             "x":45,
                             "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":-1,"x":-22,"skin":"remote/figure/4.png"},
+                            "searchKey":"Image,bgwarp",
+                            "props":{"y":-1,"x":-22,"visible":false,"skin":"remote/figure/4.png","name":"bgwarp"},
                             "nodeParent":128,
-                            "label":"Image",
+                            "label":"bgwarp",
                             "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":false,
@@ -905,17 +952,18 @@
                         },
                         {
                             "x":45,
-                            "type":"Sprite",
-                            "searchKey":"Sprite",
-                            "props":{"y":19.5,"x":-2,"texture":"remote/game/avstar_1.png"},
+                            "type":"Image",
+                            "searchKey":"Image,icon",
+                            "props":{"y":19.5,"x":-2,"skin":"remote/game/avstar_1.png","name":"icon"},
                             "nodeParent":128,
-                            "label":"Sprite",
+                            "label":"icon",
                             "isDirectory":false,
                             "isAniNode":false,
                             "hasChild":false,
                             "compId":129,
                             "child":[
-                                ]
+                                ],
+                            "$HIDDEN":false
                         }]
                 }]
         }],

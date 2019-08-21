@@ -11,8 +11,12 @@ import PlayerState from "./gamescripts/prefab/PlayerState"
 import PlayerSkill from "./gamescripts/prefab/PlayerSkill"
 import Skill from "./gamescripts/prefab/Skill"
 import GameControl from "./gamescripts/GameControl"
+import Grading from "./scripts/common/figure/Grading"
+import GradingControl from "./scripts/common/figure/GradingControl"
 import LoadingView from "./scripts/common/Loading/LoadingView"
 import LoadingControl from "./scripts/common/Loading/LoadingControl"
+import MatchView from "./scripts/common/Match/MatchView"
+import MatchControl from "./scripts/common/Match/MatchControl"
 import Swordsman from "./scripts/common/figure/Swordsman"
 import SwordsmanControl from "./scripts/common/figure/SwordsmanControl"
 import WeaponHouse from "./scripts/common/weapon/WeaponHouse"
@@ -49,8 +53,12 @@ export default class GameConfig {
 		reg("gamescripts/prefab/PlayerSkill.js",PlayerSkill);
 		reg("gamescripts/prefab/Skill.js",Skill);
 		reg("gamescripts/GameControl.js",GameControl);
+		reg("scripts/common/figure/Grading.js",Grading);
+		reg("scripts/common/figure/GradingControl.js",GradingControl);
 		reg("scripts/common/Loading/LoadingView.js",LoadingView);
 		reg("scripts/common/Loading/LoadingControl.js",LoadingControl);
+		reg("scripts/common/Match/MatchView.js",MatchView);
+		reg("scripts/common/Match/MatchControl.js",MatchControl);
 		reg("scripts/common/figure/Swordsman.js",Swordsman);
 		reg("scripts/common/figure/SwordsmanControl.js",SwordsmanControl);
 		reg("scripts/common/weapon/WeaponHouse.js",WeaponHouse);

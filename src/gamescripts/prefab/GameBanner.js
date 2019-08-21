@@ -19,6 +19,9 @@ export default class GameBanner extends PaoYa.Component{
         this.lblTime.text=`${params.battleIndex}/${params.monsterNum}`
       }
     }
+    setTimeText(value){
+       this.lblTime.text=value;
+    }
     startCount(){
      /*    console.log(this.spGameStyle)
         console.log(this.lblTime) */

@@ -1286,7 +1286,7 @@ var LoginConfig = /** @class */ (function () {
     LoginConfig.gameId = 1004;
     LoginConfig.version = '1.0';
     LoginConfig.release = 1;
-    LoginConfig.requestConfig = 0;
+    LoginConfig.requestConfig = 1;
     return LoginConfig;
 }());
 

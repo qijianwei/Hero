@@ -1,28 +1,28 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
 
 export default class HomeControl extends PaoYa.Component {
-      /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
-       /** @prop {name:lblName,tips:"用户名字",type:Node} */
-    onAwake() { 
-        let name=PaoYa.DataCenter.user.defaultRoleId;
-        let ladder=PaoYa.DataCenter.user.ladder;
-        let player=HeroConfig.getSkeleton('hero_'+name);
-        player.pos(371,570);
-        player.scale(1.5,1.5)
+    /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
+    /** @prop {name:lblName,tips:"用户名字",type:Node} */
+    onAwake() {
+        let name = PaoYa.DataCenter.user.defaultRoleId;
+        let ladder = PaoYa.DataCenter.user.ladder;
+        let player = HeroConfig.getSkeleton('hero_' + name);
+        player.pos(371, 570);
+        player.scale(1.5, 1.5)
         this.owner.addChild(player);
-        this.player=player;
-        
-        this.lblName.text=PaoYa.DataCenter.user.nickname;
-        this.lblLadder.font="weaponNFontT";
-        this.lblLadder.scale(0.8,0.8);
-        this.lblLadder.text=HeroConfig.ladderArr[ladder];
+        this.player = player;
 
-        this.owner.imgAvstar.skin=PaoYa.DataCenter.user.avstar;
+        this.lblName.text = PaoYa.DataCenter.user.nickname;
+        this.lblLadder.font = "weaponNFontT";
+        this.lblLadder.scale(0.8, 0.8);
+        this.lblLadder.text = HeroConfig.ladderArr[ladder];
+
+        this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
     }
-    onAppear() { 
-       this.player.play('stand',true);
+    onAppear() {
+        this.player.play('stand', true);
     }
-    onDisappear(){
+    onDisappear() {
         this.player.stop();
     }
     onClick(e) {
@@ -59,10 +59,17 @@ export default class HomeControl extends PaoYa.Component {
 
                 })
                 break;
-                //炼器
+            //炼器
             case "btnRefiner":
-            console.log("进入炼器")
-            break;
+                console.log("进入炼器")
+                this.GET("martial_refiner_list", {}, res => {
+                    //console.log(res)
+                    if (!res) {
+                        return
+                    }
+                    this.navigator.push("Devour", res);
+                })
+                break;
             //兵器谱
             case "btnWeaponSpectrum":
                 console.log("进入兵器谱")
@@ -92,7 +99,6 @@ export default class HomeControl extends PaoYa.Component {
                 console.log("开始游戏请求的数据......")
                 this.POST("hero_game_start", { stageId: 1 }, (res) => {
                     //console.log(res)
-                    res.gameType="pass";
                     this.navigator.push("GameView", res);
                 })
                 // this.navigator.push("GameView",PaoYa.DataCenter.config)
@@ -100,6 +106,13 @@ export default class HomeControl extends PaoYa.Component {
             //华山论剑
             case "btnBattle":
                 console.log("华山论剑")
+                this.GET("martial_role_list", {}, res => {
+                    //console.log(res)
+                    if (!res) {
+                        return
+                    }
+                    this.navigator.push("Grading", res);
+                })
                 break;
             //决战紫禁城之巅
             case "btnBoss":

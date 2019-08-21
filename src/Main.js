@@ -38,8 +38,10 @@ export class Main extends GameMain {
 		PaoYa.Navigator.scenesMap={
 			WeaponHouse:`scenes/common/WeaponHouse`,
 			WeaponStore:`scenes/common/WeaponStore`,
-			Swordsman: `scenes/common/Swordsman`
-
+			Swordsman: `scenes/common/Swordsman`,
+			Swordsman: `scenes/common/Swordsman`,
+			MatchView:'scenes/common/Match/MatchView',
+			Grading:'scenes/common/Grading'
 		}
 
 		//分享地址
@@ -77,7 +79,7 @@ export class Main extends GameMain {
 			{fontUrl:"font/playerSkill.fnt",fontAni:"playerSkill"},
 			{fontUrl:"font/weapon/detailfont.fnt",fontAni:"weaponDFont"},
 			{fontUrl:"font/weapon/lvfont.fnt",fontAni:"weaponNFontT"},
-			/* {} */
+			{fontUrl:"font/figure/msz.fnt",fontAni:"figureDetail"},
         ]
 		this.loadFontFnt(0);
 	}

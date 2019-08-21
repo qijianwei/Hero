@@ -80,8 +80,7 @@ export default class GameControl extends PaoYa.Component {
         this.resetPlayerInfo();
         //要加机器人定时器
         Laya.timer.once(5000, this, () => {
-            this.firstWeaponSelect();
-            
+            this.firstWeaponSelect();  
         })
 
     }
