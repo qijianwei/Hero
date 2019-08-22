@@ -3,6 +3,7 @@ export default class MatchControl extends PaoYa.Component{
      /** @prop {name:boxGameBanner,tips:'游戏类型Banner',type:Node}*/
     constructor(){
         super();
+        MatchControl.ins=this;
     }
     onAwake(){
         this.gameBannerComp=this.boxGameBanner.getComponent(GameBanner);
@@ -30,6 +31,7 @@ export default class MatchControl extends PaoYa.Component{
        }
     } 
     onDisappear(){
+       this.timerService.stop();
        this.timerService=null;
        this.owner.stopAni();
     }

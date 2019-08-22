@@ -244,7 +244,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/common/Match/MatchView.scene";
+GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -4570,7 +4570,10 @@ var MatchControl = function (_PaoYa$Component) {
     function MatchControl() {
         _classCallCheck(this, MatchControl);
 
-        return _possibleConstructorReturn(this, (MatchControl.__proto__ || Object.getPrototypeOf(MatchControl)).call(this));
+        var _this = _possibleConstructorReturn(this, (MatchControl.__proto__ || Object.getPrototypeOf(MatchControl)).call(this));
+
+        MatchControl.ins = _this;
+        return _this;
     }
 
     _createClass(MatchControl, [{
@@ -4609,6 +4612,7 @@ var MatchControl = function (_PaoYa$Component) {
     }, {
         key: 'onDisappear',
         value: function onDisappear() {
+            this.timerService.stop();
             this.timerService = null;
             this.owner.stopAni();
         }
@@ -4627,6 +4631,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _MatchControl = require('./MatchControl');
+
+var _MatchControl2 = _interopRequireDefault(_MatchControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4661,9 +4671,7 @@ var MatchView = function (_PaoYa$View) {
             this.selfLadderInfo = this.findLadderById(this.selfRoleId);
             this.otherLadderInfo = this.findLadderById(this.otherRoleId);
             this.selfLadderInfo.texture = 'local/common/badge_' + this.selfLadderInfo.ladderId;
-            //  this.otherLadderInfo.texture=`local/common/badge_${this.otherLadderInfo.ladderId}`;
             this.selfLadderName.text = this.selfLadderInfo.ladderName;
-            // this.otherLadderName.text=this.otherLadderInfo.ladderName;  
             this.resetStar(true);
             this.resetStar(false);
             this.otherStars.visible = false;
@@ -4675,28 +4683,30 @@ var MatchView = function (_PaoYa$View) {
             var ladder = isSelf ? 'ladder' : 'robotLadder';
             if (this.params[ladder] > 8) {
                 var sprite = new Laya.Sprite();
-                /*   sprite.pivot(25,28);*/
-                sprite.size(50, 56);
+                sprite.texture = 'local/common/starLight.png';
                 this[name + 'Stars'].addChild(sprite);
                 var label = new Laya.Label();
                 label.text = '×' + this.params.ladderStar;
+                label.fontSize = 30;
+                label.height = 56;
+                label.valign = 'middle';
+                label.color = "#ffffff";
                 this[name + 'Stars'].addChild(label);
             } else {
-                /*   let star=params[ladder+'Star'];
-                  let numStar=this[name+'LadderInfo'].ladderStar; */
-                var star = 1;
-                var numStar = 2;
+                var star = params[ladder + 'Star'];
+                var numStar = this[name + 'LadderInfo'].ladderStar;
                 for (var i = 0; i < numStar; i++) {
                     var _sprite = new Laya.Sprite();
-                    _sprite.pivot(25, 28);
                     if (i < star) {
                         _sprite.texture = 'local/common/starLight.png';
                     } else {
                         _sprite.texture = 'local/common/starDark.png';
                     }
                     this[name + 'Stars'].addChild(_sprite);
+                    console.warn('hbox宽度：' + name, this[name + 'Stars'].width);
                 }
             }
+            // this[name+'Stars'].centerX=0;
         }
     }, {
         key: 'startAni',
@@ -4721,8 +4731,9 @@ var MatchView = function (_PaoYa$View) {
     }, {
         key: 'matchOK',
         value: function matchOK() {
+            _MatchControl2.default.ins.timerService.stop();
             this.stopAni();
-            this.otherStars.visible = false;
+            this.otherStars.visible = true;
             this.otherName.text = this.params.robotNickName;
             this.otherLadderInfo.texture = 'local/common/badge_' + this.otherLadderInfo.ladderId + '.png';
             this.otherLadderName.text = this.otherLadderInfo.ladderName;
@@ -4747,7 +4758,7 @@ var MatchView = function (_PaoYa$View) {
 
 exports.default = MatchView;
 
-},{}],27:[function(require,module,exports){
+},{"./MatchControl":25}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

@@ -1,3 +1,5 @@
+import MatchControl from "./MatchControl";
+
 export default class MatchView extends PaoYa.View{
     constructor(){
         super();
@@ -16,40 +18,40 @@ export default class MatchView extends PaoYa.View{
         this.selfLadderInfo=this.findLadderById(this.selfRoleId);
         this.otherLadderInfo=this.findLadderById(this.otherRoleId);
         this.selfLadderInfo.texture=`local/common/badge_${this.selfLadderInfo.ladderId}`;
-      //  this.otherLadderInfo.texture=`local/common/badge_${this.otherLadderInfo.ladderId}`;
         this.selfLadderName.text=this.selfLadderInfo.ladderName;
-       // this.otherLadderName.text=this.otherLadderInfo.ladderName;  
-       this.resetStar(true);
-       this.resetStar(false);
-       this.otherStars.visible=false;
+        this.resetStar(true);
+        this.resetStar(false);
+        this.otherStars.visible=false;
     }
     resetStar(isSelf){
         let name=isSelf?'self':'other';
         let ladder=isSelf?'ladder':'robotLadder';
         if(this.params[ladder]>8){
             let sprite=new Laya.Sprite();
-          /*   sprite.pivot(25,28);*/
-            sprite.size(50,56) 
+            sprite.texture=`local/common/starLight.png`;
             this[name+'Stars'].addChild(sprite);
             let label=new Laya.Label();
             label.text='×'+this.params.ladderStar;
+            label.fontSize=30;
+            label.height=56;
+            label.valign='middle';
+            label.color="#ffffff";
             this[name+'Stars'].addChild(label);
         }else{
-          /*   let star=params[ladder+'Star'];
-            let numStar=this[name+'LadderInfo'].ladderStar; */
-            let star=1;
-            let numStar=2; 
+            let star=params[ladder+'Star'];
+            let numStar=this[name+'LadderInfo'].ladderStar; 
             for(let i=0;i<numStar;i++){
                 let sprite=new Laya.Sprite();
-                sprite.pivot(25,28);
                 if(i<star){         
                     sprite.texture=`local/common/starLight.png`;
                 }else{
                     sprite.texture=`local/common/starDark.png`;
                 }
                   this[name+'Stars'].addChild(sprite);
+                  console.warn('hbox宽度：'+name,this[name+'Stars'].width)
             }         
         }
+       // this[name+'Stars'].centerX=0;
     }
     startAni(){
         let point="...";
@@ -69,8 +71,9 @@ export default class MatchView extends PaoYa.View{
        
     }
     matchOK(){
+        MatchControl.ins.timerService.stop();
         this.stopAni();
-        this.otherStars.visible=false;
+        this.otherStars.visible=true;
         this.otherName.text=this.params.robotNickName;
         this.otherLadderInfo.texture=`local/common/badge_${this.otherLadderInfo.ladderId}.png`;
         this.otherLadderName.text=this.otherLadderInfo.ladderName;  
