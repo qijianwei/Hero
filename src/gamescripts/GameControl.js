@@ -26,6 +26,7 @@ export default class GameControl extends PaoYa.Component {
         super();
         GameControl.instance = this;
         Laya.MouseManager.multiTouchEnabled = false;
+        this.closeRobot=false;
     }
     onDisappear() {
         Laya.MouseManager.enabled = true;
@@ -86,10 +87,9 @@ export default class GameControl extends PaoYa.Component {
         }
         this.resetPlayerInfo();
         //要加机器人定时器
-        Laya.timer.once(3000, this, () => {
-            this.firstWeaponSelect();
-        })
-
+        if(!this.closeRobot){
+            Laya.timer.once(3000, this, this.firstWeaponSelect());
+        }
     }
     fillPlayerInfo(){
         this.initPlayer(true);

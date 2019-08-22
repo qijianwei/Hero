@@ -98,11 +98,12 @@ export default class HomeControl extends PaoYa.Component {
             //开始游戏：
             case "btnStartGame":
                 console.log("开始游戏请求的数据......")
-                this.POST("hero_game_start", { stageId: 1 }, (res) => {
+                 this.POST("hero_game_start", { stageId: 1 }, (res) => {
                     res.gameType='pass';
-                    this.navigator.push("GameView", res);
-                })
-                // this.navigator.push("GameView",PaoYa.DataCenter.config)
+                    //this.navigator.push("GameView", res);
+                    this.navigator.push("GameGuide",res)
+                }) 
+                
                 break;
             //华山论剑
             case "btnBattle":

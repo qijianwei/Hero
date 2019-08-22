@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":3,
+    "selecteID":257,
     "searchKey":"Scene",
-    "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
+    "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameGuide/GameGuide.js","height":750},
     "nodeParent":-1,
-    "maxID":252,
+    "maxID":276,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -105,14 +105,13 @@
             "props":{"y":14,"x":45,"var":"boxSelfInfo"},
             "nodeParent":2,
             "label":"boxSelfInfo",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":83,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":62,"x":84,"texture":"remote/game/pointBg.png"},
@@ -127,7 +126,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"texture":"local/common/avstarBg.png"},
@@ -142,7 +140,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,lblName",
                     "props":{"y":25,"x":152.390625,"text":"label","name":"lblName","fontSize":32,"font":"SimHei","color":"#ffffff","align":"left"},
@@ -156,7 +153,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,imgIcon",
                     "props":{"y":13,"x":15,"skin":"remote/game/avstar_1.png","name":"imgIcon"},
@@ -170,7 +166,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "selectedBox":74,
                     "selecteID":72,
@@ -179,7 +174,7 @@
                     "nodeParent":83,
                     "maxID":76,
                     "label":"boxMPBar",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -251,7 +246,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "selectedBox":80,
                     "selecteID":78,
@@ -260,7 +254,7 @@
                     "nodeParent":83,
                     "maxID":82,
                     "label":"boxHPBar",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -340,14 +334,13 @@
             "props":{"y":21,"x":1283,"var":"boxOtherInfo","scaleX":-1},
             "nodeParent":2,
             "label":"boxOtherInfo",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":88,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":62,"x":84,"texture":"remote/game/pointBg.png"},
@@ -362,7 +355,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"texture":"local/common/avstarBg.png"},
@@ -376,7 +368,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label,lblName",
                     "props":{"y":23,"x":298,"width":142,"text":"名字","scaleX":-1,"name":"lblName","height":32,"fontSize":32,"font":"SimHei","color":"#ffffff","align":"right"},
@@ -390,7 +381,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,imgIcon",
                     "props":{"y":13,"x":15,"skin":"remote/game/avstar_1.png","name":"imgIcon"},
@@ -404,7 +394,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "selectedBox":74,
                     "selecteID":72,
@@ -420,7 +409,6 @@
                     "compId":92,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/MPBar.prefab"},
@@ -447,7 +435,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":-5,"x":117,"scaleX":-1,"presetID":5,"preset":"laya/pages/gamescenes/prefab/MPBar.prefab"},
@@ -461,7 +448,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/gamescripts/prefab/MPBar.js",
@@ -488,7 +474,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "selectedBox":80,
                     "selecteID":78,
@@ -504,7 +489,6 @@
                     "compId":164,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/HPBar.prefab"},
@@ -531,7 +515,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":-1,"x":110,"scaleX":-1,"presetID":6,"preset":"laya/pages/gamescenes/prefab/HPBar.prefab"},
@@ -545,7 +528,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/gamescripts/prefab/HPBar.js",
@@ -579,14 +561,13 @@
             "props":{"y":350,"x":1094,"width":56,"var":"otherCollide","height":198},
             "nodeParent":2,
             "label":"otherCollide",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":17,
             "child":[
                 {
-                    "x":30,
                     "type":"Rect",
                     "searchKey":"Rect",
                     "props":{"width":56,"lineWidth":1,"height":198},
@@ -608,14 +589,13 @@
             "props":{"y":360,"x":182,"width":56,"var":"selfCollide","height":198},
             "nodeParent":2,
             "label":"selfCollide",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":117,
             "child":[
                 {
-                    "x":30,
                     "type":"Rect",
                     "searchKey":"Rect",
                     "props":{"width":56,"lineWidth":1,"height":198},
@@ -732,14 +712,13 @@
             "props":{"y":-1,"x":543,"presetID":1,"preset":"laya/pages/gamescenes/prefab/GameBanner.prefab","name":"boxGameBanner"},
             "nodeParent":2,
             "label":"boxGameBanner",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":194,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/GameBanner.prefab"},
@@ -753,7 +732,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label",
                     "props":{"y":110,"x":35,"width":178,"presetID":4,"preset":"laya/pages/gamescenes/prefab/GameBanner.prefab","height":28},
@@ -767,7 +745,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Label",
                     "searchKey":"Label",
                     "props":{"y":55,"x":33,"presetID":6,"preset":"laya/pages/gamescenes/prefab/GameBanner.prefab"},
@@ -781,7 +758,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/gamescripts/prefab/GameBanner.js",
@@ -1200,16 +1176,16 @@
             "x":15,
             "type":"Script",
             "switchAble":true,
-            "source":"src/gamescripts/GameControl.js",
-            "searchKey":"Script,GameControl",
+            "source":"src/gamescripts/gameGuide/GameGuideControl.js",
+            "searchKey":"Script,GameGuideControl",
             "removeAble":true,
-            "props":{"y":-1,"x":0,"weaponSkill":"@Prefab:gamescenes/prefab/WeaponSkill.prefab","weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","selfMP":"@node:75","selfHP":"@node:82","playerState":"@node:216","player":"@Prefab:gamescenes/prefab/Player.prefab","otherMP":"@node:92","otherHP":"@node:164","enabled":true,"boxState":"@node:216","boxGameBanner":"@node:194"},
+            "props":{"weaponSkill":"@Prefab:gamescenes/prefab/WeaponSkill.prefab","weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","selfSpeakMan":"@Prefab:gamescenes/prefab/SelfSpeakMan.prefab","selfMP":"@node:75","selfHP":"@node:82","playerState":"@node:216","player":"@Prefab:gamescenes/prefab/Player.prefab","otherSpeakMan":"@Prefab:gamescenes/prefab/OtherSpeakMan.prefab","otherMP":"@node:92","otherHP":"@node:164","boxGameBanner":"@node:194"},
             "nodeParent":2,
-            "label":"GameControl",
+            "label":"GameGuideControl",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
-            "compId":7,
+            "compId":266,
             "child":[
                 ]
         }],

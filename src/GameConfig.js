@@ -2,7 +2,7 @@
 import BattleResultDialog from "./gamescripts/dialog/BattleResultDialog"
 import PassResultDialog from "./gamescripts/dialog/PassResultDialog"
 import WeaponBar from "./gamescripts/prefab/WeaponBar"
-import GameView from "./gamescripts/GameView"
+import GameGuide from "./gamescripts/GameGuide/GameGuide"
 import MPBar from "./gamescripts/prefab/MPBar"
 import HPBar from "./gamescripts/prefab/HPBar"
 import Dodge from "./gamescripts/prefab/Dodge"
@@ -10,6 +10,8 @@ import GameBanner from "./gamescripts/prefab/GameBanner"
 import PlayerState from "./gamescripts/prefab/PlayerState"
 import PlayerSkill from "./gamescripts/prefab/PlayerSkill"
 import Skill from "./gamescripts/prefab/Skill"
+import GameGuideControl from "./gamescripts/gameGuide/GameGuideControl"
+import GameView from "./gamescripts/GameView"
 import GameControl from "./gamescripts/GameControl"
 import Devour from "./scripts/common/refiner/Devour"
 import DevourControl from "./scripts/common/refiner/DevourControl"
@@ -39,6 +41,7 @@ import UnlockFour from "./scripts/dialog/weapon/UnlockFour"
 import UnlockTips from "./scripts/dialog/weapon/UnlockTips"
 import BeanBox from "./scripts/prefab/BeanBox"
 import HomeControl from "./scripts/common/HomeControl"
+import SpeakMan from "./gamescripts/gameGuide/SpeakMan"
 import Player from "./gamescripts/prefab/Player"
 import Weapon from "./gamescripts/prefab/Weapon"
 import WeaponSkill from "./gamescripts/prefab/WeaponSkill"
@@ -50,7 +53,7 @@ export default class GameConfig {
 		reg("gamescripts/dialog/BattleResultDialog.js",BattleResultDialog);
 		reg("gamescripts/dialog/PassResultDialog.js",PassResultDialog);
 		reg("gamescripts/prefab/WeaponBar.js",WeaponBar);
-		reg("gamescripts/GameView.js",GameView);
+		reg("gamescripts/GameGuide/GameGuide.js",GameGuide);
 		reg("gamescripts/prefab/MPBar.js",MPBar);
 		reg("gamescripts/prefab/HPBar.js",HPBar);
 		reg("gamescripts/prefab/Dodge.js",Dodge);
@@ -58,6 +61,8 @@ export default class GameConfig {
 		reg("gamescripts/prefab/PlayerState.js",PlayerState);
 		reg("gamescripts/prefab/PlayerSkill.js",PlayerSkill);
 		reg("gamescripts/prefab/Skill.js",Skill);
+		reg("gamescripts/gameGuide/GameGuideControl.js",GameGuideControl);
+		reg("gamescripts/GameView.js",GameView);
 		reg("gamescripts/GameControl.js",GameControl);
 		reg("scripts/common/refiner/Devour.js",Devour);
 		reg("scripts/common/refiner/DevourControl.js",DevourControl);
@@ -87,6 +92,7 @@ export default class GameConfig {
 		reg("scripts/dialog/weapon/UnlockTips.js",UnlockTips);
 		reg("scripts/prefab/BeanBox.js",BeanBox);
 		reg("scripts/common/HomeControl.js",HomeControl);
+		reg("gamescripts/gameGuide/SpeakMan.js",SpeakMan);
 		reg("gamescripts/prefab/Player.js",Player);
 		reg("gamescripts/prefab/Weapon.js",Weapon);
 		reg("gamescripts/prefab/WeaponSkill.js",WeaponSkill);
@@ -98,7 +104,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/common/Loading/LoadingView.scene";
+GameConfig.startScene = "scenes/common/Loading/LoadWaitingView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
