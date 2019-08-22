@@ -6,6 +6,7 @@ export default class MatchControl extends PaoYa.Component{
         MatchControl.ins=this;
     }
     onAwake(){
+        this.params=this.owner.params
         this.gameBannerComp=this.boxGameBanner.getComponent(GameBanner);
     }
     onAppear(){
@@ -20,16 +21,25 @@ export default class MatchControl extends PaoYa.Component{
         this.timerService=timerService; 
         this.owner.startAni();
         let randomTime=(Math.ceil(Math.random()*5)+5)*1000;
-        Laya.timer.once(randomTime,this.owner,this.owner.matchOK);
+        Laya.timer.once(randomTime,this,this.matchOK);
     }
     onClick(e){
        switch(e.target.name){
            case 'btnBack':
                this.timerService.stop();
+               Laya.timer.clearAll(this);
                this.navigator.pop();
                break;
        }
     } 
+    //匹配成功
+    matchOK(){
+        this.owner.matchOK();
+        this.timerService.stop();
+        Laya.timer.once(500,this,()=>{
+            this.navigator.push("GameView",this.params);
+        })
+    }
     onDisappear(){
        this.timerService.stop();
        this.timerService=null;

@@ -39,6 +39,7 @@ export default class Player extends PaoYa.Component {
 
     console.error('角色服装:', this.attr.roleDress);
     let dressIcon = this.attr.roleDress;
+    this.dressIcon=dressIcon;
     let skeleton = HeroConfig.getSkeleton(dressIcon);
     skeleton.play('stand', true);
     skeleton.pos(posX, posY - 10);
@@ -48,7 +49,6 @@ export default class Player extends PaoYa.Component {
     this.skeleton=skeleton;
     
     this.owner.addChild(skeleton);
-    //this.params=this.owner.params;
     this.typeAniName = ["", "Bot", "Mid", "Top", "Top"]; //对应轨迹的动画名称
     let freeze = HeroConfig.getSkeleton('freeze');
     freeze.pos(posX, posY)
@@ -60,14 +60,13 @@ export default class Player extends PaoYa.Component {
   onEnable() {
     this.killed = false;
     this.index+=1;
-    if(this.index>=2){
-      console.log(222222)
-      let templet=HeroConfig.spineMap["hero_1"].templet;
-      this.skeleton.init(templet,0);
+
+    if(this.dressIcon!=this.attr.roleDress){
+      this.dressIcon=this.attr.roleDress
+      let templet=HeroConfig.spineMap[this.dressIcon].templet;
+      this.skeleton.init(templet,0);   
       this.skeleton.play('stand',true)
     }
-   // 
-
     this.canAction = true;
     this.sectionAni = 0; //分段动画
   }

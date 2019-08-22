@@ -11,12 +11,16 @@ import PlayerState from "./gamescripts/prefab/PlayerState"
 import PlayerSkill from "./gamescripts/prefab/PlayerSkill"
 import Skill from "./gamescripts/prefab/Skill"
 import GameControl from "./gamescripts/GameControl"
+import Devour from "./scripts/common/refiner/Devour"
+import DevourControl from "./scripts/common/refiner/DevourControl"
 import Grading from "./scripts/common/figure/Grading"
 import GradingControl from "./scripts/common/figure/GradingControl"
 import LoadingView from "./scripts/common/Loading/LoadingView"
 import LoadingControl from "./scripts/common/Loading/LoadingControl"
 import MatchView from "./scripts/common/Match/MatchView"
 import MatchControl from "./scripts/common/Match/MatchControl"
+import Refining from "./scripts/common/refiner/Refining"
+import RefiningControl from "./scripts/common/refiner/RefiningControl"
 import Swordsman from "./scripts/common/figure/Swordsman"
 import SwordsmanControl from "./scripts/common/figure/SwordsmanControl"
 import WeaponHouse from "./scripts/common/weapon/WeaponHouse"
@@ -25,6 +29,8 @@ import WeaponStore from "./scripts/common/weapon/WeaponStore"
 import WeaponStoreControl from "./scripts/common/weapon/WeaponStoreControl"
 import BuyHero from "./scripts/dialog/figure/BuyHero"
 import GetNewSkill from "./scripts/dialog/figure/GetNewSkill"
+import SkillDetail from "./scripts/dialog/figure/SkillDetail"
+import Canlock from "./scripts/dialog/refiner/Canlock"
 import DiamondLack from "./scripts/dialog/weapon/DiamondLack"
 import GoldLack from "./scripts/dialog/weapon/GoldLack"
 import StoreSure from "./scripts/dialog/weapon/StoreSure"
@@ -53,12 +59,16 @@ export default class GameConfig {
 		reg("gamescripts/prefab/PlayerSkill.js",PlayerSkill);
 		reg("gamescripts/prefab/Skill.js",Skill);
 		reg("gamescripts/GameControl.js",GameControl);
+		reg("scripts/common/refiner/Devour.js",Devour);
+		reg("scripts/common/refiner/DevourControl.js",DevourControl);
 		reg("scripts/common/figure/Grading.js",Grading);
 		reg("scripts/common/figure/GradingControl.js",GradingControl);
 		reg("scripts/common/Loading/LoadingView.js",LoadingView);
 		reg("scripts/common/Loading/LoadingControl.js",LoadingControl);
 		reg("scripts/common/Match/MatchView.js",MatchView);
 		reg("scripts/common/Match/MatchControl.js",MatchControl);
+		reg("scripts/common/refiner/Refining.js",Refining);
+		reg("scripts/common/refiner/RefiningControl.js",RefiningControl);
 		reg("scripts/common/figure/Swordsman.js",Swordsman);
 		reg("scripts/common/figure/SwordsmanControl.js",SwordsmanControl);
 		reg("scripts/common/weapon/WeaponHouse.js",WeaponHouse);
@@ -67,6 +77,8 @@ export default class GameConfig {
 		reg("scripts/common/weapon/WeaponStoreControl.js",WeaponStoreControl);
 		reg("scripts/dialog/figure/BuyHero.js",BuyHero);
 		reg("scripts/dialog/figure/GetNewSkill.js",GetNewSkill);
+		reg("scripts/dialog/figure/SkillDetail.js",SkillDetail);
+		reg("scripts/dialog/refiner/Canlock.js",Canlock);
 		reg("scripts/dialog/weapon/DiamondLack.js",DiamondLack);
 		reg("scripts/dialog/weapon/GoldLack.js",GoldLack);
 		reg("scripts/dialog/weapon/StoreSure.js",StoreSure);
@@ -86,7 +98,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
+GameConfig.startScene = "scenes/common/Loading/LoadingView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

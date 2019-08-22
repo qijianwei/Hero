@@ -1,4 +1,4 @@
-export default class GoldLack extends PaoYa.Dialog {
+export default class SkillDetail extends PaoYa.Dialog {
 
     constructor() {
         super();
@@ -14,17 +14,18 @@ export default class GoldLack extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.mask.on(Laya.Event.CLICK,this,this.close)
         this.skillName.text = this.params.skillName
         this.skillName.font = `figureDetail`
         this.skillName.scale(1, 1)
         this.skillName.x = (450 - this.skillName.width) / 2
+        console.log(this.skillName.width)
 
+        this.unlock.text = `${this.params.skillUnlock}级解锁`
         this.skilldetail.text = `    ${this.params.skillDesc}`
         this.skilldetail.letterSpacing = 4
-
-        this.sure.font = `weaponDFont`
-        this.sure.scale(0.8, 0.8)
-        this.sure.pos(55, 10)
+        this.cd.text = `冷却：${this.params.skillCd}`
+        this.cost.text = `消耗：${this.params.skillConsume}内力`
     }
 
     onDisable() {

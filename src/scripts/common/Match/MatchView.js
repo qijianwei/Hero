@@ -1,4 +1,4 @@
-import MatchControl from "./MatchControl";
+
 
 export default class MatchView extends PaoYa.View{
     constructor(){
@@ -6,6 +6,8 @@ export default class MatchView extends PaoYa.View{
     }
     onAwake(){
         this.lblTip.font='weaponNFontT';
+        this.selfLadderName.font="weaponNFontT";
+        this.otherLadderName.font='weaponNFontT';
         this.lblTip.scale(0.8,0.8);
         this.ladderNameArr=['无名小卒','初出茅庐','后起之秀','江湖少侠','武林高手','名震江湖','独步武林','一代宗师','独孤求败'];
         this.initView();
@@ -19,6 +21,7 @@ export default class MatchView extends PaoYa.View{
         this.otherLadderInfo=this.findLadderById(this.otherRoleId);
         this.selfLadderInfo.texture=`local/common/badge_${this.selfLadderInfo.ladderId}`;
         this.selfLadderName.text=this.selfLadderInfo.ladderName;
+       
         this.resetStar(true);
         this.resetStar(false);
         this.otherStars.visible=false;
@@ -38,7 +41,7 @@ export default class MatchView extends PaoYa.View{
             label.color="#ffffff";
             this[name+'Stars'].addChild(label);
         }else{
-            let star=params[ladder+'Star'];
+            let star=this.params[ladder+'Star'];
             let numStar=this[name+'LadderInfo'].ladderStar; 
             for(let i=0;i<numStar;i++){
                 let sprite=new Laya.Sprite();
@@ -71,7 +74,6 @@ export default class MatchView extends PaoYa.View{
        
     }
     matchOK(){
-        MatchControl.ins.timerService.stop();
         this.stopAni();
         this.otherStars.visible=true;
         this.otherName.text=this.params.robotNickName;

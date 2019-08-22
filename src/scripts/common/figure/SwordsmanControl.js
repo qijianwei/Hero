@@ -6,6 +6,7 @@ export default class SwordsmanControl extends PaoYa.Component {
 
     onAwake() {
         this.params = this.owner.params
+
     }
 
     onEnable() {
@@ -50,6 +51,5 @@ export default class SwordsmanControl extends PaoYa.Component {
         } else {
             this.navigator.popup("figure/SkillDetail", detail);
         }
-
     }
 }

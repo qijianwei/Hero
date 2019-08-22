@@ -18,6 +18,7 @@ export default class Swordsman extends PaoYa.View {
         });
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            SwordsmanControl.ins.postNotification(`roleIdChanged`,this.params.defaultRole);
             SwordsmanControl.ins.navigator.pop()
         })
 
@@ -77,11 +78,11 @@ export default class Swordsman extends PaoYa.View {
             this.heroSkin = null
         }
 
-        this.heroSkin = HeroConfig.getSkeleton(`npc_7`)
+        this.heroSkin = HeroConfig.getSkeleton(this.showDetail.roleDress)
         this.skbox.addChild(this.heroSkin)
         this.heroSkin.pos(100, 400)
         this.heroSkin.scale(1.5, 1.5)
-        this.heroSkin.play(0, true)
+        this.heroSkin.play(`stand`, true)
 
         if (this.showDetail.roleId == this.params.defaultRole) {
             this.isUse.visible = true

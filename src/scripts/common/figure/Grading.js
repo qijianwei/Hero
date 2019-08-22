@@ -108,11 +108,11 @@ export default class Grading extends PaoYa.View {
             this.heroSkin = null
         }
 
-        this.heroSkin = HeroConfig.getSkeleton(`npc_7`)
+        this.heroSkin = HeroConfig.getSkeleton(this.showDetail.roleDress)
         this.skbox.addChild(this.heroSkin)
         this.heroSkin.pos(100, 400)
         this.heroSkin.scale(1.5, 1.5)
-        this.heroSkin.play("stand", true)
+        this.heroSkin.play(`stand`, true)
 
         for (let i = 0; i < 5; i++) {
             this[`lv${i + 1}`].visible = false

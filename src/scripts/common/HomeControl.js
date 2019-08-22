@@ -18,6 +18,13 @@ export default class HomeControl extends PaoYa.Component {
         this.lblLadder.text = HeroConfig.ladderArr[ladder];
 
         this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
+        this.onNotification('roleIdChanged',this,roleId=>{
+            if(name!=roleId){
+                name=roleId;
+                let templet=HeroConfig.spineMap[`hero_`+name].templet;
+                this.player.init(templet,0);
+            }
+        })
     }
     onAppear() {
         this.player.play('stand', true);
@@ -77,13 +84,7 @@ export default class HomeControl extends PaoYa.Component {
             //英雄库
             case "btnHerosHouse":
                 console.log("进入英雄库")
-                this.GET("martial_role_list", {}, res => {
-                    //console.log(res)
-                    if (!res) {
-                        return
-                    }
-                    this.navigator.push("Swordsman", res);
-                })
+                this.goHerosHouse();
                 break;
 
             //签到
@@ -98,7 +99,7 @@ export default class HomeControl extends PaoYa.Component {
             case "btnStartGame":
                 console.log("开始游戏请求的数据......")
                 this.POST("hero_game_start", { stageId: 1 }, (res) => {
-                    //console.log(res)
+                    res.gameType='pass';
                     this.navigator.push("GameView", res);
                 })
                 // this.navigator.push("GameView",PaoYa.DataCenter.config)
@@ -132,6 +133,15 @@ export default class HomeControl extends PaoYa.Component {
                 break;
 
         }
+    }
+    goHerosHouse(){
+        this.GET("martial_role_list", {}, res => {
+            //console.log(res)
+            if (!res) {
+                return
+            }
+            this.navigator.push("Swordsman", res);
+        })
     }
     onDisappear() { }
     onEnable() { }

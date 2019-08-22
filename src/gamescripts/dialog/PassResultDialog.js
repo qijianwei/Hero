@@ -40,6 +40,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
        if(this.result==-1){
            //console.log("再试一次")
            this.close();
+           GameControl.instance.fillPlayerInfo();
            GameControl.instance.restart();
        }else{
            console.log("继续闯关")

@@ -3269,7 +3269,7 @@ var Main = /** @class */ (function (_super) {
                 _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
                 _this.setupLoadingView(function () {
                     _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
-                    _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
+                    //_view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
                 });
            /*  }, function () {
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '连接服务器失败', '重试', function () {
@@ -3805,25 +3805,26 @@ var LaunchScreenView = /** @class */ (function (_super) {
         box.size(1334, 750);
         box.cacheAs = 'normal';
         this.addChild(box);
-        /* var imgBg = new Laya.Image('local/loading/bg.png');
-        box.addChild(imgBg); */
-     /*    var imgLogo = new Laya.Image('local/loading/logo.png');
+        var imgBg = new Laya.Image('local/loading/bg.jpg');
+        imgBg.x=-150;
+        box.addChild(imgBg); 
+        var imgLogo = new Laya.Image('local/loading/logo.png');
         imgLogo.centerX = 0;
-        imgLogo.top = 295;
-        box.addChild(imgLogo); */
+        imgLogo.top = 100;
+        box.addChild(imgLogo); 
         var imgProgressBg = new Laya.Image('local/loading/progress-bg.png');
         imgProgressBg.centerX = 0;
-        imgProgressBg.bottom = 122;
+        imgProgressBg.bottom = 60;
         box.addChild(imgProgressBg);
-        var lblTips = new Laya.Label('玩游戏享乐趣,好友都在玩的小游戏乐园');
+      /*   var lblTips = new Laya.Label('玩游戏享乐趣,好友都在玩的小游戏乐园');
         lblTips.color = '#227fb3';
         lblTips.fontSize = 28;
         lblTips.centerX = 0;
-        lblTips.bottom = 70;
-        box.addChild(lblTips);
+        lblTips.bottom = 70; 
+        box.addChild(lblTips);*/
         var imgProgress = new Laya.Image('local/loading/progress-bar.png');
         imgProgress.centerX = 0;
-        imgProgress.bottom = 122;
+        imgProgress.bottom = 80;
         this.addChild(imgProgress);
         this._imgProgress = imgProgress;
         var mask = new Laya.Sprite();
@@ -3834,7 +3835,7 @@ var LaunchScreenView = /** @class */ (function (_super) {
         lblProgress.color = '#ffffff';
         lblProgress.fontSize = 30;
         lblProgress.centerX = 0;
-        lblProgress.bottom =140 ;
+        lblProgress.bottom =76 ;
         this.addChild(lblProgress);
         this._lblProgress = lblProgress;
     };
