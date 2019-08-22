@@ -2687,14 +2687,11 @@ var Player = function (_PaoYa$Component) {
   /** @prop {name:aniHp,tips:"回血动效节点",type:Node} */
   /** @prop {name:boxAniMp,tips:"回蓝动效box",type:Node} */
   /** @prop {name:aniMp,tips:"回蓝动效节点",type:Node} */
-
-  /** @prop {name:boxAniSkill,tips:"兵器技能触发动效box",type:Node} */
-  /** @prop {name:aniSkill,tips:"兵器技能动效节点",type:Node} */
   /** @prop {name:boxAniUp,tips:"英雄升级动效box",type:Node} */
   /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
-  /** @prop {name:boxAniSkill2,tips:"人物技能2box",type:Node} */
+  /** @prop {name:aniSkill1,tips:"兵器技能动效节点",type:Node} */
   /** @prop {name:aniSkill2,tips:"人物技能2动效节点",type:Node} */
   function Player() {
     _classCallCheck(this, Player);
@@ -2765,7 +2762,7 @@ var Player = function (_PaoYa$Component) {
           break;
         case 'skill2':
           _GameControl2.default.instance.allResume(this.isSelf);
-          this.boxAniSkill2.visible = true;
+          this.aniSkill2.visible = true;
           this.aniSkill2.play(0, true);
           break;
         case 'launch':
@@ -2835,7 +2832,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removeSkill2",
     value: function removeSkill2() {
-      this.boxAniSkill2.visible = false;
+      this.aniSkill2.visible = false;
       this.aniSkill2.stop();
     }
     //人物触发兵器技能特效
@@ -2843,13 +2840,13 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "skillEffect",
     value: function skillEffect() {
-      this.boxAniSkill.visible = true;
-      this.aniSkill.play(0, false);
+      this.aniSkill1.visible = true;
+      this.aniSkill1.play(0, false);
     }
   }, {
     key: "removeSkillEffect",
     value: function removeSkillEffect() {
-      this.aniSkill.stop();
+      this.aniSkill1.stop();
       this.boxAniPoison.visible = false;
     }
     //攻击
