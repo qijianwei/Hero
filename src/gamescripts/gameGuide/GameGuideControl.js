@@ -1,6 +1,22 @@
 import GameControl from "../GameControl";
 import SpeakMan from "./SpeakMan";
-
+let guideSteps = 
+	[
+		{ x: 100, y: 617, w:150, h:110 ,tip:"res/guide/help6.png", fingerX:200, fingerY:250 },
+		{ x: 883, y: 620, radius:100, tip:"res/guide/help4.png", tipx:730, tipy:380 },
+		{ x: 1128, y: 583, radius:110, tip:"res/guide/help3.png", tipx:900, tipy:300 }
+	],
+	gameContainer,
+	guideContainer,
+	maskArea,
+	interactionArea,
+	hitArea,
+    tipContainer,
+    selfSpeakMan,
+    otherSpeakMan,
+    selfSpeakManComp,
+    otherSpeakManComp,
+	guideStep = 0;
 export default class GameGuideControl extends GameControl{
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -14,6 +30,7 @@ export default class GameGuideControl extends GameControl{
     /** @prop {name:boxGameBanner,tips:'游戏类型Banner',type:Node}*/
      /** @prop {name:selfSpeakMan,tips:"我方解说预制体对象",type:Prefab}*/
      /** @prop {name:otherSpeakMan,tips:"对方解说预制体对象",type:Prefab}*/
+     /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
     constructor(){
         super();
         this.closeRobot=true;
@@ -35,20 +52,250 @@ export default class GameGuideControl extends GameControl{
     }
     onAwake(){
         super.onAwake();
-        this.owner.on(Laya.Event.CLICK,this,(e)=>{
-           // console.log('....')
+         this.owner.on(Laya.Event.CLICK,this,(e)=>{
+            guideStep+=1;
+            if(guideStep==1){        
+                this.step1()
+            }
+            if(guideStep==2){
+               this.step2();
+            }
+            if(guideStep==3){
+                this.step3();
+            }
+            if(guideStep==5){
+                this.step5();
+            }
+            if(guideStep==6){
+                this.step6();
+            }
+            if(guideStep==7){
+                this.step7();
+            }
+            if(guideStep==8){
+                this.step8();
+            }
+            if(guideStep==9){
+                this.step9();
+            }
+        }) 
+       
+    }
+    arrowAni(){
+        this.target.visible=true;
+        this.timeLine.play(0, true); 
+     }
+     stopArrowAni(){
+        this.timeLine.pause();
+    }
+    resumeArrowAni(){
+        this.target.visible=true;
+        this.timeLine.resume();
+    }
+    step1(){
+        selfSpeakMan.visible=false;
+        otherSpeakMan.visible=true;
+        otherSpeakManComp.showWord('小兄弟谦虚了，出招把。'); 
+    }
+    step2(){
+        selfSpeakMan.visible=true;
+        otherSpeakMan.visible=false;
+        selfSpeakManComp.showWord('那我就不客气了！');     
+    }
+    step3(){
+        selfSpeakMan.visible=false;
+        interactionArea.graphics.clear();
+        interactionArea.graphics.drawRect(100,617,110,110,'#000');
+        hitArea.unHit.clear();
+        hitArea.unHit.drawRect(100,617,110,110,'#000');
+    }
+    step4(){
+        maskArea.visible=false;
+        interactionArea.graphics.clear();
+    }
+    step5(){
+        maskArea.visible=false;
+        otherSpeakMan.visible=false;
+        this.sWeapon = this.weaponManager.seletedWeapon(0);
+        this.sWeapon.isSelf = false;
+       
+        this.weaponBarClickHandler(this.sWeapon);
+        Laya.timer.once(500,this,()=>{
+            this.setPause();
+           /*  Laya.timer.scale=0; */
+            
+            maskArea.visible=true;
+            interactionArea.graphics.clear();
+            interactionArea.graphics.drawRect(260,617,110,110,'#000');
+            hitArea.unHit.clear();
+            hitArea.unHit.drawRect(260,617,110,110,'#000');
         })
+    }
+
+    //遮罩消失后,全局不能点击
+    step6(){
+        maskArea.visible=false;  
+        this.setResume();
+       /*  Laya.timer.scale=1;  */
+        interactionArea.graphics.clear();
+        //这个定时器不靠谱
+        Laya.timer.once(550,this,()=>{
+            this.setPause();
+            // Laya.timer.scale=0;
+             maskArea.visible=true;
+             this.addTips();
+        })
+        
+    }
+    step7(){
+       this.target.visible=false;
+       this.imgTip.visible=false;
+       this.imgTip.skin=`remote/guide/8.png`;
+       this.imgTip.y=300;
+       Laya.timer.callLater(this,()=>{
+           this.imgTip.visible=true;
+           this.resumeArrowAni();
+       })
+    }
+    step8(){
+        this.target.visible=false;
+        this.imgTip.visible=false;
+        this.stopArrowAni();
+        maskArea.visible=false;
+        this.setResume();
+        Laya.timer.scale=1;
+        Laya.timer.once(100,this,()=>{
+            maskArea.visible=true;
+            otherSpeakMan.visible=true;
+            otherSpeakManComp.showWord('没想到你的武功那么厉害，看来我要动真格了。');
+        })
+        
+    }
+    step9(){
+        //扔出一把武器
+       Laya.timer.once(500,this,()=>{
+        maskArea.visible=true;
+        otherSpeakMan.visible=false;
+        this.dodgeOwner.zOrder=1010;
+        hitArea.unHit.clear();
+        hitArea.unHit.drawRect(1160,580,160,160,'#000');
+       /*  interactionArea.graphics.clear();
+        interactionArea.size(110,110);
+        //interactionArea.pivot(55,55);
+        interactionArea.graphics.drawRect(500,580,160,160,'#000');
+        hitArea.unHit.clear();
+        hitArea.unHit.drawRect(1160,580,160,160,'#000');  */
+       })
+    }
+    //呼，还好闪得快，不然够我喝一壶。
+    step10(){
+        this.dodgeOwner.zOrder=10;
+       console.log('hha,点击1000') 
+    }
+    setPause(){
+        this.selfWeapons.forEach((weapon) => {
+            weapon.pause();
+        })
+        this.otherWeapons.forEach((weapon) => {
+            weapon.pause();
+        })
+    }  
+    setResume(){
+        this.selfWeapons.forEach((weapon) => {
+            weapon.resume();
+        })
+        this.otherWeapons.forEach((weapon) => {
+            weapon.resume();
+        })
+    }
+    addTips(){
+       let imgTip=new Laya.Image();
+       imgTip.skin=`remote/guide/imgRoute.png`;
+       imgTip.y=100;
+       imgTip.centerX=0;
+       imgTip.zOrder=1200;
+       this.imgTip=imgTip; 
+       this.owner.addChild(imgTip);
+       this.arrowAni();
     }
     onEnable(){
         super.onEnable();
-        let maskArea = new Laya.Sprite();
-		/* guideContainer.addChild(maskArea); */
+        this.spriteBg.on(Laya.Event.CLICK,this,(e)=>{
+            guideStep+=1;
+            switch(guideStep){
+              case 4:
+                  e.stopPropagation();
+                  this.step4();
+                  break;
+               case 6:
+                  e.stopPropagation();
+                  this.step6();
+                  break; 
+                case 10:
+                  e.stopPropagation();
+                  this.step10();
+                    break;
+            }
+            
+            console.log(`接收到点击`)
+        })
+        //this.own
+       this.onNotification('collide',this,()=>{
+            console.log('撞到任拉拉...');
+            Laya.timer.once(500,this,()=>{
+                maskArea.visible=true;
+                otherSpeakMan.visible=true; 
+                otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
+            })
+       })
+     /*   this.onNotification('weaponsCollide',this,()=>{
+           
+       }) */
+        //引导所在容器
+        guideContainer=new Laya.Sprite();
+        guideContainer.zOrder=1000;
+        this.owner.addChild(guideContainer);
+        guideContainer.cacheAs='bitmap';
+
+        // 绘制遮罩区，含透明度，
+        maskArea = new Laya.Sprite();
 		maskArea.alpha = 0.5;
-        maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+        maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
         maskArea.pos(-150,0);
         maskArea.mouseEnabled=true;
-        this.owner.addChild(maskArea);
+        //maskArea.zOrder=1000;
+        guideContainer.addChild(maskArea);
 
+        //绘制可点击区域
+        interactionArea=new Laya.Sprite();
+        interactionArea.blendMode='destination-out';
+       // interactionArea.zOrder=1001;
+        guideContainer.addChild(interactionArea);
+
+
+        //可点击区域
+        hitArea=new Laya.HitArea();
+        hitArea.hit.drawRect(0,0,1634,750,'#000');
+        guideContainer.hitArea=hitArea;
+        guideContainer.mouseEnabled=true;
+        
+        //添加箭头
+        let target =new Laya.Sprite();
+        target.pos(885,565);
+        target.texture=`remote/guide/arrow.png`;
+        target.visible=false;
+        this.target=target;
+        this.curY=target.y;
+        let timeLine=new Laya.TimeLine();
+        this.timeLine=timeLine;
+        let originY =this.curY;
+        this.timeLine.to(this.target,{
+            y:originY+20
+        },400,null,0).to(this.target, {
+            y:originY
+        }, 400, null, 1)
+        guideContainer.addChild(target);
+        
         let nextLabel=new Laya.Label();
         nextLabel.text='跳过';
         nextLabel.font='figureDetail'; 
@@ -59,10 +306,21 @@ export default class GameGuideControl extends GameControl{
         this.owner.addChild(nextLabel);
 
 
-        let selfSpeakMan= this.selfSpeakMan.create.call(this.selfSpeakMan);
-        let selfSpeakManComp=selfSpeakMan.getComponent(SpeakMan);
+        selfSpeakMan= this.selfSpeakMan.create.call(this.selfSpeakMan);
+        selfSpeakManComp=selfSpeakMan.getComponent(SpeakMan);
         selfSpeakManComp.showWord('没想到对手竟然是乔大侠，失敬失敬。');
         selfSpeakMan.y=225;
+        selfSpeakMan.zOrder=1003;
         this.owner.addChild(selfSpeakMan);
+
+        otherSpeakMan=this.otherSpeakMan.create.call(this.otherSpeakMan);
+        otherSpeakManComp=otherSpeakMan.getComponent(SpeakMan);
+        otherSpeakMan.pos(50,255);
+        otherSpeakMan.zOrder=1003;
+        this.owner.addChild(otherSpeakMan);
+        otherSpeakMan.visible=false;
+ 
+       
+
     }
 }

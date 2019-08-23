@@ -7,7 +7,6 @@ export default class SpeakMan extends PaoYa.Component{
     }
     onAwake(){
         this.lblSpeakName.font="figureDetail";
-        this.lblSpeakName.text="阿强"
         this.target=this.imgArrow;
         this.curY=this.target.y;
         let timeLine=new Laya.TimeLine();

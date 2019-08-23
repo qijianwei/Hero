@@ -17,9 +17,8 @@ export default class SkillDetail extends PaoYa.Dialog {
         this.mask.on(Laya.Event.CLICK,this,this.close)
         this.skillName.text = this.params.skillName
         this.skillName.font = `figureDetail`
-        this.skillName.scale(1, 1)
-        this.skillName.x = (450 - this.skillName.width) / 2
-        console.log(this.skillName.width)
+        this.skillName.scale(0.75, 0.75)
+        this.skillName.x = (450 - this.skillName.width*0.75) / 2
 
         this.unlock.text = `${this.params.skillUnlock}级解锁`
         this.skilldetail.text = `    ${this.params.skillDesc}`

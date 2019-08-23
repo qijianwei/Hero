@@ -1,4 +1,5 @@
 import WeaponStoreControl from "../../common/weapon/WeaponStoreControl";
+import DevourControl from "../../common/refiner/DevourControl";
 
 export default class StoreSure extends PaoYa.Dialog {
 
@@ -27,6 +28,11 @@ export default class StoreSure extends PaoYa.Dialog {
             WeaponStoreControl.ins.sellWp(1)
         })
 
+        this.btn5.on(Laya.Event.CLICK, this, () => {
+            this.close()
+            DevourControl.ins.eatWp(1)
+        })
+
         if (this.params.type == `buy`) {
             this.btn1.visible = true
             this.btn2.visible = true
@@ -35,7 +41,14 @@ export default class StoreSure extends PaoYa.Dialog {
         } else {
             this.btn1.visible = false
             this.btn2.visible = false
-            this.btn3.visible = true
+            if(this.params.type == `refining`){
+                this.btn3.visible = false
+                this.btn5.visible = true
+            }else{
+                this.btn3.visible = true
+                this.btn5.visible = false
+            }
+            
             this.btn4.visible = true
         }
 
@@ -47,6 +60,8 @@ export default class StoreSure extends PaoYa.Dialog {
         this.btn2Txt.scale(0.45, 0.45)
         this.btn3Txt.font = `weaponDFont`
         this.btn3Txt.scale(0.45, 0.45)
+        this.btn5Txt.font = `weaponDFont`
+        this.btn5Txt.scale(0.45, 0.45)
         this.currtWeaponLevel.font = `weaponNFontT`
         this.currtWeaponLevel.scale(0.7, 0.7)
 

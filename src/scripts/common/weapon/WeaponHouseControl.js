@@ -33,6 +33,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         this.owner.userWeaponList.array = this.myUserDetailList
         //仓库武器数据
         // this.owner.warehouseList.selectHandler = new Laya.Handler(this, this.wareWeaponSelect);
+        this.owner.warehouseList.vScrollBarSkin = ""
         this.isWareChoiceWp = null
         this.owner.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
     }
@@ -42,7 +43,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         // this.owner.goldNum.font = `weaponNFontT`
         // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
         // this.owner.diamondNum.font = `weaponNFontT`
-        
+
     }
     //获取装备武器详情
     getMyUserDetailList() {
@@ -256,12 +257,16 @@ export default class WeaponHouseControl extends PaoYa.Component {
         this.owner.CDTime.scale(0.7, 0.7)
 
         this.owner.attackNum.text = `攻击： ${detail.weaponAttack}`
+        this.owner.addattackNum.visible = detail.weaponUpAttack ? true : false
         this.owner.addattackNum.text = `+${detail.weaponUpAttack}`
         this.owner.enduranceNum.text = `耐久： ${detail.weaponDurable}`
+        this.owner.addenduranceNum.visible = detail.weaponUpDurable ? true : false
         this.owner.addenduranceNum.text = `+${detail.weaponUpDurable}`
         this.owner.consumeNum.text = `消耗： ${detail.weaponConsume}`
+        this.owner.addconsumeNum.visible = detail.weaponDownConsume ? true : false
         this.owner.addconsumeNum.text = `-${detail.weaponDownConsume}`
         this.owner.wpcdNum.text = `冷却： ${detail.weaponCd}秒`
+
         //兵器技能
         this.owner[`skillName_1`].text = ``
         this.owner[`skillGl_1`].text = ``
@@ -322,7 +327,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 let obj = JSON.parse(JSON.stringify(element))
                 obj.originalIndex = index
                 obj.isUsingWp = false
-                if (obj.weaponId == this.myUserList[this.currentMyUserIdx].name && obj.weaponLevel == this.myUserList[this.currentMyUserIdx].lv && !isChoice) {
+                if (this.myUserList[this.currentMyUserIdx] && obj.weaponId == this.myUserList[this.currentMyUserIdx].name && obj.weaponLevel == this.myUserList[this.currentMyUserIdx].lv && !isChoice) {
                     obj.isUsingWp = true
                     obj.isShowing = true
                     isChoice = true

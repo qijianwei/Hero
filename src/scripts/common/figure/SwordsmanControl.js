@@ -14,6 +14,9 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     roleLevelUp() {
+        if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
+            return
+        }
         if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
             this.navigator.popup("weapon/GoldLack");
             return
@@ -31,6 +34,17 @@ export default class SwordsmanControl extends PaoYa.Component {
                 }
             });
             this.owner.initInfo()
+
+            if(res.unlock){
+                let detail = null
+                this.owner.showDetail.skills.forEach(element => {
+                    if(element.status){
+                        detail=element
+                    }
+                });
+
+                this.navigator.popup("figure/GetNewSkill", detail);
+            }
         })
     }
 

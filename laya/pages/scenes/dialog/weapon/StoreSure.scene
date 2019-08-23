@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":27,
-    "selecteID":28,
+    "selectedBox":29,
+    "selecteID":30,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/dialog/weapon/StoreSure.js","height":750},
     "nodeParent":-1,
-    "maxID":29,
+    "maxID":31,
     "label":"Dialog",
     "isOpen":true,
     "isDirectory":true,
@@ -252,6 +252,35 @@
                             "isAniNode":true,
                             "hasChild":false,
                             "compId":28,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,btn5",
+                    "props":{"y":301,"x":287,"var":"btn5","stateNum":"1","skin":"local/common/btn_1.png","label":"label"},
+                    "nodeParent":4,
+                    "label":"btn5",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":29,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Text",
+                            "searchKey":"Text,btn5Txt",
+                            "props":{"y":20,"x":52,"var":"btn5Txt","text":"确认吞噬"},
+                            "nodeParent":29,
+                            "label":"btn5Txt",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":30,
                             "child":[
                                 ]
                         }]

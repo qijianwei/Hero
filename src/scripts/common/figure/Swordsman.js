@@ -18,7 +18,7 @@ export default class Swordsman extends PaoYa.View {
         });
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
-            SwordsmanControl.ins.postNotification(`roleIdChanged`,this.params.defaultRole);
+            SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
             SwordsmanControl.ins.navigator.pop()
         })
 
@@ -71,7 +71,8 @@ export default class Swordsman extends PaoYa.View {
     }
     //初始化展示信息
     initInfo() {
-
+        this.skbox.y = 370
+        this.skbox.x = 370
         if (this.heroSkin) {
             this.heroSkin.stop()
             this.heroSkin.destroy()
@@ -182,6 +183,8 @@ export default class Swordsman extends PaoYa.View {
             }
 
         }
+
+        this.lvupbtn.disabled = this.showDetail.roleLevel >= this.showDetail.roleTopLevel ? true : false
     }
 
     changeGold() {

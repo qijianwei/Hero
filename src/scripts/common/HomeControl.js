@@ -1,4 +1,5 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
+import GameGuideData from '../../gamescripts/gameGuide/GameGuideData';
 
 export default class HomeControl extends PaoYa.Component {
     /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
@@ -37,7 +38,7 @@ export default class HomeControl extends PaoYa.Component {
             //兵器库
             case "btnWeaponHouse":
                 console.log("进入兵器库")
-                this.GET("martial_user_weapon_list", {}, res => {
+                this.POST("martial_user_weapon_list", {}, res => {
                     //console.log(res)
                     if (!res) {
                         return
@@ -53,7 +54,7 @@ export default class HomeControl extends PaoYa.Component {
                         return
                     }
                     //console.log(res)
-                    this.GET("martial_user_weapon_list", {}, data => {
+                    this.POST("martial_user_weapon_list", {}, data => {
                         if (!data) {
                             return
                         }
@@ -74,11 +75,18 @@ export default class HomeControl extends PaoYa.Component {
                     if (!res) {
                         return
                     }
-                    this.navigator.push("Devour", res);
+                    this.navigator.push("Refining", res);
                 })
                 break;
             //兵器谱
             case "btnWeaponSpectrum":
+                    this.GET("martial_weapon_list", {}, res => {
+                        //console.log(res)
+                        if (!res) {
+                            return
+                        }
+                        this.navigator.push("WeapList", res);
+                    })
                 console.log("进入兵器谱")
                 break;
             //英雄库
@@ -89,6 +97,13 @@ export default class HomeControl extends PaoYa.Component {
 
             //签到
             case "btnRegister":
+                    this.GET("martial_login_bonus_list", {}, res => {
+                        //console.log(res)
+                        if (!res) {
+                            return
+                        }
+                        this.navigator.push("Sign", res);
+                    })
                 console.log("打开签到")
                 break;
             //抽奖转盘
@@ -100,8 +115,8 @@ export default class HomeControl extends PaoYa.Component {
                 console.log("开始游戏请求的数据......")
                  this.POST("hero_game_start", { stageId: 1 }, (res) => {
                     res.gameType='pass';
-                    //this.navigator.push("GameView", res);
-                    this.navigator.push("GameGuide",res)
+                   // this.navigator.push("GameView", res);
+                   this.navigator.push('GameGuide',GameGuideData);
                 }) 
                 
                 break;

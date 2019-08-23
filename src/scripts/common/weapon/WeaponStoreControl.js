@@ -215,22 +215,16 @@ export default class WeaponStoreControl extends PaoYa.Component {
         this.owner.CDTime.scale(0.7, 0.7)
 
         this.owner.attackNum.text = `攻击： ${detail.weaponAttack}`
+        this.owner.addattackNum.visible = detail.weaponUpAttack ? true : false
         this.owner.addattackNum.text = `+${detail.weaponUpAttack}`
         this.owner.enduranceNum.text = `耐久： ${detail.weaponDurable}`
+        this.owner.addenduranceNum.visible = detail.weaponUpDurable ? true : false
         this.owner.addenduranceNum.text = `+${detail.weaponUpDurable}`
         this.owner.consumeNum.text = `消耗： ${detail.weaponConsume}`
+        this.owner.addconsumeNum.visible = detail.weaponDownConsume ? true : false
         this.owner.addconsumeNum.text = `-${detail.weaponDownConsume}`
         this.owner.wpcdNum.text = `冷却： ${detail.weaponCd}秒`
-
-        if (!detail.weaponUpAttack && !detail.weaponDownConsume && !detail.weaponUpDurable) {
-            this.owner.addattackNum.visible = false
-            this.owner.addenduranceNum.visible = false
-            this.owner.addconsumeNum.visible = false
-        }else{
-            this.owner.addattackNum.visible = true
-            this.owner.addenduranceNum.visible = true
-            this.owner.addconsumeNum.visible = true
-        }
+        
         //兵器技能
         this.owner[`skillName_1`].text = ``
         this.owner[`skillGl_1`].text = ``

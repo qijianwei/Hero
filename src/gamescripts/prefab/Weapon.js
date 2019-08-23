@@ -307,6 +307,7 @@ export default class Weapon extends PaoYa.Component {
           sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
           sprite.zOrder=10000;
           sprite.rotation=this.imgWeapon.rotation */
+    this.postNotification('collide');
     //如果对方闪避状态，无敌
     if(this.otherPlayerComp.dodge){
       console.error('无敌状态')
@@ -505,9 +506,7 @@ export default class Weapon extends PaoYa.Component {
             this.stopParabola();
             otherWeapon.stopParabola()
             return; */
-         /*    console.error('碰撞啦啦啦啦.......................................')
-            console.error('我方类型:',this.weaponType,this.params.weaponId)
-            console.error('对方类型:',otherWeapon.weaponType,otherWeapon.params.weaponId) */
+          this.postNotification('weaponsCollide');
           if (this.weaponDurable > otherWeapon.weaponDurable) {
             otherWeapon.playWeaponCollideEffect();
             this.weaponDurable -= otherWeapon.weaponDurable;

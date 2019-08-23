@@ -7,7 +7,8 @@ export default class WeaponManager extends Laya.Script{
           this.weaponList.push(weapon);
       }
    }
-   seletedWeapon(){
+   seletedWeapon(index){
+      if(index!=undefined){return this.weaponList[index]};
       let weapons=[];
       for(let i=0,len=this.weaponList.length;i<len;i++){
           if(!this.weaponList[i].freezeing){

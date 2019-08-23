@@ -14,10 +14,12 @@ export default class GoldLack extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.btn.on(Laya.Event.CLICK, this, this.close)
         this.skillName.text = this.params.skillName
         this.skillName.font = `figureDetail`
-        this.skillName.scale(1, 1)
-        this.skillName.x = (450 - this.skillName.width) / 2
+        this.skillName.scale(0.75, 0.75)
+        this.skillName.x = (450 - this.skillName.width * 0.75) / 2
+        this.skillName.y = 130
 
         this.skilldetail.text = `    ${this.params.skillDesc}`
         this.skilldetail.letterSpacing = 4

@@ -55,10 +55,6 @@ var _HPBar = require("./gamescripts/prefab/HPBar");
 
 var _HPBar2 = _interopRequireDefault(_HPBar);
 
-var _Dodge = require("./gamescripts/prefab/Dodge");
-
-var _Dodge2 = _interopRequireDefault(_Dodge);
-
 var _GameBanner = require("./gamescripts/prefab/GameBanner");
 
 var _GameBanner2 = _interopRequireDefault(_GameBanner);
@@ -78,6 +74,10 @@ var _Skill2 = _interopRequireDefault(_Skill);
 var _GameGuideControl = require("./gamescripts/gameGuide/GameGuideControl");
 
 var _GameGuideControl2 = _interopRequireDefault(_GameGuideControl);
+
+var _Dodge = require("./gamescripts/prefab/Dodge");
+
+var _Dodge2 = _interopRequireDefault(_Dodge);
 
 var _GameView = require("./gamescripts/GameView");
 
@@ -235,12 +235,12 @@ var GameConfig = function () {
 												reg("gamescripts/GameGuide/GameGuide.js", _GameGuide2.default);
 												reg("gamescripts/prefab/MPBar.js", _MPBar2.default);
 												reg("gamescripts/prefab/HPBar.js", _HPBar2.default);
-												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
 												reg("gamescripts/prefab/GameBanner.js", _GameBanner2.default);
 												reg("gamescripts/prefab/PlayerState.js", _PlayerState2.default);
 												reg("gamescripts/prefab/PlayerSkill.js", _PlayerSkill2.default);
 												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("gamescripts/gameGuide/GameGuideControl.js", _GameGuideControl2.default);
+												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
 												reg("gamescripts/GameView.js", _GameView2.default);
 												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("scripts/common/refiner/Devour.js", _Devour2.default);
@@ -289,7 +289,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/common/Loading/LoadWaitingView.scene";
+GameConfig.startScene = "gamescenes/GameGuide.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -298,7 +298,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/BattleResultDialog":9,"./gamescripts/dialog/PassResultDialog":10,"./gamescripts/gameGuide/GameGuideControl":11,"./gamescripts/gameGuide/SpeakMan":12,"./gamescripts/prefab/Dodge":13,"./gamescripts/prefab/GameBanner":14,"./gamescripts/prefab/HPBar":15,"./gamescripts/prefab/MPBar":16,"./gamescripts/prefab/Player":17,"./gamescripts/prefab/PlayerSkill":18,"./gamescripts/prefab/PlayerState":19,"./gamescripts/prefab/Skill":20,"./gamescripts/prefab/Weapon":21,"./gamescripts/prefab/WeaponBar":22,"./gamescripts/prefab/WeaponSkill":23,"./scripts/common/HomeControl":25,"./scripts/common/Loading/LoadingControl":26,"./scripts/common/Loading/LoadingView":27,"./scripts/common/Match/MatchControl":28,"./scripts/common/Match/MatchView":29,"./scripts/common/figure/Grading":30,"./scripts/common/figure/GradingControl":31,"./scripts/common/figure/Swordsman":32,"./scripts/common/figure/SwordsmanControl":33,"./scripts/common/refiner/Devour":34,"./scripts/common/refiner/DevourControl":35,"./scripts/common/refiner/Refining":36,"./scripts/common/refiner/RefiningControl":37,"./scripts/common/weapon/WeaponHouse":40,"./scripts/common/weapon/WeaponHouseControl":41,"./scripts/common/weapon/WeaponStore":42,"./scripts/common/weapon/WeaponStoreControl":43,"./scripts/dialog/figure/BuyHero":44,"./scripts/dialog/figure/GetNewSkill":45,"./scripts/dialog/figure/SkillDetail":46,"./scripts/dialog/refiner/Canlock":47,"./scripts/dialog/weapon/DiamondLack":48,"./scripts/dialog/weapon/GoldLack":49,"./scripts/dialog/weapon/StoreSure":50,"./scripts/dialog/weapon/UnlockFifth":51,"./scripts/dialog/weapon/UnlockFour":52,"./scripts/dialog/weapon/UnlockTips":53,"./scripts/prefab/BeanBox":54}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/BattleResultDialog":9,"./gamescripts/dialog/PassResultDialog":10,"./gamescripts/gameGuide/GameGuideControl":11,"./gamescripts/gameGuide/SpeakMan":13,"./gamescripts/prefab/Dodge":14,"./gamescripts/prefab/GameBanner":15,"./gamescripts/prefab/HPBar":16,"./gamescripts/prefab/MPBar":17,"./gamescripts/prefab/Player":18,"./gamescripts/prefab/PlayerSkill":19,"./gamescripts/prefab/PlayerState":20,"./gamescripts/prefab/Skill":21,"./gamescripts/prefab/Weapon":22,"./gamescripts/prefab/WeaponBar":23,"./gamescripts/prefab/WeaponSkill":24,"./scripts/common/HomeControl":26,"./scripts/common/Loading/LoadingControl":27,"./scripts/common/Loading/LoadingView":28,"./scripts/common/Match/MatchControl":29,"./scripts/common/Match/MatchView":30,"./scripts/common/figure/Grading":31,"./scripts/common/figure/GradingControl":32,"./scripts/common/figure/Swordsman":33,"./scripts/common/figure/SwordsmanControl":34,"./scripts/common/refiner/Devour":35,"./scripts/common/refiner/DevourControl":36,"./scripts/common/refiner/Refining":37,"./scripts/common/refiner/RefiningControl":38,"./scripts/common/weapon/WeaponHouse":41,"./scripts/common/weapon/WeaponHouseControl":42,"./scripts/common/weapon/WeaponStore":43,"./scripts/common/weapon/WeaponStoreControl":44,"./scripts/dialog/figure/BuyHero":45,"./scripts/dialog/figure/GetNewSkill":46,"./scripts/dialog/figure/SkillDetail":47,"./scripts/dialog/refiner/Canlock":48,"./scripts/dialog/weapon/DiamondLack":49,"./scripts/dialog/weapon/GoldLack":50,"./scripts/dialog/weapon/StoreSure":51,"./scripts/dialog/weapon/UnlockFifth":52,"./scripts/dialog/weapon/UnlockFour":53,"./scripts/dialog/weapon/UnlockTips":54,"./scripts/prefab/BeanBox":55}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -418,7 +418,7 @@ var Main = exports.Main = function (_GameMain) {
 				var font = new Laya.BitmapFont();
 				var itemFont = this.arrayFont[index];
 				var _this = this;
-				font.loadFont(itemFont.fontUrl, Laya.Handler.create(_this, function () {
+				font.loadFont(PaoYa.DataCenter.RESURL + itemFont.fontUrl, Laya.Handler.create(_this, function () {
 					Laya.Text.registerBitmapFont(itemFont.fontAni, font);
 					index++;
 					_this.loadFontFnt(index);
@@ -457,7 +457,7 @@ new Main();
 console.warn=function(){};
 console.error=function(){};   */
 
-},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":8,"./scripts/common/GameMain":24}],4:[function(require,module,exports){
+},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":8,"./scripts/common/GameMain":25}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -616,7 +616,7 @@ var GameControl = function (_PaoYa$Component) {
             this.resetPlayerInfo();
             //要加机器人定时器
             if (!this.closeRobot) {
-                Laya.timer.once(3000, this, this.firstWeaponSelect());
+                Laya.timer.once(3000, this, this.firstWeaponSelect);
             }
         }
     }, {
@@ -1465,7 +1465,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"./WeaponManager":7,"./prefab/Dodge":13,"./prefab/GameBanner":14,"./prefab/HPBar":15,"./prefab/MPBar":16,"./prefab/Player":17,"./prefab/PlayerSkill":18,"./prefab/PlayerState":19,"./prefab/Skill":20,"./prefab/Weapon":21,"./prefab/WeaponBar":22,"./prefab/WeaponSkill":23}],5:[function(require,module,exports){
+},{"./WeaponManager":7,"./prefab/Dodge":14,"./prefab/GameBanner":15,"./prefab/HPBar":16,"./prefab/MPBar":17,"./prefab/Player":18,"./prefab/PlayerSkill":19,"./prefab/PlayerState":20,"./prefab/Skill":21,"./prefab/Weapon":22,"./prefab/WeaponBar":23,"./prefab/WeaponSkill":24}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1592,7 +1592,7 @@ var GameView = function (_PaoYa$View) {
 
 exports.default = GameView;
 
-},{"./config/HeroConfig":8,"./prefab/GameBanner":14,"./prefab/HPBar":15,"./prefab/MPBar":16}],7:[function(require,module,exports){
+},{"./config/HeroConfig":8,"./prefab/GameBanner":15,"./prefab/HPBar":16,"./prefab/MPBar":17}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1625,7 +1625,10 @@ var WeaponManager = function (_Laya$Script) {
 
   _createClass(WeaponManager, [{
     key: 'seletedWeapon',
-    value: function seletedWeapon() {
+    value: function seletedWeapon(index) {
+      if (index != undefined) {
+        return this.weaponList[index];
+      };
       var weapons = [];
       for (var i = 0, len = this.weaponList.length; i < len; i++) {
         if (!this.weaponList[i].freezeing) {
@@ -1949,7 +1952,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = BattleResultDialog;
 
-},{"../../scripts/common/HomeControl":25}],10:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":26}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2047,7 +2050,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = PassResultDialog;
 
-},{"../GameControl":4,"../prefab/WeaponBar":22}],11:[function(require,module,exports){
+},{"../GameControl":4,"../prefab/WeaponBar":23}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2074,6 +2077,19 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var guideSteps = [{ x: 100, y: 617, w: 150, h: 110, tip: "res/guide/help6.png", fingerX: 200, fingerY: 250 }, { x: 883, y: 620, radius: 100, tip: "res/guide/help4.png", tipx: 730, tipy: 380 }, { x: 1128, y: 583, radius: 110, tip: "res/guide/help3.png", tipx: 900, tipy: 300 }],
+    gameContainer = void 0,
+    guideContainer = void 0,
+    maskArea = void 0,
+    interactionArea = void 0,
+    hitArea = void 0,
+    tipContainer = void 0,
+    selfSpeakMan = void 0,
+    otherSpeakMan = void 0,
+    selfSpeakManComp = void 0,
+    otherSpeakManComp = void 0,
+    guideStep = 0;
+
 var GameGuideControl = function (_GameControl) {
     _inherits(GameGuideControl, _GameControl);
 
@@ -2089,6 +2105,7 @@ var GameGuideControl = function (_GameControl) {
     /** @prop {name:boxGameBanner,tips:'游戏类型Banner',type:Node}*/
     /** @prop {name:selfSpeakMan,tips:"我方解说预制体对象",type:Prefab}*/
     /** @prop {name:otherSpeakMan,tips:"对方解说预制体对象",type:Prefab}*/
+    /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
     function GameGuideControl() {
         _classCallCheck(this, GameGuideControl);
 
@@ -2118,22 +2135,294 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "onAwake",
         value: function onAwake() {
+            var _this2 = this;
+
             _get(GameGuideControl.prototype.__proto__ || Object.getPrototypeOf(GameGuideControl.prototype), "onAwake", this).call(this);
             this.owner.on(Laya.Event.CLICK, this, function (e) {
-                // console.log('....')
+                guideStep += 1;
+                if (guideStep == 1) {
+                    _this2.step1();
+                }
+                if (guideStep == 2) {
+                    _this2.step2();
+                }
+                if (guideStep == 3) {
+                    _this2.step3();
+                }
+                if (guideStep == 5) {
+                    _this2.step5();
+                }
+                if (guideStep == 6) {
+                    _this2.step6();
+                }
+                if (guideStep == 7) {
+                    _this2.step7();
+                }
+                if (guideStep == 8) {
+                    _this2.step8();
+                }
+                if (guideStep == 9) {
+                    _this2.step9();
+                }
             });
+        }
+    }, {
+        key: "arrowAni",
+        value: function arrowAni() {
+            this.target.visible = true;
+            this.timeLine.play(0, true);
+        }
+    }, {
+        key: "stopArrowAni",
+        value: function stopArrowAni() {
+            this.timeLine.pause();
+        }
+    }, {
+        key: "resumeArrowAni",
+        value: function resumeArrowAni() {
+            this.target.visible = true;
+            this.timeLine.resume();
+        }
+    }, {
+        key: "step1",
+        value: function step1() {
+            selfSpeakMan.visible = false;
+            otherSpeakMan.visible = true;
+            otherSpeakManComp.showWord('小兄弟谦虚了，出招把。');
+        }
+    }, {
+        key: "step2",
+        value: function step2() {
+            selfSpeakMan.visible = true;
+            otherSpeakMan.visible = false;
+            selfSpeakManComp.showWord('那我就不客气了！');
+        }
+    }, {
+        key: "step3",
+        value: function step3() {
+            selfSpeakMan.visible = false;
+            interactionArea.graphics.clear();
+            interactionArea.graphics.drawRect(100, 617, 110, 110, '#000');
+            hitArea.unHit.clear();
+            hitArea.unHit.drawRect(100, 617, 110, 110, '#000');
+        }
+    }, {
+        key: "step4",
+        value: function step4() {
+            maskArea.visible = false;
+            interactionArea.graphics.clear();
+        }
+    }, {
+        key: "step5",
+        value: function step5() {
+            var _this3 = this;
+
+            maskArea.visible = false;
+            otherSpeakMan.visible = false;
+            this.sWeapon = this.weaponManager.seletedWeapon(0);
+            this.sWeapon.isSelf = false;
+
+            this.weaponBarClickHandler(this.sWeapon);
+            Laya.timer.once(500, this, function () {
+                _this3.setPause();
+                /*  Laya.timer.scale=0; */
+
+                maskArea.visible = true;
+                interactionArea.graphics.clear();
+                interactionArea.graphics.drawRect(260, 617, 110, 110, '#000');
+                hitArea.unHit.clear();
+                hitArea.unHit.drawRect(260, 617, 110, 110, '#000');
+            });
+        }
+
+        //遮罩消失后,全局不能点击
+
+    }, {
+        key: "step6",
+        value: function step6() {
+            var _this4 = this;
+
+            maskArea.visible = false;
+            this.setResume();
+            /*  Laya.timer.scale=1;  */
+            interactionArea.graphics.clear();
+            //这个定时器不靠谱
+            Laya.timer.once(550, this, function () {
+                _this4.setPause();
+                // Laya.timer.scale=0;
+                maskArea.visible = true;
+                _this4.addTips();
+            });
+        }
+    }, {
+        key: "step7",
+        value: function step7() {
+            var _this5 = this;
+
+            this.target.visible = false;
+            this.imgTip.visible = false;
+            this.imgTip.skin = "remote/guide/8.png";
+            this.imgTip.y = 300;
+            Laya.timer.callLater(this, function () {
+                _this5.imgTip.visible = true;
+                _this5.resumeArrowAni();
+            });
+        }
+    }, {
+        key: "step8",
+        value: function step8() {
+            this.target.visible = false;
+            this.imgTip.visible = false;
+            this.stopArrowAni();
+            maskArea.visible = false;
+            this.setResume();
+            Laya.timer.scale = 1;
+            Laya.timer.once(100, this, function () {
+                maskArea.visible = true;
+                otherSpeakMan.visible = true;
+                otherSpeakManComp.showWord('没想到你的武功那么厉害，看来我要动真格了。');
+            });
+        }
+    }, {
+        key: "step9",
+        value: function step9() {
+            var _this6 = this;
+
+            //扔出一把武器
+            Laya.timer.once(500, this, function () {
+                maskArea.visible = true;
+                otherSpeakMan.visible = false;
+                _this6.dodgeOwner.zOrder = 1010;
+                hitArea.unHit.clear();
+                hitArea.unHit.drawRect(1160, 580, 160, 160, '#000');
+                /*  interactionArea.graphics.clear();
+                 interactionArea.size(110,110);
+                 //interactionArea.pivot(55,55);
+                 interactionArea.graphics.drawRect(500,580,160,160,'#000');
+                 hitArea.unHit.clear();
+                 hitArea.unHit.drawRect(1160,580,160,160,'#000');  */
+            });
+        }
+        //呼，还好闪得快，不然够我喝一壶。
+
+    }, {
+        key: "step10",
+        value: function step10() {
+            this.dodgeOwner.zOrder = 10;
+            console.log('hha,点击1000');
+        }
+    }, {
+        key: "setPause",
+        value: function setPause() {
+            this.selfWeapons.forEach(function (weapon) {
+                weapon.pause();
+            });
+            this.otherWeapons.forEach(function (weapon) {
+                weapon.pause();
+            });
+        }
+    }, {
+        key: "setResume",
+        value: function setResume() {
+            this.selfWeapons.forEach(function (weapon) {
+                weapon.resume();
+            });
+            this.otherWeapons.forEach(function (weapon) {
+                weapon.resume();
+            });
+        }
+    }, {
+        key: "addTips",
+        value: function addTips() {
+            var imgTip = new Laya.Image();
+            imgTip.skin = "remote/guide/imgRoute.png";
+            imgTip.y = 100;
+            imgTip.centerX = 0;
+            imgTip.zOrder = 1200;
+            this.imgTip = imgTip;
+            this.owner.addChild(imgTip);
+            this.arrowAni();
         }
     }, {
         key: "onEnable",
         value: function onEnable() {
+            var _this7 = this;
+
             _get(GameGuideControl.prototype.__proto__ || Object.getPrototypeOf(GameGuideControl.prototype), "onEnable", this).call(this);
-            var maskArea = new Laya.Sprite();
-            /* guideContainer.addChild(maskArea); */
+            this.spriteBg.on(Laya.Event.CLICK, this, function (e) {
+                guideStep += 1;
+                switch (guideStep) {
+                    case 4:
+                        e.stopPropagation();
+                        _this7.step4();
+                        break;
+                    case 6:
+                        e.stopPropagation();
+                        _this7.step6();
+                        break;
+                    case 10:
+                        e.stopPropagation();
+                        _this7.step10();
+                        break;
+                }
+
+                console.log("\u63A5\u6536\u5230\u70B9\u51FB");
+            });
+            //this.own
+            this.onNotification('collide', this, function () {
+                console.log('撞到任拉拉...');
+                Laya.timer.once(500, _this7, function () {
+                    maskArea.visible = true;
+                    otherSpeakMan.visible = true;
+                    otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
+                });
+            });
+            /*   this.onNotification('weaponsCollide',this,()=>{
+                  
+              }) */
+            //引导所在容器
+            guideContainer = new Laya.Sprite();
+            guideContainer.zOrder = 1000;
+            this.owner.addChild(guideContainer);
+            guideContainer.cacheAs = 'bitmap';
+
+            // 绘制遮罩区，含透明度，
+            maskArea = new Laya.Sprite();
             maskArea.alpha = 0.5;
-            maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+            maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
             maskArea.pos(-150, 0);
             maskArea.mouseEnabled = true;
-            this.owner.addChild(maskArea);
+            //maskArea.zOrder=1000;
+            guideContainer.addChild(maskArea);
+
+            //绘制可点击区域
+            interactionArea = new Laya.Sprite();
+            interactionArea.blendMode = 'destination-out';
+            // interactionArea.zOrder=1001;
+            guideContainer.addChild(interactionArea);
+
+            //可点击区域
+            hitArea = new Laya.HitArea();
+            hitArea.hit.drawRect(0, 0, 1634, 750, '#000');
+            guideContainer.hitArea = hitArea;
+            guideContainer.mouseEnabled = true;
+
+            //添加箭头
+            var target = new Laya.Sprite();
+            target.pos(885, 565);
+            target.texture = "remote/guide/arrow.png";
+            target.visible = false;
+            this.target = target;
+            this.curY = target.y;
+            var timeLine = new Laya.TimeLine();
+            this.timeLine = timeLine;
+            var originY = this.curY;
+            this.timeLine.to(this.target, {
+                y: originY + 20
+            }, 400, null, 0).to(this.target, {
+                y: originY
+            }, 400, null, 1);
+            guideContainer.addChild(target);
 
             var nextLabel = new Laya.Label();
             nextLabel.text = '跳过';
@@ -2144,11 +2433,19 @@ var GameGuideControl = function (_GameControl) {
             console.log(nextLabel.width);
             this.owner.addChild(nextLabel);
 
-            var selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
-            var selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
+            selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
+            selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
             selfSpeakManComp.showWord('没想到对手竟然是乔大侠，失敬失敬。');
             selfSpeakMan.y = 225;
+            selfSpeakMan.zOrder = 1003;
             this.owner.addChild(selfSpeakMan);
+
+            otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
+            otherSpeakManComp = otherSpeakMan.getComponent(_SpeakMan2.default);
+            otherSpeakMan.pos(50, 255);
+            otherSpeakMan.zOrder = 1003;
+            this.owner.addChild(otherSpeakMan);
+            otherSpeakMan.visible = false;
         }
     }]);
 
@@ -2157,7 +2454,669 @@ var GameGuideControl = function (_GameControl) {
 
 exports.default = GameGuideControl;
 
-},{"../GameControl":4,"./SpeakMan":12}],12:[function(require,module,exports){
+},{"../GameControl":4,"./SpeakMan":13}],12:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
+	"role": {
+		"addAllRate": 1.0,
+		"addMpRate": 0.0,
+		"addStrengthRate": 0.0,
+		"addWeaponSkillProb": 10,
+		"downWeaponCd": 10,
+		"downWeaponConsume": 0,
+		"hitRecoveMp": 0,
+		"notCrit": 0,
+		"notDizzy": 0,
+		"notFrozen": 0,
+		"notPalsy": 0,
+		"notPoison": 1,
+		"reboundRate": 0,
+		"recoverHp": 0,
+		"recoverMp": 1.0,
+		"refiners": [{
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_09",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 1,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升轻型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "轻型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "轻燕",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_10",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 2,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升中型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "中型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "锋刃",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_11",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 3,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升重型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "重型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "沉石",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}],
+		"roleBone": 126,
+		"roleCritHarm": 180,
+		"roleCritProb": 19,
+		"roleDesc": "飞刀",
+		"roleDress": "hero_1",
+		"roleHp": 1110,
+		"roleIcon": "xxx",
+		"roleId": 1,
+		"roleLevel": 20,
+		"roleMp": 259,
+		"roleName": "阿强",
+		"rolePrice": 0,
+		"roleSkills": "31,32,33",
+		"roleStar": 2,
+		"roleStatus": 0,
+		"roleStrength": 377,
+		"roleTopLevel": 20,
+		"roleType": 0,
+		"roleUpBone": 5,
+		"roleUpHp": 42,
+		"roleUpMp": 10,
+		"roleUpStrength": 15,
+		"skillWeapon": {
+			"exp": 0,
+			"num": 0,
+			"skills": [{
+				"skillCd": 0.0,
+				"skillConfig": {
+					"critProb": 20
+				},
+				"skillDesc": "发出1把火焰飞刀，造成臂力*0.18倍伤害。技能暴击+20%。",
+				"skillId": 88,
+				"skillLevel": 1,
+				"skillName": "酒灼刀",
+				"skillProb": 100,
+				"skillType": 1,
+				"skillUnlock": 0,
+				"status": 0
+			}],
+			"weaponAttack": 67.0,
+			"weaponCd": 0.0,
+			"weaponConsume": 0.2,
+			"weaponDurable": 20,
+			"weaponIcon": "3",
+			"weaponId": "x001_4",
+			"weaponName": "火焰飞刀",
+			"weaponPrice": 0,
+			"weaponSalePrice": 0,
+			"weaponSkills": "88",
+			"weaponStar": 4,
+			"weaponTopLevel": 15,
+			"weaponType": 1
+		},
+		"skills": [{
+			"skillCd": 20.0,
+			"skillConfig": {
+				"weaponId": "x001_4",
+				"critProb": 20
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "发出1把火焰飞刀，造成臂力*0.18倍伤害。技能暴击+20%。",
+			"skillId": 31,
+			"skillLevel": 1,
+			"skillName": "酒灼刀",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 5,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"critHarm": 20,
+				"hurt": 0.2
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "所有轻型兵器伤害+20%。暴击伤害+20%。",
+			"skillId": 32,
+			"skillLevel": 1,
+			"skillName": "江湖老油条",
+			"skillProb": 12,
+			"skillType": 0,
+			"skillUnlock": 10,
+			"status": 1
+		}, {
+			"skillCd": 60.0,
+			"skillConfig": {
+				"weaponCd": 0,
+				"time": 10
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "所有兵器无冷却时间，持续10秒。",
+			"skillId": 33,
+			"skillLevel": 1,
+			"skillName": "夺命连环三仙剑",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 15,
+			"status": 1
+		}],
+		"upgradeCost": 0
+	},
+	"weaponList": [{
+		"exp": 0,
+		"num": 0,
+		"skills": [{
+			"skillCd": 0.0,
+			"skillConfig": {
+				"hurt": 5
+			},
+			"skillDesc": "造成5倍伤害",
+			"skillId": 48,
+			"skillLevel": 1,
+			"skillName": "诛心",
+			"skillProb": 18,
+			"skillType": 1,
+			"skillUnlock": 0,
+			"status": 0
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"critHarm": 20,
+				"critProb": 5
+			},
+			"skillDesc": "暴击+5%，暴伤+20% ",
+			"skillId": 65,
+			"skillLevel": 1,
+			"skillName": "灵猴",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 0,
+			"status": 1
+		}],
+		"upgradeCost": 0,
+		"weaponAttack": 190.0,
+		"weaponCd": 2.0,
+		"weaponConsume": 91.0,
+		"weaponDownConsume": 27,
+		"weaponDurable": 22,
+		"weaponIcon": "xxxxx",
+		"weaponId": "d015_3",
+		"weaponLevel": 15,
+		"weaponName": "小李飞刀",
+		"weaponPrice": 30000,
+		"weaponSalePrice": 6000,
+		"weaponSkills": "48,65",
+		"weaponStar": 3,
+		"weaponTopLevel": 15,
+		"weaponType": 1,
+		"weaponUpAttack": 70,
+		"weaponUpDurable": 10
+	}, {
+		"exp": 0,
+		"num": 0,
+		"skills": [{
+			"skillCd": 0.0,
+			"skillConfig": {
+				"recoverDown": "5-0.4"
+			},
+			"skillDesc": "使对手内力恢复速度-60%，持续5秒",
+			"skillId": 55,
+			"skillLevel": 1,
+			"skillName": "气绝",
+			"skillProb": 22,
+			"skillType": 1,
+			"skillUnlock": 0,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"downConsume": 10
+			},
+			"skillDesc": "所有兵器内力消耗-10%",
+			"skillId": 80,
+			"skillLevel": 1,
+			"skillName": "轮回",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 0,
+			"status": 1
+		}],
+		"upgradeCost": 0,
+		"weaponAttack": 242.0,
+		"weaponCd": 3.0,
+		"weaponConsume": 72.0,
+		"weaponDownConsume": 36,
+		"weaponDurable": 25,
+		"weaponIcon": "xxxx",
+		"weaponId": "z015_3",
+		"weaponLevel": 15,
+		"weaponName": "倚天",
+		"weaponPrice": 20000,
+		"weaponSalePrice": 4000,
+		"weaponSkills": "55,80",
+		"weaponStar": 3,
+		"weaponTopLevel": 15,
+		"weaponType": 2,
+		"weaponUpAttack": 97,
+		"weaponUpDurable": 10
+	}, {
+		"exp": 0,
+		"num": 0,
+		"skills": [{
+			"skillCd": 0.0,
+			"skillConfig": {
+				"cd": 0
+			},
+			"skillDesc": "兵器立即冷却",
+			"skillId": 58,
+			"skillLevel": 1,
+			"skillName": "顿悟",
+			"skillProb": 25,
+			"skillType": 1,
+			"skillUnlock": 0,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"allWeaponSkillProb": 10
+			},
+			"skillDesc": "所有兵器技能触发几率提升10%",
+			"skillId": 87,
+			"skillLevel": 1,
+			"skillName": "剑圣",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 0,
+			"status": 1
+		}],
+		"upgradeCost": 0,
+		"weaponAttack": 456.0,
+		"weaponCd": 4.0,
+		"weaponConsume": 126.0,
+		"weaponDownConsume": 50,
+		"weaponDurable": 25,
+		"weaponIcon": "xxxxx",
+		"weaponId": "g015_3",
+		"weaponLevel": 15,
+		"weaponName": "紫金降魔杵",
+		"weaponPrice": 30000,
+		"weaponSalePrice": 6000,
+		"weaponSkills": "58,87",
+		"weaponStar": 3,
+		"weaponTopLevel": 15,
+		"weaponType": 3,
+		"weaponUpAttack": 256,
+		"weaponUpDurable": 10
+	}, {
+		"exp": 0,
+		"num": 0,
+		"skills": [{
+			"skillCd": 0.0,
+			"skillConfig": {
+				"poison": "6-210"
+			},
+			"skillDesc": "使对手中剧毒，6秒损失210点生命",
+			"skillId": 46,
+			"skillLevel": 1,
+			"skillName": "奇毒",
+			"skillProb": 25,
+			"skillType": 1,
+			"skillUnlock": 0,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"notPoison": 1
+			},
+			"skillDesc": "免疫中毒",
+			"skillId": 83,
+			"skillLevel": 1,
+			"skillName": "药师",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 0,
+			"status": 1
+		}],
+		"upgradeCost": 0,
+		"weaponAttack": 185.0,
+		"weaponCd": 2.0,
+		"weaponConsume": 81.0,
+		"weaponDownConsume": 27,
+		"weaponDurable": 25,
+		"weaponIcon": "xxxxx",
+		"weaponId": "d014_3",
+		"weaponLevel": 15,
+		"weaponName": "绝命",
+		"weaponPrice": 25000,
+		"weaponSalePrice": 5000,
+		"weaponSkills": "46,83",
+		"weaponStar": 3,
+		"weaponTopLevel": 15,
+		"weaponType": 1,
+		"weaponUpAttack": 70,
+		"weaponUpDurable": 10
+	}, {
+		"exp": 0,
+		"num": 0,
+		"skills": [{
+			"skillCd": 0.0,
+			"skillConfig": {
+				"weaponNum": 3
+			},
+			"skillDesc": "发出3件兵器",
+			"skillId": 44,
+			"skillLevel": 1,
+			"skillName": "影刃",
+			"skillProb": 22,
+			"skillType": 1,
+			"skillUnlock": 0,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"downCd": 10
+			},
+			"skillDesc": "所有兵器冷却时间-10%",
+			"skillId": 82,
+			"skillLevel": 1,
+			"skillName": "剑豪",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 0,
+			"status": 1
+		}],
+		"upgradeCost": 0,
+		"weaponAttack": 180.0,
+		"weaponCd": 2.0,
+		"weaponConsume": 86.0,
+		"weaponDownConsume": 27,
+		"weaponDurable": 25,
+		"weaponIcon": "xxxxx",
+		"weaponId": "d013_3",
+		"weaponLevel": 15,
+		"weaponName": "七星",
+		"weaponPrice": 20000,
+		"weaponSalePrice": 4000,
+		"weaponSkills": "44,82",
+		"weaponStar": 3,
+		"weaponTopLevel": 15,
+		"weaponType": 1,
+		"weaponUpAttack": 70,
+		"weaponUpDurable": 10
+	}],
+	"robotWeaponList": [{
+		"exp": 0,
+		"num": 0,
+		"skills": [{
+			"skillCd": 0.0,
+			"skillConfig": {
+				"recoverDown": "5-0.4"
+			},
+			"skillDesc": "使对手内力恢复速度-60%，持续5秒",
+			"skillId": 55,
+			"skillLevel": 1,
+			"skillName": "气绝",
+			"skillProb": 22,
+			"skillType": 1,
+			"skillUnlock": 0,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"downConsume": 10
+			},
+			"skillDesc": "所有兵器内力消耗-10%",
+			"skillId": 80,
+			"skillLevel": 1,
+			"skillName": "轮回",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 0,
+			"status": 1
+		}],
+		"upgradeCost": 0,
+		"weaponAttack": 242.0,
+		"weaponCd": 2.9,
+		"weaponConsume": 72.0,
+		"weaponDownConsume": 36,
+		"weaponDurable": 25,
+		"weaponIcon": "xxxx",
+		"weaponId": "z015_3",
+		"weaponLevel": 15,
+		"weaponName": "倚天",
+		"weaponPrice": 20000,
+		"weaponSalePrice": 4000,
+		"weaponSkills": "55,80",
+		"weaponStar": 3,
+		"weaponTopLevel": 15,
+		"weaponType": 2,
+		"weaponUpAttack": 97,
+		"weaponUpDurable": 10
+	}, {
+		"exp": 0,
+		"num": 0,
+		"skills": [{
+			"skillCd": 0.0,
+			"skillConfig": {
+				"cd": 0
+			},
+			"skillDesc": "兵器立即冷却",
+			"skillId": 58,
+			"skillLevel": 1,
+			"skillName": "顿悟",
+			"skillProb": 25,
+			"skillType": 1,
+			"skillUnlock": 0,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"allWeaponSkillProb": 10
+			},
+			"skillDesc": "所有兵器技能触发几率提升10%",
+			"skillId": 87,
+			"skillLevel": 1,
+			"skillName": "剑圣",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 0,
+			"status": 1
+		}],
+		"upgradeCost": 0,
+		"weaponAttack": 456.0,
+		"weaponCd": 4.0,
+		"weaponConsume": 126.0,
+		"weaponDownConsume": 50,
+		"weaponDurable": 25,
+		"weaponIcon": "xxxxx",
+		"weaponId": "g015_3",
+		"weaponLevel": 15,
+		"weaponName": "紫金降魔杵",
+		"weaponPrice": 30000,
+		"weaponSalePrice": 6000,
+		"weaponSkills": "58,87",
+		"weaponStar": 3,
+		"weaponTopLevel": 15,
+		"weaponType": 3,
+		"weaponUpAttack": 256,
+		"weaponUpDurable": 10
+	}],
+	"robotRole": {
+		"addAllRate": 1.0,
+		"addMpRate": 0.0,
+		"addStrengthRate": 0.0,
+		"addWeaponSkillProb": 10,
+		"downWeaponCd": 0,
+		"downWeaponConsume": 0,
+		"hitRecoveMp": 0,
+		"notCrit": 1,
+		"notDizzy": 0,
+		"notFrozen": 0,
+		"notPalsy": 0,
+		"notPoison": 0,
+		"reboundRate": 20,
+		"recoverHp": 0,
+		"recoverMp": 1.0,
+		"refiners": [{
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_09",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 1,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升轻型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "轻型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "轻燕",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_10",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 2,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升中型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "中型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "锋刃",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_11",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 3,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升重型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "重型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "沉石",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}],
+		"roleBone": 176,
+		"roleCritHarm": 180,
+		"roleCritProb": 4,
+		"roleDesc": "反击",
+		"roleDress": "hero_4",
+		"roleHp": 1660,
+		"roleIcon": "xxx",
+		"roleId": 4,
+		"roleLevel": 20,
+		"roleMp": 238,
+		"roleName": "乔帮主",
+		"rolePrice": 0,
+		"roleSkills": "40,41,42",
+		"roleStar": 4,
+		"roleStatus": 0,
+		"roleStrength": 574,
+		"roleTopLevel": 20,
+		"roleType": 0,
+		"roleUpBone": 7,
+		"roleUpHp": 64,
+		"roleUpMp": 9,
+		"roleUpStrength": 23,
+		"skills": [{
+			"skillCd": 24.0,
+			"skillConfig": {
+				"hurt": 0.2,
+				"dragon": 1
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "打出1条小金龙，造成臂力*0.2倍伤害。",
+			"skillId": 40,
+			"skillLevel": 1,
+			"skillName": "苍龙再现",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 5,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"reboundRate": 20,
+				"notCrit": 1
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "20%反弹对手的兵器。不会受到暴击。",
+			"skillId": 41,
+			"skillLevel": 1,
+			"skillName": "游龙入水",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 10,
+			"status": 1
+		}, {
+			"skillCd": 75.0,
+			"skillConfig": {
+				"dizziness": 3,
+				"dragon": 2,
+				"hurt": 0.42
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "打出2条金龙，造成臂力*0.42倍伤害，命中后使对手晕眩3秒。",
+			"skillId": 42,
+			"skillLevel": 1,
+			"skillName": "亢龙有悔",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 15,
+			"status": 1
+		}],
+		"upgradeCost": 0
+	}
+};
+
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2188,7 +3147,6 @@ var SpeakMan = function (_PaoYa$Component) {
         key: "onAwake",
         value: function onAwake() {
             this.lblSpeakName.font = "figureDetail";
-            this.lblSpeakName.text = "阿强";
             this.target = this.imgArrow;
             this.curY = this.target.y;
             var timeLine = new Laya.TimeLine();
@@ -2241,7 +3199,7 @@ var SpeakMan = function (_PaoYa$Component) {
 
 exports.default = SpeakMan;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2364,7 +3322,7 @@ var Dodge = function (_PaoYa$Component) {
 
 exports.default = Dodge;
 
-},{"../GameControl":4}],14:[function(require,module,exports){
+},{"../GameControl":4}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2458,7 +3416,7 @@ var GameBanner = function (_PaoYa$Component) {
 
 exports.default = GameBanner;
 
-},{"../GameControl":4}],15:[function(require,module,exports){
+},{"../GameControl":4}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2529,7 +3487,7 @@ var HPBar = function (_PaoYa$Component) {
 
 exports.default = HPBar;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2645,7 +3603,7 @@ var MPBar = function (_PaoYa$Component) {
 
 exports.default = MPBar;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3185,7 +4143,7 @@ var Player = function (_PaoYa$Component) {
 
 exports.default = Player;
 
-},{"../GameControl":4,"../config/HeroConfig":8}],18:[function(require,module,exports){
+},{"../GameControl":4,"../config/HeroConfig":8}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3255,7 +4213,7 @@ var PlayerSkill = function (_PaoYa$Component) {
 
 exports.default = PlayerSkill;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3320,7 +4278,7 @@ var PlayerState = function (_PaoYa$Component) {
 
 exports.default = PlayerState;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3470,7 +4428,7 @@ exports.default = Skill;
 
 Skill.CLICK = "skillClick";
 
-},{"../GameControl":4}],21:[function(require,module,exports){
+},{"../GameControl":4}],22:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3836,6 +4794,7 @@ var Weapon = function (_PaoYa$Component) {
             sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
             sprite.zOrder=10000;
             sprite.rotation=this.imgWeapon.rotation */
+        this.postNotification('collide');
         //如果对方闪避状态，无敌
         if (this.otherPlayerComp.dodge) {
           console.error('无敌状态');
@@ -4054,9 +5013,7 @@ var Weapon = function (_PaoYa$Component) {
               this.stopParabola();
               otherWeapon.stopParabola()
               return; */
-            /*    console.error('碰撞啦啦啦啦.......................................')
-               console.error('我方类型:',this.weaponType,this.params.weaponId)
-               console.error('对方类型:',otherWeapon.weaponType,otherWeapon.params.weaponId) */
+            this.postNotification('weaponsCollide');
             if (this.weaponDurable > otherWeapon.weaponDurable) {
               otherWeapon.playWeaponCollideEffect();
               this.weaponDurable -= otherWeapon.weaponDurable;
@@ -4184,7 +5141,7 @@ var Weapon = function (_PaoYa$Component) {
 
 exports.default = Weapon;
 
-},{"../GameControl":4}],22:[function(require,module,exports){
+},{"../GameControl":4}],23:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4374,7 +5331,7 @@ exports.default = WeaponBar;
 
 WeaponBar.CLICK = "weanponBarClick";
 
-},{"../GameControl":4}],23:[function(require,module,exports){
+},{"../GameControl":4}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4448,7 +5405,7 @@ var WeaponSkill = function (_PaoYa$Component) {
 
 exports.default = WeaponSkill;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4545,8 +5502,8 @@ var GameMain = function (_PaoYa$Main) {
 
 exports.default = GameMain;
 
-},{"./Loading/LoadingView":27}],25:[function(require,module,exports){
-"use strict";
+},{"./Loading/LoadingView":28}],26:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -4554,9 +5511,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _HeroConfig = require("../../gamescripts/config/HeroConfig");
+var _HeroConfig = require('../../gamescripts/config/HeroConfig');
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
+
+var _GameGuideData = require('../../gamescripts/gameGuide/GameGuideData');
+
+var _GameGuideData2 = _interopRequireDefault(_GameGuideData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4576,7 +5537,7 @@ var HomeControl = function (_PaoYa$Component) {
     }
 
     _createClass(HomeControl, [{
-        key: "onAwake",
+        key: 'onAwake',
 
         /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
         /** @prop {name:lblName,tips:"用户名字",type:Node} */
@@ -4600,23 +5561,23 @@ var HomeControl = function (_PaoYa$Component) {
             this.onNotification('roleIdChanged', this, function (roleId) {
                 if (name != roleId) {
                     name = roleId;
-                    var templet = _HeroConfig2.default.spineMap["hero_" + name].templet;
+                    var templet = _HeroConfig2.default.spineMap['hero_' + name].templet;
                     _this2.player.init(templet, 0);
                 }
             });
         }
     }, {
-        key: "onAppear",
+        key: 'onAppear',
         value: function onAppear() {
             this.player.play('stand', true);
         }
     }, {
-        key: "onDisappear",
+        key: 'onDisappear',
         value: function onDisappear() {
             this.player.stop();
         }
     }, {
-        key: "onClick",
+        key: 'onClick',
         value: function onClick(e) {
             var _this3 = this;
 
@@ -4624,7 +5585,7 @@ var HomeControl = function (_PaoYa$Component) {
                 //兵器库
                 case "btnWeaponHouse":
                     console.log("进入兵器库");
-                    this.GET("martial_user_weapon_list", {}, function (res) {
+                    this.POST("martial_user_weapon_list", {}, function (res) {
                         //console.log(res)
                         if (!res) {
                             return;
@@ -4640,7 +5601,7 @@ var HomeControl = function (_PaoYa$Component) {
                             return;
                         }
                         //console.log(res)
-                        _this3.GET("martial_user_weapon_list", {}, function (data) {
+                        _this3.POST("martial_user_weapon_list", {}, function (data) {
                             if (!data) {
                                 return;
                             }
@@ -4660,11 +5621,18 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.push("Devour", res);
+                        _this3.navigator.push("Refining", res);
                     });
                     break;
                 //兵器谱
                 case "btnWeaponSpectrum":
+                    this.GET("martial_weapon_list", {}, function (res) {
+                        //console.log(res)
+                        if (!res) {
+                            return;
+                        }
+                        _this3.navigator.push("WeapList", res);
+                    });
                     console.log("进入兵器谱");
                     break;
                 //英雄库
@@ -4675,6 +5643,13 @@ var HomeControl = function (_PaoYa$Component) {
 
                 //签到
                 case "btnRegister":
+                    this.GET("martial_login_bonus_list", {}, function (res) {
+                        //console.log(res)
+                        if (!res) {
+                            return;
+                        }
+                        _this3.navigator.push("Sign", res);
+                    });
                     console.log("打开签到");
                     break;
                 //抽奖转盘
@@ -4686,8 +5661,8 @@ var HomeControl = function (_PaoYa$Component) {
                     console.log("开始游戏请求的数据......");
                     this.POST("hero_game_start", { stageId: 1 }, function (res) {
                         res.gameType = 'pass';
-                        //this.navigator.push("GameView", res);
-                        _this3.navigator.push("GameGuide", res);
+                        // this.navigator.push("GameView", res);
+                        _this3.navigator.push('GameGuide', _GameGuideData2.default);
                     });
 
                     break;
@@ -4722,7 +5697,7 @@ var HomeControl = function (_PaoYa$Component) {
             }
         }
     }, {
-        key: "goHerosHouse",
+        key: 'goHerosHouse',
         value: function goHerosHouse() {
             var _this4 = this;
 
@@ -4735,16 +5710,16 @@ var HomeControl = function (_PaoYa$Component) {
             });
         }
     }, {
-        key: "onDisappear",
+        key: 'onDisappear',
         value: function onDisappear() {}
     }, {
-        key: "onEnable",
+        key: 'onEnable',
         value: function onEnable() {}
     }, {
-        key: "onDisable",
+        key: 'onDisable',
         value: function onDisable() {}
     }, {
-        key: "onDestroy",
+        key: 'onDestroy',
         value: function onDestroy() {}
     }]);
 
@@ -4753,7 +5728,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/config/HeroConfig":8}],26:[function(require,module,exports){
+},{"../../gamescripts/config/HeroConfig":8,"../../gamescripts/gameGuide/GameGuideData":12}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4819,7 +5794,7 @@ var LoadingControl = function (_PaoYa$Component) {
 
 exports.default = LoadingControl;
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4882,7 +5857,7 @@ var LoadingView = function (_PaoYa$View) {
 
 exports.default = LoadingView;
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4978,7 +5953,7 @@ var MatchControl = function (_PaoYa$Component) {
 
 exports.default = MatchControl;
 
-},{"../../../gamescripts/prefab/GameBanner":14}],29:[function(require,module,exports){
+},{"../../../gamescripts/prefab/GameBanner":15}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5109,7 +6084,7 @@ var MatchView = function (_PaoYa$View) {
 
 exports.default = MatchView;
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5276,7 +6251,7 @@ var Grading = function (_PaoYa$View) {
 
 exports.default = Grading;
 
-},{"../../../gamescripts/config/HeroConfig":8,"./GradingControl":31}],31:[function(require,module,exports){
+},{"../../../gamescripts/config/HeroConfig":8,"./GradingControl":32}],32:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5326,7 +6301,7 @@ var GradingControl = function (_PaoYa$Component) {
 
 exports.default = GradingControl;
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5433,6 +6408,8 @@ var Swordsman = function (_PaoYa$View) {
         value: function initInfo() {
             var _this3 = this;
 
+            this.skbox.y = 370;
+            this.skbox.x = 370;
             if (this.heroSkin) {
                 this.heroSkin.stop();
                 this.heroSkin.destroy();
@@ -5542,6 +6519,8 @@ var Swordsman = function (_PaoYa$View) {
                     this.signGet.visible = true;
                 }
             }
+
+            this.lvupbtn.disabled = this.showDetail.roleLevel >= this.showDetail.roleTopLevel ? true : false;
         }
     }, {
         key: "changeGold",
@@ -5587,7 +6566,7 @@ var Swordsman = function (_PaoYa$View) {
 
 exports.default = Swordsman;
 
-},{"../../../gamescripts/config/HeroConfig":8,"./SwordsmanControl":33}],33:[function(require,module,exports){
+},{"../../../gamescripts/config/HeroConfig":8,"./SwordsmanControl":34}],34:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5627,6 +6606,9 @@ var SwordsmanControl = function (_PaoYa$Component) {
         value: function roleLevelUp() {
             var _this2 = this;
 
+            if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
+                return;
+            }
             if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
                 this.navigator.popup("weapon/GoldLack");
                 return;
@@ -5644,6 +6626,17 @@ var SwordsmanControl = function (_PaoYa$Component) {
                     }
                 });
                 _this2.owner.initInfo();
+
+                if (res.unlock) {
+                    var detail = null;
+                    _this2.owner.showDetail.skills.forEach(function (element) {
+                        if (element.status) {
+                            detail = element;
+                        }
+                    });
+
+                    _this2.navigator.popup("figure/GetNewSkill", detail);
+                }
             });
         }
     }, {
@@ -5676,7 +6669,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
 
 exports.default = SwordsmanControl;
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5684,6 +6677,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _DevourControl = require("./DevourControl");
+
+var _DevourControl2 = _interopRequireDefault(_DevourControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5707,19 +6706,38 @@ var Devour = function (_PaoYa$View) {
         key: "onEnable",
         value: function onEnable() {
             this.benBack.on(Laya.Event.CLICK, this, function () {
-                RefiningControl.ins.navigator.pop();
+                _DevourControl2.default.ins.navigator.pop();
             });
 
-            this.title.text = this.params.refinerName;
+            this.eatBtn.on(Laya.Event.CLICK, this, function () {
+                _DevourControl2.default.ins.eatWp();
+            });
+
+            this.choiceBtn.on(Laya.Event.CLICK, this, function () {
+                _DevourControl2.default.ins.chiocethreeWp();
+            });
+
+            this.warehouseList.vScrollBarSkin = "";
+            this.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
+
+            this.goldNum.text = PaoYa.DataCenter.user.gold;
+            this.goldNum.font = "weaponNFontT";
+            this.goldNum.scale(0.7, 0.7);
+            this.goldNum.pos(381, 20);
+            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
+            this.diamondNum.font = "weaponNFontT";
+            this.diamondNum.scale(0.7, 0.7);
+            this.diamondNum.pos(622, 20);
+
+            this.title.text = this.params.refiner.refinerName;
             this.title.font = "weaponDFont";
             this.title.scale(0.8, 0.8);
             this.title.x = (411 - this.title.width) / 2;
 
-            this.detail.text = this.params.refinerDesc;
+            this.detail.text = this.params.refiner.refinerDesc;
 
-            this.title.text = "LV." + this.params.refinerLevel;
-            this.title.font = "weaponDFont";
-            this.title.scale(0.8, 0.8);
+            this.next.font = "weaponDFont";
+            this.next.scale(0.6, 0.6);
 
             this.choiceTxt.font = "weaponDFont";
             this.choiceTxt.scale(0.6, 0.6);
@@ -5728,6 +6746,40 @@ var Devour = function (_PaoYa$View) {
             this.eatTxt.font = "weaponDFont";
             this.eatTxt.scale(0.6, 0.6);
             this.eatTxt.pos(40, 13);
+
+            _DevourControl2.default.ins.getWareList();
+            this.initInfo();
+        }
+    }, {
+        key: "initInfo",
+        value: function initInfo() {
+            this.pLv.text = "LV." + this.params.refiner.refinerLevel;
+            this.pLv.font = "weaponDFont";
+            this.pLv.scale(0.55, 0.55);
+            this.pLv.pos(28, 20);
+
+            var arr = this.params.refiner.refinerEffect.split("+");
+            this.pd.text = arr[0];
+            this.add.x = this.pd.width + 35;
+            this.add.text = "+" + this.params.refiner.refinerBasics.show;
+
+            var arrr = this.params.nextRefiner.refinerEffect.split("+");
+            this.pnd.text = arrr[0];
+            this.pnadd.x = this.pnd.width + 35;
+            this.pnadd.text = "+" + this.params.nextRefiner.refinerBasics.show;
+
+            this.curryExp.width = this.params.refiner.currentExp / this.params.refiner.currentFullExp * 224;
+            this.nextExp.width = this.params.refiner.currentExp / this.params.refiner.currentFullExp * 224;
+        }
+    }, {
+        key: "wareWeaponUpdateItem",
+        value: function wareWeaponUpdateItem(cell, index) {
+            _DevourControl2.default.ins.childList.push(cell);
+            _DevourControl2.default.ins.singleWeapon(cell, index);
+            cell.offAll();
+            cell.on(Laya.Event.CLICK, this, function () {
+                _DevourControl2.default.ins.chioceWp(cell, index);
+            });
         }
     }]);
 
@@ -5736,7 +6788,7 @@ var Devour = function (_PaoYa$View) {
 
 exports.default = Devour;
 
-},{}],35:[function(require,module,exports){
+},{"./DevourControl":36}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5760,6 +6812,7 @@ var DevourControl = function (_PaoYa$Component) {
         var _this = _possibleConstructorReturn(this, (DevourControl.__proto__ || Object.getPrototypeOf(DevourControl)).call(this));
 
         DevourControl.ins = _this;
+        _this.willBeEatList = [];
         return _this;
     }
 
@@ -5769,6 +6822,217 @@ var DevourControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "getWareList",
+        value: function getWareList() {
+            var _this2 = this;
+
+            this.lightList = this.owner.params.lightList;
+            this.heavyList = this.owner.params.heavyList;
+            this.middleList = this.owner.params.middleList;
+            this.allList = this.lightList.concat(this.heavyList, this.middleList);
+
+            this.myUserList = [];
+            var arr = this.owner.params.userWeapons.split(",");
+            arr.forEach(function (element) {
+                var obj = {
+                    name: element.split("-")[0],
+                    lv: element.split("-")[1]
+                };
+                _this2.myUserList.push(obj);
+            });
+
+            this.showWareList(this.allList);
+        }
+
+        //仓库展示列表
+
+    }, {
+        key: "showWareList",
+        value: function showWareList(list) {
+            var showList = JSON.parse(JSON.stringify(list));
+            var arr = [];
+            var unShowWeap = JSON.parse(JSON.stringify(this.myUserList));
+            //筛选仓库武器
+            showList.forEach(function (element, index) {
+                for (var i = 0; i < unShowWeap.length; i++) {
+                    if (element.weaponId == unShowWeap[i].name && element.weaponLevel == unShowWeap[i].lv) {
+                        element.num -= 1;
+                    }
+                }
+
+                for (var _i = 0; _i < element.num; _i++) {
+                    var obj = JSON.parse(JSON.stringify(element));
+                    obj.WpGrade = obj.weaponStar * 100 + obj.weaponLevel;
+                    arr.push(obj);
+                }
+            });
+
+            if (this.newWpList) {
+                var al = arr.length;
+                var ml = this.newWpList.length;
+                getNewList: for (var j = 0; j < ml; j++) {
+                    for (var i = 0; i < al; i++) {
+                        if (arr[i].weaponId == this.newWpList[j].name && arr[i].weaponLevel == this.newWpList[j].lv && !arr[i].isUsingWp && !this.newWpList[j].isOdd) {
+                            arr[i].isNew = true;
+                            arr[i].idIdx = j;
+                            continue getNewList;
+                        }
+                    }
+                }
+            }
+            arr.sort(function (a, b) {
+                return a.WpGrade - b.WpGrade;
+            });
+            this.isWareChoiceWp = null;
+            this.newAllArr = arr;
+            this.childList = [];
+            this.owner.warehouseList.array = arr;
+        }
+
+        //单个兵器图签
+
+    }, {
+        key: "singleWeapon",
+        value: function singleWeapon(cell, idx) {
+            cell.skin = "local/common/frameBg.png";
+            cell.getChildByName("beChioce").visible = false;
+
+            cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
+            cell.getChildByName("lv").text = "LV." + cell._dataSource.weaponLevel;
+            cell.getChildByName("lv").font = "weaponNFontT";
+            cell.getChildByName("lv").scale(0.7, 0.7);
+
+            var skinq = "";
+            var skint = "";
+            switch (cell._dataSource.weaponStar) {
+                case 1:
+                    skinq = "local/common/quality_1.png";
+                    break;
+                case 2:
+                    skinq = "local/common/quality_2.png";
+                    break;
+                case 3:
+                    skinq = "local/common/quality_3.png";
+                    break;
+            }
+            switch (cell._dataSource.weaponType) {
+                case 3:
+                    skint = "local/common/type_1.png";
+                    break;
+                case 2:
+                    skint = "local/common/type_2.png";
+                    break;
+                case 1:
+                    skint = "local/common/type_3.png";
+                    break;
+            }
+            cell.getChildByName("bgwrap").skin = skinq;
+            cell.getChildByName("mark").skin = skint;
+        }
+        //是否选中操作
+
+    }, {
+        key: "chioceWp",
+        value: function chioceWp(cell, index) {
+            if (cell._dataSource.willBeEat) {
+                var _num = null;
+                this.newAllArr[index].ischiocedd = false;
+                this.willBeEatList.forEach(function (element, idx) {
+                    if (element == index) {
+                        _num = idx;
+                    }
+                });
+                this.willBeEatList.splice(_num, 1);
+                cell._dataSource.willBeEat = false;
+                cell.getChildByName("beChioce").visible = false;
+            } else {
+                if (this.willBeEatList.length > 2) {
+                    return;
+                }
+                this.newAllArr[index].ischiocedd = true;
+                this.willBeEatList.push(index);
+                cell._dataSource.willBeEat = true;
+                cell.getChildByName("beChioce").visible = true;
+            }
+
+            var num = 0;
+            this.childList.forEach(function (element, index) {
+                if (element._dataSource.willBeEat) {
+                    num += element._dataSource.exp;
+                }
+            });
+
+            this.owner.curryExp.width = this.owner.nextExp.width + num / this.owner.params.refiner.currentFullExp * 224 > 224 ? 224 : this.owner.nextExp.width + num / this.owner.params.refiner.currentFullExp * 224;
+        }
+        //吞噬
+
+    }, {
+        key: "eatWp",
+        value: function eatWp(e) {
+            var _this3 = this;
+
+            if (this.willBeEatList.length < 1) {
+                return;
+            }
+
+            var idlist = "";
+            var isHigh = false,
+                highDeatil = void 0;
+            var addexp = 0;
+            this.willBeEatList.forEach(function (element) {
+                if (_this3.newAllArr[element].weaponStar == 3 && !e) {
+                    isHigh = true;
+                    highDeatil = _this3.newAllArr[element];
+                }
+                addexp += _this3.newAllArr[element].exp;
+                idlist = "" + idlist + _this3.newAllArr[element].weaponId + "-" + _this3.newAllArr[element].weaponLevel + ",";
+            });
+
+            if (isHigh) {
+                var obj = {
+                    detail: highDeatil,
+                    type: "refining"
+                };
+                this.navigator.popup("weapon/StoreSure", obj);
+                return;
+            }
+
+            PaoYa.Request.POST("martial_update_refiner", { weaponId: idlist, refinerId: this.owner.params.refiner.id, addExp: addexp }, function (res) {
+                _this3.owner.params.refiner = res.refiner;
+                _this3.owner.params.nextRefiner = res.nextRefiner;
+                _this3.owner.initInfo();
+                var arr2 = [];
+                _this3.newAllArr.forEach(function (element, idx) {
+                    if (!element.ischiocedd) {
+                        arr2.push(element);
+                    }
+                });
+                _this3.willBeEatList = [];
+                _this3.childList = [];
+                _this3.newAllArr = arr2;
+                _this3.owner.warehouseList.array = arr2;
+            });
+        }
+        //一键选中
+
+    }, {
+        key: "chiocethreeWp",
+        value: function chiocethreeWp() {
+            var _this4 = this;
+
+            this.childList.forEach(function (element, index) {
+                if (element._dataSource.willBeEat) {
+                    _this4.chioceWp(element, index);
+                }
+            });
+
+            for (var i = 0; i < 3; i++) {
+                if (this.childList[i]) {
+                    this.chioceWp(this.childList[i], i);
+                }
+            }
+        }
     }]);
 
     return DevourControl;
@@ -5776,7 +7040,7 @@ var DevourControl = function (_PaoYa$Component) {
 
 exports.default = DevourControl;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5865,7 +7129,7 @@ var Refining = function (_PaoYa$View) {
 
 exports.default = Refining;
 
-},{"./RefiningControl":37}],37:[function(require,module,exports){
+},{"./RefiningControl":38}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5905,11 +7169,7 @@ var RefiningControl = function (_PaoYa$Component) {
 
             if (e.status) {
                 this.POST("martial_user_weapon_list", { refinerId: e.id }, function (data) {
-                    var obj = {
-                        wp: data,
-                        skill: e
-                    };
-                    _this2.navigator.push("Devour", obj);
+                    _this2.navigator.push("Devour", data);
                 });
             } else {
                 this.navigator.popup("refiner/Canlock", e);
@@ -5922,7 +7182,7 @@ var RefiningControl = function (_PaoYa$Component) {
 
 exports.default = RefiningControl;
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6048,7 +7308,7 @@ var Global = {
 
 exports.Global = Global;
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6282,7 +7542,7 @@ var Tool = function () {
 
 exports.default = Tool;
 
-},{"./Global":38}],40:[function(require,module,exports){
+},{"./Global":39}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6387,7 +7647,7 @@ var WeaponHouse = function (_PaoYa$View) {
 
 exports.default = WeaponHouse;
 
-},{"./WeaponHouseControl":41}],41:[function(require,module,exports){
+},{"./WeaponHouseControl":42}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6447,6 +7707,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             this.owner.userWeaponList.array = this.myUserDetailList;
             //仓库武器数据
             // this.owner.warehouseList.selectHandler = new Laya.Handler(this, this.wareWeaponSelect);
+            this.owner.warehouseList.vScrollBarSkin = "";
             this.isWareChoiceWp = null;
             this.owner.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
         }
@@ -6696,12 +7957,16 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             this.owner.CDTime.scale(0.7, 0.7);
 
             this.owner.attackNum.text = "\u653B\u51FB\uFF1A " + detail.weaponAttack;
+            this.owner.addattackNum.visible = detail.weaponUpAttack ? true : false;
             this.owner.addattackNum.text = "+" + detail.weaponUpAttack;
             this.owner.enduranceNum.text = "\u8010\u4E45\uFF1A " + detail.weaponDurable;
+            this.owner.addenduranceNum.visible = detail.weaponUpDurable ? true : false;
             this.owner.addenduranceNum.text = "+" + detail.weaponUpDurable;
             this.owner.consumeNum.text = "\u6D88\u8017\uFF1A " + detail.weaponConsume;
+            this.owner.addconsumeNum.visible = detail.weaponDownConsume ? true : false;
             this.owner.addconsumeNum.text = "-" + detail.weaponDownConsume;
             this.owner.wpcdNum.text = "\u51B7\u5374\uFF1A " + detail.weaponCd + "\u79D2";
+
             //兵器技能
             this.owner["skillName_1"].text = "";
             this.owner["skillGl_1"].text = "";
@@ -6767,7 +8032,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     var obj = JSON.parse(JSON.stringify(element));
                     obj.originalIndex = index;
                     obj.isUsingWp = false;
-                    if (obj.weaponId == _this7.myUserList[_this7.currentMyUserIdx].name && obj.weaponLevel == _this7.myUserList[_this7.currentMyUserIdx].lv && !isChoice) {
+                    if (_this7.myUserList[_this7.currentMyUserIdx] && obj.weaponId == _this7.myUserList[_this7.currentMyUserIdx].name && obj.weaponLevel == _this7.myUserList[_this7.currentMyUserIdx].lv && !isChoice) {
                         obj.isUsingWp = true;
                         obj.isShowing = true;
                         isChoice = true;
@@ -7011,7 +8276,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 
 exports.default = WeaponHouseControl;
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7187,7 +8452,7 @@ var WeaponStore = function (_PaoYa$View) {
 
 exports.default = WeaponStore;
 
-},{"./WeaponStoreControl":43}],43:[function(require,module,exports){
+},{"./WeaponStoreControl":44}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7449,22 +8714,16 @@ var WeaponStoreControl = function (_PaoYa$Component) {
             this.owner.CDTime.scale(0.7, 0.7);
 
             this.owner.attackNum.text = "\u653B\u51FB\uFF1A " + detail.weaponAttack;
+            this.owner.addattackNum.visible = detail.weaponUpAttack ? true : false;
             this.owner.addattackNum.text = "+" + detail.weaponUpAttack;
             this.owner.enduranceNum.text = "\u8010\u4E45\uFF1A " + detail.weaponDurable;
+            this.owner.addenduranceNum.visible = detail.weaponUpDurable ? true : false;
             this.owner.addenduranceNum.text = "+" + detail.weaponUpDurable;
             this.owner.consumeNum.text = "\u6D88\u8017\uFF1A " + detail.weaponConsume;
+            this.owner.addconsumeNum.visible = detail.weaponDownConsume ? true : false;
             this.owner.addconsumeNum.text = "-" + detail.weaponDownConsume;
             this.owner.wpcdNum.text = "\u51B7\u5374\uFF1A " + detail.weaponCd + "\u79D2";
 
-            if (!detail.weaponUpAttack && !detail.weaponDownConsume && !detail.weaponUpDurable) {
-                this.owner.addattackNum.visible = false;
-                this.owner.addenduranceNum.visible = false;
-                this.owner.addconsumeNum.visible = false;
-            } else {
-                this.owner.addattackNum.visible = true;
-                this.owner.addenduranceNum.visible = true;
-                this.owner.addconsumeNum.visible = true;
-            }
             //兵器技能
             this.owner["skillName_1"].text = "";
             this.owner["skillGl_1"].text = "";
@@ -7763,7 +9022,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
 
 exports.default = WeaponStoreControl;
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7855,7 +9114,7 @@ var BuyHero = function (_PaoYa$Dialog) {
 
 exports.default = BuyHero;
 
-},{"../../common/figure/Swordsman":32,"../../common/figure/SwordsmanControl":33}],45:[function(require,module,exports){
+},{"../../common/figure/Swordsman":33,"../../common/figure/SwordsmanControl":34}],46:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7893,10 +9152,12 @@ var GoldLack = function (_PaoYa$Dialog) {
     _createClass(GoldLack, [{
         key: "onEnable",
         value: function onEnable() {
+            this.btn.on(Laya.Event.CLICK, this, this.close);
             this.skillName.text = this.params.skillName;
             this.skillName.font = "figureDetail";
-            this.skillName.scale(1, 1);
-            this.skillName.x = (450 - this.skillName.width) / 2;
+            this.skillName.scale(0.75, 0.75);
+            this.skillName.x = (450 - this.skillName.width * 0.75) / 2;
+            this.skillName.y = 130;
 
             this.skilldetail.text = "    " + this.params.skillDesc;
             this.skilldetail.letterSpacing = 4;
@@ -7915,7 +9176,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7956,9 +9217,8 @@ var SkillDetail = function (_PaoYa$Dialog) {
             this.mask.on(Laya.Event.CLICK, this, this.close);
             this.skillName.text = this.params.skillName;
             this.skillName.font = "figureDetail";
-            this.skillName.scale(1, 1);
-            this.skillName.x = (450 - this.skillName.width) / 2;
-            console.log(this.skillName.width);
+            this.skillName.scale(0.75, 0.75);
+            this.skillName.x = (450 - this.skillName.width * 0.75) / 2;
 
             this.unlock.text = this.params.skillUnlock + "\u7EA7\u89E3\u9501";
             this.skilldetail.text = "    " + this.params.skillDesc;
@@ -7976,7 +9236,7 @@ var SkillDetail = function (_PaoYa$Dialog) {
 
 exports.default = SkillDetail;
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8064,7 +9324,7 @@ var Canlock = function (_PaoYa$Dialog) {
 
 exports.default = Canlock;
 
-},{"../../common/refiner/RefiningControl":37}],48:[function(require,module,exports){
+},{"../../common/refiner/RefiningControl":38}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8117,7 +9377,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
 exports.default = DiamondLack;
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8170,7 +9430,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8182,6 +9442,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _WeaponStoreControl = require("../../common/weapon/WeaponStoreControl");
 
 var _WeaponStoreControl2 = _interopRequireDefault(_WeaponStoreControl);
+
+var _DevourControl = require("../../common/refiner/DevourControl");
+
+var _DevourControl2 = _interopRequireDefault(_DevourControl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8225,6 +9489,11 @@ var StoreSure = function (_PaoYa$Dialog) {
                 _WeaponStoreControl2.default.ins.sellWp(1);
             });
 
+            this.btn5.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+                _DevourControl2.default.ins.eatWp(1);
+            });
+
             if (this.params.type == "buy") {
                 this.btn1.visible = true;
                 this.btn2.visible = true;
@@ -8233,7 +9502,14 @@ var StoreSure = function (_PaoYa$Dialog) {
             } else {
                 this.btn1.visible = false;
                 this.btn2.visible = false;
-                this.btn3.visible = true;
+                if (this.params.type == "refining") {
+                    this.btn3.visible = false;
+                    this.btn5.visible = true;
+                } else {
+                    this.btn3.visible = true;
+                    this.btn5.visible = false;
+                }
+
                 this.btn4.visible = true;
             }
 
@@ -8245,6 +9521,8 @@ var StoreSure = function (_PaoYa$Dialog) {
             this.btn2Txt.scale(0.45, 0.45);
             this.btn3Txt.font = "weaponDFont";
             this.btn3Txt.scale(0.45, 0.45);
+            this.btn5Txt.font = "weaponDFont";
+            this.btn5Txt.scale(0.45, 0.45);
             this.currtWeaponLevel.font = "weaponNFontT";
             this.currtWeaponLevel.scale(0.7, 0.7);
 
@@ -8274,7 +9552,7 @@ var StoreSure = function (_PaoYa$Dialog) {
 
 exports.default = StoreSure;
 
-},{"../../common/weapon/WeaponStoreControl":43}],51:[function(require,module,exports){
+},{"../../common/refiner/DevourControl":36,"../../common/weapon/WeaponStoreControl":44}],52:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8333,7 +9611,7 @@ var UnlockFifth = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFifth;
 
-},{"../../common/tool/Tool":39}],52:[function(require,module,exports){
+},{"../../common/tool/Tool":40}],53:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8401,7 +9679,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFour;
 
-},{"../../common/weapon/WeaponHouseControl":41}],53:[function(require,module,exports){
+},{"../../common/weapon/WeaponHouseControl":42}],54:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8451,7 +9729,7 @@ var UnlockTips = function (_PaoYa$Dialog) {
 
 exports.default = UnlockTips;
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
