@@ -1,6 +1,7 @@
 
 var frontZone = new Map();
 var behindZone = new Map();
+var noteTimes=new Map();
 
 function initProbability() {
     for (let i = 1; i <= 35; i++) {
@@ -8,6 +9,9 @@ function initProbability() {
     }
     for (let j = 1; j <= 12; j++) {
         behindZone.set(j, 1);
+    }
+    for(let k=1;k<=10;k++){
+        noteTimes.set(k,11-k);
     }
 }
 initProbability();
@@ -161,3 +165,25 @@ function getRandomBehind() {
     behindZone.delete(result);
     return result;
 }
+
+(function getNotes() {
+    let total = 0;
+    let result = 0;
+    let tempMap = new Map();
+    noteTimes.forEach((value, key) => {
+        // console.log(key,value)
+        tempMap.set(key, value + total);
+        total += value
+    })
+    let rondom = Math.floor(Math.random() * (total - 1) + 1);
+    tempMap.forEach((value, key) => {
+        if (!result) {
+            if (rondom <= value) {
+                result = key; //break;
+            }
+        }
+
+    })
+   console.log('多少注：',result);
+    return result;
+})();
