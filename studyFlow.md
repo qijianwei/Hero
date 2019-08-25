@@ -31,8 +31,27 @@
 
 ### 玩转VScode
 
-### 玩转git 学习到 06给文件重命名的简便方法
+### 玩转git 学习到 14
 ```
  git log --oneline  //查看提交版本历史
- git branch -v //查看本地多少分支
+ git branch -v //查看本地多少分支 
+ gitk 打开git图形界面工具来查看版本历史
+ git config --local user.name 查看信息
+ git config --local user.name 'qijianwei'设置本地某个项目仓库信息 全局用global
+ ls //list列表意思
+ ls -al //列出所有的文件，包括隐藏文件，
+ heads //指的是独立的开发空间
+ git cat-file //命令显示版本库对象的内容、类型及大小信息
+ git cat-file -p +hash //显示指定对象内容
+              —t //显示对象类型
+git branch -D //清除分支
+
+git --no-pager log  -3 //该命令一次性不分页不分屏输出最近3次提交的代码历史记录
+
+命令行
+pwd //查看”当前工作目录“的完整路径
+```
+### koa2 构建电影预告片网站
+```
+3.koa框架api 3-5 http 响应对象 
 ```
