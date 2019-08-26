@@ -94,6 +94,7 @@ export default class Player extends PaoYa.Component {
   }
   //监听动画停止；
   stopHandler() {
+    let time=0;
     Laya.MouseManager.enabled = true;
     if (this.killed) {
       this.owner.removeSelf();
@@ -103,7 +104,12 @@ export default class Player extends PaoYa.Component {
     if (this.sectionAni == 1) {
       this.sectionAni += 1;
       this.skeleton.play('dodge2', true);
-      Laya.timer.once(200,this,()=>{
+      if(this.roleId==1){
+        time=800;
+      }else{
+        time=200;
+      }
+      Laya.timer.once(time,this,()=>{
         this.sectionAni += 1;
         this.skeleton.play('dodge3', false)
       })
@@ -164,10 +170,9 @@ export default class Player extends PaoYa.Component {
   }
   //受击打,所有武器碰到都有这效果
   injuredEffect(posType, value, isCrit, cb) {
-    // this.canAction = false;
-    if (this.isSelf) {
+  /*   if (this.isSelf) {
       Laya.MouseManager.enabled = false;
-    }
+    } */
     this.HPComp.changeHP(value);
     if (isCrit) {
       this.showFontEffect("暴击" + value, "crit")
@@ -188,8 +193,8 @@ export default class Player extends PaoYa.Component {
     this.skeleton.play("injured", false);
     this['boxAni' + aniName].visible = true;
     this['ani' + aniName].play(0, false);
-    cb && this.skeleton.once(Laya.Event.LABEL, this, (e) => {
-      if (e.name === "injuredEnd") {
+    cb&&this.skeleton.once(Laya.Event.LABEL, this, (e) => {
+      if (e.name === "injuredEnd") {   
         cb()
       }
     })

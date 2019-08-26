@@ -289,7 +289,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -1118,7 +1118,7 @@ var GameControl = function (_PaoYa$Component) {
                 }
                 return;
             }
-            this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
+
             //人物表现
             if (this.isSelf) {
                 console.error('用户发射武器........');
@@ -1142,16 +1142,17 @@ var GameControl = function (_PaoYa$Component) {
                     var random = Math.floor(Math.random() * 100 + 1);
                     if (random <= prob) {
                         /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
-                        if (skillId == 58) {
-                            targetComp.startT(200); //快速冷却     
-                        } else {
-                            //正常开始技能冷却
-                            targetComp.startT();
-                        }
                         params.skillEffect = true;
                         this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
                         this[name + 'Player'].comp.attackCallback = function () {
                             _this5.weaponWithSkills(params, skillId);
+                            _this5[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this5[name + 'MultiMP']);
+                            if (skillId == 58) {
+                                targetComp.startT(200); //快速冷却     
+                            } else {
+                                //正常开始技能冷却
+                                targetComp.startT();
+                            }
                         };
                         return;
                     } else {
@@ -1162,9 +1163,10 @@ var GameControl = function (_PaoYa$Component) {
             this[name + 'Player'].comp.attackEffect(false);
             this[name + 'Player'].comp.attackCallback = function () {
                 _this5.weaponLaunch(params);
+                targetComp.startT();
+                _this5[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this5[name + 'MultiMP']);
             };
             //正常开始技能冷却
-            targetComp.startT();
         }
     }, {
         key: 'weaponLaunch',
@@ -3807,6 +3809,7 @@ var Player = function (_PaoYa$Component) {
     value: function stopHandler() {
       var _this2 = this;
 
+      var time = 0;
       Laya.MouseManager.enabled = true;
       if (this.killed) {
         this.owner.removeSelf();
@@ -3816,7 +3819,12 @@ var Player = function (_PaoYa$Component) {
       if (this.sectionAni == 1) {
         this.sectionAni += 1;
         this.skeleton.play('dodge2', true);
-        Laya.timer.once(200, this, function () {
+        if (this.roleId == 1) {
+          time = 800;
+        } else {
+          time = 200;
+        }
+        Laya.timer.once(time, this, function () {
           _this2.sectionAni += 1;
           _this2.skeleton.play('dodge3', false);
         });
@@ -3897,10 +3905,9 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "injuredEffect",
     value: function injuredEffect(posType, value, isCrit, cb) {
-      // this.canAction = false;
-      if (this.isSelf) {
-        Laya.MouseManager.enabled = false;
-      }
+      /*   if (this.isSelf) {
+          Laya.MouseManager.enabled = false;
+        } */
       this.HPComp.changeHP(value);
       if (isCrit) {
         this.showFontEffect("暴击" + value, "crit");

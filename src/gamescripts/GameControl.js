@@ -536,7 +536,7 @@ export default class GameControl extends PaoYa.Component {
             }
             return;
         }
-        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
+       
         //人物表现
         if (this.isSelf) {
             console.error('用户发射武器........')
@@ -560,16 +560,17 @@ export default class GameControl extends PaoYa.Component {
                 let random = Math.floor(Math.random() * 100 + 1);
                 if (random <= prob) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
-                    if (skillId == 58) {
-                        targetComp.startT(200); //快速冷却     
-                    } else {
-                        //正常开始技能冷却
-                        targetComp.startT();
-                    }
                     params.skillEffect = true;
                     this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
                     this[name + 'Player'].comp.attackCallback = () => {
                         this.weaponWithSkills(params, skillId);
+                        this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
+                        if (skillId == 58) {
+                            targetComp.startT(200); //快速冷却     
+                        } else {
+                            //正常开始技能冷却
+                            targetComp.startT();
+                        }
                     }
                     return;
                 } else {
@@ -580,9 +581,10 @@ export default class GameControl extends PaoYa.Component {
         this[name + 'Player'].comp.attackEffect(false);
         this[name + 'Player'].comp.attackCallback = () => {
             this.weaponLaunch(params);
+            targetComp.startT();
+            this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
         }
         //正常开始技能冷却
-        targetComp.startT();
 
     }
     weaponLaunch(params, deltaT) {
