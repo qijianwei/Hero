@@ -61,7 +61,7 @@ export default class GameGuideControl extends GameControl{
                case 2:
                case 3:
                case 5:
-               case 6:
+             /*   case 6: */
                case 7:
                case 8:
                case 9:
@@ -196,7 +196,8 @@ export default class GameGuideControl extends GameControl{
         this.aniFinger.play(0,true);
         hitArea.unHit.clear();
         hitArea.unHit.drawRect(1160,580,160,160,'#000');
-        this.dodgeOwner.once(Laya.Event.CLICK,this,()=>{
+        this.dodgeOwner.once(Laya.Event.CLICK,this,(e)=>{
+            e.stopPropagation();
             guideStep+=1;
             this.setResume();
             this.step10();
@@ -218,7 +219,8 @@ export default class GameGuideControl extends GameControl{
         })
     }
     step11(){
-        selfSpeakManComp.showWord(`唉？乔大侠去哪儿了？`)
+        selfSpeakManComp.showWord(`唉？乔大侠去哪儿了？`);
+        this.otherPlayer.node.removeSelf();
         //对手消失，跳转主界面
     
     }
@@ -261,23 +263,24 @@ export default class GameGuideControl extends GameControl{
                   e.stopPropagation();
                   this.step4();
                   break;
-               case 6:
+                case 6:
                   e.stopPropagation();
                   this.step6();
-                  break; 
+                  break;  
             }
             
             console.log(`接收到点击`)
         })
         //this.own
        this.onNotification('collide',this,()=>{
-            console.log('撞到任拉拉...');
+           if(this._first){return;}
             Laya.timer.once(500,this,()=>{
+                this._first=true;
                 maskArea.visible=true;
                 nextLabel.visible=true;
                 otherSpeakMan.visible=true; 
                 otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
-                this.offNotificationListener('collide');
+               // this.offNotificationListener('collide');
             })
        })
         //引导所在容器
@@ -359,4 +362,5 @@ export default class GameGuideControl extends GameControl{
         guideStep+=1;
         this['step'+guideStep]();
     }
+ 
 }

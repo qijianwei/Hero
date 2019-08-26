@@ -27,8 +27,10 @@ export default class PassResultDialog extends PaoYa.Dialog{
             let len=weaponList.length;
             for(let i=0;i<len;i++){
                 weaponBarsArr[i].visible=true;
-                weaponBarsArr[i].getComponent(WeaponBar).params=weaponList[i];
-                weaponBarsArr[i].getComponent(WeaponBar).initView();         
+                let weaponBarsComp=weaponBarsArr[i].getComponent(WeaponBar);
+                weaponBarsComp.params=weaponList[i];
+                weaponBarsComp.initView();   
+                weaponBarsArr[i].off(Laya.Event.CLICK, weaponBarsComp)      
             } 
         }
         this.lblPrize.text=this.params.gold;

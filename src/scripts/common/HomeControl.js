@@ -39,7 +39,10 @@ export default class HomeControl extends PaoYa.Component {
                 let templet = HeroConfig.spineMap[`hero_` + name].templet;
                 this.player.init(templet, 0);
             }
-        })
+        });
+        if(PaoYa.DataCenter.user.is_first_game==1){
+            this.navigator.push('GameGuide', GameGuideData);
+        }
     }
     onAppear() {
         this.player.play('stand', true);
@@ -129,14 +132,7 @@ export default class HomeControl extends PaoYa.Component {
                 //开始游戏：
             case "btnStartGame":
                 console.log("开始游戏请求的数据......")
-                this.POST("hero_game_start", {
-                    stageId: 1
-                }, (res) => {
-                    res.gameType = 'pass';
-                    // this.navigator.push("GameView", res);
-                    this.navigator.push('GameGuide', GameGuideData);
-                })
-
+                this.goPassGame();
                 break;
                 //华山论剑
             case "btnBattle":
@@ -175,6 +171,14 @@ export default class HomeControl extends PaoYa.Component {
                 return
             }
             this.navigator.push("Swordsman", res);
+        })
+    }
+    goPassGame(){
+        this.POST("hero_game_start", {
+            stageId: 1
+        }, (res) => {
+            res.gameType = 'pass';
+             this.navigator.push("GameView", res);           
         })
     }
     setGuide() {
@@ -224,9 +228,10 @@ export default class HomeControl extends PaoYa.Component {
 
         otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
         otherSpeakManComp = otherSpeakMan.getComponent(SpeakMan);
-        otherSpeakMan.pos(100, 150);
+        otherSpeakMan.pos(315, -127);
         otherSpeakMan.zOrder = 1003;
         this.owner.addChild(otherSpeakMan);
+        otherSpeakManComp.modify(`女子`);
         otherSpeakMan.visible = false;
 
         this.owner.on(Laya.Event.CLICK, this, (e) => {
@@ -277,6 +282,8 @@ export default class HomeControl extends PaoYa.Component {
        this.aniFinger.stop();
        interactionArea.graphics.clear();
        guideContainer.removeSelf();
+       this.aniFinger.destroy();
+       this.goPassGame();
     }
     nextTick(e){
         e.stopPropagation();

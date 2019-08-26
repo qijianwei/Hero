@@ -433,7 +433,8 @@ var Main = exports.Main = function (_GameMain) {
 			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
-			'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas'];
+
+			'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/hero_skill/hero2_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas', 'res/atlas/remote/guide.atlas'];
 			return list;
 		}
 	}, {
@@ -889,15 +890,16 @@ var GameControl = function (_PaoYa$Component) {
             this.showSkillText(isSelf, skillInfo.skillName);
             skillWeapon.isSelf = isSelf;
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
-            //this[name + 'Player'].comp.showSkill1();
             skillWeapon.skillEffect = true;
             switch (skillWeapon.activeSkill.skillId) {
                 case 88:
                     var addCritProb = skillWeapon.activeSkill.skillConfig.critProb;
                     this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb + addCritProb;
                     break;
+                //雪女剑法
                 case 89:
                     break;
+                //铸铁剑法
                 case 90:
                     break;
             }
@@ -1780,7 +1782,7 @@ var HeroConfig = {
       templet: null
     },
     npc_4: {
-      path: "spine/npc/npc_7.sk",
+      path: "spine/npc/npc_4.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -2009,8 +2011,10 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 var len = weaponList.length;
                 for (var i = 0; i < len; i++) {
                     weaponBarsArr[i].visible = true;
-                    weaponBarsArr[i].getComponent(_WeaponBar2.default).params = weaponList[i];
-                    weaponBarsArr[i].getComponent(_WeaponBar2.default).initView();
+                    var weaponBarsComp = weaponBarsArr[i].getComponent(_WeaponBar2.default);
+                    weaponBarsComp.params = weaponList[i];
+                    weaponBarsComp.initView();
+                    weaponBarsArr[i].off(Laya.Event.CLICK, weaponBarsComp);
                 }
             }
             this.lblPrize.text = this.params.gold;
@@ -2150,7 +2154,7 @@ var GameGuideControl = function (_GameControl) {
                     case 2:
                     case 3:
                     case 5:
-                    case 6:
+                    /*   case 6: */
                     case 7:
                     case 8:
                     case 9:
@@ -2218,6 +2222,7 @@ var GameGuideControl = function (_GameControl) {
         value: function step5() {
             var _this3 = this;
 
+            nextLabel.visible = false;
             maskArea.visible = false;
             otherSpeakMan.visible = false;
             this.sWeapon = this.weaponManager.seletedWeapon(0);
@@ -2314,7 +2319,8 @@ var GameGuideControl = function (_GameControl) {
                 _this6.aniFinger.play(0, true);
                 hitArea.unHit.clear();
                 hitArea.unHit.drawRect(1160, 580, 160, 160, '#000');
-                _this6.dodgeOwner.once(Laya.Event.CLICK, _this6, function () {
+                _this6.dodgeOwner.once(Laya.Event.CLICK, _this6, function (e) {
+                    e.stopPropagation();
                     guideStep += 1;
                     _this6.setResume();
                     _this6.step10();
@@ -2342,6 +2348,7 @@ var GameGuideControl = function (_GameControl) {
         key: "step11",
         value: function step11() {
             selfSpeakManComp.showWord("\u5509\uFF1F\u4E54\u5927\u4FA0\u53BB\u54EA\u513F\u4E86\uFF1F");
+            this.otherPlayer.node.removeSelf();
             //对手消失，跳转主界面
         }
     }, {
@@ -2405,13 +2412,16 @@ var GameGuideControl = function (_GameControl) {
             });
             //this.own
             this.onNotification('collide', this, function () {
-                console.log('撞到任拉拉...');
+                if (_this7._first) {
+                    return;
+                }
                 Laya.timer.once(500, _this7, function () {
+                    _this7._first = true;
                     maskArea.visible = true;
                     nextLabel.visible = true;
                     otherSpeakMan.visible = true;
                     otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
-                    _this7.offNotificationListener('collide');
+                    // this.offNotificationListener('collide');
                 });
             });
             //引导所在容器
@@ -3181,6 +3191,7 @@ var SpeakMan = function (_PaoYa$Component) {
     /** @prop {name:lblSpeakName,tips:'人物名字',type:Node}*/
     /** @prop {name:lblIntroduct,tips:'介绍文字',type:Node}*/
     /** @prop {name:imgArrow,tips:'箭头图片',type:Node}*/
+    /** @prop {name:imgRole,tips:'人物形象图片',type:Node}*/
     function SpeakMan() {
         _classCallCheck(this, SpeakMan);
 
@@ -3200,6 +3211,12 @@ var SpeakMan = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "modify",
+        value: function modify(value) {
+            this.lblSpeakName.text = value;
+            this.imgRole.visible = false;
+        }
     }, {
         key: "showWord",
         value: function showWord(value) {
@@ -3235,6 +3252,13 @@ var SpeakMan = function (_PaoYa$Component) {
         key: "stopTimeLine",
         value: function stopTimeLine() {
             this.timeLine.pause();
+        }
+    }, {
+        key: "onDestroy",
+        value: function onDestroy() {
+            console.log("\u9500\u6BC1\u5BF9\u8BDD");
+            this.timeLine.destroy();
+            this.timeLine = null;
         }
     }]);
 
@@ -3693,8 +3717,9 @@ var Player = function (_PaoYa$Component) {
   /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
-  /** @prop {name:aniSkill1,tips:"兵器技能动效节点",type:Node} */
-  /** @prop {name:aniSkill2,tips:"人物技能2动效节点",type:Node} */
+  /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */
+  /** @prop {name:aniSkill2Hero1,tips:"1号英雄技能2动效节点",type:Node} */
+  /** @prop {name:aniSkill2Hero2,tips:"2号英雄技能2动效节点",type:Node} */
   function Player() {
     _classCallCheck(this, Player);
 
@@ -3715,6 +3740,7 @@ var Player = function (_PaoYa$Component) {
       console.error('角色服装:', this.attr.roleDress);
       var dressIcon = this.attr.roleDress;
       this.dressIcon = dressIcon;
+      this.roleId = this.attr.roleId;
       var skeleton = _HeroConfig2.default.getSkeleton(dressIcon);
       skeleton.play('stand', true);
       skeleton.pos(posX, posY - 10);
@@ -3764,8 +3790,8 @@ var Player = function (_PaoYa$Component) {
           break;
         case 'skill2':
           _GameControl2.default.instance.allResume(this.isSelf);
-          this.aniSkill2.visible = true;
-          this.aniSkill2.play(0, true);
+          this['aniSkill2Hero' + this.roleId].visible = true;
+          this['aniSkill2Hero' + this.roleId].play(0, true);
           break;
         case 'launch':
           this.attackCallback();
@@ -3779,6 +3805,8 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "stopHandler",
     value: function stopHandler() {
+      var _this2 = this;
+
       Laya.MouseManager.enabled = true;
       if (this.killed) {
         this.owner.removeSelf();
@@ -3787,14 +3815,18 @@ var Player = function (_PaoYa$Component) {
       }
       if (this.sectionAni == 1) {
         this.sectionAni += 1;
-        this.skeleton.play('dodge2', false);
+        this.skeleton.play('dodge2', true);
+        Laya.timer.once(200, this, function () {
+          _this2.sectionAni += 1;
+          _this2.skeleton.play('dodge3', false);
+        });
         return;
       }
-      if (this.sectionAni == 2) {
-        this.sectionAni += 1;
-        this.skeleton.play('dodge3', false);
-        return;
-      }
+      /*   if (this.sectionAni == 2) {
+          this.sectionAni += 1;
+          this.skeleton.play('dodge3', false)
+          return;
+        } */
       if (this.sectionAni == 3) {
         this.removeDodge();
         // return;
@@ -3812,18 +3844,16 @@ var Player = function (_PaoYa$Component) {
     key: "attackCallback",
     value: function attackCallback() {}
 
-    //人物触发技能1
+    //人物触发兵器技能,人物通用技能
 
   }, {
     key: "showSkill1",
     value: function showSkill1() {
       this.skeleton.play("skill1", false);
     }
-  }, {
-    key: "removeSkill1",
-    value: function removeSkill1() {
-      this.aniSkill1.stop();
-    }
+    /* removeSkill1() {
+      this.aniSkillCommon.stop();
+    } */
     //人物触发技能2
 
   }, {
@@ -3834,21 +3864,21 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removeSkill2",
     value: function removeSkill2() {
-      this.aniSkill2.visible = false;
-      this.aniSkill2.stop();
+      this['aniSkill2Hero' + this.roleId].visible = false;
+      this['aniSkill2Hero' + this.roleId].stop();
     }
     //人物触发兵器技能特效
 
   }, {
     key: "skillEffect",
     value: function skillEffect() {
-      this.aniSkill1.visible = true;
-      this.aniSkill1.play(0, false);
+      this.aniSkillCommon.visible = true;
+      this.aniSkillCommon.play(0, false);
     }
   }, {
     key: "removeSkillEffect",
     value: function removeSkillEffect() {
-      this.aniSkill1.stop();
+      this.aniSkillCommon.stop();
       this.boxAniPoison.visible = false;
     }
     //攻击
@@ -4509,7 +4539,8 @@ var WeaponAniType;
   WeaponAniType[WeaponAniType["aniFreeze"] = 59] = "aniFreeze";
   WeaponAniType[WeaponAniType["aniThump3"] = 61] = "aniThump3";
   WeaponAniType[WeaponAniType["aniPetrifie"] = 62] = "aniPetrifie";
-  WeaponAniType[WeaponAniType["aniSkill1"] = 88] = "aniSkill1";
+  WeaponAniType[WeaponAniType["aniHero1"] = 88] = "aniHero1";
+  WeaponAniType[WeaponAniType["aniHero2"] = 89] = "aniHero2";
 })(WeaponAniType || (WeaponAniType = {}));
 
 var Weapon = function (_PaoYa$Component) {
@@ -4536,7 +4567,8 @@ var Weapon = function (_PaoYa$Component) {
   /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
   /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
   /** @prop {name:aniPetrifie,tips:"石化特效",type:Node}*/
-  /** @prop {name:aniSkill1,tips:"人物技能2特效",type:Node}*/
+  /** @prop {name:aniHero1,tips:"人物1技能2特效",type:Node}*/
+  /** @prop {name:aniHero2,tips:"人物2技能2特效",type:Node}*/
 
   function Weapon() {
     _classCallCheck(this, Weapon);
@@ -4619,7 +4651,8 @@ var Weapon = function (_PaoYa$Component) {
       this.aniThump2.pos(x, y);
       this.aniThump3.pos(x, y);
       this.aniPetrifie.pos(x, y);
-      this.aniSkill1.pos(0, y);
+      this.aniHero1.pos(0, y);
+      this.aniHero2.pos(0, y);
       /* this.aniPoison1.play(0,true); */
       this.collideSp.size(Math.floor(imgW * 0.2), imgH);
       var collideW = this.collideSp.width,
@@ -5628,6 +5661,9 @@ var HomeControl = function (_PaoYa$Component) {
                     _this2.player.init(templet, 0);
                 }
             });
+            if (PaoYa.DataCenter.user.is_first_game == 1) {
+                this.navigator.push('GameGuide', _GameGuideData2.default);
+            }
         }
     }, {
         key: "onAppear",
@@ -5724,14 +5760,7 @@ var HomeControl = function (_PaoYa$Component) {
                 //开始游戏：
                 case "btnStartGame":
                     console.log("开始游戏请求的数据......");
-                    this.POST("hero_game_start", {
-                        stageId: 1
-                    }, function (res) {
-                        res.gameType = 'pass';
-                        // this.navigator.push("GameView", res);
-                        _this3.navigator.push('GameGuide', _GameGuideData2.default);
-                    });
-
+                    this.goPassGame();
                     break;
                 //华山论剑
                 case "btnBattle":
@@ -5777,9 +5806,21 @@ var HomeControl = function (_PaoYa$Component) {
             });
         }
     }, {
+        key: "goPassGame",
+        value: function goPassGame() {
+            var _this5 = this;
+
+            this.POST("hero_game_start", {
+                stageId: 1
+            }, function (res) {
+                res.gameType = 'pass';
+                _this5.navigator.push("GameView", res);
+            });
+        }
+    }, {
         key: "setGuide",
         value: function setGuide() {
-            var _this5 = this;
+            var _this6 = this;
 
             //引导所在容器
             guideContainer = new Laya.Sprite();
@@ -5826,9 +5867,10 @@ var HomeControl = function (_PaoYa$Component) {
 
             otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
             otherSpeakManComp = otherSpeakMan.getComponent(_SpeakMan2.default);
-            otherSpeakMan.pos(100, 150);
+            otherSpeakMan.pos(315, -127);
             otherSpeakMan.zOrder = 1003;
             this.owner.addChild(otherSpeakMan);
+            otherSpeakManComp.modify("\u5973\u5B50");
             otherSpeakMan.visible = false;
 
             this.owner.on(Laya.Event.CLICK, this, function (e) {
@@ -5837,7 +5879,7 @@ var HomeControl = function (_PaoYa$Component) {
                     case 1:
                     case 2:
                     case 3:
-                        _this5['step' + guideStep]();
+                        _this6['step' + guideStep]();
                         break;
                 }
             });
@@ -5846,7 +5888,7 @@ var HomeControl = function (_PaoYa$Component) {
                 switch (guideStep) {
                     case 4:
                         e.stopPropagation();
-                        _this5.step4();
+                        _this6.step4();
                         break;
                 }
                 console.log("\u63A5\u6536\u5230\u70B9\u51FB");
@@ -5886,6 +5928,8 @@ var HomeControl = function (_PaoYa$Component) {
             this.aniFinger.stop();
             interactionArea.graphics.clear();
             guideContainer.removeSelf();
+            this.aniFinger.destroy();
+            this.goPassGame();
         }
     }, {
         key: "nextTick",

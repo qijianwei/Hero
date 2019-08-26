@@ -2,6 +2,7 @@ export default class SpeakMan extends PaoYa.Component{
     /** @prop {name:lblSpeakName,tips:'人物名字',type:Node}*/
     /** @prop {name:lblIntroduct,tips:'介绍文字',type:Node}*/
     /** @prop {name:imgArrow,tips:'箭头图片',type:Node}*/
+     /** @prop {name:imgRole,tips:'人物形象图片',type:Node}*/
     constructor(){
         super();
     }
@@ -15,6 +16,10 @@ export default class SpeakMan extends PaoYa.Component{
     }
     onEnable(){
        
+    }
+    modify(value){
+        this.lblSpeakName.text=value;
+        this.imgRole.visible=false;
     }
     showWord(value){
         this.str=value;
@@ -44,5 +49,10 @@ export default class SpeakMan extends PaoYa.Component{
     }
     stopTimeLine(){
         this.timeLine.pause();
+    }
+    onDestroy(){
+        console.log(`销毁对话`)
+        this.timeLine.destroy();
+        this.timeLine=null;
     }
 }

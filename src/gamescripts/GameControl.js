@@ -339,15 +339,16 @@ export default class GameControl extends PaoYa.Component {
         this.showSkillText(isSelf, skillInfo.skillName);
         skillWeapon.isSelf = isSelf;
         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
-        //this[name + 'Player'].comp.showSkill1();
         skillWeapon.skillEffect = true;
         switch (skillWeapon.activeSkill.skillId) {
             case 88:
                 let addCritProb = skillWeapon.activeSkill.skillConfig.critProb;
                 this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb + addCritProb;
                 break;
+                //雪女剑法
             case 89:
                 break;
+                //铸铁剑法
             case 90:
                 break;
         }

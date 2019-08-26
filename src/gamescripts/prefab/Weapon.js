@@ -15,7 +15,8 @@ var WeaponAniType;
     WeaponAniType[WeaponAniType["aniFreeze"]=59]="aniFreeze";
     WeaponAniType[WeaponAniType["aniThump3"]=61]="aniThump3";
     WeaponAniType[WeaponAniType["aniPetrifie"]=62]="aniPetrifie";
-    WeaponAniType[WeaponAniType["aniSkill1"]=88]="aniSkill1";
+    WeaponAniType[WeaponAniType["aniHero1"]=88]="aniHero1";
+    WeaponAniType[WeaponAniType["aniHero2"]=89]="aniHero2";
 })(WeaponAniType||(WeaponAniType={}));
 export default class Weapon extends PaoYa.Component {
   /** @prop {name:imgWeapon,tips:"四个点",type:Node}*/
@@ -39,7 +40,8 @@ export default class Weapon extends PaoYa.Component {
    /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
    /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
     /** @prop {name:aniPetrifie,tips:"石化特效",type:Node}*/
-    /** @prop {name:aniSkill1,tips:"人物技能2特效",type:Node}*/
+    /** @prop {name:aniHero1,tips:"人物1技能2特效",type:Node}*/
+    /** @prop {name:aniHero2,tips:"人物2技能2特效",type:Node}*/
 
   constructor() {
     super();
@@ -114,7 +116,8 @@ export default class Weapon extends PaoYa.Component {
     this.aniThump2.pos(x,y);
     this.aniThump3.pos(x,y);
     this.aniPetrifie.pos(x,y);
-    this.aniSkill1.pos(0,y);
+    this.aniHero1.pos(0,y);
+    this.aniHero2.pos(0,y);
     /* this.aniPoison1.play(0,true); */
     this.collideSp.size(Math.floor(imgW * 0.2), imgH);
     let collideW = this.collideSp.width,

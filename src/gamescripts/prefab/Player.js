@@ -20,8 +20,9 @@ export default class Player extends PaoYa.Component {
   /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
- /** @prop {name:aniSkill1,tips:"兵器技能动效节点",type:Node} */
-  /** @prop {name:aniSkill2,tips:"人物技能2动效节点",type:Node} */
+ /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */
+  /** @prop {name:aniSkill2Hero1,tips:"1号英雄技能2动效节点",type:Node} */
+   /** @prop {name:aniSkill2Hero2,tips:"2号英雄技能2动效节点",type:Node} */
   constructor() {
     super();
   }
@@ -37,6 +38,7 @@ export default class Player extends PaoYa.Component {
     console.error('角色服装:', this.attr.roleDress);
     let dressIcon = this.attr.roleDress;
     this.dressIcon=dressIcon;
+    this.roleId=this.attr.roleId;
     let skeleton = HeroConfig.getSkeleton(dressIcon);
     skeleton.play('stand', true);
     skeleton.pos(posX, posY - 10);
@@ -80,8 +82,8 @@ export default class Player extends PaoYa.Component {
           break;
         case 'skill2':
           GameControl.instance.allResume(this.isSelf)
-          this.aniSkill2.visible = true;
-          this.aniSkill2.play(0, true);
+          this['aniSkill2Hero'+this.roleId].visible = true;
+          this['aniSkill2Hero'+this.roleId].play(0, true);
           break;
         case 'launch':
           this.attackCallback();
@@ -100,14 +102,18 @@ export default class Player extends PaoYa.Component {
     }
     if (this.sectionAni == 1) {
       this.sectionAni += 1;
-      this.skeleton.play('dodge2', false)
+      this.skeleton.play('dodge2', true);
+      Laya.timer.once(200,this,()=>{
+        this.sectionAni += 1;
+        this.skeleton.play('dodge3', false)
+      })
       return;
     }
-    if (this.sectionAni == 2) {
+  /*   if (this.sectionAni == 2) {
       this.sectionAni += 1;
       this.skeleton.play('dodge3', false)
       return;
-    }
+    } */
     if (this.sectionAni == 3) {
       this.removeDodge();
       // return;
@@ -124,28 +130,28 @@ export default class Player extends PaoYa.Component {
   }
 
 
-  //人物触发技能1
+  //人物触发兵器技能,人物通用技能
   showSkill1() {
     this.skeleton.play("skill1", false);
   }
-  removeSkill1() {
-    this.aniSkill1.stop();
-  }
+  /* removeSkill1() {
+    this.aniSkillCommon.stop();
+  } */
   //人物触发技能2
   showSkill2() {
     this.skeleton.play("skill2", false);
   }
   removeSkill2() {
-    this.aniSkill2.visible = false;
-    this.aniSkill2.stop();
+    this['aniSkill2Hero'+this.roleId].visible = false;
+    this['aniSkill2Hero'+this.roleId].stop();
   }
   //人物触发兵器技能特效
   skillEffect() {
-    this.aniSkill1.visible = true;
-    this.aniSkill1.play(0, false);
+    this.aniSkillCommon.visible = true;
+    this.aniSkillCommon.play(0, false);
   }
   removeSkillEffect() {
-    this.aniSkill1.stop();
+    this.aniSkillCommon.stop();
     this.boxAniPoison.visible = false;
   }
   //攻击

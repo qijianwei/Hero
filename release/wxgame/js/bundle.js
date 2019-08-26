@@ -289,7 +289,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -433,7 +433,8 @@ var Main = exports.Main = function (_GameMain) {
 			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
-			'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas'];
+
+			'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/hero_skill/hero2_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas', 'res/atlas/remote/guide.atlas'];
 			return list;
 		}
 	}, {
@@ -889,15 +890,16 @@ var GameControl = function (_PaoYa$Component) {
             this.showSkillText(isSelf, skillInfo.skillName);
             skillWeapon.isSelf = isSelf;
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
-            //this[name + 'Player'].comp.showSkill1();
             skillWeapon.skillEffect = true;
             switch (skillWeapon.activeSkill.skillId) {
                 case 88:
                     var addCritProb = skillWeapon.activeSkill.skillConfig.critProb;
                     this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb + addCritProb;
                     break;
+                //雪女剑法
                 case 89:
                     break;
+                //铸铁剑法
                 case 90:
                     break;
             }
@@ -1780,7 +1782,7 @@ var HeroConfig = {
       templet: null
     },
     npc_4: {
-      path: "spine/npc/npc_7.sk",
+      path: "spine/npc/npc_4.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -2009,8 +2011,10 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 var len = weaponList.length;
                 for (var i = 0; i < len; i++) {
                     weaponBarsArr[i].visible = true;
-                    weaponBarsArr[i].getComponent(_WeaponBar2.default).params = weaponList[i];
-                    weaponBarsArr[i].getComponent(_WeaponBar2.default).initView();
+                    var weaponBarsComp = weaponBarsArr[i].getComponent(_WeaponBar2.default);
+                    weaponBarsComp.params = weaponList[i];
+                    weaponBarsComp.initView();
+                    weaponBarsArr[i].off(Laya.Event.CLICK, weaponBarsComp);
                 }
             }
             this.lblPrize.text = this.params.gold;
@@ -2069,6 +2073,10 @@ var _SpeakMan = require("./SpeakMan");
 
 var _SpeakMan2 = _interopRequireDefault(_SpeakMan);
 
+var _HomeControl = require("../../scripts/common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2078,16 +2086,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var guideSteps = [{ x: 100, y: 617, w: 150, h: 110, tip: "res/guide/help6.png", fingerX: 200, fingerY: 250 }, { x: 883, y: 620, radius: 100, tip: "res/guide/help4.png", tipx: 730, tipy: 380 }, { x: 1128, y: 583, radius: 110, tip: "res/guide/help3.png", tipx: 900, tipy: 300 }],
-    gameContainer = void 0,
     guideContainer = void 0,
     maskArea = void 0,
     interactionArea = void 0,
     hitArea = void 0,
-    tipContainer = void 0,
     selfSpeakMan = void 0,
     otherSpeakMan = void 0,
     selfSpeakManComp = void 0,
     otherSpeakManComp = void 0,
+    nextLabel = void 0,
     guideStep = 0;
 
 var GameGuideControl = function (_GameControl) {
@@ -2106,6 +2113,7 @@ var GameGuideControl = function (_GameControl) {
     /** @prop {name:selfSpeakMan,tips:"我方解说预制体对象",type:Prefab}*/
     /** @prop {name:otherSpeakMan,tips:"对方解说预制体对象",type:Prefab}*/
     /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
+    /** @prop {name:aniFinger,tips:"手指动画",type:node}*/
     function GameGuideControl() {
         _classCallCheck(this, GameGuideControl);
 
@@ -2138,28 +2146,22 @@ var GameGuideControl = function (_GameControl) {
             var _this2 = this;
 
             _get(GameGuideControl.prototype.__proto__ || Object.getPrototypeOf(GameGuideControl.prototype), "onAwake", this).call(this);
+            this.aniFinger.zOrder = 1200;
             this.owner.on(Laya.Event.CLICK, this, function (e) {
                 guideStep += 1;
-                if (guideStep == 1) {
-                    _this2.step1();
-                }
-                if (guideStep == 2) {
-                    _this2.step2();
-                }
-                if (guideStep == 3) {
-                    _this2.step3();
-                }
-                if (guideStep == 5) {
-                    _this2.step5();
-                }
-                if (guideStep == 6) {
-                    _this2.step6();
-                }
-                if (guideStep == 7) {
-                    _this2.step7();
-                }
-                if (guideStep == 8) {
-                    _this2.step8();
+                switch (guideStep) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 5:
+                    /*   case 6: */
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 11:
+                    case 12:
+                        _this2['step' + guideStep]();
+                        break;
                 }
             });
         }
@@ -2198,14 +2200,20 @@ var GameGuideControl = function (_GameControl) {
         key: "step3",
         value: function step3() {
             selfSpeakMan.visible = false;
+            nextLabel.visible = false;
             interactionArea.graphics.clear();
             interactionArea.graphics.drawRect(100, 617, 110, 110, '#000');
             hitArea.unHit.clear();
             hitArea.unHit.drawRect(100, 617, 110, 110, '#000');
+            this.aniFinger.visible = true;
+            this.aniFinger.pos(150, 667);
+            this.aniFinger.play(0, true);
         }
     }, {
         key: "step4",
         value: function step4() {
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
             maskArea.visible = false;
             interactionArea.graphics.clear();
         }
@@ -2214,6 +2222,7 @@ var GameGuideControl = function (_GameControl) {
         value: function step5() {
             var _this3 = this;
 
+            nextLabel.visible = false;
             maskArea.visible = false;
             otherSpeakMan.visible = false;
             this.sWeapon = this.weaponManager.seletedWeapon(0);
@@ -2223,8 +2232,11 @@ var GameGuideControl = function (_GameControl) {
             Laya.timer.once(500, this, function () {
                 _this3.setPause();
                 /*  Laya.timer.scale=0; */
-
+                _this3.aniFinger.visible = true;
+                _this3.aniFinger.pos(310, 672);
+                _this3.aniFinger.play(0, true);
                 maskArea.visible = true;
+                //  nextLabel.visible=true;
                 interactionArea.graphics.clear();
                 interactionArea.graphics.drawRect(260, 617, 110, 110, '#000');
                 hitArea.unHit.clear();
@@ -2239,7 +2251,10 @@ var GameGuideControl = function (_GameControl) {
         value: function step6() {
             var _this4 = this;
 
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
             maskArea.visible = false;
+            nextLabel.visible = false;
             this.setResume();
             /*  Laya.timer.scale=1;  */
             interactionArea.graphics.clear();
@@ -2248,6 +2263,7 @@ var GameGuideControl = function (_GameControl) {
                 _this4.setPause();
                 // Laya.timer.scale=0;
                 maskArea.visible = true;
+                nextLabel.visible = true;
                 _this4.addTips();
             });
         }
@@ -2272,8 +2288,74 @@ var GameGuideControl = function (_GameControl) {
             this.imgTip.visible = false;
             this.stopArrowAni();
             maskArea.visible = false;
+            nextLabel.visible = false;
             this.setResume();
             Laya.timer.scale = 1;
+            Laya.timer.once(100, this, function () {
+                maskArea.visible = true;
+                nextLabel.visible = true;
+                otherSpeakMan.visible = true;
+                otherSpeakManComp.showWord('没想到你的武功那么厉害，看来我要动真格了。');
+            });
+        }
+    }, {
+        key: "step9",
+        value: function step9() {
+            var _this6 = this;
+
+            //扔出一把武器
+            maskArea.visible = false;
+            nextLabel.visible = false;
+            this.sWeapon = this.weaponManager.seletedWeapon(1);
+            this.sWeapon.isSelf = false;
+            otherSpeakMan.visible = false;
+            this.weaponBarClickHandler(this.sWeapon);
+            Laya.timer.once(1200, this, function () {
+                _this6.setPause();
+                maskArea.visible = true;
+                _this6.dodgeOwner.zOrder = 1010;
+                _this6.aniFinger.visible = true;
+                _this6.aniFinger.pos(1240, 660);
+                _this6.aniFinger.play(0, true);
+                hitArea.unHit.clear();
+                hitArea.unHit.drawRect(1160, 580, 160, 160, '#000');
+                _this6.dodgeOwner.once(Laya.Event.CLICK, _this6, function (e) {
+                    e.stopPropagation();
+                    guideStep += 1;
+                    _this6.setResume();
+                    _this6.step10();
+                });
+            });
+        }
+        //呼，还好闪得快，不然够我喝一壶。
+
+    }, {
+        key: "step10",
+        value: function step10() {
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
+            this.dodgeOwner.zOrder = 10;
+            maskArea.visible = false;
+            console.log('hha,点击1000');
+            Laya.timer.once(500, this, function () {
+                maskArea.visible = true;
+                nextLabel.visible = true;
+                selfSpeakMan.visible = true;
+                selfSpeakManComp.showWord("\u547C\uFF0C\u8FD8\u597D\u95EA\u5F97\u5FEB\uFF0C\u4E0D\u7136\u591F\u6211\u559D\u4E00\u58F6\u3002");
+            });
+        }
+    }, {
+        key: "step11",
+        value: function step11() {
+            selfSpeakManComp.showWord("\u5509\uFF1F\u4E54\u5927\u4FA0\u53BB\u54EA\u513F\u4E86\uFF1F");
+            this.otherPlayer.node.removeSelf();
+            //对手消失，跳转主界面
+        }
+    }, {
+        key: "step12",
+        value: function step12() {
+            this.navigator.popToRootScene();
+            PaoYa.navigator.visibleScene.getComponent(_HomeControl2.default).setGuide();
         }
     }, {
         key: "setPause",
@@ -2302,6 +2384,7 @@ var GameGuideControl = function (_GameControl) {
             imgTip.skin = "remote/guide/imgRoute.png";
             imgTip.y = 100;
             imgTip.centerX = 0;
+            imgTip.zOrder = 1200;
             this.imgTip = imgTip;
             this.owner.addChild(imgTip);
             this.arrowAni();
@@ -2309,7 +2392,7 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "onEnable",
         value: function onEnable() {
-            var _this6 = this;
+            var _this7 = this;
 
             _get(GameGuideControl.prototype.__proto__ || Object.getPrototypeOf(GameGuideControl.prototype), "onEnable", this).call(this);
             this.spriteBg.on(Laya.Event.CLICK, this, function (e) {
@@ -2317,11 +2400,11 @@ var GameGuideControl = function (_GameControl) {
                 switch (guideStep) {
                     case 4:
                         e.stopPropagation();
-                        _this6.step4();
+                        _this7.step4();
                         break;
                     case 6:
                         e.stopPropagation();
-                        _this6.step6();
+                        _this7.step6();
                         break;
                 }
 
@@ -2329,18 +2412,21 @@ var GameGuideControl = function (_GameControl) {
             });
             //this.own
             this.onNotification('collide', this, function () {
-                console.log('撞到任拉拉...');
-                Laya.timer.once(500, _this6, function () {
+                if (_this7._first) {
+                    return;
+                }
+                Laya.timer.once(500, _this7, function () {
+                    _this7._first = true;
                     maskArea.visible = true;
+                    nextLabel.visible = true;
                     otherSpeakMan.visible = true;
                     otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
+                    // this.offNotificationListener('collide');
                 });
             });
-            /*   this.onNotification('weaponsCollide',this,()=>{
-                  
-              }) */
             //引导所在容器
             guideContainer = new Laya.Sprite();
+            guideContainer.zOrder = 1000;
             this.owner.addChild(guideContainer);
             guideContainer.cacheAs = 'bitmap';
 
@@ -2350,12 +2436,13 @@ var GameGuideControl = function (_GameControl) {
             maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
             maskArea.pos(-150, 0);
             maskArea.mouseEnabled = true;
-            maskArea.zOrder = 1000;
+            //maskArea.zOrder=1000;
             guideContainer.addChild(maskArea);
 
             //绘制可点击区域
             interactionArea = new Laya.Sprite();
             interactionArea.blendMode = 'destination-out';
+            // interactionArea.zOrder=1001;
             guideContainer.addChild(interactionArea);
 
             //可点击区域
@@ -2379,28 +2466,40 @@ var GameGuideControl = function (_GameControl) {
             }, 400, null, 0).to(this.target, {
                 y: originY
             }, 400, null, 1);
-            this.owner.addChild(target);
+            guideContainer.addChild(target);
 
-            var nextLabel = new Laya.Label();
+            nextLabel = new Laya.Label();
             nextLabel.text = '跳过';
             nextLabel.font = 'figureDetail';
             nextLabel.pos(1100, 30);
             nextLabel.name = 'next';
             nextLabel.mouseEnabled = true;
+            nextLabel.zOrder = 1300;
             console.log(nextLabel.width);
-            this.owner.addChild(nextLabel);
+            guideContainer.addChild(nextLabel);
+
+            nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
 
             selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
             selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
             selfSpeakManComp.showWord('没想到对手竟然是乔大侠，失敬失敬。');
             selfSpeakMan.y = 225;
+            selfSpeakMan.zOrder = 1003;
             this.owner.addChild(selfSpeakMan);
 
             otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
             otherSpeakManComp = otherSpeakMan.getComponent(_SpeakMan2.default);
             otherSpeakMan.pos(50, 255);
+            otherSpeakMan.zOrder = 1003;
             this.owner.addChild(otherSpeakMan);
             otherSpeakMan.visible = false;
+        }
+    }, {
+        key: "nextTick",
+        value: function nextTick(e) {
+            e.stopPropagation();
+            guideStep += 1;
+            this['step' + guideStep]();
         }
     }]);
 
@@ -2409,16 +2508,13 @@ var GameGuideControl = function (_GameControl) {
 
 exports.default = GameGuideControl;
 
-},{"../GameControl":4,"./SpeakMan":13}],12:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":26,"../GameControl":4,"./SpeakMan":13}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-exports.default = _defineProperty({
+exports.default = {
 	"role": {
 		"addAllRate": 1.0,
 		"addMpRate": 0.0,
@@ -2606,7 +2702,7 @@ exports.default = _defineProperty({
 			"skillProb": 18,
 			"skillType": 1,
 			"skillUnlock": 0,
-			"status": 1
+			"status": 0
 		}, {
 			"skillCd": 0.0,
 			"skillConfig": {
@@ -2833,7 +2929,7 @@ exports.default = _defineProperty({
 		"weaponUpAttack": 70,
 		"weaponUpDurable": 10
 	}],
-	"robotRole": [{
+	"robotWeaponList": [{
 		"exp": 0,
 		"num": 0,
 		"skills": [{
@@ -2929,149 +3025,150 @@ exports.default = _defineProperty({
 		"weaponType": 3,
 		"weaponUpAttack": 256,
 		"weaponUpDurable": 10
-	}]
-}, "robotRole", {
-	"addAllRate": 1.0,
-	"addMpRate": 0.0,
-	"addStrengthRate": 0.0,
-	"addWeaponSkillProb": 10,
-	"downWeaponCd": 0,
-	"downWeaponConsume": 0,
-	"hitRecoveMp": 0,
-	"notCrit": 1,
-	"notDizzy": 0,
-	"notFrozen": 0,
-	"notPalsy": 0,
-	"notPoison": 0,
-	"reboundRate": 20,
-	"recoverHp": 0,
-	"recoverMp": 1.0,
-	"refiners": [{
-		"currentExp": 0,
-		"currentFullExp": 0,
-		"id": "refiner_09",
-		"refinerBasics": {
-			"show": 3,
-			"weaponType": 1,
-			"hurt": 1.03
-		},
-		"refinerDesc": "提升轻型兵器伤害。",
-		"refinerEachUp": 0.03,
-		"refinerEffect": "轻型兵器伤害增加d%",
-		"refinerLevel": 1,
-		"refinerName": "轻燕",
-		"refinerType": 1,
-		"refinerUnlock": 0,
-		"status": 0,
-		"type": 1
-	}, {
-		"currentExp": 0,
-		"currentFullExp": 0,
-		"id": "refiner_10",
-		"refinerBasics": {
-			"show": 3,
-			"weaponType": 2,
-			"hurt": 1.03
-		},
-		"refinerDesc": "提升中型兵器伤害。",
-		"refinerEachUp": 0.03,
-		"refinerEffect": "中型兵器伤害增加d%",
-		"refinerLevel": 1,
-		"refinerName": "锋刃",
-		"refinerType": 1,
-		"refinerUnlock": 0,
-		"status": 0,
-		"type": 1
-	}, {
-		"currentExp": 0,
-		"currentFullExp": 0,
-		"id": "refiner_11",
-		"refinerBasics": {
-			"show": 3,
-			"weaponType": 3,
-			"hurt": 1.03
-		},
-		"refinerDesc": "提升重型兵器伤害。",
-		"refinerEachUp": 0.03,
-		"refinerEffect": "重型兵器伤害增加d%",
-		"refinerLevel": 1,
-		"refinerName": "沉石",
-		"refinerType": 1,
-		"refinerUnlock": 0,
-		"status": 0,
-		"type": 1
 	}],
-	"roleBone": 176,
-	"roleCritHarm": 180,
-	"roleCritProb": 4,
-	"roleDesc": "反击",
-	"roleDress": "hero_4",
-	"roleHp": 1660,
-	"roleIcon": "xxx",
-	"roleId": 4,
-	"roleLevel": 20,
-	"roleMp": 238,
-	"roleName": "乔帮主",
-	"rolePrice": 0,
-	"roleSkills": "40,41,42",
-	"roleStar": 4,
-	"roleStatus": 0,
-	"roleStrength": 574,
-	"roleTopLevel": 20,
-	"roleType": 0,
-	"roleUpBone": 7,
-	"roleUpHp": 64,
-	"roleUpMp": 9,
-	"roleUpStrength": 23,
-	"skills": [{
-		"skillCd": 24.0,
-		"skillConfig": {
-			"hurt": 0.2,
-			"dragon": 1
-		},
-		"skillConsume": 0.0,
-		"skillDesc": "打出1条小金龙，造成臂力*0.2倍伤害。",
-		"skillId": 40,
-		"skillLevel": 1,
-		"skillName": "苍龙再现",
-		"skillProb": 100,
-		"skillType": 1,
-		"skillUnlock": 5,
-		"status": 1
-	}, {
-		"skillCd": 0.0,
-		"skillConfig": {
-			"reboundRate": 20,
-			"notCrit": 1
-		},
-		"skillConsume": 0.0,
-		"skillDesc": "20%反弹对手的兵器。不会受到暴击。",
-		"skillId": 41,
-		"skillLevel": 1,
-		"skillName": "游龙入水",
-		"skillProb": 100,
-		"skillType": 0,
-		"skillUnlock": 10,
-		"status": 1
-	}, {
-		"skillCd": 75.0,
-		"skillConfig": {
-			"dizziness": 3,
-			"dragon": 2,
-			"hurt": 0.42
-		},
-		"skillConsume": 0.0,
-		"skillDesc": "打出2条金龙，造成臂力*0.42倍伤害，命中后使对手晕眩3秒。",
-		"skillId": 42,
-		"skillLevel": 1,
-		"skillName": "亢龙有悔",
-		"skillProb": 100,
-		"skillType": 1,
-		"skillUnlock": 15,
-		"status": 1
-	}],
-	"upgradeCost": 0
-});
+	"robotRole": {
+		"addAllRate": 1.0,
+		"addMpRate": 0.0,
+		"addStrengthRate": 0.0,
+		"addWeaponSkillProb": 10,
+		"downWeaponCd": 0,
+		"downWeaponConsume": 0,
+		"hitRecoveMp": 0,
+		"notCrit": 1,
+		"notDizzy": 0,
+		"notFrozen": 0,
+		"notPalsy": 0,
+		"notPoison": 0,
+		"reboundRate": 20,
+		"recoverHp": 0,
+		"recoverMp": 1.0,
+		"refiners": [{
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_09",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 1,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升轻型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "轻型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "轻燕",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_10",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 2,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升中型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "中型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "锋刃",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_11",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 3,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升重型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "重型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "沉石",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}],
+		"roleBone": 176,
+		"roleCritHarm": 180,
+		"roleCritProb": 4,
+		"roleDesc": "反击",
+		"roleDress": "hero_4",
+		"roleHp": 1660,
+		"roleIcon": "xxx",
+		"roleId": 4,
+		"roleLevel": 20,
+		"roleMp": 238,
+		"roleName": "乔帮主",
+		"rolePrice": 0,
+		"roleSkills": "40,41,42",
+		"roleStar": 4,
+		"roleStatus": 0,
+		"roleStrength": 574,
+		"roleTopLevel": 20,
+		"roleType": 0,
+		"roleUpBone": 7,
+		"roleUpHp": 64,
+		"roleUpMp": 9,
+		"roleUpStrength": 23,
+		"skills": [{
+			"skillCd": 24.0,
+			"skillConfig": {
+				"hurt": 0.2,
+				"dragon": 1
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "打出1条小金龙，造成臂力*0.2倍伤害。",
+			"skillId": 40,
+			"skillLevel": 1,
+			"skillName": "苍龙再现",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 5,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"reboundRate": 20,
+				"notCrit": 1
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "20%反弹对手的兵器。不会受到暴击。",
+			"skillId": 41,
+			"skillLevel": 1,
+			"skillName": "游龙入水",
+			"skillProb": 100,
+			"skillType": 0,
+			"skillUnlock": 10,
+			"status": 1
+		}, {
+			"skillCd": 75.0,
+			"skillConfig": {
+				"dizziness": 3,
+				"dragon": 2,
+				"hurt": 0.42
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "打出2条金龙，造成臂力*0.42倍伤害，命中后使对手晕眩3秒。",
+			"skillId": 42,
+			"skillLevel": 1,
+			"skillName": "亢龙有悔",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 15,
+			"status": 1
+		}],
+		"upgradeCost": 0
+	}
+};
 
 },{}],13:[function(require,module,exports){
 "use strict";
@@ -3094,6 +3191,7 @@ var SpeakMan = function (_PaoYa$Component) {
     /** @prop {name:lblSpeakName,tips:'人物名字',type:Node}*/
     /** @prop {name:lblIntroduct,tips:'介绍文字',type:Node}*/
     /** @prop {name:imgArrow,tips:'箭头图片',type:Node}*/
+    /** @prop {name:imgRole,tips:'人物形象图片',type:Node}*/
     function SpeakMan() {
         _classCallCheck(this, SpeakMan);
 
@@ -3113,6 +3211,12 @@ var SpeakMan = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "modify",
+        value: function modify(value) {
+            this.lblSpeakName.text = value;
+            this.imgRole.visible = false;
+        }
     }, {
         key: "showWord",
         value: function showWord(value) {
@@ -3148,6 +3252,13 @@ var SpeakMan = function (_PaoYa$Component) {
         key: "stopTimeLine",
         value: function stopTimeLine() {
             this.timeLine.pause();
+        }
+    }, {
+        key: "onDestroy",
+        value: function onDestroy() {
+            console.log("\u9500\u6BC1\u5BF9\u8BDD");
+            this.timeLine.destroy();
+            this.timeLine = null;
         }
     }]);
 
@@ -3606,8 +3717,9 @@ var Player = function (_PaoYa$Component) {
   /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
-  /** @prop {name:aniSkill1,tips:"兵器技能动效节点",type:Node} */
-  /** @prop {name:aniSkill2,tips:"人物技能2动效节点",type:Node} */
+  /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */
+  /** @prop {name:aniSkill2Hero1,tips:"1号英雄技能2动效节点",type:Node} */
+  /** @prop {name:aniSkill2Hero2,tips:"2号英雄技能2动效节点",type:Node} */
   function Player() {
     _classCallCheck(this, Player);
 
@@ -3628,6 +3740,7 @@ var Player = function (_PaoYa$Component) {
       console.error('角色服装:', this.attr.roleDress);
       var dressIcon = this.attr.roleDress;
       this.dressIcon = dressIcon;
+      this.roleId = this.attr.roleId;
       var skeleton = _HeroConfig2.default.getSkeleton(dressIcon);
       skeleton.play('stand', true);
       skeleton.pos(posX, posY - 10);
@@ -3677,8 +3790,8 @@ var Player = function (_PaoYa$Component) {
           break;
         case 'skill2':
           _GameControl2.default.instance.allResume(this.isSelf);
-          this.aniSkill2.visible = true;
-          this.aniSkill2.play(0, true);
+          this['aniSkill2Hero' + this.roleId].visible = true;
+          this['aniSkill2Hero' + this.roleId].play(0, true);
           break;
         case 'launch':
           this.attackCallback();
@@ -3692,6 +3805,8 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "stopHandler",
     value: function stopHandler() {
+      var _this2 = this;
+
       Laya.MouseManager.enabled = true;
       if (this.killed) {
         this.owner.removeSelf();
@@ -3700,14 +3815,18 @@ var Player = function (_PaoYa$Component) {
       }
       if (this.sectionAni == 1) {
         this.sectionAni += 1;
-        this.skeleton.play('dodge2', false);
+        this.skeleton.play('dodge2', true);
+        Laya.timer.once(200, this, function () {
+          _this2.sectionAni += 1;
+          _this2.skeleton.play('dodge3', false);
+        });
         return;
       }
-      if (this.sectionAni == 2) {
-        this.sectionAni += 1;
-        this.skeleton.play('dodge3', false);
-        return;
-      }
+      /*   if (this.sectionAni == 2) {
+          this.sectionAni += 1;
+          this.skeleton.play('dodge3', false)
+          return;
+        } */
       if (this.sectionAni == 3) {
         this.removeDodge();
         // return;
@@ -3725,18 +3844,16 @@ var Player = function (_PaoYa$Component) {
     key: "attackCallback",
     value: function attackCallback() {}
 
-    //人物触发技能1
+    //人物触发兵器技能,人物通用技能
 
   }, {
     key: "showSkill1",
     value: function showSkill1() {
       this.skeleton.play("skill1", false);
     }
-  }, {
-    key: "removeSkill1",
-    value: function removeSkill1() {
-      this.aniSkill1.stop();
-    }
+    /* removeSkill1() {
+      this.aniSkillCommon.stop();
+    } */
     //人物触发技能2
 
   }, {
@@ -3747,21 +3864,21 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removeSkill2",
     value: function removeSkill2() {
-      this.aniSkill2.visible = false;
-      this.aniSkill2.stop();
+      this['aniSkill2Hero' + this.roleId].visible = false;
+      this['aniSkill2Hero' + this.roleId].stop();
     }
     //人物触发兵器技能特效
 
   }, {
     key: "skillEffect",
     value: function skillEffect() {
-      this.aniSkill1.visible = true;
-      this.aniSkill1.play(0, false);
+      this.aniSkillCommon.visible = true;
+      this.aniSkillCommon.play(0, false);
     }
   }, {
     key: "removeSkillEffect",
     value: function removeSkillEffect() {
-      this.aniSkill1.stop();
+      this.aniSkillCommon.stop();
       this.boxAniPoison.visible = false;
     }
     //攻击
@@ -4422,7 +4539,8 @@ var WeaponAniType;
   WeaponAniType[WeaponAniType["aniFreeze"] = 59] = "aniFreeze";
   WeaponAniType[WeaponAniType["aniThump3"] = 61] = "aniThump3";
   WeaponAniType[WeaponAniType["aniPetrifie"] = 62] = "aniPetrifie";
-  WeaponAniType[WeaponAniType["aniSkill1"] = 88] = "aniSkill1";
+  WeaponAniType[WeaponAniType["aniHero1"] = 88] = "aniHero1";
+  WeaponAniType[WeaponAniType["aniHero2"] = 89] = "aniHero2";
 })(WeaponAniType || (WeaponAniType = {}));
 
 var Weapon = function (_PaoYa$Component) {
@@ -4449,7 +4567,8 @@ var Weapon = function (_PaoYa$Component) {
   /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
   /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
   /** @prop {name:aniPetrifie,tips:"石化特效",type:Node}*/
-  /** @prop {name:aniSkill1,tips:"人物技能2特效",type:Node}*/
+  /** @prop {name:aniHero1,tips:"人物1技能2特效",type:Node}*/
+  /** @prop {name:aniHero2,tips:"人物2技能2特效",type:Node}*/
 
   function Weapon() {
     _classCallCheck(this, Weapon);
@@ -4532,7 +4651,8 @@ var Weapon = function (_PaoYa$Component) {
       this.aniThump2.pos(x, y);
       this.aniThump3.pos(x, y);
       this.aniPetrifie.pos(x, y);
-      this.aniSkill1.pos(0, y);
+      this.aniHero1.pos(0, y);
+      this.aniHero2.pos(0, y);
       /* this.aniPoison1.play(0,true); */
       this.collideSp.size(Math.floor(imgW * 0.2), imgH);
       var collideW = this.collideSp.width,
@@ -5460,7 +5580,7 @@ var GameMain = function (_PaoYa$Main) {
 exports.default = GameMain;
 
 },{"./Loading/LoadingView":28}],26:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -5468,13 +5588,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _HeroConfig = require('../../gamescripts/config/HeroConfig');
+var _HeroConfig = require("../../gamescripts/config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
-var _GameGuideData = require('../../gamescripts/gameGuide/GameGuideData');
+var _GameGuideData = require("../../gamescripts/gameGuide/GameGuideData");
 
 var _GameGuideData2 = _interopRequireDefault(_GameGuideData);
+
+var _SpeakMan = require("../../gamescripts/gameGuide/SpeakMan");
+
+var _SpeakMan2 = _interopRequireDefault(_SpeakMan);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5483,6 +5607,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var guideContainer = void 0,
+    maskArea = void 0,
+    interactionArea = void 0,
+    hitArea = void 0,
+    selfSpeakMan = void 0,
+    otherSpeakMan = void 0,
+    selfSpeakManComp = void 0,
+    otherSpeakManComp = void 0,
+    nextLabel = void 0,
+    guideStep = 0;
 
 var HomeControl = function (_PaoYa$Component) {
     _inherits(HomeControl, _PaoYa$Component);
@@ -5494,10 +5629,14 @@ var HomeControl = function (_PaoYa$Component) {
     }
 
     _createClass(HomeControl, [{
-        key: 'onAwake',
+        key: "onAwake",
 
         /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
         /** @prop {name:lblName,tips:"用户名字",type:Node} */
+        /** @prop {name:selfSpeakMan,tips:"我方解说预制体对象",type:Prefab}*/
+        /** @prop {name:otherSpeakMan,tips:"对方解说预制体对象",type:Prefab}*/
+        /** @prop {name:aniFinger,tips:"手指动画",type:node}*/
+        /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
         value: function onAwake() {
             var _this2 = this;
 
@@ -5518,23 +5657,26 @@ var HomeControl = function (_PaoYa$Component) {
             this.onNotification('roleIdChanged', this, function (roleId) {
                 if (name != roleId) {
                     name = roleId;
-                    var templet = _HeroConfig2.default.spineMap['hero_' + name].templet;
+                    var templet = _HeroConfig2.default.spineMap["hero_" + name].templet;
                     _this2.player.init(templet, 0);
                 }
             });
+            if (PaoYa.DataCenter.user.is_first_game == 1) {
+                this.navigator.push('GameGuide', _GameGuideData2.default);
+            }
         }
     }, {
-        key: 'onAppear',
+        key: "onAppear",
         value: function onAppear() {
             this.player.play('stand', true);
         }
     }, {
-        key: 'onDisappear',
+        key: "onDisappear",
         value: function onDisappear() {
             this.player.stop();
         }
     }, {
-        key: 'onClick',
+        key: "onClick",
         value: function onClick(e) {
             var _this3 = this;
 
@@ -5553,7 +5695,9 @@ var HomeControl = function (_PaoYa$Component) {
                 //兵器商店
                 case "btnWeaponStore":
                     console.log("进入兵器商店");
-                    this.POST("martial_shop_list", { refresh: 0 }, function (res) {
+                    this.POST("martial_shop_list", {
+                        refresh: 0
+                    }, function (res) {
                         if (!res) {
                             return;
                         }
@@ -5616,12 +5760,7 @@ var HomeControl = function (_PaoYa$Component) {
                 //开始游戏：
                 case "btnStartGame":
                     console.log("开始游戏请求的数据......");
-                    this.POST("hero_game_start", { stageId: 1 }, function (res) {
-                        res.gameType = 'pass';
-                      _this3.navigator.push("GameView", res);
-                       // _this3.navigator.push('GameGuide', _GameGuideData2.default);
-                    });
-
+                    this.goPassGame();
                     break;
                 //华山论剑
                 case "btnBattle":
@@ -5654,7 +5793,7 @@ var HomeControl = function (_PaoYa$Component) {
             }
         }
     }, {
-        key: 'goHerosHouse',
+        key: "goHerosHouse",
         value: function goHerosHouse() {
             var _this4 = this;
 
@@ -5667,16 +5806,149 @@ var HomeControl = function (_PaoYa$Component) {
             });
         }
     }, {
-        key: 'onDisappear',
+        key: "goPassGame",
+        value: function goPassGame() {
+            var _this5 = this;
+
+            this.POST("hero_game_start", {
+                stageId: 1
+            }, function (res) {
+                res.gameType = 'pass';
+                _this5.navigator.push("GameView", res);
+            });
+        }
+    }, {
+        key: "setGuide",
+        value: function setGuide() {
+            var _this6 = this;
+
+            //引导所在容器
+            guideContainer = new Laya.Sprite();
+            guideContainer.zOrder = 1000;
+            this.owner.addChild(guideContainer);
+            guideContainer.cacheAs = 'bitmap';
+
+            // 绘制遮罩区，含透明度，
+            maskArea = new Laya.Sprite();
+            maskArea.alpha = 0.5;
+            maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+            maskArea.pos(-150, 0);
+            maskArea.mouseEnabled = true;
+            //maskArea.zOrder=1000;
+            guideContainer.addChild(maskArea);
+
+            //绘制可点击区域
+            interactionArea = new Laya.Sprite();
+            interactionArea.blendMode = 'destination-out';
+            // interactionArea.zOrder=1001;
+            guideContainer.addChild(interactionArea);
+
+            //可点击区域
+            hitArea = new Laya.HitArea();
+            hitArea.hit.drawRect(0, 0, 1634, 750, '#000');
+            guideContainer.hitArea = hitArea;
+            guideContainer.mouseEnabled = true;
+
+            nextLabel = new Laya.Label();
+            nextLabel.text = '跳过';
+            nextLabel.font = 'figureDetail';
+            nextLabel.pos(1100, 30);
+            nextLabel.name = 'next';
+            nextLabel.mouseEnabled = true;
+            console.log(nextLabel.width);
+            guideContainer.addChild(nextLabel);
+
+            selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
+            selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
+            selfSpeakManComp.showWord('阿嚏~~~刚。。刚才是做梦？');
+            selfSpeakMan.y = 225;
+            selfSpeakMan.zOrder = 1003;
+            this.owner.addChild(selfSpeakMan);
+
+            otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
+            otherSpeakManComp = otherSpeakMan.getComponent(_SpeakMan2.default);
+            otherSpeakMan.pos(315, -127);
+            otherSpeakMan.zOrder = 1003;
+            this.owner.addChild(otherSpeakMan);
+            otherSpeakManComp.modify("\u5973\u5B50");
+            otherSpeakMan.visible = false;
+
+            this.owner.on(Laya.Event.CLICK, this, function (e) {
+                guideStep += 1;
+                switch (guideStep) {
+                    case 1:
+                    case 2:
+                    case 3:
+                        _this6['step' + guideStep]();
+                        break;
+                }
+            });
+            this.spriteBg.on(Laya.Event.CLICK, this, function (e) {
+                guideStep += 1;
+                switch (guideStep) {
+                    case 4:
+                        e.stopPropagation();
+                        _this6.step4();
+                        break;
+                }
+                console.log("\u63A5\u6536\u5230\u70B9\u51FB");
+            });
+            nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
+        }
+    }, {
+        key: "step1",
+        value: function step1() {
+            selfSpeakMan.visible = false;
+            otherSpeakMan.visible = true;
+            otherSpeakManComp.showWord("\u6551\u547D\uFF01\u6551\u547D\u554A\uFF01");
+        }
+    }, {
+        key: "step2",
+        value: function step2() {
+            selfSpeakMan.visible = true;
+            otherSpeakMan.visible = false;
+            selfSpeakManComp.showWord("\u5927\u767D\u5929\u7684\u8C01\u5728\u558A\u6551\u547D\uFF1F\u53BB\u770B\u770B\u518D\u8BF4\u3002");
+        }
+    }, {
+        key: "step3",
+        value: function step3() {
+            nextLabel.visible = false;
+            selfSpeakMan.visible = false;
+            this.aniFinger.visible = true;
+            this.aniFinger.play(0, true);
+            interactionArea.graphics.clear();
+            interactionArea.graphics.drawRect(730, 103, 370, 165, '#000');
+            hitArea.unHit.clear();
+            hitArea.unHit.drawRect(730, 103, 370, 165, '#000');
+        }
+    }, {
+        key: "step4",
+        value: function step4() {
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
+            interactionArea.graphics.clear();
+            guideContainer.removeSelf();
+            this.aniFinger.destroy();
+            this.goPassGame();
+        }
+    }, {
+        key: "nextTick",
+        value: function nextTick(e) {
+            e.stopPropagation();
+            guideStep += 1;
+            this['step' + guideStep]();
+        }
+    }, {
+        key: "onDisappear",
         value: function onDisappear() {}
     }, {
-        key: 'onEnable',
+        key: "onEnable",
         value: function onEnable() {}
     }, {
-        key: 'onDisable',
+        key: "onDisable",
         value: function onDisable() {}
     }, {
-        key: 'onDestroy',
+        key: "onDestroy",
         value: function onDestroy() {}
     }]);
 
@@ -5685,7 +5957,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/config/HeroConfig":8,"../../gamescripts/gameGuide/GameGuideData":12}],27:[function(require,module,exports){
+},{"../../gamescripts/config/HeroConfig":8,"../../gamescripts/gameGuide/GameGuideData":12,"../../gamescripts/gameGuide/SpeakMan":13}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -114,11 +114,12 @@ export class Main extends GameMain {
 			'res/atlas/remote/recover_power.atlas',
 			'res/atlas/remote/trigger_skill.atlas',
 			'res/atlas/remote/warn_arms.atlas',//cd发光效果
-			'res/atlas/remote/hero_skill/hero1_skill2.atlas',
+			
 			'res/atlas/remote/collision.atlas',
 			'res/atlas/remote/debuff_dizzy.atlas',
 		
 			'res/atlas/remote/hero_skill/hero1_skill2.atlas',
+			'res/atlas/remote/hero_skill/hero2_skill2.atlas',
 			'res/atlas/remote/recover_blood.atlas',
 			'res/atlas/remote/recover_power.atlas',
 			'res/atlas/remote/small_weapons.atlas',
@@ -133,7 +134,7 @@ export class Main extends GameMain {
 			'res/atlas/remote/weapon_effect/weapon_reduce.atlas',
 			'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
 			'res/atlas/remote/weapon_effect/weapon_thump.atlas',
-			
+			'res/atlas/remote/guide.atlas',
 	
 		];		
 		return list

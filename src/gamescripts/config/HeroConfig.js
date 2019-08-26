@@ -63,7 +63,7 @@ var HeroConfig = {
       templet: null
     },
     npc_4: {
-      path: "spine/npc/npc_7.sk",
+      path: "spine/npc/npc_4.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
