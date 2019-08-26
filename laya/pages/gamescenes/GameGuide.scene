@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":281,
+    "selecteID":185,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameGuide/GameGuide.js","height":750},
     "nodeParent":-1,
-    "maxID":282,
+    "maxID":283,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -690,7 +690,8 @@
                     "id":1,
                     "frameRate":24,
                     "action":0
-                }]
+                }],
+            "$HIDDEN":false
         },
         {
             "x":15,
@@ -1166,7 +1167,7 @@
             "source":"src/gamescripts/gameGuide/GameGuideControl.js",
             "searchKey":"Script,GameGuideControl",
             "removeAble":true,
-            "props":{"weaponSkill":"@Prefab:gamescenes/prefab/WeaponSkill.prefab","weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","spriteBg":"@node:277","selfSpeakMan":"@Prefab:gamescenes/prefab/SelfSpeakMan.prefab","selfMP":"@node:75","selfHP":"@node:82","playerState":"@node:216","player":"@Prefab:gamescenes/prefab/Player.prefab","otherSpeakMan":"@Prefab:gamescenes/prefab/OtherSpeakMan.prefab","otherMP":"@node:92","otherHP":"@node:164","gameBg":"@node:3","boxGameBanner":"@node:194"},
+            "props":{"weaponSkill":"@Prefab:gamescenes/prefab/WeaponSkill.prefab","weaponBar":"@Prefab:gamescenes/prefab/WeaponBar.prefab","weapon":"@Prefab:gamescenes/prefab/Weapon.prefab","spriteBg":"@node:277","selfSpeakMan":"@Prefab:gamescenes/prefab/SelfSpeakMan.prefab","selfMP":"@node:75","selfHP":"@node:82","playerState":"@node:216","player":"@Prefab:gamescenes/prefab/Player.prefab","otherSpeakMan":"@Prefab:gamescenes/prefab/OtherSpeakMan.prefab","otherMP":"@node:92","otherHP":"@node:164","gameBg":"@node:3","boxGameBanner":"@node:194","aniFinger":"@node:282"},
             "nodeParent":2,
             "label":"GameGuideControl",
             "isDirectory":false,
@@ -1183,7 +1184,7 @@
             "props":{"y":0,"x":-150,"width":1634,"mouseEnabled":true,"height":750},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
@@ -1203,7 +1204,21 @@
                     "child":[
                         ]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Animation",
+            "searchKey":"Animation,aniFinger",
+            "props":{"y":678,"x":77,"visible":false,"source":"gamescenes/animations/guide_hand.ani","name":"aniFinger"},
+            "nodeParent":2,
+            "label":"aniFinger",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":282,
+            "child":[
+                ]
         }],
     "animations":[
         {

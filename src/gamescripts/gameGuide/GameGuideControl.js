@@ -1,21 +1,21 @@
 import GameControl from "../GameControl";
 import SpeakMan from "./SpeakMan";
+import HomeControl from "../../scripts/common/HomeControl";
 let guideSteps = 
 	[
 		{ x: 100, y: 617, w:150, h:110 ,tip:"res/guide/help6.png", fingerX:200, fingerY:250 },
 		{ x: 883, y: 620, radius:100, tip:"res/guide/help4.png", tipx:730, tipy:380 },
 		{ x: 1128, y: 583, radius:110, tip:"res/guide/help3.png", tipx:900, tipy:300 }
 	],
-	gameContainer,
 	guideContainer,
 	maskArea,
 	interactionArea,
 	hitArea,
-    tipContainer,
     selfSpeakMan,
     otherSpeakMan,
     selfSpeakManComp,
     otherSpeakManComp,
+    nextLabel,
 	guideStep = 0;
 export default class GameGuideControl extends GameControl{
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
@@ -31,6 +31,7 @@ export default class GameGuideControl extends GameControl{
      /** @prop {name:selfSpeakMan,tips:"我方解说预制体对象",type:Prefab}*/
      /** @prop {name:otherSpeakMan,tips:"对方解说预制体对象",type:Prefab}*/
      /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
+      /** @prop {name:aniFinger,tips:"手指动画",type:node}*/
     constructor(){
         super();
         this.closeRobot=true;
@@ -52,32 +53,23 @@ export default class GameGuideControl extends GameControl{
     }
     onAwake(){
         super.onAwake();
+        this.aniFinger.zOrder=1200;
          this.owner.on(Laya.Event.CLICK,this,(e)=>{
             guideStep+=1;
-            if(guideStep==1){        
-                this.step1()
-            }
-            if(guideStep==2){
-               this.step2();
-            }
-            if(guideStep==3){
-                this.step3();
-            }
-            if(guideStep==5){
-                this.step5();
-            }
-            if(guideStep==6){
-                this.step6();
-            }
-            if(guideStep==7){
-                this.step7();
-            }
-            if(guideStep==8){
-                this.step8();
-            }
-            if(guideStep==9){
-                this.step9();
-            }
+           switch(guideStep){
+               case 1:
+               case 2:
+               case 3:
+               case 5:
+               case 6:
+               case 7:
+               case 8:
+               case 9:
+               case 11:
+               case 12:
+                  this['step'+guideStep]();
+                  break;    
+           }
         }) 
        
     }
@@ -104,16 +96,23 @@ export default class GameGuideControl extends GameControl{
     }
     step3(){
         selfSpeakMan.visible=false;
+        nextLabel.visible=false;
         interactionArea.graphics.clear();
         interactionArea.graphics.drawRect(100,617,110,110,'#000');
         hitArea.unHit.clear();
         hitArea.unHit.drawRect(100,617,110,110,'#000');
+        this.aniFinger.visible=true;
+        this.aniFinger.pos(150,667);
+        this.aniFinger.play(0,true);
     }
     step4(){
+        this.aniFinger.visible=false;
+        this.aniFinger.stop();
         maskArea.visible=false;
         interactionArea.graphics.clear();
     }
     step5(){
+        nextLabel.visible=false;
         maskArea.visible=false;
         otherSpeakMan.visible=false;
         this.sWeapon = this.weaponManager.seletedWeapon(0);
@@ -123,8 +122,11 @@ export default class GameGuideControl extends GameControl{
         Laya.timer.once(500,this,()=>{
             this.setPause();
            /*  Laya.timer.scale=0; */
-            
+            this.aniFinger.visible=true;
+            this.aniFinger.pos(310,672);
+            this.aniFinger.play(0,true);
             maskArea.visible=true;
+          //  nextLabel.visible=true;
             interactionArea.graphics.clear();
             interactionArea.graphics.drawRect(260,617,110,110,'#000');
             hitArea.unHit.clear();
@@ -134,7 +136,10 @@ export default class GameGuideControl extends GameControl{
 
     //遮罩消失后,全局不能点击
     step6(){
-        maskArea.visible=false;  
+        this.aniFinger.visible=false;
+        this.aniFinger.stop();
+        maskArea.visible=false; 
+        nextLabel.visible=false; 
         this.setResume();
        /*  Laya.timer.scale=1;  */
         interactionArea.graphics.clear();
@@ -143,6 +148,7 @@ export default class GameGuideControl extends GameControl{
             this.setPause();
             // Laya.timer.scale=0;
              maskArea.visible=true;
+             nextLabel.visible=true;
              this.addTips();
         })
         
@@ -162,10 +168,12 @@ export default class GameGuideControl extends GameControl{
         this.imgTip.visible=false;
         this.stopArrowAni();
         maskArea.visible=false;
+        nextLabel.visible=false;
         this.setResume();
         Laya.timer.scale=1;
         Laya.timer.once(100,this,()=>{
             maskArea.visible=true;
+            nextLabel.visible=true;
             otherSpeakMan.visible=true;
             otherSpeakManComp.showWord('没想到你的武功那么厉害，看来我要动真格了。');
         })
@@ -173,24 +181,50 @@ export default class GameGuideControl extends GameControl{
     }
     step9(){
         //扔出一把武器
-       Laya.timer.once(500,this,()=>{
-        maskArea.visible=true;
+        maskArea.visible=false;
+        nextLabel.visible=false;
+        this.sWeapon = this.weaponManager.seletedWeapon(1);
+        this.sWeapon.isSelf = false;
         otherSpeakMan.visible=false;
+        this.weaponBarClickHandler(this.sWeapon); 
+        Laya.timer.once(1200,this,()=>{
+        this.setPause();
+        maskArea.visible=true;      
         this.dodgeOwner.zOrder=1010;
+        this.aniFinger.visible=true;
+        this.aniFinger.pos(1240,660);
+        this.aniFinger.play(0,true);
         hitArea.unHit.clear();
         hitArea.unHit.drawRect(1160,580,160,160,'#000');
-       /*  interactionArea.graphics.clear();
-        interactionArea.size(110,110);
-        //interactionArea.pivot(55,55);
-        interactionArea.graphics.drawRect(500,580,160,160,'#000');
-        hitArea.unHit.clear();
-        hitArea.unHit.drawRect(1160,580,160,160,'#000');  */
+        this.dodgeOwner.once(Laya.Event.CLICK,this,()=>{
+            guideStep+=1;
+            this.setResume();
+            this.step10();
+        })
        })
     }
     //呼，还好闪得快，不然够我喝一壶。
     step10(){
+        this.aniFinger.visible=false;
+        this.aniFinger.stop();
         this.dodgeOwner.zOrder=10;
-       console.log('hha,点击1000') 
+        maskArea.visible=false;
+        console.log('hha,点击1000') 
+        Laya.timer.once(500,this,()=>{
+            maskArea.visible=true;
+            nextLabel.visible=true;
+            selfSpeakMan.visible=true;
+            selfSpeakManComp.showWord(`呼，还好闪得快，不然够我喝一壶。`)
+        })
+    }
+    step11(){
+        selfSpeakManComp.showWord(`唉？乔大侠去哪儿了？`)
+        //对手消失，跳转主界面
+    
+    }
+    step12(){
+        this.navigator.popToRootScene();
+        PaoYa.navigator.visibleScene.getComponent(HomeControl).setGuide();
     }
     setPause(){
         this.selfWeapons.forEach((weapon) => {
@@ -231,10 +265,6 @@ export default class GameGuideControl extends GameControl{
                   e.stopPropagation();
                   this.step6();
                   break; 
-                case 10:
-                  e.stopPropagation();
-                  this.step10();
-                    break;
             }
             
             console.log(`接收到点击`)
@@ -244,13 +274,12 @@ export default class GameGuideControl extends GameControl{
             console.log('撞到任拉拉...');
             Laya.timer.once(500,this,()=>{
                 maskArea.visible=true;
+                nextLabel.visible=true;
                 otherSpeakMan.visible=true; 
                 otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
+                this.offNotificationListener('collide');
             })
        })
-     /*   this.onNotification('weaponsCollide',this,()=>{
-           
-       }) */
         //引导所在容器
         guideContainer=new Laya.Sprite();
         guideContainer.zOrder=1000;
@@ -296,15 +325,17 @@ export default class GameGuideControl extends GameControl{
         }, 400, null, 1)
         guideContainer.addChild(target);
         
-        let nextLabel=new Laya.Label();
+        nextLabel=new Laya.Label();
         nextLabel.text='跳过';
         nextLabel.font='figureDetail'; 
         nextLabel.pos(1100,30);
         nextLabel.name='next';
         nextLabel.mouseEnabled=true;
+        nextLabel.zOrder=1300;
         console.log(nextLabel.width)
-        this.owner.addChild(nextLabel);
-
+        guideContainer.addChild(nextLabel);
+       
+        nextLabel.on(Laya.Event.CLICK,this,this.nextTick);
 
         selfSpeakMan= this.selfSpeakMan.create.call(this.selfSpeakMan);
         selfSpeakManComp=selfSpeakMan.getComponent(SpeakMan);
@@ -322,5 +353,10 @@ export default class GameGuideControl extends GameControl{
  
        
 
+    }
+    nextTick(e){
+        e.stopPropagation();
+        guideStep+=1;
+        this['step'+guideStep]();
     }
 }

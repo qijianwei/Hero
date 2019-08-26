@@ -55,6 +55,10 @@ var _HPBar = require("./gamescripts/prefab/HPBar");
 
 var _HPBar2 = _interopRequireDefault(_HPBar);
 
+var _Dodge = require("./gamescripts/prefab/Dodge");
+
+var _Dodge2 = _interopRequireDefault(_Dodge);
+
 var _GameBanner = require("./gamescripts/prefab/GameBanner");
 
 var _GameBanner2 = _interopRequireDefault(_GameBanner);
@@ -74,10 +78,6 @@ var _Skill2 = _interopRequireDefault(_Skill);
 var _GameGuideControl = require("./gamescripts/gameGuide/GameGuideControl");
 
 var _GameGuideControl2 = _interopRequireDefault(_GameGuideControl);
-
-var _Dodge = require("./gamescripts/prefab/Dodge");
-
-var _Dodge2 = _interopRequireDefault(_Dodge);
 
 var _GameView = require("./gamescripts/GameView");
 
@@ -235,12 +235,12 @@ var GameConfig = function () {
 												reg("gamescripts/GameGuide/GameGuide.js", _GameGuide2.default);
 												reg("gamescripts/prefab/MPBar.js", _MPBar2.default);
 												reg("gamescripts/prefab/HPBar.js", _HPBar2.default);
+												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
 												reg("gamescripts/prefab/GameBanner.js", _GameBanner2.default);
 												reg("gamescripts/prefab/PlayerState.js", _PlayerState2.default);
 												reg("gamescripts/prefab/PlayerSkill.js", _PlayerSkill2.default);
 												reg("gamescripts/prefab/Skill.js", _Skill2.default);
 												reg("gamescripts/gameGuide/GameGuideControl.js", _GameGuideControl2.default);
-												reg("gamescripts/prefab/Dodge.js", _Dodge2.default);
 												reg("gamescripts/GameView.js", _GameView2.default);
 												reg("gamescripts/GameControl.js", _GameControl2.default);
 												reg("scripts/common/refiner/Devour.js", _Devour2.default);
@@ -289,7 +289,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameGuide.scene";
+GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -2069,6 +2069,10 @@ var _SpeakMan = require("./SpeakMan");
 
 var _SpeakMan2 = _interopRequireDefault(_SpeakMan);
 
+var _HomeControl = require("../../scripts/common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2078,16 +2082,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var guideSteps = [{ x: 100, y: 617, w: 150, h: 110, tip: "res/guide/help6.png", fingerX: 200, fingerY: 250 }, { x: 883, y: 620, radius: 100, tip: "res/guide/help4.png", tipx: 730, tipy: 380 }, { x: 1128, y: 583, radius: 110, tip: "res/guide/help3.png", tipx: 900, tipy: 300 }],
-    gameContainer = void 0,
     guideContainer = void 0,
     maskArea = void 0,
     interactionArea = void 0,
     hitArea = void 0,
-    tipContainer = void 0,
     selfSpeakMan = void 0,
     otherSpeakMan = void 0,
     selfSpeakManComp = void 0,
     otherSpeakManComp = void 0,
+    nextLabel = void 0,
     guideStep = 0;
 
 var GameGuideControl = function (_GameControl) {
@@ -2106,6 +2109,7 @@ var GameGuideControl = function (_GameControl) {
     /** @prop {name:selfSpeakMan,tips:"我方解说预制体对象",type:Prefab}*/
     /** @prop {name:otherSpeakMan,tips:"对方解说预制体对象",type:Prefab}*/
     /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
+    /** @prop {name:aniFinger,tips:"手指动画",type:node}*/
     function GameGuideControl() {
         _classCallCheck(this, GameGuideControl);
 
@@ -2138,31 +2142,22 @@ var GameGuideControl = function (_GameControl) {
             var _this2 = this;
 
             _get(GameGuideControl.prototype.__proto__ || Object.getPrototypeOf(GameGuideControl.prototype), "onAwake", this).call(this);
+            this.aniFinger.zOrder = 1200;
             this.owner.on(Laya.Event.CLICK, this, function (e) {
                 guideStep += 1;
-                if (guideStep == 1) {
-                    _this2.step1();
-                }
-                if (guideStep == 2) {
-                    _this2.step2();
-                }
-                if (guideStep == 3) {
-                    _this2.step3();
-                }
-                if (guideStep == 5) {
-                    _this2.step5();
-                }
-                if (guideStep == 6) {
-                    _this2.step6();
-                }
-                if (guideStep == 7) {
-                    _this2.step7();
-                }
-                if (guideStep == 8) {
-                    _this2.step8();
-                }
-                if (guideStep == 9) {
-                    _this2.step9();
+                switch (guideStep) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 11:
+                    case 12:
+                        _this2['step' + guideStep]();
+                        break;
                 }
             });
         }
@@ -2201,14 +2196,20 @@ var GameGuideControl = function (_GameControl) {
         key: "step3",
         value: function step3() {
             selfSpeakMan.visible = false;
+            nextLabel.visible = false;
             interactionArea.graphics.clear();
             interactionArea.graphics.drawRect(100, 617, 110, 110, '#000');
             hitArea.unHit.clear();
             hitArea.unHit.drawRect(100, 617, 110, 110, '#000');
+            this.aniFinger.visible = true;
+            this.aniFinger.pos(150, 667);
+            this.aniFinger.play(0, true);
         }
     }, {
         key: "step4",
         value: function step4() {
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
             maskArea.visible = false;
             interactionArea.graphics.clear();
         }
@@ -2226,8 +2227,11 @@ var GameGuideControl = function (_GameControl) {
             Laya.timer.once(500, this, function () {
                 _this3.setPause();
                 /*  Laya.timer.scale=0; */
-
+                _this3.aniFinger.visible = true;
+                _this3.aniFinger.pos(310, 672);
+                _this3.aniFinger.play(0, true);
                 maskArea.visible = true;
+                //  nextLabel.visible=true;
                 interactionArea.graphics.clear();
                 interactionArea.graphics.drawRect(260, 617, 110, 110, '#000');
                 hitArea.unHit.clear();
@@ -2242,7 +2246,10 @@ var GameGuideControl = function (_GameControl) {
         value: function step6() {
             var _this4 = this;
 
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
             maskArea.visible = false;
+            nextLabel.visible = false;
             this.setResume();
             /*  Laya.timer.scale=1;  */
             interactionArea.graphics.clear();
@@ -2251,6 +2258,7 @@ var GameGuideControl = function (_GameControl) {
                 _this4.setPause();
                 // Laya.timer.scale=0;
                 maskArea.visible = true;
+                nextLabel.visible = true;
                 _this4.addTips();
             });
         }
@@ -2275,10 +2283,12 @@ var GameGuideControl = function (_GameControl) {
             this.imgTip.visible = false;
             this.stopArrowAni();
             maskArea.visible = false;
+            nextLabel.visible = false;
             this.setResume();
             Laya.timer.scale = 1;
             Laya.timer.once(100, this, function () {
                 maskArea.visible = true;
+                nextLabel.visible = true;
                 otherSpeakMan.visible = true;
                 otherSpeakManComp.showWord('没想到你的武功那么厉害，看来我要动真格了。');
             });
@@ -2289,18 +2299,26 @@ var GameGuideControl = function (_GameControl) {
             var _this6 = this;
 
             //扔出一把武器
-            Laya.timer.once(500, this, function () {
+            maskArea.visible = false;
+            nextLabel.visible = false;
+            this.sWeapon = this.weaponManager.seletedWeapon(1);
+            this.sWeapon.isSelf = false;
+            otherSpeakMan.visible = false;
+            this.weaponBarClickHandler(this.sWeapon);
+            Laya.timer.once(1200, this, function () {
+                _this6.setPause();
                 maskArea.visible = true;
-                otherSpeakMan.visible = false;
                 _this6.dodgeOwner.zOrder = 1010;
+                _this6.aniFinger.visible = true;
+                _this6.aniFinger.pos(1240, 660);
+                _this6.aniFinger.play(0, true);
                 hitArea.unHit.clear();
                 hitArea.unHit.drawRect(1160, 580, 160, 160, '#000');
-                /*  interactionArea.graphics.clear();
-                 interactionArea.size(110,110);
-                 //interactionArea.pivot(55,55);
-                 interactionArea.graphics.drawRect(500,580,160,160,'#000');
-                 hitArea.unHit.clear();
-                 hitArea.unHit.drawRect(1160,580,160,160,'#000');  */
+                _this6.dodgeOwner.once(Laya.Event.CLICK, _this6, function () {
+                    guideStep += 1;
+                    _this6.setResume();
+                    _this6.step10();
+                });
             });
         }
         //呼，还好闪得快，不然够我喝一壶。
@@ -2308,8 +2326,29 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "step10",
         value: function step10() {
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
             this.dodgeOwner.zOrder = 10;
+            maskArea.visible = false;
             console.log('hha,点击1000');
+            Laya.timer.once(500, this, function () {
+                maskArea.visible = true;
+                nextLabel.visible = true;
+                selfSpeakMan.visible = true;
+                selfSpeakManComp.showWord("\u547C\uFF0C\u8FD8\u597D\u95EA\u5F97\u5FEB\uFF0C\u4E0D\u7136\u591F\u6211\u559D\u4E00\u58F6\u3002");
+            });
+        }
+    }, {
+        key: "step11",
+        value: function step11() {
+            selfSpeakManComp.showWord("\u5509\uFF1F\u4E54\u5927\u4FA0\u53BB\u54EA\u513F\u4E86\uFF1F");
+            //对手消失，跳转主界面
+        }
+    }, {
+        key: "step12",
+        value: function step12() {
+            this.navigator.popToRootScene();
+            PaoYa.navigator.visibleScene.getComponent(_HomeControl2.default).setGuide();
         }
     }, {
         key: "setPause",
@@ -2360,10 +2399,6 @@ var GameGuideControl = function (_GameControl) {
                         e.stopPropagation();
                         _this7.step6();
                         break;
-                    case 10:
-                        e.stopPropagation();
-                        _this7.step10();
-                        break;
                 }
 
                 console.log("\u63A5\u6536\u5230\u70B9\u51FB");
@@ -2373,13 +2408,12 @@ var GameGuideControl = function (_GameControl) {
                 console.log('撞到任拉拉...');
                 Laya.timer.once(500, _this7, function () {
                     maskArea.visible = true;
+                    nextLabel.visible = true;
                     otherSpeakMan.visible = true;
                     otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
+                    _this7.offNotificationListener('collide');
                 });
             });
-            /*   this.onNotification('weaponsCollide',this,()=>{
-                  
-              }) */
             //引导所在容器
             guideContainer = new Laya.Sprite();
             guideContainer.zOrder = 1000;
@@ -2424,14 +2458,17 @@ var GameGuideControl = function (_GameControl) {
             }, 400, null, 1);
             guideContainer.addChild(target);
 
-            var nextLabel = new Laya.Label();
+            nextLabel = new Laya.Label();
             nextLabel.text = '跳过';
             nextLabel.font = 'figureDetail';
             nextLabel.pos(1100, 30);
             nextLabel.name = 'next';
             nextLabel.mouseEnabled = true;
+            nextLabel.zOrder = 1300;
             console.log(nextLabel.width);
-            this.owner.addChild(nextLabel);
+            guideContainer.addChild(nextLabel);
+
+            nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
 
             selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
             selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
@@ -2447,6 +2484,13 @@ var GameGuideControl = function (_GameControl) {
             this.owner.addChild(otherSpeakMan);
             otherSpeakMan.visible = false;
         }
+    }, {
+        key: "nextTick",
+        value: function nextTick(e) {
+            e.stopPropagation();
+            guideStep += 1;
+            this['step' + guideStep]();
+        }
     }]);
 
     return GameGuideControl;
@@ -2454,7 +2498,7 @@ var GameGuideControl = function (_GameControl) {
 
 exports.default = GameGuideControl;
 
-},{"../GameControl":4,"./SpeakMan":13}],12:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":26,"../GameControl":4,"./SpeakMan":13}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5503,7 +5547,7 @@ var GameMain = function (_PaoYa$Main) {
 exports.default = GameMain;
 
 },{"./Loading/LoadingView":28}],26:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -5511,13 +5555,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _HeroConfig = require('../../gamescripts/config/HeroConfig');
+var _HeroConfig = require("../../gamescripts/config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
-var _GameGuideData = require('../../gamescripts/gameGuide/GameGuideData');
+var _GameGuideData = require("../../gamescripts/gameGuide/GameGuideData");
 
 var _GameGuideData2 = _interopRequireDefault(_GameGuideData);
+
+var _SpeakMan = require("../../gamescripts/gameGuide/SpeakMan");
+
+var _SpeakMan2 = _interopRequireDefault(_SpeakMan);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5526,6 +5574,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var guideContainer = void 0,
+    maskArea = void 0,
+    interactionArea = void 0,
+    hitArea = void 0,
+    selfSpeakMan = void 0,
+    otherSpeakMan = void 0,
+    selfSpeakManComp = void 0,
+    otherSpeakManComp = void 0,
+    nextLabel = void 0,
+    guideStep = 0;
 
 var HomeControl = function (_PaoYa$Component) {
     _inherits(HomeControl, _PaoYa$Component);
@@ -5537,10 +5596,14 @@ var HomeControl = function (_PaoYa$Component) {
     }
 
     _createClass(HomeControl, [{
-        key: 'onAwake',
+        key: "onAwake",
 
         /** @prop {name:lblLadder,tips:"用户段位",type:Node} */
         /** @prop {name:lblName,tips:"用户名字",type:Node} */
+        /** @prop {name:selfSpeakMan,tips:"我方解说预制体对象",type:Prefab}*/
+        /** @prop {name:otherSpeakMan,tips:"对方解说预制体对象",type:Prefab}*/
+        /** @prop {name:aniFinger,tips:"手指动画",type:node}*/
+        /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
         value: function onAwake() {
             var _this2 = this;
 
@@ -5561,23 +5624,23 @@ var HomeControl = function (_PaoYa$Component) {
             this.onNotification('roleIdChanged', this, function (roleId) {
                 if (name != roleId) {
                     name = roleId;
-                    var templet = _HeroConfig2.default.spineMap['hero_' + name].templet;
+                    var templet = _HeroConfig2.default.spineMap["hero_" + name].templet;
                     _this2.player.init(templet, 0);
                 }
             });
         }
     }, {
-        key: 'onAppear',
+        key: "onAppear",
         value: function onAppear() {
             this.player.play('stand', true);
         }
     }, {
-        key: 'onDisappear',
+        key: "onDisappear",
         value: function onDisappear() {
             this.player.stop();
         }
     }, {
-        key: 'onClick',
+        key: "onClick",
         value: function onClick(e) {
             var _this3 = this;
 
@@ -5596,7 +5659,9 @@ var HomeControl = function (_PaoYa$Component) {
                 //兵器商店
                 case "btnWeaponStore":
                     console.log("进入兵器商店");
-                    this.POST("martial_shop_list", { refresh: 0 }, function (res) {
+                    this.POST("martial_shop_list", {
+                        refresh: 0
+                    }, function (res) {
                         if (!res) {
                             return;
                         }
@@ -5659,7 +5724,9 @@ var HomeControl = function (_PaoYa$Component) {
                 //开始游戏：
                 case "btnStartGame":
                     console.log("开始游戏请求的数据......");
-                    this.POST("hero_game_start", { stageId: 1 }, function (res) {
+                    this.POST("hero_game_start", {
+                        stageId: 1
+                    }, function (res) {
                         res.gameType = 'pass';
                         // this.navigator.push("GameView", res);
                         _this3.navigator.push('GameGuide', _GameGuideData2.default);
@@ -5697,7 +5764,7 @@ var HomeControl = function (_PaoYa$Component) {
             }
         }
     }, {
-        key: 'goHerosHouse',
+        key: "goHerosHouse",
         value: function goHerosHouse() {
             var _this4 = this;
 
@@ -5710,16 +5777,134 @@ var HomeControl = function (_PaoYa$Component) {
             });
         }
     }, {
-        key: 'onDisappear',
+        key: "setGuide",
+        value: function setGuide() {
+            var _this5 = this;
+
+            //引导所在容器
+            guideContainer = new Laya.Sprite();
+            guideContainer.zOrder = 1000;
+            this.owner.addChild(guideContainer);
+            guideContainer.cacheAs = 'bitmap';
+
+            // 绘制遮罩区，含透明度，
+            maskArea = new Laya.Sprite();
+            maskArea.alpha = 0.5;
+            maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+            maskArea.pos(-150, 0);
+            maskArea.mouseEnabled = true;
+            //maskArea.zOrder=1000;
+            guideContainer.addChild(maskArea);
+
+            //绘制可点击区域
+            interactionArea = new Laya.Sprite();
+            interactionArea.blendMode = 'destination-out';
+            // interactionArea.zOrder=1001;
+            guideContainer.addChild(interactionArea);
+
+            //可点击区域
+            hitArea = new Laya.HitArea();
+            hitArea.hit.drawRect(0, 0, 1634, 750, '#000');
+            guideContainer.hitArea = hitArea;
+            guideContainer.mouseEnabled = true;
+
+            nextLabel = new Laya.Label();
+            nextLabel.text = '跳过';
+            nextLabel.font = 'figureDetail';
+            nextLabel.pos(1100, 30);
+            nextLabel.name = 'next';
+            nextLabel.mouseEnabled = true;
+            console.log(nextLabel.width);
+            guideContainer.addChild(nextLabel);
+
+            selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
+            selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
+            selfSpeakManComp.showWord('阿嚏~~~刚。。刚才是做梦？');
+            selfSpeakMan.y = 225;
+            selfSpeakMan.zOrder = 1003;
+            this.owner.addChild(selfSpeakMan);
+
+            otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
+            otherSpeakManComp = otherSpeakMan.getComponent(_SpeakMan2.default);
+            otherSpeakMan.pos(100, 150);
+            otherSpeakMan.zOrder = 1003;
+            this.owner.addChild(otherSpeakMan);
+            otherSpeakMan.visible = false;
+
+            this.owner.on(Laya.Event.CLICK, this, function (e) {
+                guideStep += 1;
+                switch (guideStep) {
+                    case 1:
+                    case 2:
+                    case 3:
+                        _this5['step' + guideStep]();
+                        break;
+                }
+            });
+            this.spriteBg.on(Laya.Event.CLICK, this, function (e) {
+                guideStep += 1;
+                switch (guideStep) {
+                    case 4:
+                        e.stopPropagation();
+                        _this5.step4();
+                        break;
+                }
+                console.log("\u63A5\u6536\u5230\u70B9\u51FB");
+            });
+            nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
+        }
+    }, {
+        key: "step1",
+        value: function step1() {
+            selfSpeakMan.visible = false;
+            otherSpeakMan.visible = true;
+            otherSpeakManComp.showWord("\u6551\u547D\uFF01\u6551\u547D\u554A\uFF01");
+        }
+    }, {
+        key: "step2",
+        value: function step2() {
+            selfSpeakMan.visible = true;
+            otherSpeakMan.visible = false;
+            selfSpeakManComp.showWord("\u5927\u767D\u5929\u7684\u8C01\u5728\u558A\u6551\u547D\uFF1F\u53BB\u770B\u770B\u518D\u8BF4\u3002");
+        }
+    }, {
+        key: "step3",
+        value: function step3() {
+            nextLabel.visible = false;
+            selfSpeakMan.visible = false;
+            this.aniFinger.visible = true;
+            this.aniFinger.play(0, true);
+            interactionArea.graphics.clear();
+            interactionArea.graphics.drawRect(730, 103, 370, 165, '#000');
+            hitArea.unHit.clear();
+            hitArea.unHit.drawRect(730, 103, 370, 165, '#000');
+        }
+    }, {
+        key: "step4",
+        value: function step4() {
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
+            interactionArea.graphics.clear();
+            guideContainer.removeSelf();
+        }
+    }, {
+        key: "nextTick",
+        value: function nextTick(e) {
+            e.stopPropagation();
+            guideStep += 1;
+            this['step' + guideStep]();
+        }
+    }, {
+        key: "onDisappear",
         value: function onDisappear() {}
     }, {
-        key: 'onEnable',
+        key: "onEnable",
         value: function onEnable() {}
     }, {
-        key: 'onDisable',
+        key: "onDisable",
         value: function onDisable() {}
     }, {
-        key: 'onDestroy',
+        key: "onDestroy",
         value: function onDestroy() {}
     }]);
 
@@ -5728,7 +5913,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/config/HeroConfig":8,"../../gamescripts/gameGuide/GameGuideData":12}],27:[function(require,module,exports){
+},{"../../gamescripts/config/HeroConfig":8,"../../gamescripts/gameGuide/GameGuideData":12,"../../gamescripts/gameGuide/SpeakMan":13}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
