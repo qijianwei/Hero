@@ -135,6 +135,7 @@ export class Main extends GameMain {
 			'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
 			'res/atlas/remote/weapon_effect/weapon_thump.atlas',
 			'res/atlas/remote/guide.atlas',
+		/* 	'' */
 	
 		];		
 		return list

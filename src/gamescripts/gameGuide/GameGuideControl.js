@@ -109,6 +109,7 @@ export default class GameGuideControl extends GameControl{
         this.aniFinger.visible=false;
         this.aniFinger.stop();
         maskArea.visible=false;
+        Laya.MouseManager.enabled = false;
         interactionArea.graphics.clear();
     }
     step5(){
@@ -119,13 +120,14 @@ export default class GameGuideControl extends GameControl{
         this.sWeapon.isSelf = false;
        
         this.weaponBarClickHandler(this.sWeapon);
-        Laya.timer.once(500,this,()=>{
+        Laya.timer.once(1200,this,()=>{
             this.setPause();
            /*  Laya.timer.scale=0; */
             this.aniFinger.visible=true;
             this.aniFinger.pos(310,672);
             this.aniFinger.play(0,true);
             maskArea.visible=true;
+            Laya.MouseManager.enabled = true;
           //  nextLabel.visible=true;
             interactionArea.graphics.clear();
             interactionArea.graphics.drawRect(260,617,110,110,'#000');
@@ -139,6 +141,7 @@ export default class GameGuideControl extends GameControl{
         this.aniFinger.visible=false;
         this.aniFinger.stop();
         maskArea.visible=false; 
+        Laya.MouseManager.enabled = false;
         nextLabel.visible=false; 
         this.setResume();
        /*  Laya.timer.scale=1;  */
@@ -146,7 +149,7 @@ export default class GameGuideControl extends GameControl{
         //这个定时器不靠谱
         Laya.timer.once(550,this,()=>{
             this.setPause();
-            // Laya.timer.scale=0;
+             Laya.MouseManager.enabled = true;
              maskArea.visible=true;
              nextLabel.visible=true;
              this.addTips();
@@ -168,11 +171,13 @@ export default class GameGuideControl extends GameControl{
         this.imgTip.visible=false;
         this.stopArrowAni();
         maskArea.visible=false;
+        Laya.MouseManager.enabled = false;
         nextLabel.visible=false;
         this.setResume();
         Laya.timer.scale=1;
         Laya.timer.once(100,this,()=>{
             maskArea.visible=true;
+            Laya.MouseManager.enabled = true;
             nextLabel.visible=true;
             otherSpeakMan.visible=true;
             otherSpeakManComp.showWord('没想到你的武功那么厉害，看来我要动真格了。');
@@ -183,13 +188,15 @@ export default class GameGuideControl extends GameControl{
         //扔出一把武器
         maskArea.visible=false;
         nextLabel.visible=false;
+        Laya.MouseManager.enabled = false;
         this.sWeapon = this.weaponManager.seletedWeapon(1);
         this.sWeapon.isSelf = false;
         otherSpeakMan.visible=false;
         this.weaponBarClickHandler(this.sWeapon); 
         Laya.timer.once(1200,this,()=>{
         this.setPause();
-        maskArea.visible=true;      
+        maskArea.visible=true;   
+        Laya.MouseManager.enabled = true;   
         this.dodgeOwner.zOrder=1010;
         this.aniFinger.visible=true;
         this.aniFinger.pos(1240,660);
@@ -210,15 +217,23 @@ export default class GameGuideControl extends GameControl{
         this.aniFinger.stop();
         this.dodgeOwner.zOrder=10;
         maskArea.visible=false;
+        Laya.MouseManager.enabled = false;
         console.log('hha,点击1000') 
-        Laya.timer.once(500,this,()=>{
+        Laya.timer.once(1500,this,()=>{
             maskArea.visible=true;
+            Laya.MouseManager.enabled = true;
             nextLabel.visible=true;
             selfSpeakMan.visible=true;
             selfSpeakManComp.showWord(`呼，还好闪得快，不然够我喝一壶。`)
         })
     }
     step11(){
+        let tween=new Laya.Tween();
+        tween.to(maskArea,{
+            alpha:1
+        },2000,null,Laya.Handler.create(this,()=>{
+           
+        }));
         selfSpeakManComp.showWord(`唉？乔大侠去哪儿了？`);
         this.otherPlayer.node.removeSelf();
         //对手消失，跳转主界面
@@ -277,6 +292,7 @@ export default class GameGuideControl extends GameControl{
             Laya.timer.once(500,this,()=>{
                 this._first=true;
                 maskArea.visible=true;
+                Laya.MouseManager.enabled = true;
                 nextLabel.visible=true;
                 otherSpeakMan.visible=true; 
                 otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');

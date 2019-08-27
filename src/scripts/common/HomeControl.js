@@ -40,6 +40,9 @@ export default class HomeControl extends PaoYa.Component {
                 this.player.init(templet, 0);
             }
         });
+      
+    }
+    onEnable(){
         if(PaoYa.DataCenter.user.is_first_game==1){
             this.navigator.push('GameGuide', GameGuideData);
         }
@@ -190,13 +193,19 @@ export default class HomeControl extends PaoYa.Component {
 
         // 绘制遮罩区，含透明度，
         maskArea = new Laya.Sprite();
-        maskArea.alpha = 0.5;
+        maskArea.alpha = 1;
         maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
         maskArea.pos(-150, 0);
         maskArea.mouseEnabled = true;
         //maskArea.zOrder=1000;
         guideContainer.addChild(maskArea);
-
+        //透明度变化
+        let tween=new Laya.Tween();
+        tween.to(maskArea,{
+            alpha:0.5
+        },2000,null,Laya.Handler.create(this,()=>{
+           
+        }));
         //绘制可点击区域
         interactionArea = new Laya.Sprite();
         interactionArea.blendMode = 'destination-out';
@@ -228,7 +237,7 @@ export default class HomeControl extends PaoYa.Component {
 
         otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
         otherSpeakManComp = otherSpeakMan.getComponent(SpeakMan);
-        otherSpeakMan.pos(315, -127);
+        otherSpeakMan.pos(315, 225);
         otherSpeakMan.zOrder = 1003;
         this.owner.addChild(otherSpeakMan);
         otherSpeakManComp.modify(`女子`);
@@ -291,7 +300,7 @@ export default class HomeControl extends PaoYa.Component {
         this['step'+guideStep]();
     }
     onDisappear() {}
-    onEnable() {}
+   
     onDisable() {}
     onDestroy() {}
 }

@@ -348,8 +348,11 @@ export default class GameControl extends PaoYa.Component {
                 //雪女剑法
             case 89:
                 break;
-                //铸铁剑法
+                //铸铁剑法 造成臂力*0.32倍伤害
             case 90:
+                break;
+                //打出一条小金龙，是否写在这里待定
+            case 91:
                 break;
         }
         //先展示技能，再展示攻击，再发射兵器
@@ -510,7 +513,7 @@ export default class GameControl extends PaoYa.Component {
             } else {
                 console.error("无法动弹")
             }
-            Laya.timer.once(5000, this, this.startSelect);
+            Laya.timer.once(1000, this, this.startSelect);
         } else {
             this.seletedLaunch = false;
             Laya.timer.once(500, this, this.startSelect);

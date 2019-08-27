@@ -289,7 +289,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -899,8 +899,11 @@ var GameControl = function (_PaoYa$Component) {
                 //雪女剑法
                 case 89:
                     break;
-                //铸铁剑法
+                //铸铁剑法 造成臂力*0.32倍伤害
                 case 90:
+                    break;
+                //打出一条小金龙，是否写在这里待定
+                case 91:
                     break;
             }
             //先展示技能，再展示攻击，再发射兵器
@@ -1083,7 +1086,7 @@ var GameControl = function (_PaoYa$Component) {
                 } else {
                     console.error("无法动弹");
                 }
-                Laya.timer.once(5000, this, this.startSelect);
+                Laya.timer.once(1000, this, this.startSelect);
             } else {
                 this.seletedLaunch = false;
                 Laya.timer.once(500, this, this.startSelect);
@@ -2217,6 +2220,7 @@ var GameGuideControl = function (_GameControl) {
             this.aniFinger.visible = false;
             this.aniFinger.stop();
             maskArea.visible = false;
+            Laya.MouseManager.enabled = false;
             interactionArea.graphics.clear();
         }
     }, {
@@ -2231,13 +2235,14 @@ var GameGuideControl = function (_GameControl) {
             this.sWeapon.isSelf = false;
 
             this.weaponBarClickHandler(this.sWeapon);
-            Laya.timer.once(500, this, function () {
+            Laya.timer.once(1200, this, function () {
                 _this3.setPause();
                 /*  Laya.timer.scale=0; */
                 _this3.aniFinger.visible = true;
                 _this3.aniFinger.pos(310, 672);
                 _this3.aniFinger.play(0, true);
                 maskArea.visible = true;
+                Laya.MouseManager.enabled = true;
                 //  nextLabel.visible=true;
                 interactionArea.graphics.clear();
                 interactionArea.graphics.drawRect(260, 617, 110, 110, '#000');
@@ -2256,6 +2261,7 @@ var GameGuideControl = function (_GameControl) {
             this.aniFinger.visible = false;
             this.aniFinger.stop();
             maskArea.visible = false;
+            Laya.MouseManager.enabled = false;
             nextLabel.visible = false;
             this.setResume();
             /*  Laya.timer.scale=1;  */
@@ -2263,7 +2269,7 @@ var GameGuideControl = function (_GameControl) {
             //这个定时器不靠谱
             Laya.timer.once(550, this, function () {
                 _this4.setPause();
-                // Laya.timer.scale=0;
+                Laya.MouseManager.enabled = true;
                 maskArea.visible = true;
                 nextLabel.visible = true;
                 _this4.addTips();
@@ -2290,11 +2296,13 @@ var GameGuideControl = function (_GameControl) {
             this.imgTip.visible = false;
             this.stopArrowAni();
             maskArea.visible = false;
+            Laya.MouseManager.enabled = false;
             nextLabel.visible = false;
             this.setResume();
             Laya.timer.scale = 1;
             Laya.timer.once(100, this, function () {
                 maskArea.visible = true;
+                Laya.MouseManager.enabled = true;
                 nextLabel.visible = true;
                 otherSpeakMan.visible = true;
                 otherSpeakManComp.showWord('没想到你的武功那么厉害，看来我要动真格了。');
@@ -2308,6 +2316,7 @@ var GameGuideControl = function (_GameControl) {
             //扔出一把武器
             maskArea.visible = false;
             nextLabel.visible = false;
+            Laya.MouseManager.enabled = false;
             this.sWeapon = this.weaponManager.seletedWeapon(1);
             this.sWeapon.isSelf = false;
             otherSpeakMan.visible = false;
@@ -2315,6 +2324,7 @@ var GameGuideControl = function (_GameControl) {
             Laya.timer.once(1200, this, function () {
                 _this6.setPause();
                 maskArea.visible = true;
+                Laya.MouseManager.enabled = true;
                 _this6.dodgeOwner.zOrder = 1010;
                 _this6.aniFinger.visible = true;
                 _this6.aniFinger.pos(1240, 660);
@@ -2338,9 +2348,11 @@ var GameGuideControl = function (_GameControl) {
             this.aniFinger.stop();
             this.dodgeOwner.zOrder = 10;
             maskArea.visible = false;
+            Laya.MouseManager.enabled = false;
             console.log('hha,点击1000');
-            Laya.timer.once(500, this, function () {
+            Laya.timer.once(1500, this, function () {
                 maskArea.visible = true;
+                Laya.MouseManager.enabled = true;
                 nextLabel.visible = true;
                 selfSpeakMan.visible = true;
                 selfSpeakManComp.showWord("\u547C\uFF0C\u8FD8\u597D\u95EA\u5F97\u5FEB\uFF0C\u4E0D\u7136\u591F\u6211\u559D\u4E00\u58F6\u3002");
@@ -2349,6 +2361,10 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "step11",
         value: function step11() {
+            var tween = new Laya.Tween();
+            tween.to(maskArea, {
+                alpha: 1
+            }, 2000, null, Laya.Handler.create(this, function () {}));
             selfSpeakManComp.showWord("\u5509\uFF1F\u4E54\u5927\u4FA0\u53BB\u54EA\u513F\u4E86\uFF1F");
             this.otherPlayer.node.removeSelf();
             //对手消失，跳转主界面
@@ -2420,6 +2436,7 @@ var GameGuideControl = function (_GameControl) {
                 Laya.timer.once(500, _this7, function () {
                     _this7._first = true;
                     maskArea.visible = true;
+                    Laya.MouseManager.enabled = true;
                     nextLabel.visible = true;
                     otherSpeakMan.visible = true;
                     otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
@@ -3810,7 +3827,7 @@ var Player = function (_PaoYa$Component) {
       var _this2 = this;
 
       var time = 0;
-      Laya.MouseManager.enabled = true;
+      //Laya.MouseManager.enabled = true;
       if (this.killed) {
         this.owner.removeSelf();
         _GameControl2.default.instance.deathHandler(this.isSelf);
@@ -4012,7 +4029,7 @@ var Player = function (_PaoYa$Component) {
       }
       this.canAction = false;
       if (this.isSelf) {
-        Laya.MouseManager.enabled = false;
+        // Laya.MouseManager.enabled = false;
         _GameControl2.default.instance.allBtnsLock();
       }
       this.boxAniDizzy.visible = true;
@@ -4026,7 +4043,7 @@ var Player = function (_PaoYa$Component) {
     value: function removeDizzy() {
       this.canAction = true;
       if (this.isSelf) {
-        Laya.MouseManager.enabled = true;
+        //  Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
       }
       this.skeleton.play('stand', true);
@@ -4044,7 +4061,7 @@ var Player = function (_PaoYa$Component) {
       }
       this.canAction = false;
       if (this.isSelf) {
-        Laya.MouseManager.enabled = false;
+        // Laya.MouseManager.enabled = false;
         _GameControl2.default.instance.allBtnsLock();
       }
       this.boxAniPalsy.visible = true;
@@ -4058,7 +4075,7 @@ var Player = function (_PaoYa$Component) {
     value: function removePalsy() {
       this.canAction = true;
       if (this.isSelf) {
-        Laya.MouseManager.enabled = true;
+        //  Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
       }
       this.skeleton.play('stand', true);
@@ -4078,7 +4095,7 @@ var Player = function (_PaoYa$Component) {
       }
       this.canAction = false;
       if (this.isSelf) {
-        Laya.MouseManager.enabled = false;
+        // Laya.MouseManager.enabled = false;
         _GameControl2.default.instance.allBtnsLock();
       }
       this.freeze.visible = true;
@@ -4092,7 +4109,7 @@ var Player = function (_PaoYa$Component) {
     value: function removeFreeze() {
       this.canAction = true;
       if (this.isSelf) {
-        Laya.MouseManager.enabled = true;
+        // Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
       }
       this.freeze.visible = false;
@@ -4272,7 +4289,6 @@ var PlayerSkill = function (_PaoYa$Component) {
             this.tweenImg.complete();
             this.tweenImg.to(this.imgBg, { alpha: 1 }, 500);
             this.tweenText.to(this.lblState, { scaleX: 1.5, scaleY: 1.5 }, 500, Laya.Ease.backOut, Laya.Handler.create(this, function () {
-
                 _this2.tweenText.to(_this2.owner, { alpha: 0 }, 300, null, Laya.Handler.create(_this2, function () {
                     _this2.owner.visible = false;
                 }), 800);
@@ -4291,6 +4307,11 @@ var PlayerSkill = function (_PaoYa$Component) {
 
     return PlayerSkill;
 }(PaoYa.Component);
+
+//武林高高手项目：小游戏库做了横竖版适配库,统一的资源版本管理,为小游戏开发制定规范的开发流程和项目结构，加快了小游戏模块化的协作开发。
+//武林高高手游戏，完成游戏核心逻辑玩法，包括闯关模式，对战模式，新手引导等。英雄技能，兵器技能，机器人策略,游戏动效逻辑均已完成。
+//
+
 
 exports.default = PlayerSkill;
 
@@ -4949,7 +4970,7 @@ var Weapon = function (_PaoYa$Component) {
               var recoverDown = skillConfig.recoverDown.split('-').map(Number);
               var recoverDownT = recoverDown[0],
                   recoverDownPer = recoverDown[1];
-              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, null, null);
+              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
               this.otherPlayerComp.changePerMp(recoverDownT * 1000, recoverDownPer);
               break;
             case 59:
@@ -4961,7 +4982,7 @@ var Weapon = function (_PaoYa$Component) {
             case 89:
               console.error('释放人物技能89,让对方内力减少100点');
               var downMP = skillConfig.downMp;
-              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, null, null);
+              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
               this.otherPlayerComp.MPComp.changeMP(-downMP);
               break;
             //命中后对手晕眩2秒
@@ -4972,11 +4993,11 @@ var Weapon = function (_PaoYa$Component) {
               });
               break;
             default:
-              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum);
+              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
               break;
           }
         } else {
-          this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum);
+          this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
         }
       }
 
@@ -5018,7 +5039,7 @@ var Weapon = function (_PaoYa$Component) {
       var attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
       return {
         attackNum: attackNum,
-        isCrit: randomNum < 100
+        isCrit: randomNum < roleCritHarm
       };
     }
   }, {
@@ -5716,6 +5737,10 @@ var HomeControl = function (_PaoYa$Component) {
                     _this2.player.init(templet, 0);
                 }
             });
+        }
+    }, {
+        key: "onEnable",
+        value: function onEnable() {
             if (PaoYa.DataCenter.user.is_first_game == 1) {
                 this.navigator.push('GameGuide', _GameGuideData2.default);
             }
@@ -5885,13 +5910,17 @@ var HomeControl = function (_PaoYa$Component) {
 
             // 绘制遮罩区，含透明度，
             maskArea = new Laya.Sprite();
-            maskArea.alpha = 0.5;
+            maskArea.alpha = 1;
             maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
             maskArea.pos(-150, 0);
             maskArea.mouseEnabled = true;
             //maskArea.zOrder=1000;
             guideContainer.addChild(maskArea);
-
+            //透明度变化
+            var tween = new Laya.Tween();
+            tween.to(maskArea, {
+                alpha: 0.5
+            }, 2000, null, Laya.Handler.create(this, function () {}));
             //绘制可点击区域
             interactionArea = new Laya.Sprite();
             interactionArea.blendMode = 'destination-out';
@@ -5922,7 +5951,7 @@ var HomeControl = function (_PaoYa$Component) {
 
             otherSpeakMan = this.otherSpeakMan.create.call(this.otherSpeakMan);
             otherSpeakManComp = otherSpeakMan.getComponent(_SpeakMan2.default);
-            otherSpeakMan.pos(315, -127);
+            otherSpeakMan.pos(315, 225);
             otherSpeakMan.zOrder = 1003;
             this.owner.addChild(otherSpeakMan);
             otherSpeakManComp.modify("\u5973\u5B50");
@@ -5996,9 +6025,6 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "onDisappear",
         value: function onDisappear() {}
-    }, {
-        key: "onEnable",
-        value: function onEnable() {}
     }, {
         key: "onDisable",
         value: function onDisable() {}

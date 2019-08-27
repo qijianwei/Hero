@@ -95,7 +95,7 @@ export default class Player extends PaoYa.Component {
   //监听动画停止；
   stopHandler() {
     let time=0;
-    Laya.MouseManager.enabled = true;
+    //Laya.MouseManager.enabled = true;
     if (this.killed) {
       this.owner.removeSelf();
       GameControl.instance.deathHandler(this.isSelf);
@@ -262,7 +262,7 @@ export default class Player extends PaoYa.Component {
     }
     this.canAction = false;
     if (this.isSelf) {
-      Laya.MouseManager.enabled = false;
+     // Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
     this.boxAniDizzy.visible = true;
@@ -274,7 +274,7 @@ export default class Player extends PaoYa.Component {
   removeDizzy() {
     this.canAction = true;
     if (this.isSelf) {
-      Laya.MouseManager.enabled = true;
+    //  Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
     this.skeleton.play('stand', true);
@@ -289,7 +289,7 @@ export default class Player extends PaoYa.Component {
     }
     this.canAction = false;
     if (this.isSelf) {
-      Laya.MouseManager.enabled = false;
+     // Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
     this.boxAniPalsy.visible = true;
@@ -301,7 +301,7 @@ export default class Player extends PaoYa.Component {
   removePalsy() {
     this.canAction = true;
     if (this.isSelf) {
-      Laya.MouseManager.enabled = true;
+    //  Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
     this.skeleton.play('stand', true);
@@ -316,7 +316,7 @@ export default class Player extends PaoYa.Component {
     }
     this.canAction = false;
     if (this.isSelf) {
-      Laya.MouseManager.enabled = false;
+     // Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
     this.freeze.visible = true;
@@ -328,7 +328,7 @@ export default class Player extends PaoYa.Component {
   removeFreeze() {
     this.canAction = true;
     if (this.isSelf) {
-      Laya.MouseManager.enabled = true;
+     // Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
     this.freeze.visible = false;

@@ -376,7 +376,7 @@ export default class Weapon extends PaoYa.Component {
           case 55:      
             let recoverDown=skillConfig.recoverDown.split('-').map(Number);
             let recoverDownT=recoverDown[0],recoverDownPer=recoverDown[1];
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,null,null); 
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,null); 
             this.otherPlayerComp.changePerMp(recoverDownT*1000,recoverDownPer)  
             break;
           case 59:
@@ -388,7 +388,7 @@ export default class Weapon extends PaoYa.Component {
           case 89:
             console.error('释放人物技能89,让对方内力减少100点');
             let downMP=skillConfig.downMp;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,null,null); 
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,null); 
             this.otherPlayerComp.MPComp.changeMP(-downMP);
             break;
             //命中后对手晕眩2秒
@@ -399,12 +399,12 @@ export default class Weapon extends PaoYa.Component {
             });   
             break;
           default :
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
+            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit);
             break;
         }
        
       }else{
-        this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
+        this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit);
       }
     }
    
@@ -440,7 +440,7 @@ export default class Weapon extends PaoYa.Component {
     let attackNum=Math.floor(this.weaponAttack*hurtPer*selfCritHarm*refinerHurt*(1-otherReduceHurt)*skillHurtMulti);
     return {
       attackNum:attackNum,
-      isCrit:randomNum<100
+      isCrit:randomNum<roleCritHarm
     };
   }
   calcRefinerHurt(selfAttr){
