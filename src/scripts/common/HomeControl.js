@@ -43,9 +43,9 @@ export default class HomeControl extends PaoYa.Component {
       
     }
     onEnable(){
-        if(PaoYa.DataCenter.user.is_first_game==1){
+        //if(PaoYa.DataCenter.user.is_first_game==1){
             this.navigator.push('GameGuide', GameGuideData);
-        }
+       //}
     }
     onAppear() {
         this.player.play('stand', true);

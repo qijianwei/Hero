@@ -55,6 +55,7 @@ export default class GameGuideControl extends GameControl{
         super.onAwake();
         this.aniFinger.zOrder=1200;
          this.owner.on(Laya.Event.CLICK,this,(e)=>{
+             if(this.noCount){return;}
             guideStep+=1;
            switch(guideStep){
                case 1:
@@ -87,7 +88,7 @@ export default class GameGuideControl extends GameControl{
     step1(){
         selfSpeakMan.visible=false;
         otherSpeakMan.visible=true;
-        otherSpeakManComp.showWord('小兄弟谦虚了，出招把。'); 
+        otherSpeakManComp.showWord('小哥哥谦虚了，出招把。'); 
     }
     step2(){
         selfSpeakMan.visible=true;
@@ -99,6 +100,7 @@ export default class GameGuideControl extends GameControl{
         nextLabel.visible=false;
         interactionArea.graphics.clear();
         interactionArea.graphics.drawRect(100,617,110,110,'#000');
+        this.noCount=true;
         hitArea.unHit.clear();
         hitArea.unHit.drawRect(100,617,110,110,'#000');
         this.aniFinger.visible=true;
@@ -106,6 +108,7 @@ export default class GameGuideControl extends GameControl{
         this.aniFinger.play(0,true);
     }
     step4(){
+        this.noCount=false;
         this.aniFinger.visible=false;
         this.aniFinger.stop();
         maskArea.visible=false;
@@ -131,6 +134,7 @@ export default class GameGuideControl extends GameControl{
           //  nextLabel.visible=true;
             interactionArea.graphics.clear();
             interactionArea.graphics.drawRect(260,617,110,110,'#000');
+            this.noCount=true;
             hitArea.unHit.clear();
             hitArea.unHit.drawRect(260,617,110,110,'#000');
         })
@@ -138,6 +142,7 @@ export default class GameGuideControl extends GameControl{
 
     //遮罩消失后,全局不能点击
     step6(){
+        this.noCount=false;
         this.aniFinger.visible=false;
         this.aniFinger.stop();
         maskArea.visible=false; 
@@ -189,11 +194,14 @@ export default class GameGuideControl extends GameControl{
         maskArea.visible=false;
         nextLabel.visible=false;
         Laya.MouseManager.enabled = false;
-        this.sWeapon = this.weaponManager.seletedWeapon(1);
-        this.sWeapon.isSelf = false;
         otherSpeakMan.visible=false;
-        this.weaponBarClickHandler(this.sWeapon); 
-        Laya.timer.once(1200,this,()=>{
+       /*  this.sWeapon = this.weaponManager.seletedWeapon(1);
+        this.sWeapon.isSelf = false;
+      
+        this.weaponBarClickHandler(this.sWeapon);  */
+        //释放技能1 雪女剑法
+        this.skillWithWeapon(false);
+        Laya.timer.once(1500,this,()=>{
         this.setPause();
         maskArea.visible=true;   
         Laya.MouseManager.enabled = true;   
@@ -201,6 +209,7 @@ export default class GameGuideControl extends GameControl{
         this.aniFinger.visible=true;
         this.aniFinger.pos(1240,660);
         this.aniFinger.play(0,true);
+        this.noCount=true;
         hitArea.unHit.clear();
         hitArea.unHit.drawRect(1160,580,160,160,'#000');
         this.dodgeOwner.once(Laya.Event.CLICK,this,(e)=>{
@@ -213,6 +222,7 @@ export default class GameGuideControl extends GameControl{
     }
     //呼，还好闪得快，不然够我喝一壶。
     step10(){
+        this.noCount=false;
         this.aniFinger.visible=false;
         this.aniFinger.stop();
         this.dodgeOwner.zOrder=10;
@@ -234,7 +244,7 @@ export default class GameGuideControl extends GameControl{
         },2000,null,Laya.Handler.create(this,()=>{
            
         }));
-        selfSpeakManComp.showWord(`唉？乔大侠去哪儿了？`);
+        selfSpeakManComp.showWord(`唉？龙儿姑娘去哪儿了？`);
         this.otherPlayer.node.removeSelf();
         //对手消失，跳转主界面
     
@@ -295,7 +305,7 @@ export default class GameGuideControl extends GameControl{
                 Laya.MouseManager.enabled = true;
                 nextLabel.visible=true;
                 otherSpeakMan.visible=true; 
-                otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
+                otherSpeakManComp.showWord(`好痛。我生气了！吃我一剑。`);
                // this.offNotificationListener('collide');
             })
        })
@@ -358,7 +368,7 @@ export default class GameGuideControl extends GameControl{
 
         selfSpeakMan= this.selfSpeakMan.create.call(this.selfSpeakMan);
         selfSpeakManComp=selfSpeakMan.getComponent(SpeakMan);
-        selfSpeakManComp.showWord('没想到对手竟然是乔大侠，失敬失敬。');
+        selfSpeakManComp.showWord('还请龙儿姑娘收下留情啊。');
         selfSpeakMan.y=225;
         selfSpeakMan.zOrder=1003;
         this.owner.addChild(selfSpeakMan);

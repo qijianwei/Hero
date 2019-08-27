@@ -317,7 +317,7 @@ export default class GameControl extends PaoYa.Component {
              return; */
             this.skillWithoutWeapon(true);
         }
-
+ 
     }
     skillWithWeapon(isSelf) {
         let name = isSelf ? 'self' : 'other';
@@ -487,7 +487,9 @@ export default class GameControl extends PaoYa.Component {
             this.selfPlayer.comp.skeleton.resume()
         }
         /* Laya.timer.once(1000, this, this.startSelect); */
-        this.firstWeaponSelect();
+        if(!this.closeRobot){
+            this.firstWeaponSelect();
+        } 
         this.selfPlayer.comp.MPComp.resume();
         this.otherPlayer.comp.MPComp.resume();
         this.skillScr1.resume();
