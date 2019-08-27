@@ -228,7 +228,7 @@ export default class GameControl extends PaoYa.Component {
             boxWeapon.addChild(weaponBar)
         }
         //初始化机器人的兵器
-        this.weaponManager = new WeaponManager(this.robotWeaponList);
+    //     this.weaponManager = new WeaponManager(this.robotWeaponList);
     }
     initPlayer(isSelf) {
         let name = isSelf ? 'self' : 'other';

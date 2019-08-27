@@ -769,7 +769,7 @@ var GameControl = function (_PaoYa$Component) {
                 boxWeapon.addChild(weaponBar);
             }
             //初始化机器人的兵器
-            this.weaponManager = new _WeaponManager2.default(this.robotWeaponList);
+            //     this.weaponManager = new WeaponManager(this.robotWeaponList);
         }
     }, {
         key: 'initPlayer',
@@ -1636,12 +1636,12 @@ var WeaponManager = function (_Laya$Script) {
       var weapons = [];
       for (var i = 0, len = this.weaponList.length; i < len; i++) {
         if (!this.weaponList[i].freezeing) {
-          console.warn("可用兵器id:", this.weaponList[i].params.weaponName);
+          // console.warn("可用兵器id:",this.weaponList[i].params.weaponName);
           weapons.push(this.weaponList[i]);
         }
       }
       var random = Math.floor(Math.random() * weapons.length);
-      console.error('选中兵器:......:', weapons[random].params.weaponName);
+      //  console.error('选中兵器:......:',weapons[random].params.weaponName)
       return weapons[random];
     }
   }]);
@@ -4987,6 +4987,7 @@ var Weapon = function (_PaoYa$Component) {
     /* 
         伤害公式=兵器攻击力*（攻击方臂力-防御方根骨）/攻击方臂力*[暴伤百分比]*[1+兵器炼器伤害加成百分比]*[1+英雄技能伤害加成百分比]*（1-防御方炼器减伤百分比）*兵器技能伤害百分比
     [暴伤百分比]=角色自身暴伤百分比+兵器技能附加暴伤百分比+兵器炼器暴伤百分比
+    [1+英雄技能伤害加成百分比]//不用管
     */
 
   }, {
@@ -5001,17 +5002,64 @@ var Weapon = function (_PaoYa$Component) {
       roleCritHarm = selfAttr.calcCritProb,
           selfCritHarm = randomNum < roleCritHarm ? selfAttr.roleCritHarm / 100 : 1,
           otherBone = otherAttr.roleBone,
-          otherStrength = otherAttr.roleStrength,
+
+      //otherStrength=otherAttr.roleStrength,
+      //兵器炼器伤害加成百分比
+      refinerHurt = this.calcRefinerHurt(selfAttr),
+
+      //减伤百分比
+      otherReduceHurt = this.calcReduceHurt(otherAttr),
+          hurtPer = selfStrength - otherBone < 0 ? 1 : (selfStrength - otherBone) / selfStrength,
           skillHurtMulti = 1;
       if (skillEffect) {
-        console.error('触发技能伤害，有莫有伤害倍数不知道');
+        console.error('触发技能伤害，有莫有伤害倍数不知道'); //技能伤害百分比
         skillHurtMulti = this.params.activeSkill.skillConfig.hurt ? this.params.activeSkill.skillConfig.hurt : 1;
       }
-      var attackNum = Math.floor(this.weaponAttack * (selfStrength - otherBone) / otherStrength * selfCritHarm * skillHurtMulti);
+      var attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
       return {
         attackNum: attackNum,
         isCrit: randomNum < 100
       };
+    }
+  }, {
+    key: "calcRefinerHurt",
+    value: function calcRefinerHurt(selfAttr) {
+      console.error("\u8BA1\u7B97\u70BC\u5668\u4F24\u5BB3\u767E\u5206\u6BD4");
+      var refinerHurt = 1;
+      if (!selfAttr.refiners) {
+        return refinerHurt;
+      }
+      var len = selfAttr.refiners.length;
+      var refiners = selfAttr.refiners;
+      for (var i = 0; i < len; i++) {
+        if (refiners[i].hurt) {
+          if (refiners[i].weaponType) {
+            if (this.weaponType == refiners[i].weaponType) {
+              return refiners[i].hurt;
+            }
+          } else {
+            return refiners[i].hurt;
+          }
+        }
+      }
+      return refinerHurt;
+    }
+  }, {
+    key: "calcReduceHurt",
+    value: function calcReduceHurt(otherAttr) {
+      var otherReduceHurt = 0;
+      if (!otherAttr.refiners) {
+        return otherReduceHurt;
+      }
+      var len = otherAttr.refiners.length;
+      var refiners = otherAttr.refiners;
+      for (var i = 0; i < len; i++) {
+        if (refiners[i].reduceHurt) {
+          console.error(".......\u9632\u5FA1\u65B9\u70BC\u5668\u51CF\u4F24\u767E\u5206\u6BD4:", refiners[i].reduceHurt);
+          return refiners[i].reduceHurt;
+        }
+      }
+      return otherReduceHurt;
     }
     //兵器反弹
 

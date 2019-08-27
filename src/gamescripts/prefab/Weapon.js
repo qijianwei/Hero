@@ -415,6 +415,7 @@ export default class Weapon extends PaoYa.Component {
   /* 
       伤害公式=兵器攻击力*（攻击方臂力-防御方根骨）/攻击方臂力*[暴伤百分比]*[1+兵器炼器伤害加成百分比]*[1+英雄技能伤害加成百分比]*（1-防御方炼器减伤百分比）*兵器技能伤害百分比
 [暴伤百分比]=角色自身暴伤百分比+兵器技能附加暴伤百分比+兵器炼器暴伤百分比
+[1+英雄技能伤害加成百分比]//不用管
   */
   calcAttackNum(skillEffect){
     let randomNum=Math.floor(Math.random()*100+1);
@@ -425,17 +426,58 @@ export default class Weapon extends PaoYa.Component {
         roleCritHarm=selfAttr.calcCritProb,
         selfCritHarm=(randomNum<roleCritHarm)?selfAttr.roleCritHarm/100:1,
         otherBone=otherAttr.roleBone,
-        otherStrength=otherAttr.roleStrength,
+        //otherStrength=otherAttr.roleStrength,
+        //兵器炼器伤害加成百分比
+        refinerHurt=this.calcRefinerHurt(selfAttr),
+        //减伤百分比
+        otherReduceHurt=this.calcReduceHurt(otherAttr),
+        hurtPer=selfStrength-otherBone<0?1:(selfStrength-otherBone)/selfStrength,
         skillHurtMulti=1;
         if(skillEffect){
-          console.error('触发技能伤害，有莫有伤害倍数不知道')
+          console.error('触发技能伤害，有莫有伤害倍数不知道');//技能伤害百分比
           skillHurtMulti=(this.params.activeSkill.skillConfig.hurt)?this.params.activeSkill.skillConfig.hurt:1;
         }
-    let attackNum=Math.floor(this.weaponAttack*(selfStrength-otherBone)/otherStrength*selfCritHarm*skillHurtMulti);
+    let attackNum=Math.floor(this.weaponAttack*hurtPer*selfCritHarm*refinerHurt*(1-otherReduceHurt)*skillHurtMulti);
     return {
       attackNum:attackNum,
       isCrit:randomNum<100
     };
+  }
+  calcRefinerHurt(selfAttr){
+    console.error(`计算炼器伤害百分比`)
+     let refinerHurt=1;
+     if(!selfAttr.refiners){
+       return refinerHurt;
+     }
+     let len=selfAttr.refiners.length;
+     let refiners=selfAttr.refiners;   
+     for(let i=0;i<len;i++){
+       if(refiners[i].hurt){
+         if(refiners[i].weaponType){
+            if(this.weaponType==refiners[i].weaponType){
+               return refiners[i].hurt
+            }
+         }else{
+            return refiners[i].hurt;
+         }
+       }
+     }
+     return refinerHurt;
+  }
+  calcReduceHurt(otherAttr){
+    let otherReduceHurt=0;
+    if(!otherAttr.refiners){
+      return otherReduceHurt;
+    }
+    let len=otherAttr.refiners.length;
+    let refiners=otherAttr.refiners;  
+    for(let i=0;i<len;i++){
+      if(refiners[i].reduceHurt){
+        console.error(`.......防御方炼器减伤百分比:`,refiners[i].reduceHurt);
+         return refiners[i].reduceHurt
+      }
+    }
+    return otherReduceHurt;
   }
   //兵器反弹
   goBack(){
