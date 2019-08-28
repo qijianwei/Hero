@@ -74,13 +74,16 @@ export default class Player extends PaoYa.Component {
    // this.skeleton.on(Laya.Event.LABEL, this, (e) => {
       switch (e.name) {
         case 'skill1':
+          this.canAction=true;
           GameControl.instance.allResume(this.isSelf)
           this.skillCallback();
           break;
-        case 'stop':
+        case 'stop': 
+          this.canAction=false;
           GameControl.instance.allPause(this.isSelf)
           break;
         case 'skill2':
+          this.canAction=true;
           GameControl.instance.allResume(this.isSelf)
           this['aniSkill2Hero'+this.roleId].visible = true;
           this['aniSkill2Hero'+this.roleId].play(0, true);
@@ -98,7 +101,6 @@ export default class Player extends PaoYa.Component {
     //Laya.MouseManager.enabled = true;
     if (this.killed) {
       this.owner.removeSelf();
-      GameControl.instance.deathHandler(this.isSelf);
       return;
     }
     if (this.sectionAni == 1) {
@@ -184,7 +186,7 @@ export default class Player extends PaoYa.Component {
       console.error('死亡结束')
       this.killed = true;
       this.skeleton.play("death", false);
-
+      GameControl.instance.deathHandler(this.isSelf);
       //  GameControl.instance.passOver(this.isSelf);
       /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
       return;

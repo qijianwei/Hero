@@ -41,9 +41,9 @@ export default class PassResultDialog extends PaoYa.Dialog{
     clickHandler(){
        if(this.result==-1){
            //console.log("再试一次")
-           this.close();
-           GameControl.instance.fillPlayerInfo();
+           this.close();   
            GameControl.instance.restart();
+           GameControl.instance.fillPlayerInfo();
        }else{
            console.log("继续闯关")
            PaoYa.Request.POST("hero_game_start", { stageId: 1 }, (res) => {

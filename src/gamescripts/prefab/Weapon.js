@@ -311,11 +311,11 @@ export default class Weapon extends PaoYa.Component {
           sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
           sprite.zOrder=10000;
           sprite.rotation=this.imgWeapon.rotation */
-    SoundManager._ins.injured();
+   
     this.postNotification('collide');
     //如果对方闪避状态，无敌
-    if(this.otherPlayerComp.dodge){
-      console.error('无敌状态')
+    if(this.otherPlayerComp.dodge||this.selfPlayerComp.killed||this.otherPlayerComp.killed){
+      console.error('无敌状态或者一方已经死亡')
       return;
     }
     //如果roleId=4,会20%反弹兵器。不会受到暴击。
@@ -338,6 +338,7 @@ export default class Weapon extends PaoYa.Component {
          this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
       }
     }
+    SoundManager.ins.injured();
       this.endMove();
       let skill = this.params.activeSkill;  
       let skillEffect=this.params.skillEffect;
@@ -553,7 +554,7 @@ export default class Weapon extends PaoYa.Component {
             this.stopParabola();
             otherWeapon.stopParabola()
             return; */
-          SoundManager._ins.collide();
+          SoundManager.ins.collide();
           this.postNotification('weaponsCollide');
           if (this.weaponDurable > otherWeapon.weaponDurable) {
             otherWeapon.playWeaponCollideEffect();

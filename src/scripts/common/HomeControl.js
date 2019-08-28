@@ -1,7 +1,6 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
 import GameGuideData from '../../gamescripts/gameGuide/GameGuideData';
 import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
-import SoundManager from "../../gamescripts/SoundManager";
 let guideContainer,
     maskArea,
     interactionArea,

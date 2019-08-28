@@ -40,16 +40,16 @@ export default class SoundManager{
    /* 对战战斗音乐 */
     battleBg(){
         this.curBg='battleBg';
-        this.playMusic('battleBg');
+        this.playMusic('battleBgm');
     }
      /* 闯关战斗音乐 */
     passBg(){
         this.curBg='passBg';
-        this.playMusic('passBg');
+        this.playMusic('battleBgm');
     }
     /* 兵器撞击 */
     collide(){
-        this.playMusic('collide');
+        this.playSound('collide');
     }
     /* 受伤 */
     injured(){

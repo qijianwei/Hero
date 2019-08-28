@@ -68,7 +68,7 @@ export class Main extends GameMain {
 			Laya.SoundManager.playMusic(SoundManager.currentUrl, 0);
 		}
 		SoundManager.playMusic("mainBgm"); */
-		HeroConfig.loadAllSpine();
+		
 		this.arrayFont = [
             { fontUrl: "font/recMP.fnt", fontAni: "recoverMP" },
             { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" },
@@ -82,6 +82,7 @@ export class Main extends GameMain {
 			{fontUrl:"font/figure/msz.fnt",fontAni:"figureDetail"},
         ]
 		this.loadFontFnt(0);
+		HeroConfig.loadAllSpine();
 	}
 	loadFontFnt(index) {
 		if (index < this.arrayFont.length) {
@@ -164,6 +165,6 @@ export class Main extends GameMain {
 }
 //激活启动类
 new Main();
-/* console.log=function(){};
+/*   console.log=function(){};
 console.warn=function(){};
-console.error=function(){};   */
+console.error=function(){};    */ 
