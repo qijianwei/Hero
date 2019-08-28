@@ -105,6 +105,12 @@ export class Main extends GameMain {
 			'spine/npc/npc_7.sk',
 			'spine/hero/hero_1.png',
 			'spine/hero/hero_1.sk',
+			'spine/hero/hero_2.png',
+			'spine/hero/hero_2.sk',
+			
+			/* 场景 */
+			'spine/scene/scene1.png',
+			'spine/scene/scene1.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas',
 			'res/atlas/remote/debuff_palsy.atlas',
@@ -116,13 +122,21 @@ export class Main extends GameMain {
 			'res/atlas/remote/warn_arms.atlas',//cd发光效果
 			
 			'res/atlas/remote/collision.atlas',
-			'res/atlas/remote/debuff_dizzy.atlas',
+	        
 		
+			/* 技能 */
+			'res/atlas/remote/hero_skill/hero1_skill1.atlas',
 			'res/atlas/remote/hero_skill/hero1_skill2.atlas',
+			'res/atlas/remote/hero_skill/hero2_skill1.atlas',	
 			'res/atlas/remote/hero_skill/hero2_skill2.atlas',
+      
 			'res/atlas/remote/recover_blood.atlas',
 			'res/atlas/remote/recover_power.atlas',
+
+			/* 武器图标 */
+			'res/atlas/remote/weapons.atlas',
 			'res/atlas/remote/small_weapons.atlas',
+
 			'res/atlas/remote/trigger_skill.atlas',
 
 			'res/atlas/remote/weapon_effect/weapon_blood.atlas',

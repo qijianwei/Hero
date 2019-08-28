@@ -43,9 +43,9 @@ export default class HomeControl extends PaoYa.Component {
       
     }
     onEnable(){
-        //if(PaoYa.DataCenter.user.is_first_game==1){
+        if(PaoYa.DataCenter.user.is_first_game==1){
             this.navigator.push('GameGuide', GameGuideData);
-       //}
+       }
     }
     onAppear() {
         this.player.play('stand', true);
@@ -240,7 +240,7 @@ export default class HomeControl extends PaoYa.Component {
         otherSpeakMan.pos(315, 225);
         otherSpeakMan.zOrder = 1003;
         this.owner.addChild(otherSpeakMan);
-        otherSpeakManComp.modify(`女子`);
+        otherSpeakManComp.modify(`陌生女子`);
         otherSpeakMan.visible = false;
 
         this.owner.on(Laya.Event.CLICK, this, (e) => {

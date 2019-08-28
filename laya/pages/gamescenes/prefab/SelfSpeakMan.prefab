@@ -74,7 +74,7 @@
             "x":15,
             "type":"Label",
             "searchKey":"Label,lblSpeakName",
-            "props":{"y":283,"x":409,"width":189,"valign":"middle","text":"江湖小虾米","presetID":6,"preset":"laya/pages/gamescenes/prefab/SelfSpeakMan.prefab","pivotY":26,"pivotX":95,"name":"lblSpeakName","height":51,"fontSize":28,"align":"center"},
+            "props":{"y":283,"x":409,"width":189,"valign":"middle","text":"阿强","presetID":6,"preset":"laya/pages/gamescenes/prefab/SelfSpeakMan.prefab","pivotY":26,"pivotX":95,"name":"lblSpeakName","height":51,"fontSize":28,"align":"center"},
             "nodeParent":257,
             "label":"lblSpeakName",
             "isDirectory":false,

@@ -430,11 +430,20 @@ var Main = exports.Main = function (_GameMain) {
 	}, {
 		key: "setupGameRes",
 		value: function setupGameRes() {
-			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk',
+			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/hero/hero_2.png', 'spine/hero/hero_2.sk',
+
+			/* 场景 */
+			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
 
-			'res/atlas/remote/collision.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/hero_skill/hero2_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas', 'res/atlas/remote/guide.atlas'];
+			'res/atlas/remote/collision.atlas',
+
+			/* 技能 */
+			'res/atlas/remote/hero_skill/hero1_skill1.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/hero_skill/hero2_skill1.atlas', 'res/atlas/remote/hero_skill/hero2_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas',
+
+			/* 武器图标 */
+			'res/atlas/remote/weapons.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas', 'res/atlas/remote/guide.atlas'];
 			return list;
 		}
 	}, {
@@ -1056,7 +1065,9 @@ var GameControl = function (_PaoYa$Component) {
                 this.selfPlayer.comp.skeleton.resume();
             }
             /* Laya.timer.once(1000, this, this.startSelect); */
-            this.firstWeaponSelect();
+            if (!this.closeRobot) {
+                this.firstWeaponSelect();
+            }
             this.selfPlayer.comp.MPComp.resume();
             this.otherPlayer.comp.MPComp.resume();
             this.skillScr1.resume();
@@ -1769,7 +1780,7 @@ var HeroConfig = {
       templet: null
     },
     npc_1: {
-      path: "spine/npc/npc_7.sk",
+      path: "spine/npc/npc_1.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -2153,6 +2164,9 @@ var GameGuideControl = function (_GameControl) {
             _get(GameGuideControl.prototype.__proto__ || Object.getPrototypeOf(GameGuideControl.prototype), "onAwake", this).call(this);
             this.aniFinger.zOrder = 1200;
             this.owner.on(Laya.Event.CLICK, this, function (e) {
+                if (_this2.noCount) {
+                    return;
+                }
                 guideStep += 1;
                 switch (guideStep) {
                     case 1:
@@ -2192,7 +2206,7 @@ var GameGuideControl = function (_GameControl) {
         value: function step1() {
             selfSpeakMan.visible = false;
             otherSpeakMan.visible = true;
-            otherSpeakManComp.showWord('小兄弟谦虚了，出招把。');
+            otherSpeakManComp.showWord('小哥哥谦虚了，出招把。');
         }
     }, {
         key: "step2",
@@ -2208,6 +2222,7 @@ var GameGuideControl = function (_GameControl) {
             nextLabel.visible = false;
             interactionArea.graphics.clear();
             interactionArea.graphics.drawRect(100, 617, 110, 110, '#000');
+            this.noCount = true;
             hitArea.unHit.clear();
             hitArea.unHit.drawRect(100, 617, 110, 110, '#000');
             this.aniFinger.visible = true;
@@ -2217,6 +2232,7 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "step4",
         value: function step4() {
+            this.noCount = false;
             this.aniFinger.visible = false;
             this.aniFinger.stop();
             maskArea.visible = false;
@@ -2246,6 +2262,7 @@ var GameGuideControl = function (_GameControl) {
                 //  nextLabel.visible=true;
                 interactionArea.graphics.clear();
                 interactionArea.graphics.drawRect(260, 617, 110, 110, '#000');
+                _this3.noCount = true;
                 hitArea.unHit.clear();
                 hitArea.unHit.drawRect(260, 617, 110, 110, '#000');
             });
@@ -2258,6 +2275,7 @@ var GameGuideControl = function (_GameControl) {
         value: function step6() {
             var _this4 = this;
 
+            this.noCount = false;
             this.aniFinger.visible = false;
             this.aniFinger.stop();
             maskArea.visible = false;
@@ -2317,11 +2335,14 @@ var GameGuideControl = function (_GameControl) {
             maskArea.visible = false;
             nextLabel.visible = false;
             Laya.MouseManager.enabled = false;
-            this.sWeapon = this.weaponManager.seletedWeapon(1);
-            this.sWeapon.isSelf = false;
             otherSpeakMan.visible = false;
-            this.weaponBarClickHandler(this.sWeapon);
-            Laya.timer.once(1200, this, function () {
+            /*  this.sWeapon = this.weaponManager.seletedWeapon(1);
+             this.sWeapon.isSelf = false;
+            
+             this.weaponBarClickHandler(this.sWeapon);  */
+            //释放技能1 雪女剑法
+            this.skillWithWeapon(false);
+            Laya.timer.once(1500, this, function () {
                 _this6.setPause();
                 maskArea.visible = true;
                 Laya.MouseManager.enabled = true;
@@ -2329,6 +2350,7 @@ var GameGuideControl = function (_GameControl) {
                 _this6.aniFinger.visible = true;
                 _this6.aniFinger.pos(1240, 660);
                 _this6.aniFinger.play(0, true);
+                _this6.noCount = true;
                 hitArea.unHit.clear();
                 hitArea.unHit.drawRect(1160, 580, 160, 160, '#000');
                 _this6.dodgeOwner.once(Laya.Event.CLICK, _this6, function (e) {
@@ -2344,6 +2366,7 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "step10",
         value: function step10() {
+            this.noCount = false;
             this.aniFinger.visible = false;
             this.aniFinger.stop();
             this.dodgeOwner.zOrder = 10;
@@ -2365,7 +2388,7 @@ var GameGuideControl = function (_GameControl) {
             tween.to(maskArea, {
                 alpha: 1
             }, 2000, null, Laya.Handler.create(this, function () {}));
-            selfSpeakManComp.showWord("\u5509\uFF1F\u4E54\u5927\u4FA0\u53BB\u54EA\u513F\u4E86\uFF1F");
+            selfSpeakManComp.showWord("\u5509\uFF1F\u9F99\u513F\u59D1\u5A18\u53BB\u54EA\u513F\u4E86\uFF1F");
             this.otherPlayer.node.removeSelf();
             //对手消失，跳转主界面
         }
@@ -2439,7 +2462,7 @@ var GameGuideControl = function (_GameControl) {
                     Laya.MouseManager.enabled = true;
                     nextLabel.visible = true;
                     otherSpeakMan.visible = true;
-                    otherSpeakManComp.showWord('小兄弟身手不错。嚯，接我这一招试试！');
+                    otherSpeakManComp.showWord("\u597D\u75DB\u3002\u6211\u751F\u6C14\u4E86\uFF01\u5403\u6211\u4E00\u5251\u3002");
                     // this.offNotificationListener('collide');
                 });
             });
@@ -2501,7 +2524,7 @@ var GameGuideControl = function (_GameControl) {
 
             selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
             selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
-            selfSpeakManComp.showWord('没想到对手竟然是乔大侠，失敬失敬。');
+            selfSpeakManComp.showWord('还请龙儿姑娘收下留情啊。');
             selfSpeakMan.y = 225;
             selfSpeakMan.zOrder = 1003;
             this.owner.addChild(selfSpeakMan);
@@ -2534,178 +2557,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 exports.default = {
-	"role": {
-		"addAllRate": 1.0,
-		"addMpRate": 0.0,
-		"addStrengthRate": 0.0,
-		"addWeaponSkillProb": 10,
-		"downWeaponCd": 10,
-		"downWeaponConsume": 0,
-		"hitRecoveMp": 0,
-		"notCrit": 0,
-		"notDizzy": 0,
-		"notFrozen": 0,
-		"notPalsy": 0,
-		"notPoison": 1,
-		"reboundRate": 0,
-		"recoverHp": 0,
-		"recoverMp": 1.0,
-		"refiners": [{
-			"currentExp": 0,
-			"currentFullExp": 0,
-			"id": "refiner_09",
-			"refinerBasics": {
-				"show": 3,
-				"weaponType": 1,
-				"hurt": 1.03
-			},
-			"refinerDesc": "提升轻型兵器伤害。",
-			"refinerEachUp": 0.03,
-			"refinerEffect": "轻型兵器伤害增加d%",
-			"refinerLevel": 1,
-			"refinerName": "轻燕",
-			"refinerType": 1,
-			"refinerUnlock": 0,
-			"status": 0,
-			"type": 1
-		}, {
-			"currentExp": 0,
-			"currentFullExp": 0,
-			"id": "refiner_10",
-			"refinerBasics": {
-				"show": 3,
-				"weaponType": 2,
-				"hurt": 1.03
-			},
-			"refinerDesc": "提升中型兵器伤害。",
-			"refinerEachUp": 0.03,
-			"refinerEffect": "中型兵器伤害增加d%",
-			"refinerLevel": 1,
-			"refinerName": "锋刃",
-			"refinerType": 1,
-			"refinerUnlock": 0,
-			"status": 0,
-			"type": 1
-		}, {
-			"currentExp": 0,
-			"currentFullExp": 0,
-			"id": "refiner_11",
-			"refinerBasics": {
-				"show": 3,
-				"weaponType": 3,
-				"hurt": 1.03
-			},
-			"refinerDesc": "提升重型兵器伤害。",
-			"refinerEachUp": 0.03,
-			"refinerEffect": "重型兵器伤害增加d%",
-			"refinerLevel": 1,
-			"refinerName": "沉石",
-			"refinerType": 1,
-			"refinerUnlock": 0,
-			"status": 0,
-			"type": 1
-		}],
-		"roleBone": 126,
-		"roleCritHarm": 180,
-		"roleCritProb": 19,
-		"roleDesc": "飞刀",
-		"roleDress": "hero_1",
-		"roleHp": 1110,
-		"roleIcon": "xxx",
-		"roleId": 1,
-		"roleLevel": 20,
-		"roleMp": 259,
-		"roleName": "阿强",
-		"rolePrice": 0,
-		"roleSkills": "31,32,33",
-		"roleStar": 2,
-		"roleStatus": 0,
-		"roleStrength": 377,
-		"roleTopLevel": 20,
-		"roleType": 0,
-		"roleUpBone": 5,
-		"roleUpHp": 42,
-		"roleUpMp": 10,
-		"roleUpStrength": 15,
-		"skillWeapon": {
-			"exp": 0,
-			"num": 0,
-			"skills": [{
-				"skillCd": 0.0,
-				"skillConfig": {
-					"critProb": 20
-				},
-				"skillDesc": "发出1把火焰飞刀，造成臂力*0.18倍伤害。技能暴击+20%。",
-				"skillId": 88,
-				"skillLevel": 1,
-				"skillName": "酒灼刀",
-				"skillProb": 100,
-				"skillType": 1,
-				"skillUnlock": 0,
-				"status": 0
-			}],
-			"weaponAttack": 67.0,
-			"weaponCd": 0.0,
-			"weaponConsume": 0.2,
-			"weaponDurable": 20,
-			"weaponIcon": "3",
-			"weaponId": "x001_4",
-			"weaponName": "火焰飞刀",
-			"weaponPrice": 0,
-			"weaponSalePrice": 0,
-			"weaponSkills": "88",
-			"weaponStar": 4,
-			"weaponTopLevel": 15,
-			"weaponType": 1
-		},
-		"skills": [{
-			"skillCd": 20.0,
-			"skillConfig": {
-				"weaponId": "x001_4",
-				"critProb": 20
-			},
-			"skillConsume": 0.0,
-			"skillDesc": "发出1把火焰飞刀，造成臂力*0.18倍伤害。技能暴击+20%。",
-			"skillId": 31,
-			"skillLevel": 1,
-			"skillName": "酒灼刀",
-			"skillProb": 100,
-			"skillType": 1,
-			"skillUnlock": 5,
-			"status": 1
-		}, {
-			"skillCd": 0.0,
-			"skillConfig": {
-				"critHarm": 20,
-				"hurt": 0.2
-			},
-			"skillConsume": 0.0,
-			"skillDesc": "所有轻型兵器伤害+20%。暴击伤害+20%。",
-			"skillId": 32,
-			"skillLevel": 1,
-			"skillName": "江湖老油条",
-			"skillProb": 12,
-			"skillType": 0,
-			"skillUnlock": 10,
-			"status": 1
-		}, {
-			"skillCd": 60.0,
-			"skillConfig": {
-				"weaponCd": 0,
-				"time": 10
-			},
-			"skillConsume": 0.0,
-			"skillDesc": "所有兵器无冷却时间，持续10秒。",
-			"skillId": 33,
-			"skillLevel": 1,
-			"skillName": "夺命连环三仙剑",
-			"skillProb": 100,
-			"skillType": 1,
-			"skillUnlock": 15,
-			"status": 1
-		}],
-		"upgradeCost": 0
-	},
 	"weaponList": [{
 		"exp": 0,
 		"num": 0,
@@ -2721,7 +2572,7 @@ exports.default = {
 			"skillProb": 18,
 			"skillType": 1,
 			"skillUnlock": 0,
-			"status": 0
+			"status": 1
 		}, {
 			"skillCd": 0.0,
 			"skillConfig": {
@@ -2948,6 +2799,178 @@ exports.default = {
 		"weaponUpAttack": 70,
 		"weaponUpDurable": 10
 	}],
+	"role": {
+		"addAllRate": 1.0,
+		"addMpRate": 0.0,
+		"addStrengthRate": 0.0,
+		"addWeaponSkillProb": 10,
+		"downWeaponCd": 10,
+		"downWeaponConsume": 0,
+		"hitRecoveMp": 0,
+		"notCrit": 0,
+		"notDizzy": 0,
+		"notFrozen": 0,
+		"notPalsy": 0,
+		"notPoison": 1,
+		"reboundRate": 0,
+		"recoverHp": 0,
+		"recoverMp": 1.0,
+		"refiners": [{
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_09",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 1,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升轻型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "轻型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "轻燕",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_10",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 2,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升中型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "中型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "锋刃",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}, {
+			"currentExp": 0,
+			"currentFullExp": 0,
+			"id": "refiner_11",
+			"refinerBasics": {
+				"show": 3,
+				"weaponType": 3,
+				"hurt": 1.03
+			},
+			"refinerDesc": "提升重型兵器伤害。",
+			"refinerEachUp": 0.03,
+			"refinerEffect": "重型兵器伤害增加d%",
+			"refinerLevel": 1,
+			"refinerName": "沉石",
+			"refinerType": 1,
+			"refinerUnlock": 0,
+			"status": 0,
+			"type": 1
+		}],
+		"roleBone": 126,
+		"roleCritHarm": 180,
+		"roleCritProb": 19,
+		"roleDesc": "飞刀",
+		"roleDress": "hero_1",
+		"roleHp": 1110,
+		"roleIcon": "xxx",
+		"roleId": 1,
+		"roleLevel": 20,
+		"roleMp": 259,
+		"roleName": "阿强",
+		"rolePrice": 0,
+		"roleSkills": "31,32,33",
+		"roleStar": 2,
+		"roleStatus": 0,
+		"roleStrength": 377,
+		"roleTopLevel": 20,
+		"roleType": 0,
+		"roleUpBone": 5,
+		"roleUpHp": 42,
+		"roleUpMp": 10,
+		"roleUpStrength": 15,
+		"skillWeapon": {
+			"exp": 0,
+			"num": 0,
+			"skills": [{
+				"skillCd": 0.0,
+				"skillConfig": {
+					"critProb": 20
+				},
+				"skillDesc": "发出1把火焰飞刀，造成臂力*0.18倍伤害。技能暴击+20%。",
+				"skillId": 88,
+				"skillLevel": 1,
+				"skillName": "酒灼刀",
+				"skillProb": 100,
+				"skillType": 1,
+				"skillUnlock": 0,
+				"status": 0
+			}],
+			"weaponAttack": 67.0,
+			"weaponCd": 0.0,
+			"weaponConsume": 0.2,
+			"weaponDurable": 20,
+			"weaponIcon": "3",
+			"weaponId": "x001_4",
+			"weaponName": "火焰飞刀",
+			"weaponPrice": 0,
+			"weaponSalePrice": 0,
+			"weaponSkills": "88",
+			"weaponStar": 4,
+			"weaponTopLevel": 15,
+			"weaponType": 1
+		},
+		"skills": [{
+			"skillCd": 20.0,
+			"skillConfig": {
+				"weaponId": "x001_4",
+				"critProb": 20
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "发出1把火焰飞刀，造成臂力*0.18倍伤害。技能暴击+20%。",
+			"skillId": 31,
+			"skillLevel": 1,
+			"skillName": "酒灼刀",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 5,
+			"status": 1
+		}, {
+			"skillCd": 0.0,
+			"skillConfig": {
+				"critHarm": 20,
+				"hurt": 0.2
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "所有轻型兵器伤害+20%。暴击伤害+20%。",
+			"skillId": 32,
+			"skillLevel": 1,
+			"skillName": "江湖老油条",
+			"skillProb": 12,
+			"skillType": 0,
+			"skillUnlock": 10,
+			"status": 1
+		}, {
+			"skillCd": 60.0,
+			"skillConfig": {
+				"weaponCd": 0,
+				"time": 10
+			},
+			"skillConsume": 0.0,
+			"skillDesc": "所有兵器无冷却时间，持续10秒。",
+			"skillId": 33,
+			"skillLevel": 1,
+			"skillName": "夺命连环三仙剑",
+			"skillProb": 100,
+			"skillType": 1,
+			"skillUnlock": 15,
+			"status": 1
+		}],
+		"upgradeCost": 0
+	},
 	"robotWeaponList": [{
 		"exp": 0,
 		"num": 0,
@@ -3028,7 +3051,7 @@ exports.default = {
 		}],
 		"upgradeCost": 0,
 		"weaponAttack": 456.0,
-		"weaponCd": 4.0,
+		"weaponCd": 4.4,
 		"weaponConsume": 126.0,
 		"weaponDownConsume": 50,
 		"weaponDurable": 25,
@@ -3052,13 +3075,13 @@ exports.default = {
 		"addWeaponSkillProb": 10,
 		"downWeaponCd": 0,
 		"downWeaponConsume": 0,
-		"hitRecoveMp": 0,
-		"notCrit": 1,
+		"hitRecoveMp": 5,
+		"notCrit": 0,
 		"notDizzy": 0,
 		"notFrozen": 0,
 		"notPalsy": 0,
 		"notPoison": 0,
-		"reboundRate": 20,
+		"reboundRate": 0,
 		"recoverHp": 0,
 		"recoverMp": 1.0,
 		"refiners": [{
@@ -3116,39 +3139,70 @@ exports.default = {
 			"status": 0,
 			"type": 1
 		}],
-		"roleBone": 176,
-		"roleCritHarm": 180,
-		"roleCritProb": 4,
-		"roleDesc": "反击",
-		"roleDress": "hero_4",
-		"roleHp": 1660,
+		"roleBone": 52,
+		"roleCritHarm": 192,
+		"roleCritProb": 20,
+		"roleDesc": "内力",
+		"roleDress": "hero_2",
+		"roleHp": 835,
 		"roleIcon": "xxx",
-		"roleId": 4,
+		"roleId": 2,
 		"roleLevel": 20,
-		"roleMp": 238,
-		"roleName": "乔帮主",
-		"rolePrice": 0,
-		"roleSkills": "40,41,42",
-		"roleStar": 4,
+		"roleMp": 386,
+		"roleName": "龙女",
+		"rolePrice": 1200,
+		"roleSkills": "34,35,36",
+		"roleStar": 3,
 		"roleStatus": 0,
-		"roleStrength": 574,
+		"roleStrength": 252,
 		"roleTopLevel": 20,
 		"roleType": 0,
-		"roleUpBone": 7,
-		"roleUpHp": 64,
-		"roleUpMp": 9,
-		"roleUpStrength": 23,
+		"roleUpBone": 2,
+		"roleUpHp": 31,
+		"roleUpMp": 15,
+		"roleUpStrength": 10,
+		"skillWeapon": {
+			"exp": 0,
+			"num": 0,
+			"skills": [{
+				"skillCd": 0.0,
+				"skillConfig": {
+					"downMp": 100
+				},
+				"skillDesc": "发出一把素心长剑，造成内力*0.24倍伤害。命中后使对手的内力立即减少100点。",
+				"skillId": 89,
+				"skillLevel": 1,
+				"skillName": "雪女剑法",
+				"skillProb": 100,
+				"skillType": 1,
+				"skillUnlock": 0,
+				"status": 0
+			}],
+			"weaponAttack": 0.24,
+			"weaponCd": 0.0,
+			"weaponConsume": 0.15,
+			"weaponDurable": 20,
+			"weaponIcon": "2",
+			"weaponId": "x002_4",
+			"weaponName": "素心长剑",
+			"weaponPrice": 0,
+			"weaponSalePrice": 0,
+			"weaponSkills": "89",
+			"weaponStar": 4,
+			"weaponTopLevel": 15,
+			"weaponType": 2
+		},
 		"skills": [{
 			"skillCd": 24.0,
 			"skillConfig": {
-				"hurt": 0.2,
-				"dragon": 1
+				"downMp": 100,
+				"weaponId": "x002_4"
 			},
 			"skillConsume": 0.0,
-			"skillDesc": "打出1条小金龙，造成臂力*0.2倍伤害。",
-			"skillId": 40,
+			"skillDesc": "发出一把素心长剑，造成内力*0.24倍伤害。命中后使对手的内力立即减少100点。",
+			"skillId": 34,
 			"skillLevel": 1,
-			"skillName": "苍龙再现",
+			"skillName": "雪女剑法",
 			"skillProb": 100,
 			"skillType": 1,
 			"skillUnlock": 5,
@@ -3156,30 +3210,30 @@ exports.default = {
 		}, {
 			"skillCd": 0.0,
 			"skillConfig": {
-				"reboundRate": 20,
-				"notCrit": 1
+				"addHitRecoverMp": 5,
+				"mp": 0.2
 			},
 			"skillConsume": 0.0,
-			"skillDesc": "20%反弹对手的兵器。不会受到暴击。",
-			"skillId": 41,
+			"skillDesc": "内力+20%，兵器命中后立即获得5点内力。",
+			"skillId": 35,
 			"skillLevel": 1,
-			"skillName": "游龙入水",
+			"skillName": "雪女心经",
 			"skillProb": 100,
 			"skillType": 0,
 			"skillUnlock": 10,
 			"status": 1
 		}, {
-			"skillCd": 75.0,
+			"skillCd": 60.0,
 			"skillConfig": {
-				"dizziness": 3,
-				"dragon": 2,
-				"hurt": 0.42
+				"time": 10,
+				"recoverHp": 0.2,
+				"recoverMp": 2
 			},
 			"skillConsume": 0.0,
-			"skillDesc": "打出2条金龙，造成臂力*0.42倍伤害，命中后使对手晕眩3秒。",
-			"skillId": 42,
+			"skillDesc": "立刻恢复20%生命。内力恢复速度提升100%，持续10秒。",
+			"skillId": 36,
 			"skillLevel": 1,
-			"skillName": "亢龙有悔",
+			"skillName": "素心大法",
 			"skillProb": 100,
 			"skillType": 1,
 			"skillUnlock": 15,
@@ -4308,11 +4362,6 @@ var PlayerSkill = function (_PaoYa$Component) {
     return PlayerSkill;
 }(PaoYa.Component);
 
-//武林高高手项目：小游戏库做了横竖版适配库,统一的资源版本管理,为小游戏开发制定规范的开发流程和项目结构，加快了小游戏模块化的协作开发。
-//武林高高手游戏，完成游戏核心逻辑玩法，包括闯关模式，对战模式，新手引导等
-//英雄技能，兵器技能，游戏动效逻辑均已完成
-
-
 exports.default = PlayerSkill;
 
 },{}],20:[function(require,module,exports){
@@ -4970,7 +5019,7 @@ var Weapon = function (_PaoYa$Component) {
               var recoverDown = skillConfig.recoverDown.split('-').map(Number);
               var recoverDownT = recoverDown[0],
                   recoverDownPer = recoverDown[1];
-              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, null, null);
+              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
               this.otherPlayerComp.changePerMp(recoverDownT * 1000, recoverDownPer);
               break;
             case 59:
@@ -4982,7 +5031,7 @@ var Weapon = function (_PaoYa$Component) {
             case 89:
               console.error('释放人物技能89,让对方内力减少100点');
               var downMP = skillConfig.downMp;
-              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, null, null);
+              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
               this.otherPlayerComp.MPComp.changeMP(-downMP);
               break;
             //命中后对手晕眩2秒
@@ -4993,11 +5042,11 @@ var Weapon = function (_PaoYa$Component) {
               });
               break;
             default:
-              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum);
+              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
               break;
           }
         } else {
-          this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum);
+          this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
         }
       }
 
@@ -5039,7 +5088,7 @@ var Weapon = function (_PaoYa$Component) {
       var attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
       return {
         attackNum: attackNum,
-        isCrit: randomNum < 100
+        isCrit: randomNum < roleCritHarm
       };
     }
   }, {
@@ -5954,7 +6003,7 @@ var HomeControl = function (_PaoYa$Component) {
             otherSpeakMan.pos(315, 225);
             otherSpeakMan.zOrder = 1003;
             this.owner.addChild(otherSpeakMan);
-            otherSpeakManComp.modify("\u5973\u5B50");
+            otherSpeakManComp.modify("\u964C\u751F\u5973\u5B50");
             otherSpeakMan.visible = false;
 
             this.owner.on(Laya.Event.CLICK, this, function (e) {
