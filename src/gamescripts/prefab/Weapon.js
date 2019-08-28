@@ -1,4 +1,5 @@
 import GameControl from "../GameControl";
+import SoundManager from "../SoundManager";
 var WeaponAniType;
 (function(WeaponAniType){
     WeaponAniType[WeaponAniType["aniRepeat1"]=43]="aniRepeat1";
@@ -310,6 +311,7 @@ export default class Weapon extends PaoYa.Component {
           sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
           sprite.zOrder=10000;
           sprite.rotation=this.imgWeapon.rotation */
+    SoundManager._ins.injured();
     this.postNotification('collide');
     //如果对方闪避状态，无敌
     if(this.otherPlayerComp.dodge){
@@ -551,6 +553,7 @@ export default class Weapon extends PaoYa.Component {
             this.stopParabola();
             otherWeapon.stopParabola()
             return; */
+          SoundManager._ins.collide();
           this.postNotification('weaponsCollide');
           if (this.weaponDurable > otherWeapon.weaponDurable) {
             otherWeapon.playWeaponCollideEffect();

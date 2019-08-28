@@ -10,6 +10,7 @@ import PlayerState from './prefab/PlayerState';
 import PlayerSkill from './prefab/PlayerSkill';
 import WeaponSkill from './prefab/WeaponSkill';
 import GameBanner from './prefab/GameBanner';
+import SoundManager from './SoundManager';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -31,7 +32,7 @@ export default class GameControl extends PaoYa.Component {
     onDisappear() {
         Laya.MouseManager.enabled = true;
     }
-    onAwake() {
+    onAwake() { 
         Laya.Pool.clearBySign('weapon');
         Laya.Pool.clearBySign('player');
         Laya.MouseManager.enabled = true;
@@ -80,7 +81,9 @@ export default class GameControl extends PaoYa.Component {
        
         if (this.gameType == "pass") {
             this.initGameBanner();
+            SoundManager._ins.passBg();
         }else{
+            SoundManager._ins.battleBg();
             this.boxGameBanner.getComponent(GameBanner).changeStyle({
                 gameType:this.gameType
             })
@@ -308,6 +311,7 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     skillClickHandler(name) {
+        SoundManager._ins.heroSkill();
         if (name == "skill1") {
             /*    this.allPause();
                return; */
@@ -623,6 +627,7 @@ export default class GameControl extends PaoYa.Component {
     //带着技能发射
 
     weaponWithSkills(params, skillId) {
+        SoundManager._ins.weaponSkill();
         let skillConfig = params.activeSkill.skillConfig;
         let skillName = params.activeSkill.skillName;
         let hurt = skillConfig.hurt;

@@ -1,1 +1,4610 @@
-(function(l){function f(k){if(d[k])return d[k].exports;var h=d[k]={i:k,l:!1,exports:{}};l[k].call(h.exports,h,h.exports,f);h.l=!0;return h.exports}var d={};f.m=l;f.c=d;f.d=function(d,h,e){f.o(d,h)||Object.defineProperty(d,h,{enumerable:!0,get:e})};f.r=function(d){"undefined"!==typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(d,Symbol.toStringTag,{value:"Module"});Object.defineProperty(d,"__esModule",{value:!0})};f.t=function(d,h){h&1&&(d=f(d));if(h&8||h&4&&"object"===typeof d&&d&&d.__esModule)return d;var e=Object.create(null);f.r(e);Object.defineProperty(e,"default",{enumerable:!0,value:d});if(h&2&&"string"!=typeof d)for(var c in d)f.d(e,c,function(a){return d[a]}.bind(null,c));return e};f.n=function(d){var h=d&&d.__esModule?function(){return d["default"]}:function(){return d};f.d(h,"a",h);return h};f.o=function(d,h){return Object.prototype.hasOwnProperty.call(d,h)};f.p="";return f(f.s=0)})([function(l,f,d){d.r(f);l=d(1);d=d(2);for(var k in d)l["default"][k]=d[k];window.PaoYa=window.PaoYa||l["default"]},function(l,f,d){d.r(f);l=new (function(){return function(){}}());f["default"]=l},function(l,f,d){d.r(f);var k=d(3);d.d(f,"Component",function(){return k["default"]});var h=d(17);d.d(f,"View",function(){return h["default"]});var e=d(18);d.d(f,"Dialog",function(){return e["default"]});var c=d(19);d.d(f,"Navigator",function(){return c["default"]});var a=d(4);d.d(f,"Request",function(){return a["default"]});var b=d(20);d.d(f,"Client",function(){return b["default"]});var g=d(8);d.d(f,"NotificationCenter",function(){return g["default"]});d.d(f,"NotificationName",function(){return g.NotificationName});var p=d(13);d.d(f,"Observer",function(){return p["default"]});var n=d(5);d.d(f,"DataTrack",function(){return n["default"]});d.d(f,"DataTrackType",function(){return n.DataTrackType});var m=d(12);d.d(f,"PrizeType",function(){return m.PrizeType});d.d(f,"ShareType",function(){return m.ShareType});d.d(f,"RectCorner",function(){return m.RectCorner});d.d(f,"GameEntryType",function(){return m.GameEntryType});d.d(f,"SocketURLType",function(){return m.SocketURLType});d.d(f,"RankingType",function(){return m.RankingType});var r=d(22);d.d(f,"Main",function(){return r["default"]});var u=d(10);d.d(f,"DataCenter",function(){return u["default"]});var q=d(9);d.d(f,"LoginService",function(){return q["default"]});var w=d(31);d.d(f,"TimerService",function(){return w["default"]});var t=d(25);d.d(f,"LaunchScreenView",function(){return t["default"]});var x=d(32);d.d(f,"LoginMaskView",function(){return x["default"]});var v=d(33);d.d(f,"RoundImageView",function(){return v["default"]});var y=d(29);d.d(f,"SoundManager",function(){return y["default"]});var z=d(34);d.d(f,"AuthManager",function(){return z["default"]});var A=d(28);d.d(f,"PayManager",function(){return A["default"]});var B=d(7);d.d(f,"ShareManager",function(){return B["default"]});var C=d(27);d.d(f,"LifeCircleMonitor",function(){return C["default"]});var D=d(26);d.d(f,"NetworkMonitor",function(){return D["default"]});var E=d(14);d.d(f,"Toast",function(){return E["default"]});var F=d(11);d.d(f,"Utils",function(){return F["default"]});var G=d(15);d.d(f,"RewardedVideoAd",function(){return G["default"]});var H=d(16);d.d(f,"BannerAd",function(){return H["default"]});l=d(35);d.n(l);l=d(36);d.n(l);l=d(37);d.n(l);d(38)},function(l,f,d){d.r(f);var k=d(4),h=d(7),e=d(8),c=d(1),a=d(15),b=d(16),g=d(10),p=function(){var b=function(a,g){b=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var g in a)a.hasOwnProperty(g)&&(b[g]=a[g])};return b(a,g)};return function(a,g){function c(){this.constructor=a}b(a,g);a.prototype=null===g?Object.create(g):(c.prototype=g.prototype,new c)}}();l=function(d){function m(){var b=null!==d&&d.apply(this,arguments)||this;b._requests=[];b.socket=c["default"].socket;b.dialogs=[];b.bannerAds=[];b.navigator=c["default"].navigator;return b}p(m,d);m.prototype._onEnable=function(){d.prototype._onEnable.call(this);this.owner.addClickListener(this,this.onThrottleClick,!0)};m.prototype._onViewClick=function(b){switch(b.target.name){case "pop":this.navigator.pop();break;case "popToRoot":this.navigator.popToRootScene()}this.onThrottleClick(b)};m.prototype.onThrottleClick=function(b){};m.prototype._onLoad=function(){this.onLoad()};m.prototype.onLoad=function(){};m.prototype._onAppear=function(){this.showAllBannerAd();this.onAppear()};m.prototype.onAppear=function(){};m.prototype._onDisappear=function(){this.hideAllBannerAd();this.onDisappear()};m.prototype.onDisappear=function(){};m.prototype._destroy=function(){this.offMessageListener();this.offNotificationListener();this.destroyXMR();this.destroyBannerAd();d.prototype._destroy.call(this)};m.prototype._onReceiveMessage=function(b,a){if(this.enabled)this.onReceiveMessage(b,a)};m.prototype._onReceiveSocketError=function(b,a,g){this.onReceiveSocketError(b,a,g)};m.prototype.onReceiveMessage=function(b,a){};m.prototype.onReceiveSocketError=function(b,a,g){};m.prototype.onMessage=function(b,a,g,c){this.socket.on(b,a,g,c)};m.prototype.offMessageListener=function(){this.socket&&this.socket.offAllCaller(this)};m.prototype.sendMessage=function(b,a){this.socket.sendMessage(b,a)};m.prototype.onNotification=function(b,a,g,c){e["default"].on(b,a,g,c)};m.prototype.offNotificationListener=function(){e["default"].offAllCaller(this)};m.prototype.postNotification=function(b,a){e["default"].postNotification(b,a)};m.prototype.onReceiveNotification=function(b,a){};m.prototype._onReceiveNotification=function(b,a){if(this.enabled)this.onReceiveNotification(b,a)};m.prototype.GET=function(b,a,g,c){var e=this;a instanceof Function&&(g=a,a={},c=g);b=k["default"].GET(b,a,function(b){g.call(e,b)},function(b,a){c.call(e,b,a)});this._requests.push(b)};m.prototype.POST=function(b,a,g,c){var e=this;a instanceof Function&&(g=a,a={},c=g);b=k["default"].POST(b,a,function(b){g.call(e,b)},function(b,a){c.call(e,b,a)});this._requests.push(b)};m.prototype.destroyXMR=function(){for(var b=this._requests.length-1;0<=b;b--){var a=this._requests.pop();a.http.readyState!=XMLHttpRequest.DONE&&a.http.abort&&a.http.abort()}};m.prototype.share=function(b,a,g,c,e){var d=this;g instanceof Function&&(e=c,c=g,g={});h["default"].share(b,a,g,function(b){c&&c.call(d,b)},e&&e.bind(this))};m.prototype.shareTitle=function(b,a,g,c){h["default"].shareTitle(b,a,g,c)};m.prototype.shareDefault=function(b,a,c){void 0===b&&(b={});"function"==typeof b&&(c=a=b,b={});this.shareTitle(g["default"].config.game.share_list.randomItem,b,a,c)};m.prototype.showRewardedVideoAd=function(b){a["default"].show(b)};m.prototype.showBannerAd=function(a){a=b["default"].show(a);this.bannerAds.push(a);return a};m.prototype.showAllBannerAd=function(){for(var b=0,a=this.bannerAds.length;b<a;b++)this.bannerAds[b].show()};m.prototype.hideAllBannerAd=function(){for(var b=0,a=this.bannerAds.length;b<a;b++)this.bannerAds[b].hide()};m.prototype.destroyBannerAd=function(){for(var b=0,a=this.bannerAds.length;b<a;b++){var g=this.bannerAds[b];g.hide();g.destroy()}};m.prototype._onShow=function(b){this.onShow(b)};m.prototype.onShow=function(b){};m.prototype._onHide=function(b){this.onHide(b)};m.prototype.onHide=function(b){};m.prototype.popup=function(b){b instanceof Laya.Dialog?(b.popup(),this.dialogs.push(b)):console.error("\u5f53\u524dpopup\u7684\u4e0d\u662fDialog\u5b9e\u4f8b")};m.prototype.closeDialogs=function(){for(var b=0,a=this.dialogs.length;b<a;b++)this.dialogs[b].destroy()};m.prototype.onShareAppMessage=function(){return null};m.prototype.onNetworkChange=function(b){};m.prototype.onSocketClose=function(){};return m}(Laya.Script);f["default"]=l},function(l,f,d){d.r(f);d.d(f,"RequestConfig",function(){return e});var k=d(5),h=function(){var c=function(a,b){c=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var g in a)a.hasOwnProperty(g)&&(b[g]=a[g])};return c(a,b)};return function(a,b){function g(){this.constructor=a}c(a,b);a.prototype=null===b?Object.create(b):(g.prototype=b.prototype,new g)}}(),e=function(){function c(){}c.baseURL="";c.token="";c.headers=["Content-Type","application/x-www-form-urlencoded"];c.maxRetryTimes=3;return c}();l=function(c){function a(){var b=c.call(this)||this;b._retryTimes=0;b.http.ontimeout=function(a){b.timeout(a)};return b}h(a,c);a.prototype.sendRequest=function(b,a,c){if(e.baseURL){this._path=b;e.makeParamsHandler&&(a=e.makeParamsHandler(a));console.log("R \x3e\x3e\x3e | "+b+" | "+(a.wxparams||JSON.stringify(a)));var g=[],d;for(d in a)g.push(encodeURIComponent(d)+"\x3d"+encodeURIComponent(a[d]));a=g.join("\x26");b=e.baseURL+b;"get"==c&&(b+="?"+a,a=null);this.$url=b;this.$query=a;this.$method=c;this.send(b,a,c,null,e.headers)}else console.error("\u8bf7\u6307\u5b9abaseURL")};a.prototype.GET=function(b,a){this.sendRequest(b,a,"get")};a.prototype.POST=function(b,a){this.sendRequest(b,a,"post")};a.prototype.complete=function(){console.log("R \x3c\x3c\x3c | "+this._path+" | "+this.http.responseText);c.prototype.complete.call(this)};a.prototype.error=function(b){c.prototype.error.call(this,b)};a.prototype.timeout=function(b){this._retryTimes<e.maxRetryTimes?(this._retryTimes++,k["default"].track(k.DataTrackType.HTTPRetry,{c:this.$url,t:this._retryTimes}),setTimeout(function(){this.send(this.$url,this.$query,this.$method,null,e.headers)}.bind(this),500)):this.error(b)};a.GET=function(b,g,c,e){var d=this;void 0===e&&(e=null);var p=new a;p.on(Laya.Event.COMPLETE,this,function(b){d.handleError(b,c,e)});p.on(Laya.Event.ERROR,this,function(b){e&&e.call(d,b||"\u8fde\u63a5\u670d\u52a1\u5668\u5931\u8d25")});p.GET(b,g);return p};a.POST=function(b,g,c,e){var d=this;void 0===e&&(e=null);var p=new a;p.on(Laya.Event.COMPLETE,this,function(b){d.handleError(b,c,e)});p.on(Laya.Event.ERROR,this,function(b){e&&e.call(d,b||"\u8fde\u63a5\u670d\u52a1\u5668\u5931\u8d25")});p.POST(b,g);return p};a.handleError=function(b,a,c){b=JSON.parse(b);var g=b.code;200==g?a&&a.call(this,b.value):c&&c.call(this,b.message||"\u8bf7\u6c42\u51fa\u73b0\u9519\u8bef",b.errorcode?b.errorcode:g)};return a}(Laya.HttpRequest);f["default"]=l},function(l,f,d){d.r(f);d.d(f,"DataTrackType",function(){return c});var k=d(6),h=d(4),e=d(1);l=function(){function a(){}a.setup=function(b,a,c){void 0===b&&(b="500624773");void 0===a&&(a="500624774");k["default"].App.init({appID:b,eventID:a,lauchOpts:c})};a.track=function(b,a){!a.gameId&&e["default"].game.gameId&&(a.gameId=e["default"].game.gameId);if(a.data){var g=JSON.parse(a.data);g.T=e["default"].networkMonitor.type;a.data=JSON.stringify(g)}console.log("T | upload | "+JSON.stringify(a));k["default"].Event.stat(b+"",a)};a.trackType=function(b){h["default"].POST("userStatistics",{type:b},null)};a.now=function(){return(new Date).valueOf()};a.startTrackTime=function(b){this.loginCostTime[b]=a.now()};a.stopTrackTime=function(b){var g=this.loginCostTime[b],g=a.now()-g;this.loginCostTime[b]=g;console.warn("T | "+b+" | cost | "+g+" ms")};a.startSocketTime=function(){this.socketCostTime=a.now()};a.stopSocketTime=function(){var b=a.now()-this.socketCostTime;console.warn("T | Socket | cost | "+b+"ms");this.track(c.SocketTimeCost,{data:JSON.stringify({t:b})})};a.startSocketLogin=function(){this.socketLoginTime=a.now()};a.stopSocketLogin=function(){var b=a.now()-this.socketLoginTime;console.warn("T | Socket login | cost | "+b+"ms");this.track(c.SocketLoginTimeCost,{data:JSON.stringify({t:b})})};a.uploadLoginCostTime=function(){var b=JSON.stringify(this.loginCostTime);console.log("T | login | upload | "+b);this.track(c.LoginTimeCost,{data:b})};a.loginCostTime={};a.socketCostTime=0;a.socketLoginTime=0;return a}();f["default"]=l;var c;(function(a){a[a.LoginTimeCost=3001]="LoginTimeCost";a[a.SocketTimeCost=3002]="SocketTimeCost";a[a.SocketLoginTimeCost=3003]="SocketLoginTimeCost";a[a.SocketRetry=3004]="SocketRetry";a[a.HTTPRetry=3005]="HTTPRetry";a[a.Ladder=1001]="Ladder";a[a.FriendBattle=1002]="FriendBattle";a[a.RedPacket=1003]="RedPacket";a[a.PlayOffline=1004]="PlayOffline";a[a.Rank=1004]="Rank";a[a.HallBack=1006]="HallBack";a[a.WithDraw=1007]="WithDraw";a[a.Jump=1008]="Jump";a[a.Change=1009]="Change"})(c||(c={}))},function(l,f,d){function k(b){wx.getNetworkType({success:function(a){b(a.networkType)}})}function h(){var b=wx.getSystemInfoSync();return{adt:encodeURIComponent(b.model),scl:b.pixelRatio,scr:b.windowWidth+"x"+b.windowHeight,lg:b.language,fl:b.version,jv:encodeURIComponent(b.system),tz:encodeURIComponent(b.platform)}}function e(){try{var b="s"+c();wx.setStorageSync(n.prefix+"ssid",b);return b}catch(u){}}function c(b){for(var a=[0,1,2,3,4,5,6,7,8,9],g=10;1<g;g--){var c=Math.floor(10*Math.random()),e=a[c];a[c]=a[g-1];a[g-1]=e}for(g=c=0;5>g;g++)c=10*c+a[g];return(b||"")+(c+""+ +new Date)}function a(){try{var b=getCurrentPages(),a="/";0<b.length&&(a=b.pop().__route__);return a}catch(q){console.log("get current page path error:"+q)}}function b(){var b={dm:"wechat.apps.xx",url:a(),pvi:"",si:"",ty:0};b.pvi=function(){var a;a:{try{a=wx.getStorageSync(n.prefix+"auid");break a}catch(t){}a=void 0}if(!a){var g;a:{try{var e=c();wx.setStorageSync(n.prefix+"auid",e);g=e;break a}catch(t){}g=void 0}a=g;b.ty=1}return a}();b.si=function(){var b;a:{try{b=wx.getStorageSync(n.prefix+"ssid");break a}catch(q){}b=void 0}b||(b=e());return b}();return b}function g(){var b=h();k(function(b){try{wx.setStorageSync(n.prefix+"ntdata",b)}catch(q){}});b.ct=wx.getStorageSync(n.prefix+"ntdata")||"4g";return b}function p(){var b=m.Data.userInfo,a=[],g;for(g in b)b.hasOwnProperty(g)&&a.push(g+"\x3d"+b[g]);b=a.join(";");return{r2:n.app_id,r4:"wx",ext:"v\x3d"+n.version+(null!==b&&""!==b?";ui\x3d"+encodeURIComponent(b):"")}}d.r(f);var n={app_id:"",event_id:"",api_base:"https://pingtas.qq.com/pingd",prefix:"_mta_",version:"1.3.5",stat_share_app:!1,stat_pull_down_fresh:!1,stat_reach_bottom:!1},m={App:{init:function(b){"appID"in b&&(n.app_id=b.appID);"eventID"in b&&(n.event_id=b.eventID);"statShareApp"in b&&(n.stat_share_app=b.statShareApp);"statPullDownFresh"in b&&(n.stat_pull_down_fresh=b.statPullDownFresh);"statReachBottom"in b&&(n.stat_reach_bottom=b.statReachBottom);e();"lauchOpts"in b&&(m.Data.lanchInfo=b.lauchOpts,m.Data.lanchInfo.landing=1)}},Page:{init:function(){var b=getCurrentPages()[getCurrentPages().length-1];b.onShow&&!function(){var a=b.onShow;b.onShow=function(){m.Page.stat();a.call(this,arguments)}}();n.stat_pull_down_fresh&&b.onPullDownRefresh&&!function(){var a=b.onPullDownRefresh;b.onPullDownRefresh=function(){m.Event.stat(n.prefix+"pulldownfresh",{url:b.__route__});a.call(this,arguments)}}();n.stat_reach_bottom&&b.onReachBottom&&!function(){var a=b.onReachBottom;b.onReachBottom=function(){m.Event.stat(n.prefix+"reachbottom",{url:b.__route__});a.call(this,arguments)}}();n.stat_share_app&&b.onShareAppMessage&&!function(){var a=b.onShareAppMessage;b.onShareAppMessage=function(){m.Event.stat(n.prefix+"shareapp",{url:b.__route__});return a.call(this,arguments)}}()},stat:function(){if(""!=n.app_id){var a=[],c=p(),e=[b(),c,g()];m.Data.lanchInfo&&(e.push({ht:m.Data.lanchInfo.scene,rdm:"/",rurl:m.Data.lanchInfo.path}),m.Data.lanchInfo.query&&m.Data.lanchInfo.query._mta_ref_id&&e.push({rarg:m.Data.lanchInfo.query._mta_ref_id}),1==m.Data.lanchInfo.landing&&(c.ext+=";lp\x3d1",m.Data.lanchInfo.landing=0));e.push({rand:+new Date});for(var c=0,d=e.length;c<d;c++)for(var h in e[c])e[c].hasOwnProperty(h)&&a.push(h+"\x3d"+("undefined"==typeof e[c][h]?"":e[c][h]));wx.request({url:n.api_base+"?"+a.join("\x26").toLowerCase()})}}},Event:{stat:function(a,c){if(""!=n.event_id){var e=[],d=b(),h=p();d.dm="wxapps.click";d.url=a;h.r2=n.event_id;var m="undefined"===typeof c?{}:c,f=[],k;for(k in m)m.hasOwnProperty(k)&&f.push(encodeURIComponent(k)+"\x3d"+encodeURIComponent(m[k]));m=f.join(";");h.r5=m;m=0;d=[d,h,g(),{rand:+new Date}];for(h=d.length;m<h;m++)for(var r in d[m])d[m].hasOwnProperty(r)&&e.push(r+"\x3d"+("undefined"==typeof d[m][r]?"":d[m][r]));wx.request({url:n.api_base+"?"+e.join("\x26").toLowerCase()})}}},Data:{userInfo:null,lanchInfo:null}};f["default"]=m},function(l,f,d){function k(c){var a=[],b="",g;for(g in c)a.push(g+"\x3d"+c[g]);a.length&&(b=a.join("\x26"));return b}d.r(f);var h=d(8),e=function(){function c(){this.failHandler=this.successHandler=null;this.inShare=!1;this.shareTime=0;h["default"].on(h.NotificationName.ApplicationShow,this,this.onShow)}c.prototype.onShow=function(a){if(this.successHandler){if(3E3>Date.now()-this.shareTime&&(this.shareTime=0,this.failHandler)){this.failHandler("\u5206\u4eab\u5230\u7fa4\u624d\u53ef\u4ee5\u54e6");this.stopObserve();return}this.successHandler(a);this.successHandler=null;this.stopObserve()}};c.prototype.startObserve=function(a,b){this.shareTime=Date.now();this.successHandler=a;this.failHandler=b};c.prototype.stopObserve=function(){this.failHandler=this.successHandler=null};return c}();l=function(){function c(){}c.makeShareInfo=function(a,b,g,c,e){void 0===b&&(b=this.imageURL);void 0===e&&(e=null);this.makeQueryHandler&&(g=this.makeQueryHandler(g));console.warn("\u5206\u4eab\u51fa\u53bb\u7684\u53c2\u6570\u4e3a"+JSON.stringify(g));return{title:a,imageUrl:b,query:k(g),success:c,fail:function(){e&&e()}}};c.share=function(a,b,g,c,d){void 0===d&&(d=null);var h=b;h||(h=this.getShareImageURL());if(h){this.isShare=!0;this._shareService||(this._shareService=new e);var p=this._shareService;window.wx&&p.startObserve(c,d);py.shareAppMessage(this.makeShareInfo(a,b,g,function(b){p.stopObserve();console.warn("SHARE | "+JSON.stringify(b));c&&c(b)},function(b){p.stopObserve();d&&d(b)}))}else console.error("\u5fc5\u987b\u6307\u5b9a\u5206\u4eab\u56fe\u7247\u5730\u5740\uff0c\u5efa\u8bae\u4f7f\u7528ShareManager.imageURL\u5168\u5c40\u8bbe\u7f6e\u7edf\u4e00\u5206\u4eab\u56fe\u7247")};c.shareTitle=function(a,b,g,c){void 0===c&&(c=null);var e=this.getShareImageURL();e?this.share(a,e,b,g,c):console.error("\u5fc5\u987b\u6307\u5b9a ShareManager.imageURL \u624d\u53ef\u6267\u884c\u6b64\u65b9\u6cd5")};c.getShareInfo=function(a,b,g){py.getShareInfo({shareTicket:a,timeout:6E4,success:function(a){console.log("SHARE | getShareInfo | "+JSON.stringify(a));b&&b(a)},fail:g})};c.getShareImageURL=function(){var a=null;this.makeShareImageURLHandler&&(a=this.makeShareImageURLHandler());"string"!==typeof a&&(a=this.imageURL,console.warn("ShareManager.makeShareImageURLHandler \u5fc5\u987b\u8fd4\u56de string \u7c7b\u578b\u7684\u56fe\u7247\u5730\u5740"));return a};c.checkGroup=!1;c.isShare=!1;c._shareService=null;return c}();f["default"]=l},function(l,f,d){d.r(f);d.d(f,"NotificationName",function(){return h});var k=d(9);l=function(){function e(){}e.on=function(c,a,b,g){return this.defaultCenter.on(c,a,b,g)};e.addLoginNotification=function(c,a){if(k["default"].isLogined)a.call(c);else e.once(h.LoginSuccess,c,a)};e.once=function(c,a,b,g){return this.defaultCenter.once(c,a,b,g)};e.event=function(c,a){return this.defaultCenter.event(c,a)};e.off=function(c,a,b,g){return this.defaultCenter.off(c,a,b,g)};e.offAll=function(c){return this.defaultCenter.offAll(c)};e.offAllCaller=function(c){return this.defaultCenter.offAllCaller(c)};e.postNotification=function(c,a){return this.defaultCenter.event(c,a)};e.defaultCenter=new Laya.EventDispatcher;return e}();f["default"]=l;var h=function(){function e(){}e.ApplicationShow="app-show";e.ApplicationHide="app-hide";e.GameShow="game-show";e.NetworkChanged="network-changed";e.LoginSuccess="login-success";e.GOLD_CHANGE="CHANGE_GOLD";e.RMB_CHANGE="rmb-change";e.START_GAME="start-game";return e}()},function(l,f,d){d.r(f);d.d(f,"LoginConfig",function(){return b});var k=d(10),h=d(14),e=d(5),c=d(4),a=d(8),b=function(){function b(){}b.userId=123456;b.gameId=1004;b.version="1.0";b.release=1;b.requestConfig=1;return b}();l=function(){function g(){}g.login=function(a,g){var c=this;this.token||(this.lastGetUserInfoTime=0);var e={requestUserInfo:6048E5<Date.now()-this.lastGetUserInfoTime};py.login(e,function(e){window.wx||window.BK||e.js_code||(e.js_code="app,"+b.userId);c.loginWith(e,a,g)})};g.loginWith=function(g,d,m){var p=this,f={game_id:b.gameId,game_app_id:b.gameId,version:b.version,release:b.release,is_config:b.requestConfig},n;for(n in g)f[n]=g[n];f.user_token=this.token||"";f=b.makeLoginParamsHandler(f);e["default"].startTrackTime("l");h["default"].showLoading("",!1);c["default"].POST("user_login",f,function(b){p.isLogined=!0;e["default"].stopTrackTime("l");e["default"].uploadLoginCostTime();k["default"].loginData=b;k["default"].user=b;k["default"].config=b.config_list;k["default"].gold.value=k["default"].user.gold=b.member_gold;k["default"].rmb.value=k["default"].user.rmb=b.member_rmb;k["default"].integral.value=k["default"].user.integral=b.member_integral;k["default"].diamond.value=k["default"].user.diamond=b.member_diamond;var g=b.token;c.RequestConfig.token=p.token=g;localStorage.setItem("userTokenKey",g);localStorage.setItem("lastGetUserInfoTime",Date.now()+"");h["default"].hideLoading();k["default"].refreshUserInfo();a["default"].postNotification(a.NotificationName.LoginSuccess);d&&d(b)},function(b,a){2004==a?(c.RequestConfig.token="",p.token="",p.loginWith(g,d,m)):(h["default"].hideLoading(),h["default"].showModal("\u767b\u5f55\u5931\u8d25",b))})};g.isAuthed=!1;g.isLogined=!1;g.lastGetUserInfoTime=Number(localStorage.getItem("lastGetUserInfoTime")||"");g.token=localStorage.getItem("userTokenKey")||"";return g}();f["default"]=l},function(l,f,d){d.r(f);var k=d(11),h=d(13),e=d(4),c=d(1);l=function(){function a(){}a.findLadderById=function(b){return this.loginData.config_list.game.ladder_config.filter(function(a){return a.id==b})[0]};a.makeLadderIconById=function(b){var a="";(b=this.findLadderById(b))&&(a=k["default"].makeIcon(b.icon));return a};a.formatPrize=function(b){b=b.split(",");if(0!=b.length){var a=[];b.forEach(function(b,g){var c=b.split("-");c&&2==c.length&&a.push({type:c[0],value:c[1]})});return a}};a.refreshUserInfo=function(){var b=this;c["default"].lifeCircleMonitor.inForeground&&e["default"].GET("update_chips",{},function(a){void 0!=a.pao_gold&&(b.gold.value=a.pao_gold,b.user.gold=a.pao_gold);void 0!=a.rmb&&(b.rmb.value=a.rmb,b.user.rmb=a.rmb);void 0!=a.integral&&(b.integral.value=a.integral,b.user.integral=a.integral);void 0!=a.gold&&(b.gold.value=a.gold,b.user.gold=a.gold);void 0!=a.diamond&&(b.diamond.value=a.diamond,b.user.diamond=a.diamond)},function(b){console.warn("\u66f4\u65b0\u7528\u6237\u4fe1\u606f\u5931\u8d25")})};a.CDNURL="https://xgamejuedixiaomie.goxiaochengxu.cn/";a.RESURL="https://xgamejuedixiaomie.goxiaochengxu.cn/";a.showBannerAdWhenDialogPopup=!0;a.gold=new h["default"];a.rmb=new h["default"];a.integral=new h["default"];a.diamond=new h["default"];return a}();f["default"]=l},function(l,f,d){d.r(f);var k=d(10),h=d(12);l=function(){function e(){}e.makeImagesWithFormat=function(c,a,b){for(var g=[];a<b;a++)g.push(c.replace("%i",String(a)));return g};e.toQueryString=function(c){var a=[],b="",g;for(g in c)a.push(g+"\x3d"+c[g]);a.length&&(b=a.join("\x26"));return b};e.makeGenderIcon=function(c){var a="local/common/gay-white.png";"\u7537"==c?a="local/common/boy-white.png":"\u5973"==c&&(a="local/common/girl-white.png");return a};e.findUserByID=function(c,a){var b=c.filter(function(b,c){return b.user_id&&b.user_id==a});if(b.length)return b[0];console.error("");return null};e.makeRoundRectPath=function(c,a,b,g){var e=[];g&h.RectCorner.RectCornerTopLeft?e.push(["moveTo",b,0]):e.push(["moveTo",0,0]);g&h.RectCorner.RectCornerTopRight?(e.push(["lineTo",c-b,0]),e.push(["arcTo",c,0,c,b,b])):e.push(["lineTo",c,0]);g&h.RectCorner.RectCornerBottomRight?(e.push(["lineTo",c,a-b]),e.push(["arcTo",c,a,c-b,a,b])):e.push(["lineTo",c,a]);g&h.RectCorner.RectCornerBottomLeft?(e.push(["lineTo",b,a]),e.push(["arcTo",0,a,0,a-b,b])):e.push(["lineTo",0,a]);g&h.RectCorner.RectCornerTopLeft?(e.push(["lineTo",0,b]),e.push(["arcTo",0,0,b,0,b])):e.push(["lineTo",0,0]);e.push(["closePath"]);return e};e.makeAllCornerRoundRectPath=function(c,a,b){return this.makeRoundRectPath(c,a,b,h.RectCorner.RectCornerAllCorners)};e.formatName=function(c,a){void 0===a&&(a=10);var b=/[^\x00-\xff]/g;if(c.replace(b,"mm").length<=a)return c+"";for(var g=Math.floor(a/2);g<c.length;g++)if(c.substring(0,g).replace(b,"mm").length>=a)return c.substring(0,g)+"...";return c+""};e.makeIcon=function(c,a){void 0===a&&(a=96);if(""==c)return"local/common/avstar.png";if(0==c.indexOf("Game"))return window.BK?c:"";if(0===c.indexOf("http")){var b=c.split("/")||[];return 1<b.length?("0"===b[b.length-1]&&(b[b.length-1]=100<a?"132":"96"),b.join("/")):c+""}if(k["default"].CDNURL)return k["default"].CDNURL+c+"?imageView2/0/w/"+a;console.error("you must assign value to [PaoYa.DataCenter.CDNURL]")};e.makeResourceURL=function(c){if(""==c)return"local/common/avstar.png";if(0===c.indexOf("https"))return c+"";if(k["default"].CDNURL)return k["default"].CDNURL+c;console.error("you must assign value to [PaoYa.DataCenter.CDNURL]")};e.measureWidth=function(c){return Laya.Utils.measureText(c,"Arial").width};return e}();f["default"]=l},function(l,f,d){d.r(f);d.d(f,"PrizeType",function(){return k});d.d(f,"ShareType",function(){return h});d.d(f,"RectCorner",function(){return e});d.d(f,"GameEntryType",function(){return c});d.d(f,"SocketURLType",function(){return a});d.d(f,"RankingType",function(){return b});var k;(function(b){b[b.Gold=1]="Gold";b[b.Money=2]="Money"})(k||(k={}));var h;(function(b){b[b.InviteFriend=1]="InviteFriend";b[b.GroupPK=2]="GroupPK";b[b.GroupRank=3]="GroupRank"})(h||(h={}));var e;(function(b){b[b.RectCornerTopLeft=1]="RectCornerTopLeft";b[b.RectCornerTopRight=2]="RectCornerTopRight";b[b.RectCornerBottomLeft=4]="RectCornerBottomLeft";b[b.RectCornerBottomRight=8]="RectCornerBottomRight";b[b.RectCornerAllCorners=15]="RectCornerAllCorners"})(e||(e={}));var c;(function(b){b[b.Friend=1]="Friend";b[b.Match=2]="Match";b[b.Ladder=3]="Ladder";b[b.Arena=4]="Arena";b[b.Full=5]="Full";b[b.OnlineMatch=6]="OnlineMatch"})(c||(c={}));var a;(function(b){b.TIMING="timing_url";b.GAME="game_url"})(a||(a={}));var b;(function(b){b[b.Score=1]="Score";b[b.Ladder=2]="Ladder";b[b.WIN=8]="WIN"})(b||(b={}))},function(l,f,d){d.r(f);var k=function(){var d=function(e,c){d=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,b){a.__proto__=b}||function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};return d(e,c)};return function(e,c){function a(){this.constructor=e}d(e,c);e.prototype=null===c?Object.create(c):(a.prototype=c.prototype,new a)}}();l=function(d){function e(){return null!==d&&d.apply(this,arguments)||this}k(e,d);Object.defineProperty(e.prototype,"value",{get:function(){return this._value},set:function(c){this._value=c;this.event(Laya.Event.CHANGED,c)},enumerable:!0,configurable:!0});e.prototype.addObserver=function(c,a){a.call(c,this._value);this.on(Laya.Event.CHANGED,c,a)};e.prototype.removeObserver=function(c,a){this.off(Laya.Event.CHANGED,c,a)};return e}(Laya.EventDispatcher);f["default"]=l},function(l,f,d){d.r(f);l=function(){function d(){}d.show=function(d,e,c,a){void 0===c&&(c=null);void 0===a&&(a=1500);py.showToast({title:d,icon:e,image:c,duration:a,mask:!1,success:function(){},fail:function(){}})};d.hide=function(){py.hideToast()};d.showSuccess=function(d,e){void 0===e&&(e=1500);this.show(d,null,"https://res.xingqiu123.com/wxgame/common/success.png",e)};d.showError=function(d,e){void 0===e&&(e=1500);this.show(d,null,"https://res.xingqiu123.com/wxgame/common/error.png",e)};d.showWarn=function(d,e){void 0===e&&(e=1500);this.show(d,null,"https://res.xingqiu123.com/wxgame/common/warning.png",e)};d.showImage=function(d,e){void 0===e&&(e=1500);this.show(null,null,d,e)};d.showLoading=function(d,e){void 0===d&&(d="");void 0===e&&(e=!0);py.showLoading({title:d,mask:e,success:function(){},fail:function(){}})};d.hideLoading=function(){py.hideLoading()};d.showModal=function(d,e,c,a,b,g){void 0===d&&(d="\u63d0\u793a");void 0===e&&(e="");void 0===c&&(c="\u77e5\u9053\u4e86");void 0===a&&(a=null);void 0===b&&(b="");void 0===g&&(g=null);py.showModal({title:d,content:e,showCancel:b?!0:!1,cancelColor:"#000000",confirmColor:"#3cc51f",cancelText:b,confirmText:c,success:function(b){b.confirm&&a&&a();b.cancel&&g&&g()},fail:function(){}})};return d}();f["default"]=l},function(l,f,d){d.r(f);var k=d(2),h=function(){var e=function(c,a){e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return e(c,a)};return function(c,a){function b(){this.constructor=c}e(c,a);c.prototype=null===a?Object.create(a):(b.prototype=a.prototype,new b)}}();l=function(e){function c(a){var b=e.call(this)||this;b.isLoaded=!1;b.createAd(a);return b}h(c,e);c.prototype.createAd=function(a){var b=this;a=py.createRewardedVideoAd({adUnitId:a.adUnitId});a.onLoad(function(a){b.isLoaded=!0;b.event(c.LOAD,a)});a.onError(function(a){b.isLoaded=!1;window.BK&&(a={errMsg:a.msg,errCode:a.code});b.event(c.ERROR,a)});a.onClose(function(a){b.isLoaded=!1;a||(a={isEnded:!0});b.event(c.CLOSE,a);k.SoundManager.onAudioInterruptionEnd()});this.videoAd=a};c.prototype.show=function(){window.BK?this.videoAd.show():this.isLoaded?this.videoAd.show():(this.videoAd.load(),this.once(c.LOAD,this,function(){this.videoAd.show()}))};c.show=function(a){if(window.wx&&!k.DataCenter.adUnitId)console.error("\u8bf7\u5728Main\u4e2d\u8bbe\u7f6eadUnitId\u4e4b\u540e\u518d\u89c2\u770b\u5e7f\u544a");else{this.ad||(this.ad=new c({adUnitId:k.DataCenter.adUnitId}));var b=this.ad;b.offAllCaller(this);b.on(this.LOAD,this,a.onLoad);b.on(this.ERROR,this,a.onError);b.on(this.CLOSE,this,a.onClose);k.SoundManager.onAudioInterruptionBegin();b.show()}};c.LOAD="load_ad";c.ERROR="error_ad";c.CLOSE="close_ad";c.ad=null;return c}(Laya.EventDispatcher);f["default"]=l},function(l,f,d){d.r(f);var k=d(2),h=function(){var e=function(c,a){e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return e(c,a)};return function(c,a){function b(){this.constructor=c}e(c,a);c.prototype=null===a?Object.create(a):(b.prototype=a.prototype,new b)}}();l=function(e){function c(a){void 0===a&&(a={});var b=e.call(this)||this;a.adUnitId=a.adUnitId||k.DataCenter.bannerUnitId;a.viewId=a.qqViewId||k.DataCenter.qqViewId;if(!a.style){var g={};window.wx?(g.top=g.left=0,g.width=Laya.Browser.clientWidth||300):window.BK&&(g.x=0,g.y=0);a.style=g}var d=py.createBannerAd(a);d.onLoad(function(a){b.event(c.LOAD,a)});d.onError(function(a){b.event(c.ERROR,a)});if(window.wx){var h=Laya.Browser.clientWidth,m=Laya.Browser.clientHeight;d.onResize(function(g){var e=d.bannerAd;e.style.left=(h-g.width)/2;a.style.top||(e.style.top=m-g.height);b.event(c.RESIZE,[e,g,h,m])})}b.ad=d;return b}h(c,e);c.prototype.show=function(){this.ad.show()};c.prototype.hide=function(){this.ad.hide()};c.prototype.destroy=function(){this.ad.destroy();this.offAllCaller(c)};c.show=function(a){var b=new c(a);b.on(c.LOAD,this,a.onLoad);b.on(c.ERROR,this,a.onError);b.on(c.RESIZE,this,a.onResize);b.show();return b};c.hide=function(a){a.hide()};c.destroy=function(a){a.destroy()};c.LOAD="load_ad";c.ERROR="error_ad";c.RESIZE="re-size";return c}(Laya.EventDispatcher);f["default"]=l},function(l,f,d){d.r(f);var k=function(){var d=function(e,c){d=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,b){a.__proto__=b}||function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};return d(e,c)};return function(e,c){function a(){this.constructor=e}d(e,c);e.prototype=null===c?Object.create(c):(a.prototype=c.prototype,new a)}}();l=function(d){function e(){var c=d.call(this)||this;c.params=null;c.sceneName="";c.setupJSONView();c.createJSONView();c._addClickListener();return c}k(e,d);e.prototype.setupJSONView=function(){};e.prototype.createJSONView=function(){var c=this.constructor.JSONView;c&&this.createView(c)};e.prototype._addClickListener=function(){if(this.onClick!==e.prototype.onClick)this.on(Laya.Event.CLICK,this,this._onClick)};e.prototype._onClick=function(c){this.onClick(c)};e.prototype.onClick=function(c){};e.prototype._onAppear=function(){this.onAppear()};e.prototype.onAppear=function(){};e.prototype._onDisappear=function(){this.onDisappear()};e.prototype.onDisappear=function(){};e.prototype._onAdded=function(){d.prototype._onAdded.call(this);this.onAdded()};e.prototype._onRemoved=function(){d.prototype._onRemoved.call(this);this.onRemoved()};e.prototype.onAdded=function(){};e.prototype.onRemoved=function(){};e.prototype.open=function(c,a){void 0===c&&(c=!1);this.params=a;d.prototype.open.call(this,c,a)};return e}(Laya.View);f["default"]=l},function(l,f,d){d.r(f);var k=d(2),h=d(16),e=function(){var c=function(a,b){c=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return c(a,b)};return function(a,b){function d(){this.constructor=a}c(a,b);a.prototype=null===b?Object.create(b):(d.prototype=b.prototype,new d)}}();l=function(c){function a(){var b=c.call(this)||this;b.showBannerAdWhenDialogPopup=!0;b.createJSONView();return b}e(a,c);a.prototype.createJSONView=function(){var b=this.constructor.JSONView;b&&this.createView(b)};a.prototype._onAdded=function(){c.prototype._onAdded.call(this);this.onAdded();this._showBannerAd()};a.prototype.onAdded=function(){};a.prototype._onRemoved=function(){c.prototype._onRemoved.call(this);this.onRemoved();this._hideBannerAd()};a.prototype.onRemoved=function(){};a.prototype._showBannerAd=function(){this.showBannerAdWhenDialogPopup&&k.DataCenter.showBannerAdWhenDialogPopup&&(this.bannerAd=h["default"].show({}))};a.prototype._hideBannerAd=function(){if(this.bannerAd){var b=this.bannerAd;h["default"].hide(b);h["default"].destroy(b)}};return a}(Laya.Dialog);f["default"]=l},function(l,f,d){d.r(f);var k=d(10),h=function(){var c=function(a,b){c=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return c(a,b)};return function(a,b){function d(){this.constructor=a}c(a,b);a.prototype=null===b?Object.create(b):(d.prototype=b.prototype,new d)}}(),e={TurnTableView:"common/GameResult/TurnTableView",GameResultView:"common/GameResult/GameResultView",IFHostView:"common/InviteFriend/IFHostView",IFMemberView:"common/InviteFriend/IFMemberView",IntegralMallView:"common/Mall/IntegralMallView",MatchView:"common/Match/MatchView",MatchGradeView:"common/Match/MatchGradeView",RankView:"common/Rank/RankView",RankGroupView:"common/Rank/RankGroupView",QTRoomView:"common/QTRoom/QTRoomView",HomeView:"HomeView",FBView:"common/InviteFriend/FBView",NewMatchView:"common/NewMatch/NewMatchView",PersonalView:"common/Personal/PersonalView",NewGameResultView:"common/GameResult/NewGameResultView"};l=function(c){function a(){var b=c.call(this)||this;b.scenes=[];return b}h(a,c);a.prototype.popup=function(b,a,c,d,e){void 0===e&&(e=!0);Laya.Scene.load(this.makeDialogName(b),Laya.Handler.create(null,function(b){b.isModal=!0;b.isShowEffect=!1;b.params=a;b.open(e,a);c&&c.runWith(b)}),d)};a.prototype.push=function(b,a,c,d,e,h){this._open(b,a,c,d,e,h,!0)};a.prototype.pop=function(){k["default"].refreshUserInfo();this.scenes.pop().close("pop");this.activeScene(this.scenes[this.scenes.length-1])};a.prototype.popToLastScene=function(b){};a.prototype.findSceneByName=function(b){for(var a=null,c=this.scenes.length-1;0<=c;c--){var d=this.scenes[c];if(-1!=d.sceneName.indexOf(b)){a=d;break}}return a};a.prototype.popToScene=function(b){k["default"].refreshUserInfo();for(var a=this.scenes.length;a--;0<=a){var c=this.scenes[a];if(c.sceneName===b){this.activeScene(c);break}else this.scenes.pop().close("pop")}};a.prototype.activeScene=function(b){!b.visible&&(b.visible=!0);this.visibleScene=b;this._onAppear()};a.prototype.popToRootScene=function(){k["default"].refreshUserInfo();if(1!=this.scenes.length){for(;1<this.scenes.length;)this.scenes.pop().close("pop");this.activeScene(this.scenes[this.scenes.length-1])}};a.prototype.present=function(b,a,c,d,e,h){this._open(b,a,c,d,e,h,!1)};a.prototype.dismiss=function(){this.pop()};a.prototype.replace=function(b,a){for(var c,d=this.scenes.length-1;0<=d;d--)if(c=this.scenes[d],c.destroy(),this.scenes.pop(),c.sceneName==b){this.visibleScene=null;this.push(b,a);return}console.error("\u9519\u8bef\u7684:"+b)};a.prototype.replaceSceneWith=function(b,a,c){var d=this.scenes.indexOf(b);if(0>d)console.error("\u6307\u5b9a\u7684scene\u672a\u5305\u542b\u5728navigator\u4e2d");else{for(var e=this.scenes.length-1;e>=d;e--)b=this.scenes[e],b.destroy(),this.scenes.pop();this.visibleScene=null;this.push(a,c)}};a.prototype.visibleSceneIs=function(b){return-1<this.visibleScene.sceneName.indexOf(b)};a.prototype.makeSceneName=function(b){return e[b]?"scenes/"+e[b]+".scene":a.scenesMap[b]?a.scenesMap[b]+".scene":"gamescenes/"+b+".scene"};a.prototype.makeDialogName=function(b){return 0==b.indexOf("/")?"gamescenes"+b+".scene":"scenes/dialog/"+b+".scene"};a.prototype._open=function(b,a,c,d,e,h,f){void 0===f&&(f=!0);var g=[];c instanceof Array?g=g.concat(c):"string"==typeof c?g.push(c):c instanceof Laya.Handler&&(h=e=d=c);g.push(this.makeSceneName(b));Laya.Scene._prepareHandler=h;Laya.Scene.open(g,!1,a,Laya.Handler.create(this,function(a){0<this.scenes.length&&(this.scenes[this.scenes.length-1].visible=!f,this._onDisappear());a.autoDestroyAtClosed=!0;a.sceneName=b;this.visibleScene=a;this.scenes.push(a);this._onLoad();this._onAppear();d&&d.runWith(a)}),e)};a.setupLoadingPage=function(b,a){var c=b?"scenes/common/Loading/LoadingView.scene":"scenes/common/Loading/LoadWaitingView.scene",d=Laya.Scene._loadPage;d&&d.url==c||Laya.Scene.load(c,Laya.Handler.create(this,function(b){var c=Laya.stage,d=Laya.Browser.height/c.designHeight;b.x=Math.floor((Laya.Browser.width-c.designWidth*d>>1)/d);Laya.Scene.setLoadingPage(b);a&&a()}))};a.adjustViewPosition=function(b){var a=Laya.stage,c=Laya.Browser.height/a.designHeight;b.x=Math.floor((Laya.Browser.width-a.designWidth*c>>1)/c)};a.prototype._onReceiveMessage=function(b,a,c,d){this._dispatchEvent("_onReceiveMessage",b,a)};a.prototype._onReceiveSocketError=function(b,a,c){this._dispatchEvent("_onReceiveMessage",b,a,c)};a.prototype._onReceiveNotification=function(b,a){this._dispatchEvent("_onReceiveNotification",b,a)};a.prototype._onReceiveSocketClose=function(){this.visibleScene&&(this.visibleScene._components||[]).forEach(function(b){if(b.onSocketClose)b.onSocketClose()})};a.prototype._onReceiveNetworkChange=function(b){this._dispatchEvent("onNetworkChange",b)};a.prototype.onShareAppMessage=function(){if(this.visibleScene){var b=null;(this.visibleScene._components||[]).forEach(function(a){a.onShareAppMessage&&(b=a.onShareAppMessage())});return b}};a.prototype._onShow=function(b){this._dispatchEvent("_onShow",b)};a.prototype._onHide=function(b){this._dispatchEvent("_onHide",b)};a.prototype._onLoad=function(){this._dispatchEvent("_onLoad")};a.prototype._onAppear=function(){this._dispatchEvent("_onAppear")};a.prototype._onDisappear=function(){this._dispatchEvent("_onDisappear")};a.prototype._dispatchEvent=function(b,a,c,d,e,h){this.visibleScene&&this.visibleScene.dispatchLifeCycleEvent(b,a,c,d,e,h)};a.scenesMap={};return a}(Laya.EventDispatcher);f["default"]=l},function(l,f,d){d.r(f);d.d(f,"ClientConfig",function(){return a});l=d(21);var k=d(14),h=d(5),e=d(1),c=function(){var b=function(a,c){b=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return b(a,c)};return function(a,c){function d(){this.constructor=a}b(a,c);a.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)}}(),a=function(){function b(){}b.watchDogTime=5;b.maxRetryTime=3;return b}();d=function(b){function d(a){void 0===a&&(a=null);a=b.call(this,a)||this;a.msgsSending=[];a.msgsSent=[];a.map={};return a}c(d,b);d.prototype.sendMessage=function(b,a){!a.game_id&&e["default"].game&&(a.game_id=e["default"].game.gameId);a.command=b;var c=(new Date).valueOf();a.m_id=c;this.map[c]=void 0==this.map[c]?0:this.map[c]++;c=JSON.stringify(a);if(this.connected){"heartbeat"!==b&&console.log("S \x3e\x3e\x3e | "+b+" | "+JSON.stringify(a));this.send(c);for(var g=!0,h=d.ignoreCmds,f=0;f<h.length;f++){var k=h[f];if(b===k){g=!1;break}}h=d._ignoreCmds;for(f=0;f<h.length;f++)if(k=h[f],b===k){g=!1;break}g&&this.msgsSent.push(c)}else this.msgsSending.push({cmd:b,params:a}),!this.isReconnecting&&this.url&&this._startReconnect(),console.warn("\u7f13\u5b58socket\u547d\u4ee4\uff0c\u7b49\u5f85\u8fde\u63a5\u6210\u529f\u540e\u518d\u6b21\u53d1\u9001")};d.prototype.handleMessage=function(a){b.prototype.handleMessage.call(this,a);a=JSON.parse(a);var c=a.command,e=a.value,g=a.code,h=a.message||"\u8bf7\u6c42\u51fa\u9519";"heartbeat"!==c&&console.log("S \x3c\x3c\x3c | "+c+" | "+JSON.stringify(e));if(c==d.LOGIN)this.onLogin();this.event(c,[e,g,h]);this.dispatchResultToNavigator(c,e,g,h,a.errorcode);this.removeMsg(a)};d.prototype.dispatchResultToNavigator=function(b,a,c,g,h){200!=c?(e["default"].navigator._onReceiveSocketError(b,h,g),console.error("S \x3c\x3c\x3c | "+b+" | "+h+" | "+g)):0>d.ignorePathThroughCmds.indexOf(b)&&e["default"].navigator._onReceiveMessage(b,a)};d.prototype.onLogin=function(){var b=this;console.log("WebSocket\u767b\u5f55\u6210\u529f");console.log("S: | sending | msgs: "+this.msgsSending.length+"\u4e2a");this.msgsSending.forEach(function(a){b.sendMessage(a.cmd,a.params)});this.msgsSending.length=0;this.startWatchDog();this.startHeartBeat()};d.prototype.startWatchDog=function(){Laya.timer.loop(a.watchDogTime,this,this.checkCmd)};d.prototype.stopWatchDog=function(){this.msgsSent.length=0;Laya.timer.clear(this,this.checkCmd)};d.prototype.checkCmd=function(){var b=this,c=(new Date).valueOf();this.msgsSent.forEach(function(d,e){var g=JSON.parse(d);g.m_id&&5E3<c-g.m_id&&(g.retryTime<a.maxRetryTime?(h["default"].track(h.DataTrackType.SocketRetry,{c:g.command,t:g.retryTime}),b.sendMessage(g.command,g)):(b.event(g.command,[{},-1,"\u8bf7\u6c42\u8d85\u65f6"]),console.error("\u547d\u4ee4 "+g.command+" \u8bf7\u6c42\u8d85\u65f6\uff0c\u5982\u6709\u8bef\u62a5\uff0c\u8bf7\u5728Main\u4e2d\u6dfb\u52a0ignoreCmds\u53c2\u6570")),b.removeMsg(g))})};d.prototype.removeMsg=function(b){for(var a=0;a<this.msgsSent.length;a++){var c=JSON.parse(this.msgsSent[a]);c.m_id==b.m_id&&(this.msgsSent.splice(a,1),delete this.map[c.m_id])}};d.prototype._onClose=function(a){b.prototype._onClose.call(this,a);e["default"].navigator._onReceiveSocketClose();this.stopHeartBeat();this.stopWatchDog()};d.prototype.startHeartBeat=function(){Laya.timer.loop(15E3,this,this.handleHeartBeat)};d.prototype.stopHeartBeat=function(){Laya.timer.clear(this,this.handleHeartBeat)};d.prototype.handleHeartBeat=function(){this.sendMessage(d.HEART_BEAT,{})};d.prototype.onReconnecting=function(a,c){b.prototype.onReconnecting.call(this,a,c);k["default"].showLoading("\u8fde\u63a5\u4e2d("+a+"/"+c+")",!0)};d.prototype.onReconnectStart=function(){b.prototype.onReconnectStart.call(this);this.stopHeartBeat();k["default"].showLoading("\u6b63\u5728\u8fde\u63a5...")};d.prototype.onReconnectEnd=function(){b.prototype.onReconnectEnd.call(this);k["default"].hideLoading();k["default"].showSuccess("\u8fde\u63a5\u6210\u529f",1500)};d.prototype.onReconnectFail=function(){b.prototype.onReconnectFail.call(this);k["default"].hideLoading();k["default"].showSuccess("\u8fde\u63a5\u5931\u8d25",1500)};d.ignoreCmds=[];d._ignoreCmds="betpk startmatch joinmatch cancelmatch matchagain cancelagain promotionenroll cancelenroll laddermatch cancelladdermatch demandpk matchreject sharestartgame wheel_index qq_join_room receive_invite".split(" ");d.ignorePathThroughCmds=["heartbeat"];d.HEART_BEAT="heartbeat";d.DISCONNECT="disconnect";d.LEAVE_ROOM="leave_room";d.LOGIN="login";d.MATCH_SUCCESS="matchsuccess";d.MATCH_FAIL="matchfail";d.MATCH_JOIN="joinmatch";d.MATCH_CANCEL="cancelmatch";d.LADDER_MATCH_JOIN="laddermatch";d.LADDER_MATCH_CANCEL="cancelladdermatch";d.GAME_START_MATCH="startmatch";d.GAME_START_GAME="startpkgame";d.GAME_START_PK="startpk";d.GAME_BET="betpk";d.GAME_END_PK="endpk";d.GAME_END_PKGAME="endpkgame";d.AGIAN_SEND="matchagain";d.AGAIN_REJECT="matchreject";d.AGAIN_CANCAL="cancelagain";d.CHAMPIONSHIP_JION="promotionenroll";d.CHAMPIONSHIP_CANCEL="cancelenroll";d.CHAMPIONSHIP_UPDATE_ROOM_COUNT="updateCount";d.CHAMPIONSHIP_UPDATE_TOTAL_COUNT="updatecurUserCount";d.SHARE_START_GAME="sharestartgame";d.SHARE_INVITE_FRIEND="invite_friend";d.SHARE_RECEIVE_INVITE="receive_invite";d.GROUP_JOIN_ROOM="groupjoinroom";d.GROUP_ROOM_STATUS="grouproomStatus";return d}(l["default"]);f["default"]=d},function(l,f,d){d.r(f);d.d(f,"SocketConfig",function(){return c});var k=d(5),h=d(1),e=function(){var a=function(b,c){a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return a(b,c)};return function(b,c){function d(){this.constructor=b}a(b,c);b.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)}}(),c=function(){function a(){}a.zone="";return a}();l=function(a){function b(b){var c=a.call(this)||this;c.url=b;c.isReconnecting=!1;c.reconnectTimes=0;return c}e(b,a);Object.defineProperty(b.prototype,"canReconnect",{get:function(){var b=h["default"].networkMonitor,a=h["default"].lifeCircleMonitor;console.log("SOCKET\u662f\u5426\u8fde\u63a5:    "+(this.connected?"\u662f":"\u5426"));console.log("\u662f\u5426\u5728\u524d\u53f0:        "+(a.inForeground?"\u662f":"\u5426"));console.log("\u7f51\u7edc\u662f\u5426\u8fde\u63a5:      "+(b.isConnected?"\u662f":"\u5426"));console.log("\u662f\u5426\u6b63\u5728\u91cd\u8fde:      "+(this.isReconnecting?"\u662f":"\u5426"));return!this.connected&&a.inForeground&&b.isConnected&&!this.isReconnecting},enumerable:!0,configurable:!0});b.prototype.addObserver=function(){};b.prototype.changeUrl=function(b){var a=this;b!=this.url&&(this.url=b,this.isReconnecting&&this._stopReconnect(),this.connected&&(this._connected=!1,this.close()),Laya.timer.once(500,this,function(){a.connect()}))};b.prototype._onOpen=function(b){a.prototype._onOpen.call(this,b);console.log("S | OPEN: | "+JSON.stringify(b));this.isReconnecting&&(this._stopReconnect(),this.onReconnectEnd())};b.prototype._onClose=function(b){a.prototype._onClose.call(this,b);console.log("S | CLOSE: | "+JSON.stringify(b))};b.prototype._onMessage=function(b){a.prototype._onMessage.call(this,b);b&&b.data&&this.handleMessage(b.data)};b.prototype._onError=function(b){a.prototype._onError.call(this,b);console.log("S | Error: | "+JSON.stringify(b))};b.prototype.handleMessage=function(b){};b.prototype.connect=function(){this.isReconnecting||this.connected||this.connectByUrl(this.url)};b.prototype.connectByUrl=function(b){k["default"].startSocketTime();this.url=b;a.prototype.connectByUrl.call(this,b)};b.prototype.startWatchDog=function(){Laya.timer.loop(5E3,this,this.handleWatchDog)};b.prototype.handleWatchDog=function(){this.connected?this.stopWatchDog():this._startReconnect()};b.prototype.stopWatchDog=function(){Laya.timer.clear(this,this.handleWatchDog)};b.prototype._startReconnect=function(a){void 0===a&&(a=b.reconnectConfig.interval);this.canReconnect&&(this.reconnectTimes=0,this._reconnect(),this.onReconnectStart(),this.isReconnecting=!0,Laya.timer.loop(1E3*a,this,this._reconnect))};b.prototype._stopReconnect=function(){this.isReconnecting&&(this.isReconnecting=!1,this.reconnectTimes=0,Laya.timer.clear(this,this._reconnect))};b.prototype._reconnect=function(){if(this.connected)this._stopReconnect(),this.onReconnectEnd();else{var a=b.reconnectConfig;this.reconnectTimes<a.total?(this.connect(),this.reconnectTimes++,this.onReconnecting(this.reconnectTimes,a.total),this.reconnectTimes>a.total/2&&(Laya.timer.clear(this,this._reconnect),Laya.timer.loop(1E3*a.duration,this,this._reconnect))):(this._stopReconnect(),this.onReconnectFail())}};b.prototype.onReconnecting=function(a,c){this.event(b.RECONNECT_PROGRESS,[a,c])};b.prototype.onReconnectStart=function(){this.event(b.RECONNECT_START,[this.reconnectTimes,b.reconnectConfig.total])};b.prototype.onReconnectEnd=function(){this.event(b.RECONNECT_END)};b.prototype.onReconnectFail=function(){this.event(b.RECONNECT_FAIL)};b.reconnectConfig={total:3,interval:3,duration:8};b.RECONNECT_START="socket.reconnect.start";b.RECONNECT_END="socket.reconnect.end";b.RECONNECT_FAIL="socket.reconnect.fail";b.RECONNECT_PROGRESS="socket.reconnect.progress";return b}(Laya.Socket);f["default"]=l},function(l,f,d){d.r(f);l=d(23);var k=d(14),h=d(4),e=d(26),c=d(27),a=d(21),b=d(10),g=d(5),p=d(28),n=d(8),m=d(20),r=d(12),u=d(1),q=d(9),w=d(7),t=d(29),x=d(30),v=d(25),y=function(){var b=function(a,c){b=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return b(a,c)};return function(a,c){function d(){this.constructor=a}b(a,c);a.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)}}();d=function(d){function f(c){var e=d.call(this,c)||this;e.params=c;c.gameId||console.error("\u521d\u59cb\u5316\u65f6\u5fc5\u987b\u4f20\u5165gameId");c.baseURL||console.error("\u521d\u59cb\u5316\u65f6\u5fc5\u987b\u4f20\u5165baseURL");c.zone||console.error("\u521d\u59cb\u5316\u65f6\u5fc5\u987b\u4f20\u5165zone");e.gameId=c.gameId;e.params.rankingType=e.params.rankingType||r.RankingType.Score;void 0!=e.params.showBannerAdWhenDialogPopup&&(b["default"].showBannerAdWhenDialogPopup=e.params.showBannerAdWhenDialogPopup);u["default"].game=e;a.SocketConfig.zone=c.zone;p["default"].offerId=c.offerId;e.init();return e}y(f,d);f.prototype.init=function(){u["default"].networkMonitor=this.networkMonitor=new e["default"];u["default"].lifeCircleMonitor=this.lifeCircleMonitor=new c["default"];this._addNotificationCenterListener();this._configHTTP();this._configLogin();this._configShareManager();this._configSoundManager();Laya.Browser.onMiniGame&&g["default"].setup(this.params.mtaID,this.params.mtaEventID,this.launchOption);this.setupOthers()};f.prototype.loadRes=function(){var a=this,c=function(){v["default"].setTips("\u6b63\u5728\u8fde\u63a5...");v["default"].setTips("\u51c6\u5907\u5c31\u7eea");a.setupLoadingView(function(){a.initRootScene(a.launchOption,a.isFirstLaunch)})},d=function(b){v["default"].setTips("\u6b63\u5728\u767b\u5f55...");q["default"].login(b,function(){k["default"].showModal("\u63d0\u793a","\u767b\u5f55\u5931\u8d25","\u91cd\u8bd5",function(){d(b)})})},e=function(){d(function(){c()})};x["default"].preload(Laya.Handler.create(this,function(){if(b["default"].GAMEPREPARE){var a=b["default"].GAMEPREPARE;"function"==typeof a?(a(),e()):"object"==typeof a&&(a.async?a.async(function(){e()}):(a.sync(),e()))}else e()}),Laya.Handler.create(this,function(b){v["default"].setProgress(b)},null,!1))};f.prototype._addNotificationCenterListener=function(){n["default"].on(n.NotificationName.ApplicationShow,this,this._onShow);n["default"].on(n.NotificationName.ApplicationHide,this,this._onHide);n["default"].on(n.NotificationName.NetworkChanged,this,this._handleNetworkChange)};f.prototype._configHTTP=function(){m["default"].ignoreCmds=this.params.ignoreCmds||[];h.RequestConfig.baseURL=this.params.baseURL;if(this.launchOption&&this.launchOption.referrerInfo&&this.launchOption.referrerInfo.extraData){var b=this.launchOption.referrerInfo.extraData.baseURL;b&&(h.RequestConfig.baseURL=b)}var a=this;h.RequestConfig.makeParamsHandler=function(b){!b.user_token&&h.RequestConfig.token&&(b.user_token=h.RequestConfig.token);!b.game_id&&a.gameId&&(b.game_id=a.gameId);return{wxparams:JSON.stringify(b)}}};f.prototype._configLogin=function(){var b=this.params;q.LoginConfig.userId=b.userId;q.LoginConfig.gameId=b.gameId;q.LoginConfig.version=b.version;q.LoginConfig.release=b.release;var a=this;q.LoginConfig.makeLoginParamsHandler=function(b){a.launchOption&&a.launchOption.query&&(b.share_id=a.launchOption.query.id||0,b.share_type=a.launchOption.query.type||0,b.launch_info=a.launchOption||"");if(a.launchOption&&a.launchOption.referrerInfo&&a.launchOption.referrerInfo.extraData){var c=a.launchOption.referrerInfo.extraData;b.from_game_id=c.fid||0;b.from_game_id_type=c.jType||""}return b};this.launchOption&&this.launchOption.referrerInfo&&this.launchOption.referrerInfo.extraData&&(b=this.launchOption.referrerInfo.extraData.token)&&(q["default"].token=b)};f.prototype._configShareManager=function(){w["default"].makeQueryHandler=function(a){a.id=b["default"].user.id;return a}};f.prototype._configSoundManager=function(){var b=this;py.onAudioInterruptionBegin(function(){console.log("Audio | interrupt | begin");window.wx&&(b.lifeCircleMonitor.inForeground=!1);t["default"].onAudioInterruptionBegin()});py.onAudioInterruptionEnd(function(){console.log("Audio | interrupt | end");window.wx&&(b.lifeCircleMonitor.inForeground=!0);t["default"].onAudioInterruptionEnd()})};f.prototype._initClient=function(a,c){console.warn("\u521d\u59cb\u5316WebSocket");var d=b["default"].loginData.game_url;d||console.error("\u8bf7\u9a8c\u8bc1game_url\u662f\u5426\u6b63\u786e");Laya.Render.isConchApp&&(d=b["default"].loginData.app_game_url);var e=u["default"].socket=this.socket=new m["default"](d+this.params.zone);e.on(Laya.Event.OPEN,this,function(){g["default"].stopSocketTime();var a=b["default"].user.id;a||console.error("user_id\u4e0d\u5b58\u5728\uff0c\u8bf7\u68c0\u67e5\u9519\u8bef");g["default"].startSocketLogin();console.log("\u5f00\u59cbWebSocket\u767b\u5f55");e.sendMessage("login",{user_id:a})});e.once(m["default"].LOGIN,this,function(){Laya.timer.clear(this,h);k["default"].hideLoading();a&&a();g["default"].stopSocketLogin()});k["default"].showLoading("",!1);e.connect();var h=function(){e.close();c&&c()};Laya.timer.once(15E3,this,h)};f.prototype._changeClientURL=function(a){void 0===a&&(a=r.SocketURLType.GAME);var c=b["default"].loginData[a];Laya.Render.isConchApp&&(c=b["default"].loginData["app_"+a]);a=c+this.params.zone;a!=this.socket.url&&(console.warn("\u5f00\u59cb\u5207\u6362\u670d\u52a1\u5668\u5730\u5740\uff0c\u65e7\u5730\u5740\u4e3a"+this.socket.url+" | \u65b0\u5730\u5740\u4e3a"+a),this.socket.changeUrl(a))};f.prototype._onShow=function(b){if(this.socket){this.isFirstLaunch=!1;this.launchOption=b;var a=b.query.type,c=this;a==r.ShareType.InviteFriend||a==r.ShareType.GroupPK?q["default"].login(function(){c._changeClientURL();c.initRootScene(c.launchOption,c.isFirstLaunch)},null):(c.initRootScene(c.launchOption,c.isFirstLaunch),this.socket._startReconnect());this.navigator._onShow(b);this.onShow(b);t["default"].onShow()}};f.prototype._onHide=function(b){this.socket&&(this.navigator._onHide(b),this.onHide(b),t["default"].onHide())};f.prototype.onShow=function(b){};f.prototype.onHide=function(b){};f.prototype.setupLoadingView=function(b){b()};f.prototype.setupOthers=function(){};f.prototype._handleNetworkChange=function(b){this.navigator._onReceiveNetworkChange(b);this.handleNetworkChange(b)};f.prototype.handleNetworkChange=function(b){};return f}(l["default"]);f["default"]=d},function(l,f,d){d.r(f);var k=d(10),h=d(24),e=d(1),c=d(14),a=d(19),b=d(25),g=function(){var b=function(a,c){b=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(b,a){b.__proto__=a}||function(b,a){for(var c in a)a.hasOwnProperty(c)&&(b[c]=a[c])};return b(a,c)};return function(a,c){function d(){this.constructor=a}b(a,c);a.prototype=null===c?Object.create(c):(d.prototype=c.prototype,new d)}}();l=function(d){function f(b){var a=d.call(this)||this;a.params=b;a.gameId=1001;a.isLogined=!1;a.isAuthed=!1;a.loadNetworkRes=!1;a.isFirstLaunch=!0;a.params.debug=a.params.debug||!1;a.gameId=b.gameId;a.isMiniGame&&(a.loadNetworkRes=void 0==a.params.loadNetworkRes?!0:a.params.loadNetworkRes);a.initLaya();k["default"].RESURL="https://xgamejuedixiaomie.goxiaochengxu.cn/"+a.gameId+"/";k["default"].adUnitId=b.adUnitId;k["default"].bannerUnitId=b.bannerUnitId;k["default"].qqViewId=b.qqViewId||1003;a.configNavigator();a.setupConfig();a.initLaunchOption();a.checkUpdate();Laya.timer.callLater(a,a.initPlatform);return a}g(f,d);Object.defineProperty(f.prototype,"isMiniGame",{get:function(){return py.isMiniGame()&&!Laya.Render.isConchApp},enumerable:!0,configurable:!0});f.prototype.initLaya=function(){var a=this.params.width||1334,c=this.params.height||750,d=this.params;window.Laya3D?Laya3D.init(a,c):Laya.init(a,c,d.webGL||Laya.WebGL);Laya.Physics&&Laya.Physics.enable();this.params.debug&&(d.showStat&&Laya.Stat.show(),(d.showDebugTool||"true"==Laya.Utils.getQueryString("debug"))&&Laya.DebugPanel&&Laya.DebugPanel.enable(),Laya.PhysicsDebugDraw&&Laya.PhysicsDebugDraw.enable());a=Laya.stage;c=Laya.Stage;console.log(Laya.Browser.width,Laya.Browser.height);a.alignH=d.alignH||c.ALIGN_CENTER;a.alignV=d.alignV||c.ALIGN_MIDDLE;void 0==d.portrait||"portrait"==d.portrait?(a.screenMode=c.SCREEN_VERTICAL,a.scaleMode=d.scaleMode||c.SCALE_FIXED_WIDTH):(a.screenMode=c.SCREEN_HORIZONTAL,a.scaleMode=d.scaleMode||c.SCALE_FIXED_HEIGHT);d=new Laya.Sprite;c=Laya.Browser;d.graphics.drawRect(0,0,c.width,c.height,"#000000");a.addChild(d);this._setupResLoadConfig();Laya.ResourceVersion.enable("version.json",Laya.Handler.create(this,function(){b["default"].show();Laya.AtlasInfoManager.enable("fileconfig.json",Laya.Handler.create(this,this.loadRes))}),Laya.ResourceVersion.FILENAME_VERSION)};f.prototype.initLaunchOption=function(){var a=py.getLaunchOptionsSync();a.referrerInfo=a.referrerInfo||{extraData:{}};a.referrerInfo.extraData=a.referrerInfo.extraData||{};console.warn("LAUNCH | "+JSON.stringify(a));this.launchOption=a};f.prototype.configNavigator=function(){e["default"].navigator=this.navigator=new a["default"];var b=Laya.Scene.root;if(b){var c=function(){a["default"].adjustViewPosition(this)};b.on(Laya.Event.RESIZE,b,c);c.call(b)}};f.prototype._setupResLoadConfig=function(){var a=this;Laya.loader.retryNum=3;Laya.loader.retryDelay=2E3;Laya.loader.maxLoader=5;if(Laya.MiniAdpter){var b=Laya.MiniAdpter.nativefiles||[];b.push("local");Laya.MiniAdpter.nativefiles=b}Laya.URL.formatURL&&(Laya.URL.formatURLCopy=Laya.URL.formatURL);Laya.URL.formatURL=function(b){Laya.URL.formatURLCopy&&(b=Laya.URL.formatURLCopy(b));a.loadNetworkRes&&0<=b.indexOf("remote/")&&0>b.indexOf("http")&&(b=k["default"].RESURL+b);return b};Laya.URL.exportSceneToJson=!0};f.prototype.initPlatform=function(){var a=this;py.init();py.onShareAppMessage(function(){var b=e["default"].navigator.onShareAppMessage();return b?b:a.onShareAppMessage()})};f.prototype.checkUpdate=function(){var a=new h["default"];a.on(h["default"].HAS_UPDATE,this,function(){});a.on(h["default"].UPDATE_READY,this,function(a){c["default"].showModal("\u63d0\u793a","\u65b0\u7248\u672c\u4e0b\u8f7d\u6210\u529f","\u91cd\u542f",function(){a&&a()})});a.on(h["default"].UPDATE_FAIL,this,function(){})};f.prototype.onShareAppMessage=function(){return null};f.prototype.exit=function(){py.exit()};f.prototype.initRootScene=function(a,b){};f.prototype.setupConfig=function(){};return f}(Laya.EventDispatcher);f["default"]=l},function(l,f,d){d.r(f);var k=function(){var d=function(e,c){d=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,b){a.__proto__=b}||function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};return d(e,c)};return function(e,c){function a(){this.constructor=e}d(e,c);e.prototype=null===c?Object.create(c):(a.prototype=c.prototype,new a)}}();l=function(d){function e(){var c=d.call(this)||this,a=py.getUpdateManager();a.onCheckForUpdate(function(a){console.warn("\u5f53\u524d | "+(a.hasUpdate?"\u6709":"\u65e0")+" | \u65b0\u7248\u672c");a.hasUpdate&&c.event(e.HAS_UPDATE)});a.onUpdateReady(function(){c.event(e.UPDATE_READY,function(){a.applyUpdate()})});a.onUpdateFailed(function(){c.event(e.UPDATE_FAIL)});return c}k(e,d);e.HAS_UPDATE="HAS_UPDATE";e.UPDATE_READY="UPDATE_READY";e.UPDATE_FAIL="UPDATE_FAIL";return e}(Laya.EventDispatcher);f["default"]=l},function(l,f,d){d.r(f);var k=d(19),h=function(){var d=function(c,a){d=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,c){a.__proto__=c}||function(a,c){for(var b in c)c.hasOwnProperty(b)&&(a[b]=c[b])};return d(c,a)};return function(c,a){function b(){this.constructor=c}d(c,a);c.prototype=null===a?Object.create(a):(b.prototype=a.prototype,new b)}}();l=function(d){function c(){var a=d.call(this)||this;a.setup();return a}h(c,d);c.prototype.setup=function(){this.size(1334,750);var a=new Laya.Box;a.size(1334,750);a.cacheAs="normal";this.addChild(a);var b=new Laya.Image("local/loading/bg.jpg");b.x=-150;a.addChild(b);b=new Laya.Image("local/loading/logo.png");b.centerX=0;b.top=100;a.addChild(b);b=new Laya.Image("local/loading/progress-bg.png");b.centerX=0;b.bottom=60;a.addChild(b);a=new Laya.Image("local/loading/progress-bar.png");a.centerX=0;a.bottom=80;this.addChild(a);this._imgProgress=a;b=new Laya.Sprite;b.graphics.drawRect(0,0,0,77,"#ff0000");this._imgProgressMask=a.mask=b;a=new Laya.Label("0%");a.color="#ffffff";a.fontSize=30;a.centerX=0;a.bottom=76;this.addChild(a);this._lblProgress=a};Object.defineProperty(c.prototype,"progress",{get:function(){return this._progress},set:function(a){a!=this._progress&&(this._progress=a,this._imgProgressMask.graphics.clear(),this._imgProgressMask.graphics.drawRect(0,0,a*this._imgProgress.width,this._imgProgress.height,"#ff0000"))},enumerable:!0,configurable:!0});c.setProgress=function(a){this.ins&&(this.ins.progress=a,this.setTips(Math.ceil(100*a)+"%"))};c.setTips=function(a){this.ins._lblProgress.text=a};c.show=function(){var a=new c;k["default"].adjustViewPosition(a);a.zOrder=999;Laya.stage.addChild(a);this.ins=a};c.hide=function(){this.ins&&this.ins.destroy()};return c}(Laya.View);f["default"]=l},function(l,f,d){d.r(f);var k=d(8);l=function(){function d(){var d=this;this.isWIFI=this.isConnected=!0;this.type="";this.getCurrentType(function(c){d.isConnected="unknown"!=c||"none"!=c;d.isWIFI="wifi"===c;d.type=c});this.startMonitor()}d.prototype.startMonitor=function(){var d=this;py.onNetworkStatusChange(function(c){d.handleNetworkChange(c)})};d.prototype.handleNetworkChange=function(d){this.isWIFI="wifi"===d.networkType;this.type=d.networkType;this.isConnected=d.isConnected;console.log("NETWORK | change :\n");console.log(JSON.stringify(d));k["default"].defaultCenter.event(k.NotificationName.NetworkChanged,d)};d.prototype.stopMonitor=function(){py.offNetworkStatusChange(this.handleNetworkChange)};d.prototype.getCurrentType=function(d){py.getNetworkType({success:function(c){console.log("NETWORK | type :\n");console.log(JSON.stringify(c));d&&d(c.networkType)},fail:function(){}})};d.NETWORK_CHANGE="NetworkMonitor.network.change";return d}();f["default"]=l},function(l,f,d){d.r(f);var k=d(8);l=function(){function d(){this.inForeground=!0;this.ignoreFirstTime=window.wx?!0:!1;this.startMonitor()}d.prototype.startMonitor=function(){var d=this;py.onShow(function(c){d.ignoreFirstTime?d.ignoreFirstTime=!1:(console.warn("SHOW :\n"),console.warn(JSON.stringify(c)),d.inForeground=!0,k["default"].defaultCenter.event(k.NotificationName.ApplicationShow,c))});py.onHide(function(c){console.warn("HIDE :\n");console.warn(JSON.stringify(c));d.inForeground=!1;k["default"].defaultCenter.event(k.NotificationName.ApplicationHide,c)})};d.prototype.stopMonitor=function(){py.offShow({});py.offHide({})};d.SHOW="app.on.show";d.HIDE="app.on.hide";d.OFF_SHOW="app.off.show";d.OFF_HIDE="app.off.hide";return d}();f["default"]=l},function(l,f,d){d.r(f);l=function(){function d(){}d.pay=function(d,e,c){py.requestPayment({env:this.env,offerId:this.offerId,currencyType:"CNY",buyQuantity:d,success:function(a){console.log("PAY | suc | "+JSON.stringify(a));e&&e()},fail:function(a){console.log("PAY | fail | "+JSON.stringify(a));a=a.errCode;c&&c(a)}})};d.env=0;d.platform="android";return d}();f["default"]=l},function(l,f,d){d.r(f);var k=function(){var d=function(e,c){d=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,b){a.__proto__=b}||function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};return d(e,c)};return function(e,c){function a(){this.constructor=e}d(e,c);e.prototype=null===c?Object.create(c):(a.prototype=c.prototype,new a)}}();l=function(d){function e(){return null!==d&&d.apply(this,arguments)||this}k(e,d);e.onShow=function(){this.onShowHandler&&this.onShowHandler()};e.onHide=function(){this.onHideHandler&&this.onHideHandler()};e.onAudioInterruptionBegin=function(){this.onAudioInterruptionBeginHandler&&this.onAudioInterruptionBeginHandler()};e.onAudioInterruptionEnd=function(){this.onAudioInterruptionEndHandler&&this.onAudioInterruptionEndHandler()};e._windowFocus=function(){Laya.stage._isFocused=!0;Laya.stage.event("focus");Laya.stage.event("focuschange")};e._windowBlur=function(){Laya.stage._isFocused=!1;Laya.stage.event("blur");Laya.stage.event("focuschange")};return e}(Laya.SoundManager);f["default"]=l},function(l,f,d){d.r(f);var k=d(2);l=function(){function d(){}d.load=function(d,c,a,b){void 0===b&&(b=null);var e=Laya.Handler.create(this,function(){a&&a.call(c)}),f=Laya.Handler.create(this,function(a){console.log("loading progress"+a);b&&b.call(c,a)},null,!1);Laya.loader.load(d,e,f)};d.preload=function(d,c){Laya.loader.load(k.DataCenter.GAMERES,d,c)};return d}();f["default"]=l},function(l,f,d){d.r(f);var k=function(){var d=function(e,c){d=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,b){a.__proto__=b}||function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};return d(e,c)};return function(e,c){function a(){this.constructor=e}d(e,c);e.prototype=null===c?Object.create(c):(a.prototype=c.prototype,new a)}}();l=function(d){function e(c,a,b){void 0===a&&(a=1);void 0===b&&(b=!1);var e=d.call(this)||this;e.duration=c;e.interval=a;e.up=b;e.curTime=0;return e}k(e,d);e.prototype.start=function(){this.curTime=this.up?0:this.duration;this.update();Laya.timer.loop(1E3*this.interval,this,this.update);this.event(e.START,"")};e.prototype.stop=function(){this.curTime=0;Laya.timer.clear(this,this.update);this.event(e.STOP,"")};e.prototype.update=function(){this.up?(this.curTime++,this.curTime>=this.duration?this.stop():this.event(e.PROGRESS,this.curTime)):0<this.curTime?(this.curTime--,this.event(e.PROGRESS,this.curTime)):this.stop()};e.START="start_";e.STOP="stop_";e.TIMEOUT="timeout_";e.PROGRESS="progress_";return e}(Laya.EventDispatcher);f["default"]=l},function(l,f,d){d.r(f);var k=d(8),h=d(9),e=function(){var c=function(a,b){c=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,b){a.__proto__=b}||function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};return c(a,b)};return function(a,b){function d(){this.constructor=a}c(a,b);a.prototype=null===b?Object.create(b):(d.prototype=b.prototype,new d)}}();l=function(c){function a(){var a=c.call(this)||this;a.size(750,1334);k["default"].defaultCenter.on(k.NotificationName.LoginSuccess,a,a.destroy);a.on(Laya.Event.CLICK,a,function(){PaoYa.game.isAuthed?h["default"].isLogined?this.destroy():console.warn("\u6b64\u65f6\u7528\u6237\u8fd8\u6ca1\u6709\u767b\u5f55\u6210\u529f"):console.warn("\u6b64\u65f6\u7528\u6237\u8fd8\u6ca1\u6709\u5b8c\u6210\u6388\u6743")});return a}e(a,c);a.showInView=function(b){if(!h["default"].isLogined){var c=new a;this.view=c;b.addChild(c)}};a.hide=function(){this.view.destroy()};a.prototype.destroy=function(){k["default"].defaultCenter.off(k.NotificationName.LoginSuccess,this,this.destroy);this.removeSelf();c.prototype.destroy.call(this,!0)};return a}(Laya.View);f["default"]=l},function(l,f,d){d.r(f);var k=function(){var d=function(e,c){d=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(a,b){a.__proto__=b}||function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};return d(e,c)};return function(e,c){function a(){this.constructor=e}d(e,c);e.prototype=null===c?Object.create(c):(a.prototype=c.prototype,new a)}}();l=function(d){function e(c){c=d.call(this,c)||this;c.__init_$();return c}k(e,d);e.prototype.__init_$=function(){var c=this;this.mask=new Laya.Sprite;this.on(Laya.Event.RESIZE,this,function(){if(c.mask){c.mask.graphics.clear();var a=Math.ceil(Math.min(c.width,c.height)/2);c.mask.graphics.drawCircle(a,a,a,"#ff0000")}})};return e}(Laya.Image);f["default"]=l;Laya.ClassUtils.regClass("PaoYa.RoundImageView",l)},function(l,f,d){d.r(f);l=function(){function d(){}d.auth=function(d){py.auth(d)};d.scope={userInfo:"scope.userInfo",userLocation:"scope.userLocation",address:"scope.address",invoiceTitle:"scope.invoiceTitle",werun:"scope.werun",record:"scope.record",writePhotosAlbum:"scope.writePhotosAlbum",camera:"scope.camera"};return d}();f["default"]=l},function(l,f){Object.defineProperty(Array.prototype,"lastObject",{configurable:!1,enumerable:!1,get:function(){return this.length?this[this.length-1]:null}});Object.defineProperty(Array.prototype,"randomItem",{configurable:!1,enumerable:!1,get:function(){return this.length?this[Math.floor(Math.random()*this.length)]:null}})},function(l,f){Date.prototype.formatWithStyle=function(d){var f=this.getFullYear(),h=this.getMonth()+1,h=10>h?"0"+h:h,e=this.getDate(),e=10>e?"0"+e:e,c=this.getHours(),c=10>c?"0"+c:c,a=this.getMinutes(),b=this.getSeconds(),a=10>a?"0"+a:a,b=10>b?"0"+b:b;d=d.replace("yyyy",f+"");d=d.replace("mm",h+"");d=d.replace("dd",e+"");d=d.replace("hh",c+"");d=d.replace("mm",a+"");return d=d.replace("ss",b+"")}},function(l,f){Number.prototype.formatTime=function(d){void 0===d&&(d="H:M:S");var f;f=Math.floor(this);var h=Math.floor(f/3600),h=10>h?"0"+h:h+"",e=f%3600;f=Math.floor(e/60);f=10>f?"0"+f:f+"";e%=60;e=10>e?"0"+e:e+"";-1!=d.indexOf("H")&&(d=d.replace(/H/,h));-1!=d.indexOf("M")&&(d=d.replace(/M/,f));-1!=d.indexOf("S")&&(d=d.replace(/S/,e));return d}},function(l,f,d){d.r(f);var k=d(11);Laya.View.prototype.createViewFromJSON=function(d,e){var c=this;if(d){Laya.Utils.getFileExtension(d)||(d+=".json");Laya.loader.resetProgress();var a=new Laya.SceneLoader;a.on(Laya.Event.COMPLETE,null,function(){var a=Laya.Loader.getRes(d);if(!a)throw"Can not find scene:"+d;c._getBit(8)?(c.on("onViewCreated",null,function(){c.event(Laya.Event.READY,c);e&&e.runWith(null)}),c.createView(a)):(console.warn("Scene has been Ready!!!"),c.event(Laya.Event.READY,c),e&&e.runWith(null))});a.load(d)}};Laya.Node.prototype.addClickListener=function(d,e,c,a){void 0===c&&(c=!1);d||(d={});return this.on(Laya.Event.CLICK,this,function(b){if(c){var f=Date.now();1E3<f-(d._last_click_time||0)?e.call(d,b):(a&&a.call(d,"\u64cd\u4f5c\u901f\u5ea6\u8fc7\u5feb"),console.warn("\u64cd\u4f5c\u70b9\u51fb\u8fc7\u5feb"));d._last_click_time=f}else e.call(d,b)})};Laya.Node.prototype.dispatchLifeCycleEvent=function(d,e,c,a,b,f){this.dispatchComponentEvent(d,e,c,a,b,f);if(!this.destroyed)for(var g=0,h=this.numChildren;g<h;g++)this.getChildAt(g).dispatchComponentEvent(d,e,c,a,b,f);if(this[d])this[d](e,c,a,b,f)};Laya.Node.prototype.dispatchComponentEvent=function(d,e,c,a,b,f){(this._components||[]).forEach(function(g){if(g[d]&&g.enabled)g[d](e,c,a,b,f)})};Laya.Sprite.prototype.drawBackground=function(){this.graphics.clear();this.graphics.drawPath(0,0,k["default"].makeRoundRectPath(this.width,this.height,this._cornerRadius||0,PaoYa.RectCorner.RectCornerAllCorners),{fillStyle:this._backgroundColor})};Laya.Scene.load=function(d,e,c){function a(a){Laya.Scene._loadPage&&Laya.Scene._loadPage.event("progress",a);c&&c.runWith(a)}function b(){Laya.Scene._prepareHandler=null;f.off("progress",null,a);var b=d;b instanceof Array&&(d=b[b.length-1]);b=Laya.Loader.getRes(d);if(!b)throw"Can not find scene:"+d;if(!b.props)throw"Scene data is error:"+d;var c=b.props.runtime?b.props.runtime:b.type,g=Laya.ClassUtils.getClass(c),h="instance"==b.props.renderType?g.instance||(g.instance=new g):new g;if(h&&h instanceof laya.display.Node)h.url=d,h._getBit(8)?(h.on("onViewCreated",null,function(){Laya.Scene.hideLoadingPage();e&&e.runWith(h)}),h.createView(b)):(e&&e.runWith(h),Laya.Scene.hideLoadingPage());else throw"Can not find scene:"+c;}Laya.loader.resetProgress();var f=new Laya.SceneLoader;f.on("progress",null,a);f.once("complete",null,function(){if(Laya.Scene._prepareHandler){var a=Laya.Scene._prepareHandler;"function"==typeof a?(a(),b()):"object"==typeof a&&(a.async?a.async(function(){b()}):(a.sync(),b()))}else b()});f.load(d)};Object.defineProperty(Laya.Sprite.prototype,"backgroundColor",{configurable:!1,enumerable:!1,get:function(){return this._backgroundColor||null},set:function(d){d&&d!=this._backgroundColor&&(this._backgroundColor=d,Laya.timer.callLater(this,this.drawBackground))}});Object.defineProperty(Laya.Sprite.prototype,"cornerRadius",{configurable:!1,enumerable:!1,get:function(){return this._cornerRadius||0},set:function(d){d&&this._cornerRadius!=d&&(this._cornerRadius=d,Laya.timer.callLater(this,this.drawBackground))}})}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+function inject() {
+    for (var key in _export__WEBPACK_IMPORTED_MODULE_1__) {
+        _paoya__WEBPACK_IMPORTED_MODULE_0__["default"][key] = _export__WEBPACK_IMPORTED_MODULE_1__[key];
+    }
+}
+inject();
+window['PaoYa'] = window['PaoYa'] || _paoya__WEBPACK_IMPORTED_MODULE_0__["default"];
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var PaoYa = /** @class */ (function () {
+    function PaoYa() {
+    }
+    return PaoYa;
+}());
+var paoya = new PaoYa();
+/* harmony default export */ __webpack_exports__["default"] = (paoya);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_navigator_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return _core_navigator_Component__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _core_navigator_View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "View", function() { return _core_navigator_View__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _core_navigator_Dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dialog", function() { return _core_navigator_Dialog__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Navigator", function() { return _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Request", function() { return _core_network_Request__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+/* harmony import */ var _core_network_Client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Client", function() { return _core_network_Client__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationName", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_6__["NotificationName"]; });
+
+/* harmony import */ var _core_Observer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(13);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Observer", function() { return _core_Observer__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
+/* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DataTrack", function() { return _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DataTrackType", function() { return _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_8__["DataTrackType"]; });
+
+/* harmony import */ var _game_enums__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(12);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrizeType", function() { return _game_enums__WEBPACK_IMPORTED_MODULE_9__["PrizeType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShareType", function() { return _game_enums__WEBPACK_IMPORTED_MODULE_9__["ShareType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RectCorner", function() { return _game_enums__WEBPACK_IMPORTED_MODULE_9__["RectCorner"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GameEntryType", function() { return _game_enums__WEBPACK_IMPORTED_MODULE_9__["GameEntryType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SocketURLType", function() { return _game_enums__WEBPACK_IMPORTED_MODULE_9__["SocketURLType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RankingType", function() { return _game_enums__WEBPACK_IMPORTED_MODULE_9__["RankingType"]; });
+
+/* harmony import */ var _game_main_main__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(22);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Main", function() { return _game_main_main__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+
+/* harmony import */ var _game_DataCenter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(10);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DataCenter", function() { return _game_DataCenter__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+
+/* harmony import */ var _game_service_LoginService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(9);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoginService", function() { return _game_service_LoginService__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+
+/* harmony import */ var _game_service_TimerService__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(31);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TimerService", function() { return _game_service_TimerService__WEBPACK_IMPORTED_MODULE_13__["default"]; });
+
+/* harmony import */ var _game_view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(25);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LaunchScreenView", function() { return _game_view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_14__["default"]; });
+
+/* harmony import */ var _game_view_LoginMaskView__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(32);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoginMaskView", function() { return _game_view_LoginMaskView__WEBPACK_IMPORTED_MODULE_15__["default"]; });
+
+/* harmony import */ var _game_view_RoundImageView__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(33);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RoundImageView", function() { return _game_view_RoundImageView__WEBPACK_IMPORTED_MODULE_16__["default"]; });
+
+/* harmony import */ var _laya_sound__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(29);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SoundManager", function() { return _laya_sound__WEBPACK_IMPORTED_MODULE_17__["default"]; });
+
+/* harmony import */ var _wx_manager_AuthManager__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(34);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthManager", function() { return _wx_manager_AuthManager__WEBPACK_IMPORTED_MODULE_18__["default"]; });
+
+/* harmony import */ var _wx_manager_PayManager__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(28);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PayManager", function() { return _wx_manager_PayManager__WEBPACK_IMPORTED_MODULE_19__["default"]; });
+
+/* harmony import */ var _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(7);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShareManager", function() { return _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_20__["default"]; });
+
+/* harmony import */ var _wx_monitor_LifeCircleMonitor__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(27);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LifeCircleMonitor", function() { return _wx_monitor_LifeCircleMonitor__WEBPACK_IMPORTED_MODULE_21__["default"]; });
+
+/* harmony import */ var _wx_monitor_NetworkMonitor__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(26);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NetworkMonitor", function() { return _wx_monitor_NetworkMonitor__WEBPACK_IMPORTED_MODULE_22__["default"]; });
+
+/* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(14);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Toast", function() { return _wx_Toast__WEBPACK_IMPORTED_MODULE_23__["default"]; });
+
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(11);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Utils", function() { return _utils_utils__WEBPACK_IMPORTED_MODULE_24__["default"]; });
+
+/* harmony import */ var _wx_ad_rewardedVideoAd__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(15);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RewardedVideoAd", function() { return _wx_ad_rewardedVideoAd__WEBPACK_IMPORTED_MODULE_25__["default"]; });
+
+/* harmony import */ var _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(16);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BannerAd", function() { return _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_26__["default"]; });
+
+/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(35);
+/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_27___default = /*#__PURE__*/__webpack_require__.n(_utils_Array__WEBPACK_IMPORTED_MODULE_27__);
+/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(36);
+/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_28___default = /*#__PURE__*/__webpack_require__.n(_utils_Date__WEBPACK_IMPORTED_MODULE_28__);
+/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(37);
+/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(_utils_Number__WEBPACK_IMPORTED_MODULE_29__);
+/* harmony import */ var _laya_laya__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(38);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _network_Request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
+/* harmony import */ var _wx_ad_rewardedVideoAd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
+/* harmony import */ var _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(16);
+/* harmony import */ var _game_DataCenter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+
+
+var Component = /** @class */ (function (_super) {
+    __extends(Component, _super);
+    function Component() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._requests = [];
+        _this.socket = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].socket;
+        _this.dialogs = [];
+        _this.bannerAds = [];
+        _this.navigator = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator;
+        return _this;
+    }
+    Component.prototype._onEnable = function () {
+        _super.prototype._onEnable.call(this);
+        this.owner.addClickListener(this, this.onThrottleClick, true);
+    };
+    Component.prototype._onViewClick = function (e) {
+        switch (e.target.name) {
+            case 'pop':
+                this.navigator.pop();
+                break;
+            case 'popToRoot':
+                this.navigator.popToRootScene();
+                break;
+        }
+        this.onThrottleClick(e);
+    };
+    /**有节制的点击，防止用户点击频率过快，默认间隔500ms */
+    Component.prototype.onThrottleClick = function (e) {
+    };
+    Component.prototype._onLoad = function () {
+        this.onLoad();
+    };
+    Component.prototype.onLoad = function () {
+    };
+    Component.prototype._onAppear = function () {
+        this.showAllBannerAd();
+        this.onAppear();
+    };
+    Component.prototype.onAppear = function () {
+    };
+    Component.prototype._onDisappear = function () {
+        this.hideAllBannerAd();
+        this.onDisappear();
+    };
+    Component.prototype.onDisappear = function () {
+    };
+    Component.prototype._destroy = function () {
+        this.offMessageListener();
+        this.offNotificationListener();
+        this.destroyXMR();
+        this.destroyBannerAd();
+        _super.prototype._destroy.call(this);
+    };
+    Component.prototype._onReceiveMessage = function (cmd, value) {
+        if (!this.enabled)
+            return;
+        this.onReceiveMessage(cmd, value);
+    };
+    Component.prototype._onReceiveSocketError = function (cmd, code, message) {
+        this.onReceiveSocketError(cmd, code, message);
+    };
+    /**当前 scene 收到服务器 socket 命令时触发，虚方法 */
+    Component.prototype.onReceiveMessage = function (cmd, value) {
+    };
+    /**当前 scene 收到服务器socket命令错误时触发，虚方法 */
+    Component.prototype.onReceiveSocketError = function (cmd, code, message) {
+    };
+    /**添加socket事件监听 */
+    Component.prototype.onMessage = function (name, caller, listener, args) {
+        this.socket.on(name, caller, listener, args);
+    };
+    /**移除socket的事件监听 */
+    Component.prototype.offMessageListener = function () {
+        this.socket&&this.socket.offAllCaller(this);
+    };
+    /**向socket发送消息 */
+    Component.prototype.sendMessage = function (cmd, params) {
+        this.socket.sendMessage(cmd, params);
+    };
+    /**向通知中心注册消息，以便接收回调 */
+    Component.prototype.onNotification = function (name, caller, listener, args) {
+        _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].on(name, caller, listener, args);
+    };
+    /**移除通知中心的当前对象监听 */
+    Component.prototype.offNotificationListener = function () {
+        _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].offAllCaller(this);
+    };
+    /**向通知中心发送消息，以便触发相关通知 */
+    Component.prototype.postNotification = function (name, params) {
+        _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification(name, params);
+    };
+    /**接收通知中心发送过来的消息，以便处理相关逻辑，虚方法 */
+    Component.prototype.onReceiveNotification = function (name, params) {
+    };
+    Component.prototype._onReceiveNotification = function (name, params) {
+        if (!this.enabled)
+            return;
+        this.onReceiveNotification(name, params);
+    };
+    /** ================ Request ================ **/
+    Component.prototype.GET = function (path, params, success, fail) {
+        var _this = this;
+        //TODO:
+        //1、支持动态参数
+        if (params instanceof Function) {
+            success = params;
+            params = {};
+            fail = success;
+        }
+        var xmr = _network_Request__WEBPACK_IMPORTED_MODULE_0__["default"].GET(path, params, function (value) {
+            success.call(_this, value);
+        }, function (msg, code) {
+            fail.call(_this, msg, code);
+        });
+        this._requests.push(xmr);
+    };
+    Component.prototype.POST = function (path, params, success, fail) {
+        var _this = this;
+        //1、支持动态参数
+        if (params instanceof Function) {
+            success = params;
+            params = {};
+            fail = success;
+        }
+        var xmr = _network_Request__WEBPACK_IMPORTED_MODULE_0__["default"].POST(path, params, function (res) {
+            success.call(_this, res);
+        }, function (msg, code) {
+            fail.call(_this, msg, code);
+        });
+        this._requests.push(xmr);
+    };
+    Component.prototype.destroyXMR = function () {
+        for (var i = this._requests.length - 1; i >= 0; i--) {
+            var xmr = this._requests.pop();
+            if (xmr.http.readyState != XMLHttpRequest.DONE) {
+                xmr.http.abort && xmr.http.abort();
+            }
+        }
+    };
+    /** ================ Share ================ **/
+    /**分享主要方法，需要传入所有参数 */
+    Component.prototype.share = function (title, image, query, success, fail) {
+        var _this = this;
+        if (query instanceof Function) {
+            fail = success;
+            success = query;
+            query = {};
+        }
+        //TODO: 
+        //1、支持动态参数
+        //2、支持新版本回掉
+        _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_1__["default"].share(title, image, query, function (res) {
+            success && success.call(_this, res);
+        }, fail && fail.bind(this));
+    };
+    /**分享方法，可以不用传入图片，图片将从 ShareManager.imageURL 获取 */
+    Component.prototype.shareTitle = function (title, query, success, fail) {
+        _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_1__["default"].shareTitle(title, query, success, fail);
+    };
+    Component.prototype.shareDefault = function (query, success, fail) {
+        if (query === void 0) { query = {}; }
+        if (typeof query == 'function') {
+            success = query;
+            fail = success;
+            query = {};
+        }
+        var title = _game_DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].config.game.share_list.randomItem;
+        this.shareTitle(title, query, success, fail);
+    };
+    Component.prototype.showRewardedVideoAd = function (params) {
+        _wx_ad_rewardedVideoAd__WEBPACK_IMPORTED_MODULE_4__["default"].show(params);
+    };
+    Component.prototype.showBannerAd = function (params) {
+        var ad = _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_5__["default"].show(params);
+        this.bannerAds.push(ad);
+        return ad;
+    };
+    /**显示当前Component中所有的banner广告 */
+    Component.prototype.showAllBannerAd = function () {
+        for (var i = 0, length_1 = this.bannerAds.length; i < length_1; i++) {
+            var ad = this.bannerAds[i];
+            ad.show();
+        }
+    };
+    Component.prototype.hideAllBannerAd = function () {
+        for (var i = 0, length_2 = this.bannerAds.length; i < length_2; i++) {
+            var ad = this.bannerAds[i];
+            ad.hide();
+        }
+    };
+    Component.prototype.destroyBannerAd = function () {
+        for (var i = 0, length_3 = this.bannerAds.length; i < length_3; i++) {
+            var ad = this.bannerAds[i];
+            ad.hide();
+            ad.destroy();
+        }
+    };
+    /** ================ 微信方法分发 ================ **/
+    Component.prototype._onShow = function (res) {
+        this.onShow(res);
+    };
+    /**进入前台时执行，由游戏事件分发主动调用 */
+    Component.prototype.onShow = function (res) {
+    };
+    Component.prototype._onHide = function (res) {
+        this.onHide(res);
+    };
+    /**进入后台时执行，由游戏事件分发主动调用 */
+    Component.prototype.onHide = function (res) {
+    };
+    Component.prototype.popup = function (dialog) {
+        if (dialog instanceof Laya.Dialog) {
+            dialog.popup();
+            this.dialogs.push(dialog);
+        }
+        else {
+            console.error('当前popup的不是Dialog实例');
+        }
+    };
+    Component.prototype.closeDialogs = function () {
+        for (var i = 0, length_4 = this.dialogs.length; i < length_4; i++) {
+            var dialog = this.dialogs[i];
+            dialog.destroy();
+        }
+    };
+    /**点击右上角转发时触发 */
+    Component.prototype.onShareAppMessage = function () {
+        return null;
+    };
+    /**当网络变化时调用 */
+    Component.prototype.onNetworkChange = function (e) {
+    };
+    /**当socket断开时调用 */
+    Component.prototype.onSocketClose = function () {
+    };
+    return Component;
+}(Laya.Script));
+/* harmony default export */ __webpack_exports__["default"] = (Component);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestConfig", function() { return RequestConfig; });
+/* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var RequestConfig = /** @class */ (function () {
+    function RequestConfig() {
+    }
+    RequestConfig.baseURL = "";
+    RequestConfig.token = "";
+    RequestConfig.headers = ["Content-Type", "application/x-www-form-urlencoded"];
+    RequestConfig.maxRetryTimes = 3;
+    return RequestConfig;
+}());
+
+var Request = /** @class */ (function (_super) {
+    __extends(Request, _super);
+    function Request() {
+        var _this_1 = _super.call(this) || this;
+        _this_1._retryTimes = 0;
+        var _this = _this_1;
+        _this_1.http.ontimeout = function (e) {
+            _this.timeout(e);
+        };
+        return _this_1;
+    }
+    Request.prototype.sendRequest = function (path, params, method) {
+        if (!RequestConfig.baseURL) {
+            console.error("请指定baseURL");
+            return;
+        }
+        this._path = path;
+        if (RequestConfig.makeParamsHandler) {
+            params = RequestConfig.makeParamsHandler(params);
+        }
+        console.log("R >>> | " + path + " | " + (params['wxparams'] || JSON.stringify(params)));
+        var items = [];
+        for (var key in params) {
+            items.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
+        }
+        var result = items.join("&");
+        var url = RequestConfig.baseURL + path;
+        if (method == 'get') {
+            url += "?" + result;
+            result = null;
+        }
+        this.$url = url;
+        this.$query = result;
+        this.$method = method;
+        this.send(url, result, method, null, RequestConfig.headers);
+    };
+    /**发送GET请求 */
+    Request.prototype.GET = function (path, params) {
+        this.sendRequest(path, params, 'get');
+    };
+    /**发送POST请求 */
+    Request.prototype.POST = function (path, params) {
+        this.sendRequest(path, params, 'post');
+    };
+    /**重写父类的complete方法 */
+    Request.prototype.complete = function () {
+        console.log("R <<< | " + this._path + " | " + this.http.responseText);
+        _super.prototype.complete.call(this);
+    };
+    /**重写父类的complete方法 */
+    Request.prototype.error = function (message) {
+        _super.prototype.error.call(this, message);
+        // let status = this.http.status
+        // if (this._retryTimes < RequestConfig.maxRetryTimes) {
+        //     this._retryTimes++
+        //     DataTrack.track(DataTrackType.HTTPRetry,{c:this.$url,t:this._retryTimes})
+        //     setTimeout(function () {
+        //         this.send(this.$url, this.$query, this.$method, null, RequestConfig.headers);
+        //     }.bind(this), 500)
+        // } else {
+        //     super.error(message)
+        // }
+    };
+    Request.prototype.timeout = function (message) {
+        if (this._retryTimes < RequestConfig.maxRetryTimes) {
+            this._retryTimes++;
+            _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__["default"].track(_dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__["DataTrackType"].HTTPRetry, { c: this.$url, t: this._retryTimes });
+            setTimeout(function () {
+                this.send(this.$url, this.$query, this.$method, null, RequestConfig.headers);
+            }.bind(this), 500);
+        }
+        else {
+            this.error(message);
+        }
+    };
+    /**类方法进行GET请求 */
+    Request.GET = function (path, params, suc, fail) {
+        var _this_1 = this;
+        if (fail === void 0) { fail = null; }
+        var xmr = new Request();
+        xmr.on(Laya.Event.COMPLETE, this, function (data) {
+            _this_1.handleError(data, suc, fail);
+        });
+        xmr.on(Laya.Event.ERROR, this, function (res) {
+            fail && fail.call(_this_1, res || "连接服务器失败");
+        });
+        xmr.GET(path, params);
+        return xmr;
+    };
+    /**类方法进行POST请求 */
+    Request.POST = function (path, params, suc, fail) {
+        var _this_1 = this;
+        if (fail === void 0) { fail = null; }
+        var xmr = new Request();
+        xmr.on(Laya.Event.COMPLETE, this, function (data) {
+            _this_1.handleError(data, suc, fail);
+        });
+        xmr.on(Laya.Event.ERROR, this, function (res) {
+            fail && fail.call(_this_1, res || "连接服务器失败");
+        });
+        xmr.POST(path, params);
+        return xmr;
+    };
+    Request.handleError = function (data, suc, fail) {
+        data = JSON.parse(data);
+        var code = data.code;
+        if (code == 200) {
+            suc && suc.call(this, data.value);
+        }
+        else {
+            fail && fail.call(this, data.message || "请求出现错误", (data.errorcode ? data.errorcode : code));
+        }
+    };
+    return Request;
+}(Laya.HttpRequest));
+/* harmony default export */ __webpack_exports__["default"] = (Request);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataTrackType", function() { return DataTrackType; });
+/* harmony import */ var _mta_analysis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+var DataTrack = /** @class */ (function () {
+    function DataTrack() {
+    }
+    DataTrack.setup = function (appID, eventID, options) {
+        if (appID === void 0) { appID = "500624773"; }
+        if (eventID === void 0) { eventID = "500624774"; }
+        _mta_analysis__WEBPACK_IMPORTED_MODULE_0__["default"].App.init({
+            "appID": appID,
+            "eventID": eventID,
+            "lauchOpts": options
+        });
+    };
+    DataTrack.track = function (type, params) {
+        if (!params.gameId && _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].game.gameId) {
+            params.gameId = _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].game.gameId;
+        }
+        if (params.data) {
+            var value = JSON.parse(params.data);
+            value.T = _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].networkMonitor.type;
+            params.data = JSON.stringify(value);
+        }
+        console.log("T | upload | " + JSON.stringify(params));
+        _mta_analysis__WEBPACK_IMPORTED_MODULE_0__["default"].Event.stat(type + '', params);
+    };
+    DataTrack.trackType = function (type) {
+        _core_network_Request__WEBPACK_IMPORTED_MODULE_1__["default"].POST('userStatistics', { type: type }, null);
+    };
+    DataTrack.now = function () {
+        return new Date().valueOf();
+    };
+    DataTrack.startTrackTime = function (id) {
+        this.loginCostTime[id] = DataTrack.now();
+    };
+    DataTrack.stopTrackTime = function (id) {
+        var time = this.loginCostTime[id];
+        var delta = DataTrack.now() - time;
+        this.loginCostTime[id] = delta;
+        console.warn("T | " + id + " | cost | " + delta + " ms");
+    };
+    DataTrack.startSocketTime = function () {
+        this.socketCostTime = DataTrack.now();
+    };
+    DataTrack.stopSocketTime = function () {
+        var time = DataTrack.now() - this.socketCostTime;
+        console.warn("T | Socket | cost | " + time + "ms");
+        this.track(DataTrackType.SocketTimeCost, {
+            data: JSON.stringify({
+                t: time
+            })
+        });
+    };
+    DataTrack.startSocketLogin = function () {
+        this.socketLoginTime = DataTrack.now();
+    };
+    DataTrack.stopSocketLogin = function () {
+        var time = DataTrack.now() - this.socketLoginTime;
+        console.warn("T | Socket login | cost | " + time + "ms");
+        this.track(DataTrackType.SocketLoginTimeCost, { data: JSON.stringify({ t: time }) });
+    };
+    DataTrack.uploadLoginCostTime = function () {
+        var upload = JSON.stringify(this.loginCostTime);
+        console.log("T | login | upload | " + upload);
+        this.track(DataTrackType.LoginTimeCost, { data: upload });
+    };
+    DataTrack.loginCostTime = {};
+    DataTrack.socketCostTime = 0;
+    DataTrack.socketLoginTime = 0;
+    return DataTrack;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (DataTrack);
+var DataTrackType;
+(function (DataTrackType) {
+    DataTrackType[DataTrackType["LoginTimeCost"] = 3001] = "LoginTimeCost";
+    DataTrackType[DataTrackType["SocketTimeCost"] = 3002] = "SocketTimeCost";
+    DataTrackType[DataTrackType["SocketLoginTimeCost"] = 3003] = "SocketLoginTimeCost";
+    DataTrackType[DataTrackType["SocketRetry"] = 3004] = "SocketRetry";
+    DataTrackType[DataTrackType["HTTPRetry"] = 3005] = "HTTPRetry";
+    DataTrackType[DataTrackType["Ladder"] = 1001] = "Ladder";
+    DataTrackType[DataTrackType["FriendBattle"] = 1002] = "FriendBattle";
+    DataTrackType[DataTrackType["RedPacket"] = 1003] = "RedPacket";
+    DataTrackType[DataTrackType["PlayOffline"] = 1004] = "PlayOffline";
+    DataTrackType[DataTrackType["Rank"] = 1004] = "Rank";
+    DataTrackType[DataTrackType["HallBack"] = 1006] = "HallBack";
+    DataTrackType[DataTrackType["WithDraw"] = 1007] = "WithDraw";
+    DataTrackType[DataTrackType["Jump"] = 1008] = "Jump";
+    DataTrackType[DataTrackType["Change"] = 1009] = "Change"; //换换手气
+})(DataTrackType || (DataTrackType = {}));
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var MTA_CONFIG = {
+  app_id: "",
+  event_id: "",
+  api_base: "https://pingtas.qq.com/pingd",
+  prefix: "_mta_",
+  version: "1.3.5",
+  stat_share_app: !1,
+  stat_pull_down_fresh: !1,
+  stat_reach_bottom: !1
+};
+
+function getNetworkType(a) {
+  wx.getNetworkType({
+    success: function (b) {
+      a(b.networkType)
+    }
+  })
+}
+
+function getSystemInfo() {
+  var a = wx.getSystemInfoSync();
+  return {
+    adt: encodeURIComponent(a.model),
+    scl: a.pixelRatio,
+    scr: a.windowWidth + "x" + a.windowHeight,
+    lg: a.language,
+    fl: a.version,
+    jv: encodeURIComponent(a.system),
+    tz: encodeURIComponent(a.platform)
+  }
+}
+
+function getUID() {
+  try {
+    return wx.getStorageSync(MTA_CONFIG.prefix + "auid")
+  } catch (a) {}
+}
+
+function setUID() {
+  try {
+    var a = getRandom();
+    wx.setStorageSync(MTA_CONFIG.prefix + "auid", a);
+    return a
+  } catch (b) {}
+}
+
+function getSID() {
+  try {
+    return wx.getStorageSync(MTA_CONFIG.prefix + "ssid")
+  } catch (a) {}
+}
+
+function setSID() {
+  try {
+    var a = "s" + getRandom();
+    wx.setStorageSync(MTA_CONFIG.prefix + "ssid", a);
+    return a
+  } catch (b) {}
+}
+
+function getRandom(a) {
+  for (var b = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], c = 10; 1 < c; c--) {
+    var d = Math.floor(10 * Math.random()),
+      e = b[d];
+    b[d] = b[c - 1];
+    b[c - 1] = e
+  }
+  for (c = d = 0; 5 > c; c++) d = 10 * d + b[c];
+  return (a || "") + (d + "" + +new Date)
+}
+
+function getPagePath() {
+  try {
+    var a = getCurrentPages(),
+      b = "/";
+    0 < a.length && (b = a.pop().__route__);
+    return b
+  } catch (c) {
+    console.log("get current page path error:" + c)
+  }
+}
+
+function getMainInfo() {
+  var a = {
+    dm: "wechat.apps.xx",
+    url: getPagePath(),
+    pvi: "",
+    si: "",
+    ty: 0
+  };
+  a.pvi = function () {
+    var b = getUID();
+    b || (b = setUID(), a.ty = 1);
+    return b
+  }();
+  a.si = function () {
+    var a = getSID();
+    a || (a = setSID());
+    return a
+  }();
+  return a
+}
+
+function getBasicInfo() {
+  var a = getSystemInfo();
+  getNetworkType(function (a) {
+    try {
+      wx.setStorageSync(MTA_CONFIG.prefix + "ntdata", a)
+    } catch (c) {}
+  });
+  a.ct = wx.getStorageSync(MTA_CONFIG.prefix + "ntdata") || "4g";
+  return a
+}
+
+function getExtentInfo() {
+  var a = MTA.Data.userInfo;
+  var b = [],
+    c;
+  for (c in a) a.hasOwnProperty(c) && b.push(c + "=" + a[c]);
+  a = b.join(";");
+  return {
+    r2: MTA_CONFIG.app_id,
+    r4: "wx",
+    ext: "v=" + MTA_CONFIG.version + (null !== a && "" !== a ? ";ui=" + encodeURIComponent(a) : "")
+  }
+}
+var MTA = {
+  App: {
+    init: function (a) {
+      "appID" in a && (MTA_CONFIG.app_id = a.appID);
+      "eventID" in a && (MTA_CONFIG.event_id = a.eventID);
+      "statShareApp" in a && (MTA_CONFIG.stat_share_app = a.statShareApp);
+      "statPullDownFresh" in a && (MTA_CONFIG.stat_pull_down_fresh = a.statPullDownFresh);
+      "statReachBottom" in a && (MTA_CONFIG.stat_reach_bottom = a.statReachBottom);
+      setSID();
+      "lauchOpts" in a && (MTA.Data.lanchInfo = a.lauchOpts, MTA.Data.lanchInfo.landing = 1)
+    }
+  },
+  Page: {
+    init: function () {
+      var a = getCurrentPages()[getCurrentPages().length - 1];
+      a.onShow &&
+        ! function () {
+          var b = a.onShow;
+          a.onShow = function () {
+            MTA.Page.stat();
+            b.call(this, arguments)
+          }
+        }();
+      MTA_CONFIG.stat_pull_down_fresh && a.onPullDownRefresh && ! function () {
+        var b = a.onPullDownRefresh;
+        a.onPullDownRefresh = function () {
+          MTA.Event.stat(MTA_CONFIG.prefix + "pulldownfresh", {
+            url: a.__route__
+          });
+          b.call(this, arguments)
+        }
+      }();
+      MTA_CONFIG.stat_reach_bottom && a.onReachBottom && ! function () {
+        var b = a.onReachBottom;
+        a.onReachBottom = function () {
+          MTA.Event.stat(MTA_CONFIG.prefix + "reachbottom", {
+            url: a.__route__
+          });
+          b.call(this, arguments)
+        }
+      }();
+      MTA_CONFIG.stat_share_app && a.onShareAppMessage && ! function () {
+        var b = a.onShareAppMessage;
+        a.onShareAppMessage = function () {
+          MTA.Event.stat(MTA_CONFIG.prefix + "shareapp", {
+            url: a.__route__
+          });
+          return b.call(this, arguments)
+        }
+      }()
+    },
+    stat: function () {
+      if ("" != MTA_CONFIG.app_id) {
+        var a = [],
+          b = getExtentInfo(),
+          c = [getMainInfo(), b, getBasicInfo()];
+        MTA.Data.lanchInfo && (c.push({
+            ht: MTA.Data.lanchInfo.scene,
+            rdm: "/",
+            rurl: MTA.Data.lanchInfo.path
+          }), MTA.Data.lanchInfo.query && MTA.Data.lanchInfo.query._mta_ref_id && c.push({
+            rarg: MTA.Data.lanchInfo.query._mta_ref_id
+          }),
+          1 == MTA.Data.lanchInfo.landing && (b.ext += ";lp=1", MTA.Data.lanchInfo.landing = 0));
+        c.push({
+          rand: +new Date
+        });
+        b = 0;
+        for (var d = c.length; b < d; b++)
+          for (var e in c[b]) c[b].hasOwnProperty(e) && a.push(e + "=" + ("undefined" == typeof c[b][e] ? "" : c[b][e]));
+        wx.request({
+          url: MTA_CONFIG.api_base + "?" + a.join("&").toLowerCase()
+        })
+      }
+    }
+  },
+  Event: {
+    stat: function (a, b) {
+      if ("" != MTA_CONFIG.event_id) {
+        var c = [],
+          d = getMainInfo(),
+          e = getExtentInfo();
+        d.dm = "wxapps.click";
+        d.url = a;
+        e.r2 = MTA_CONFIG.event_id;
+        var f = "undefined" === typeof b ? {} : b;
+        var k = [],
+          g;
+        for (g in f) f.hasOwnProperty(g) &&
+          k.push(encodeURIComponent(g) + "=" + encodeURIComponent(f[g]));
+        f = k.join(";");
+        e.r5 = f;
+        f = 0;
+        d = [d, e, getBasicInfo(), {
+          rand: +new Date
+        }];
+        for (e = d.length; f < e; f++)
+          for (var h in d[f]) d[f].hasOwnProperty(h) && c.push(h + "=" + ("undefined" == typeof d[f][h] ? "" : d[f][h]));
+        wx.request({
+          url: MTA_CONFIG.api_base + "?" + c.join("&").toLowerCase()
+        })
+      }
+    }
+  },
+  Data: {
+    userInfo: null,
+    lanchInfo: null
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (MTA);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+
+var ShareService = /** @class */ (function () {
+    function ShareService() {
+        this.successHandler = null;
+        this.failHandler = null;
+        this.inShare = false;
+        this.shareTime = 0;
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].ApplicationShow, this, this.onShow);
+    }
+    ShareService.prototype.onShow = function (res) {
+        if (!this.successHandler)
+            return;
+        if (Date.now() - this.shareTime < 3000) {
+            this.shareTime = 0;
+            if (this.failHandler) {
+                this.failHandler('分享到群才可以哦');
+                this.stopObserve();
+                return;
+            }
+        }
+        var random = Math.floor(Math.random() * 3);
+        random = 0;
+        if (random == 0) {
+            this.successHandler(res);
+            this.successHandler = null;
+        }
+        else {
+            if (this.failHandler) {
+                this.failHandler('请分享至群');
+                this.failHandler = null;
+            }
+        }
+        this.stopObserve();
+    };
+    ShareService.prototype.startObserve = function (suc, fail) {
+        this.shareTime = Date.now();
+        this.successHandler = suc;
+        this.failHandler = fail;
+    };
+    ShareService.prototype.stopObserve = function () {
+        this.successHandler = null;
+        this.failHandler = null;
+    };
+    return ShareService;
+}());
+var ShareManager = /** @class */ (function () {
+    function ShareManager() {
+    }
+    /**组织分享 */
+    ShareManager.makeShareInfo = function (title, image, query, success, fail) {
+        if (image === void 0) { image = this.imageURL; }
+        if (fail === void 0) { fail = null; }
+        if (this.makeQueryHandler) {
+            query = this.makeQueryHandler(query);
+        }
+        console.warn("\u5206\u4EAB\u51FA\u53BB\u7684\u53C2\u6570\u4E3A" + JSON.stringify(query));
+        return {
+            title: title,
+            imageUrl: image,
+            query: toQueryString(query),
+            success: success,
+            fail: function () {
+                fail && fail();
+            }
+        };
+    };
+    /**分享主要方法，需要传入所有参数 */
+    ShareManager.share = function (title, image, query, success, fail) {
+        if (fail === void 0) { fail = null; }
+        var imageURL = image;
+        if (!imageURL) {
+            imageURL = this.getShareImageURL();
+        }
+        if (!imageURL) {
+            console.error("必须指定分享图片地址，建议使用ShareManager.imageURL全局设置统一分享图片");
+            return;
+        }
+        this.isShare = true;
+        this._shareService || (this._shareService = new ShareService());
+        var shareService = this._shareService;
+        if (window['wx']) { //只有在没有回调的平台中，才会去伪造分享成功返回
+            shareService.startObserve(success, fail);
+        }
+        py.shareAppMessage(this.makeShareInfo(title, image, query, function (res) {
+            shareService.stopObserve();
+            console.warn("SHARE | " + JSON.stringify(res));
+            success && success(res);
+            // let isGroup = res.shareTickets && res.shareTickets.length > 0
+            // if (isGroup && this.checkGroup) {
+            //     let shareTicket = res.shareTickets[0];
+            //     this.getShareInfo(shareTicket, (encryptedData, iv) => {
+            //         success && success(isGroup, encryptedData, iv)
+            //     }, () => {
+            //         fail && fail()
+            //     })
+            // } else {
+            //     success && success(isGroup)
+            // }
+        }, function (res) {
+            shareService.stopObserve();
+            fail && fail(res);
+        }));
+    };
+    /**分享方法，可以不用传入图片，图片将从 ShareManager.imageURL 获取 */
+    ShareManager.shareTitle = function (title, query, success, fail) {
+        if (fail === void 0) { fail = null; }
+        var imageURL = this.getShareImageURL();
+        if (!imageURL) {
+            console.error("必须指定 ShareManager.imageURL 才可执行此方法");
+            return;
+        }
+        this.share(title, imageURL, query, success, fail);
+    };
+    /**获取分享内容 */
+    ShareManager.getShareInfo = function (shareTicket, suc, fail) {
+        py.getShareInfo({
+            shareTicket: shareTicket,
+            timeout: 60000,
+            success: function (res) {
+                console.log("SHARE | getShareInfo | " + JSON.stringify(res));
+                suc && suc(res);
+            },
+            fail: fail
+        });
+    };
+    ShareManager.getShareImageURL = function () {
+        var imageURL = null;
+        if (this.makeShareImageURLHandler) {
+            imageURL = this.makeShareImageURLHandler();
+        }
+        if (typeof imageURL !== 'string') {
+            imageURL = this.imageURL;
+            console.warn('ShareManager.makeShareImageURLHandler 必须返回 string 类型的图片地址');
+        }
+        return imageURL;
+    };
+    /**是否验证群ID */
+    ShareManager.checkGroup = false;
+    /**记录分享状态 */
+    ShareManager.isShare = false;
+    ShareManager._shareService = null;
+    return ShareManager;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (ShareManager);
+function toQueryString(params) {
+    var items = [], queryStr = "";
+    for (var key in params) {
+        items.push(key + "=" + params[key]);
+    }
+    if (items.length) {
+        queryStr = items.join("&");
+    }
+    return queryStr;
+}
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationName", function() { return NotificationName; });
+/* harmony import */ var _game_service_LoginService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+
+var NotificationCenter = /** @class */ (function () {
+    function NotificationCenter() {
+    }
+    /**监听通知中心的消息 */
+    NotificationCenter.on = function (type, caller, listener, args) {
+        return this.defaultCenter.on(type, caller, listener, args);
+    };
+    NotificationCenter.addLoginNotification = function (caller, listener) {
+        if (_game_service_LoginService__WEBPACK_IMPORTED_MODULE_0__["default"].isLogined) {
+            listener.call(caller);
+        }
+        else {
+            NotificationCenter.once(NotificationName.LoginSuccess, caller, listener);
+        }
+    };
+    /**监听通知中心的消息，只监听一次 */
+    NotificationCenter.once = function (type, caller, listener, args) {
+        return this.defaultCenter.once(type, caller, listener, args);
+    };
+    /**向通知中心发送Notification */
+    NotificationCenter.event = function (type, data) {
+        return this.defaultCenter.event(type, data);
+    };
+    /**取消监听通知中心消息 */
+    NotificationCenter.off = function (type, caller, listener, onceOnly) {
+        return this.defaultCenter.off(type, caller, listener, onceOnly);
+    };
+    /**取消通知中心某种类型的消息 */
+    NotificationCenter.offAll = function (type) {
+        return this.defaultCenter.offAll(type);
+    };
+    /**取消通知中心所有类型的消息 */
+    NotificationCenter.offAllCaller = function (caller) {
+        return this.defaultCenter.offAllCaller(caller);
+    };
+    /**向通知中心发送Notification */
+    NotificationCenter.postNotification = function (type, data) {
+        return this.defaultCenter.event(type, data);
+    };
+    NotificationCenter.defaultCenter = new Laya.EventDispatcher();
+    return NotificationCenter;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (NotificationCenter);
+//要扩展NotificationName，请在const.js 中重点标明
+var NotificationName = /** @class */ (function () {
+    function NotificationName() {
+    }
+    NotificationName.ApplicationShow = 'app-show';
+    NotificationName.ApplicationHide = 'app-hide';
+    NotificationName.GameShow = 'game-show';
+    NotificationName.NetworkChanged = 'network-changed';
+    NotificationName.LoginSuccess = 'login-success';
+    NotificationName.GOLD_CHANGE = 'CHANGE_GOLD';
+    NotificationName.RMB_CHANGE = 'rmb-change';
+    NotificationName.START_GAME = 'start-game';
+    return NotificationName;
+}());
+
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginConfig", function() { return LoginConfig; });
+/* harmony import */ var _DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+
+
+
+
+
+var LAST_GET_USERINFO_TIME_KEY = 'lastGetUserInfoTime';
+var USER_TOKEN_KEY = 'userTokenKey';
+var LoginConfig = /** @class */ (function () {
+    function LoginConfig() {
+    }
+    //用于浏览器端登录
+    LoginConfig.userId = 123456;
+    LoginConfig.gameId = 1004;
+    LoginConfig.version = '1.0';
+    LoginConfig.release = 1;
+    LoginConfig.requestConfig = 1;
+    return LoginConfig;
+}());
+
+var LoginService = /** @class */ (function () {
+    function LoginService() {
+    }
+    LoginService.login = function (suc, fail) {
+        var _this = this;
+        if (!this.token) {
+            this.lastGetUserInfoTime = 0;
+        }
+        var beginTime = Date.now();
+        var day7 = 7 * 24 * 60 * 60 * 1000;
+        var params = {
+            requestUserInfo: ((beginTime - this.lastGetUserInfoTime) > day7)
+        };
+        py.login(params, function (res) {
+            if (!window['wx'] && !window['BK'] && !res['js_code']) {
+                res['js_code'] = "app," + LoginConfig.userId;
+            }
+            _this.loginWith(res, suc, fail);
+        });
+    };
+    /**
+     *
+     * @param params 登录我们服务器需要传的参数
+     * @param code   通过wx.login获取到的code，如果是网页登录，则格式为 app,123456
+     * @param userInfo 通过wx.getUserInfo获取到的信息，如果是网页登录，则为null
+     * @param deviceInfo 通过wx.getSystemInfo获取到的信息，如果是网页登录，则为null
+     * @param launchInfo 通过wx.getLaunchOption获取到的信息，如果是网页登录，则为null
+     */
+    LoginService.loginWith = function (res, success, fail) {
+        var _this = this;
+        var params = {
+            game_id: LoginConfig.gameId,
+            game_app_id: LoginConfig.gameId,
+            version: LoginConfig.version,
+            release: LoginConfig.release,
+            is_config: LoginConfig.requestConfig
+        };
+        for (var key in res) {
+            params[key] = res[key];
+        }
+        params['user_token'] = this.token || '';
+        params = LoginConfig.makeLoginParamsHandler(params);
+        _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].startTrackTime('l');
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);
+        _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["default"].POST('user_login', params, function (res) {
+            _this.isLogined = true;
+            _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].stopTrackTime('l');
+            _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].uploadLoginCostTime();
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].loginData = res;
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user = res;
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].config = res.config_list;
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].gold.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.gold = res.member_gold;
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].rmb.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.rmb = res.member_rmb;
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].integral.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.integral = res.member_integral;
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].diamond.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.diamond = res.member_diamond;
+            var token = res.token;
+            _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["RequestConfig"].token = _this.token = token;
+            localStorage.setItem(USER_TOKEN_KEY, token);
+            localStorage.setItem(LAST_GET_USERINFO_TIME_KEY, Date.now() + '');
+            _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
+            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
+            _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_4__["default"].postNotification(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_4__["NotificationName"].LoginSuccess);
+            success && success(res);
+        }, function (msg, code) {
+            /**
+             * {"code":401,"time":1525849533,"message":"您的账号在另一个设备上登录了, 需要重新登录","errorcode":2004}
+             */
+            if (code == 2004) { //token不对
+                _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["RequestConfig"].token = "";
+                _this.token = '';
+                _this.loginWith(res, success, fail);
+            }
+            else {
+                _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
+                _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('登录失败', msg);
+            }
+        });
+    };
+    LoginService.isAuthed = false;
+    LoginService.isLogined = false;
+    LoginService.lastGetUserInfoTime = Number(localStorage.getItem(LAST_GET_USERINFO_TIME_KEY) || ''); //上一次获取用户信息时间
+    LoginService.token = localStorage.getItem(USER_TOKEN_KEY) || '';
+    return LoginService;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (LoginService);
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony import */ var _core_Observer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
+
+
+
+
+var DataCenter = /** @class */ (function () {
+    function DataCenter() {
+    }
+    /**通过天梯ID获取天梯 */
+    DataCenter.findLadderById = function (id) {
+        var result = this.loginData.config_list.game.ladder_config.filter(function (item) {
+            return item.id == id;
+        });
+        return result[0];
+    };
+    /**获取天梯的段位icon */
+    DataCenter.makeLadderIconById = function (id) {
+        var ladder = "";
+        var ladderItem = this.findLadderById(id);
+        if (ladderItem) {
+            ladder = _utils_utils__WEBPACK_IMPORTED_MODULE_0__["default"].makeIcon(ladderItem.icon);
+        }
+        return ladder;
+    };
+    DataCenter.formatPrize = function (prize) {
+        var allPrize = prize.split(",");
+        if (allPrize.length == 0) {
+            return;
+        }
+        var prizes = [];
+        allPrize.forEach(function (item, index) {
+            var prizeInfo = item.split("-");
+            if (prizeInfo && prizeInfo.length == 2) {
+                prizes.push({
+                    type: prizeInfo[0],
+                    value: prizeInfo[1]
+                });
+            }
+        });
+        return prizes;
+    };
+    /**更新用户信息，包括豆子、红包等 */
+    DataCenter.refreshUserInfo = function () {
+        var _this = this;
+        if (!_paoya__WEBPACK_IMPORTED_MODULE_3__["default"].lifeCircleMonitor.inForeground)
+            return;
+        _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["default"].GET('update_chips', {}, function (res) {
+            if (res.pao_gold != undefined) {
+                _this.gold.value = res.pao_gold;
+                _this.user.gold = res.pao_gold;
+            }
+            if (res.rmb != undefined) {
+                _this.rmb.value = res.rmb;
+                _this.user.rmb = res.rmb;
+            }
+            if (res.integral != undefined) {
+                _this.integral.value = res.integral;
+                _this.user.integral = res.integral;
+            }
+            if (res.gold != undefined) {
+                _this.gold.value = res.gold;
+                _this.user.gold = res.gold;
+            }
+            if (res.diamond != undefined) {
+                _this.diamond.value = res.diamond;
+                _this.user.diamond = res.diamond;
+            }
+        }, function (res) {
+            console.warn('更新用户信息失败');
+        });
+    };
+    /**CDN资源地址 */
+    DataCenter.CDNURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
+    DataCenter.RESURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
+    DataCenter.showBannerAdWhenDialogPopup = true;
+    /**用户金币数变更监听 */
+    DataCenter.gold = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    /**用户提现变更监听 */
+    DataCenter.rmb = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    /**用户积分变更监听 */
+    DataCenter.integral = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+     /**用户钻石变更监听 */
+    DataCenter.diamond = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    return DataCenter;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (DataCenter);
+/**
+{
+    "code": 200,
+    "time": 1543495809,
+    "message": "",
+    "value": {
+        "gender": "男",
+        "member_province": "",
+        "member_city": "",
+        "resurrection_card": 1,
+        "timing_url": "wss://lobby.xingqiu123.com/",
+        "ladder_id": 0,
+        "login_bonus": 0,
+        "lobby_daily_first_login": false,
+        "nickname": "渡",
+        "mobile_bind_status": 0,
+        "id": 108125,
+        "is_first_game": 0,
+        "member_country": "冰岛",
+        "member_gold": 16041,
+        "wx_bind_status": 1,
+        "isProduction": 1,
+        "is_new": false,
+        "is_show": 1,
+        "token": "ud0Hhhv+4Ek0mn3G+2vpWelog+aifGxzX0wNnbWRG2w=",
+        "game_url": "wss://websocket.xingqiu123.com/",
+        "app_game_url": "ws://websocket.xingqiu123.com:8443/",
+        "member_rmb": "206.00",
+        "member_integral": 934,
+        "is_review": 0,
+        "config_list": {
+            "game": {
+                "match_cost": 10,
+                "introduce_time": 0,
+                "ladder_config": [ ],
+                "share_list": [
+                    "我用三副同花顺碾压对家，快来赢红包领好礼！",
+                    "99%的智慧+1%的运气，这！就是伯恩
+"
+                ],
+                "game_time": 180,
+                "name": "伯恩扑克",
+                "match_type": [
+                    {
+                        "cost": 5,
+                        "name": "新手场",
+                        "limit": "7-100",
+                        "reward_integral": 10,
+                        "quick_limit": "0-50",
+                        "id": 94,
+                        "entry_fee": 2,
+                        "status": 1
+                    },
+                    {
+                        "cost": 20,
+                        "name": "初级场",
+                        "limit": "25-500",
+                        "reward_integral": 10,
+                        "quick_limit": "50-300",
+                        "id": 95,
+                        "entry_fee": 5,
+                        "status": 1
+                    },
+                    {
+                        "cost": 50,
+                        "name": "中级场",
+                        "limit": "60",
+                        "reward_integral": 10,
+                        "quick_limit": "300",
+                        "id": 96,
+                        "entry_fee": 10,
+                        "status": 1
+                    }
+                ],
+                "share_img": [
+                    "game/share/1019_2.png",
+                    "game/share/1019_1.png"
+                ],
+                "id": 1019,
+                "jsonconfig": {
+                    "match_info": {
+                        "ladder": 0,
+                        "pass": 0,
+                        "ordinary": 1,
+                        "share": 1,
+                        "is_jump": 1,
+                        "promotion": 0
+                    },
+                    "match_info_app": {
+                        "ladder": 0,
+                        "pass": 0,
+                        "ordinary": 1,
+                        "share": 1,
+                        "is_jump": 1,
+                        "promotion": 0
+                    },
+                    "share_task": "5;1&1-10#3&1-10#5&1-15",
+                    "round_limit_count": "30",
+                    "game_reward": "10-50;15-100"
+                },
+                "strategy": "当一方血量减为0时，则游戏结束;当轮到你操作的时候，一定要尽快操作，停留时间越长，扣血越多;使用小策略来消除多的道具砖块，来获得增益buff吧"
+            },
+            "common_config": {
+                "share_info": [
+                    {
+                        "img": "wxgame/qrcode/hitmouse.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/da_di_shu.sk",
+                        "appId": "wx17e66e26685ed5d0",
+                        "game_id": 1004
+                    },
+                    {
+                        "img": "wxgame/qrcode/petgo.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/men_chong.sk",
+                        "appId": "wx28a78997b4784ef1",
+                        "game_id": 1005
+                    },
+                    {
+                        "img": "wxgame/qrcode/food.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/mei_shi_jia.sk",
+                        "appId": "wx405ee3ea1e491440",
+                        "game_id": 1006
+                    },
+                    {
+                        "img": "wxgame/qrcode/reversi.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/fan_fan_le.sk",
+                        "appId": "wx786d0c5f03d1c2fc",
+                        "game_id": 1007
+                    },
+                    {
+                        "img": "wxgame/qrcode/xiaoxl.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/xiao_xiao_le.sk",
+                        "appId": "wx1fa0ca658a9a0ce6",
+                        "game_id": 1008
+                    },
+                    {
+                        "img": "wxgame/qrcode/jump.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/tiao_yi_tiao.sk",
+                        "appId": "wxff74aa65beb1ba7e",
+                        "game_id": 1009
+                    },
+                    {
+                        "img": "wxgame/qrcode/onlyme.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/bi_wu_chang.sk",
+                        "appId": "wxcaae4fff0e46aead",
+                        "game_id": 1011
+                    },
+                    {
+                        "img": "wxgame/qrcode/coupling.png",
+                        "spine_url": "https://res.xingqiu123.com/wxgame/intro/chai_san_qing_lv.sk",
+                        "appId": "wxa163f2723eef4ea3",
+                        "game_id": 1012
+                    }
+                ],
+                "hall_img": "wxgame/qrcode/hall.png"
+            },
+            "item_list": [
+                {
+                    "pao_gold": 100,
+                    "price": 1,
+                    "free_gold": 0,
+                    "id": 13
+                },
+                {
+                    "pao_gold": 600,
+                    "price": 6,
+                    "free_gold": 10,
+                    "id": 14
+                },
+                {
+                    "pao_gold": 1800,
+                    "price": 18,
+                    "free_gold": 50,
+                    "id": 15
+                },
+                {
+                    "pao_gold": 3000,
+                    "price": 30,
+                    "free_gold": 100,
+                    "id": 16
+                },
+                {
+                    "pao_gold": 9800,
+                    "price": 98,
+                    "free_gold": 388,
+                    "id": 17
+                },
+                {
+                    "pao_gold": 19800,
+                    "price": 198,
+                    "free_gold": 1288,
+                    "id": 18
+                }
+            ]
+        },
+        "avstar": "https://wx.qlogo.cn/mmopen/vi_32/ECOJ2KphCSiajao15elMo77txvPhpMqhLFsF2MOPM1FJxmVYRlSQCdv8icicPCPic69ibOQFIewKibMmgkQtokAEibrxA/132",
+        "age": 18,
+        "is_receive_boy": 0,
+        "app_timing_url": "ws://lobby.xingqiu123.com:8443/"
+    }
+}
+ */ 
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _game_enums__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+
+
+var Utils = /** @class */ (function () {
+    function Utils() {
+    }
+    /**
+    * 便捷生成图片数组，主要用于名称连续的图片
+    * @param {用来组织图片的格式,用%i占位} format
+    * @param {开始索引} start
+    * @param {结束索引} end
+    */
+    Utils.makeImagesWithFormat = function (format, start, end) {
+        var images = [];
+        for (var i = start; i < end; i++) {
+            images.push(format.replace("%i", String(i)));
+        }
+        return images;
+    };
+    Utils.toQueryString = function (params) {
+        var items = [], queryStr = "";
+        for (var key in params) {
+            items.push(key + "=" + params[key]);
+        }
+        if (items.length) {
+            queryStr = items.join("&");
+        }
+        return queryStr;
+    };
+    Utils.makeGenderIcon = function (gender) {
+        var icon = "local/common/gay-white.png";
+        if (gender == "男") {
+            icon = "local/common/boy-white.png";
+        }
+        else if (gender == "女") {
+            icon = "local/common/girl-white.png";
+        }
+        // switch (gender) {
+        //     case "男":
+        //         icon = "wxlocal/Common/boy-white.png"
+        //         break
+        //     case "女":
+        //         icon = "wxlocal/Common/boy-white.png"
+        //         break
+        //     default:
+        //         icon = "wxlocal/Common/gay-white.png"
+        //         break
+        // }
+        return icon;
+    };
+    Utils.findUserByID = function (users, id) {
+        var result = users.filter(function (user, index) {
+            return user.user_id && (user.user_id == id);
+        });
+        if (result.length) {
+            return result[0];
+        }
+        console.error('');
+        return null;
+    };
+    //圆角矩形
+    Utils.makeRoundRectPath = function (width, height, r, corner) {
+        var path = [];
+        if (corner & _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerTopLeft) {
+            path.push(["moveTo", r, 0]);
+        }
+        else {
+            path.push(["moveTo", 0, 0]);
+        }
+        if (corner & _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerTopRight) {
+            path.push(["lineTo", width - r, 0]);
+            path.push(["arcTo", width, 0, width, r, r]);
+        }
+        else {
+            path.push(["lineTo", width, 0]);
+        }
+        if (corner & _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerBottomRight) {
+            path.push(["lineTo", width, height - r]);
+            path.push(["arcTo", width, height, width - r, height, r]);
+        }
+        else {
+            path.push(["lineTo", width, height]);
+        }
+        if (corner & _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerBottomLeft) {
+            path.push(["lineTo", r, height]);
+            path.push(["arcTo", 0, height, 0, height - r, r]);
+        }
+        else {
+            path.push(["lineTo", 0, height]);
+        }
+        if (corner & _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerTopLeft) {
+            path.push(["lineTo", 0, r]);
+            path.push(["arcTo", 0, 0, r, 0, r]);
+        }
+        else {
+            path.push(["lineTo", 0, 0]);
+        }
+        path.push(["closePath"]);
+        return path;
+    };
+    Utils.makeAllCornerRoundRectPath = function (w, h, r) {
+        return this.makeRoundRectPath(w, h, r, _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerAllCorners);
+    };
+    /**用于保留指定长度的字符串，其余用...表示 */
+    Utils.formatName = function (name, length) {
+        if (length === void 0) { length = 10; }
+        var r = /[^\x00-\xff]/g;
+        if (name.replace(r, "mm").length <= length) {
+            return name + "";
+        }
+        var m = Math.floor(length / 2);
+        for (var i = m; i < name.length; i++) {
+            if (name.substring(0, i).replace(r, "mm").length >= length) {
+                return name.substring(0, i) + "...";
+            }
+        }
+        return name + "";
+    };
+    /**只用于显示用户头像 */
+    Utils.makeIcon = function (icon, width) {
+        if (width === void 0) { width = 96; }
+        if (icon == "") {
+            return "local/common/avstar.png";
+        }
+        if (icon.indexOf('Game') == 0) { //GameRes 或 GameSandBox
+            if (window['BK']) {
+                return icon;
+            }
+            else {
+                return '';
+            }
+        }
+        if (icon.indexOf('http') === 0) {
+            var items = icon.split("/") || [];
+            if (items.length > 1) {
+                var str = items[items.length - 1];
+                if (str === "0") {
+                    items[items.length - 1] = width > 100 ? "132" : "96";
+                }
+                return items.join('/');
+            }
+            return icon + "";
+        }
+        else {
+            if (!_game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].CDNURL) {
+                console.error('you must assign value to [PaoYa.DataCenter.CDNURL]');
+                return;
+            }
+            return _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].CDNURL + icon + "?imageView2/0/w/" + width;
+        }
+    };
+    /**用于完全拼接用户的头像地址 */
+    Utils.makeResourceURL = function (url) {
+        if (url == "") {
+            return "local/common/avstar.png";
+        }
+        if (url.indexOf('https') === 0) {
+            return url + "";
+        }
+        else {
+            if (!_game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].CDNURL) {
+                console.error('you must assign value to [PaoYa.DataCenter.CDNURL]');
+                return;
+            }
+            return _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].CDNURL + url;
+        }
+    };
+    /** 计算文字宽度 */
+    Utils.measureWidth = function (text) {
+        var measureResult = Laya.Utils.measureText(text, 'Arial');
+        return measureResult.width;
+    };
+    return Utils;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Utils);
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrizeType", function() { return PrizeType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShareType", function() { return ShareType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RectCorner", function() { return RectCorner; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameEntryType", function() { return GameEntryType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SocketURLType", function() { return SocketURLType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RankingType", function() { return RankingType; });
+var PrizeType;
+(function (PrizeType) {
+    PrizeType[PrizeType["Gold"] = 1] = "Gold";
+    PrizeType[PrizeType["Money"] = 2] = "Money";
+})(PrizeType || (PrizeType = {}));
+var ShareType;
+(function (ShareType) {
+    ShareType[ShareType["InviteFriend"] = 1] = "InviteFriend";
+    ShareType[ShareType["GroupPK"] = 2] = "GroupPK";
+    ShareType[ShareType["GroupRank"] = 3] = "GroupRank";
+})(ShareType || (ShareType = {}));
+var RectCorner;
+(function (RectCorner) {
+    RectCorner[RectCorner["RectCornerTopLeft"] = 1] = "RectCornerTopLeft";
+    RectCorner[RectCorner["RectCornerTopRight"] = 2] = "RectCornerTopRight";
+    RectCorner[RectCorner["RectCornerBottomLeft"] = 4] = "RectCornerBottomLeft";
+    RectCorner[RectCorner["RectCornerBottomRight"] = 8] = "RectCornerBottomRight";
+    RectCorner[RectCorner["RectCornerAllCorners"] = 15] = "RectCornerAllCorners";
+})(RectCorner || (RectCorner = {}));
+var GameEntryType;
+(function (GameEntryType) {
+    /**好友对战 */
+    GameEntryType[GameEntryType["Friend"] = 1] = "Friend";
+    /**匹配场次 */
+    GameEntryType[GameEntryType["Match"] = 2] = "Match";
+    /**天梯赛 */
+    GameEntryType[GameEntryType["Ladder"] = 3] = "Ladder";
+    /**红包赛 */
+    GameEntryType[GameEntryType["Arena"] = 4] = "Arena";
+    /**人满开赛 */
+    GameEntryType[GameEntryType["Full"] = 5] = "Full";
+    /** 在线匹配*/
+    GameEntryType[GameEntryType["OnlineMatch"] = 6] = "OnlineMatch";
+})(GameEntryType || (GameEntryType = {}));
+var SocketURLType;
+(function (SocketURLType) {
+    SocketURLType["TIMING"] = "timing_url";
+    SocketURLType["GAME"] = "game_url";
+})(SocketURLType || (SocketURLType = {}));
+var RankingType;
+(function (RankingType) {
+    /**高分榜 */
+    RankingType[RankingType["Score"] = 1] = "Score";
+    /**天梯榜 */
+    RankingType[RankingType["Ladder"] = 2] = "Ladder";
+    /**胜局榜 */
+    RankingType[RankingType["WIN"] = 8] = "WIN";
+})(RankingType || (RankingType = {}));
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var Observer = /** @class */ (function (_super) {
+    __extends(Observer, _super);
+    function Observer() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(Observer.prototype, "value", {
+        get: function () {
+            return this._value;
+        },
+        set: function (newValue) {
+            this._value = newValue;
+            this.event(Laya.Event.CHANGED, newValue);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Observer.prototype.addObserver = function (caller, method) {
+        method.call(caller, this._value);
+        this.on(Laya.Event.CHANGED, caller, method);
+    };
+    Observer.prototype.removeObserver = function (caller, method) {
+        this.off(Laya.Event.CHANGED, caller, method);
+    };
+    return Observer;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (Observer);
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var Toast = /** @class */ (function () {
+    function Toast() {
+    }
+    /**
+    * 1. icon默认是"success"
+    * 2. icon 和 image 同时存在只会有一个生效，image的优先级高于icon，不管什么情况下都会有图片的，这个是取消不了的
+    * 3. icon为null、undefined、""或者任何字符串，结果都为"success"
+    * 4. duration是毫秒级
+    * 5. 多次重复调用，只有最新调用的生效
+    */
+    Toast.show = function (title, icon, image, duration) {
+        if (image === void 0) { image = null; }
+        if (duration === void 0) { duration = 1500; }
+        var params = {
+            title: title,
+            icon: icon,
+            image: image,
+            duration: duration,
+            mask: false,
+            success: function () { },
+            fail: function () { },
+        };
+        py.showToast(params);
+    };
+    Toast.hide = function () {
+        py.hideToast();
+    };
+    Toast.showSuccess = function (title, duration) {
+        if (duration === void 0) { duration = 1500; }
+        this.show(title, null, 'https://res.xingqiu123.com/wxgame/common/success.png', duration);
+    };
+    Toast.showError = function (title, duration) {
+        if (duration === void 0) { duration = 1500; }
+        this.show(title, null, 'https://res.xingqiu123.com/wxgame/common/error.png', duration);
+    };
+    Toast.showWarn = function (title, duration) {
+        if (duration === void 0) { duration = 1500; }
+        this.show(title, null, 'https://res.xingqiu123.com/wxgame/common/warning.png', duration);
+    };
+    Toast.showImage = function (image, duration) {
+        if (duration === void 0) { duration = 1500; }
+        this.show(null, null, image, duration);
+    };
+    /**
+     * 显示loading提示层
+     * @param  title
+     * @param  mask 是否显示透明蒙层，也就是避免用户点击
+     */
+    Toast.showLoading = function (title, mask) {
+        if (title === void 0) { title = ''; }
+        if (mask === void 0) { mask = true; }
+        py.showLoading({
+            title: title,
+            mask: mask,
+            success: function () { },
+            fail: function () { }
+        });
+    };
+    Toast.hideLoading = function () {
+        py.hideLoading();
+    };
+    Toast.showModal = function (title, content, confirmText, confirmCallback, cancelText, cancelCallback) {
+        if (title === void 0) { title = '提示'; }
+        if (content === void 0) { content = ''; }
+        if (confirmText === void 0) { confirmText = '知道了'; }
+        if (confirmCallback === void 0) { confirmCallback = null; }
+        if (cancelText === void 0) { cancelText = ""; }
+        if (cancelCallback === void 0) { cancelCallback = null; }
+        var params = {
+            title: title,
+            content: content,
+            showCancel: cancelText ? true : false,
+            cancelColor: '#000000',
+            confirmColor: '#3cc51f',
+            cancelText: cancelText,
+            confirmText: confirmText,
+            success: function (res) {
+                if (res.confirm) {
+                    confirmCallback && confirmCallback();
+                }
+                if (res.cancel) {
+                    cancelCallback && cancelCallback();
+                }
+            },
+            fail: function () { }
+        };
+        py.showModal(params);
+    };
+    return Toast;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Toast);
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var RewardedVideoAd = /** @class */ (function (_super) {
+    __extends(RewardedVideoAd, _super);
+    function RewardedVideoAd(params) {
+        var _this_1 = _super.call(this) || this;
+        _this_1.isLoaded = false;
+        _this_1.createAd(params);
+        return _this_1;
+    }
+    RewardedVideoAd.prototype.createAd = function (params) {
+        var _this = this;
+        var videoAd = py.createRewardedVideoAd({ adUnitId: params.adUnitId });
+        videoAd.onLoad(function (res) {
+            _this.isLoaded = true;
+            _this.event(RewardedVideoAd.LOAD, res);
+        });
+        videoAd.onError(function (res) {
+            _this.isLoaded = false;
+            if (window['BK']) {
+                res = {
+                    errMsg: res.msg,
+                    errCode: res.code
+                };
+            }
+            _this.event(RewardedVideoAd.ERROR, res);
+        });
+        videoAd.onClose(function (res) {
+            _this.isLoaded = false;
+            /**兼容微信低版本 */
+            if (!res) {
+                res = { isEnded: true };
+            }
+            _this.event(RewardedVideoAd.CLOSE, res);
+            _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionEnd();
+        });
+        this.videoAd = videoAd;
+    };
+    RewardedVideoAd.prototype.show = function () {
+        if (window['BK']) {
+            this.videoAd.show();
+        }
+        else {
+            if (this.isLoaded) {
+                this.videoAd.show();
+            }
+            else {
+                this.videoAd.load();
+                this.once(RewardedVideoAd.LOAD, this, function () {
+                    this.videoAd.show();
+                });
+            }
+        }
+    };
+    RewardedVideoAd.show = function (params) {
+        if (window['wx'] && !_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId) {
+            console.error('请在Main中设置adUnitId之后再观看广告');
+            return;
+        }
+        if (!this.ad) {
+            this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId });
+        }
+        var ad = this.ad;
+        ad.offAllCaller(this);
+        ad.on(this.LOAD, this, params.onLoad);
+        ad.on(this.ERROR, this, params.onError);
+        ad.on(this.CLOSE, this, params.onClose);
+        _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionBegin();
+        ad.show();
+    };
+    RewardedVideoAd.LOAD = 'load_ad';
+    RewardedVideoAd.ERROR = 'error_ad';
+    RewardedVideoAd.CLOSE = 'close_ad';
+    RewardedVideoAd.ad = null;
+    return RewardedVideoAd;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (RewardedVideoAd);
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var BannerAd = /** @class */ (function (_super) {
+    __extends(BannerAd, _super);
+    function BannerAd(params) {
+        if (params === void 0) { params = {}; }
+        var _this_1 = _super.call(this) || this;
+        params.adUnitId = params.adUnitId || _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].bannerUnitId;
+        params.viewId = params.qqViewId || _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].qqViewId;
+        if (!params.style) {
+            var style = {};
+            if (window['wx']) {
+                style.top = style.left = 0;
+                style.width = Laya.Browser.clientWidth || 300;
+            }
+            else if (window['BK']) {
+                style.x = 0;
+                style.y = 0;
+            }
+            params.style = style;
+        }
+        var ad = py.createBannerAd(params), _this = _this_1;
+        ad.onLoad(function (res) {
+            _this.event(BannerAd.LOAD, res);
+        });
+        ad.onError(function (res) {
+            _this.event(BannerAd.ERROR, res);
+        });
+        if (window['wx']) {
+            var screenWidth_1 = Laya.Browser.clientWidth, screenHeight_1 = Laya.Browser.clientHeight;
+            ad.onResize(function (res) {
+                var bannerAd = ad['bannerAd'];
+                bannerAd.style.left = (screenWidth_1 - res.width) / 2;
+                if (!params.style.top) {
+                    bannerAd.style.top = screenHeight_1 - res.height;
+                }
+                _this.event(BannerAd.RESIZE, [bannerAd, res, screenWidth_1, screenHeight_1]);
+            });
+        }
+        _this_1.ad = ad;
+        return _this_1;
+    }
+    BannerAd.prototype.show = function () {
+        this.ad.show();
+    };
+    BannerAd.prototype.hide = function () {
+        this.ad.hide();
+    };
+    BannerAd.prototype.destroy = function () {
+        this.ad.destroy();
+        this.offAllCaller(BannerAd);
+    };
+    BannerAd.show = function (params) {
+        var ad = new BannerAd(params);
+        ad.on(BannerAd.LOAD, this, params.onLoad);
+        ad.on(BannerAd.ERROR, this, params.onError);
+        ad.on(BannerAd.RESIZE, this, params.onResize);
+        ad.show();
+        return ad;
+    };
+    BannerAd.hide = function (bannerAd) {
+        bannerAd.hide();
+    };
+    BannerAd.destroy = function (bannerAd) {
+        bannerAd.destroy();
+    };
+    BannerAd.LOAD = 'load_ad';
+    BannerAd.ERROR = 'error_ad';
+    BannerAd.RESIZE = 're-size';
+    return BannerAd;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (BannerAd);
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+/**为View添加了JSONView变量，用于记录该View的创建JSON，方便从JSON创建view */
+var View = /** @class */ (function (_super) {
+    __extends(View, _super);
+    function View() {
+        var _this = _super.call(this) || this;
+        /**用于记录打开当前scene时，从外部传进来的数据 */
+        _this.params = null;
+        _this.sceneName = '';
+        _this.setupJSONView();
+        _this.createJSONView();
+        _this._addClickListener();
+        return _this;
+    }
+    /**为当前View的子View设置JSONView，方便统一进行处理，虚方法 */
+    View.prototype.setupJSONView = function () {
+    };
+    View.prototype.createJSONView = function () {
+        var json = this.constructor['JSONView'];
+        json && this.createView(json);
+    };
+    /**添加点击事件监听，以便进行简单处理 */
+    View.prototype._addClickListener = function () {
+        var prototype = View.prototype;
+        if (this.onClick !== prototype.onClick) {
+            this.on(Laya.Event.CLICK, this, this._onClick);
+        }
+    };
+    View.prototype._onClick = function (e) {
+        this.onClick(e);
+    };
+    /**当前Scene被点击时调用，虚方法 */
+    View.prototype.onClick = function (e) {
+    };
+    View.prototype._onAppear = function () {
+        this.onAppear();
+    };
+    View.prototype.onAppear = function () {
+    };
+    View.prototype._onDisappear = function () {
+        this.onDisappear();
+    };
+    View.prototype.onDisappear = function () {
+    };
+    View.prototype._onAdded = function () {
+        _super.prototype._onAdded.call(this);
+        this.onAdded();
+    };
+    View.prototype._onRemoved = function () {
+        _super.prototype._onRemoved.call(this);
+        this.onRemoved();
+    };
+    View.prototype.onAdded = function () {
+    };
+    View.prototype.onRemoved = function () {
+    };
+    View.prototype.open = function (closeOther, param) {
+        if (closeOther === void 0) { closeOther = false; }
+        this.params = param;
+        _super.prototype.open.call(this, closeOther, param);
+    };
+    return View;
+}(Laya.View));
+/* harmony default export */ __webpack_exports__["default"] = (View);
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+var Dialog = /** @class */ (function (_super) {
+    __extends(Dialog, _super);
+    function Dialog() {
+        var _this = _super.call(this) || this;
+        _this.showBannerAdWhenDialogPopup = true;
+        _this.createJSONView();
+        return _this;
+    }
+    Dialog.prototype.createJSONView = function () {
+        var json = this.constructor['JSONView'];
+        json && this.createView(json);
+    };
+    Dialog.prototype._onAdded = function () {
+        _super.prototype._onAdded.call(this);
+        this.onAdded();
+        this._showBannerAd();
+    };
+    Dialog.prototype.onAdded = function () {
+    };
+    Dialog.prototype._onRemoved = function () {
+        _super.prototype._onRemoved.call(this);
+        this.onRemoved();
+        this._hideBannerAd();
+    };
+    Dialog.prototype.onRemoved = function () {
+    };
+    Dialog.prototype._showBannerAd = function () {
+        if (this.showBannerAdWhenDialogPopup && _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].showBannerAdWhenDialogPopup) {
+            this['bannerAd'] = _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].show({});
+        }
+    };
+    Dialog.prototype._hideBannerAd = function () {
+        if (this['bannerAd']) {
+            var bannerAd = this['bannerAd'];
+            _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].hide(bannerAd);
+            _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].destroy(bannerAd);
+        }
+    };
+    return Dialog;
+}(Laya.Dialog));
+/* harmony default export */ __webpack_exports__["default"] = (Dialog);
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var commonScenes = {
+    TurnTableView: "common/GameResult/TurnTableView",
+    GameResultView: 'common/GameResult/GameResultView',
+    IFHostView: 'common/InviteFriend/IFHostView',
+    IFMemberView: 'common/InviteFriend/IFMemberView',
+    IntegralMallView: "common/Mall/IntegralMallView",
+    MatchView: 'common/Match/MatchView',
+    MatchGradeView: 'common/Match/MatchGradeView',
+    RankView: 'common/Rank/RankView',
+    RankGroupView: 'common/Rank/RankGroupView',
+    QTRoomView: 'common/QTRoom/QTRoomView',
+    HomeView: 'HomeView',
+    FBView: 'common/InviteFriend/FBView',
+    NewMatchView:'common/NewMatch/NewMatchView',
+    PersonalView:'common/Personal/PersonalView',
+    NewGameResultView:'common/GameResult/NewGameResultView'
+};
+var Navigator = /** @class */ (function (_super) {
+    __extends(Navigator, _super);
+    function Navigator() {
+        var _this = _super.call(this) || this;
+        _this.scenes = [];
+        return _this;
+    }
+    Navigator.prototype.popup = function (sceneName, params, complete, progress, closeOther) {
+        if (closeOther === void 0) { closeOther = true; }
+        Laya.Scene.load(this.makeDialogName(sceneName), Laya.Handler.create(null, function (dialog) {
+            dialog.isModal = true;
+            dialog.isShowEffect = false;
+            dialog["params"] = params;
+            dialog.open(closeOther, params);
+            complete && complete.runWith(dialog);
+        }), progress);
+    };
+    Navigator.prototype.push = function (sceneName, params, resURL, complete, progress, prepare) {
+        this._open(sceneName, params, resURL, complete, progress, prepare, true);
+    };
+    Navigator.prototype.pop = function () {
+        _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
+        this.scenes.pop().close('pop');
+        var scene = this.scenes[this.scenes.length - 1];
+        this.activeScene(scene);
+    };
+    Navigator.prototype.popToLastScene = function (sceneName) {
+    };
+    Navigator.prototype.findSceneByName = function (sceneName) {
+        var desScene = null;
+        for (var i = this.scenes.length - 1; i >= 0; i--) {
+            var scene = this.scenes[i];
+            if (scene.sceneName.indexOf(sceneName) != -1) {
+                desScene = scene;
+                break;
+            }
+        }
+        return desScene;
+    };
+    Navigator.prototype.popToScene = function (sceneName) {
+        _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
+        for (var i = this.scenes.length; i--; i >= 0) {
+            var scene = this.scenes[i];
+            if (scene.sceneName === sceneName) {
+                this.activeScene(scene);
+                break;
+            }
+            else {
+                this.scenes.pop().close('pop');
+            }
+        }
+    };
+    Navigator.prototype.activeScene = function (scene) {
+        !scene.visible && (scene.visible = true);
+        this.visibleScene = scene;
+        this._onAppear();
+    };
+    Navigator.prototype.popToRootScene = function () {
+        _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
+        if (this.scenes.length == 1)
+            return;
+        while (this.scenes.length > 1) {
+            this.scenes.pop().close('pop');
+        }
+        var scene = this.scenes[this.scenes.length - 1];
+        this.activeScene(scene);
+    };
+    Navigator.prototype.present = function (sceneName, params, resURL, complete, progress, prepare) {
+        this._open(sceneName, params, resURL, complete, progress, prepare, false);
+    };
+    Navigator.prototype.dismiss = function () {
+        this.pop();
+    };
+    Navigator.prototype.replace = function (sceneName, params) {
+        var scene;
+        for (var i = this.scenes.length - 1; i >= 0; i--) {
+            scene = this.scenes[i];
+            scene.destroy();
+            this.scenes.pop();
+            if (scene.sceneName == sceneName) {
+                this.visibleScene = null;
+                this.push(sceneName, params);
+                return;
+            }
+        }
+        console.error('错误的:' + sceneName);
+    };
+    /**在视图栈中动态替换指定的scene，实现逻辑为
+     * 1、找到指定的oldScene所在的位置，并pop到她所在的位置
+     * 2、用newScene替换掉它
+     *
+     */
+    Navigator.prototype.replaceSceneWith = function (oldScene, newSceneName, params) {
+        var scene;
+        var index = this.scenes.indexOf(oldScene);
+        if (index < 0) {
+            console.error("指定的scene未包含在navigator中");
+            return;
+        }
+        for (var i = this.scenes.length - 1; i >= index; i--) {
+            scene = this.scenes[i];
+            scene.destroy();
+            this.scenes.pop();
+        }
+        this.visibleScene = null;
+        this.push(newSceneName, params);
+    };
+    Navigator.prototype.visibleSceneIs = function (sceneName) {
+        return this.visibleScene.sceneName.indexOf(sceneName) > -1;
+    };
+    Navigator.prototype.makeSceneName = function (name) {
+        if (commonScenes[name]) {
+            return "scenes/" + commonScenes[name] + ".scene";
+        }
+        if (Navigator.scenesMap[name]) {
+            return Navigator.scenesMap[name] + ".scene";
+        }
+        return "gamescenes/" + name + ".scene";
+    };
+    Navigator.prototype.makeDialogName = function (name) {
+        if (name.indexOf('/') == 0) {
+            return "gamescenes" + name + ".scene";
+        }
+        return "scenes/dialog/" + name + ".scene";
+    };
+    Navigator.prototype._open = function (sceneName, params, resURL, complete, progress, prepare, hidePre) {
+        if (hidePre === void 0) { hidePre = true; }
+        var urls = [];
+        if (resURL instanceof Array) {
+            urls = urls.concat(resURL);
+        }
+        else if (typeof resURL == 'string') {
+            urls.push(resURL);
+        }
+        else if (resURL instanceof Laya.Handler) {
+            complete = resURL;
+            progress = complete;
+            prepare = progress;
+        }
+        urls.push(this.makeSceneName(sceneName));
+        Laya.Scene['_prepareHandler'] = prepare;
+        Laya.Scene.open(urls, false, params, Laya.Handler.create(this, function (scene) {
+            //handle pre scene
+            if (this.scenes.length > 0) {
+                var preScene = this.scenes[this.scenes.length - 1];
+                preScene.visible = !hidePre;
+                this._onDisappear();
+            }
+            scene.autoDestroyAtClosed = true;
+            scene.sceneName = sceneName;
+            this.visibleScene = scene;
+            this.scenes.push(scene);
+            this._onLoad();
+            this._onAppear();
+            complete && complete.runWith(scene);
+        }), progress);
+    };
+    Navigator.setupLoadingPage = function (isFirstScene, cb) {
+        var url = isFirstScene ? 'scenes/common/Loading/LoadingView.scene' : 'scenes/common/Loading/LoadWaitingView.scene';
+        var page = Laya.Scene['_loadPage'];
+        if (page && page.url == url)
+            return;
+        Laya.Scene.load(url, Laya.Handler.create(this, function (scene) {
+            var stage = Laya.stage;
+            var screenWidth = Laya.Browser.width;
+            var screenHeight = Laya.Browser.height;
+            var width = stage.designWidth;
+            var height = stage.designHeight;
+           /*  var scaleX = screenWidth / width;
+            var y = (screenHeight - height * scaleX >> 1) / scaleX;
+            scene.y = Math.floor(y); */
+            var scaleY=screenHeight/height;
+            var x=(screenWidth-width*scaleY>>1)/scaleY;
+            scene.x=Math.floor(x);
+            Laya.Scene.setLoadingPage(scene);
+            cb && cb();
+        }));
+    };
+    Navigator.adjustViewPosition = function (view) {
+        var stage = Laya.stage;
+        var screenWidth = Laya.Browser.width;
+        var screenHeight = Laya.Browser.height;
+        var width = stage.designWidth;
+        var height = stage.designHeight;
+        /* var scaleX = screenWidth / width;
+        var y = (screenHeight - height * scaleX >> 1) / scaleX;
+        view.y = Math.floor(y); */
+        var scaleY=screenHeight/height;
+        var x=(screenWidth-width*scaleY>>1)/scaleY;
+        view.x=Math.floor(x);
+    };
+    /**================= dispatch system event =================**/
+    Navigator.prototype._onReceiveMessage = function (cmd, value, code, message) {
+        this._dispatchEvent('_onReceiveMessage', cmd, value);
+    };
+    Navigator.prototype._onReceiveSocketError = function (cmd, code, message) {
+        this._dispatchEvent('_onReceiveMessage', cmd, code, message);
+    };
+    Navigator.prototype._onReceiveNotification = function (name, params) {
+        this._dispatchEvent('_onReceiveNotification', name, params);
+    };
+    Navigator.prototype._onReceiveSocketClose = function () {
+        if (!this.visibleScene)
+            return;
+        var components = this.visibleScene['_components'] || [], shareMsg = null;
+        components.forEach(function (item) {
+            if (item.onSocketClose) {
+                item.onSocketClose();
+            }
+        });
+    };
+    Navigator.prototype._onReceiveNetworkChange = function (res) {
+        this._dispatchEvent('onNetworkChange', res);
+    };
+    Navigator.prototype.onShareAppMessage = function () {
+        if (!this.visibleScene)
+            return;
+        var components = this.visibleScene['_components'] || [], shareMsg = null;
+        components.forEach(function (item) {
+            if (item.onShareAppMessage) {
+                shareMsg = item.onShareAppMessage();
+            }
+        });
+        return shareMsg;
+    };
+    Navigator.prototype._onShow = function (res) {
+        this._dispatchEvent('_onShow', res);
+    };
+    Navigator.prototype._onHide = function (res) {
+        this._dispatchEvent('_onHide', res);
+    };
+    Navigator.prototype._onLoad = function () {
+        this._dispatchEvent('_onLoad');
+    };
+    Navigator.prototype._onAppear = function () {
+        this._dispatchEvent('_onAppear');
+    };
+    Navigator.prototype._onDisappear = function () {
+        this._dispatchEvent('_onDisappear');
+    };
+    Navigator.prototype._dispatchEvent = function (method, p1, p2, p3, p4, p5) {
+        if (!this.visibleScene)
+            return;
+        this.visibleScene.dispatchLifeCycleEvent(method, p1, p2, p3, p4, p5);
+    };
+    /**所有场景的map数据 */
+    Navigator.scenesMap = {};
+    return Navigator;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (Navigator);
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClientConfig", function() { return ClientConfig; });
+/* harmony import */ var _Socket__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+var ClientConfig = /** @class */ (function () {
+    function ClientConfig() {
+    }
+    ClientConfig.watchDogTime = 5;
+    ClientConfig.maxRetryTime = 3;
+    return ClientConfig;
+}());
+
+var Client = /** @class */ (function (_super) {
+    __extends(Client, _super);
+    function Client(url) {
+        if (url === void 0) { url = null; }
+        var _this = _super.call(this, url) || this;
+        _this.msgsSending = [];
+        _this.msgsSent = [];
+        _this.map = {};
+        return _this;
+    }
+    /**发送socket消息 */
+    Client.prototype.sendMessage = function (cmd, params) {
+        if (!params.game_id && _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].game) {
+            params.game_id = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].game.gameId;
+        }
+        params.command = cmd;
+        var time = (new Date()).valueOf();
+        params.m_id = time;
+        if (this.map[time] == undefined) {
+            this.map[time] = 0;
+        }
+        else {
+            this.map[time] = this.map[time]++;
+        }
+        var msg = JSON.stringify(params);
+        if (this.connected) {
+            if (cmd !== 'heartbeat') {
+                console.log("S >>> | " + cmd + " | " + JSON.stringify(params));
+            }
+            this.send(msg);
+            var shouldCheck = true;
+            var cmds = Client.ignoreCmds;
+            for (var i = 0; i < cmds.length; i++) {
+                var command = cmds[i];
+                if (cmd === command) {
+                    shouldCheck = false;
+                    break;
+                }
+            }
+            cmds = Client._ignoreCmds;
+            for (var i = 0; i < cmds.length; i++) {
+                var command = cmds[i];
+                if (cmd === command) {
+                    shouldCheck = false;
+                    break;
+                }
+            }
+            if (shouldCheck) {
+                this.msgsSent.push(msg);
+            }
+        }
+        else {
+            this.msgsSending.push({ cmd: cmd, params: params });
+            if (!this.isReconnecting && this.url) {
+                this._startReconnect();
+            }
+            console.warn("缓存socket命令，等待连接成功后再次发送");
+        }
+    };
+    /**处理socket消息 */
+    Client.prototype.handleMessage = function (msg) {
+        _super.prototype.handleMessage.call(this, msg);
+        var obj = JSON.parse(msg);
+        var cmd = obj.command;
+        var value = obj.value;
+        var code = obj.code;
+        var message = obj.message || "请求出错";
+        if (cmd !== 'heartbeat') {
+            console.log("S <<< | " + cmd + " | " + JSON.stringify(value));
+        }
+        if (cmd == Client.LOGIN) {
+            this.onLogin();
+        }
+        this.event(cmd, [value, code, message]);
+        this.dispatchResultToNavigator(cmd, value, code, message, obj.errorcode);
+        //remove item
+        this.removeMsg(obj);
+    };
+    Client.prototype.dispatchResultToNavigator = function (cmd, value, code, message, errorcode) {
+        if (code != 200) {
+            _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator._onReceiveSocketError(cmd, errorcode, message);
+            console.error("S <<< | " + cmd + " | " + errorcode + " | " + message);
+        }
+        else {
+            if (Client.ignorePathThroughCmds.indexOf(cmd) < 0) {
+                _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator._onReceiveMessage(cmd, value);
+            }
+        }
+    };
+    Client.prototype.onLogin = function () {
+        var _this = this;
+        console.log('WebSocket登录成功');
+        console.log("S: | sending | msgs: " + this.msgsSending.length + "\u4E2A");
+        this.msgsSending.forEach(function (msg) {
+            _this.sendMessage(msg.cmd, msg.params);
+        });
+        // let msg = this.msgsSending.shift()
+        // msg && this.send(msg)
+        this.msgsSending.length = 0;
+        this.startWatchDog();
+        this.startHeartBeat();
+    };
+    Client.prototype.startWatchDog = function () {
+        Laya.timer.loop(ClientConfig.watchDogTime, this, this.checkCmd);
+    };
+    Client.prototype.stopWatchDog = function () {
+        //测试是否需要清空历史命令
+        this.msgsSent.length = 0;
+        Laya.timer.clear(this, this.checkCmd);
+    };
+    Client.prototype.checkCmd = function () {
+        var _this = this;
+        var currentTimestamp = (new Date()).valueOf();
+        this.msgsSent.forEach(function (item, index) {
+            var msg = JSON.parse(item);
+            if (msg.m_id && (currentTimestamp - msg.m_id > 5 * 1000)) {
+                if (msg.retryTime < ClientConfig.maxRetryTime) {
+                    //resend msg
+                    _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].track(_dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["DataTrackType"].SocketRetry, { c: msg.command, t: msg.retryTime });
+                    _this.sendMessage(msg.command, msg);
+                }
+                else {
+                    _this.event(msg.command, [{}, -1, '请求超时']);
+                    console.error("\u547D\u4EE4 " + msg.command + " \u8BF7\u6C42\u8D85\u65F6\uFF0C\u5982\u6709\u8BEF\u62A5\uFF0C\u8BF7\u5728Main\u4E2D\u6DFB\u52A0ignoreCmds\u53C2\u6570");
+                }
+                //remove item
+                _this.removeMsg(msg);
+            }
+        });
+    };
+    Client.prototype.removeMsg = function (msg) {
+        for (var i = 0; i < this.msgsSent.length; i++) {
+            var item = JSON.parse(this.msgsSent[i]);
+            if (item.m_id == msg.m_id) {
+                this.msgsSent.splice(i, 1);
+                delete this.map[item.m_id];
+            }
+        }
+    };
+    Client.prototype._onClose = function (e) {
+        _super.prototype._onClose.call(this, e);
+        _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator._onReceiveSocketClose();
+        this.stopHeartBeat();
+        this.stopWatchDog();
+    };
+    Client.prototype.startHeartBeat = function () {
+        Laya.timer.loop(15000, this, this.handleHeartBeat);
+    };
+    Client.prototype.stopHeartBeat = function () {
+        Laya.timer.clear(this, this.handleHeartBeat);
+    };
+    Client.prototype.handleHeartBeat = function () {
+        this.sendMessage(Client.HEART_BEAT, {});
+    };
+    /**子类重写 */
+    Client.prototype.onReconnecting = function (cur, total) {
+        _super.prototype.onReconnecting.call(this, cur, total);
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading("\u8FDE\u63A5\u4E2D(" + cur + "/" + total + ")", true);
+    };
+    Client.prototype.onReconnectStart = function () {
+        _super.prototype.onReconnectStart.call(this);
+        this.stopHeartBeat();
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading("正在连接...");
+    };
+    Client.prototype.onReconnectEnd = function () {
+        _super.prototype.onReconnectEnd.call(this);
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showSuccess("连接成功", 1500);
+    };
+    Client.prototype.onReconnectFail = function () {
+        _super.prototype.onReconnectFail.call(this);
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showSuccess("连接失败", 1500);
+    };
+    Client.ignoreCmds = [];
+    Client._ignoreCmds = [
+        'betpk', 'startmatch', 'joinmatch', 'cancelmatch', 'matchagain',
+        'cancelagain', 'promotionenroll', 'cancelenroll', 'laddermatch', 'cancelladdermatch',
+        'demandpk', 'matchreject', 'sharestartgame', 'wheel_index', 'qq_join_room', 'receive_invite'
+    ];
+    Client.ignorePathThroughCmds = ['heartbeat'];
+    //通用命令
+    Client.HEART_BEAT = "heartbeat";
+    Client.DISCONNECT = "disconnect";
+    Client.LEAVE_ROOM = 'leave_room';
+    Client.LOGIN = 'login';
+    //匹配
+    Client.MATCH_SUCCESS = "matchsuccess";
+    Client.MATCH_FAIL = "matchfail";
+    Client.MATCH_JOIN = "joinmatch";
+    Client.MATCH_CANCEL = "cancelmatch";
+    //天梯
+    Client.LADDER_MATCH_JOIN = "laddermatch";
+    Client.LADDER_MATCH_CANCEL = "cancelladdermatch";
+    //游戏阶段
+    Client.GAME_START_MATCH = 'startmatch';
+    Client.GAME_START_GAME = 'startpkgame';
+    Client.GAME_START_PK = 'startpk';
+    Client.GAME_BET = 'betpk';
+    Client.GAME_END_PK = 'endpk';
+    Client.GAME_END_PKGAME = 'endpkgame';
+    //再来一局
+    Client.AGIAN_SEND = 'matchagain';
+    Client.AGAIN_REJECT = 'matchreject';
+    Client.AGAIN_CANCAL = 'cancelagain';
+    //赛事
+    Client.CHAMPIONSHIP_JION = 'promotionenroll';
+    Client.CHAMPIONSHIP_CANCEL = 'cancelenroll';
+    Client.CHAMPIONSHIP_UPDATE_ROOM_COUNT = 'updateCount';
+    Client.CHAMPIONSHIP_UPDATE_TOTAL_COUNT = 'updatecurUserCount';
+    //分享
+    Client.SHARE_START_GAME = "sharestartgame";
+    Client.SHARE_INVITE_FRIEND = "invite_friend";
+    Client.SHARE_RECEIVE_INVITE = "receive_invite";
+    // static SHARE_LEAVE_ROOM = "shareleaveroom"
+    //群约战pk
+    Client.GROUP_JOIN_ROOM = "groupjoinroom";
+    Client.GROUP_ROOM_STATUS = "grouproomStatus";
+    return Client;
+}(_Socket__WEBPACK_IMPORTED_MODULE_0__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Client);
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SocketConfig", function() { return SocketConfig; });
+/* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+var SocketConfig = /** @class */ (function () {
+    function SocketConfig() {
+    }
+    SocketConfig.zone = "";
+    return SocketConfig;
+}());
+
+var Socket = /** @class */ (function (_super) {
+    __extends(Socket, _super);
+    function Socket(url) {
+        var _this = _super.call(this) || this;
+        _this.url = url;
+        /**当前是否在重连 */
+        _this.isReconnecting = false;
+        /**当前重连次数 */
+        _this.reconnectTimes = 0;
+        return _this;
+        // this.addObserver()
+    }
+    Object.defineProperty(Socket.prototype, "canReconnect", {
+        get: function () {
+            var networkMonitor = _paoya__WEBPACK_IMPORTED_MODULE_1__["default"].networkMonitor;
+            var lifeCircleMonitor = _paoya__WEBPACK_IMPORTED_MODULE_1__["default"].lifeCircleMonitor;
+            console.log("SOCKET\u662F\u5426\u8FDE\u63A5:    " + (this.connected ? "是" : "否"));
+            console.log("\u662F\u5426\u5728\u524D\u53F0:        " + (lifeCircleMonitor.inForeground ? "是" : "否"));
+            console.log("\u7F51\u7EDC\u662F\u5426\u8FDE\u63A5:      " + (networkMonitor.isConnected ? "是" : "否"));
+            console.log("\u662F\u5426\u6B63\u5728\u91CD\u8FDE:      " + (this.isReconnecting ? "是" : "否"));
+            return !this.connected && lifeCircleMonitor.inForeground && networkMonitor.isConnected && !this.isReconnecting;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Socket.prototype.addObserver = function () {
+        // NotificationCenter.on(NotificationName.NetworkChanged, this, this._startReconnect)
+    };
+    /**切换服务器 */
+    Socket.prototype.changeUrl = function (url) {
+        var _this = this;
+        if (url != this.url) {
+            this.url = url;
+            if (this.isReconnecting) {
+                this._stopReconnect();
+            }
+            if (this.connected) {
+                this['_connected'] = false;
+                this.close();
+            }
+            Laya.timer.once(500, this, function () {
+                _this.connect();
+            });
+        }
+    };
+    /**重写父类方法 */
+    Socket.prototype._onOpen = function (e) {
+        _super.prototype._onOpen.call(this, e);
+        console.log("S | OPEN: | " + JSON.stringify(e));
+        if (this.isReconnecting) {
+            this._stopReconnect();
+            this.onReconnectEnd();
+        }
+    };
+    //{code:1006,reason:"abnormal closure"}服务器主动断开连接
+    //{code:1000} 用户主动断开连接
+    Socket.prototype._onClose = function (e) {
+        _super.prototype._onClose.call(this, e);
+        console.log("S | CLOSE: | " + JSON.stringify(e));
+        // if (e.code == 1000) {
+        //     return
+        // }
+        // if (e.code && e.code == 1006) { //网络原因导致的
+        //     this._startReconnect(Socket.reconnectConfig.duration);
+        // } else {
+        //     this._startReconnect(Socket.reconnectConfig.interval);
+        // }
+    };
+    /**重写父类方法 */
+    Socket.prototype._onMessage = function (msg) {
+        _super.prototype._onMessage.call(this, msg);
+        if (!msg || !msg.data)
+            return;
+        var data = msg.data;
+        this.handleMessage(data);
+    };
+    /**重写父类方法 */
+    Socket.prototype._onError = function (e) {
+        _super.prototype._onError.call(this, e);
+        console.log("S | Error: | " + JSON.stringify(e));
+    };
+    /**处理消息返回内容，子类需重写 */
+    Socket.prototype.handleMessage = function (msg) { };
+    /**自定义方法，便于快速执行 */
+    Socket.prototype.connect = function () {
+        if (this.isReconnecting || this.connected)
+            return;
+        this.connectByUrl(this.url);
+    };
+    /**重写父类方法 */
+    Socket.prototype.connectByUrl = function (url) {
+        _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__["default"].startSocketTime();
+        this.url = url;
+        _super.prototype.connectByUrl.call(this, url);
+    };
+    Socket.prototype.startWatchDog = function () {
+        Laya.timer.loop(5000, this, this.handleWatchDog);
+    };
+    Socket.prototype.handleWatchDog = function () {
+        if (this.connected) {
+            this.stopWatchDog();
+        }
+        else {
+            this._startReconnect();
+        }
+    };
+    Socket.prototype.stopWatchDog = function () {
+        Laya.timer.clear(this, this.handleWatchDog);
+    };
+    /**开始重连 */
+    Socket.prototype._startReconnect = function (interval) {
+        if (interval === void 0) { interval = Socket.reconnectConfig.interval; }
+        if (!this.canReconnect)
+            return;
+        this.reconnectTimes = 0;
+        this._reconnect();
+        this.onReconnectStart();
+        this.isReconnecting = true;
+        Laya.timer.loop(interval * 1000, this, this._reconnect);
+    };
+    /**停止重连 */
+    Socket.prototype._stopReconnect = function () {
+        if (!this.isReconnecting)
+            return;
+        this.isReconnecting = false;
+        this.reconnectTimes = 0;
+        Laya.timer.clear(this, this._reconnect);
+    };
+    /**执行重连方法 */
+    Socket.prototype._reconnect = function () {
+        if (this.connected) {
+            this._stopReconnect();
+            this.onReconnectEnd();
+            return;
+        }
+        var config = Socket.reconnectConfig;
+        if (this.reconnectTimes < config.total) {
+            this.connect();
+            this.reconnectTimes++;
+            this.onReconnecting(this.reconnectTimes, config.total);
+            if (this.reconnectTimes > config.total / 2) {
+                Laya.timer.clear(this, this._reconnect);
+                Laya.timer.loop(config.duration * 1000, this, this._reconnect);
+            }
+        }
+        else {
+            this._stopReconnect();
+            this.onReconnectFail();
+        }
+    };
+    /**子类重写 */
+    Socket.prototype.onReconnecting = function (times, total) {
+        this.event(Socket.RECONNECT_PROGRESS, [times, total]);
+    };
+    Socket.prototype.onReconnectStart = function () {
+        this.event(Socket.RECONNECT_START, [this.reconnectTimes, Socket.reconnectConfig.total]);
+    };
+    Socket.prototype.onReconnectEnd = function () {
+        this.event(Socket.RECONNECT_END);
+    };
+    Socket.prototype.onReconnectFail = function () {
+        this.event(Socket.RECONNECT_FAIL);
+    };
+    /**重连配置 */
+    Socket.reconnectConfig = {
+        total: 3,
+        interval: 3,
+        duration: 8 //后续重连间隔
+    };
+    Socket.RECONNECT_START = "socket.reconnect.start";
+    Socket.RECONNECT_END = 'socket.reconnect.end';
+    Socket.RECONNECT_FAIL = 'socket.reconnect.fail';
+    Socket.RECONNECT_PROGRESS = 'socket.reconnect.progress';
+    return Socket;
+}(Laya.Socket));
+/* harmony default export */ __webpack_exports__["default"] = (Socket);
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _wx_monitor_NetworkMonitor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(26);
+/* harmony import */ var _wx_monitor_LifeCircleMonitor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(27);
+/* harmony import */ var _core_network_Socket__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/* harmony import */ var _DataCenter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10);
+/* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(5);
+/* harmony import */ var _wx_manager_PayManager__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(28);
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(8);
+/* harmony import */ var _core_network_Client__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(20);
+/* harmony import */ var _enums__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(12);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(1);
+/* harmony import */ var _service_LoginService__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(9);
+/* harmony import */ var _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(7);
+/* harmony import */ var _laya_sound__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(29);
+/* harmony import */ var _service_Loader__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(30);
+/* harmony import */ var _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(25);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var Main = /** @class */ (function (_super) {
+    __extends(Main, _super);
+    function Main(params) {
+        var _this_1 = _super.call(this, params) || this;
+        _this_1.params = params;
+        if (!params.gameId) {
+            console.error("初始化时必须传入gameId");
+        }
+        if (!params.baseURL) {
+            console.error("初始化时必须传入baseURL");
+        }
+        if (!params.zone) {
+            console.error("初始化时必须传入zone");
+        }
+        _this_1.gameId = params.gameId;
+        _this_1.params.rankingType = _this_1.params.rankingType || _enums__WEBPACK_IMPORTED_MODULE_11__["RankingType"].Score;
+        if (_this_1.params.showBannerAdWhenDialogPopup != undefined) {
+            _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].showBannerAdWhenDialogPopup = _this_1.params.showBannerAdWhenDialogPopup;
+        }
+        //对全局单例进行赋值
+        _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].game = _this_1;
+        _core_network_Socket__WEBPACK_IMPORTED_MODULE_5__["SocketConfig"].zone = params.zone;
+        _wx_manager_PayManager__WEBPACK_IMPORTED_MODULE_8__["default"].offerId = params.offerId;
+        _this_1.init();
+        return _this_1;
+    }
+    Main.prototype.init = function () {
+        _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].networkMonitor = this.networkMonitor = new _wx_monitor_NetworkMonitor__WEBPACK_IMPORTED_MODULE_3__["default"]();
+        _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].lifeCircleMonitor = this.lifeCircleMonitor = new _wx_monitor_LifeCircleMonitor__WEBPACK_IMPORTED_MODULE_4__["default"]();
+        this._addNotificationCenterListener();
+        this._configHTTP();
+        this._configLogin();
+        this._configShareManager();
+        this._configSoundManager();
+        /**只有在小程序中才能启动事件统计功能 */
+        if (Laya.Browser.onMiniGame) {
+            _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_7__["default"].setup(this.params.mtaID, this.params.mtaEventID, this.launchOption);
+        }
+        this.setupOthers();
+    };
+    Main.prototype.loadRes = function () {
+        var _this = this;
+        var connectWebsocket = function () {
+            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在连接...');
+           // _this._initClient(function () {
+                _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
+                _this.setupLoadingView(function () {
+                    _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
+                    //_view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
+                });
+           /*  }, function () {
+                _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '连接服务器失败', '重试', function () {
+                    _this.socket.connect();
+                });
+            });  */
+        };
+        var login = function (suc) {
+            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在登录...');
+            _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].login(suc, function () {
+                _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '登录失败', '重试', function () {
+                    login(suc);
+                });
+            });
+        };
+        var complete = function () {
+            login(function () {
+                connectWebsocket();
+            });
+        };
+        _service_Loader__WEBPACK_IMPORTED_MODULE_16__["default"].preload(Laya.Handler.create(this, function () {
+            if (_DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].GAMEPREPARE) {
+                var prepare = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].GAMEPREPARE;
+                if (typeof prepare == 'function') {
+                    prepare();
+                    complete();
+                }
+                else if (typeof prepare == 'object') {
+                    if (prepare['async']) {
+                        prepare['async'](function () {
+                            complete();
+                        });
+                    }
+                    else {
+                        prepare['sync']();
+                        complete();
+                    }
+                }
+            }
+            else {
+                complete();
+            }
+        }), Laya.Handler.create(this, function (progress) {
+            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setProgress(progress);
+        }, null, false));
+    };
+    Main.prototype._addNotificationCenterListener = function () {
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["NotificationName"].ApplicationShow, this, this._onShow);
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["NotificationName"].ApplicationHide, this, this._onHide);
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["NotificationName"].NetworkChanged, this, this._handleNetworkChange);
+    };
+    Main.prototype._configHTTP = function () {
+        _core_network_Client__WEBPACK_IMPORTED_MODULE_10__["default"].ignoreCmds = this.params.ignoreCmds || [];
+        _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].baseURL = this.params.baseURL;
+        if (this.launchOption && this.launchOption.referrerInfo && this.launchOption.referrerInfo.extraData) {
+            var referrerInfo = this.launchOption.referrerInfo, extraData = referrerInfo.extraData, token = extraData.token, baseURL = extraData.baseURL;
+            baseURL && (_core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].baseURL = baseURL);
+        }
+        var _this = this;
+        _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].makeParamsHandler = function (params) {
+            if (!params['user_token'] && _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].token) {
+                params['user_token'] = _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].token;
+            }
+            if (!params['game_id'] && _this.gameId) {
+                params['game_id'] = _this.gameId;
+            }
+            return { wxparams: JSON.stringify(params) };
+        };
+    };
+    Main.prototype._configLogin = function () {
+        var params = this.params;
+        _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].userId = params.userId;
+        _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].gameId = params.gameId;
+        _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].version = params.version;
+        _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].release = params.release;
+        // LoginConfig.requestConfig = 
+        var _this = this;
+        _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].makeLoginParamsHandler = function (params) {
+            if (_this.launchOption && _this.launchOption['query']) {
+                params['share_id'] = _this.launchOption['query']['id'] || 0;
+                params['share_type'] = _this.launchOption['query']['type'] || 0;
+                params['launch_info'] = _this.launchOption || '';
+            }
+            if (_this.launchOption && _this.launchOption.referrerInfo && _this.launchOption.referrerInfo.extraData) {
+                var extraData = _this.launchOption.referrerInfo.extraData;
+                params['from_game_id'] = extraData.fid || 0;
+                params['from_game_id_type'] = extraData.jType || '';
+            }
+            return params;
+        };
+        if (this.launchOption && this.launchOption.referrerInfo && this.launchOption.referrerInfo.extraData) {
+            var referrerInfo = this.launchOption.referrerInfo, extraData = referrerInfo.extraData, token = extraData.token;
+            token && (_service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].token = token);
+        }
+    };
+    Main.prototype._configShareManager = function () {
+        _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_14__["default"].makeQueryHandler = function (query) {
+            query.id = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].user.id;
+            return query;
+        };
+    };
+    Main.prototype._configSoundManager = function () {
+        var _this_1 = this;
+        py.onAudioInterruptionBegin(function () {
+            console.log("Audio | interrupt | begin");
+            if (window['wx']) {
+                _this_1.lifeCircleMonitor.inForeground = false;
+            }
+            _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onAudioInterruptionBegin();
+        });
+        py.onAudioInterruptionEnd(function () {
+            console.log("Audio | interrupt | end");
+            if (window['wx']) {
+                _this_1.lifeCircleMonitor.inForeground = true;
+            }
+            _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onAudioInterruptionEnd();
+        });
+    };
+    /**初始化websocket */
+    Main.prototype._initClient = function (suc, fail) {
+        console.warn('初始化WebSocket');
+        var url = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData.game_url;
+        if (!url) {
+            console.error("请验证game_url是否正确");
+        }
+        if (Laya.Render.isConchApp) {
+            url = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData['app_game_url'];
+        }
+        var socket = _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].socket = this.socket = new _core_network_Client__WEBPACK_IMPORTED_MODULE_10__["default"](url + this.params.zone);
+        socket.on(Laya.Event.OPEN, this, function () {
+            _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_7__["default"].stopSocketTime();
+            var userId = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].user.id;
+            if (!userId) {
+                console.error("user_id不存在，请检查错误");
+            }
+            _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_7__["default"].startSocketLogin();
+            console.log('开始WebSocket登录');
+            socket.sendMessage("login", { user_id: userId });
+        });
+        socket.once(_core_network_Client__WEBPACK_IMPORTED_MODULE_10__["default"].LOGIN, this, function () {
+            Laya.timer.clear(this, timerHandler);
+            _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
+            suc && suc();
+            _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_7__["default"].stopSocketLogin();
+        });
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);
+        socket.connect();
+        var timerHandler = function () {
+            socket.close();
+            fail && fail();
+        };
+        /**20s后自动超时 */
+        Laya.timer.once(15000, this, timerHandler);
+    };
+    Main.prototype._changeClientURL = function (type) {
+        if (type === void 0) { type = _enums__WEBPACK_IMPORTED_MODULE_11__["SocketURLType"].GAME; }
+        var baseURL = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData[type];
+        if (Laya.Render.isConchApp) {
+            baseURL = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData["app_" + type];
+        }
+        var url = baseURL + this.params.zone;
+        if (url != this.socket.url) {
+            console.warn("\u5F00\u59CB\u5207\u6362\u670D\u52A1\u5668\u5730\u5740\uFF0C\u65E7\u5730\u5740\u4E3A" + this.socket.url + " | \u65B0\u5730\u5740\u4E3A" + url);
+            this.socket.changeUrl(url);
+        }
+    };
+    Main.prototype._onShow = function (res) {
+        if (!this.socket)
+            return;
+        this.isFirstLaunch = false;
+        this.launchOption = res;
+        //当通过好友邀请进入游戏时，需要再次调用登录，以获取好友所在的服务器
+        var query = res.query;
+        var type = query.type;
+        var _this = this;
+        var onShowHandler = function () {
+            _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
+        };
+        if (type == _enums__WEBPACK_IMPORTED_MODULE_11__["ShareType"].InviteFriend || type == _enums__WEBPACK_IMPORTED_MODULE_11__["ShareType"].GroupPK) {
+            _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].login(function () {
+                _this._changeClientURL();
+                onShowHandler();
+            }, null);
+        }
+        else {
+            onShowHandler();
+            this.socket._startReconnect();
+        }
+        this.navigator._onShow(res);
+        this.onShow(res);
+        _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onShow();
+    };
+    Main.prototype._onHide = function (res) {
+        if (!this.socket)
+            return;
+        this.navigator._onHide(res);
+        this.onHide(res);
+        _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onHide();
+    };
+    /**当游戏进入前台时触发 */
+    Main.prototype.onShow = function (res) {
+    };
+    /**当游戏进入后台时触发 */
+    Main.prototype.onHide = function (res) {
+    };
+    /**设置界面加载时的Loading界面 */
+    Main.prototype.setupLoadingView = function (cb) {
+        cb();
+    };
+    Main.prototype.setupOthers = function () {
+    };
+    Main.prototype._handleNetworkChange = function (res) {
+        this.navigator._onReceiveNetworkChange(res);
+        this.handleNetworkChange(res);
+    };
+    /**监听网络状态变化 */
+    Main.prototype.handleNetworkChange = function (res) {
+    };
+    return Main;
+}(_game__WEBPACK_IMPORTED_MODULE_0__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Main);
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
+/* harmony import */ var _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
+/* harmony import */ var _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(25);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+
+var Game = /** @class */ (function (_super) {
+    __extends(Game, _super);
+    function Game(params) {
+        var _this = _super.call(this) || this;
+        _this.params = params;
+        /**当前游戏的ID */
+        _this.gameId = 1001;
+        /**是否已登录 */
+        _this.isLogined = false;
+        /**已经授权访问用户信息，只在登录之前有用，登录之后该值不再起作用 */
+        _this.isAuthed = false;
+        _this.loadNetworkRes = false;
+        /**是否是第一次启动 */
+        _this.isFirstLaunch = true;
+        _this.params.debug = _this.params.debug || false;
+        _this.gameId = params.gameId;
+        //只在限制游戏包体的runtime中才去网上下载资源
+        if (_this.isMiniGame) {
+            _this.loadNetworkRes = _this.params.loadNetworkRes == undefined ? true : _this.params.loadNetworkRes;
+        }
+        _this.initLaya();
+        //初始化导航控制器
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/" + _this.gameId + "/";
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitId = params.adUnitId;
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].bannerUnitId = params.bannerUnitId;
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].qqViewId = params.qqViewId || 1003;
+        _this.configNavigator();
+        _this.setupConfig();
+        _this.initLaunchOption();
+        _this.checkUpdate();
+        Laya.timer.callLater(_this, _this.initPlatform);
+        return _this;
+    }
+    Object.defineProperty(Game.prototype, "isMiniGame", {
+        get: function () {
+            return py.isMiniGame() && !Laya.Render.isConchApp;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**初始化Laya引擎，子类可重写此方法，实现自己的界面展示 */
+    Game.prototype.initLaya = function () {
+        var width = this.params.width || 1334;
+        var height = this.params.height || 750;
+        var config = this.params;
+        if (window['Laya3D']) {
+            Laya3D.init(width, height);
+        }
+        else {
+            Laya.init(width, height, config.webGL || Laya.WebGL);
+        }
+        Laya["Physics"] && Laya["Physics"].enable();
+        //显示当前调试状态
+        if (this.params.debug) {
+            config.showStat && Laya.Stat.show();
+            (config.showDebugTool || Laya.Utils.getQueryString('debug') == 'true') && Laya["DebugPanel"] && Laya["DebugPanel"].enable();
+            Laya["PhysicsDebugDraw"] && Laya["PhysicsDebugDraw"].enable();
+            // Laya.alertGlobalError = true
+        }
+        //屏幕适配相关
+        var stage = Laya.stage;
+        var Stage = Laya.Stage;
+        console.log(Laya.Browser.width,Laya.Browser.height)
+        stage.alignH = config.alignH || Stage.ALIGN_CENTER;
+        stage.alignV = config.alignV || Stage.ALIGN_MIDDLE;
+        if (config.portrait == undefined || config.portrait=="portrait") {
+            stage.screenMode = Stage.SCREEN_VERTICAL;
+            stage.scaleMode = config.scaleMode || Stage.SCALE_FIXED_WIDTH;
+        }
+        else {
+            stage.screenMode = Stage.SCREEN_HORIZONTAL;
+            stage.scaleMode = config.scaleMode || Stage.SCALE_FIXED_HEIGHT;
+        }
+        // stage.frameRate = Stage.FRAME_MOUSE;
+        var sprite = new Laya.Sprite();
+        var Browser = Laya.Browser;
+        sprite.graphics.drawRect(0, 0, Browser.width, Browser.height, "#000000");
+        stage.addChild(sprite);
+        this._setupResLoadConfig();
+        //激活资源版本控制，version.json由IDE发布功能自动生成，如果没有也不影响后续流程
+        Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, function () {
+            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_5__["default"].show();
+            Laya.AtlasInfoManager.enable('fileconfig.json', Laya.Handler.create(this, this.loadRes));
+        }), Laya.ResourceVersion.FILENAME_VERSION);
+    };
+    Game.prototype.initLaunchOption = function () {
+        var launchOption = py.getLaunchOptionsSync();
+        launchOption.referrerInfo = launchOption.referrerInfo || { extraData: {} };
+        launchOption.referrerInfo.extraData = launchOption.referrerInfo.extraData || {};
+        console.warn("LAUNCH | " + JSON.stringify(launchOption));
+        this.launchOption = launchOption;
+    };
+    Game.prototype.configNavigator = function () {
+        _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].navigator = this.navigator = new _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__["default"]();
+        var view = Laya.Scene.root;
+        if (view) {
+            var resize = function () {
+                _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__["default"].adjustViewPosition(this);
+            };
+            view.on(Laya.Event.RESIZE, view, resize);
+            resize.call(view);
+        }
+    };
+    Game.prototype._setupResLoadConfig = function () {
+        var _this = this;
+        Laya.loader.retryNum = 3;
+        Laya.loader.retryDelay = 2000;
+        Laya.loader.maxLoader = 5;
+        if (Laya["MiniAdpter"]) {
+            var files = Laya.MiniAdpter.nativefiles || [];
+            files.push('local');
+            Laya.MiniAdpter.nativefiles = files;
+        }
+        if (Laya.URL.formatURL) {
+            Laya.URL['formatURLCopy'] = Laya.URL.formatURL;
+        }
+        Laya.URL.formatURL = function (url) {
+            if (Laya.URL['formatURLCopy']) {
+                url = Laya.URL['formatURLCopy'](url);
+            }
+            if (_this.loadNetworkRes && url.indexOf('remote/') >= 0 && url.indexOf('http') < 0) {
+                url = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL + url;
+            }
+            return url;
+            // if (!url) return 'null path'
+            // if (url.indexOf('http') >= 0) return url
+            // if (!this.loadNetworkRes) {
+            //     if (Laya.URL['formatURLCopy']) {
+            //         return Laya.URL['formatURLCopy'](url)
+            //     } else {
+            //         return url
+            //     }
+            // }
+            // if (url.indexOf('remote/') >= 0) {
+            //     if (Laya.URL['formatURLCopy']) {
+            //         url = Laya.URL['formatURLCopy'](url)
+            //     }
+            //     return DataCenter.RESURL + url
+            // }
+            // if (Laya.URL['formatURLCopy']) {
+            //     return Laya.URL['formatURLCopy'](url)
+            // }
+            // return url
+        };
+        //兼容微信不支持加载scene后缀场景
+        Laya.URL.exportSceneToJson = true;
+    };
+    Game.prototype.initPlatform = function () {
+        var _this = this;
+        py.init();
+        /**转发 */
+        py.onShareAppMessage(function () {
+            var msg = _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].navigator.onShareAppMessage();
+            if (msg) {
+                return msg;
+            }
+            else {
+                return _this.onShareAppMessage();
+            }
+        });
+    };
+    Game.prototype.checkUpdate = function () {
+        var manager = new _wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        manager.on(_wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"].HAS_UPDATE, this, function () {
+        });
+        manager.on(_wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"].UPDATE_READY, this, function (cb) {
+            _wx_Toast__WEBPACK_IMPORTED_MODULE_3__["default"].showModal("提示", "新版本下载成功", "重启", function () {
+                cb && cb();
+            });
+        });
+        manager.on(_wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"].UPDATE_FAIL, this, function () {
+        });
+    };
+    /**返回用户【转发】消息 */
+    Game.prototype.onShareAppMessage = function () {
+        return null;
+    };
+    /**退出当前小游戏 */
+    Game.prototype.exit = function () {
+        py.exit();
+    };
+    /**初始化首屏界面 */
+    Game.prototype.initRootScene = function (launchOption, isFirstLaunch) {
+    };
+    /**必要的初始化操作放在该方法中 */
+    Game.prototype.setupConfig = function () {
+    };
+    return Game;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (Game);
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var UpdateManager = /** @class */ (function (_super) {
+    __extends(UpdateManager, _super);
+    function UpdateManager() {
+        var _this = _super.call(this) || this;
+        var updateManager = py.getUpdateManager();
+        updateManager.onCheckForUpdate(function (res) {
+            // 请求完新版本信息的回调
+            console.warn("\u5F53\u524D | " + (res.hasUpdate ? "有" : "无") + " | \u65B0\u7248\u672C");
+            if (res.hasUpdate) {
+                _this.event(UpdateManager.HAS_UPDATE);
+            }
+        });
+        updateManager.onUpdateReady(function () {
+            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+            function cb() {
+                updateManager.applyUpdate();
+            }
+            _this.event(UpdateManager.UPDATE_READY, cb);
+        });
+        updateManager.onUpdateFailed(function () {
+            // 新的版本下载失败
+            _this.event(UpdateManager.UPDATE_FAIL);
+        });
+        return _this;
+    }
+    UpdateManager.HAS_UPDATE = "HAS_UPDATE";
+    UpdateManager.UPDATE_READY = "UPDATE_READY";
+    UpdateManager.UPDATE_FAIL = "UPDATE_FAIL";
+    return UpdateManager;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (UpdateManager);
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+/**
+ * 游戏启动时的加载页面
+ */
+var LaunchScreenView = /** @class */ (function (_super) {
+    __extends(LaunchScreenView, _super);
+    function LaunchScreenView() {
+        var _this = _super.call(this) || this;
+        _this.setup();
+        return _this;
+    }
+    LaunchScreenView.prototype.setup = function () {
+        this.size(1334, 750);
+        var box = new Laya.Box();
+        box.size(1334, 750);
+        box.cacheAs = 'normal';
+        this.addChild(box);
+        var imgBg = new Laya.Image('local/loading/bg.jpg');
+        imgBg.x=-150;
+        box.addChild(imgBg); 
+        var imgLogo = new Laya.Image('local/loading/logo.png');
+        imgLogo.centerX = 0;
+        imgLogo.top = 100;
+        box.addChild(imgLogo); 
+        var imgProgressBg = new Laya.Image('local/loading/progress-bg.png');
+        imgProgressBg.centerX = 0;
+        imgProgressBg.bottom = 60;
+        box.addChild(imgProgressBg);
+      /*   var lblTips = new Laya.Label('玩游戏享乐趣,好友都在玩的小游戏乐园');
+        lblTips.color = '#227fb3';
+        lblTips.fontSize = 28;
+        lblTips.centerX = 0;
+        lblTips.bottom = 70; 
+        box.addChild(lblTips);*/
+        var imgProgress = new Laya.Image('local/loading/progress-bar.png');
+        imgProgress.centerX = 0;
+        imgProgress.bottom = 80;
+        this.addChild(imgProgress);
+        this._imgProgress = imgProgress;
+        var mask = new Laya.Sprite();
+        mask.graphics.drawRect(0, 0, 0, 77, '#ff0000');
+        imgProgress.mask = mask;
+        this._imgProgressMask = mask;
+        var lblProgress = new Laya.Label('0%');
+        lblProgress.color = '#ffffff';
+        lblProgress.fontSize = 30;
+        lblProgress.centerX = 0;
+        lblProgress.bottom =76 ;
+        this.addChild(lblProgress);
+        this._lblProgress = lblProgress;
+    };
+    Object.defineProperty(LaunchScreenView.prototype, "progress", {
+        get: function () {
+            return this._progress;
+        },
+        set: function (newValue) {
+            if (newValue != this._progress) {
+                this._progress = newValue;
+                this._imgProgressMask.graphics.clear();
+                this._imgProgressMask.graphics.drawRect(0, 0, newValue * this._imgProgress.width, this._imgProgress.height, '#ff0000');
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    LaunchScreenView.setProgress = function (progress) {
+        if (!this.ins)
+            return;
+        this.ins.progress = progress;
+        this.setTips(Math.ceil(progress * 100) + "%");
+    };
+    LaunchScreenView.setTips = function (tip) {
+        this.ins._lblProgress.text = tip;
+    };
+    LaunchScreenView.show = function () {
+        var view = new LaunchScreenView();
+        _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_0__["default"].adjustViewPosition(view);
+        view.zOrder = 999;
+        Laya.stage.addChild(view);
+        this.ins = view;
+    };
+    LaunchScreenView.hide = function () {
+        if (this.ins) {
+            this.ins.destroy();
+        }
+    };
+    return LaunchScreenView;
+}(Laya.View));
+/* harmony default export */ __webpack_exports__["default"] = (LaunchScreenView);
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+
+var NetworkMonitor = /** @class */ (function () {
+    function NetworkMonitor() {
+        var _this = this;
+        /**当前网络是否连接 */
+        this.isConnected = true;
+        this.isWIFI = true;
+        this.type = '';
+        this.getCurrentType(function (type) {
+            _this.isConnected = (type != 'unknown' || type != 'none');
+            _this.isWIFI = type === 'wifi';
+            _this.type = type;
+        });
+        this.startMonitor();
+    }
+    /**启用网络监听 */
+    NetworkMonitor.prototype.startMonitor = function () {
+        var _this = this;
+        py.onNetworkStatusChange(function (res) {
+            _this.handleNetworkChange(res);
+        });
+    };
+    NetworkMonitor.prototype.handleNetworkChange = function (res) {
+        this.isWIFI = res.networkType === 'wifi';
+        this.type = res.networkType;
+        this.isConnected = res.isConnected;
+        console.log("NETWORK | change :\n");
+        console.log(JSON.stringify(res));
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.event(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].NetworkChanged, res);
+    };
+    /**停止网络监听 */
+    NetworkMonitor.prototype.stopMonitor = function () {
+        py.offNetworkStatusChange(this.handleNetworkChange);
+    };
+    /**获取当前网络状态 */
+    NetworkMonitor.prototype.getCurrentType = function (cb) {
+        py.getNetworkType({
+            success: function (res) {
+                console.log("NETWORK | type :\n");
+                console.log(JSON.stringify(res));
+                cb && cb(res.networkType);
+            },
+            fail: function () { }
+        });
+    };
+    NetworkMonitor.NETWORK_CHANGE = 'NetworkMonitor.network.change';
+    return NetworkMonitor;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (NetworkMonitor);
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+
+var LifeCircleMonitor = /** @class */ (function () {
+    function LifeCircleMonitor() {
+        /**是否在前台 */
+        this.inForeground = true;
+        this.ignoreFirstTime = window['wx'] ? true : false;
+        this.startMonitor();
+    }
+    /**生命周期监听开始 */
+    LifeCircleMonitor.prototype.startMonitor = function () {
+        var _this = this;
+        py.onShow(function (res) {
+            if (_this.ignoreFirstTime) {
+                _this.ignoreFirstTime = false;
+                return;
+            }
+            console.warn('SHOW :\n');
+            console.warn(JSON.stringify(res));
+            _this.inForeground = true;
+            _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.event(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].ApplicationShow, res);
+        });
+        py.onHide(function (res) {
+            //{mode:back}  {mode:close}
+            console.warn("HIDE :\n");
+            console.warn(JSON.stringify(res));
+            _this.inForeground = false;
+            _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.event(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].ApplicationHide, res);
+        });
+    };
+    /**生命周期监听结束 */
+    LifeCircleMonitor.prototype.stopMonitor = function () {
+        py.offShow({});
+        py.offHide({});
+    };
+    LifeCircleMonitor.SHOW = 'app.on.show';
+    LifeCircleMonitor.HIDE = 'app.on.hide';
+    LifeCircleMonitor.OFF_SHOW = 'app.off.show';
+    LifeCircleMonitor.OFF_HIDE = 'app.off.hide';
+    return LifeCircleMonitor;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (LifeCircleMonitor);
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var PayManager = /** @class */ (function () {
+    function PayManager() {
+    }
+    PayManager.pay = function (buyQuantity, success, fail) {
+        py.requestPayment({
+            env: this.env,
+            offerId: this.offerId,
+            currencyType: "CNY",
+            buyQuantity: buyQuantity,
+            success: function (res) {
+                console.log("PAY | suc | " + JSON.stringify(res));
+                success && success();
+            },
+            fail: function (res) {
+                console.log("PAY | fail | " + JSON.stringify(res));
+                var msg = res.errMsg;
+                var code = res.errCode;
+                fail && fail(code);
+            }
+        });
+    };
+    PayManager.env = 0; // 0 正式版，1 沙箱环境
+    PayManager.platform = 'android';
+    return PayManager;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (PayManager);
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var SoundManager = /** @class */ (function (_super) {
+    __extends(SoundManager, _super);
+    function SoundManager() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SoundManager.onShow = function () {
+        // this._windowFocus()
+        this.onShowHandler && this.onShowHandler();
+    };
+    SoundManager.onHide = function () {
+        // this._windowBlur()
+        this.onHideHandler && this.onHideHandler();
+    };
+    SoundManager.onAudioInterruptionBegin = function () {
+        // this._windowBlur()
+        this.onAudioInterruptionBeginHandler && this.onAudioInterruptionBeginHandler();
+    };
+    SoundManager.onAudioInterruptionEnd = function () {
+        // this._windowFocus()
+        this.onAudioInterruptionEndHandler && this.onAudioInterruptionEndHandler();
+    };
+    SoundManager._windowFocus = function () {
+        Laya.stage['_isFocused'] = true;
+        Laya.stage.event(/*laya.events.Event.FOCUS*/ "focus");
+        Laya.stage.event(/*laya.events.Event.FOCUS_CHANGE*/ "focuschange");
+    };
+    SoundManager._windowBlur = function () {
+        Laya.stage['_isFocused'] = false;
+        Laya.stage.event(/*laya.events.Event.BLUR*/ "blur");
+        Laya.stage.event(/*laya.events.Event.FOCUS_CHANGE*/ "focuschange");
+    };
+    return SoundManager;
+}(Laya.SoundManager));
+/* harmony default export */ __webpack_exports__["default"] = (SoundManager);
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+var Loader = /** @class */ (function () {
+    function Loader() {
+    }
+    Loader.load = function (url, caller, completion, p) {
+        if (p === void 0) { p = null; }
+        var completeHandler = Laya.Handler.create(this, function () {
+            completion && completion.call(caller);
+        });
+        var progressHandler = Laya.Handler.create(this, function (progress) {
+            console.log("loading progress" + progress);
+            p && p.call(caller, progress);
+        }, null, false);
+        Laya.loader.load(url, completeHandler, progressHandler);
+    };
+    /**
+     * 预加载资源
+     */
+    Loader.preload = function (complete, progress) {
+        Laya.loader.load(_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].GAMERES, complete, progress);
+    };
+    return Loader;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Loader);
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var TimerService = /** @class */ (function (_super) {
+    __extends(TimerService, _super);
+    /**
+     *
+     * @param duration 如果为倒计时，则为最大可倒计时；如果为正计时，则为最大可正计时
+     * @param interval 步进时间
+     * @param up 是否为正计时，默认为倒计时
+     */
+    function TimerService(duration, interval, up) {
+        if (interval === void 0) { interval = 1; }
+        if (up === void 0) { up = false; }
+        var _this = _super.call(this) || this;
+        _this.duration = duration;
+        _this.interval = interval;
+        _this.up = up;
+        _this.curTime = 0;
+        return _this;
+    }
+    TimerService.prototype.start = function () {
+        this.curTime = this.up ? 0 : this.duration;
+        this.update();
+        Laya.timer.loop(this.interval * 1000, this, this.update);
+        this.event(TimerService.START, "");
+    };
+    TimerService.prototype.stop = function () {
+        this.curTime = 0;
+        Laya.timer.clear(this, this.update);
+        this.event(TimerService.STOP, "");
+    };
+    TimerService.prototype.update = function () {
+        if (this.up) {
+            this.curTime++;
+            if (this.curTime >= this.duration) {
+                this.stop();
+            }
+            else {
+                this.event(TimerService.PROGRESS, this.curTime);
+            }
+        }
+        else {
+            if (this.curTime > 0) {
+                this.curTime--;
+                this.event(TimerService.PROGRESS, this.curTime);
+            }
+            else {
+                this.stop();
+            }
+        }
+    };
+    TimerService.START = "start_";
+    TimerService.STOP = "stop_";
+    TimerService.TIMEOUT = "timeout_";
+    TimerService.PROGRESS = "progress_";
+    return TimerService;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (TimerService);
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _service_LoginService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+var LoginMaskView = /** @class */ (function (_super) {
+    __extends(LoginMaskView, _super);
+    function LoginMaskView() {
+        var _this = _super.call(this) || this;
+        _this.size(750, 1334);
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].LoginSuccess, _this, _this.destroy);
+        _this.on(Laya.Event.CLICK, _this, function () {
+            /* if (!PaoYa.game.isAuthed) {
+                console.warn('此时用户还没有完成授权');
+                return;
+            } */
+            if (!_service_LoginService__WEBPACK_IMPORTED_MODULE_1__["default"].isLogined) {
+                console.warn('此时用户还没有登录成功');
+                return;
+            }
+            this.destroy();
+        });
+        return _this;
+    }
+    LoginMaskView.showInView = function (view) {
+        if (_service_LoginService__WEBPACK_IMPORTED_MODULE_1__["default"].isLogined) {
+            return;
+        }
+        var maskView = new LoginMaskView();
+        this.view = maskView;
+        view.addChild(maskView);
+    };
+    LoginMaskView.hide = function () {
+        this.view.destroy();
+    };
+    LoginMaskView.prototype.destroy = function () {
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.off(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].LoginSuccess, this, this.destroy);
+        this.removeSelf();
+        _super.prototype.destroy.call(this, true);
+    };
+    return LoginMaskView;
+}(Laya.View));
+/* harmony default export */ __webpack_exports__["default"] = (LoginMaskView);
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+/**专门用于设定圆形头像，有个前提条件是必须给该图片指定width及height */
+var RoundImageView = /** @class */ (function (_super) {
+    __extends(RoundImageView, _super);
+    function RoundImageView(skin) {
+        var _this = _super.call(this, skin) || this;
+        _this.__init_$();
+        return _this;
+    }
+    RoundImageView.prototype.__init_$ = function () {
+        var _this = this;
+        var mask = new Laya.Sprite();
+        this.mask = mask;
+        this.on(Laya.Event.RESIZE, this, function () {
+            if (!_this.mask) {
+                return;
+            }
+            _this.mask.graphics.clear();
+            var width = _this.width, height = _this.height;
+            var r = Math.ceil(Math.min(width, height) / 2);
+            _this.mask.graphics.drawCircle(r, r, r, '#ff0000');
+        });
+    };
+    return RoundImageView;
+}(Laya.Image));
+/* harmony default export */ __webpack_exports__["default"] = (RoundImageView);
+Laya.ClassUtils.regClass('PaoYa.RoundImageView', RoundImageView);
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var AuthManager = /** @class */ (function () {
+    function AuthManager() {
+    }
+    /**
+     *
+     * @param scope 想要获取授权的标识，可以使用上面已经列举出来的权限
+     * @param suc   授权成功回调
+     * @param fail  授权失败回调
+     * @param alert 当需要打开用户设置界面时，用于可以修改弹窗内容，方便用户确认操作
+     */
+    AuthManager.auth = function (params) {
+        py.auth(params);
+    };
+    AuthManager.scope = {
+        userInfo: "scope.userInfo",
+        userLocation: "scope.userLocation",
+        address: "scope.address",
+        invoiceTitle: "scope.invoiceTitle",
+        werun: "scope.werun",
+        record: "scope.record",
+        writePhotosAlbum: "scope.writePhotosAlbum",
+        camera: "scope.camera"
+    };
+    return AuthManager;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (AuthManager);
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+/**返回数组中最后一个元素，如果数组为空，返回null */
+Object.defineProperty(Array.prototype, "lastObject", {
+    configurable: false,
+    enumerable: false,
+    get: function () {
+        if (!this.length) {
+            return null;
+        }
+        return this[this.length - 1];
+    }
+});
+/**随机返回数组中一个元素，如果数组为空，返回null */
+Object.defineProperty(Array.prototype, "randomItem", {
+    configurable: false,
+    enumerable: false,
+    get: function () {
+        if (!this.length) {
+            return null;
+        }
+        var index = Math.floor(Math.random() * this.length);
+        return this[index];
+    }
+});
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+/**
+ *
+ * @param {时间格式，如“yyyy-mm-dd hh:mm:ss”} format
+ */
+Date.prototype.formatWithStyle = function (format) {
+    var y = this.getFullYear();
+    var m = this.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = this.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = this.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = this.getMinutes();
+    var second = this.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    format = format.replace("yyyy", y + "");
+    format = format.replace("mm", m + '');
+    format = format.replace("dd", d + '');
+    format = format.replace('hh', h + '');
+    format = format.replace('mm', minute + '');
+    format = format.replace('ss', second + '');
+    return format;
+};
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+/**
+ * 格式化秒数，如 1000s = 00:16:40
+ */
+Number.prototype.formatTime = function (format) {
+    if (format === void 0) { format = 'H:M:S'; }
+    var seconds = this;
+    seconds = Math.floor(seconds);
+    var hour = Math.floor(seconds / 3600);
+    var hourStr = hour < 10 ? ("0" + hour) : hour + '';
+    var balance = seconds % 3600;
+    var minute = Math.floor(balance / 60);
+    var minuteStr = minute < 10 ? ("0" + minute) : minute + '';
+    var second = balance % 60;
+    var secondStr = second < 10 ? ("0" + second) : second + '';
+    if (format.indexOf('H') != -1) {
+        format = format.replace(/H/, hourStr);
+    }
+    if (format.indexOf('M') != -1) {
+        format = format.replace(/M/, minuteStr);
+    }
+    if (format.indexOf('S') != -1) {
+        format = format.replace(/S/, secondStr);
+    }
+    return format;
+};
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+
+Laya.View.prototype.createViewFromJSON = function (url, complete) {
+    var _this = this;
+    if (!url)
+        return;
+    var type = Laya.Utils.getFileExtension(url);
+    type || (url += '.json');
+    Laya.loader.resetProgress();
+    var loader = new Laya.SceneLoader();
+    loader.on(Laya.Event.COMPLETE, null, function () {
+        var obj = Laya.Loader.getRes(url);
+        if (!obj)
+            throw "Can not find scene:" + url;
+        if (!_this._getBit(/*laya.Const.NOT_READY*/ 0x08)) {
+            console.warn('Scene has been Ready!!!');
+            _this.event(Laya.Event.READY, _this);
+            complete && complete.runWith(null);
+        }
+        else {
+            _this.on('onViewCreated', null, function () {
+                _this.event(Laya.Event.READY, _this);
+                complete && complete.runWith(null);
+            });
+            _this.createView(obj);
+        }
+    });
+    loader.load(url);
+};
+var LAST_CLICK_TIME = '_last_click_time';
+Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail) {
+    if (throttle === void 0) { throttle = false; }
+    caller || (caller = {});
+    return this.on(Laya.Event.CLICK, this, function (args) {
+        if (!throttle) {
+            method.call(caller, args);
+            return;
+        }
+        var now = Date.now(), time = caller[LAST_CLICK_TIME] || 0, delta = now - time;
+        if (delta > 1000) {
+            method.call(caller, args);
+        }
+        else {
+            fail && fail.call(caller, '操作速度过快');
+            console.warn('操作点击过快');
+        }
+        caller[LAST_CLICK_TIME] = now;
+    });
+};
+Laya.Node.prototype.dispatchLifeCycleEvent = function (method, p1, p2, p3, p4, p5) {
+    this.dispatchComponentEvent(method, p1, p2, p3, p4, p5);
+    if (!this.destroyed) {
+        for (var i = 0, length_1 = this.numChildren; i < length_1; i++) {
+            var child = this.getChildAt(i);
+            child.dispatchComponentEvent(method, p1, p2, p3, p4, p5);
+        }
+    }
+    if (this[method]) {
+        this[method](p1, p2, p3, p4, p5);
+    }
+};
+Laya.Node.prototype.dispatchComponentEvent = function (method, p1, p2, p3, p4, p5) {
+    var components = this['_components'] || [];
+    components.forEach(function (item) {
+        if (item[method] && item.enabled) {
+            item[method](p1, p2, p3, p4, p5);
+        }
+    });
+};
+Laya.Sprite.prototype.drawBackground = function () {
+    this.graphics.clear();
+    this.graphics.drawPath(0, 0, _utils_utils__WEBPACK_IMPORTED_MODULE_0__["default"].makeRoundRectPath(this.width, this.height, this._cornerRadius || 0, PaoYa.RectCorner.RectCornerAllCorners), {
+        fillStyle: this._backgroundColor
+    });
+};
+Laya.Scene.load = function (url, complete, progress) {
+    Laya.loader.resetProgress();
+    var loader = new Laya.SceneLoader();
+    loader.on(/*laya.events.Event.PROGRESS*/ "progress", null, onProgress);
+    loader.once(/*laya.events.Event.COMPLETE*/ "complete", null, done);
+    loader.load(url);
+    function onProgress(value) {
+        if (Laya.Scene['_loadPage'])
+            Laya.Scene['_loadPage'].event("progress", value);
+        progress && progress.runWith(value);
+    }
+    function done() {
+        if (Laya.Scene['_prepareHandler']) {
+            var prepare = Laya.Scene['_prepareHandler'];
+            if (typeof prepare == 'function') {
+                prepare();
+                create();
+            }
+            else if (typeof prepare == 'object') {
+                if (prepare['async']) {
+                    prepare['async'](function () {
+                        create();
+                    });
+                }
+                else {
+                    prepare['sync']();
+                    create();
+                }
+            }
+        }
+        else {
+            create();
+        }
+    }
+    function create() {
+        Laya.Scene['_prepareHandler'] = null;
+        loader.off(/*laya.events.Event.PROGRESS*/ "progress", null, onProgress);
+        var p = url;
+        if (p instanceof Array) {
+            url = p[p.length - 1];
+        }
+        var obj = Laya.Loader.getRes(url);
+        if (!obj)
+            throw "Can not find scene:" + url;
+        if (!obj.props)
+            throw "Scene data is error:" + url;
+        var runtime = obj.props.runtime ? obj.props.runtime : obj.type;
+        var clas = Laya.ClassUtils.getClass(runtime);
+        if (obj.props.renderType == "instance") {
+            var scene = clas.instance || (clas.instance = new clas());
+        }
+        else {
+            scene = new clas();
+        }
+        if (scene && (scene instanceof laya.display.Node)) {
+            scene.url = url;
+            if (!scene._getBit(/*laya.Const.NOT_READY*/ 0x08)) {
+                complete && complete.runWith(scene);
+                Laya.Scene.hideLoadingPage();
+            }
+            else {
+                scene.on("onViewCreated", null, function () {
+                    Laya.Scene.hideLoadingPage();
+                    complete && complete.runWith(scene);
+                });
+                scene.createView(obj);
+            }
+        }
+        else {
+            throw "Can not find scene:" + runtime;
+        }
+    }
+};
+/**为指定的Sprite添加背景色，使用时需要先确定该Sprite的宽高 */
+Object.defineProperty(Laya.Sprite.prototype, "backgroundColor", {
+    configurable: false,
+    enumerable: false,
+    get: function () {
+        return this._backgroundColor || null;
+    },
+    set: function (color) {
+        if (!color || (color == this._backgroundColor))
+            return;
+        this._backgroundColor = color;
+        // this._bgSprite = this._bgSprite || this.addChildAt(new Laya.Sprite(),0)
+        Laya.timer.callLater(this, this.drawBackground);
+    }
+});
+/**为指定的Sprite添加圆角，使用时需要先确定该Sprite的宽高，一般配合backgroundColor一起使用 */
+Object.defineProperty(Laya.Sprite.prototype, "cornerRadius", {
+    configurable: false,
+    enumerable: false,
+    get: function () {
+        return this._cornerRadius || 0;
+    },
+    set: function (radius) {
+        if (!radius || (this._cornerRadius == radius))
+            return;
+        this._cornerRadius = radius;
+        // this._bgSprite = this._bgSprite || this.addChildAt(new Laya.Sprite(),0)
+        Laya.timer.callLater(this, this.drawBackground);
+    }
+});
+
+
+/***/ })
+/******/ ]);

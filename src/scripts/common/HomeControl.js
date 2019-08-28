@@ -1,6 +1,7 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
 import GameGuideData from '../../gamescripts/gameGuide/GameGuideData';
 import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
+import SoundManager from "../../gamescripts/SoundManager";
 let guideContainer,
     maskArea,
     interactionArea,
@@ -181,7 +182,7 @@ export default class HomeControl extends PaoYa.Component {
             stageId: 1
         }, (res) => {
             res.gameType = 'pass';
-             this.navigator.push("GameView", res);           
+            this.navigator.push("GameView", res);           
         })
     }
     setGuide() {
