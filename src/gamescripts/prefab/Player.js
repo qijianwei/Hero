@@ -184,9 +184,9 @@ export default class Player extends PaoYa.Component {
 
     if (this.HPComp.curHP <= 0) {
       console.error('死亡结束')
+      GameControl.instance.deathHandler(this.isSelf);
       this.killed = true;
       this.skeleton.play("death", false);
-      GameControl.instance.deathHandler(this.isSelf);
       //  GameControl.instance.passOver(this.isSelf);
       /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
       return;
@@ -239,13 +239,20 @@ export default class Player extends PaoYa.Component {
   }
   minusHp(endTime, hpValue) {
     if (new Date().getTime() > endTime) {
-      this.removePoison();
-      Laya.timer.clear(this, this.minusHp);
+      this.removePoison(); 
       return;
     }
     let showText = hpValue > 0 ? "中毒+" + hpValue : "中毒" + hpValue;
     this.showFontEffect(showText, "poision")
     this.HPComp.changeHP(hpValue);
+    if (this.HPComp.curHP <= 0) {
+      console.error('中毒死亡结束')
+      this.removePoison();
+      this.killed = true;
+      this.skeleton.play("death", false);
+      GameControl.instance.deathHandler(this.isSelf);
+      return;
+    }
   }
   removePoison() {
     /*   this.canAction = true;
@@ -253,6 +260,7 @@ export default class Player extends PaoYa.Component {
         Laya.MouseManager.enabled = true;
         GameControl.instance.allBtnsUnlock();
       } */
+     Laya.timer.clear(this, this.minusHp);
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
   }

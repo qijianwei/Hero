@@ -18,6 +18,7 @@ export default class PlayerSkill extends PaoYa.Component{
         //this.owner.scale(5,5);
         this.lblState.scale(5,5);
         this.tweenImg.complete();
+        this.tweenText.complete();
         this.tweenImg.to(this.imgBg,{alpha:1},500);
         this.tweenText.to(this.lblState,{scaleX:1.5,scaleY:1.5},500,Laya.Ease.backOut,Laya.Handler.create(this,()=>{
             this.tweenText.to(this.owner,{alpha:0},300,null,Laya.Handler.create(this,()=>{

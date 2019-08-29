@@ -719,7 +719,7 @@ export default class GameControl extends PaoYa.Component {
     }
 
     removeWeapon(target) {
-        let targetWeapons = target.isSelf ? this.selfWeapons : this.otherWeapons;
+        let targetWeapons = target.isSelf ? this.selfWeapons:this.otherWeapons;
         for (let i = 0, len = targetWeapons.length; i < len; i++) {
             if (targetWeapons[i] == target) {
                 targetWeapons.splice(i, 1);
@@ -727,7 +727,7 @@ export default class GameControl extends PaoYa.Component {
                 break;
             }
         }
-        console.log('删除后数组' + target.isSelf, targetWeapons)
+        console.log('删除后数组' + target.isSelf, targetWeapons.length)
     }
     //闪避技能 可能双方都要用
     dodgeSkillShow(isSelf) {
@@ -753,11 +753,21 @@ export default class GameControl extends PaoYa.Component {
 
 
     }
+    //所有有cd的
+    allCdEnd(){
+        this.weaponsBarArr.forEach((weaponBarComp) => {
+            weaponBarComp.endCD(); 
+        });
+        this.skillScr1.endCD();
+        this.skillScr2.endCD();
+        this.dodgeComp.endCD();
+    }
     deathHandler(loserIsSelf) {
         Laya.MouseManager.enabled = false;
         Laya.timer.clearAll(this);
         this.gameState = 'over'; 
         this.removeAllWeapons();
+        this.allCdEnd();
         switch (this.gameType) {
             case 'pass':
                 this.dealPass(loserIsSelf);
@@ -776,7 +786,7 @@ export default class GameControl extends PaoYa.Component {
             if (this.killNum == this.monsterNum) {
                 this.passOver(loserIsSelf);
             } else {       
-                Laya.timer.once(1000,this,this.replacePlayer);
+                Laya.timer.once(1500,this,this.replacePlayer)
             }
         }
     }
@@ -799,8 +809,9 @@ export default class GameControl extends PaoYa.Component {
     }
     //换角色
     replacePlayer() {
-        /* Laya.timer.clear(this, this.startSelect) */
         Laya.MouseManager.enabled = true;
+        this.selfWeapons=[]; //以防万一没清理干净
+        this.otherWeapons=[];
         this.robotRole = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotRole));
         this.robotWeaponList = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotWeaponList));
         this.resetPlayerInfo(); //主要是重置对方的名字信息
@@ -818,7 +829,6 @@ export default class GameControl extends PaoYa.Component {
     }
     //关卡结束
     passOver(loserIsSelf) {
-        //Laya.MouseManager.enabled = false;
         if (!loserIsSelf) {
             this.selfPlayer.comp.skeleton.play('win', true);
         } else {
@@ -830,7 +840,6 @@ export default class GameControl extends PaoYa.Component {
         this.selfPlayer.comp.MPComp.stopIncrease();
         this.otherPlayer.comp.MPComp.stopIncrease();
 
-      //  this.removeAllWeapons();
         Laya.timer.once(1000, this, () => {
             this.POST('martial_game_end', {
                 killNum: this.killNum

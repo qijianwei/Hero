@@ -1,6 +1,7 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
 import GameGuideData from '../../gamescripts/gameGuide/GameGuideData';
 import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
+import AlertDialog from "../../gamescripts/dialog/AlertDialog";
 let guideContainer,
     maskArea,
     interactionArea,
@@ -130,7 +131,7 @@ export default class HomeControl extends PaoYa.Component {
                 break;
                 //抽奖转盘
             case "btnRoulette":
-                console.log("去抽奖")
+               console.log(`去抽奖`)
                 break;
                 //开始游戏：
             case "btnStartGame":
@@ -182,6 +183,20 @@ export default class HomeControl extends PaoYa.Component {
         }, (res) => {
             res.gameType = 'pass';
             this.navigator.push("GameView", res);           
+        },(msg,code)=>{
+            let errorDialog;
+            if(code==3018){
+                errorDialog = new AlertDialog({
+                    title: "",
+                    message: msg
+                })  
+            }else{
+                errorDialog = new AlertDialog({
+                    title: "",
+                    message: msg
+                })
+            }
+            errorDialog.popup();   
         })
     }
     setGuide() {

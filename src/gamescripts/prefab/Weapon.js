@@ -297,7 +297,7 @@ export default class Weapon extends PaoYa.Component {
 
     // 
     this.refreshWeaponPoint(this.newX, this.newY)
-    if (this.newX > 1334 || this.newY > 750 || this.newX < 0) {
+    if (this.newX > 1334 || this.newY > 750 || this.newX < 0||this.selfPlayerComp.killed||this.otherPlayerComp.killed) {
       this.endMove();
       return;
     }
@@ -314,7 +314,7 @@ export default class Weapon extends PaoYa.Component {
    
     this.postNotification('collide');
     //如果对方闪避状态，无敌
-    if(this.otherPlayerComp.dodge||this.selfPlayerComp.killed||this.otherPlayerComp.killed){
+    if(this.otherPlayerComp.dodge){
       console.error('无敌状态或者一方已经死亡')
       return;
     }
@@ -338,7 +338,7 @@ export default class Weapon extends PaoYa.Component {
          this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
       }
     }
-    SoundManager.ins.injured();
+      SoundManager.ins.injured();
       this.endMove();
       let skill = this.params.activeSkill;  
       let skillEffect=this.params.skillEffect;
@@ -422,7 +422,7 @@ export default class Weapon extends PaoYa.Component {
   */
   calcAttackNum(skillEffect){
     let randomNum=Math.floor(Math.random()*100+1);
-    console.error('暴击百分比',this.selfPlayerComp.attr.calcCritProb);
+    //console.error('暴击百分比',this.selfPlayerComp.attr.calcCritProb);
     let selfAttr=this.selfPlayerComp.attr, 
         otherAttr=this.otherPlayerComp.attr,
         selfStrength=selfAttr.roleStrength,//臂力

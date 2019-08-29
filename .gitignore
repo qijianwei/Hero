@@ -11,5 +11,7 @@ bin/swan-game-adapter.js
 study/axios.js
 .svn
 node_modules/
+release2/
+webpack.configStudy.js
 
 

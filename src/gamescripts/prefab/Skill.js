@@ -40,7 +40,7 @@ export default class Skill extends PaoYa.Component {
         this.maxAngle = 270;
         this.startAngle = -90;
         this.endAngle = -90;
-        owner.on(Laya.Event.CLICK, this, this.clickHandler);
+      //  owner.on(Laya.Event.CLICK, this, this.clickHandler);
 
         this.cdTime = params.skillCd * 1000;
         if (!params.status) {
@@ -54,6 +54,9 @@ export default class Skill extends PaoYa.Component {
             this.spShadow.visible = false;
             this.lblLockTips.visible = false;
         }
+    }
+    onThrottleClick(){
+        this.clickHandler();
     }
     setCdTime(cdTime) {
         console.warn('修改cd时间:', cdTime);

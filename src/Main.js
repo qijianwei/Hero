@@ -41,7 +41,13 @@ export class Main extends GameMain {
 			Swordsman: `scenes/common/Swordsman`,
 			Swordsman: `scenes/common/Swordsman`,
 			MatchView:'scenes/common/Match/MatchView',
-			Grading:'scenes/common/Grading'
+			Grading:'scenes/common/Grading',
+			Devour:'scenes/common/Devour',
+			Refining:'scenes/common/Refining',
+			Sign:'scenes/common/Sign',
+			Wheel:'scenes/common/Wheel',
+			WeapList:'scenes/common/WeapList',
+
 		}
 
 		//分享地址

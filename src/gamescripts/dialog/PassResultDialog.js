@@ -51,6 +51,20 @@ export default class PassResultDialog extends PaoYa.Dialog{
             res.gameType="pass";
             PaoYa.navigator.replace("GameView", res);
             this.close();
+        },(msg,code)=>{
+            let errorDialog;
+            if(code==3018){
+                errorDialog = new AlertDialog({
+                    title: "",
+                    message: msg
+                })  
+            }else{
+                errorDialog = new AlertDialog({
+                    title: "",
+                    message: msg
+                })
+            }
+            errorDialog.popup();   
         })
           
        }

@@ -22,7 +22,7 @@ export default class WeaponBar extends PaoYa.Component {
         this.ownH = owner.height;
         this.boxAniWarn.pos(this.ownW/2,this.ownH/2)
        // this.aniWarn.play(0,true)
-        owner.on(Laya.Event.CLICK, this, this.clickHandler);
+      //  owner.on(Laya.Event.CLICK, this, this.clickHandler);
 
         this.spMask = new Laya.Sprite();
         this.maskArea = new Laya.Sprite();
@@ -39,6 +39,10 @@ export default class WeaponBar extends PaoYa.Component {
         this.freezeing=false;
        
         
+    }
+    //预防连续多次点击,来不及cd
+    onThrottleClick(){
+        this.clickHandler();
     }
     onEnable() {
         this.cdTime=this.params.weaponCd*1000;

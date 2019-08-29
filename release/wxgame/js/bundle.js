@@ -464,7 +464,7 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
-   console.log=function(){};
+console.log=function(){};
 console.warn=function(){};
 console.error=function(){};    
 
@@ -1083,6 +1083,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'firstWeaponSelect',
         value: function firstWeaponSelect() {
+            console.error('..............................');
             this.weaponManager = null;
             this.weaponManager = new _WeaponManager2.default(this.robotWeaponList);
             this.sWeapon = this.weaponManager.seletedWeapon();
@@ -1091,11 +1092,20 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'startSelect',
         value: function startSelect() {
+            /*  if(!this.sWeapon||this.gameState=='over'){
+                 return;
+             } */
             //如果选中的已经发射了，才可以重新选
             if (this.seletedLaunch) {
                 this.sWeapon = this.weaponManager.seletedWeapon();
+                if (!this.sWeapon) {
+                    //啥兵器都没有选中,都在冷却当中
+                    Laya.timer.once(1000, this, this.startSelect);
+                    return;
+                }
             }
             var curMp = this.otherPlayer.comp.MPComp.curMP;
+
             if (curMp >= this.sWeapon.params.weaponConsume) {
                 this.seletedLaunch = true;
                 if (this.otherPlayer.comp.canAction) {
@@ -1348,9 +1358,26 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'collisionDetection',
         value: function collisionDetection() {}
+        //所有有cd的
+
+    }, {
+        key: 'allCdEnd',
+        value: function allCdEnd() {
+            this.weaponsBarArr.forEach(function (weaponBarComp) {
+                weaponBarComp.endCD();
+            });
+            this.skillScr1.endCD();
+            this.skillScr2.endCD();
+            this.dodgeComp.endCD();
+        }
     }, {
         key: 'deathHandler',
         value: function deathHandler(loserIsSelf) {
+            Laya.MouseManager.enabled = false;
+            Laya.timer.clearAll(this);
+            this.gameState = 'over';
+            this.removeAllWeapons();
+            this.allCdEnd();
             switch (this.gameType) {
                 case 'pass':
                     this.dealPass(loserIsSelf);
@@ -1370,8 +1397,7 @@ var GameControl = function (_PaoYa$Component) {
                 if (this.killNum == this.monsterNum) {
                     this.passOver(loserIsSelf);
                 } else {
-                    this.removeAllWeapons();
-                    this.replacePlayer();
+                    Laya.timer.once(1000, this, this.replacePlayer);
                 }
             }
         }
@@ -1400,7 +1426,8 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'replacePlayer',
         value: function replacePlayer() {
-            Laya.timer.clear(this, this.startSelect);
+            /* Laya.timer.clear(this, this.startSelect) */
+            Laya.MouseManager.enabled = true;
             this.robotRole = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotRole));
             this.robotWeaponList = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotWeaponList));
             this.resetPlayerInfo(); //主要是重置对方的名字信息
@@ -1413,7 +1440,7 @@ var GameControl = function (_PaoYa$Component) {
                 monsterNum: this.monsterNum
             });
             console.error('换角色');
-
+            this.gameState = 'start';
             this.firstWeaponSelect();
         }
         //关卡结束
@@ -1423,21 +1450,20 @@ var GameControl = function (_PaoYa$Component) {
         value: function passOver(loserIsSelf) {
             var _this8 = this;
 
-            this.gameState = 'over';
-            Laya.MouseManager.enabled = false;
+            //Laya.MouseManager.enabled = false;
             if (!loserIsSelf) {
                 this.selfPlayer.comp.skeleton.play('win', true);
             } else {
                 this.otherPlayer.comp.skeleton.play('win', true);
             }
-            Laya.timer.clearAll(this);
+
             console.error('闯关');
 
             this.selfPlayer.comp.MPComp.stopIncrease();
             this.otherPlayer.comp.MPComp.stopIncrease();
 
-            this.removeAllWeapons();
-            Laya.timer.once(2000, this, function () {
+            //  this.removeAllWeapons();
+            Laya.timer.once(1000, this, function () {
                 _this8.POST('martial_game_end', {
                     killNum: _this8.killNum
                 }, function (res) {
@@ -1450,6 +1476,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'removeAllWeapons',
         value: function removeAllWeapons() {
+            console.error('\u79FB\u9664\u6240\u6709\u5175\u5668');
             //删除界面上兵器
             this.selfWeapons.forEach(function (weapon) {
                 weapon.endMove();
@@ -1461,19 +1488,17 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'gameOver',
         value: function gameOver(loserIsSelf) {
-            this.gameState = 'over';
-            Laya.MouseManager.enabled = false;
             if (!loserIsSelf) {
                 this.selfPlayer.comp.skeleton.play('win', true);
             } else {
                 this.otherPlayer.comp.skeleton.play('win', true);
             }
-            Laya.timer.clearAll(this);
+
             console.error('游戏结束');
 
             this.selfPlayer.comp.MPComp.stopIncrease();
             this.otherPlayer.comp.MPComp.stopIncrease();
-            this.removeAllWeapons();
+            //this.removeAllWeapons();
             this.boxGameBanner.getComponent(_GameBanner2.default);
         }
     }, {
@@ -4031,7 +4056,6 @@ var Player = function (_PaoYa$Component) {
       //Laya.MouseManager.enabled = true;
       if (this.killed) {
         this.owner.removeSelf();
-        _GameControl2.default.instance.deathHandler(this.isSelf);
         return;
       }
       if (this.sectionAni == 1) {
@@ -4137,7 +4161,7 @@ var Player = function (_PaoYa$Component) {
         console.error('死亡结束');
         this.killed = true;
         this.skeleton.play("death", false);
-
+        _GameControl2.default.instance.deathHandler(this.isSelf);
         //  GameControl.instance.passOver(this.isSelf);
         /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
         return;

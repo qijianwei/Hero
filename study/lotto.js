@@ -187,3 +187,70 @@ function getRandomBehind() {
    console.log('多少注：',result);
     return result;
 })();
+
+
+/* Promise.all的运用 */
+function delayPromise(ms) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, ms);
+    });
+  }
+  function timeoutPromise(promise, ms) {
+    var timeout = delayPromise(ms).then(function () {
+            throw new Error('Operation timed out after ' + ms + ' ms');
+        });
+    return Promise.race([promise, timeout]);
+  }
+  // 运行示例
+  var taskPromise = new Promise(function(resolve){
+    // 随便一些什么处理
+    var delay = Math.random() * 2000;
+    setTimeout(function(){
+        resolve(delay + "ms");
+    }, delay);
+  });
+  timeoutPromise(taskPromise, 1000).then(function(value){
+    console.log("taskPromise在规定时间内结束 : " + value);
+  }).catch(function(error){
+    console.log("发生超时", error);
+  });
+  
+  
+  
+  
+  /* 扩展知识：定制Error对象
+  Error 对象是ECMAScript的内建（build in）对象。
+  
+  但是由于stack trace等原因我们不能完美的创建一个继承自 Error 的类，不过在这里我们的目的只是为了和Error有所区别，我们将创建一个 TimeoutError 类来实现我们的目的。
+  
+  在ECMAScript6中可以使用 class 语法来定义类之间的继承关系。 */
+  
+  class MyError extends Error{
+      // 继承了Error类的对象
+  }
+  /* 为了让我们的 TimeoutError 能支持类似 error instanceof TimeoutError 的使用方法，我们还需要进行如下工作。 */
+  
+  //TimeoutError.js
+  function copyOwnFrom(target, source) {
+      Object.getOwnPropertyNames(source).forEach(function (propName) {
+          Object.defineProperty(target, propName, Object.getOwnPropertyDescriptor(source, propName));
+      });
+      return target;
+  }
+  function TimeoutError() {
+      var superInstance = Error.apply(null, arguments);
+      copyOwnFrom(this, superInstance);
+  }
+  TimeoutError.prototype = Object.create(Error.prototype);
+  TimeoutError.prototype.constructor = TimeoutError;
+ /*  我们定义了 TimeoutError 类和构造函数，这个类继承了Error的prototype。
+  
+  它的使用方法和普通的 Error 对象一样，使用 throw 语句即可，如下所示。
+   */
+  var promise = new Promise(function(){
+      throw TimeoutError("timeout");
+  });
+  promise.catch(function(error){ 
+      console.log(error instanceof TimeoutError);
+  });
+  /* 有了这个 TimeoutError 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。 */
