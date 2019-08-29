@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class WeaponHouseControl extends PaoYa.Component {
     constructor() {
         super();
@@ -486,6 +488,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
             this.isRequesting = false
         })
         PaoYa.Request.POST(`martial_update_weapon`, { weaponId: `${detail.weaponId}-${detail.weaponLevel}`, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, res => {
+            SoundManager.ins.upgrade()
             let newDetail = null
             this.owner.upeffects.visible = true
             this.owner.upeffects.play(0, false)

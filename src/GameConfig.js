@@ -23,12 +23,22 @@ import MatchView from "./scripts/common/Match/MatchView"
 import MatchControl from "./scripts/common/Match/MatchControl"
 import Refining from "./scripts/common/refiner/Refining"
 import RefiningControl from "./scripts/common/refiner/RefiningControl"
+import Sign from "./scripts/common/sign/Sign"
+import SignControl from "./scripts/common/sign/SignControl"
 import Swordsman from "./scripts/common/figure/Swordsman"
 import SwordsmanControl from "./scripts/common/figure/SwordsmanControl"
+import WeaponList from "./scripts/common/task/WeaponList"
+import WeaponListControl from "./scripts/common/task/WeaponListControl"
 import WeaponHouse from "./scripts/common/weapon/WeaponHouse"
 import WeaponHouseControl from "./scripts/common/weapon/WeaponHouseControl"
 import WeaponStore from "./scripts/common/weapon/WeaponStore"
 import WeaponStoreControl from "./scripts/common/weapon/WeaponStoreControl"
+import Wheel from "./scripts/common/wheel/Wheel"
+import WheelControl from "./scripts/common/wheel/WheelControl"
+import Award from "./scripts/dialog/common/Award"
+import BuyWheelTimes from "./scripts/dialog/common/BuyWheelTimes"
+import Rank from "./scripts/dialog/common/Rank"
+import Task from "./scripts/dialog/common/Task"
 import BuyHero from "./scripts/dialog/figure/BuyHero"
 import GetNewSkill from "./scripts/dialog/figure/GetNewSkill"
 import SkillDetail from "./scripts/dialog/figure/SkillDetail"
@@ -74,12 +84,22 @@ export default class GameConfig {
 		reg("scripts/common/Match/MatchControl.js",MatchControl);
 		reg("scripts/common/refiner/Refining.js",Refining);
 		reg("scripts/common/refiner/RefiningControl.js",RefiningControl);
+		reg("scripts/common/sign/Sign.js",Sign);
+		reg("scripts/common/sign/SignControl.js",SignControl);
 		reg("scripts/common/figure/Swordsman.js",Swordsman);
 		reg("scripts/common/figure/SwordsmanControl.js",SwordsmanControl);
+		reg("scripts/common/task/WeaponList.js",WeaponList);
+		reg("scripts/common/task/WeaponListControl.js",WeaponListControl);
 		reg("scripts/common/weapon/WeaponHouse.js",WeaponHouse);
 		reg("scripts/common/weapon/WeaponHouseControl.js",WeaponHouseControl);
 		reg("scripts/common/weapon/WeaponStore.js",WeaponStore);
 		reg("scripts/common/weapon/WeaponStoreControl.js",WeaponStoreControl);
+		reg("scripts/common/wheel/Wheel.js",Wheel);
+		reg("scripts/common/wheel/WheelControl.js",WheelControl);
+		reg("scripts/dialog/common/Award.js",Award);
+		reg("scripts/dialog/common/BuyWheelTimes.js",BuyWheelTimes);
+		reg("scripts/dialog/common/Rank.js",Rank);
+		reg("scripts/dialog/common/Task.js",Task);
 		reg("scripts/dialog/figure/BuyHero.js",BuyHero);
 		reg("scripts/dialog/figure/GetNewSkill.js",GetNewSkill);
 		reg("scripts/dialog/figure/SkillDetail.js",SkillDetail);

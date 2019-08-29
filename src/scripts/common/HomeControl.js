@@ -1,6 +1,4 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
-import GameGuideData from '../../gamescripts/gameGuide/GameGuideData';
-import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
 import AlertDialog from "../../gamescripts/dialog/AlertDialog";
 let guideContainer,
     maskArea,
@@ -41,12 +39,12 @@ export default class HomeControl extends PaoYa.Component {
                 this.player.init(templet, 0);
             }
         });
-      
+
     }
-    onEnable(){
-        if(PaoYa.DataCenter.user.is_first_game==1){
+    onEnable() {
+        if (PaoYa.DataCenter.user.is_first_game == 1) {
             this.navigator.push('GameGuide', GameGuideData);
-       }
+        }
     }
     onAppear() {
         this.player.play('stand', true);
@@ -67,7 +65,7 @@ export default class HomeControl extends PaoYa.Component {
                     this.navigator.push("WeaponHouse", res);
                 })
                 break;
-                //兵器商店
+            //兵器商店
             case "btnWeaponStore":
                 console.log("进入兵器商店")
                 this.POST("martial_shop_list", {
@@ -90,7 +88,7 @@ export default class HomeControl extends PaoYa.Component {
 
                 })
                 break;
-                //炼器
+            //炼器
             case "btnRefiner":
                 console.log("进入炼器")
                 this.GET("martial_refiner_list", {}, res => {
@@ -101,7 +99,7 @@ export default class HomeControl extends PaoYa.Component {
                     this.navigator.push("Refining", res);
                 })
                 break;
-                //兵器谱
+            //兵器谱
             case "btnWeaponSpectrum":
                 this.GET("martial_weapon_list", {}, res => {
                     //console.log(res)
@@ -112,13 +110,13 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("进入兵器谱")
                 break;
-                //英雄库
+            //英雄库
             case "btnHerosHouse":
                 console.log("进入英雄库")
                 this.goHerosHouse();
                 break;
 
-                //签到
+            //签到
             case "btnRegister":
                 this.GET("martial_login_bonus_list", {}, res => {
                     //console.log(res)
@@ -129,16 +127,17 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("打开签到")
                 break;
-                //抽奖转盘
+            //抽奖转盘
             case "btnRoulette":
-               console.log(`去抽奖`)
+                this.navigator.push("Wheel");
+                console.log("去抽奖")
                 break;
-                //开始游戏：
+            //开始游戏：
             case "btnStartGame":
                 console.log("开始游戏请求的数据......")
                 this.goPassGame();
                 break;
-                //华山论剑
+            //华山论剑
             case "btnBattle":
                 console.log("华山论剑")
                 this.GET("martial_role_list", {}, res => {
@@ -149,20 +148,34 @@ export default class HomeControl extends PaoYa.Component {
                     this.navigator.push("Grading", res);
                 })
                 break;
-                //决战紫禁城之巅
+            //决战紫禁城之巅
             case "btnBoss":
                 console.log("决战")
                 break;
-                //排行榜
+            //排行榜
             case "rank":
+                this.GET("ranking_list", {}, res => {
+                    //console.log(res)
+                    if (!res) {
+                        return
+                    }
+                    this.navigator.popup("common/Rank", res);
+                })
                 console.log("进入排行榜")
                 break;
-                //玩法
+            //玩法
             case "btnPlayRule":
                 console.log("玩法介绍")
                 break;
-                //设置
+            //设置
             case "btnTask":
+                this.GET("martial_task_list", {}, res => {
+                    //console.log(res)
+                    if (!res) {
+                        return
+                    }
+                    this.navigator.popup("common/Task", res);
+                })
                 console.log("任务")
                 break;
 
@@ -177,12 +190,12 @@ export default class HomeControl extends PaoYa.Component {
             this.navigator.push("Swordsman", res);
         })
     }
-    goPassGame(){
+    goPassGame() {
         this.POST("hero_game_start", {
             stageId: 1
         }, (res) => {
             res.gameType = 'pass';
-            this.navigator.push("GameView", res);           
+            this.navigator.push("GameView", res);
         },(msg,code)=>{
             let errorDialog;
             if(code==3018){
@@ -215,11 +228,11 @@ export default class HomeControl extends PaoYa.Component {
         //maskArea.zOrder=1000;
         guideContainer.addChild(maskArea);
         //透明度变化
-        let tween=new Laya.Tween();
-        tween.to(maskArea,{
-            alpha:0.5
-        },2000,null,Laya.Handler.create(this,()=>{
-           
+        let tween = new Laya.Tween();
+        tween.to(maskArea, {
+            alpha: 0.5
+        }, 2000, null, Laya.Handler.create(this, () => {
+
         }));
         //绘制可点击区域
         interactionArea = new Laya.Sprite();
@@ -268,17 +281,17 @@ export default class HomeControl extends PaoYa.Component {
                     break;
             }
         })
-        this.spriteBg.on(Laya.Event.CLICK,this,(e)=>{
-            guideStep+=1;
-            switch(guideStep){
-              case 4:
-                  e.stopPropagation();
-                  this.step4();
-                  break;
-            }   
+        this.spriteBg.on(Laya.Event.CLICK, this, (e) => {
+            guideStep += 1;
+            switch (guideStep) {
+                case 4:
+                    e.stopPropagation();
+                    this.step4();
+                    break;
+            }
             console.log(`接收到点击`)
         })
-        nextLabel.on(Laya.Event.CLICK,this,this.nextTick);
+        nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
     }
     step1() {
         selfSpeakMan.visible = false;
@@ -292,30 +305,30 @@ export default class HomeControl extends PaoYa.Component {
 
     }
     step3() {
-        nextLabel.visible=false;
+        nextLabel.visible = false;
         selfSpeakMan.visible = false;
-        this.aniFinger.visible=true;
-        this.aniFinger.play(0,true);
+        this.aniFinger.visible = true;
+        this.aniFinger.play(0, true);
         interactionArea.graphics.clear();
         interactionArea.graphics.drawRect(730, 103, 370, 165, '#000');
         hitArea.unHit.clear();
         hitArea.unHit.drawRect(730, 103, 370, 165, '#000');
     }
-    step4(){
-       this.aniFinger.visible=false;
-       this.aniFinger.stop();
-       interactionArea.graphics.clear();
-       guideContainer.removeSelf();
-       this.aniFinger.destroy();
-       this.goPassGame();
+    step4() {
+        this.aniFinger.visible = false;
+        this.aniFinger.stop();
+        interactionArea.graphics.clear();
+        guideContainer.removeSelf();
+        this.aniFinger.destroy();
+        this.goPassGame();
     }
-    nextTick(e){
+    nextTick(e) {
         e.stopPropagation();
-        guideStep+=1;
-        this['step'+guideStep]();
+        guideStep += 1;
+        this['step' + guideStep]();
     }
-    onDisappear() {}
-   
-    onDisable() {}
-    onDestroy() {}
+    onDisappear() { }
+
+    onDisable() { }
+    onDestroy() { }
 }

@@ -41,6 +41,9 @@ export default class WeaponStore extends PaoYa.View {
         })
 
         this.refreshBtn.on(Laya.Event.CLICK, this, () => {
+            if(WeaponStore.ins.isRefrshing){
+                true
+            }
             let isHigh = false, highDeatil
             WeaponStoreControl.ins.buyList.forEach(element => {
                 if (element.weaponStar == 3) {

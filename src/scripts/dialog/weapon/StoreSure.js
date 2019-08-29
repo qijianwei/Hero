@@ -33,22 +33,30 @@ export default class StoreSure extends PaoYa.Dialog {
             DevourControl.ins.eatWp(1)
         })
 
+        this.closeBtn.on(Laya.Event.CLICK, this, () => {
+            this.close()
+        })
+
         if (this.params.type == `buy`) {
+            this.title.skin = `remote/weaponstore/6.png`
+            this.title.x = (543 - this.title.width) / 2
             this.btn1.visible = true
             this.btn2.visible = true
             this.btn3.visible = false
             this.btn4.visible = false
         } else {
+            this.title.skin = `remote/weaponstore/7.png`
+            this.title.x = (543 - this.title.width) / 2
             this.btn1.visible = false
             this.btn2.visible = false
-            if(this.params.type == `refining`){
+            if (this.params.type == `refining`) {
                 this.btn3.visible = false
                 this.btn5.visible = true
-            }else{
+            } else {
                 this.btn3.visible = true
                 this.btn5.visible = false
             }
-            
+
             this.btn4.visible = true
         }
 
@@ -62,8 +70,7 @@ export default class StoreSure extends PaoYa.Dialog {
         this.btn3Txt.scale(0.45, 0.45)
         this.btn5Txt.font = `weaponDFont`
         this.btn5Txt.scale(0.45, 0.45)
-        this.currtWeaponLevel.font = `weaponNFontT`
-        this.currtWeaponLevel.scale(0.7, 0.7)
+   
 
         let showMarkUrl = null
         switch (this.params.detail.weaponType) {
@@ -80,6 +87,8 @@ export default class StoreSure extends PaoYa.Dialog {
         this.showWeapon.skin = `remote/small_weapons/s_${this.params.detail.weaponId}.png`
         this.showMark.skin = showMarkUrl
         this.currtWeaponLevel.text = `LV.${this.params.detail.weaponLevel}`
+        this.currtWeaponLevel.font = `weaponNFontT`
+        this.currtWeaponLevel.scale(0.6, 0.6)
     }
 
     onDisable() {

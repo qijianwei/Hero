@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class SwordsmanControl extends PaoYa.Component {
     constructor() {
         super();
@@ -25,6 +27,9 @@ export default class SwordsmanControl extends PaoYa.Component {
             this.owner.goldNum.text = PaoYa.DataCenter.user.gold
         }
         PaoYa.Request.POST(`martial_update_role`, { roleId: this.owner.showDetail.roleId }, res => {
+            SoundManager.ins.upgrade()
+            this.owner.heroLvup.visible = true
+            this.owner.heroLvup.play(0, false)
             this.owner.params.roleList.forEach(element => {
                 if (element.roleId == res.role.roleId) {
                     for (const key in element) {
@@ -35,11 +40,11 @@ export default class SwordsmanControl extends PaoYa.Component {
             });
             this.owner.initInfo()
 
-            if(res.unlock){
+            if (res.unlock) {
                 let detail = null
                 this.owner.showDetail.skills.forEach(element => {
-                    if(element.status){
-                        detail=element
+                    if (element.status) {
+                        detail = element
                     }
                 });
 

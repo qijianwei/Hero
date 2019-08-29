@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":192,
+    "selectedBox":149,
+    "selecteID":194,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
-    "maxID":194,
+    "maxID":195,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -274,20 +274,6 @@
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":139,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite,isUse",
-                    "props":{"zOrder":9,"y":392,"x":221,"var":"isUse","texture":"remote/figure/6.png"},
-                    "nodeParent":113,
-                    "label":"isUse",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":131,
                     "child":[
                         ]
                 }],
@@ -885,12 +871,25 @@
             "nodeParent":2,
             "label":"skbox",
             "isOpen":true,
-            "isDirectory":false,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
+            "hasChild":true,
             "compId":149,
             "child":[
-                ]
+                {
+                    "x":30,
+                    "type":"Animation",
+                    "searchKey":"Animation,heroLvup",
+                    "props":{"zOrder":12,"y":200,"x":100,"visible":false,"var":"heroLvup","source":"scenes/animations/lvup_hero.ani"},
+                    "nodeParent":149,
+                    "label":"heroLvup",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":194,
+                    "child":[
+                        ]
+                }]
         },
         {
             "x":15,
@@ -899,14 +898,13 @@
             "props":{"y":592,"x":-18,"width":1341,"var":"herolist","spaceX":2,"height":160},
             "nodeParent":2,
             "label":"herolist",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":124,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":0,"x":72,"width":157,"renderType":"render","height":160},
@@ -919,7 +917,6 @@
                     "compId":128,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":9,"x":-13,"texture":"remote/game/avstarBg.png","scaleY":0.95,"scaleX":0.95},
@@ -935,7 +932,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,bgwarp",
                             "props":{"y":-1,"x":-22,"visible":false,"skin":"remote/figure/4.png","name":"bgwarp"},
@@ -951,7 +947,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,icon",
                             "props":{"y":19.5,"x":-2,"skin":"remote/game/avstar_1.png","name":"icon"},
@@ -966,6 +961,20 @@
                             "$HIDDEN":false
                         }]
                 }]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,isUse",
+            "props":{"zOrder":9,"y":539,"x":257,"var":"isUse","texture":"remote/figure/6.png"},
+            "nodeParent":2,
+            "label":"isUse",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":131,
+            "child":[
+                ]
         }],
     "animations":[
         {

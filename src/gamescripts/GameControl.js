@@ -258,8 +258,8 @@ export default class GameControl extends PaoYa.Component {
                 component.activeSkills.push(this[role].skills[i]);
             }
         }
-        console.error('人物技能');
-        console.error(component.activeSkills)
+       /*  console.error('人物技能');
+        console.error(component.activeSkills) */
 
         //component.attr.skillWeapon.params={};
         if (component.attr.skillWeapon) {
@@ -524,11 +524,12 @@ export default class GameControl extends PaoYa.Component {
             if (this.otherPlayer.comp.canAction) {
                 this.sWeapon.isSelf = false;
                 this.sWeapon.selectedHandler();
+                console.error(`鬼................... `)
                 this.weaponBarClickHandler(this.sWeapon);
             } else {
                 console.error("无法动弹")
             }
-            Laya.timer.once(1000, this, this.startSelect);
+            Laya.timer.once(5000, this, this.startSelect);
         } else {
             this.seletedLaunch = false;
             Laya.timer.once(500, this, this.startSelect);

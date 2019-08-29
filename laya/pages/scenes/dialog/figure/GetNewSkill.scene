@@ -62,7 +62,7 @@
                     "x":30,
                     "type":"Text",
                     "searchKey":"Text,skillName",
-                    "props":{"y":122,"x":0,"var":"skillName","text":"text"},
+                    "props":{"y":122,"x":0,"var":"skillName"},
                     "nodeParent":15,
                     "label":"skillName",
                     "isDirectory":false,
