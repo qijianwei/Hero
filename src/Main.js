@@ -105,14 +105,12 @@ export class Main extends GameMain {
 	/**此处返回游戏需要提前加载的资源，必须返回一个数组 */
 	setupGameRes() {
 		let list = [
-			'res/atlas/remote/game.atlas',
-			'res/atlas/remote/weapons.atlas',
+			'res/atlas/remote/guide.atlas',
 
-
-			'spine/hero/hero_1.png',
+		/* 	'spine/hero/hero_1.png',
 			'spine/hero/hero_1.sk',
 			'spine/hero/hero_2.png',
-			'spine/hero/hero_2.sk',
+			'spine/hero/hero_2.sk', */
 			
 			/* 场景 */
 			'spine/scene/scene1.png',
@@ -126,9 +124,19 @@ export class Main extends GameMain {
 			'res/atlas/remote/recover_power.atlas',
 			'res/atlas/remote/trigger_skill.atlas',
 			'res/atlas/remote/warn_arms.atlas',//cd发光效果
-			
 			'res/atlas/remote/collision.atlas',
-	        
+			
+			/* 武器上的动效 */
+			'res/atlas/remote/weapon_effect/weapon_blood.atlas',
+			'res/atlas/remote/weapon_effect/weapon_blue.atlas',
+			'res/atlas/remote/weapon_effect/weapon_crits.atlas',
+			'res/atlas/remote/weapon_effect/weapon_freeze.atlas',
+			'res/atlas/remote/weapon_effect/weapon_palsy.atlas',
+			'res/atlas/remote/weapon_effect/weapon_poison.atlas',
+			'res/atlas/remote/weapon_effect/weapon_reduce.atlas',
+			'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
+			'res/atlas/remote/weapon_effect/weapon_thump.atlas',
+			 'res/atlas/remote/weapon_petrifie.png',      
 		
 			/* 技能 */
 			'res/atlas/remote/hero_skill/hero1_skill1.atlas',
@@ -142,19 +150,14 @@ export class Main extends GameMain {
 			/* 武器图标 */
 			'res/atlas/remote/weapons.atlas',
 			'res/atlas/remote/small_weapons.atlas',
+			'res/atlas/remote/game.atlas',
 
 			'res/atlas/remote/trigger_skill.atlas',
 
-			'res/atlas/remote/weapon_effect/weapon_blood.atlas',
-			'res/atlas/remote/weapon_effect/weapon_blue.atlas',
-			'res/atlas/remote/weapon_effect/weapon_crits.atlas',
-			'res/atlas/remote/weapon_effect/weapon_freeze.atlas',
-			'res/atlas/remote/weapon_effect/weapon_palsy.atlas',
-			'res/atlas/remote/weapon_effect/weapon_poison.atlas',
-			'res/atlas/remote/weapon_effect/weapon_reduce.atlas',
-			'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
-			'res/atlas/remote/weapon_effect/weapon_thump.atlas',
-			'res/atlas/remote/guide.atlas',
+			/* 不知 */
+			'res/atlas/remote/lvup_arms.atlas',
+			'res/atlas/lvup_hero.atlas',
+			
 		/* 	'' */
 	
 		];		
@@ -173,3 +176,32 @@ new Main();
 /*   console.log=function(){};
 console.warn=function(){};
 console.error=function(){};    */ 
+
+	/* 	 'gamescenes/animatios/collsion.ani',
+			 'gamescenes/animations/debuff_dizzy.ani',
+			 'gamescenes/animations/debuff_palsy.ani',
+			 'gamescenes/animations/debuff_poision.ani',
+			 'gamescenes/animations/guide_hand.ani',
+			 'gamescenes/animations/hero1_skill1.ani',
+			 'gamescenes/animations/hero1_skill2.ani',
+			 'gamescenes/animations/hero2_skill1.ani',
+			 'gamescenes/animations/hero2_skill2.ani',
+			 'gamescenes/animations/injured_bot.ani',
+			 'gamescenes/animations/injured_mid.ani',
+			 'gamescenes/animations/injured_top.ani',
+			 'gamescenes/animations/recover_blood.ani',
+
+			 'gamescenes/animatios/recover_power.ani',
+			 'gamescenes/animations/weapon_crits1.ani',
+			 'gamescenes/animations/weapon_crits2.ani',
+			 'gamescenes/animations/weapon_freeze.ani',
+
+			 'gamescenes/animations/weapon_palsy1.ani',
+			 'gamescenes/animations/weapon_palsy2.ani',
+			 'gamescenes/animations/weapon_reduce.ani',
+
+			 'gamescenes/animations/weapon_repeat1.ani',
+			 'gamescenes/animations/weapon_repeat2.ani',
+			 'gamescenes/animations/weapon_thump1.ani',
+			 'gamescenes/animations/weapon_thump2.ani',
+			 'gamescenes/animations/weapon_thump3.ani', */

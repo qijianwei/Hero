@@ -488,7 +488,7 @@ var Main = exports.Main = function (_GameMain) {
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
 
-			'res/atlas/remote/collision.atlas',
+        'res/atlas/remote/collision.atlas', 
 
 			/* 技能 */
 			'res/atlas/remote/hero_skill/hero1_skill1.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/hero_skill/hero2_skill1.atlas', 'res/atlas/remote/hero_skill/hero2_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas',
@@ -514,9 +514,9 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
-   console.log=function(){};
+ /*   console.log=function(){};
 console.warn=function(){};
-console.error=function(){};    
+console.error=function(){};   */  
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":26}],4:[function(require,module,exports){
 'use strict';

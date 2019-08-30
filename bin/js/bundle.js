@@ -339,7 +339,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -481,20 +481,30 @@ var Main = exports.Main = function (_GameMain) {
 	}, {
 		key: "setupGameRes",
 		value: function setupGameRes() {
-			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/hero/hero_2.png', 'spine/hero/hero_2.sk',
+			var list = ['res/atlas/remote/guide.atlas',
+
+			/* 	'spine/hero/hero_1.png',
+   	'spine/hero/hero_1.sk',
+   	'spine/hero/hero_2.png',
+   	'spine/hero/hero_2.sk', */
 
 			/* 场景 */
 			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
+			'res/atlas/remote/collision.atlas', 'gamescenes/animatios/collsion.ani', 'gamescenes/animations/debuff_dizzy.ani', 'gamescenes/animations/debuff_palsy.ani', 'gamescenes/animations/debuff_poision.ani', 'gamescenes/animations/guide_hand.ani', 'gamescenes/animations/hero1_skill1.ani', 'gamescenes/animations/hero1_skill2.ani', 'gamescenes/animations/hero2_skill1.ani', 'gamescenes/animations/hero2_skill2.ani', 'gamescenes/animations/injured_bot.ani', 'gamescenes/animations/injured_mid.ani', 'gamescenes/animations/injured_top.ani', 'gamescenes/animations/recover_blood.ani', 'gamescenes/animatios/recover_power.ani', 'gamescenes/animations/weapon_crits1.ani', 'gamescenes/animations/weapon_crits2.ani', 'gamescenes/animations/weapon_freeze.ani', 'gamescenes/animations/weapon_palsy1.ani', 'gamescenes/animations/weapon_palsy2.ani', 'gamescenes/animations/weapon_reduce.ani', 'gamescenes/animations/weapon_repeat1.ani', 'gamescenes/animations/weapon_repeat2.ani', 'gamescenes/animations/weapon_thump1.ani', 'gamescenes/animations/weapon_thump2.ani', 'gamescenes/animations/weapon_thump3.ani',
 
-			'res/atlas/remote/collision.atlas',
+			/* 武器上的动效 */
+			'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas', 'res/atlas/remote/weapon_petrifie.png',
 
 			/* 技能 */
 			'res/atlas/remote/hero_skill/hero1_skill1.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/hero_skill/hero2_skill1.atlas', 'res/atlas/remote/hero_skill/hero2_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas',
 
 			/* 武器图标 */
-			'res/atlas/remote/weapons.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas', 'res/atlas/remote/guide.atlas'];
+			'res/atlas/remote/weapons.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/game.atlas', 'res/atlas/remote/trigger_skill.atlas',
+
+			/* 不知 */
+			'res/atlas/remote/lvup_arms.atlas', 'res/atlas/lvup_hero.atlas'];
 			return list;
 		}
 	}, {
