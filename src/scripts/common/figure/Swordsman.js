@@ -1,5 +1,6 @@
 import SwordsmanControl from "./SwordsmanControl";
 import HeroConfig from "../../../gamescripts/config/HeroConfig";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class Swordsman extends PaoYa.View {
     constructor() {
@@ -11,6 +12,29 @@ export default class Swordsman extends PaoYa.View {
     }
 
     onEnable() {
+        this.isGuide = this.params.isGuide
+        this.guideBack = false
+        this.params = this.params.detail
+        if (this.isGuide) {
+            this.guide1.visible = true
+
+            this.guideContainer = new Laya.Sprite();
+            Laya.stage.addChild(this.guideContainer);
+            this.guideContainer.cacheAs = "bitmap";
+
+            let spmask = new Laya.Sprite()
+            spmask.alpha = 0.5
+            this.guideContainer.addChild(spmask)
+            spmask.graphics.drawRect(-150, 0, 1634, 750, "#000");
+
+            this.sp = new Laya.Sprite();
+            this.guideContainer.addChild(this.sp);
+            // 设置叠加模式
+            this.sp.blendMode = "destination-out";
+            this.graR(885, 550, 125)
+
+            this.guide1f(1)
+        }
         this.params.roleList.forEach(element => {
             if (element.roleId == this.params.defaultRole) {
                 this.showDetail = element
@@ -18,6 +42,10 @@ export default class Swordsman extends PaoYa.View {
         });
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            if (this.isGuide && !this.guideBack) {
+                return
+            }
+            SoundManager.ins.btn()
             SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
             SwordsmanControl.ins.navigator.pop()
         })
@@ -42,30 +70,54 @@ export default class Swordsman extends PaoYa.View {
         this.changeGold()
 
         this.lvupbtn.on(Laya.Event.CLICK, this, () => {
+            if (this.guideBack) {
+                return
+            }
             SwordsmanControl.ins.roleLevelUp()
         })
 
         this.equipbtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             SwordsmanControl.ins.changeRole()
         })
 
         this.buyBtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             SwordsmanControl.ins.navigator.popup("figure/BuyHero", this.showDetail);
         })
 
         this.signGet.on(Laya.Event.CLICK, this, () => {
-            // SwordsmanControl.ins.navigator.popup("figure/BuyHero",this.showDetail);
+            SoundManager.ins.btn()
+            PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
+                //console.log(res)
+                if (!res) {
+                    return
+                }
+                this.navigator.push("Sign", res);
+            })
         })
 
         this.skill1.on(Laya.Event.CLICK, this, () => {
+            if (this.isGuide) {
+                return
+            }
+            SoundManager.ins.btn()
             SwordsmanControl.ins.showSkillDetail(0)
         })
 
         this.skill2.on(Laya.Event.CLICK, this, () => {
+            if (this.isGuide) {
+                return
+            }
+            SoundManager.ins.btn()
             SwordsmanControl.ins.showSkillDetail(1)
         })
 
         this.skill3.on(Laya.Event.CLICK, this, () => {
+            if (this.isGuide) {
+                return
+            }
+            SoundManager.ins.btn()
             SwordsmanControl.ins.showSkillDetail(2)
         })
     }
@@ -207,6 +259,10 @@ export default class Swordsman extends PaoYa.View {
         }
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
+            if (this.isGuide) {
+                return
+            }
+            SoundManager.ins.btn()
             this.prole.getChildByName(`bgwarp`).visible = false
             this.prole = cell
             this.showDetail = cell.dataSource
@@ -216,6 +272,29 @@ export default class Swordsman extends PaoYa.View {
     }
 
     onDisable() {
+        Laya.stage.removeChild(this.guideContainer)
+    }
 
+    guide1f(e) {
+        if (this.guideBack) {
+            this.guide1.visible = false
+            return
+        }
+        let n = e == 1 ? -1 : 1
+        Laya.Tween.to(this.guide1, { x: this.guide1.x + 15 * n }, 300, null, Laya.Handler.create(this, () => {
+            this.guide1f(n)
+        }))
+    }
+
+    guide2f(e) {
+        let n = e == 1 ? -1 : 1
+        Laya.Tween.to(this.guide2, { y: this.guide2.y + 15 * n }, 300, null, Laya.Handler.create(this, () => {
+            this.guide2f(n)
+        }))
+    }
+
+    graR(x, y, r) {
+        this.sp.graphics.clear();
+        this.sp.graphics.drawCircle(x, y, r, "#000000");
     }
 }

@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class Task extends PaoYa.Dialog {
 
     constructor() {
@@ -7,6 +9,7 @@ export default class Task extends PaoYa.Dialog {
     onEnable() {
         this.btnClose.on(Laya.Event.CLICK, this, () => {
             this.close()
+            SoundManager.ins.btn()
         })
 
         this.title.font = `weaponDFont`
@@ -26,7 +29,6 @@ export default class Task extends PaoYa.Dialog {
     }
 
     rankListItem(cell, index) {
-        console.log(cell.dataSource, index)
         let rankicon = cell.getChildByName(`rankicon`)
         let ranknum = cell.getChildByName(`ranknum`)
         let usericon = cell.getChildByName(`usericon`)
@@ -41,7 +43,7 @@ export default class Task extends PaoYa.Dialog {
         rankdetail.text = `${PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName}X${num1}`
         name.visible = true
         rankdetail.visible = true
-        usericon.skin = `https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKnrMK7galvib1otbI0CLStUbjia2XibibrAb57FlVuiaM6ct3NIxzVm8TXr7vHqHmBQnibVvV5EVduHDkA/132`
+        usericon.skin=cell.dataSource.member_avstar;
         usericon.visible = true
 
         if (index < 3) {

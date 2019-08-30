@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class SkillDetail extends PaoYa.Dialog {
 
     constructor() {
@@ -14,7 +16,10 @@ export default class SkillDetail extends PaoYa.Dialog {
     }
 
     onEnable() {
-        this.mask.on(Laya.Event.CLICK,this,this.close)
+        this.maskBg.on(Laya.Event.CLICK,this,()=>{
+            SoundManager.ins.btn()
+            this.close()
+        })
         this.skillName.text = this.params.skillName
         this.skillName.font = `figureDetail`
         this.skillName.scale(0.75, 0.75)

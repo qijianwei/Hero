@@ -1,5 +1,6 @@
 import GradingControl from "./GradingControl";
 import HeroConfig from "../../../gamescripts/config/HeroConfig";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class Grading extends PaoYa.View {
     constructor() {
@@ -13,10 +14,12 @@ export default class Grading extends PaoYa.View {
     onEnable() {
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             GradingControl.ins.navigator.pop()
         })
 
         this.gameStart.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             GradingControl.ins.gameRole(this.showDetail.roleId)
         })
 
@@ -85,6 +88,7 @@ export default class Grading extends PaoYa.View {
         }
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.prole.getChildByName(`bgwarp`).visible = false
             this.prole = cell
             this.showDetail = cell.dataSource

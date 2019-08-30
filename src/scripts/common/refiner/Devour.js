@@ -1,4 +1,5 @@
 import DevourControl from "./DevourControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class Devour extends PaoYa.View {
     constructor() {
@@ -11,14 +12,17 @@ export default class Devour extends PaoYa.View {
 
     onEnable() {
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             DevourControl.ins.navigator.pop()
         })
 
         this.eatBtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             DevourControl.ins.eatWp()
         })
 
         this.choiceBtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             DevourControl.ins.chiocethreeWp()
         })
 
@@ -81,6 +85,7 @@ export default class Devour extends PaoYa.View {
         DevourControl.ins.singleWeapon(cell, index)
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             DevourControl.ins.chioceWp(cell, index)
         })
     }

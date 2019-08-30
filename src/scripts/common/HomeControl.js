@@ -1,5 +1,6 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
 import AlertDialog from "../../gamescripts/dialog/AlertDialog";
+import SoundManager from "../../gamescripts/SoundManager";
 let guideContainer,
     maskArea,
     interactionArea,
@@ -45,6 +46,8 @@ export default class HomeControl extends PaoYa.Component {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
             this.navigator.push('GameGuide', GameGuideData);
         }
+
+        this.showRankList()
     }
     onAppear() {
         this.player.play('stand', true);
@@ -53,6 +56,9 @@ export default class HomeControl extends PaoYa.Component {
         this.player.stop();
     }
     onClick(e) {
+        if(e.target instanceof Laya.Button){
+            SoundManager.ins.btn();
+        } 
         switch (e.target.name) {
             //兵器库
             case "btnWeaponHouse":
@@ -96,7 +102,11 @@ export default class HomeControl extends PaoYa.Component {
                     if (!res) {
                         return
                     }
-                    this.navigator.push("Refining", res);
+                    let obj = {
+                        isGuide: true,
+                        detail: res
+                    }
+                    this.navigator.push("Refining", obj);
                 })
                 break;
             //兵器谱
@@ -154,7 +164,7 @@ export default class HomeControl extends PaoYa.Component {
                 break;
             //排行榜
             case "rank":
-                this.GET("ranking_list", {}, res => {
+                this.GET("ranking_list", { type: 1 }, res => {
                     //console.log(res)
                     if (!res) {
                         return
@@ -187,7 +197,11 @@ export default class HomeControl extends PaoYa.Component {
             if (!res) {
                 return
             }
-            this.navigator.push("Swordsman", res);
+            let obj = {
+                isGuide: true,
+                detail: res
+            }
+            this.navigator.push("Swordsman", obj);
         })
     }
     goPassGame() {
@@ -196,20 +210,20 @@ export default class HomeControl extends PaoYa.Component {
         }, (res) => {
             res.gameType = 'pass';
             this.navigator.push("GameView", res);
-        },(msg,code)=>{
+        }, (msg, code) => {
             let errorDialog;
-            if(code==3018){
+            if (code == 3018) {
                 errorDialog = new AlertDialog({
                     title: "",
                     message: msg
-                })  
-            }else{
+                })
+            } else {
                 errorDialog = new AlertDialog({
                     title: "",
                     message: msg
                 })
             }
-            errorDialog.popup();   
+            errorDialog.popup();
         })
     }
     setGuide() {
@@ -327,6 +341,27 @@ export default class HomeControl extends PaoYa.Component {
         guideStep += 1;
         this['step' + guideStep]();
     }
+
+    showRankList() {
+        let rlist = PaoYa.DataCenter.user.list.slice(0, 3)
+
+        this.owner.rankList.vScrollBarSkin = ""
+        this.owner.rankList.renderHandler = new Laya.Handler(this, this.rankListItem);
+        this.owner.rankList.array = rlist
+    }
+
+    rankListItem(cell, index) {
+        cell.y = 108 * index
+        let rankicon = cell.getChildByName(`rankicon`)
+        let usericon = cell.getChildByName(`usericon`)
+        /*    Laya.loader.load(cell.dataSource.member_avstar, Laya.Handler.create(this, res => {
+               usericon.skin = cell.dataSource.member_avstar
+           }))  */
+        usericon.skin = cell.dataSource.member_avstar;
+        //use
+        rankicon.skin = `local/home/${index + 1}.png`
+    }
+
     onDisappear() { }
 
     onDisable() { }

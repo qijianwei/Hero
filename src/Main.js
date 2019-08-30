@@ -108,8 +108,7 @@ export class Main extends GameMain {
 			'res/atlas/remote/game.atlas',
 			'res/atlas/remote/weapons.atlas',
 
-			'spine/npc/npc_7.png',
-			'spine/npc/npc_7.sk',
+
 			'spine/hero/hero_1.png',
 			'spine/hero/hero_1.sk',
 			'spine/hero/hero_2.png',

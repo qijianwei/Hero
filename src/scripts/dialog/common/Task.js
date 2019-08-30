@@ -17,6 +17,7 @@ export default class Task extends PaoYa.Dialog {
         this.diamondNum.pos(622, 20)
 
         this.btnClose.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
         })
 
@@ -80,6 +81,7 @@ export default class Task extends PaoYa.Dialog {
                 })
             } else {
                 btn.on(Laya.Event.CLICK, this, () => {
+                    SoundManager.ins.btn()
                     this.close()
                 })
             }

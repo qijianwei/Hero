@@ -310,14 +310,16 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     skillClickHandler(name) {
-        SoundManager.ins.heroSkill();
+       /*  SoundManager.ins.heroSkill(); */
         if (name == "skill1") {
             /*    this.allPause();
                return; */
+            SoundManager.ins.heroSkill1();    
             this.skillWithWeapon(true);
         } else if (name == "skill2") {
             /*  this.allResume();
              return; */
+             SoundManager.ins.heroSkill2();    
             this.skillWithoutWeapon(true);
         }
  
@@ -582,6 +584,7 @@ export default class GameControl extends PaoYa.Component {
                     params.skillEffect = true;
                     this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
                     this[name + 'Player'].comp.attackCallback = () => {
+                        SoundManager.ins.weaponSkill();
                         this.weaponWithSkills(params, skillId);
                         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
                         if (skillId == 58) {
@@ -599,6 +602,7 @@ export default class GameControl extends PaoYa.Component {
         }
         this[name + 'Player'].comp.attackEffect(false);
         this[name + 'Player'].comp.attackCallback = () => {
+            SoundManager.ins.weaponLaunch();
             this.weaponLaunch(params);
             targetComp.startT();
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
@@ -637,7 +641,6 @@ export default class GameControl extends PaoYa.Component {
     //带着技能发射
 
     weaponWithSkills(params, skillId) {
-        SoundManager.ins.weaponSkill();
         let skillConfig = params.activeSkill.skillConfig;
         let skillName = params.activeSkill.skillName;
         let hurt = skillConfig.hurt;
@@ -774,6 +777,7 @@ export default class GameControl extends PaoYa.Component {
                 this.dealPass(loserIsSelf);
                 break;
             case 'battle':
+              //  SoundManager.ins.homeBg();
                 this.dealBattle(loserIsSelf);
                 break;
         }
@@ -830,9 +834,12 @@ export default class GameControl extends PaoYa.Component {
     }
     //关卡结束
     passOver(loserIsSelf) {
+      //  SoundManager.ins.homeBg();
         if (!loserIsSelf) {
+            SoundManager.ins.win();
             this.selfPlayer.comp.skeleton.play('win', true);
         } else {
+            SoundManager.ins.lose();
             this.otherPlayer.comp.skeleton.play('win', true);
         }
        
@@ -863,8 +870,10 @@ export default class GameControl extends PaoYa.Component {
     }
     gameOver(loserIsSelf) {
         if (!loserIsSelf) {
+            SoundManager.ins.win();
             this.selfPlayer.comp.skeleton.play('win', true);
         } else {
+            SoundManager.ins.lose();
             this.otherPlayer.comp.skeleton.play('win', true);
         }
        

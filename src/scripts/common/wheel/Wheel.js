@@ -1,4 +1,5 @@
 import WheelControl from "./WheelControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class Wheel extends PaoYa.View {
     constructor() {
@@ -35,6 +36,7 @@ export default class Wheel extends PaoYa.View {
             if (this.isRunning) {
                 return
             }
+            SoundManager.ins.btn()
             WheelControl.ins.navigator.pop()
         })
 
@@ -42,6 +44,7 @@ export default class Wheel extends PaoYa.View {
             if (this.isRunning) {
                 return
             }
+            SoundManager.ins.btn()
             WheelControl.ins.addTimes()
         })
 

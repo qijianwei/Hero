@@ -1,4 +1,5 @@
 import RefiningControl from "../../common/refiner/RefiningControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class Canlock extends PaoYa.Dialog {
 
@@ -16,6 +17,7 @@ export default class Canlock extends PaoYa.Dialog {
         this.btn2Txt.pos(42, 15)
 
         this.btn2.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
         })
 

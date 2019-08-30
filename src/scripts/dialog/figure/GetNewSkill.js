@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class GoldLack extends PaoYa.Dialog {
 
     constructor() {
@@ -14,7 +16,10 @@ export default class GoldLack extends PaoYa.Dialog {
     }
 
     onEnable() {
-        this.btn.on(Laya.Event.CLICK, this, this.close)
+        this.btn.on(Laya.Event.CLICK, this, ()=>{
+            this.close()
+            SoundManager.ins.btn()
+        })
         this.skillName.text = this.params.skillName
         this.skillName.font = `figureDetail`
         this.skillName.scale(0.75, 0.75)

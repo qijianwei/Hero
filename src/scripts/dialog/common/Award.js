@@ -22,7 +22,10 @@ export default class Award extends PaoYa.Dialog {
                 this.sure.scale(0.6, 0.6)
                 this.sure.pos(60, 13)
 
-                this.btnClose.on(Laya.Event.CLICK, this, this.close)
+                this.btnClose.on(Laya.Event.CLICK, this, ()=>{
+                    SoundManager.ins.btn()
+                    this.close()
+                })
                 break;
             case `wheel`:
                 this.wheel.visible = true
@@ -39,10 +42,14 @@ export default class Award extends PaoYa.Dialog {
 
                 this.again.on(Laya.Event.CLICK, this, () => {
                     this.close()
+                    SoundManager.ins.btn()
                     WheelControl.ins.wheelTurn()
                 })
 
-                this.noThankTxt.on(Laya.Event.CLICK, this, this.close)
+                this.noThankTxt.on(Laya.Event.CLICK, this,  ()=>{
+                    SoundManager.ins.btn()
+                    this.close()
+                })
                 break;
         }
 

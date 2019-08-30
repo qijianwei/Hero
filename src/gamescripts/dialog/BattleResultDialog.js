@@ -1,4 +1,5 @@
 import HomeControl from "../../scripts/common/HomeControl";
+import SoundManager from "../SoundManager";
 
 export default class BattleResultDialog extends PaoYa.Dialog{
     constructor(){
@@ -36,6 +37,7 @@ export default class BattleResultDialog extends PaoYa.Dialog{
     //重新匹配
     matchHandler(){
       console.log('重新匹配');
+      SoundManager.ins.btn();
       this.close();
       PaoYa.navigator.popToScene("Grading");
       PaoYa.Request.POST("hero_match_game_start",{roleId:this.params.roleId},(res)=>{
@@ -44,6 +46,7 @@ export default class BattleResultDialog extends PaoYa.Dialog{
       })
     }
     backHandler(){
+        SoundManager.ins.btn();
         this.close();
         PaoYa.navigator.popToRootScene();
     }

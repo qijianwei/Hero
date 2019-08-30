@@ -1,4 +1,5 @@
 import WeaponHouseControl from "../../common/weapon/WeaponHouseControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 
 export default class UnlockFour extends PaoYa.Dialog {
@@ -17,8 +18,12 @@ export default class UnlockFour extends PaoYa.Dialog {
     }
 
     onEnable() {
-        this.mask.on(Laya.Event.CLICK, this, this.close)
+        this.maskBg.on(Laya.Event.CLICK, this, ()=>{
+            SoundManager.ins.btn()
+            this.close()
+        })
         this.btn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponHouseControl.ins.params.weaponGridNum += 1
             WeaponHouseControl.ins.getMyUserDetailList()
             WeaponHouseControl.ins.owner.userWeaponList.array = WeaponHouseControl.ins.myUserDetailList

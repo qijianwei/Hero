@@ -481,7 +481,7 @@ var Main = exports.Main = function (_GameMain) {
 	}, {
 		key: "setupGameRes",
 		value: function setupGameRes() {
-			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/npc/npc_7.png', 'spine/npc/npc_7.sk', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/hero/hero_2.png', 'spine/hero/hero_2.sk',
+			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/hero/hero_2.png', 'spine/hero/hero_2.sk',
 
 			/* 场景 */
 			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
@@ -513,7 +513,8 @@ var Main = exports.Main = function (_GameMain) {
 //激活启动类
 
 
-new Main();   console.log=function(){};
+new Main();
+   console.log=function(){};
 console.warn=function(){};
 console.error=function(){};    
 
@@ -920,14 +921,16 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillClickHandler',
         value: function skillClickHandler(name) {
-            _SoundManager2.default.ins.heroSkill();
+            /*  SoundManager.ins.heroSkill(); */
             if (name == "skill1") {
                 /*    this.allPause();
                    return; */
+                _SoundManager2.default.ins.heroSkill1();
                 this.skillWithWeapon(true);
             } else if (name == "skill2") {
                 /*  this.allResume();
                  return; */
+                _SoundManager2.default.ins.heroSkill2();
                 this.skillWithoutWeapon(true);
             }
         }
@@ -1227,6 +1230,7 @@ var GameControl = function (_PaoYa$Component) {
                         params.skillEffect = true;
                         this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
                         this[name + 'Player'].comp.attackCallback = function () {
+                            _SoundManager2.default.ins.weaponSkill();
                             _this5.weaponWithSkills(params, skillId);
                             _this5[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this5[name + 'MultiMP']);
                             if (skillId == 58) {
@@ -1244,6 +1248,7 @@ var GameControl = function (_PaoYa$Component) {
             }
             this[name + 'Player'].comp.attackEffect(false);
             this[name + 'Player'].comp.attackCallback = function () {
+                _SoundManager2.default.ins.weaponLaunch();
                 _this5.weaponLaunch(params);
                 targetComp.startT();
                 _this5[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this5[name + 'MultiMP']);
@@ -1287,7 +1292,6 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponWithSkills',
         value: function weaponWithSkills(params, skillId) {
-            _SoundManager2.default.ins.weaponSkill();
             var skillConfig = params.activeSkill.skillConfig;
             var skillName = params.activeSkill.skillName;
             var hurt = skillConfig.hurt;
@@ -1433,6 +1437,7 @@ var GameControl = function (_PaoYa$Component) {
                     this.dealPass(loserIsSelf);
                     break;
                 case 'battle':
+                    //  SoundManager.ins.homeBg();
                     this.dealBattle(loserIsSelf);
                     break;
             }
@@ -1501,9 +1506,12 @@ var GameControl = function (_PaoYa$Component) {
         value: function passOver(loserIsSelf) {
             var _this8 = this;
 
+            //  SoundManager.ins.homeBg();
             if (!loserIsSelf) {
+                _SoundManager2.default.ins.win();
                 this.selfPlayer.comp.skeleton.play('win', true);
             } else {
+                _SoundManager2.default.ins.lose();
                 this.otherPlayer.comp.skeleton.play('win', true);
             }
 
@@ -1538,8 +1546,10 @@ var GameControl = function (_PaoYa$Component) {
         key: 'gameOver',
         value: function gameOver(loserIsSelf) {
             if (!loserIsSelf) {
+                _SoundManager2.default.ins.win();
                 this.selfPlayer.comp.skeleton.play('win', true);
             } else {
+                _SoundManager2.default.ins.lose();
                 this.otherPlayer.comp.skeleton.play('win', true);
             }
 
@@ -1741,7 +1751,7 @@ var SoundManager = function () {
             cb === void 0 && (cb = null);
             if (!Laya.SoundManager.soundMuted) {
                 var url = this.url + fileName + this.suffix;
-                Laya.SoundManager.playSound(url, loop);
+                Laya.SoundManager.playSound(url, loop, Laya.Handler.create(this, cb));
                 Laya.SoundManager.setSoundVolume(1);
             }
         }
@@ -1757,7 +1767,7 @@ var SoundManager = function () {
         key: 'battleBg',
         value: function battleBg() {
             this.curBg = 'battleBg';
-            this.playMusic('battleBgm');
+            this.playMusic('battleBg');
         }
         /* 闯关战斗音乐 */
 
@@ -1765,7 +1775,7 @@ var SoundManager = function () {
         key: 'passBg',
         value: function passBg() {
             this.curBg = 'passBg';
-            this.playMusic('battleBgm');
+            this.playMusic('passBg');
         }
         /* 兵器撞击 */
 
@@ -1781,19 +1791,44 @@ var SoundManager = function () {
         value: function injured() {
             this.playSound('injured');
         }
-        /* 英雄技能触发 */
+        /* 英雄技能1触发 */
 
     }, {
-        key: 'heroSkill',
-        value: function heroSkill() {
-            this.playSound('heroSkill');
+        key: 'heroSkill1',
+        value: function heroSkill1() {
+            this.playSound('heroSkill1');
+        }
+        /* 英雄技能2触发 */
+
+    }, {
+        key: 'heroSkill2',
+        value: function heroSkill2() {
+            this.playSound('heroSkill2');
         }
         /* 兵器技能触发 */
 
     }, {
         key: 'weaponSkill',
         value: function weaponSkill() {
-            this.playSound('weaponSkill');
+            var _this = this;
+
+            this.playSound('weaponLaunch', 1, function () {
+                _this.playSound('weaponSkill');
+            });
+        }
+        /* 兵器发射 */
+
+    }, {
+        key: 'weaponLaunch',
+        value: function weaponLaunch() {
+            this.playSound('weaponLaunch');
+        }
+        /* 点击常规按钮音效 */
+
+    }, {
+        key: 'btn',
+        value: function btn() {
+            this.playSound('btn');
         }
         /* 升级音效 */
 
@@ -1808,6 +1843,13 @@ var SoundManager = function () {
         key: 'gold',
         value: function gold() {
             this.playSound('gold');
+        }
+        /* 装盘音效 */
+
+    }, {
+        key: 'round',
+        value: function round() {
+            this.playSound('round');
         }
     }, {
         key: 'win',
@@ -1955,6 +1997,7 @@ function isPlainObject(val) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var baseUrl = 'https://xgamejuedixiaomie.goxiaochengxu.cn/1006/';
 var HeroConfig = {
   ladderArr: ["", "无名小卒", '初出茅庐', '后起之秀', '江湖少侠', '武林高手', '名震江湖', '独步武林', '一代宗师', '独孤求败'],
   roleName: '',
@@ -1998,43 +2041,43 @@ var HeroConfig = {
       templet: null
     },
     npc_1: {
-      path: "spine/npc/npc_1.sk",
+      path: baseUrl + "spine/npc/npc_1.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_2: {
-      path: "spine/npc/npc_2.sk",
+      path: baseUrl + "spine/npc/npc_2.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_3: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl + "spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_4: {
-      path: "spine/npc/npc_4.sk",
+      path: baseUrl + "spine/npc/npc_4.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_5: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl + "spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_6: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl + "spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_7: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl + "spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -2205,6 +2248,10 @@ var _HomeControl = require("../../scripts/common/HomeControl");
 
 var _HomeControl2 = _interopRequireDefault(_HomeControl);
 
+var _SoundManager = require("../SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2263,6 +2310,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
         key: "matchHandler",
         value: function matchHandler() {
             console.log('重新匹配');
+            _SoundManager2.default.ins.btn();
             this.close();
             PaoYa.navigator.popToScene("Grading");
             PaoYa.Request.POST("hero_match_game_start", { roleId: this.params.roleId }, function (res) {
@@ -2273,6 +2321,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
     }, {
         key: "backHandler",
         value: function backHandler() {
+            _SoundManager2.default.ins.btn();
             this.close();
             PaoYa.navigator.popToRootScene();
         }
@@ -2283,7 +2332,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = BattleResultDialog;
 
-},{"../../scripts/common/HomeControl":27}],12:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":27,"../SoundManager":7}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2299,6 +2348,10 @@ var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
 var _GameControl = require("../GameControl");
 
 var _GameControl2 = _interopRequireDefault(_GameControl);
+
+var _SoundManager = require("../SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2355,6 +2408,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
         value: function clickHandler() {
             var _this2 = this;
 
+            _SoundManager2.default.ins.btn();
             if (this.result == -1) {
                 //console.log("再试一次")
                 this.close();
@@ -2387,6 +2441,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
     }, {
         key: "backHandler",
         value: function backHandler() {
+            _SoundManager2.default.ins.btn();
             this.close();
             PaoYa.navigator.popToRootScene();
         }
@@ -2397,7 +2452,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = PassResultDialog;
 
-},{"../GameControl":4,"../prefab/WeaponBar":24}],13:[function(require,module,exports){
+},{"../GameControl":4,"../SoundManager":7,"../prefab/WeaponBar":24}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5401,6 +5456,10 @@ var _AlertDialog = require("../../gamescripts/dialog/AlertDialog");
 
 var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
 
+var _SoundManager = require("../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5469,6 +5528,8 @@ var HomeControl = function (_PaoYa$Component) {
             if (PaoYa.DataCenter.user.is_first_game == 1) {
                 this.navigator.push('GameGuide', GameGuideData);
             }
+
+            this.showRankList();
         }
     }, {
         key: "onAppear",
@@ -5485,6 +5546,9 @@ var HomeControl = function (_PaoYa$Component) {
         value: function onClick(e) {
             var _this3 = this;
 
+            if (e.target instanceof Laya.Button) {
+                _SoundManager2.default.ins.btn();
+            }
             switch (e.target.name) {
                 //兵器库
                 case "btnWeaponHouse":
@@ -5527,7 +5591,11 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.push("Refining", res);
+                        var obj = {
+                            isGuide: true,
+                            detail: res
+                        };
+                        _this3.navigator.push("Refining", obj);
                     });
                     break;
                 //兵器谱
@@ -5585,7 +5653,7 @@ var HomeControl = function (_PaoYa$Component) {
                     break;
                 //排行榜
                 case "rank":
-                    this.GET("ranking_list", {}, function (res) {
+                    this.GET("ranking_list", { type: 1 }, function (res) {
                         //console.log(res)
                         if (!res) {
                             return;
@@ -5622,7 +5690,11 @@ var HomeControl = function (_PaoYa$Component) {
                 if (!res) {
                     return;
                 }
-                _this4.navigator.push("Swordsman", res);
+                var obj = {
+                    isGuide: true,
+                    detail: res
+                };
+                _this4.navigator.push("Swordsman", obj);
             });
         }
     }, {
@@ -5777,6 +5849,28 @@ var HomeControl = function (_PaoYa$Component) {
             this['step' + guideStep]();
         }
     }, {
+        key: "showRankList",
+        value: function showRankList() {
+            var rlist = PaoYa.DataCenter.user.list.slice(0, 3);
+
+            this.owner.rankList.vScrollBarSkin = "";
+            this.owner.rankList.renderHandler = new Laya.Handler(this, this.rankListItem);
+            this.owner.rankList.array = rlist;
+        }
+    }, {
+        key: "rankListItem",
+        value: function rankListItem(cell, index) {
+            cell.y = 108 * index;
+            var rankicon = cell.getChildByName("rankicon");
+            var usericon = cell.getChildByName("usericon");
+            /*    Laya.loader.load(cell.dataSource.member_avstar, Laya.Handler.create(this, res => {
+                   usericon.skin = cell.dataSource.member_avstar
+               }))  */
+            usericon.skin = cell.dataSource.member_avstar;
+            //use
+            rankicon.skin = "local/home/" + (index + 1) + ".png";
+        }
+    }, {
         key: "onDisappear",
         value: function onDisappear() {}
     }, {
@@ -5792,7 +5886,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":10}],28:[function(require,module,exports){
+},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":10}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6165,6 +6259,10 @@ var _HeroConfig = require("../../../gamescripts/config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6191,10 +6289,12 @@ var Grading = function (_PaoYa$View) {
             var _this2 = this;
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _GradingControl2.default.ins.navigator.pop();
             });
 
             this.gameStart.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _GradingControl2.default.ins.gameRole(_this2.showDetail.roleId);
             });
 
@@ -6265,6 +6365,7 @@ var Grading = function (_PaoYa$View) {
             }
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this3.prole.getChildByName("bgwarp").visible = false;
                 _this3.prole = cell;
                 _this3.showDetail = cell.dataSource;
@@ -6315,7 +6416,7 @@ var Grading = function (_PaoYa$View) {
 
 exports.default = Grading;
 
-},{"../../../gamescripts/config/HeroConfig":9,"./GradingControl":33}],33:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"./GradingControl":33}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6382,6 +6483,10 @@ var _HeroConfig = require("../../../gamescripts/config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6407,6 +6512,29 @@ var Swordsman = function (_PaoYa$View) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.isGuide = this.params.isGuide;
+            this.guideBack = false;
+            this.params = this.params.detail;
+            if (this.isGuide) {
+                this.guide1.visible = true;
+
+                this.guideContainer = new Laya.Sprite();
+                Laya.stage.addChild(this.guideContainer);
+                this.guideContainer.cacheAs = "bitmap";
+
+                var spmask = new Laya.Sprite();
+                spmask.alpha = 0.5;
+                this.guideContainer.addChild(spmask);
+                spmask.graphics.drawRect(-150, 0, 1634, 750, "#000");
+
+                this.sp = new Laya.Sprite();
+                this.guideContainer.addChild(this.sp);
+                // 设置叠加模式
+                this.sp.blendMode = "destination-out";
+                this.graR(885, 550, 125);
+
+                this.guide1f(1);
+            }
             this.params.roleList.forEach(function (element) {
                 if (element.roleId == _this2.params.defaultRole) {
                     _this2.showDetail = element;
@@ -6414,6 +6542,10 @@ var Swordsman = function (_PaoYa$View) {
             });
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                if (_this2.isGuide && !_this2.guideBack) {
+                    return;
+                }
+                _SoundManager2.default.ins.btn();
                 _SwordsmanControl2.default.ins.postNotification("roleIdChanged", _this2.params.defaultRole);
                 _SwordsmanControl2.default.ins.navigator.pop();
             });
@@ -6438,30 +6570,54 @@ var Swordsman = function (_PaoYa$View) {
             this.changeGold();
 
             this.lvupbtn.on(Laya.Event.CLICK, this, function () {
+                if (_this2.guideBack) {
+                    return;
+                }
                 _SwordsmanControl2.default.ins.roleLevelUp();
             });
 
             this.equipbtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _SwordsmanControl2.default.ins.changeRole();
             });
 
             this.buyBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _SwordsmanControl2.default.ins.navigator.popup("figure/BuyHero", _this2.showDetail);
             });
 
             this.signGet.on(Laya.Event.CLICK, this, function () {
-                // SwordsmanControl.ins.navigator.popup("figure/BuyHero",this.showDetail);
+                _SoundManager2.default.ins.btn();
+                PaoYa.Request.GET("martial_login_bonus_list", {}, function (res) {
+                    //console.log(res)
+                    if (!res) {
+                        return;
+                    }
+                    _this2.navigator.push("Sign", res);
+                });
             });
 
             this.skill1.on(Laya.Event.CLICK, this, function () {
+                if (_this2.isGuide) {
+                    return;
+                }
+                _SoundManager2.default.ins.btn();
                 _SwordsmanControl2.default.ins.showSkillDetail(0);
             });
 
             this.skill2.on(Laya.Event.CLICK, this, function () {
+                if (_this2.isGuide) {
+                    return;
+                }
+                _SoundManager2.default.ins.btn();
                 _SwordsmanControl2.default.ins.showSkillDetail(1);
             });
 
             this.skill3.on(Laya.Event.CLICK, this, function () {
+                if (_this2.isGuide) {
+                    return;
+                }
+                _SoundManager2.default.ins.btn();
                 _SwordsmanControl2.default.ins.showSkillDetail(2);
             });
         }
@@ -6613,6 +6769,10 @@ var Swordsman = function (_PaoYa$View) {
             }
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
+                if (_this4.isGuide) {
+                    return;
+                }
+                _SoundManager2.default.ins.btn();
                 _this4.prole.getChildByName("bgwarp").visible = false;
                 _this4.prole = cell;
                 _this4.showDetail = cell.dataSource;
@@ -6622,7 +6782,39 @@ var Swordsman = function (_PaoYa$View) {
         }
     }, {
         key: "onDisable",
-        value: function onDisable() {}
+        value: function onDisable() {
+            Laya.stage.removeChild(this.guideContainer);
+        }
+    }, {
+        key: "guide1f",
+        value: function guide1f(e) {
+            var _this5 = this;
+
+            if (this.guideBack) {
+                this.guide1.visible = false;
+                return;
+            }
+            var n = e == 1 ? -1 : 1;
+            Laya.Tween.to(this.guide1, { x: this.guide1.x + 15 * n }, 300, null, Laya.Handler.create(this, function () {
+                _this5.guide1f(n);
+            }));
+        }
+    }, {
+        key: "guide2f",
+        value: function guide2f(e) {
+            var _this6 = this;
+
+            var n = e == 1 ? -1 : 1;
+            Laya.Tween.to(this.guide2, { y: this.guide2.y + 15 * n }, 300, null, Laya.Handler.create(this, function () {
+                _this6.guide2f(n);
+            }));
+        }
+    }, {
+        key: "graR",
+        value: function graR(x, y, r) {
+            this.sp.graphics.clear();
+            this.sp.graphics.drawCircle(x, y, r, "#000000");
+        }
     }]);
 
     return Swordsman;
@@ -6630,7 +6822,7 @@ var Swordsman = function (_PaoYa$View) {
 
 exports.default = Swordsman;
 
-},{"../../../gamescripts/config/HeroConfig":9,"./SwordsmanControl":35}],35:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"./SwordsmanControl":35}],35:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6665,9 +6857,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
 
     _createClass(SwordsmanControl, [{
         key: "onAwake",
-        value: function onAwake() {
-            this.params = this.owner.params;
-        }
+        value: function onAwake() {}
     }, {
         key: "onEnable",
         value: function onEnable() {}
@@ -6685,6 +6875,15 @@ var SwordsmanControl = function (_PaoYa$Component) {
             } else {
                 PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text);
                 this.owner.goldNum.text = PaoYa.DataCenter.user.gold;
+            }
+
+            if (this.owner.isGuide) {
+                this.owner.guideBack = true;
+                // this.owner.guide2.visible=true
+                // this.owner.graR(100, 50, 125)
+                // this.owner.guide2f(1)
+                this.owner.isGuide = false;
+                Laya.stage.removeChild(this.owner.guideContainer);
             }
             PaoYa.Request.POST("martial_update_role", { roleId: this.owner.showDetail.roleId }, function (res) {
                 _SoundManager2.default.ins.upgrade();
@@ -6755,6 +6954,10 @@ var _DevourControl = require("./DevourControl");
 
 var _DevourControl2 = _interopRequireDefault(_DevourControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6779,14 +6982,17 @@ var Devour = function (_PaoYa$View) {
         key: "onEnable",
         value: function onEnable() {
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _DevourControl2.default.ins.navigator.pop();
             });
 
             this.eatBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _DevourControl2.default.ins.eatWp();
             });
 
             this.choiceBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _DevourControl2.default.ins.chiocethreeWp();
             });
 
@@ -6851,6 +7057,7 @@ var Devour = function (_PaoYa$View) {
             _DevourControl2.default.ins.singleWeapon(cell, index);
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _DevourControl2.default.ins.chioceWp(cell, index);
             });
         }
@@ -6861,7 +7068,7 @@ var Devour = function (_PaoYa$View) {
 
 exports.default = Devour;
 
-},{"./DevourControl":37}],37:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./DevourControl":37}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7072,8 +7279,12 @@ var DevourControl = function (_PaoYa$Component) {
             }
 
             PaoYa.Request.POST("martial_update_refiner", { weaponId: idlist, refinerId: this.owner.params.refiner.id, addExp: addexp }, function (res) {
-                _this3.owner.params.refiner = res.refiner;
-                _this3.owner.params.nextRefiner = res.nextRefiner;
+                if (res.nextRefiner) {
+                    _this3.owner.params.refiner = res.refiner;
+                    _this3.owner.params.nextRefiner = res.nextRefiner;
+                } else {
+                    _this3.owner.params.refiner.currentExp = res.totalExp;
+                }
                 _this3.owner.initInfo();
                 var arr2 = [];
                 _this3.newAllArr.forEach(function (element, idx) {
@@ -7126,6 +7337,10 @@ var _RefiningControl = require("./RefiningControl");
 
 var _RefiningControl2 = _interopRequireDefault(_RefiningControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7151,7 +7366,14 @@ var Refining = function (_PaoYa$View) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.isGuide = this.params.isGuide;
+            this.params = this.params.detail;
+
+            if (this.isGuide) {
+                this.getMask();
+            }
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _RefiningControl2.default.ins.navigator.pop();
             });
 
@@ -7159,6 +7381,7 @@ var Refining = function (_PaoYa$View) {
                 if (_this2.figureD.visible) {
                     return;
                 }
+                _SoundManager2.default.ins.btn();
                 _this2.figure.skin = "remote/refining/4.png";
                 _this2.weopon.skin = "remote/refining/5.png";
 
@@ -7170,6 +7393,7 @@ var Refining = function (_PaoYa$View) {
                 if (_this2.weoponD.visible) {
                     return;
                 }
+                _SoundManager2.default.ins.btn();
                 _this2.figure.skin = "remote/refining/2.png";
                 _this2.weopon.skin = "remote/refining/3.png";
 
@@ -7191,10 +7415,14 @@ var Refining = function (_PaoYa$View) {
                 _this2["" + element.id].gray = element.status ? false : true;
 
                 _this2["" + element.id].on(Laya.Event.CLICK, _this2, function () {
+                    _SoundManager2.default.ins.btn();
                     _RefiningControl2.default.ins.addLv(element);
                 });
             });
         }
+    }, {
+        key: "getMask",
+        value: function getMask() {}
     }]);
 
     return Refining;
@@ -7202,7 +7430,7 @@ var Refining = function (_PaoYa$View) {
 
 exports.default = Refining;
 
-},{"./RefiningControl":39}],39:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./RefiningControl":39}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7268,6 +7496,10 @@ var _SignControl = require("./SignControl");
 
 var _SignControl2 = _interopRequireDefault(_SignControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7295,6 +7527,7 @@ var Sign = function (_PaoYa$View) {
         key: "onEnable",
         value: function onEnable() {
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _SignControl2.default.ins.navigator.pop();
             });
             this.initInfo();
@@ -7329,6 +7562,7 @@ var Sign = function (_PaoYa$View) {
                         _SignControl2.default.ins.getAward();
                         return;
                     }
+                    _SoundManager2.default.ins.btn();
                     var title = PaoYa.DataCenter.config.game.share_list.randomItem;
                     PaoYa.ShareManager.shareTitle(title, {}, function () {
                         _SignControl2.default.ins.getAward();
@@ -7404,7 +7638,7 @@ var Sign = function (_PaoYa$View) {
 
 exports.default = Sign;
 
-},{"./SignControl":41}],41:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./SignControl":41}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7470,6 +7704,10 @@ var _WeaponListControl = require("./WeaponListControl");
 
 var _WeaponListControl2 = _interopRequireDefault(_WeaponListControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7501,20 +7739,24 @@ var WeaponList = function (_PaoYa$View) {
             _WeaponListControl2.default.ins.showWareList(this.params.lightList);
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponListControl2.default.ins.navigator.pop();
             });
 
             this.light.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("light");
                 _WeaponListControl2.default.ins.showWareList(_this2.params.lightList);
             });
 
             this.middle.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("middle");
                 _WeaponListControl2.default.ins.showWareList(_this2.params.middleList);
             });
 
             this.large.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("large");
                 _WeaponListControl2.default.ins.showWareList(_this2.params.heavyList);
             });
@@ -7542,7 +7784,7 @@ var WeaponList = function (_PaoYa$View) {
 
 exports.default = WeaponList;
 
-},{"./WeaponListControl":43}],43:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./WeaponListControl":43}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8139,6 +8381,10 @@ var _WeaponHouseControl = require("./WeaponHouseControl");
 
 var _WeaponHouseControl2 = _interopRequireDefault(_WeaponHouseControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8175,32 +8421,38 @@ var WeaponHouse = function (_PaoYa$View) {
             this.diamondNum.pos(622, 20);
 
             this.light.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("light");
                 _this2.lightNew.visible = false;
                 _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.lightList);
             });
 
             this.middle.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("middle");
                 _this2.middleNew.visible = false;
                 _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.middleList);
             });
 
             this.large.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("large");
                 _this2.largeNew.visible = false;
                 _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.heavyList);
             });
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.navigator.pop();
             });
 
             this.equip.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.chargeWeapon();
             });
 
             this.upGrade.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.upgradeWeapon();
             });
 
@@ -8231,7 +8483,7 @@ var WeaponHouse = function (_PaoYa$View) {
 
 exports.default = WeaponHouse;
 
-},{"./WeaponHouseControl":47}],47:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./WeaponHouseControl":47}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8395,6 +8647,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                         cell.getChildByName("add").visible = true;
                         this.addWpList.push(cell);
                         cell.on(Laya.Event.CLICK, this, function () {
+                            _SoundManager2.default.ins.btn();
                             for (var i = 0; i < 5; i++) {
                                 _this4.owner["wpBg_" + (i + 1)].skin = "remote/weaponhouse/25.png";
                             }
@@ -8411,12 +8664,14 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     case 4:
                         cell.getChildByName("invite").visible = true;
                         cell.on(Laya.Event.CLICK, this, function () {
+                            _SoundManager2.default.ins.btn();
                             _this4.navigator.popup("weapon/UnlockFour");
                         });
                         break;
                     case 5:
                         cell.getChildByName("invite").visible = true;
                         cell.on(Laya.Event.CLICK, this, function () {
+                            _SoundManager2.default.ins.btn();
                             _this4.navigator.popup("weapon/UnlockFifth");
                         });
                         break;
@@ -8432,6 +8687,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             cell.getChildByName("invite").visible = false;
 
             cell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this4.addWpList.forEach(function (element) {
                     element.getChildByName("beChioce").visible = false;
                 });
@@ -8462,6 +8718,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             // console.log(cell, idx)
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 if (_this5.isWareChoiceWp) {
                     _this5.isWareChoiceWp.getChildByName("beChioce").visible = false;
                     _this5.isWareChoiceWp.skin = "local/common/frameBg.png";
@@ -8880,6 +9137,10 @@ var _WeaponStoreControl = require("./WeaponStoreControl");
 
 var _WeaponStoreControl2 = _interopRequireDefault(_WeaponStoreControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8930,14 +9191,17 @@ var WeaponStore = function (_PaoYa$View) {
             this.refreshTimeNum.scale(0.4, 0.4);
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponStoreControl2.default.ins.navigator.pop();
             });
 
             this.sellBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponStoreControl2.default.ins.sellWp();
             });
 
             this.refreshBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 if (WeaponStore.ins.isRefrshing) {
                     true;
                 }
@@ -8961,6 +9225,7 @@ var WeaponStore = function (_PaoYa$View) {
             });
 
             this.sell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponStoreControl2.default.ins.wpdType = "sell";
                 _this2.sell.skin = "remote/weaponstore/3.png";
                 _this2.buy.skin = "remote/weaponstore/2.png";
@@ -8973,6 +9238,7 @@ var WeaponStore = function (_PaoYa$View) {
             });
 
             this.buy.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponStoreControl2.default.ins.wpdType = "buy";
                 _this2.sell.skin = "remote/weaponstore/2.png";
                 _this2.buy.skin = "remote/weaponstore/3.png";
@@ -8992,24 +9258,28 @@ var WeaponStore = function (_PaoYa$View) {
             });
 
             this.light.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("light");
                 _this2.lightNew.visible = false;
                 _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
             });
 
             this.middle.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("middle");
                 _this2.middleNew.visible = false;
                 _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.middleList);
             });
 
             this.large.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.getWareBtnSkin("large");
                 _this2.largeNew.visible = false;
                 _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.heavyList);
             });
 
             this.buyBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 var detail = _WeaponStoreControl2.default.ins.currentBuyWeapDetail;
                 if (!detail) {
                     return;
@@ -9046,7 +9316,7 @@ var WeaponStore = function (_PaoYa$View) {
 
 exports.default = WeaponStore;
 
-},{"./WeaponStoreControl":49}],49:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./WeaponStoreControl":49}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9054,6 +9324,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9142,6 +9418,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
             this.singleWeapon(cell, idx);
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this3.buyPresentIdx = idx;
                 _this3.isBuyChoiceWp.skin = "local/common/frameBg.png";
                 _this3.isBuyChoiceWp.getChildByName("beChioce").visible = false;
@@ -9163,6 +9440,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
             this.singleWeapon(cell, idx, 1);
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this4.isSellWareChoiceWp.skin = "local/common/frameBg.png";
                 _this4.isSellWareChoiceWp.getChildByName("beChioce").visible = false;
 
@@ -9616,7 +9894,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
 
 exports.default = WeaponStoreControl;
 
-},{}],50:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],50:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9628,6 +9906,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _WheelControl = require("./WheelControl");
 
 var _WheelControl2 = _interopRequireDefault(_WheelControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9679,6 +9961,7 @@ var Wheel = function (_PaoYa$View) {
                 if (_this2.isRunning) {
                     return;
                 }
+                _SoundManager2.default.ins.btn();
                 _WheelControl2.default.ins.navigator.pop();
             });
 
@@ -9686,6 +9969,7 @@ var Wheel = function (_PaoYa$View) {
                 if (_this2.isRunning) {
                     return;
                 }
+                _SoundManager2.default.ins.btn();
                 _WheelControl2.default.ins.addTimes();
             });
 
@@ -9750,7 +10034,7 @@ var Wheel = function (_PaoYa$View) {
 
 exports.default = Wheel;
 
-},{"./WheelControl":51}],51:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./WheelControl":51}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9758,6 +10042,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9812,6 +10102,7 @@ var WheelControl = function (_PaoYa$Component) {
             var _this3 = this;
 
             if (this.owner.num.text < 1) {
+                _SoundManager2.default.ins.btn();
                 this.navigator.popup("common/BuyWheelTimes");
                 return;
             }
@@ -9821,6 +10112,7 @@ var WheelControl = function (_PaoYa$Component) {
                 if (!res) {
                     return;
                 }
+                _SoundManager2.default.ins.round();
                 _this3.owner.num.text = res.wheelTimes;
                 var rat = 0;
                 PaoYa.DataCenter.user.config_list.hero.wheelList.forEach(function (element, index) {
@@ -9851,7 +10143,7 @@ var WheelControl = function (_PaoYa$Component) {
 
 exports.default = WheelControl;
 
-},{}],52:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],52:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9907,7 +10199,10 @@ var Award = function (_PaoYa$Dialog) {
                     this.sure.scale(0.6, 0.6);
                     this.sure.pos(60, 13);
 
-                    this.btnClose.on(Laya.Event.CLICK, this, this.close);
+                    this.btnClose.on(Laya.Event.CLICK, this, function () {
+                        _SoundManager2.default.ins.btn();
+                        _this2.close();
+                    });
                     break;
                 case "wheel":
                     this.wheel.visible = true;
@@ -9924,10 +10219,14 @@ var Award = function (_PaoYa$Dialog) {
 
                     this.again.on(Laya.Event.CLICK, this, function () {
                         _this2.close();
+                        _SoundManager2.default.ins.btn();
                         _WheelControl2.default.ins.wheelTurn();
                     });
 
-                    this.noThankTxt.on(Laya.Event.CLICK, this, this.close);
+                    this.noThankTxt.on(Laya.Event.CLICK, this, function () {
+                        _SoundManager2.default.ins.btn();
+                        _this2.close();
+                    });
                     break;
             }
 
@@ -10028,6 +10327,10 @@ var _WheelControl = require("../../common/wheel/WheelControl");
 
 var _WheelControl2 = _interopRequireDefault(_WheelControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10059,11 +10362,13 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
             this.title.x = (544 - this.title.width * 0.75) / 2;
 
             this.buy.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WheelControl2.default.ins.addTimesD();
                 _this2.close();
             });
 
             this.closeBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
             });
         }
@@ -10074,7 +10379,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
 
 exports.default = BuyWheelTimes;
 
-},{"../../common/wheel/WheelControl":51}],54:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/wheel/WheelControl":51}],54:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10082,6 +10387,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10105,6 +10416,7 @@ var Task = function (_PaoYa$Dialog) {
 
             this.btnClose.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
+                _SoundManager2.default.ins.btn();
             });
 
             this.title.font = "weaponDFont";
@@ -10125,7 +10437,6 @@ var Task = function (_PaoYa$Dialog) {
     }, {
         key: "rankListItem",
         value: function rankListItem(cell, index) {
-            console.log(cell.dataSource, index);
             var rankicon = cell.getChildByName("rankicon");
             var ranknum = cell.getChildByName("ranknum");
             var usericon = cell.getChildByName("usericon");
@@ -10140,7 +10451,7 @@ var Task = function (_PaoYa$Dialog) {
             rankdetail.text = PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName + "X" + num1;
             name.visible = true;
             rankdetail.visible = true;
-            usericon.skin = "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKnrMK7galvib1otbI0CLStUbjia2XibibrAb57FlVuiaM6ct3NIxzVm8TXr7vHqHmBQnibVvV5EVduHDkA/132";
+            usericon.skin = cell.dataSource.member_avstar;
             usericon.visible = true;
 
             if (index < 3) {
@@ -10168,7 +10479,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{}],55:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10213,6 +10524,7 @@ var Task = function (_PaoYa$Dialog) {
             this.diamondNum.pos(622, 20);
 
             this.btnClose.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
             });
 
@@ -10279,6 +10591,7 @@ var Task = function (_PaoYa$Dialog) {
                     });
                 } else {
                     btn.on(Laya.Event.CLICK, this, function () {
+                        _SoundManager2.default.ins.btn();
                         _this3.close();
                     });
                 }
@@ -10383,6 +10696,10 @@ var _SwordsmanControl = require("../../common/figure/SwordsmanControl");
 
 var _SwordsmanControl2 = _interopRequireDefault(_SwordsmanControl);
 
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10416,7 +10733,10 @@ var BuyHero = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
-            this.closeBtn.on(Laya.Event.CLICK, this, this.close);
+            this.closeBtn.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+                _SoundManager2.default.ins.btn();
+            });
             this.buybtnTxt.font = "weaponDFont";
             this.buybtnTxt.scale(0.8, 0.8);
             this.buybtnTxt.pos(55, 10);
@@ -10431,6 +10751,7 @@ var BuyHero = function (_PaoYa$Dialog) {
             this.buy.on(Laya.Event.CLICK, this, function () {
                 if (PaoYa.DataCenter.user.gold < _this2.params.rolePrice) {
                     _this2.close();
+                    _SoundManager2.default.ins.btn();
                     _SwordsmanControl2.default.ins.popup("weapon/DiamondLack");
                     return;
                 }
@@ -10458,7 +10779,7 @@ var BuyHero = function (_PaoYa$Dialog) {
 
 exports.default = BuyHero;
 
-},{"../../common/figure/Swordsman":34,"../../common/figure/SwordsmanControl":35}],57:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/figure/Swordsman":34,"../../common/figure/SwordsmanControl":35}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10466,6 +10787,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10496,7 +10823,12 @@ var GoldLack = function (_PaoYa$Dialog) {
     _createClass(GoldLack, [{
         key: "onEnable",
         value: function onEnable() {
-            this.btn.on(Laya.Event.CLICK, this, this.close);
+            var _this2 = this;
+
+            this.btn.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+                _SoundManager2.default.ins.btn();
+            });
             this.skillName.text = this.params.skillName;
             this.skillName.font = "figureDetail";
             this.skillName.scale(0.75, 0.75);
@@ -10520,7 +10852,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{}],58:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10528,6 +10860,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10558,7 +10896,12 @@ var SkillDetail = function (_PaoYa$Dialog) {
     _createClass(SkillDetail, [{
         key: "onEnable",
         value: function onEnable() {
-            this.mask.on(Laya.Event.CLICK, this, this.close);
+            var _this2 = this;
+
+            this.maskBg.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
+                _this2.close();
+            });
             this.skillName.text = this.params.skillName;
             this.skillName.font = "figureDetail";
             this.skillName.scale(0.75, 0.75);
@@ -10580,7 +10923,7 @@ var SkillDetail = function (_PaoYa$Dialog) {
 
 exports.default = SkillDetail;
 
-},{}],59:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10592,6 +10935,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _RefiningControl = require("../../common/refiner/RefiningControl");
 
 var _RefiningControl2 = _interopRequireDefault(_RefiningControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10624,6 +10971,7 @@ var Canlock = function (_PaoYa$Dialog) {
             this.btn2Txt.pos(42, 15);
 
             this.btn2.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
             });
 
@@ -10668,7 +11016,7 @@ var Canlock = function (_PaoYa$Dialog) {
 
 exports.default = Canlock;
 
-},{"../../common/refiner/RefiningControl":39}],60:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/refiner/RefiningControl":39}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10676,6 +11024,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _HomeControl = require("../../common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10706,10 +11064,20 @@ var DiamondLack = function (_PaoYa$Dialog) {
     _createClass(DiamondLack, [{
         key: "onEnable",
         value: function onEnable() {
-            this.mask.on(Laya.Event.CLICK, this, this.close);
+            var _this2 = this;
+
+            this.maskBg.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+                _SoundManager2.default.ins.btn();
+            });
             this.tipTxt.font = "weaponDFont";
             this.tipTxt.scale(0.7, 0.7);
             this.tipTxt.pos(45, 12);
+
+            this.btn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
+                _HomeControl2.default.ins.navigator.push("Wheel");
+            });
         }
     }, {
         key: "onDisable",
@@ -10721,7 +11089,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
 exports.default = DiamondLack;
 
-},{}],61:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":27}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10729,6 +11097,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _HomeControl = require("../../common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10759,10 +11137,19 @@ var GoldLack = function (_PaoYa$Dialog) {
     _createClass(GoldLack, [{
         key: "onEnable",
         value: function onEnable() {
-            this.mask.on(Laya.Event.CLICK, this, this.close);
+            var _this2 = this;
+
+            this.maskBg.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
+                _this2.close();
+            });
             this.tipTxt.font = "weaponDFont";
             this.tipTxt.scale(0.7, 0.7);
             this.tipTxt.pos(45, 12);
+
+            this.btn.on(Laya.Event.CLICK, this, function () {
+                _HomeControl2.default.ins.navigator.push("Wheel");
+            });
         }
     }, {
         key: "onDisable",
@@ -10774,7 +11161,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{}],62:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":27}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10790,6 +11177,10 @@ var _WeaponStoreControl2 = _interopRequireDefault(_WeaponStoreControl);
 var _DevourControl = require("../../common/refiner/DevourControl");
 
 var _DevourControl2 = _interopRequireDefault(_DevourControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10816,29 +11207,35 @@ var StoreSure = function (_PaoYa$Dialog) {
 
             // this.mask.on(Laya.Event.CLICK, this, this.close)
             this.btn1.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
             });
 
             this.btn4.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
             });
 
             this.btn2.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
                 _WeaponStoreControl2.default.ins.refresF();
             });
 
             this.btn3.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
                 _WeaponStoreControl2.default.ins.sellWp(1);
             });
 
             this.btn5.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
                 _DevourControl2.default.ins.eatWp(1);
             });
 
             this.closeBtn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _this2.close();
             });
 
@@ -10904,7 +11301,7 @@ var StoreSure = function (_PaoYa$Dialog) {
 
 exports.default = StoreSure;
 
-},{"../../common/refiner/DevourControl":37,"../../common/weapon/WeaponStoreControl":49}],63:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/refiner/DevourControl":37,"../../common/weapon/WeaponStoreControl":49}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10916,6 +11313,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _Tool = require("../../common/tool/Tool");
 
 var _Tool2 = _interopRequireDefault(_Tool);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10948,8 +11349,14 @@ var UnlockFifth = function (_PaoYa$Dialog) {
     _createClass(UnlockFifth, [{
         key: "onEnable",
         value: function onEnable() {
-            this.mask.on(Laya.Event.CLICK, this, this.close);
+            var _this2 = this;
+
+            this.maskBg.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
+                _this2.close();
+            });
             this.btn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _Tool2.default.inviteFriend();
             });
         }
@@ -10963,7 +11370,7 @@ var UnlockFifth = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFifth;
 
-},{"../../common/tool/Tool":45}],64:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/tool/Tool":45}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10975,6 +11382,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _WeaponHouseControl = require("../../common/weapon/WeaponHouseControl");
 
 var _WeaponHouseControl2 = _interopRequireDefault(_WeaponHouseControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11009,8 +11420,12 @@ var UnlockFour = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
-            this.mask.on(Laya.Event.CLICK, this, this.close);
+            this.maskBg.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
+                _this2.close();
+            });
             this.btn.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.params.weaponGridNum += 1;
                 _WeaponHouseControl2.default.ins.getMyUserDetailList();
                 _WeaponHouseControl2.default.ins.owner.userWeaponList.array = _WeaponHouseControl2.default.ins.myUserDetailList;
@@ -11031,7 +11446,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFour;
 
-},{"../../common/weapon/WeaponHouseControl":47}],65:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/weapon/WeaponHouseControl":47}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11039,6 +11454,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -11069,7 +11490,12 @@ var UnlockTips = function (_PaoYa$Dialog) {
     _createClass(UnlockTips, [{
         key: "onEnable",
         value: function onEnable() {
-            this.mask.on(Laya.Event.CLICK, this, this.close);
+            var _this2 = this;
+
+            this.btn.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+                _SoundManager2.default.ins.btn();
+            });
         }
     }, {
         key: "onDisable",
@@ -11081,7 +11507,7 @@ var UnlockTips = function (_PaoYa$Dialog) {
 
 exports.default = UnlockTips;
 
-},{}],66:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

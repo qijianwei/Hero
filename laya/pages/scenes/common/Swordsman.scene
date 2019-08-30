@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":149,
-    "selecteID":194,
+    "selectedBox":166,
+    "selecteID":195,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
-    "maxID":195,
+    "maxID":197,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -69,14 +69,13 @@
             "props":{"y":147,"x":38,"texture":"remote/figure/2.png"},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":113,
             "child":[
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,speciality",
                     "props":{"y":30,"x":29,"wordWrap":true,"width":85,"var":"speciality","height":206},
@@ -90,7 +89,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":512,"x":-188,"texture":"remote/figure/3.png"},
@@ -104,7 +102,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":513,"x":68,"texture":"remote/figure/3.png"},
@@ -118,7 +115,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":513,"x":324,"texture":"remote/figure/3.png"},
@@ -132,7 +128,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":513,"x":580,"texture":"remote/figure/3.png"},
@@ -146,7 +141,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":512,"x":836,"texture":"remote/figure/3.png"},
@@ -160,7 +154,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":512,"x":1092,"texture":"remote/figure/3.png"},
@@ -175,7 +168,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":512,"x":1348,"width":98,"skin":"remote/figure/3.png","sizeGrid":"0,44,0,102"},
@@ -189,7 +181,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,heroname",
                     "props":{"y":-33,"x":434,"width":181,"var":"heroname","text":"text","height":48},
@@ -203,7 +194,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv1",
                     "props":{"y":15,"x":434,"var":"lv1","texture":"remote/figure/level.png"},
@@ -218,7 +208,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv2",
                     "props":{"y":15,"x":482,"var":"lv2","texture":"remote/figure/level.png"},
@@ -233,7 +222,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv3",
                     "props":{"y":15,"x":526,"var":"lv3","texture":"remote/figure/level.png"},
@@ -248,7 +236,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv4",
                     "props":{"y":15,"x":570,"var":"lv4","texture":"remote/figure/level.png"},
@@ -263,7 +250,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv5",
                     "props":{"y":15,"x":614,"var":"lv5","texture":"remote/figure/level.png"},
@@ -286,13 +272,14 @@
             "props":{"y":0,"x":703,"texture":"remote/figure/5.png"},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":130,
             "child":[
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,hp",
                     "props":{"y":161,"x":102,"var":"hp","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -306,6 +293,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionHp",
                     "props":{"y":161,"x":213,"var":"additionHp","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -319,6 +307,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,force",
                     "props":{"y":161,"x":304,"var":"force","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -333,6 +322,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,adddtionForce",
                     "props":{"y":161,"x":402,"var":"adddtionForce","text":"生命 999","fontSize":22,"font":"Arial","color":"#066117"},
@@ -346,6 +336,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,muscle",
                     "props":{"y":206,"x":102,"var":"muscle","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -359,6 +350,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionMuscle",
                     "props":{"y":206,"x":213,"var":"additionMuscle","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -372,6 +364,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,bone",
                     "props":{"y":206,"x":304,"var":"bone","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -385,6 +378,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionBone",
                     "props":{"y":206,"x":413,"var":"additionBone","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -398,6 +392,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,critical",
                     "props":{"y":252,"x":102,"var":"critical","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -411,6 +406,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionAritical",
                     "props":{"y":252,"x":213,"visible":false,"var":"additionAritical","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -424,6 +420,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,hurt",
                     "props":{"y":252,"x":304,"var":"hurt","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -437,6 +434,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionHurt",
                     "props":{"y":252,"x":415.326171875,"visible":false,"var":"additionHurt","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -450,6 +448,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,skill2",
                     "props":{"y":373,"x":250,"var":"skill2","stateNum":"1","skin":"remote/game/skill.png"},
@@ -462,6 +461,7 @@
                     "compId":163,
                     "child":[
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,skill2Txt",
                             "props":{"var":"skill2Txt","text":"text"},
@@ -476,6 +476,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,skill1",
                     "props":{"y":373,"x":123,"var":"skill1","stateNum":"1","skin":"remote/game/skill.png","disabled":false},
@@ -488,6 +489,7 @@
                     "compId":162,
                     "child":[
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,skill1Txt",
                             "props":{"y":0,"x":0,"var":"skill1Txt","text":"text"},
@@ -502,6 +504,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,skill3",
                     "props":{"y":373,"x":382,"var":"skill3","stateNum":"1","skin":"remote/game/skill.png"},
@@ -514,6 +517,7 @@
                     "compId":164,
                     "child":[
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,skill3Txt",
                             "props":{"y":0,"x":0,"var":"skill3Txt","text":"text"},
@@ -528,6 +532,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":295,"x":144.4091796875,"texture":"local/common/fontBg.png"},
@@ -554,6 +559,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,equipbtn",
                     "props":{"y":528,"x":316,"var":"equipbtn","stateNum":"1","skin":"local/common/btn_2.png","scaleY":0.8,"scaleX":0.8},
@@ -581,6 +587,7 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,already",
                     "props":{"y":528,"x":316,"var":"already","stateNum":"1","skin":"local/common/btn_3.png","scaleY":0.8,"scaleX":0.8},
@@ -608,24 +615,26 @@
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,lvupbtn",
                     "props":{"y":528,"x":124,"var":"lvupbtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.8,"scaleX":0.8},
                     "nodeParent":130,
                     "label":"lvupbtn",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":166,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-35,"x":51,"texture":"local/common/currencyBg.png","scaleY":0.8,"scaleX":0.8},
                             "nodeParent":166,
                             "label":"Sprite",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -659,6 +668,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,lvupbtnTxt",
                             "props":{"var":"lvupbtnTxt","text":"升级"},
@@ -670,10 +680,25 @@
                             "compId":172,
                             "child":[
                                 ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,guide1",
+                            "props":{"y":39,"x":-74,"visible":false,"var":"guide1","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
+                            "nodeParent":166,
+                            "label":"guide1",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":195,
+                            "child":[
+                                ]
                         }],
                     "$HIDDEN":true
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,buyBtn",
                     "props":{"y":512,"x":213,"visible":false,"var":"buyBtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
@@ -714,6 +739,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,signGet",
                     "props":{"y":512,"x":213,"visible":false,"var":"signGet","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
@@ -749,13 +775,14 @@
             "props":{"y":0,"x":-138,"var":"benBack","texture":"local/common/back.png"},
             "nodeParent":2,
             "label":"benBack",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":140,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":30.5,"x":235,"texture":"remote/figure/1.png"},
@@ -765,6 +792,20 @@
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":142,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,guide2",
+                    "props":{"y":161,"x":191,"visible":false,"var":"guide2","skin":"remote/guide/hand.png","rotation":45,"anchorY":0.5,"anchorX":0.5},
+                    "nodeParent":140,
+                    "label":"guide2",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":196,
                     "child":[
                         ]
                 }],
@@ -870,14 +911,13 @@
             "props":{"y":347,"x":380,"width":200,"var":"skbox","height":400,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"skbox",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":149,
             "child":[
                 {
-                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation,heroLvup",
                     "props":{"zOrder":12,"y":200,"x":100,"visible":false,"var":"heroLvup","source":"scenes/animations/lvup_hero.ani"},

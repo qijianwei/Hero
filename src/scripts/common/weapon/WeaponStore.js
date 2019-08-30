@@ -1,4 +1,5 @@
 import WeaponStoreControl from "./WeaponStoreControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class WeaponStore extends PaoYa.View {
 
@@ -33,14 +34,17 @@ export default class WeaponStore extends PaoYa.View {
         this.refreshTimeNum.scale(0.4, 0.4)
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponStoreControl.ins.navigator.pop()
         })
 
         this.sellBtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponStoreControl.ins.sellWp()
         })
 
         this.refreshBtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             if(WeaponStore.ins.isRefrshing){
                 true
             }
@@ -63,6 +67,7 @@ export default class WeaponStore extends PaoYa.View {
         })
 
         this.sell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponStoreControl.ins.wpdType = `sell`
             this.sell.skin = `remote/weaponstore/3.png`
             this.buy.skin = `remote/weaponstore/2.png`
@@ -75,6 +80,7 @@ export default class WeaponStore extends PaoYa.View {
         })
 
         this.buy.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponStoreControl.ins.wpdType = `buy`
             this.sell.skin = `remote/weaponstore/2.png`
             this.buy.skin = `remote/weaponstore/3.png`
@@ -94,24 +100,28 @@ export default class WeaponStore extends PaoYa.View {
         })
 
         this.light.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.getWareBtnSkin(`light`)
             this.lightNew.visible = false
             WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.lightList)
         })
 
         this.middle.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.getWareBtnSkin(`middle`)
             this.middleNew.visible = false
             WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.middleList)
         })
 
         this.large.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.getWareBtnSkin(`large`)
             this.largeNew.visible = false
             WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.heavyList)
         })
 
         this.buyBtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             let detail = WeaponStoreControl.ins.currentBuyWeapDetail
             if (!detail) {
                 return

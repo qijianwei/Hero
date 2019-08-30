@@ -7,7 +7,6 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     onAwake() {
-        this.params = this.owner.params
 
     }
 
@@ -25,6 +24,15 @@ export default class SwordsmanControl extends PaoYa.Component {
         } else {
             PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
             this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+        }
+
+        if (this.owner.isGuide) {
+            this.owner.guideBack=true
+            // this.owner.guide2.visible=true
+            // this.owner.graR(100, 50, 125)
+            // this.owner.guide2f(1)
+            this.owner.isGuide = false
+            Laya.stage.removeChild(this.owner.guideContainer)
         }
         PaoYa.Request.POST(`martial_update_role`, { roleId: this.owner.showDetail.roleId }, res => {
             SoundManager.ins.upgrade()

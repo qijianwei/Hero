@@ -1,4 +1,5 @@
 import RefiningControl from "./RefiningControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class Refining extends PaoYa.View {
     constructor() {
@@ -10,7 +11,14 @@ export default class Refining extends PaoYa.View {
     }
 
     onEnable() {
+        this.isGuide = this.params.isGuide
+        this.params = this.params.detail
+
+        if(this.isGuide){
+            this.getMask()
+        }
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             RefiningControl.ins.navigator.pop()
         })
 
@@ -18,6 +26,7 @@ export default class Refining extends PaoYa.View {
             if (this.figureD.visible) {
                 return
             }
+            SoundManager.ins.btn()
             this.figure.skin = `remote/refining/4.png`
             this.weopon.skin = `remote/refining/5.png`
 
@@ -29,6 +38,7 @@ export default class Refining extends PaoYa.View {
             if (this.weoponD.visible) {
                 return
             }
+            SoundManager.ins.btn()
             this.figure.skin = `remote/refining/2.png`
             this.weopon.skin = `remote/refining/3.png`
 
@@ -50,8 +60,13 @@ export default class Refining extends PaoYa.View {
             this[`${element.id}`].gray = element.status ? false : true
 
             this[`${element.id}`].on(Laya.Event.CLICK,this,()=>{
+                SoundManager.ins.btn()
                 RefiningControl.ins.addLv(element)
             })
         });
+    }
+
+    getMask(){
+        
     }
 }

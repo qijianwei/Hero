@@ -1,4 +1,5 @@
 import WheelControl from "../../common/wheel/WheelControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 
 export default class BuyWheelTimes extends PaoYa.Dialog {
@@ -17,11 +18,13 @@ export default class BuyWheelTimes extends PaoYa.Dialog {
         this.title.x = (544 - this.title.width * 0.75) / 2
 
         this.buy.on(Laya.Event.CLICK,this,()=>{
+            SoundManager.ins.btn()
             WheelControl.ins.addTimesD()
             this.close()
         })
 
         this.closeBtn.on(Laya.Event.CLICK,this,()=>{
+            SoundManager.ins.btn()
             this.close()
         })
     }

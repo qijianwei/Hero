@@ -118,6 +118,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                     cell.getChildByName(`add`).visible = true
                     this.addWpList.push(cell)
                     cell.on(Laya.Event.CLICK, this, () => {
+                        SoundManager.ins.btn()
                         for (let i = 0; i < 5; i++) {
                             this.owner[`wpBg_${i + 1}`].skin = `remote/weaponhouse/25.png`
                         }
@@ -134,12 +135,14 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 case 4:
                     cell.getChildByName(`invite`).visible = true
                     cell.on(Laya.Event.CLICK, this, () => {
+                        SoundManager.ins.btn()
                         this.navigator.popup("weapon/UnlockFour");
                     })
                     break;
                 case 5:
                     cell.getChildByName(`invite`).visible = true
                     cell.on(Laya.Event.CLICK, this, () => {
+                        SoundManager.ins.btn()
                         this.navigator.popup("weapon/UnlockFifth");
                     })
                     break;
@@ -155,6 +158,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         cell.getChildByName(`invite`).visible = false
 
         cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.addWpList.forEach(element => {
                 element.getChildByName(`beChioce`).visible = false
             });
@@ -179,6 +183,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         // console.log(cell, idx)
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             if (this.isWareChoiceWp) {
                 this.isWareChoiceWp.getChildByName(`beChioce`).visible = false
                 this.isWareChoiceWp.skin = `local/common/frameBg.png`

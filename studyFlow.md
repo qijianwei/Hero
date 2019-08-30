@@ -55,4 +55,12 @@ pwd //查看”当前工作目录“的完整路径
 ```
 3.koa框架api 3-5 http 响应对象 
 第三章完结
+
+git checkout master -b '新分支名字' //创建新分支
+git checkout master //切回到主分支
+
+//先切换到本都主分支，再合并远程分支
+git merge origin/daily-5-4
+
+svn本地帐号密码保存地址：C:\Users\HI\AppData\Roaming\Subversion\auth\svn.simple
 ```

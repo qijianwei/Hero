@@ -1,4 +1,5 @@
 import Tool from "../../common/tool/Tool";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 
 export default class UnlockFifth extends PaoYa.Dialog {
@@ -17,8 +18,12 @@ export default class UnlockFifth extends PaoYa.Dialog {
     }
     
     onEnable() {
-        this.mask.on(Laya.Event.CLICK,this,this.close)
+        this.maskBg.on(Laya.Event.CLICK,this,()=>{
+            SoundManager.ins.btn()
+            this.close()
+        })
         this.btn.on(Laya.Event.CLICK,this,()=>{
+            SoundManager.ins.btn()
             Tool.inviteFriend()
         })
     }

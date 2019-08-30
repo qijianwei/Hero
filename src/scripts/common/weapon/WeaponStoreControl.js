@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class WeaponStoreControl extends PaoYa.Component {
 
     constructor() {
@@ -62,6 +64,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
         this.singleWeapon(cell, idx)
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.buyPresentIdx = idx
             this.isBuyChoiceWp.skin = `local/common/frameBg.png`
             this.isBuyChoiceWp.getChildByName(`beChioce`).visible = false
@@ -78,6 +81,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
         this.singleWeapon(cell, idx, 1)
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.isSellWareChoiceWp.skin = `local/common/frameBg.png`
             this.isSellWareChoiceWp.getChildByName(`beChioce`).visible = false
 

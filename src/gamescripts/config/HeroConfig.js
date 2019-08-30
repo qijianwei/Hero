@@ -1,3 +1,4 @@
+let baseUrl='https://xgamejuedixiaomie.goxiaochengxu.cn/1006/'
 var HeroConfig = {
   ladderArr:["","无名小卒",'初出茅庐','后起之秀','江湖少侠','武林高手','名震江湖','独步武林','一代宗师','独孤求败'],
   roleName: '',
@@ -45,43 +46,43 @@ var HeroConfig = {
       templet: null
     },
     npc_1: {
-      path: "spine/npc/npc_1.sk",
+      path: baseUrl+"spine/npc/npc_1.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_2: {
-      path: "spine/npc/npc_2.sk",
+      path: baseUrl+"spine/npc/npc_2.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_3: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl+"spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_4: {
-      path: "spine/npc/npc_4.sk",
+      path: baseUrl+"spine/npc/npc_4.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_5: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl+"spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_6: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl+"spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_7: {
-      path: "spine/npc/npc_7.sk",
+      path: baseUrl+"spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null

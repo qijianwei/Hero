@@ -1,4 +1,5 @@
 import WeaponHouseControl from "./WeaponHouseControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class WeaponHouse extends PaoYa.View {
     constructor() {
@@ -21,32 +22,38 @@ export default class WeaponHouse extends PaoYa.View {
         this.diamondNum.pos(622,20)
         
         this.light.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.getWareBtnSkin(`light`)
             this.lightNew.visible = false
             WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.lightList)
         })
 
         this.middle.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.getWareBtnSkin(`middle`)
             this.middleNew.visible = false
             WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.middleList)
         })
 
         this.large.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.getWareBtnSkin(`large`)
             this.largeNew.visible = false
             WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.heavyList)
         })
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponHouseControl.ins.navigator.pop()
         })
 
         this.equip.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponHouseControl.ins.chargeWeapon()
         })
 
         this.upGrade.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             WeaponHouseControl.ins.upgradeWeapon()
         })
 

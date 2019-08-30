@@ -1,4 +1,5 @@
 import SignControl from "./SignControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class Sign extends PaoYa.View {
     constructor() {
@@ -12,6 +13,7 @@ export default class Sign extends PaoYa.View {
 
     onEnable() {
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             SignControl.ins.navigator.pop()
         })
         this.initInfo()
@@ -45,6 +47,7 @@ export default class Sign extends PaoYa.View {
                     SignControl.ins.getAward()
                     return
                 }
+                SoundManager.ins.btn()
                 let title = PaoYa.DataCenter.config.game.share_list.randomItem;
                 PaoYa.ShareManager.shareTitle(title, {}, () => {
                     SignControl.ins.getAward()

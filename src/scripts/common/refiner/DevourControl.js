@@ -171,8 +171,12 @@ export default class DevourControl extends PaoYa.Component {
         }
 
         PaoYa.Request.POST(`martial_update_refiner`, { weaponId: idlist, refinerId: this.owner.params.refiner.id, addExp: addexp }, res => {
-            this.owner.params.refiner = res.refiner
-            this.owner.params.nextRefiner = res.nextRefiner
+            if(res.nextRefiner){
+                this.owner.params.refiner = res.refiner
+                this.owner.params.nextRefiner = res.nextRefiner
+            }else{
+                this.owner.params.refiner.currentExp = res.totalExp
+            }
             this.owner.initInfo()
             let arr2 = []
             this.newAllArr.forEach((element, idx) => {

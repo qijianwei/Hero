@@ -1,5 +1,6 @@
 import WeaponBar from "../prefab/WeaponBar";
 import GameControl from "../GameControl";
+import SoundManager from "../SoundManager";
 
 
 export default class PassResultDialog extends PaoYa.Dialog{
@@ -39,6 +40,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
         
     }
     clickHandler(){
+        SoundManager.ins.btn();
        if(this.result==-1){
            //console.log("再试一次")
            this.close();   
@@ -70,6 +72,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
        }
     }
     backHandler(){
+        SoundManager.ins.btn();
         this.close();
         PaoYa.navigator.popToRootScene();
     }

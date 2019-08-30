@@ -1,5 +1,6 @@
 import Swordsman from "../../common/figure/Swordsman";
 import SwordsmanControl from "../../common/figure/SwordsmanControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class BuyHero extends PaoYa.Dialog {
 
@@ -17,7 +18,10 @@ export default class BuyHero extends PaoYa.Dialog {
     }
 
     onEnable() {
-        this.closeBtn.on(Laya.Event.CLICK, this, this.close)
+        this.closeBtn.on(Laya.Event.CLICK, this, ()=>{
+            this.close()
+            SoundManager.ins.btn()
+        })
         this.buybtnTxt.font = `weaponDFont`
         this.buybtnTxt.scale(0.8, 0.8)
         this.buybtnTxt.pos(55, 10)
@@ -33,6 +37,7 @@ export default class BuyHero extends PaoYa.Dialog {
         this.buy.on(Laya.Event.CLICK, this, () => {
             if (PaoYa.DataCenter.user.gold < this.params.rolePrice) {
                 this.close()
+                SoundManager.ins.btn()
                 SwordsmanControl.ins.popup("weapon/DiamondLack");
                 return
             }

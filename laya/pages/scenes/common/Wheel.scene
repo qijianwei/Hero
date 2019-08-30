@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":17,
+    "selectedBox":19,
+    "selecteID":31,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/wheel/Wheel.js","height":750},
     "nodeParent":-1,
@@ -60,7 +60,7 @@
                     "x":30,
                     "type":"Text",
                     "searchKey":"Text,num",
-                    "props":{"y":503,"x":373,"width":42,"var":"num","text":"5","height":42},
+                    "props":{"y":498,"x":373,"width":42,"var":"num","text":"5","height":42},
                     "nodeParent":19,
                     "label":"num",
                     "isDirectory":false,
@@ -74,7 +74,7 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,addbtn",
-                    "props":{"y":500,"x":404,"var":"addbtn","texture":"remote/wheel/4.png"},
+                    "props":{"y":503,"x":404,"var":"addbtn","texture":"remote/wheel/4.png"},
                     "nodeParent":19,
                     "label":"addbtn",
                     "isDirectory":false,
@@ -383,14 +383,13 @@
             "props":{"y":257,"x":816,"width":100,"var":"award2","height":100,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"award2",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":54,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,role",
                     "props":{"y":50,"x":50,"visible":false,"skin":"remote/game/avstarBg.png","scaleY":0.8,"scaleX":0.8,"name":"role","anchorY":0.5,"anchorX":0.5},
@@ -419,7 +418,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp",
                     "props":{"y":64,"x":48,"width":128,"visible":false,"skin":"local/common/frameBg.png","scaleY":0.7,"scaleX":0.7,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -432,7 +430,6 @@
                     "compId":57,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,bgwrap",
                             "props":{"y":65,"x":64,"skin":"local/common/quality_1.png","name":"bgwrap","anchorY":0.5,"anchorX":0.5},
@@ -447,7 +444,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,wp",
                             "props":{"y":0,"x":0,"skin":"remote/small_weapons/s_g005_2.png","name":"wp"},
@@ -463,7 +459,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,godo",
                     "props":{"y":50,"x":50,"width":100,"visible":false,"rotation":67.5,"name":"godo","height":100,"anchorY":0.5,"anchorX":0.5},
@@ -512,14 +507,13 @@
             "props":{"y":389,"x":816,"width":100,"var":"award3","height":100,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"award3",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":63,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,role",
                     "props":{"y":50,"x":50,"visible":false,"skin":"remote/game/avstarBg.png","scaleY":0.8,"scaleX":0.8,"name":"role","anchorY":0.5,"anchorX":0.5},
@@ -548,7 +542,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp",
                     "props":{"y":38,"x":48,"width":128,"visible":false,"skin":"local/common/frameBg.png","scaleY":0.7,"scaleX":0.7,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -590,7 +583,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,godo",
                     "props":{"y":50,"x":50,"width":100,"visible":false,"rotation":112.5,"name":"godo","height":100,"anchorY":0.5,"anchorX":0.5},
@@ -639,14 +631,13 @@
             "props":{"y":471,"x":735,"width":100,"var":"award4","height":100,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"award4",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":72,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,role",
                     "props":{"y":50,"x":50,"visible":false,"skin":"remote/game/avstarBg.png","scaleY":0.8,"scaleX":0.8,"name":"role","anchorY":0.5,"anchorX":0.5},
@@ -675,7 +666,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp",
                     "props":{"y":48,"x":38,"width":128,"visible":false,"skin":"local/common/frameBg.png","scaleY":0.7,"scaleX":0.7,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -717,7 +707,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,godo",
                     "props":{"y":50,"x":50,"width":100,"visible":false,"rotation":157.5,"name":"godo","height":100,"anchorY":0.5,"anchorX":0.5},
@@ -766,14 +755,13 @@
             "props":{"y":471,"x":603,"width":100,"var":"award5","height":100,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"award5",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":81,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,role",
                     "props":{"y":50,"x":50,"visible":false,"skin":"remote/game/avstarBg.png","scaleY":0.8,"scaleX":0.8,"name":"role","anchorY":0.5,"anchorX":0.5},
@@ -802,7 +790,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp",
                     "props":{"y":48,"x":60,"width":128,"visible":false,"skin":"local/common/frameBg.png","scaleY":0.7,"scaleX":0.7,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -844,7 +831,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,godo",
                     "props":{"y":50,"x":50,"width":100,"visible":false,"rotation":202.5,"name":"godo","height":100,"anchorY":0.5,"anchorX":0.5},
@@ -893,14 +879,13 @@
             "props":{"y":392,"x":526,"width":100,"var":"award6","height":100,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"award6",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":90,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,role",
                     "props":{"y":50,"x":50,"visible":false,"skin":"remote/game/avstarBg.png","scaleY":0.8,"scaleX":0.8,"name":"role","anchorY":0.5,"anchorX":0.5},
@@ -929,7 +914,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp",
                     "props":{"y":40,"x":48,"width":128,"visible":false,"skin":"local/common/frameBg.png","scaleY":0.7,"scaleX":0.7,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -971,7 +955,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,godo",
                     "props":{"y":50,"x":50,"width":100,"visible":false,"rotation":247.5,"name":"godo","height":100,"anchorY":0.5,"anchorX":0.5},
@@ -1020,14 +1003,13 @@
             "props":{"y":263,"x":527,"width":100,"var":"award7","height":100,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"award7",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":99,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,role",
                     "props":{"y":50,"x":50,"visible":false,"skin":"remote/game/avstarBg.png","scaleY":0.8,"scaleX":0.8,"name":"role","anchorY":0.5,"anchorX":0.5},
@@ -1056,7 +1038,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp",
                     "props":{"y":60,"x":48,"width":128,"visible":false,"skin":"local/common/frameBg.png","scaleY":0.7,"scaleX":0.7,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -1098,7 +1079,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,godo",
                     "props":{"y":50,"x":50,"width":100,"visible":false,"rotation":292.5,"name":"godo","height":100,"anchorY":0.5,"anchorX":0.5},
@@ -1147,14 +1127,13 @@
             "props":{"y":182,"x":613,"width":100,"var":"award8","height":100,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"award8",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":108,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,role",
                     "props":{"y":50,"x":50,"visible":false,"skin":"remote/game/avstarBg.png","scaleY":0.8,"scaleX":0.8,"name":"role","anchorY":0.5,"anchorX":0.5},
@@ -1183,7 +1162,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp",
                     "props":{"y":48,"x":55,"width":128,"visible":false,"skin":"local/common/frameBg.png","scaleY":0.7,"scaleX":0.7,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -1225,7 +1203,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,godo",
                     "props":{"y":50,"x":50,"width":100,"visible":false,"rotation":337.5,"name":"godo","height":100,"anchorY":0.5,"anchorX":0.5},

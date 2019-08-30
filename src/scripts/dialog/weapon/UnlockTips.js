@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class UnlockTips extends PaoYa.Dialog {
 
     constructor() { 
@@ -14,7 +16,10 @@ export default class UnlockTips extends PaoYa.Dialog {
     }
     
     onEnable() {
-        this.mask.on(Laya.Event.CLICK,this,this.close)
+        this.btn.on(Laya.Event.CLICK,this,()=>{
+            this.close()
+            SoundManager.ins.btn()
+        })
     }
 
     onDisable() {

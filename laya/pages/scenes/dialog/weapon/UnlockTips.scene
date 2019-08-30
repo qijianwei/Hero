@@ -17,10 +17,10 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,mask",
-            "props":{"x":-150,"width":1634,"var":"mask","skin":"local/common/mask.png","sizeGrid":"15,42,14,31","height":750},
+            "searchKey":"Image",
+            "props":{"x":-150,"width":1634,"skin":"local/common/mask.png","sizeGrid":"15,42,14,31","height":750},
             "nodeParent":2,
-            "label":"mask",
+            "label":"Image",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,

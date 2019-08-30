@@ -1,5 +1,6 @@
 import WeaponStoreControl from "../../common/weapon/WeaponStoreControl";
 import DevourControl from "../../common/refiner/DevourControl";
+import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class StoreSure extends PaoYa.Dialog {
 
@@ -11,29 +12,35 @@ export default class StoreSure extends PaoYa.Dialog {
     onEnable() {
         // this.mask.on(Laya.Event.CLICK, this, this.close)
         this.btn1.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
         })
 
         this.btn4.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
         })
 
         this.btn2.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
             WeaponStoreControl.ins.refresF()
         })
 
         this.btn3.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
             WeaponStoreControl.ins.sellWp(1)
         })
 
         this.btn5.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
             DevourControl.ins.eatWp(1)
         })
 
         this.closeBtn.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             this.close()
         })
 

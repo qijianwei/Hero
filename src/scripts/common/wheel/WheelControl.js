@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class WheelControl extends PaoYa.Component {
     constructor() {
         super();
@@ -33,6 +35,7 @@ export default class WheelControl extends PaoYa.Component {
 
     wheelTurn() {
         if (this.owner.num.text < 1) {
+            SoundManager.ins.btn()
             this.navigator.popup("common/BuyWheelTimes");
             return
         }
@@ -42,6 +45,7 @@ export default class WheelControl extends PaoYa.Component {
             if (!res) {
                 return
             }
+            SoundManager.ins.round()
             this.owner.num.text = res.wheelTimes
             let rat = 0
             PaoYa.DataCenter.user.config_list.hero.wheelList.forEach((element, index) => {
