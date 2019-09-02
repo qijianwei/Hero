@@ -46,7 +46,6 @@ export default class HomeControl extends PaoYa.Component {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
             this.navigator.push('GameGuide', GameGuideData);
         }
-
         this.showRankList()
     }
     onAppear() {    
@@ -56,20 +55,14 @@ export default class HomeControl extends PaoYa.Component {
         this.player.stop();
     }
     onClick(e) {
-        if(e.target instanceof Laya.Button){
+        if (e.target instanceof Laya.Button) {
             SoundManager.ins.btn();
-        } 
+        }
         switch (e.target.name) {
             //兵器库
             case "btnWeaponHouse":
                 console.log("进入兵器库")
-                this.POST("martial_user_weapon_list", {}, res => {
-                    //console.log(res)
-                    if (!res) {
-                        return
-                    }
-                    this.navigator.push("WeaponHouse", res);
-                })
+                this.goWeaponHouse()
                 break;
             //兵器商店
             case "btnWeaponStore":
@@ -181,34 +174,43 @@ export default class HomeControl extends PaoYa.Component {
 
         }
     }
-    goRefiner(){
+    goRefiner(num) {
         this.GET("martial_refiner_list", {}, res => {
             //console.log(res)
             if (!res) {
                 return
             }
             let obj = {
-                isGuide: true,
+                isGuide: num,
                 detail: res
             }
             this.navigator.push("Refining", obj);
         })
-    } 
-    goHerosHouse() {
+    }
+    goHerosHouse(num) {
         this.GET("martial_role_list", {}, res => {
             //console.log(res)
             if (!res) {
                 return
             }
             let obj = {
-                isGuide: true,
+                isGuide: num,
                 detail: res
             }
             this.navigator.push("Swordsman", obj);
         })
     }
+    goWeaponHouse() {
+        this.POST("martial_user_weapon_list", {}, res => {
+            //console.log(res)
+            if (!res) {
+                return
+            }
+            this.navigator.push("WeaponHouse", res);
+        })
+    }
     goPassGame() {
-        let _this=this;
+        let _this = this;
         this.POST("hero_game_start", {
             stageId: 1
         }, (res) => {
@@ -225,8 +227,8 @@ export default class HomeControl extends PaoYa.Component {
                 errorDialog = new AlertDialog({
                     title: "",
                     message: msg,
-                    confirmText:'前往',
-                    confirmHandler:function(){
+                    confirmText: '前往',
+                    confirmHandler: function () {
                         _this.goRefiner()
                     }
                 })
@@ -368,6 +370,84 @@ export default class HomeControl extends PaoYa.Component {
         usericon.skin = cell.dataSource.member_avstar;
         //use
         rankicon.skin = `local/home/${index + 1}.png`
+    }
+
+    guideF(name) {
+        const Sprite = Laya.Sprite;
+
+        // 绘制底图
+        let gameContainer = new Sprite();
+        gameContainer.size(1634, 750)
+        gameContainer.pos(-150, 0)
+        gameContainer.mouseEnabled = true;
+        Laya.stage.addChild(gameContainer);
+
+        let step = null
+
+        switch (name) {
+            case `btn1`:
+                step = this.owner.btnHerosHouse
+                break;
+            case `btn2`:
+                step = this.owner.btnWeaponHouse
+                break;
+            case `btn3`:
+                step = this.owner.btnRefiner
+                break;
+        }
+
+        gameContainer.on(Laya.Event.CLICK, this, () => {
+            switch (name) {
+                case `btn1`:
+                    this.goHerosHouse(1)
+                    break;
+                case `btn2`:
+                    this.goWeaponHouse(1)
+                    break;
+                case `btn3`:
+                    this.goRefiner(1)
+                    break;
+            }
+            this.aniFinger.visible = false
+            Laya.stage.removeChild(guideContainer);
+            Laya.stage.removeChild(gameContainer);
+            Laya.stage.removeChild(this.aniFinger);
+        })
+
+        // 引导所在容器
+        let guideContainer = new Sprite();
+        Laya.stage.addChild(guideContainer);
+        guideContainer.cacheAs = "bitmap";
+
+        // 绘制遮罩区，含透明度，可见游戏背景
+        let maskArea = new Sprite();
+        guideContainer.addChild(maskArea);
+        maskArea.alpha = 0.5;
+        maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+
+        // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
+        let interactionArea = new Sprite();
+        guideContainer.addChild(interactionArea);
+        // 设置叠加模式
+        interactionArea.blendMode = "destination-out";
+
+        // 设置点击区域
+        let hitArea = new Laya.HitArea();
+        hitArea.hit.drawRect(0, 0, 1634, 750, "#000");
+        guideContainer.hitArea = hitArea;
+        guideContainer.mouseEnabled = true;
+
+
+        this.aniFinger.visible = true;
+        this.aniFinger.pos(step.x + step.width / 2 - 150, step.height / 2 + step.y);
+        this.aniFinger.play(0, true);
+        Laya.stage.addChild(this.aniFinger);
+
+        hitArea.unHit.clear();
+        hitArea.unHit.drawCircle(step.x + step.width / 2 - 150, step.height / 2 + step.y, 65, "#000000");
+
+        interactionArea.graphics.clear();
+        interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
     }
 
     onDisappear() { }

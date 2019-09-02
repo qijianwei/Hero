@@ -20,6 +20,7 @@ export default class Swordsman extends PaoYa.View {
 
             this.guideContainer = new Laya.Sprite();
             Laya.stage.addChild(this.guideContainer);
+            Laya.stage.addChild(this.guide1)
             this.guideContainer.cacheAs = "bitmap";
 
             let spmask = new Laya.Sprite()
@@ -31,7 +32,7 @@ export default class Swordsman extends PaoYa.View {
             this.guideContainer.addChild(this.sp);
             // 设置叠加模式
             this.sp.blendMode = "destination-out";
-            this.graR(885, 550, 125)
+            this.graR(this.guide1.x+143, this.guide1.y, 90)
 
             this.guide1f(1)
         }
@@ -70,9 +71,6 @@ export default class Swordsman extends PaoYa.View {
         this.changeGold()
 
         this.lvupbtn.on(Laya.Event.CLICK, this, () => {
-            if (this.guideBack) {
-                return
-            }
             SwordsmanControl.ins.roleLevelUp()
         })
 

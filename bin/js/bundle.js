@@ -2160,12 +2160,9 @@ var HeroConfig = {
     var skeleton;
     if (this.spineMap[spineName].templet) {
       skeleton = this.spineMap[spineName].templet.buildArmature(index);
-      cb && cb();
     } else {
       skeleton = new Laya.Skeleton();
-      skeleton.load(this.spineMap[spineName].path, Laya.Handler.create(this, function () {
-        cd && cb();
-      }));
+      skeleton.load(this.spineMap[spineName].path);
     }
     return skeleton;
   },
@@ -5599,9 +5596,7 @@ var HomeControl = function (_PaoYa$Component) {
 
             var name = PaoYa.DataCenter.user.defaultRoleId;
             var ladder = PaoYa.DataCenter.user.ladder;
-            var player = _HeroConfig2.default.getSkeleton('hero_' + name, 0, function () {
-                player.play('stand', true);
-            });
+            var player = _HeroConfig2.default.getSkeleton('hero_' + name);
             player.pos(371, 570);
             player.scale(1.5, 1.5);
             this.owner.addChild(player);
@@ -5633,7 +5628,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "onAppear",
         value: function onAppear() {
-            // this.player.play('stand', true);     
+            this.player.play('stand', true);
         }
     }, {
         key: "onDisappear",

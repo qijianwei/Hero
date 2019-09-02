@@ -1,9 +1,11 @@
 import DevourControl from "./DevourControl";
 import SoundManager from "../../../gamescripts/SoundManager";
+import Refining from "./Refining";
 
 export default class Devour extends PaoYa.View {
     constructor() {
         super();
+        Devour.ins = this
     }
 
     onAwake() {
@@ -11,6 +13,12 @@ export default class Devour extends PaoYa.View {
     }
 
     onEnable() {
+        if (this.params.isGuide) {
+            Refining.ins.sceondStep()
+            Laya.stage.addChild(this.guide2)
+            this.guide2.visible = true
+            this.guide2f(1)
+        }
         this.benBack.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
             DevourControl.ins.navigator.pop()
@@ -71,10 +79,15 @@ export default class Devour extends PaoYa.View {
         this.add.x = this.pd.width + 35
         this.add.text = `+${this.params.refiner.refinerBasics.show}`
 
-        let arrr = this.params.nextRefiner.refinerEffect.split("+")
-        this.pnd.text = arrr[0]
-        this.pnadd.x = this.pnd.width + 35
-        this.pnadd.text = `+${this.params.nextRefiner.refinerBasics.show}`
+        if (this.params.nextRefiner) {
+            let arrr = this.params.nextRefiner.refinerEffect.split("+")
+            this.pnd.text = arrr[0]
+            this.pnadd.x = this.pnd.width + 35
+            this.pnadd.text = `+${this.params.nextRefiner.refinerBasics.show}`
+        } else {
+            this.eatBtn.disabled = true
+            this.choiceBtn.disabled = true
+        }
 
         this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
         this.nextExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
@@ -88,5 +101,26 @@ export default class Devour extends PaoYa.View {
             SoundManager.ins.btn()
             DevourControl.ins.chioceWp(cell, index)
         })
+    }
+
+    guide2f(e) {
+        let n = e == 1 ? -1 : 1
+        Laya.Tween.to(this.guide2, { x: this.guide2.x + 15 * n }, 300, null, Laya.Handler.create(this, () => {
+            this.guide2f(n)
+        }))
+    }
+
+    guide3f(e) {
+        let n = e == 1 ? -1 : 1
+        Laya.Tween.to(this.guide3, { x: this.guide3.x + 15 * n }, 300, null, Laya.Handler.create(this, () => {
+            this.guide3f(n)
+        }))
+    }
+
+    nextP() {
+        this.guide2.visible = false
+        this.guide3.visible = true
+        Laya.stage.addChild(this.guide3)
+        this.guide3f(1)
     }
 }

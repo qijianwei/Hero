@@ -1,3 +1,5 @@
+import SoundManager from "../../../gamescripts/SoundManager";
+
 export default class WeaponListControl extends PaoYa.Component {
     constructor() {
         super();
@@ -29,6 +31,7 @@ export default class WeaponListControl extends PaoYa.Component {
         // console.log(cell, idx)
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
             if (this.isWareChoiceWp) {
                 this.isWareChoiceWp.getChildByName(`beChioce`).visible = false
                 this.isWareChoiceWp.skin = `local/common/frameBg.png`
