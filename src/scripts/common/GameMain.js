@@ -39,7 +39,12 @@ export default class GameMain extends PaoYa.Main {
 	initRootScene(launchInfo, isFirstLaunch) {
 		PaoYa.ShareManager.isShare=false;
 		this.navigator.push("HomeView", {}, null, Laya.Handler.create(this, () => {
-			PaoYa.LaunchScreenView.hide();
+		/*	let list=this.setupAsyncRes();
+		 	console.log('【异步】准备工作已完成')
+			Laya.loader.load(list,Laya.Handler.create(this,()=>{
+				console.log(`游戏中资源加载完成`)
+			}))
+			PaoYa.LaunchScreenView.hide(); */
 		}), null);
 	}
 	onHide(res) {

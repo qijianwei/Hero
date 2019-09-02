@@ -1333,8 +1333,9 @@ var LoginService = /** @class */ (function () {
         params['user_token'] = this.token || '';
         params = LoginConfig.makeLoginParamsHandler(params);
         _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].startTrackTime('l');
-        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);console.log(`开始登陆`)
         _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["default"].POST('user_login', params, function (res) {
+          console.log(`登陆回来.........`)
             _this.isLogined = true;
             _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].stopTrackTime('l');
             _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].uploadLoginCostTime();
@@ -3268,8 +3269,9 @@ var Main = /** @class */ (function (_super) {
            // _this._initClient(function () {
                 _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
                 _this.setupLoadingView(function () {
+                  _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
                     _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
-                    //_view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
+                    
                 });
            /*  }, function () {
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '连接服务器失败', '重试', function () {

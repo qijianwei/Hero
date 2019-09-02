@@ -339,7 +339,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameGuide.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -435,8 +435,20 @@ var Main = exports.Main = function (_GameMain) {
 
 			//分享地址
 			PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
-			PaoYa.DataCenter.GAMEPREPARE = null;
 
+			/* 	PaoYa.DataCenter.GAMEPREPARE = {
+   		async (cb) {
+   			console.log('【异步】准备工作已完成')
+                  Laya.loader.load(prepareList,Laya.Handler.create(this,()=>{
+   				console.log(`游戏中资源加载完成`)
+   			}))
+   			cb()
+   		},
+   		sync() {
+   			console.log('【同步】准备工作已完成')
+   		}
+   	};
+   */
 			if (typeof wx != 'undefined' || Laya.Render.isConchApp) {
 				// console.log=function(){};
 				wx.onMemoryWarning(function () {
@@ -458,9 +470,53 @@ var Main = exports.Main = function (_GameMain) {
    	}
    	SoundManager.playMusic("mainBgm"); */
 
-			this.arrayFont = [{ fontUrl: "font/recMP.fnt", fontAni: "recoverMP" }, { fontUrl: "font/recHP.fnt", fontAni: "recoverHP" }, { fontUrl: "font/hurt.fnt", fontAni: "hurt" }, { fontUrl: "font/crit.fnt", fontAni: "crit" }, { fontUrl: "font/poision.fnt", fontAni: "poision" }, { fontUrl: "font/playerState.fnt", fontAni: "playerState" }, { fontUrl: "font/playerSkill.fnt", fontAni: "playerSkill" }, { fontUrl: "font/weapon/detailfont.fnt", fontAni: "weaponDFont" }, { fontUrl: "font/weapon/lvfont.fnt", fontAni: "weaponNFontT" }, { fontUrl: "font/figure/msz.fnt", fontAni: "figureDetail" }];
+			this.arrayFont = [{
+				fontUrl: "font/recMP.fnt",
+				fontAni: "recoverMP"
+			}, {
+				fontUrl: "font/recHP.fnt",
+				fontAni: "recoverHP"
+			}, {
+				fontUrl: "font/hurt.fnt",
+				fontAni: "hurt"
+			}, {
+				fontUrl: "font/crit.fnt",
+				fontAni: "crit"
+			}, {
+				fontUrl: "font/poision.fnt",
+				fontAni: "poision"
+			}, {
+				fontUrl: "font/playerState.fnt",
+				fontAni: "playerState"
+			}, {
+				fontUrl: "font/playerSkill.fnt",
+				fontAni: "playerSkill"
+			}, {
+				fontUrl: "font/weaponSkill.fnt",
+				fontAni: "weaponSkill"
+			}, {
+				fontUrl: "font/weapon/detailfont.fnt",
+				fontAni: "weaponDFont"
+			}, {
+				fontUrl: "font/weapon/lvfont.fnt",
+				fontAni: "weaponNFontT"
+			}, {
+				fontUrl: "font/figure/msz.fnt",
+				fontAni: "figureDetail"
+			}];
 			this.loadFontFnt(0);
 			_HeroConfig2.default.loadAllSpine();
+		}
+	}, {
+		key: "setupAsyncRes",
+		value: function setupAsyncRes() {
+			var prepareList = [
+			/* 武器上的动效 */
+			'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas',
+			/*触发技能动效  */
+			'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
+			'res/atlas/remote/collision.atlas'];
+			return prepareList;
 		}
 	}, {
 		key: "loadFontFnt",
@@ -481,20 +537,28 @@ var Main = exports.Main = function (_GameMain) {
 	}, {
 		key: "setupGameRes",
 		value: function setupGameRes() {
-			var list = ['res/atlas/remote/game.atlas', 'res/atlas/remote/weapons.atlas', 'spine/hero/hero_1.png', 'spine/hero/hero_1.sk', 'spine/hero/hero_2.png', 'spine/hero/hero_2.sk',
+			var list = [
+			/* 首屏资源和公共资源 */
+			'scenes/HomeView.scene', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'local/home/homeBg.jpg',
+			/* 	'spine/hero/hero_1.png',
+   	'spine/hero/hero_1.sk',
+   	'spine/hero/hero_2.png',
+   	'spine/hero/hero_2.sk', */
 
 			/* 场景 */
 			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
+			'res/atlas/remote/collision.atlas',
 
-        'res/atlas/remote/collision.atlas', 
+			/* 武器上的动效 */
+			'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas',
 
 			/* 技能 */
 			'res/atlas/remote/hero_skill/hero1_skill1.atlas', 'res/atlas/remote/hero_skill/hero1_skill2.atlas', 'res/atlas/remote/hero_skill/hero2_skill1.atlas', 'res/atlas/remote/hero_skill/hero2_skill2.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas',
 
 			/* 武器图标 */
-			'res/atlas/remote/weapons.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/weapon_effect/weapon_blood.atlas', 'res/atlas/remote/weapon_effect/weapon_blue.atlas', 'res/atlas/remote/weapon_effect/weapon_crits.atlas', 'res/atlas/remote/weapon_effect/weapon_freeze.atlas', 'res/atlas/remote/weapon_effect/weapon_palsy.atlas', 'res/atlas/remote/weapon_effect/weapon_poison.atlas', 'res/atlas/remote/weapon_effect/weapon_reduce.atlas', 'res/atlas/remote/weapon_effect/weapon_repeat.atlas', 'res/atlas/remote/weapon_effect/weapon_thump.atlas', 'res/atlas/remote/guide.atlas'];
+			'res/atlas/remote/weapons.atlas', 'res/atlas/remote/small_weapons.atlas', 'res/atlas/remote/game.atlas'];
 			return list;
 		}
 	}, {
@@ -513,10 +577,9 @@ var Main = exports.Main = function (_GameMain) {
 //激活启动类
 
 
-new Main();
- /*   console.log=function(){};
+new Main();   console.log=function(){};
 console.warn=function(){};
-console.error=function(){};   */  
+console.error=function(){};    
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":26}],4:[function(require,module,exports){
 'use strict';
@@ -2431,7 +2494,12 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                     } else {
                         errorDialog = new AlertDialog({
                             title: "",
-                            message: msg
+                            message: msg,
+                            confirmText: '前往',
+                            confirmHandler: function confirmHandler() {
+                                PaoYa.navigator.popToRootScene();
+                                PaoYa.navigator.visibleScene.getComponent(HomeControl).goRefiner();
+                            }
                         });
                     }
                     errorDialog.popup();
@@ -3475,8 +3543,6 @@ var Player = function (_PaoYa$Component) {
   /** @prop {name:aniHp,tips:"回血动效节点",type:Node} */
   /** @prop {name:boxAniMp,tips:"回蓝动效box",type:Node} */
   /** @prop {name:aniMp,tips:"回蓝动效节点",type:Node} */
-  /** @prop {name:boxAniUp,tips:"英雄升级动效box",type:Node} */
-  /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
   /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */
@@ -5413,7 +5479,12 @@ var GameMain = function (_PaoYa$Main) {
 		value: function initRootScene(launchInfo, isFirstLaunch) {
 			PaoYa.ShareManager.isShare = false;
 			this.navigator.push("HomeView", {}, null, Laya.Handler.create(this, function () {
-				PaoYa.LaunchScreenView.hide();
+				/*	let list=this.setupAsyncRes();
+     	console.log('【异步】准备工作已完成')
+    	Laya.loader.load(list,Laya.Handler.create(this,()=>{
+    		console.log(`游戏中资源加载完成`)
+    	}))
+    	PaoYa.LaunchScreenView.hide(); */
 			}), null);
 		}
 	}, {
@@ -5498,7 +5569,7 @@ var HomeControl = function (_PaoYa$Component) {
         /** @prop {name:aniFinger,tips:"手指动画",type:node}*/
         /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
         value: function onAwake() {
-            var _this2 = this;
+            var _this3 = this;
 
             var name = PaoYa.DataCenter.user.defaultRoleId;
             var ladder = PaoYa.DataCenter.user.ladder;
@@ -5518,7 +5589,7 @@ var HomeControl = function (_PaoYa$Component) {
                 if (name != roleId) {
                     name = roleId;
                     var templet = _HeroConfig2.default.spineMap["hero_" + name].templet;
-                    _this2.player.init(templet, 0);
+                    _this3.player.init(templet, 0);
                 }
             });
         }
@@ -5544,7 +5615,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "onClick",
         value: function onClick(e) {
-            var _this3 = this;
+            var _this4 = this;
 
             if (e.target instanceof Laya.Button) {
                 _SoundManager2.default.ins.btn();
@@ -5558,7 +5629,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.push("WeaponHouse", res);
+                        _this4.navigator.push("WeaponHouse", res);
                     });
                     break;
                 //兵器商店
@@ -5571,7 +5642,7 @@ var HomeControl = function (_PaoYa$Component) {
                             return;
                         }
                         //console.log(res)
-                        _this3.POST("martial_user_weapon_list", {}, function (data) {
+                        _this4.POST("martial_user_weapon_list", {}, function (data) {
                             if (!data) {
                                 return;
                             }
@@ -5579,24 +5650,14 @@ var HomeControl = function (_PaoYa$Component) {
                                 buyList: res,
                                 sellList: data
                             };
-                            _this3.navigator.push("WeaponStore", obj);
+                            _this4.navigator.push("WeaponStore", obj);
                         });
                     });
                     break;
                 //炼器
                 case "btnRefiner":
                     console.log("进入炼器");
-                    this.GET("martial_refiner_list", {}, function (res) {
-                        //console.log(res)
-                        if (!res) {
-                            return;
-                        }
-                        var obj = {
-                            isGuide: true,
-                            detail: res
-                        };
-                        _this3.navigator.push("Refining", obj);
-                    });
+                    this.goRefiner();
                     break;
                 //兵器谱
                 case "btnWeaponSpectrum":
@@ -5605,7 +5666,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.push("WeapList", res);
+                        _this4.navigator.push("WeapList", res);
                     });
                     console.log("进入兵器谱");
                     break;
@@ -5622,7 +5683,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.push("Sign", res);
+                        _this4.navigator.push("Sign", res);
                     });
                     console.log("打开签到");
                     break;
@@ -5644,7 +5705,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.push("Grading", res);
+                        _this4.navigator.push("Grading", res);
                     });
                     break;
                 //决战紫禁城之巅
@@ -5658,7 +5719,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.popup("common/Rank", res);
+                        _this4.navigator.popup("common/Rank", res);
                     });
                     console.log("进入排行榜");
                     break;
@@ -5673,7 +5734,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this3.navigator.popup("common/Task", res);
+                        _this4.navigator.popup("common/Task", res);
                     });
                     console.log("任务");
                     break;
@@ -5681,9 +5742,26 @@ var HomeControl = function (_PaoYa$Component) {
             }
         }
     }, {
+        key: "goRefiner",
+        value: function goRefiner() {
+            var _this5 = this;
+
+            this.GET("martial_refiner_list", {}, function (res) {
+                //console.log(res)
+                if (!res) {
+                    return;
+                }
+                var obj = {
+                    isGuide: true,
+                    detail: res
+                };
+                _this5.navigator.push("Refining", obj);
+            });
+        }
+    }, {
         key: "goHerosHouse",
         value: function goHerosHouse() {
-            var _this4 = this;
+            var _this6 = this;
 
             this.GET("martial_role_list", {}, function (res) {
                 //console.log(res)
@@ -5694,22 +5772,24 @@ var HomeControl = function (_PaoYa$Component) {
                     isGuide: true,
                     detail: res
                 };
-                _this4.navigator.push("Swordsman", obj);
+                _this6.navigator.push("Swordsman", obj);
             });
         }
     }, {
         key: "goPassGame",
         value: function goPassGame() {
-            var _this5 = this;
+            var _this7 = this;
 
+            var _this = this;
             this.POST("hero_game_start", {
                 stageId: 1
             }, function (res) {
                 res.gameType = 'pass';
-                _this5.navigator.push("GameView", res);
+                _this7.navigator.push("GameView", res);
             }, function (msg, code) {
                 var errorDialog = void 0;
                 if (code == 3018) {
+                    //通关
                     errorDialog = new _AlertDialog2.default({
                         title: "",
                         message: msg
@@ -5717,7 +5797,11 @@ var HomeControl = function (_PaoYa$Component) {
                 } else {
                     errorDialog = new _AlertDialog2.default({
                         title: "",
-                        message: msg
+                        message: msg,
+                        confirmText: '前往',
+                        confirmHandler: function confirmHandler() {
+                            _this.goRefiner();
+                        }
                     });
                 }
                 errorDialog.popup();
@@ -5726,7 +5810,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "setGuide",
         value: function setGuide() {
-            var _this6 = this;
+            var _this8 = this;
 
             //引导所在容器
             guideContainer = new Laya.Sprite();
@@ -5789,7 +5873,7 @@ var HomeControl = function (_PaoYa$Component) {
                     case 1:
                     case 2:
                     case 3:
-                        _this6['step' + guideStep]();
+                        _this8['step' + guideStep]();
                         break;
                 }
             });
@@ -5798,7 +5882,7 @@ var HomeControl = function (_PaoYa$Component) {
                 switch (guideStep) {
                     case 4:
                         e.stopPropagation();
-                        _this6.step4();
+                        _this8.step4();
                         break;
                 }
                 console.log("\u63A5\u6536\u5230\u70B9\u51FB");

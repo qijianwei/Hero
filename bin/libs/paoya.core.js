@@ -3269,7 +3269,7 @@ var Main = /** @class */ (function (_super) {
                 _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
                 _this.setupLoadingView(function () {
                     _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
-                    //_view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
+                    _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
                 });
            /*  }, function () {
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '连接服务器失败', '重试', function () {

@@ -63,7 +63,12 @@ export default class PassResultDialog extends PaoYa.Dialog{
             }else{
                 errorDialog = new AlertDialog({
                     title: "",
-                    message: msg
+                    message: msg,
+                    confirmText:'前往',
+                    confirmHandler:function(){
+                       PaoYa.navigator.popToRootScene();
+                       PaoYa.navigator.visibleScene.getComponent(HomeControl).goRefiner();
+                    }
                 })
             }
             errorDialog.popup();   

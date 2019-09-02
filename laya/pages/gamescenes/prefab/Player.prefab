@@ -2,7 +2,7 @@
     "x":0,
     "type":"Box",
     "selectedBox":106,
-    "selecteID":145,
+    "selecteID":138,
     "searchKey":"Box",
     "props":{"y":250,"x":105,"width":210,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Player.prefab","isPresetRoot":true,"height":250,"anchorY":1,"anchorX":0.5},
     "nodeParent":-1,
@@ -255,34 +255,6 @@
             "compId":136,
             "child":[
                 ],
-            "$HIDDEN":true
-        },
-        {
-            "x":15,
-            "type":"Box",
-            "searchKey":"Box,boxAniUp",
-            "props":{"zOrder":600,"visible":false,"presetID":22,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"boxAniUp"},
-            "nodeParent":106,
-            "label":"boxAniUp",
-            "isOpen":false,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":138,
-            "child":[
-                {
-                    "type":"Animation",
-                    "searchKey":"Animation",
-                    "props":{"y":48,"x":101,"source":"gamescenes/animations/lvup_hero.ani","presetID":23,"preset":"laya/pages/gamescenes/prefab/Player.prefab"},
-                    "nodeParent":138,
-                    "label":"Animation(Player)",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":139,
-                    "child":[
-                        ]
-                }],
             "$HIDDEN":true
         },
         {

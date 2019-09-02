@@ -16,8 +16,6 @@ export default class Player extends PaoYa.Component {
   /** @prop {name:aniHp,tips:"回血动效节点",type:Node} */
   /** @prop {name:boxAniMp,tips:"回蓝动效box",type:Node} */
   /** @prop {name:aniMp,tips:"回蓝动效节点",type:Node} */
-  /** @prop {name:boxAniUp,tips:"英雄升级动效box",type:Node} */
-  /** @prop {name:aniUp,tips:"英雄升级动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
  /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */

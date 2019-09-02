@@ -97,17 +97,7 @@ export default class HomeControl extends PaoYa.Component {
             //炼器
             case "btnRefiner":
                 console.log("进入炼器")
-                this.GET("martial_refiner_list", {}, res => {
-                    //console.log(res)
-                    if (!res) {
-                        return
-                    }
-                    let obj = {
-                        isGuide: true,
-                        detail: res
-                    }
-                    this.navigator.push("Refining", obj);
-                })
+                this.goRefiner();
                 break;
             //兵器谱
             case "btnWeaponSpectrum":
@@ -191,6 +181,19 @@ export default class HomeControl extends PaoYa.Component {
 
         }
     }
+    goRefiner(){
+        this.GET("martial_refiner_list", {}, res => {
+            //console.log(res)
+            if (!res) {
+                return
+            }
+            let obj = {
+                isGuide: true,
+                detail: res
+            }
+            this.navigator.push("Refining", obj);
+        })
+    } 
     goHerosHouse() {
         this.GET("martial_role_list", {}, res => {
             //console.log(res)
@@ -205,6 +208,7 @@ export default class HomeControl extends PaoYa.Component {
         })
     }
     goPassGame() {
+        let _this=this;
         this.POST("hero_game_start", {
             stageId: 1
         }, (res) => {
@@ -212,7 +216,7 @@ export default class HomeControl extends PaoYa.Component {
             this.navigator.push("GameView", res);
         }, (msg, code) => {
             let errorDialog;
-            if (code == 3018) {
+            if (code == 3018) {//通关
                 errorDialog = new AlertDialog({
                     title: "",
                     message: msg
@@ -220,7 +224,11 @@ export default class HomeControl extends PaoYa.Component {
             } else {
                 errorDialog = new AlertDialog({
                     title: "",
-                    message: msg
+                    message: msg,
+                    confirmText:'前往',
+                    confirmHandler:function(){
+                        _this.goRefiner()
+                    }
                 })
             }
             errorDialog.popup();
