@@ -49,8 +49,8 @@ export default class HomeControl extends PaoYa.Component {
 
         this.showRankList()
     }
-    onAppear() {
-        this.player.play('stand', true);
+    onAppear() {    
+       this.player.play('stand', true);     
     }
     onDisappear() {
         this.player.stop();

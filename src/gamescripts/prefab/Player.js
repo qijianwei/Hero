@@ -182,6 +182,8 @@ export default class Player extends PaoYa.Component {
 
     if (this.HPComp.curHP <= 0) {
       console.error('死亡结束')
+      Laya.timer.clearAll(this);
+      this.removeAllAni();
       GameControl.instance.deathHandler(this.isSelf);
       this.killed = true;
       this.skeleton.play("death", false);
@@ -198,6 +200,20 @@ export default class Player extends PaoYa.Component {
         cb()
       }
     })
+  }
+  //死亡时候移除所有动效
+  removeAllAni(){
+   // this.skeleton.play('stand', true);
+    this.boxAniPoison.visible = false;
+    this.aniPoison.stop();
+
+    this.freeze.visible = false;
+
+    this.boxAniPalsy.visible = false;
+    this.aniPalsy.stop();
+
+    this.boxAniDizzy.visible = false;
+    this.aniDizzy.stop();
   }
   //恢复生命
   hpRecoverEffect(value) {
@@ -245,6 +261,7 @@ export default class Player extends PaoYa.Component {
     this.HPComp.changeHP(hpValue);
     if (this.HPComp.curHP <= 0) {
       console.error('中毒死亡结束')
+       //关掉所有定时器，比如中毒
       this.removePoison();
       this.killed = true;
       this.skeleton.play("death", false);

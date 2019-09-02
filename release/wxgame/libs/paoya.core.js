@@ -3269,7 +3269,7 @@ var Main = /** @class */ (function (_super) {
            // _this._initClient(function () {
                 _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
                 _this.setupLoadingView(function () {
-                  _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
+                 // _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
                     _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
                     
                 });
@@ -4467,7 +4467,7 @@ Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail)
             return;
         }
         var now = Date.now(), time = caller[LAST_CLICK_TIME] || 0, delta = now - time;
-        if (delta > 1000) {
+        if (delta > 500) {
             method.call(caller, args);
         }
         else {

@@ -501,7 +501,7 @@ export default class GameControl extends PaoYa.Component {
         this.dodgeComp.resume();
     }
     firstWeaponSelect() {
-        console.error('..............................')
+      //  console.error('..............................')
         this.weaponManager = null;
         this.weaponManager = new WeaponManager(this.robotWeaponList);
         this.sWeapon = this.weaponManager.seletedWeapon();
@@ -526,7 +526,7 @@ export default class GameControl extends PaoYa.Component {
             if (this.otherPlayer.comp.canAction) {
                 this.sWeapon.isSelf = false;
                 this.sWeapon.selectedHandler();
-                console.error(`鬼................... `)
+            //    / console.error(`鬼................... `)
                 this.weaponBarClickHandler(this.sWeapon);
             } else {
                 console.error("无法动弹")
@@ -789,6 +789,7 @@ export default class GameControl extends PaoYa.Component {
         } else {
             this.killNum += 1;
             if (this.killNum == this.monsterNum) {
+                console.error(`死亡个数：`,this.killNum)
                 this.passOver(loserIsSelf);
             } else {       
                 Laya.timer.once(1500,this,this.replacePlayer)

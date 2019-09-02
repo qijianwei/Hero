@@ -57,11 +57,11 @@ export default class SoundManager {
     }
     /* 英雄技能1触发 */
     heroSkill1() {
-        this.playSound('heroSkill1');
+        this.playSound('hero1');
     }
     /* 英雄技能2触发 */
     heroSkill2() {
-        this.playSound('heroSkill2');
+        this.playSound('hero2');
     }
     /* 兵器技能触发 */
     weaponSkill() {

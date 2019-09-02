@@ -577,7 +577,8 @@ var Main = exports.Main = function (_GameMain) {
 //激活启动类
 
 
-new Main();   console.log=function(){};
+new Main();
+  console.log=function(){};
 console.warn=function(){};
 console.error=function(){};    
 
@@ -1198,7 +1199,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'firstWeaponSelect',
         value: function firstWeaponSelect() {
-            console.error('..............................');
+            //  console.error('..............................')
             this.weaponManager = null;
             this.weaponManager = new _WeaponManager2.default(this.robotWeaponList);
             this.sWeapon = this.weaponManager.seletedWeapon();
@@ -1226,7 +1227,7 @@ var GameControl = function (_PaoYa$Component) {
                 if (this.otherPlayer.comp.canAction) {
                     this.sWeapon.isSelf = false;
                     this.sWeapon.selectedHandler();
-                    console.error('\u9B3C................... ');
+                    //    / console.error(`鬼................... `)
                     this.weaponBarClickHandler(this.sWeapon);
                 } else {
                     console.error("无法动弹");
@@ -1513,6 +1514,7 @@ var GameControl = function (_PaoYa$Component) {
             } else {
                 this.killNum += 1;
                 if (this.killNum == this.monsterNum) {
+                    console.error('\u6B7B\u4EA1\u4E2A\u6570\uFF1A', this.killNum);
                     this.passOver(loserIsSelf);
                 } else {
                     Laya.timer.once(1500, this, this.replacePlayer);
@@ -1859,14 +1861,14 @@ var SoundManager = function () {
     }, {
         key: 'heroSkill1',
         value: function heroSkill1() {
-            this.playSound('heroSkill1');
+            this.playSound('hero1');
         }
         /* 英雄技能2触发 */
 
     }, {
         key: 'heroSkill2',
         value: function heroSkill2() {
-            this.playSound('heroSkill2');
+            this.playSound('hero2');
         }
         /* 兵器技能触发 */
 
@@ -3745,6 +3747,8 @@ var Player = function (_PaoYa$Component) {
 
       if (this.HPComp.curHP <= 0) {
         console.error('死亡结束');
+        Laya.timer.clearAll(this);
+        this.removeAllAni();
         _GameControl2.default.instance.deathHandler(this.isSelf);
         this.killed = true;
         this.skeleton.play("death", false);
@@ -3761,6 +3765,22 @@ var Player = function (_PaoYa$Component) {
           cb();
         }
       });
+    }
+  }, {
+    key: "removeAllAni",
+    value: function removeAllAni() {
+
+      // this.skeleton.play('stand', true);
+      this.boxAniPoison.visible = false;
+      this.aniPoison.stop();
+
+      this.freeze.visible = false;
+
+      this.boxAniPalsy.visible = false;
+      this.aniPalsy.stop();
+
+      this.boxAniDizzy.visible = false;
+      this.aniDizzy.stop();
     }
     //恢复生命
 
@@ -3818,6 +3838,7 @@ var Player = function (_PaoYa$Component) {
       this.HPComp.changeHP(hpValue);
       if (this.HPComp.curHP <= 0) {
         console.error('中毒死亡结束');
+        //关掉所有定时器，比如中毒
         this.removePoison();
         this.killed = true;
         this.skeleton.play("death", false);
@@ -5483,8 +5504,8 @@ var GameMain = function (_PaoYa$Main) {
      	console.log('【异步】准备工作已完成')
     	Laya.loader.load(list,Laya.Handler.create(this,()=>{
     		console.log(`游戏中资源加载完成`)
-    	}))
-    	PaoYa.LaunchScreenView.hide(); */
+    	}))*/
+				PaoYa.LaunchScreenView.hide();
 			}), null);
 		}
 	}, {

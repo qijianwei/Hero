@@ -93,10 +93,10 @@ var HeroConfig = {
     }
   },
   /* 提供给外部获取动画的接口，输入动画名字即可 */
-  getSkeleton: function (spineName, index = 0) {
+  getSkeleton:function (spineName, index = 0,cb) {
     var skeleton;
     if (this.spineMap[spineName].templet) {
-      skeleton = this.spineMap[spineName].templet.buildArmature(index)
+      skeleton = this.spineMap[spineName].templet.buildArmature(index);
     } else {
       skeleton = new Laya.Skeleton();
       skeleton.load(this.spineMap[spineName].path);

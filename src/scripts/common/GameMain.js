@@ -43,8 +43,8 @@ export default class GameMain extends PaoYa.Main {
 		 	console.log('【异步】准备工作已完成')
 			Laya.loader.load(list,Laya.Handler.create(this,()=>{
 				console.log(`游戏中资源加载完成`)
-			}))
-			PaoYa.LaunchScreenView.hide(); */
+			}))*/
+			PaoYa.LaunchScreenView.hide(); 
 		}), null);
 	}
 	onHide(res) {
