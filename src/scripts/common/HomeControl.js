@@ -363,7 +363,7 @@ export default class HomeControl extends PaoYa.Component {
         this.aniFinger.stop();
         interactionArea.graphics.clear();
         guideContainer.removeSelf();
-        this.aniFinger.destroy();
+      /*   this.aniFinger.destroy(); */
         this.goPassGame();
     }
     nextTick(e) {

@@ -2489,6 +2489,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
             this.btnBack.on(Laya.Event.CLICK, this, this.backHandler);
             var warnDialog = void 0;
             if (this.params.refinerNew == 1) {
+                Laya.UIConfig.closeDialogOnSide = false;
                 warnDialog = new _AlertDialog2.default({
                     message: '提高武器属性，去炼器室试试',
                     confirmText: '前往',
@@ -2500,6 +2501,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 });
                 warnDialog.popup();
             } else if (this.params.roleNew == 1) {
+                Laya.UIConfig.closeDialogOnSide = false;
                 warnDialog = new _AlertDialog2.default({
                     message: '胜不骄败不馁，尝试升级英雄！',
                     confirmText: '前往',
@@ -2511,6 +2513,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 });
                 warnDialog.popup();
             } else if (this.params.weaponNew == 1) {
+                Laya.UIConfig.closeDialogOnSide = false;
                 warnDialog = new _AlertDialog2.default({
                     message: '想要神兵相助，去兵器库逛逛！',
                     confirmText: '前往',
@@ -2811,7 +2814,7 @@ var GameGuideControl = function (_GameControl) {
             var _this5 = this;
 
             this.target.visible = false;
-            this.imgTip.visible = false;
+            // this.imgTip.visible=false;
             this.imgTip.skin = "remote/guide/8.png";
             this.imgTip.y = 300;
             Laya.timer.callLater(this, function () {
@@ -3036,7 +3039,7 @@ var GameGuideControl = function (_GameControl) {
 
             selfSpeakMan = this.selfSpeakMan.create.call(this.selfSpeakMan);
             selfSpeakManComp = selfSpeakMan.getComponent(_SpeakMan2.default);
-            selfSpeakManComp.showWord('还请龙儿姑娘收下留情啊。');
+            selfSpeakManComp.showWord('还请龙儿姑娘手下留情啊。');
             selfSpeakMan.y = 225;
             selfSpeakMan.zOrder = 1003;
             this.owner.addChild(selfSpeakMan);
@@ -3084,7 +3087,7 @@ exports.default = {
 			"skillProb": 18,
 			"skillType": 1,
 			"skillUnlock": 0,
-			"status": 1
+			"status": 0
 		}, {
 			"skillCd": 0.0,
 			"skillConfig": {
@@ -3384,7 +3387,7 @@ exports.default = {
 		}],
 		"roleBone": 126,
 		"roleCritHarm": 180,
-		"roleCritProb": 19,
+		"roleCritProb": 0,
 		"roleDesc": "飞刀",
 		"roleDress": "hero_1",
 		"roleHp": 1110,
@@ -6729,7 +6732,7 @@ var HomeControl = function (_PaoYa$Component) {
             this.aniFinger.stop();
             interactionArea.graphics.clear();
             guideContainer.removeSelf();
-            this.aniFinger.destroy();
+            /*   this.aniFinger.destroy(); */
             this.goPassGame();
         }
     }, {

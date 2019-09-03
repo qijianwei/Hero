@@ -9,6 +9,7 @@ let readdir=promisify(fs.readdir);
 let filePath = 'C:\\Users\\HI\\Desktop\\纯正商业级应用－Node.js Koa2开发微信小程序服务端\\';
 let filePath2 = 'C:\\Users\\HI\\Desktop\\node基础视频\\';
 let filePath3='I:\\前端技术提升\\React16.8+Next.js+Koa2开发Github全栈项目（完整版）\\';
+let filePath4='I:\\前端技术提升\\Web协议详解与抓包实战【53期】';
 /******************************** forEach问题了解清楚***************/
 //https://imweb.io/topic/5b3b7d624d378e703a4f4437 (forEach)
 (async function grabFile(path) {
@@ -31,7 +32,7 @@ let filePath3='I:\\前端技术提升\\React16.8+Next.js+Koa2开发Github全栈�
         }
     }
     console.log('done........');
-})(filePath3);
+})(filePath4);
 
 
 //以下都可以

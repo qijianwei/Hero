@@ -165,7 +165,7 @@ export default class GameGuideControl extends GameControl{
     }
     step7(){
        this.target.visible=false;
-       this.imgTip.visible=false;
+     // this.imgTip.visible=false;
        this.imgTip.skin=`remote/guide/8.png`;
        this.imgTip.y=300;
        Laya.timer.callLater(this,()=>{
@@ -370,7 +370,7 @@ export default class GameGuideControl extends GameControl{
 
         selfSpeakMan= this.selfSpeakMan.create.call(this.selfSpeakMan);
         selfSpeakManComp=selfSpeakMan.getComponent(SpeakMan);
-        selfSpeakManComp.showWord('还请龙儿姑娘收下留情啊。');
+        selfSpeakManComp.showWord('还请龙儿姑娘手下留情啊。');
         selfSpeakMan.y=225;
         selfSpeakMan.zOrder=1003;
         this.owner.addChild(selfSpeakMan);

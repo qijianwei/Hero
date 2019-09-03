@@ -14,7 +14,7 @@ export default{
 					"skillProb": 18,
 					"skillType": 1,
 					"skillUnlock": 0,
-					"status": 1
+					"status": 0
 				},
 				{
 					"skillCd": 0.0,
@@ -332,7 +332,7 @@ export default{
 		],
 		"roleBone": 126,
 		"roleCritHarm": 180,
-		"roleCritProb": 19,
+		"roleCritProb": 0,
 		"roleDesc": "飞刀",
 		"roleDress": "hero_1",
 		"roleHp": 1110,
