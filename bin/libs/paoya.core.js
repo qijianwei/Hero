@@ -1330,7 +1330,7 @@ var LoginService = /** @class */ (function () {
         for (var key in res) {
             params[key] = res[key];
         }
-        params['user_token'] ='vVSa5/TaylOFTXGSXC5HVj5+2xGlyyk74bSoWIL0fH4=' || '';
+        params['user_token'] = this.token || '';
         params = LoginConfig.makeLoginParamsHandler(params);
         _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].startTrackTime('l');
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);
@@ -4465,7 +4465,7 @@ Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail)
             return;
         }
         var now = Date.now(), time = caller[LAST_CLICK_TIME] || 0, delta = now - time;
-        if (delta > 1000) {
+        if (delta > 500) {
             method.call(caller, args);
         }
         else {
