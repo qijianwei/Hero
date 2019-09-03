@@ -6350,7 +6350,11 @@ var HomeControl = function (_PaoYa$Component) {
 
             var name = PaoYa.DataCenter.user.defaultRoleId;
             var ladder = PaoYa.DataCenter.user.ladder;
-            var player = _HeroConfig2.default.getSkeleton('hero_' + name);
+
+            var player = new Laya.Skeleton();
+            player.load("spine/hero/hero_" + name + ".sk", Laya.Handler.create(this, function (res) {
+                player.play('stand', true);
+            }));
             player.pos(371, 570);
             player.scale(1.5, 1.5);
             this.owner.addChild(player);
@@ -6382,7 +6386,11 @@ var HomeControl = function (_PaoYa$Component) {
         key: "onAppear",
         value: function onAppear() {
             _SoundManager2.default.ins.homeBg();
-            this.player.play('stand', true);
+            if (this.first) {
+                this.player.play('stand', true);
+            } else {
+                this.first = true;
+            }
         }
     }, {
         key: "onDisappear",

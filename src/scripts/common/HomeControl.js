@@ -23,7 +23,11 @@ export default class HomeControl extends PaoYa.Component {
     onAwake() {
         let name = PaoYa.DataCenter.user.defaultRoleId;
         let ladder = PaoYa.DataCenter.user.ladder;
-        let player = HeroConfig.getSkeleton('hero_' + name);
+      
+        let player =new Laya.Skeleton();
+        player.load(`spine/hero/hero_${name}.sk`,Laya.Handler.create(this,(res)=>{
+            player.play('stand', true); 
+       }))
         player.pos(371, 570);
         player.scale(1.5, 1.5)
         this.owner.addChild(player);
@@ -52,7 +56,12 @@ export default class HomeControl extends PaoYa.Component {
     }
     onAppear() {    
         SoundManager.ins.homeBg();
-       this.player.play('stand', true);     
+        if(this.first){
+            this.player.play('stand', true);   
+        }else{
+            this.first=true;
+        }
+            
     }
     onDisappear() {
         this.player.stop();
