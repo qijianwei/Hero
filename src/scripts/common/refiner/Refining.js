@@ -2,6 +2,7 @@ import RefiningControl from "./RefiningControl";
 import SoundManager from "../../../gamescripts/SoundManager";
 import Devour from "./Devour";
 import DevourControl from "./DevourControl";
+import { Global } from "../tool/Global";
 
 export default class Refining extends PaoYa.View {
     constructor() {
@@ -19,6 +20,7 @@ export default class Refining extends PaoYa.View {
 
         if (this.isGuide) {
             this.getMask()
+            PaoYa.Request.POST(`martial_change_new_hand`,{type:`refinerNew`})
         }
         this.benBack.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
@@ -70,7 +72,6 @@ export default class Refining extends PaoYa.View {
     }
 
     getMask() {
-        this.guide1f(1)
         this.guide1.visible = true
 
         this.guideStep = 0
@@ -112,13 +113,15 @@ export default class Refining extends PaoYa.View {
         this.guideContainer = new Sprite();
         Laya.stage.addChild(this.guideContainer);
         Laya.stage.addChild(this.guide1);
+        this.guide1.x = this.guide1.x + Global.AdaptiveWidth
+        this.guide1f(1)
         this.guideContainer.cacheAs = "bitmap";
 
         // 绘制遮罩区，含透明度，可见游戏背景
         this.maskArea = new Sprite();
         this.guideContainer.addChild(this.maskArea);
         this.maskArea.alpha = 0.5;
-        this.maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+        this.maskArea.graphics.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
 
         // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
         this.interactionArea = new Sprite();
@@ -128,7 +131,7 @@ export default class Refining extends PaoYa.View {
 
         // 设置点击区域
         this.hitArea = new Laya.HitArea();
-        this.hitArea.hit.drawRect(0, 0, 1634, 750, "#000");
+        this.hitArea.hit.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
         this.guideContainer.hitArea = this.hitArea;
         this.guideContainer.mouseEnabled = true;
 

@@ -34,27 +34,38 @@ module.exports = {
        }, 
         hot:true 
    }, */
+  module: {
+    rules: [{
+      test: /\.(png|jpg)/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+            name:'[name]-[chunkhash:8].[ext]',
+            outputPath: 'image',
+        }
+      }]
+    }]
+  },
   plugins: [
-   /*  new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['release2/*']
-    }), */
+    /*  new CleanWebpackPlugin({
+       cleanOnceBeforeBuildPatterns: ['release2/*']
+     }), */
     /*  new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: './bin/index.html', // 配置文件模板
     }), */
     /* 拷贝文件 */
-     new copyWebpackPlugin([
-      {
+    new copyWebpackPlugin([{
+    
       from: './bin',
       to: path.resolve(__dirname, './release2/wxgame')
-      }
-   ], {
+    }], {
       ignore: [
 
         '{project.swan.json,swan-game-adapter.js}',
       ]
-    } ),
- 
+    }),
+
   ],
 
 };

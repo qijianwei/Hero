@@ -7,6 +7,8 @@ export default class WeaponHouseControl extends PaoYa.Component {
     }
 
     onAwake() {
+        this.isGuide = this.owner.params.isGuide
+        this.owner.params = this.owner.params.detail
         this.params = this.owner.params
         //武器数据
         this.lightList = this.params.lightList
@@ -396,14 +398,26 @@ export default class WeaponHouseControl extends PaoYa.Component {
             this.renderCenterData(isUser)
         }
 
-        if (cell._dataSource.isShowing) {
-            cell.getChildByName(`beChioce`).visible = true
-            // console.log(cell.getChildByName(`beChioce`),123)
-            this.isWareChoiceWp = cell
-            cell.skin = `local/common/currutFrameBg.png`
-            this.currentMyUserWeapDetail = cell._dataSource
-            // this.isUsingWeapon = cell
-            this.renderCenterData(isUser)
+        if (!this.isGuide) {
+            if (cell._dataSource.isShowing) {
+                cell.getChildByName(`beChioce`).visible = true
+                // console.log(cell.getChildByName(`beChioce`),123)
+                this.isWareChoiceWp = cell
+                cell.skin = `local/common/currutFrameBg.png`
+                this.currentMyUserWeapDetail = cell._dataSource
+                // this.isUsingWeapon = cell
+                this.renderCenterData(isUser)
+            }
+        } else {
+            if (cell._dataSource.willBeUse) {
+                cell.getChildByName(`beChioce`).visible = true
+                // console.log(cell.getChildByName(`beChioce`),123)
+                this.isWareChoiceWp = cell
+                cell.skin = `local/common/currutFrameBg.png`
+                this.currentMyUserWeapDetail = cell._dataSource
+                // this.isUsingWeapon = cell
+                this.renderCenterData(isUser)
+            }
         }
 
         cell.getChildByName(`wp`).skin = `remote/small_weapons/s_${cell._dataSource.weaponId}.png`

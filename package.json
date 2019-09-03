@@ -26,8 +26,10 @@
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
+    "file-loader": "^4.2.0",
     "http-proxy-middleware": "^0.19.1",
     "koa": "^2.8.1",
+    "url-loader": "^2.1.0",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0"

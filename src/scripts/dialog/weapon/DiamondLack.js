@@ -19,7 +19,6 @@ export default class DiamondLack extends PaoYa.Dialog {
     onEnable() {
         this.maskBg.on(Laya.Event.CLICK, this, () => {
             this.close()
-            SoundManager.ins.btn()
         })
         this.tipTxt.font = `weaponDFont`
         this.tipTxt.scale(0.7, 0.7)
@@ -27,6 +26,7 @@ export default class DiamondLack extends PaoYa.Dialog {
 
         this.btn.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
+            this.close()
             HomeControl.ins.navigator.push("Wheel");
         })
     }

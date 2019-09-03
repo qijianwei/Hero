@@ -1,6 +1,7 @@
 import SwordsmanControl from "./SwordsmanControl";
 import HeroConfig from "../../../gamescripts/config/HeroConfig";
 import SoundManager from "../../../gamescripts/SoundManager";
+import { Global } from "../tool/Global";
 
 export default class Swordsman extends PaoYa.View {
     constructor() {
@@ -17,22 +18,23 @@ export default class Swordsman extends PaoYa.View {
         this.params = this.params.detail
         if (this.isGuide) {
             this.guide1.visible = true
-
+            PaoYa.Request.POST(`martial_change_new_hand`, { type: `roleNew` })
             this.guideContainer = new Laya.Sprite();
             Laya.stage.addChild(this.guideContainer);
             Laya.stage.addChild(this.guide1)
+            this.guide1.x = this.guide1.x + Global.AdaptiveWidth
             this.guideContainer.cacheAs = "bitmap";
 
             let spmask = new Laya.Sprite()
             spmask.alpha = 0.5
             this.guideContainer.addChild(spmask)
-            spmask.graphics.drawRect(-150, 0, 1634, 750, "#000");
+            spmask.graphics.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
 
             this.sp = new Laya.Sprite();
             this.guideContainer.addChild(this.sp);
             // 设置叠加模式
             this.sp.blendMode = "destination-out";
-            this.graR(this.guide1.x+143, this.guide1.y, 90)
+            this.graR(this.guide1.x + 143, this.guide1.y, 90)
 
             this.guide1f(1)
         }

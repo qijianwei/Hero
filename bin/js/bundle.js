@@ -339,7 +339,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -376,6 +376,8 @@ var _HeroConfig = require("./gamescripts/config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
+var _Global = require("./scripts/common/tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -392,6 +394,10 @@ var Main = exports.Main = function (_GameMain) {
 	function Main() {
 		_classCallCheck(this, Main);
 
+		if (typeof wx != 'undefined') {
+			_Global.Global.gameHeight = wx.getSystemInfoSync().windowHeight;
+			_Global.Global.AdaptiveWidth = _Global.Global.gameHeight > 800 ? 142 : 0;
+		}
 		var params = {
 			gameId: 1006,
 			// baseURL: "https://wxapi.xingqiu123.com/ServiceCore/",
@@ -582,7 +588,7 @@ new Main();
 console.warn=function(){};
 console.error=function(){};    */
 
-},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":27}],4:[function(require,module,exports){
+},{"./Config":1,"./GameConfig":2,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":27,"./scripts/common/tool/Global":45}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6304,6 +6310,8 @@ var _GameGuideData = require("../../gamescripts/gameGuide/GameGuideData");
 
 var _GameGuideData2 = _interopRequireDefault(_GameGuideData);
 
+var _Global = require("./tool/Global");
+
 var _SpeakMan = require("../../gamescripts/gameGuide/SpeakMan");
 
 var _SpeakMan2 = _interopRequireDefault(_SpeakMan);
@@ -6348,6 +6356,7 @@ var HomeControl = function (_PaoYa$Component) {
         value: function onAwake() {
             var _this3 = this;
 
+            HomeControl.ins = this;
             var name = PaoYa.DataCenter.user.defaultRoleId;
             var ladder = PaoYa.DataCenter.user.ladder;
 
@@ -6380,6 +6389,7 @@ var HomeControl = function (_PaoYa$Component) {
             if (PaoYa.DataCenter.user.is_first_game == 1) {
                 this.navigator.push('GameGuide', _GameGuideData2.default);
             }
+            // this.guideF(`btn2`)
             this.showRankList();
         }
     }, {
@@ -6556,7 +6566,7 @@ var HomeControl = function (_PaoYa$Component) {
         }
     }, {
         key: "goWeaponHouse",
-        value: function goWeaponHouse() {
+        value: function goWeaponHouse(num) {
             var _this7 = this;
 
             this.POST("martial_user_weapon_list", {}, function (res) {
@@ -6564,7 +6574,12 @@ var HomeControl = function (_PaoYa$Component) {
                 if (!res) {
                     return;
                 }
-                _this7.navigator.push("WeaponHouse", res);
+
+                var obj = {
+                    isGuide: num,
+                    detail: num ? _Global.Global.wpGuide : res
+                };
+                _this7.navigator.push("WeaponHouse", obj);
             });
         }
     }, {
@@ -6801,7 +6816,7 @@ var HomeControl = function (_PaoYa$Component) {
             var maskArea = new Sprite();
             guideContainer.addChild(maskArea);
             maskArea.alpha = 0.5;
-            maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+            maskArea.graphics.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
 
             // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
             var interactionArea = new Sprite();
@@ -6811,20 +6826,20 @@ var HomeControl = function (_PaoYa$Component) {
 
             // 设置点击区域
             var hitArea = new Laya.HitArea();
-            hitArea.hit.drawRect(0, 0, 1634, 750, "#000");
+            hitArea.hit.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
             guideContainer.hitArea = hitArea;
             guideContainer.mouseEnabled = true;
 
             this.aniFinger.visible = true;
-            this.aniFinger.pos(step.x + step.width / 2 - 150, step.height / 2 + step.y);
+            this.aniFinger.pos(step.x + step.width / 2 - 150 + _Global.Global.AdaptiveWidth, step.height / 2 + step.y);
             this.aniFinger.play(0, true);
             Laya.stage.addChild(this.aniFinger);
 
             hitArea.unHit.clear();
-            hitArea.unHit.drawCircle(step.x + step.width / 2 - 150, step.height / 2 + step.y, 65, "#000000");
+            hitArea.unHit.drawCircle(step.x + step.width / 2 - 150 + _Global.Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
 
             interactionArea.graphics.clear();
-            interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
+            interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150 + _Global.Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
         }
     }, {
         key: "onDisappear",
@@ -6842,7 +6857,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":10,"../../gamescripts/gameGuide/GameGuideData":14,"../../gamescripts/gameGuide/SpeakMan":15}],29:[function(require,module,exports){
+},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":10,"../../gamescripts/gameGuide/GameGuideData":14,"../../gamescripts/gameGuide/SpeakMan":15,"./tool/Global":45}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7443,6 +7458,8 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _Global = require("../tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7473,16 +7490,17 @@ var Swordsman = function (_PaoYa$View) {
             this.params = this.params.detail;
             if (this.isGuide) {
                 this.guide1.visible = true;
-
+                PaoYa.Request.POST("martial_change_new_hand", { type: "roleNew" });
                 this.guideContainer = new Laya.Sprite();
                 Laya.stage.addChild(this.guideContainer);
                 Laya.stage.addChild(this.guide1);
+                this.guide1.x = this.guide1.x + _Global.Global.AdaptiveWidth;
                 this.guideContainer.cacheAs = "bitmap";
 
                 var spmask = new Laya.Sprite();
                 spmask.alpha = 0.5;
                 this.guideContainer.addChild(spmask);
-                spmask.graphics.drawRect(-150, 0, 1634, 750, "#000");
+                spmask.graphics.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
 
                 this.sp = new Laya.Sprite();
                 this.guideContainer.addChild(this.sp);
@@ -7776,7 +7794,7 @@ var Swordsman = function (_PaoYa$View) {
 
 exports.default = Swordsman;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"./SwordsmanControl":36}],36:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":45,"./SwordsmanControl":36}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7916,6 +7934,8 @@ var _Refining = require("./Refining");
 
 var _Refining2 = _interopRequireDefault(_Refining);
 
+var _Global = require("../tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7943,10 +7963,11 @@ var Devour = function (_PaoYa$View) {
         key: "onEnable",
         value: function onEnable() {
             if (this.params.isGuide) {
-                _Refining2.default.ins.sceondStep();
                 Laya.stage.addChild(this.guide2);
+                this.guide2.x = this.guide2.x + _Global.Global.AdaptiveWidth;
                 this.guide2.visible = true;
                 this.guide2f(1);
+                _Refining2.default.ins.sceondStep();
             }
             this.benBack.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
@@ -8059,6 +8080,7 @@ var Devour = function (_PaoYa$View) {
             this.guide2.visible = false;
             this.guide3.visible = true;
             Laya.stage.addChild(this.guide3);
+            this.guide3.x = this.guide3.x + _Global.Global.AdaptiveWidth;
             this.guide3f(1);
         }
     }]);
@@ -8068,7 +8090,7 @@ var Devour = function (_PaoYa$View) {
 
 exports.default = Devour;
 
-},{"../../../gamescripts/SoundManager":7,"./DevourControl":38,"./Refining":39}],38:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":45,"./DevourControl":38,"./Refining":39}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8349,6 +8371,8 @@ var _DevourControl = require("./DevourControl");
 
 var _DevourControl2 = _interopRequireDefault(_DevourControl);
 
+var _Global = require("../tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8382,6 +8406,7 @@ var Refining = function (_PaoYa$View) {
 
             if (this.isGuide) {
                 this.getMask();
+                PaoYa.Request.POST("martial_change_new_hand", { type: "refinerNew" });
             }
             this.benBack.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
@@ -8436,7 +8461,6 @@ var Refining = function (_PaoYa$View) {
         value: function getMask() {
             var _this3 = this;
 
-            this.guide1f(1);
             this.guide1.visible = true;
 
             this.guideStep = 0;
@@ -8476,13 +8500,15 @@ var Refining = function (_PaoYa$View) {
             this.guideContainer = new Sprite();
             Laya.stage.addChild(this.guideContainer);
             Laya.stage.addChild(this.guide1);
+            this.guide1.x = this.guide1.x + _Global.Global.AdaptiveWidth;
+            this.guide1f(1);
             this.guideContainer.cacheAs = "bitmap";
 
             // 绘制遮罩区，含透明度，可见游戏背景
             this.maskArea = new Sprite();
             this.guideContainer.addChild(this.maskArea);
             this.maskArea.alpha = 0.5;
-            this.maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+            this.maskArea.graphics.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
 
             // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
             this.interactionArea = new Sprite();
@@ -8492,7 +8518,7 @@ var Refining = function (_PaoYa$View) {
 
             // 设置点击区域
             this.hitArea = new Laya.HitArea();
-            this.hitArea.hit.drawRect(0, 0, 1634, 750, "#000");
+            this.hitArea.hit.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
             this.guideContainer.hitArea = this.hitArea;
             this.guideContainer.mouseEnabled = true;
 
@@ -8542,7 +8568,7 @@ var Refining = function (_PaoYa$View) {
 
 exports.default = Refining;
 
-},{"../../../gamescripts/SoundManager":7,"./Devour":37,"./DevourControl":38,"./RefiningControl":40}],40:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":45,"./Devour":37,"./DevourControl":38,"./RefiningControl":40}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9141,6 +9167,159 @@ var Global = {
     shareNum: 0,
     shareNumSuc: 0,
     shareNumFail: 0,
+    AdaptiveWidth: 0,
+    gameHeight: null,
+    wpGuide: {
+        userWeapons: "d001_1-1,z001_1-1,g001_1-1",
+        lightList: [{
+            "exp": 0,
+            "num": 1,
+            "skills": [{
+                "skillCd": 0.0,
+                "skillConfig": {
+                    "weaponNum": 2
+                },
+                "skillDesc": "发出2件兵器",
+                "skillId": 43,
+                "skillLevel": 1,
+                "skillName": "双刃",
+                "skillProb": 18,
+                "skillType": 1,
+                "skillUnlock": 0,
+                "status": 0
+            }],
+            "upgradeCost": 150,
+            "weaponAttack": 20.0,
+            "weaponCd": 2.0,
+            "weaponConsume": 25.0,
+            "weaponDownConsume": 0,
+            "weaponDurable": 10,
+            "weaponIcon": "一把极其普通的铜匕首，布满斑驳的铜锈，村口后山随手都可以捡到。",
+            "weaponId": "d001_1",
+            "weaponLevel": 1,
+            "weaponName": "铜匕首",
+            "weaponPrice": 1000,
+            "weaponSalePrice": 200,
+            "weaponSkills": "43",
+            "weaponStar": 1,
+            "weaponTopLevel": 5,
+            "weaponType": 1,
+            "weaponUpAttack": 0,
+            "weaponUpDurable": 0
+        }, {
+            "exp": 0,
+            "num": 1,
+            "skills": [{
+                "skillCd": 0.0,
+                "skillConfig": {
+                    "critHarm": 5,
+                    "critProb": 1
+                },
+                "skillDesc": "暴击+1%，爆伤+5%",
+                "skillId": 63,
+                "skillLevel": 1,
+                "skillName": "灵巧",
+                "skillProb": 100,
+                "skillType": 0,
+                "skillUnlock": 0,
+                "status": 0
+            }],
+            "upgradeCost": 150,
+            "weaponAttack": 23.0,
+            "weaponCd": 1.8,
+            "weaponConsume": 16.0,
+            "weaponDownConsume": 0,
+            "weaponDurable": 10,
+            "weaponIcon": "一把用黄金打造的匕首，想必原主人一定十分阔气。",
+            "weaponId": "d003_1",
+            "weaponLevel": 1,
+            "weaponName": "黄金匕首",
+            "weaponPrice": 1500,
+            "weaponSalePrice": 300,
+            "weaponSkills": "63",
+            "weaponStar": 1,
+            "weaponTopLevel": 5,
+            "weaponType": 1,
+            "weaponUpAttack": 0,
+            "weaponUpDurable": 0,
+            "willBeUse": 1
+        }],
+        middleList: [{
+            "exp": 0,
+            "num": 1,
+            "skills": [{
+                "skillCd": 0.0,
+                "skillConfig": {
+                    "stealHp": 1
+                },
+                "skillDesc": "100%伤害转化为生命",
+                "skillId": 53,
+                "skillLevel": 1,
+                "skillName": "嗜血",
+                "skillProb": 18,
+                "skillType": 1,
+                "skillUnlock": 0,
+                "status": 0
+            }],
+            "upgradeCost": 150,
+            "weaponAttack": 38.0,
+            "weaponCd": 3.0,
+            "weaponConsume": 25.0,
+            "weaponDownConsume": 0,
+            "weaponDurable": 10,
+            "weaponIcon": "一把极其普通的铁剑，布满斑驳的铁锈，习武之人的入门兵器。",
+            "weaponId": "z001_1",
+            "weaponLevel": 1,
+            "weaponName": "铁剑",
+            "weaponPrice": 1000,
+            "weaponSalePrice": 200,
+            "weaponSkills": "53",
+            "weaponStar": 1,
+            "weaponTopLevel": 5,
+            "weaponType": 2,
+            "weaponUpAttack": 0,
+            "weaponUpDurable": 0
+        }],
+        heavyList: [{
+            "exp": 0,
+            "num": 1,
+            "skills": [{
+                "skillCd": 0.0,
+                "skillConfig": {
+                    "hurt": 1.5
+                },
+                "skillDesc": "造成1.5倍伤害",
+                "skillId": 56,
+                "skillLevel": 1,
+                "skillName": "重击",
+                "skillProb": 15,
+                "skillType": 1,
+                "skillUnlock": 0,
+                "status": 0
+            }],
+            "upgradeCost": 150,
+            "weaponAttack": 57.0,
+            "weaponCd": 4.0,
+            "weaponConsume": 39.0,
+            "weaponDownConsume": 0,
+            "weaponDurable": 10,
+            "weaponIcon": "砍树常用的斧子，当然也可以用来砍人。",
+            "weaponId": "g001_1",
+            "weaponLevel": 1,
+            "weaponName": "铁斧",
+            "weaponPrice": 1000,
+            "weaponSalePrice": 200,
+            "weaponSkills": "56",
+            "weaponStar": 1,
+            "weaponTopLevel": 5,
+            "weaponType": 3,
+            "weaponUpAttack": 0,
+            "weaponUpDurable": 0
+        }],
+        shareGrid: 0,
+        weaponGridNum: 3,
+        buyGrid: 0
+    },
     skBank: {},
     getTemplate: function getTemplate(cb) {
         for (var key in this.skBank) {
@@ -9505,6 +9684,8 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _Global = require("../tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9531,6 +9712,10 @@ var WeaponHouse = function (_PaoYa$View) {
             var _this2 = this;
 
             // this.getComponent()
+            if (_WeaponHouseControl2.default.ins.isGuide) {
+                this.startGuide();
+                PaoYa.Request.POST("martial_change_new_hand", { type: "weaponNew" });
+            }
             this.goldNum.text = PaoYa.DataCenter.user.gold;
             this.goldNum.font = "weaponNFontT";
             this.goldNum.scale(0.7, 0.7);
@@ -9562,16 +9747,25 @@ var WeaponHouse = function (_PaoYa$View) {
             });
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                if (_WeaponHouseControl2.default.ins.isGuide) {
+                    return;
+                }
                 _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.navigator.pop();
             });
 
             this.equip.on(Laya.Event.CLICK, this, function () {
+                if (_WeaponHouseControl2.default.ins.isGuide) {
+                    return;
+                }
                 _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.chargeWeapon();
             });
 
             this.upGrade.on(Laya.Event.CLICK, this, function () {
+                if (_WeaponHouseControl2.default.ins.isGuide) {
+                    return;
+                }
                 _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.upgradeWeapon();
             });
@@ -9594,6 +9788,97 @@ var WeaponHouse = function (_PaoYa$View) {
             this[name].skin = "remote/weaponhouse/13.png";
         }
     }, {
+        key: "startGuide",
+        value: function startGuide() {
+            var _this4 = this;
+
+            var Sprite = Laya.Sprite;
+
+            // 绘制底图
+            var gameContainer = new Sprite();
+            gameContainer.size(1634, 750);
+            gameContainer.pos(-150, 0);
+            gameContainer.mouseEnabled = true;
+            Laya.stage.addChild(gameContainer);
+
+            // 引导所在容器
+            var guideContainer = new Sprite();
+            Laya.stage.addChild(guideContainer);
+            guideContainer.cacheAs = "bitmap";
+
+            // 绘制遮罩区，含透明度，可见游戏背景
+            var maskArea = new Sprite();
+            guideContainer.addChild(maskArea);
+            maskArea.alpha = 0.5;
+            maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+            console.log(13465);
+            // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
+            var interactionArea = new Sprite();
+            guideContainer.addChild(interactionArea);
+            // 设置叠加模式
+            interactionArea.blendMode = "destination-out";
+
+            // 设置点击区域
+            var hitArea = new Laya.HitArea();
+            hitArea.hit.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
+            guideContainer.hitArea = hitArea;
+            guideContainer.mouseEnabled = true;
+
+            this.equip.x = this.equip.x + _Global.Global.AdaptiveWidth;
+            this.equip.visible = true;
+            Laya.stage.addChild(this.equip);
+            this.equipTips.x = this.equipTips.x + _Global.Global.AdaptiveWidth;
+            this.equipTips.visible = true;
+            Laya.stage.addChild(this.equipTips);
+            //第一步装备
+            this.equip.on(Laya.Event.CLICK, this, function () {
+                _this4.equip.x = _this4.equip.x - _Global.Global.AdaptiveWidth;
+                _this4.addChild(_this4.equip);
+                Laya.stage.removeChild(_this4.equip);
+                Laya.stage.removeChild(_this4.equipTips);
+                _SoundManager2.default.ins.btn();
+                _WeaponHouseControl2.default.ins.chargeWeapon();
+
+                _this4.upGrade.x = _this4.upGrade.x + _Global.Global.AdaptiveWidth;
+                _this4.upGrade.visible = true;
+                Laya.stage.addChild(_this4.upGrade);
+                _this4.upGradeTips.x = _this4.upGradeTips.x + _Global.Global.AdaptiveWidth;
+                _this4.upGradeTips.visible = true;
+                Laya.stage.addChild(_this4.upGradeTips);
+                //第二步升级
+                _this4.upGrade.on(Laya.Event.CLICK, _this4, function () {
+                    _this4.upGrade.x = _this4.upGrade.x - _Global.Global.AdaptiveWidth;
+                    _this4.addChild(_this4.upGrade);
+                    Laya.stage.removeChild(_this4.upGrade);
+                    Laya.stage.removeChild(_this4.upGradeTips);
+                    _WeaponHouseControl2.default.ins.upgradeWeapon();
+
+                    _this4.benBack.x = _this4.benBack.x + _Global.Global.AdaptiveWidth;
+                    _this4.benBack.visible = true;
+                    Laya.stage.addChild(_this4.benBack);
+                    _this4.benBackTips.x = _this4.benBackTips.x + _Global.Global.AdaptiveWidth;
+                    _this4.benBackTips.visible = true;
+                    Laya.stage.addChild(_this4.benBackTips);
+                    //第三步 返回
+                    _this4.benBack.on(Laya.Event.CLICK, _this4, function () {
+                        Laya.stage.removeChild(guideContainer);
+                        Laya.stage.removeChild(gameContainer);
+                        Laya.stage.removeChild(_this4.benBack);
+                        Laya.stage.removeChild(_this4.benBackTips);
+
+                        _SoundManager2.default.ins.btn();
+                        _WeaponHouseControl2.default.ins.navigator.pop();
+                    });
+                });
+            });
+
+            // gameContainer.on(Laya.Event.CLICK, this, () => {
+            //     Laya.stage.removeChild(this.upGrade);
+            //     Laya.stage.removeChild(this.upGradeTips);
+            //     Laya.stage.removeChild(gameContainer);
+            // })
+        }
+    }, {
         key: "onDisable",
         value: function onDisable() {}
     }]);
@@ -9603,7 +9888,7 @@ var WeaponHouse = function (_PaoYa$View) {
 
 exports.default = WeaponHouse;
 
-},{"../../../gamescripts/SoundManager":7,"./WeaponHouseControl":48}],48:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":45,"./WeaponHouseControl":48}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9641,6 +9926,8 @@ var WeaponHouseControl = function (_PaoYa$Component) {
         value: function onAwake() {
             var _this2 = this;
 
+            this.isGuide = this.owner.params.isGuide;
+            this.owner.params = this.owner.params.detail;
             this.params = this.owner.params;
             //武器数据
             this.lightList = this.params.lightList;
@@ -10062,14 +10349,26 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 this.renderCenterData(isUser);
             }
 
-            if (cell._dataSource.isShowing) {
-                cell.getChildByName("beChioce").visible = true;
-                // console.log(cell.getChildByName(`beChioce`),123)
-                this.isWareChoiceWp = cell;
-                cell.skin = "local/common/currutFrameBg.png";
-                this.currentMyUserWeapDetail = cell._dataSource;
-                // this.isUsingWeapon = cell
-                this.renderCenterData(isUser);
+            if (!this.isGuide) {
+                if (cell._dataSource.isShowing) {
+                    cell.getChildByName("beChioce").visible = true;
+                    // console.log(cell.getChildByName(`beChioce`),123)
+                    this.isWareChoiceWp = cell;
+                    cell.skin = "local/common/currutFrameBg.png";
+                    this.currentMyUserWeapDetail = cell._dataSource;
+                    // this.isUsingWeapon = cell
+                    this.renderCenterData(isUser);
+                }
+            } else {
+                if (cell._dataSource.willBeUse) {
+                    cell.getChildByName("beChioce").visible = true;
+                    // console.log(cell.getChildByName(`beChioce`),123)
+                    this.isWareChoiceWp = cell;
+                    cell.skin = "local/common/currutFrameBg.png";
+                    this.currentMyUserWeapDetail = cell._dataSource;
+                    // this.isUsingWeapon = cell
+                    this.renderCenterData(isUser);
+                }
             }
 
             cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
@@ -12188,7 +12487,6 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
             this.maskBg.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
-                _SoundManager2.default.ins.btn();
             });
             this.tipTxt.font = "weaponDFont";
             this.tipTxt.scale(0.7, 0.7);
@@ -12196,6 +12494,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
             this.btn.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
+                _this2.close();
                 _HomeControl2.default.ins.navigator.push("Wheel");
             });
         }
@@ -12260,7 +12559,6 @@ var GoldLack = function (_PaoYa$Dialog) {
             var _this2 = this;
 
             this.maskBg.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
                 _this2.close();
             });
             this.tipTxt.font = "weaponDFont";
@@ -12268,6 +12566,8 @@ var GoldLack = function (_PaoYa$Dialog) {
             this.tipTxt.pos(45, 12);
 
             this.btn.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+                _SoundManager2.default.ins.btn();
                 _HomeControl2.default.ins.navigator.push("Wheel");
             });
         }

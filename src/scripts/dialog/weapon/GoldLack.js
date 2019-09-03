@@ -18,7 +18,6 @@ export default class GoldLack extends PaoYa.Dialog {
 
     onEnable() {
         this.maskBg.on(Laya.Event.CLICK,this,()=>{
-            SoundManager.ins.btn()
             this.close()
         })
         this.tipTxt.font = `weaponDFont`
@@ -26,6 +25,8 @@ export default class GoldLack extends PaoYa.Dialog {
         this.tipTxt.pos(45,12)
 
         this.btn.on(Laya.Event.CLICK,this,()=>{
+            this.close()
+            SoundManager.ins.btn()
             HomeControl.ins.navigator.push("Wheel");
         })
     }

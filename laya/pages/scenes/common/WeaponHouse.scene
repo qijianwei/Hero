@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":52,
-    "selecteID":102,
+    "selectedBox":2,
+    "selecteID":108,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/weapon/WeaponHouse.js","height":750},
     "nodeParent":-1,
-    "maxID":109,
+    "maxID":115,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -360,42 +360,13 @@
             "props":{"y":105,"x":321,"width":412,"var":"weapon","height":603},
             "nodeParent":2,
             "label":"weapon",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":37,
             "child":[
                 {
-                    "x":30,
-                    "type":"Button",
-                    "searchKey":"Button,upGrade",
-                    "props":{"y":521,"x":209,"var":"upGrade","stateNum":"1","skin":"remote/weaponhouse/11.png"},
-                    "nodeParent":37,
-                    "label":"upGrade",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":36,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,equip",
-                    "props":{"y":523,"x":21,"var":"equip","skin":"remote/weaponhouse/10.png"},
-                    "nodeParent":37,
-                    "label":"equip",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":38,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":488,"x":254.5,"texture":"local/common/currencyBg.png","scaleY":0.6,"scaleX":0.6},
@@ -435,7 +406,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,showBg",
                     "props":{"y":75,"x":78,"width":128,"var":"showBg","skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"renderType":"render","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -544,20 +514,18 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,detailNum",
                     "props":{"y":140,"x":11,"width":395,"var":"detailNum","height":147},
                     "nodeParent":37,
                     "label":"detailNum",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":52,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,attackNum",
                             "props":{"y":11,"x":55,"width":48,"var":"attackNum","height":27,"fontSize":24},
@@ -571,7 +539,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,enduranceNum",
                             "props":{"y":48,"x":55,"width":48,"var":"enduranceNum","height":27,"fontSize":24},
@@ -585,7 +552,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,consumeNum",
                             "props":{"y":85,"x":55,"width":48,"var":"consumeNum","height":27,"fontSize":24},
@@ -600,7 +566,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,wpcdNum",
                             "props":{"y":122,"x":55,"width":48,"var":"wpcdNum","height":27,"fontSize":24},
@@ -615,7 +580,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-4,"x":0,"texture":"remote/weaponhouse/22.png"},
@@ -630,7 +594,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addattackNum",
                             "props":{"y":11,"x":188,"width":48,"var":"addattackNum","name":"","height":27,"fontSize":24,"color":"#2e634a"},
@@ -644,7 +607,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addenduranceNum",
                             "props":{"y":48,"x":188,"width":48,"var":"addenduranceNum","name":"","height":27,"fontSize":24,"color":"#2e634a"},
@@ -658,7 +620,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addconsumeNum",
                             "props":{"y":85,"x":188,"width":48,"var":"addconsumeNum","name":"","height":27,"fontSize":24,"color":"#2e634a"},
@@ -674,7 +635,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,detailSkill",
                     "props":{"y":300,"x":0,"width":406,"var":"detailSkill","height":164},
@@ -807,7 +767,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":466,"x":0,"texture":"remote/weaponhouse/22.png"},
@@ -954,14 +913,13 @@
             "props":{"y":96,"x":172,"width":142,"var":"userWeaponList","spaceY":-7,"height":614},
             "nodeParent":2,
             "label":"userWeaponList",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":23,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":68,"x":66,"skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"renderType":"render","anchorY":0.5,"anchorX":0.5},
@@ -1195,6 +1153,117 @@
                     "$HIDDEN":false
                 }],
             "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,equipTips",
+            "props":{"zOrder":9,"y":546,"x":352,"visible":false,"var":"equipTips","texture":"remote/weaponhouse/99.png"},
+            "nodeParent":2,
+            "label":"equipTips",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":109,
+            "child":[
+                {
+                    "type":"Text",
+                    "searchKey":"Text",
+                    "props":{"y":26,"x":13,"width":163,"text":"点击可装备","height":24,"fontSize":24,"font":"Microsoft YaHei","color":"#000000","align":"center"},
+                    "nodeParent":109,
+                    "label":"Text",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":111,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,upGradeTips",
+            "props":{"zOrder":9,"y":546,"x":549,"visible":false,"var":"upGradeTips","texture":"remote/weaponhouse/99.png"},
+            "nodeParent":2,
+            "label":"upGradeTips",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":110,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Text",
+                    "searchKey":"Text",
+                    "props":{"y":26,"x":13,"width":163,"text":"点击升级","height":24,"fontSize":24,"font":"Microsoft YaHei","color":"#000000","align":"center"},
+                    "nodeParent":110,
+                    "label":"Text",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":112,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,equip",
+            "props":{"zOrder":9,"y":628,"x":342,"var":"equip","skin":"remote/weaponhouse/10.png"},
+            "nodeParent":2,
+            "label":"equip",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":38,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Button",
+            "searchKey":"Button,upGrade",
+            "props":{"zOrder":9,"y":626,"x":530,"var":"upGrade","stateNum":"1","skin":"remote/weaponhouse/11.png"},
+            "nodeParent":2,
+            "label":"upGrade",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":36,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,benBackTips",
+            "props":{"zOrder":9,"y":153,"x":111,"visible":false,"var":"benBackTips","skin":"remote/weaponhouse/99.png","rotation":180,"anchorY":0.5,"anchorX":0.5},
+            "nodeParent":2,
+            "label":"benBackTips",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":113,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Text",
+                    "searchKey":"Text",
+                    "props":{"y":47,"x":180,"width":163,"text":"再次挑战试试","rotation":180,"height":24,"fontSize":24,"font":"Microsoft YaHei","color":"#000000","align":"center"},
+                    "nodeParent":113,
+                    "label":"Text",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":114,
+                    "child":[
+                        ]
+                }]
         }],
     "animations":[
         {

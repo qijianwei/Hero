@@ -2,6 +2,8 @@ import HeroConfig from "../../gamescripts/config/HeroConfig";
 import AlertDialog from "../../gamescripts/dialog/AlertDialog";
 import SoundManager from "../../gamescripts/SoundManager";
 import GameGuideData from "../../gamescripts/gameGuide/GameGuideData";
+
+import { Global } from "./tool/Global";
 import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
 let guideContainer,
     maskArea,
@@ -21,6 +23,7 @@ export default class HomeControl extends PaoYa.Component {
     /** @prop {name:aniFinger,tips:"手指动画",type:node}*/
     /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
     onAwake() {
+        HomeControl.ins = this
         let name = PaoYa.DataCenter.user.defaultRoleId;
         let ladder = PaoYa.DataCenter.user.ladder;
       
@@ -46,15 +49,15 @@ export default class HomeControl extends PaoYa.Component {
                 this.player.init(templet, 0);
             }
         });
-
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
             this.navigator.push('GameGuide', GameGuideData);
         }
+        // this.guideF(`btn2`)
         this.showRankList()
     }
-    onAppear() {    
+    onAppear() {
         SoundManager.ins.homeBg();
         if(this.first){
             this.player.play('stand', true);   
@@ -212,13 +215,18 @@ export default class HomeControl extends PaoYa.Component {
             this.navigator.push("Swordsman", obj);
         })
     }
-    goWeaponHouse() {
+    goWeaponHouse(num) {
         this.POST("martial_user_weapon_list", {}, res => {
             //console.log(res)
             if (!res) {
                 return
             }
-            this.navigator.push("WeaponHouse", res);
+
+            let obj = {
+                isGuide: num,
+                detail: num ? Global.wpGuide : res
+            }
+            this.navigator.push("WeaponHouse", obj);
         })
     }
     goPassGame() {
@@ -435,7 +443,7 @@ export default class HomeControl extends PaoYa.Component {
         let maskArea = new Sprite();
         guideContainer.addChild(maskArea);
         maskArea.alpha = 0.5;
-        maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+        maskArea.graphics.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
 
         // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
         let interactionArea = new Sprite();
@@ -445,21 +453,21 @@ export default class HomeControl extends PaoYa.Component {
 
         // 设置点击区域
         let hitArea = new Laya.HitArea();
-        hitArea.hit.drawRect(0, 0, 1634, 750, "#000");
+        hitArea.hit.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
         guideContainer.hitArea = hitArea;
         guideContainer.mouseEnabled = true;
 
 
         this.aniFinger.visible = true;
-        this.aniFinger.pos(step.x + step.width / 2 - 150, step.height / 2 + step.y);
+        this.aniFinger.pos(step.x + step.width / 2 - 150 + Global.AdaptiveWidth, step.height / 2 + step.y);
         this.aniFinger.play(0, true);
         Laya.stage.addChild(this.aniFinger);
 
         hitArea.unHit.clear();
-        hitArea.unHit.drawCircle(step.x + step.width / 2 - 150, step.height / 2 + step.y, 65, "#000000");
+        hitArea.unHit.drawCircle(step.x + step.width / 2 - 150 + Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
 
         interactionArea.graphics.clear();
-        interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
+        interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150 + Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
     }
 
     onDisappear() { }

@@ -2,8 +2,13 @@
 import config from './Config'
 import GameMain from "./scripts/common/GameMain";
 import HeroConfig from "./gamescripts/config/HeroConfig";
+import { Global } from "./scripts/common/tool/Global";
 export class Main extends GameMain {
 	constructor() {
+		if (typeof wx != 'undefined') {
+			Global.gameHeight = wx.getSystemInfoSync().windowHeight
+			Global.AdaptiveWidth = Global.gameHeight > 800 ? 142 : 0
+		} 
 		var params = {
 			gameId: 1006,
 			// baseURL: "https://wxapi.xingqiu123.com/ServiceCore/",
