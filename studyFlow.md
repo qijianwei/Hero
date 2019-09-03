@@ -64,3 +64,9 @@ git merge origin/daily-5-4
 
 svn本地帐号密码保存地址：C:\Users\HI\AppData\Roaming\Subversion\auth\svn.simple
 ```
+
+
+### 9-2学习 git原理详解及使用指南
+1-6   ok
+###  9-2学习 git原理详解及使用指南
+6-10

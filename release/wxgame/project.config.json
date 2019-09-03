@@ -4,17 +4,13 @@
 		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"autoAudits": false,
-		"checkInvalidKey": true
+		"minified": false,
+		"newFeature": true
 	},
 	"compileType": "game",
 	"libVersion": "game",
 	"appid": "wx7bc5ee0238f445b4",
 	"projectname": "layaWXTest",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

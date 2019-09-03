@@ -47,6 +47,7 @@ export default class AlertDialog extends PaoYa.Dialog {
         btn.size(200,64)
         btn.name = name
         btn.labelSize = 35
+        btn.labelFont='SimHei'
         btn.labelColors = '#ffffff'
         btn.stateNum = 1
         return btn

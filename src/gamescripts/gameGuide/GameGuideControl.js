@@ -1,6 +1,7 @@
 import GameControl from "../GameControl";
 import SpeakMan from "./SpeakMan";
 import HomeControl from "../../scripts/common/HomeControl";
+import WeaponManager from "../WeaponManager";
 let guideSteps = 
 	[
 		{ x: 100, y: 617, w:150, h:110 ,tip:"res/guide/help6.png", fingerX:200, fingerY:250 },
@@ -119,6 +120,7 @@ export default class GameGuideControl extends GameControl{
         nextLabel.visible=false;
         maskArea.visible=false;
         otherSpeakMan.visible=false;
+        this.weaponManager = new WeaponManager(this.robotWeaponList);
         this.sWeapon = this.weaponManager.seletedWeapon(0);
         this.sWeapon.isSelf = false;
        

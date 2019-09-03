@@ -16,10 +16,10 @@ export default class SoundManager {
         }
     }
 
-    playMusic(fileName) {
+    playMusic(fileName,loop=0) {
         if (!Laya.SoundManager.musicMuted) {
             var url = this.url + fileName + this.suffix;
-            this.currentChannel = Laya.SoundManager.playMusic(url, 0);
+            this.currentChannel = Laya.SoundManager.playMusic(url, loop);
         }
     }
 
@@ -90,11 +90,11 @@ export default class SoundManager {
         this.playSound('round');
     }
     win() {
-        this.playSound('win');
+        this.playMusic('win',1);
     }
 
     lose() {
-        this.playSound('lose');
+        this.playMusic('lose',1);
     }
 }
 SoundManager._ins;

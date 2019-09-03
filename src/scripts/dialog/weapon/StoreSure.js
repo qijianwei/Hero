@@ -57,9 +57,11 @@ export default class StoreSure extends PaoYa.Dialog {
             this.btn1.visible = false
             this.btn2.visible = false
             if (this.params.type == `refining`) {
+                this.btn4.text=`点错了，不吞`
                 this.btn3.visible = false
                 this.btn5.visible = true
             } else {
+                this.btn4.text=`点错了，不卖`
                 this.btn3.visible = true
                 this.btn5.visible = false
             }

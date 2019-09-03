@@ -10,7 +10,7 @@
     "compressJsonNoteList": [
         ""
     ],
-    "compressImage": false,
+    "compressImage": true,
     "compressImageFilter": [
         "$basePath/**/*.{png,jpg}"
     ],
@@ -36,9 +36,11 @@
         "!$basePath/local/**/*.*",
         "!$basePath/res/atlas/local/**/*.*",
         "!$basePath/font/**/*.*",
-        "!$basePath/spine/**/*.*"
+        "!$basePath/spine/**/*.*",
+        "!$basePath/remote/sound/**/*.*"
     ],
     "versionNoteList": [
+        "",
         "",
         "",
         "",
@@ -76,5 +78,5 @@
     "forceCompile": false,
     "onlyIndexJS": true,
     "projectType": "js",
-    "pubTime": 1567150181433
+    "pubTime": 1567478923529
 }

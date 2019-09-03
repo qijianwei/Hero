@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":166,
-    "selecteID":195,
+    "selectedBox":2,
+    "selecteID":208,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
-    "maxID":197,
+    "maxID":210,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -482,14 +482,13 @@
                     "props":{"y":373,"x":123,"var":"skill1","stateNum":"1","skin":"remote/game/skill.png","disabled":false},
                     "nodeParent":130,
                     "label":"skill1",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":162,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,skill1Txt",
                             "props":{"y":0,"x":0,"var":"skill1Txt","text":"text"},
@@ -510,14 +509,13 @@
                     "props":{"y":373,"x":382,"var":"skill3","stateNum":"1","skin":"remote/game/skill.png"},
                     "nodeParent":130,
                     "label":"skill3",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":164,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,skill3Txt",
                             "props":{"y":0,"x":0,"var":"skill3Txt","text":"text"},
@@ -680,20 +678,6 @@
                             "compId":172,
                             "child":[
                                 ]
-                        },
-                        {
-                            "x":45,
-                            "type":"Image",
-                            "searchKey":"Image,guide1",
-                            "props":{"y":39,"x":-74,"visible":false,"var":"guide1","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
-                            "nodeParent":166,
-                            "label":"guide1",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":195,
-                            "child":[
-                                ]
                         }],
                     "$HIDDEN":true
                 },
@@ -775,14 +759,13 @@
             "props":{"y":0,"x":-138,"var":"benBack","texture":"local/common/back.png"},
             "nodeParent":2,
             "label":"benBack",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":140,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":30.5,"x":235,"texture":"remote/figure/1.png"},
@@ -796,7 +779,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,guide2",
                     "props":{"y":161,"x":191,"visible":false,"var":"guide2","skin":"remote/guide/hand.png","rotation":45,"anchorY":0.5,"anchorX":0.5},
@@ -1013,6 +995,34 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":131,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite",
+            "props":{},
+            "nodeParent":2,
+            "label":"Sprite",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":209,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,guide1",
+            "props":{"y":559,"x":774,"visible":false,"var":"guide1","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
+            "nodeParent":2,
+            "label":"guide1",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":208,
             "child":[
                 ]
         }],

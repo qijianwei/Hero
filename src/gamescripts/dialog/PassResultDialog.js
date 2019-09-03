@@ -1,6 +1,8 @@
 import WeaponBar from "../prefab/WeaponBar";
 import GameControl from "../GameControl";
 import SoundManager from "../SoundManager";
+import AlertDialog from "./AlertDialog";
+import HomeControl from "../../scripts/common/HomeControl";
 
 
 export default class PassResultDialog extends PaoYa.Dialog{
@@ -37,6 +39,42 @@ export default class PassResultDialog extends PaoYa.Dialog{
         this.lblPrize.text=this.params.gold;
         this.spBtn.on(Laya.Event.CLICK,this,this.clickHandler);
         this.btnBack.on(Laya.Event.CLICK,this,this.backHandler);
+        let warnDialog;
+        if(this.params.refinerNew==1){
+           warnDialog=new AlertDialog({
+               message:'提高武器属性，去炼器室试试',
+               confirmText:'前往',
+               confirmHandler:()=>{
+                  this.close();
+                   PaoYa.navigator.popToRootScene();
+                   PaoYa.navigator.visibleScene.getComponent(HomeControl).guideF('btn3');
+               }
+           })
+           warnDialog.popup();
+        }else if(this.params.roleNew==1){
+            warnDialog=new AlertDialog({
+                message:'胜不骄败不馁，尝试升级英雄！',
+                confirmText:'前往',
+                confirmHandler:()=>{
+                    this.close();
+                    PaoYa.navigator.popToRootScene();
+                   PaoYa.navigator.visibleScene.getComponent(HomeControl).guideF('btn1');
+                }
+            })
+            warnDialog.popup();
+
+        }else if(this.params.weaponNew==1){
+            warnDialog=new AlertDialog({
+                message:'想要神兵相助，去兵器库逛逛！',
+                confirmText:'前往',
+                confirmHandler:()=>{
+                    this.close();
+                    PaoYa.navigator.popToRootScene();
+                    PaoYa.navigator.visibleScene.getComponent(HomeControl).guideF('btn2');
+                }
+            })
+            warnDialog.popup();
+        }
         
     }
     clickHandler(){

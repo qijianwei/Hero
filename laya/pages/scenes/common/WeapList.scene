@@ -508,7 +508,7 @@
                             "x":45,
                             "type":"Text",
                             "searchKey":"Text,wpinfo",
-                            "props":{"y":14,"x":34,"wordWrap":true,"width":318,"var":"wpinfo","leading":10,"height":95,"fontSize":22,"font":"SimHei"},
+                            "props":{"y":18,"x":34,"wordWrap":true,"width":318,"var":"wpinfo","leading":10,"height":95,"fontSize":22,"font":"SimHei"},
                             "nodeParent":295,
                             "label":"wpinfo",
                             "isDirectory":false,

@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":230,
+    "selecteID":234,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/refiner/Refining.js","height":750},
     "nodeParent":-1,
-    "maxID":290,
+    "maxID":291,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -816,6 +816,20 @@
             "child":[
                 ],
             "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,guide1",
+            "props":{"y":323.5,"x":616,"visible":false,"var":"guide1","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
+            "nodeParent":2,
+            "label":"guide1",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":290,
+            "child":[
+                ]
         }],
     "animations":[
         {

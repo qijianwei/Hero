@@ -1,6 +1,8 @@
 import HeroConfig from "../../gamescripts/config/HeroConfig";
 import AlertDialog from "../../gamescripts/dialog/AlertDialog";
 import SoundManager from "../../gamescripts/SoundManager";
+import GameGuideData from "../../gamescripts/gameGuide/GameGuideData";
+import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
 let guideContainer,
     maskArea,
     interactionArea,
@@ -49,6 +51,7 @@ export default class HomeControl extends PaoYa.Component {
         this.showRankList()
     }
     onAppear() {    
+        SoundManager.ins.homeBg();
        this.player.play('stand', true);     
     }
     onDisappear() {
