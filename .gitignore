@@ -12,6 +12,7 @@ study/axios.js
 .svn
 node_modules/
 release2/
+release/
 webpack.configStudy.js
 
 
