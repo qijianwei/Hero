@@ -17,9 +17,15 @@ export default class GameView extends PaoYa.View{
 
      /*  this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
       this.gameBannerScr.changeStyle({gameStyle:'battle'}); */
-      let scene=HeroConfig.getSkeleton('scene1');
-      this.scenePoint.addChild(scene);
-      scene.play('stand',true);
+      let sceneSK=new Laya.Skeleton();
+      sceneSK.load(`spine/scene/scene1.sk`,Laya.Handler.create(this,(res)=>{
+        
+        sceneSK.play('stand', true);
+        console.log(sceneSK._templet) 
+      }))
+      this.sceneSK=sceneSK;
+      this.scenePoint.addChild(sceneSK);
+     
     }
 
     onEnable(){
@@ -45,7 +51,10 @@ export default class GameView extends PaoYa.View{
        let MPBarScr=isSelf?this.selfMPBarScr:this.otherMPBarScr;
     }
     onDestroy(){
-      //场景动画怎么处置
+    /*   console.log(this.sceneSK._templet)
+      ///场景动画怎么处置
+       this.sceneSK&&this.sceneSK.destroy();
+      this.sceneSK=null;   */
     }
     
 }

@@ -27,10 +27,10 @@ module.exports = {
        contentBase:'./bin',
         proxy: {
            '/ServiceCore/*':{
-             target:"https://juedi001test.goxiaochengxu.cn/",
-             secure: false,
-             changeOrigin: true,
-             }
+                          target:"https://juedi001test.goxiaochengxu.cn/",
+                          secure: false,
+                          changeOrigin: true,
+                         }
        }, 
         hot:true 
    }, */
@@ -53,6 +53,7 @@ module.exports = {
     /*  new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: './bin/index.html', // 配置文件模板
+      chunks:[], //要引入的js文件
     }), */
     /* 拷贝文件 */
     new copyWebpackPlugin([{

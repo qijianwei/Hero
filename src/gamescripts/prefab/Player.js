@@ -461,6 +461,7 @@ export default class Player extends PaoYa.Component {
     Laya.Pool.recover("player", this.owner);
   }
   onDestroy() {
-
+    this.skeleton.off(Laya.Event.STOPPED, this);
+    this.skeleton.off(Laya.Event.LABEL,this);
   }
 }

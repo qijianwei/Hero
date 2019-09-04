@@ -373,7 +373,7 @@ export default class Weapon extends PaoYa.Component {
           case 54:
             let stealMp=skillConfig.stealMp;
             this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
-               this.selfPlayerComp.mpRecoverEffect(attackNum*stealMp)
+               this.selfPlayerComp.mpRecoverEffect( Math.ceil(attackNum*stealMp))
             }); 
             break;
           case 55:      

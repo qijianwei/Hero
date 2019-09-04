@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":208,
+    "selectedBox":149,
+    "selecteID":194,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
@@ -893,13 +893,14 @@
             "props":{"y":347,"x":380,"width":200,"var":"skbox","height":400,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"skbox",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":149,
             "child":[
                 {
+                    "x":30,
                     "type":"Animation",
                     "searchKey":"Animation,heroLvup",
                     "props":{"zOrder":12,"y":200,"x":100,"visible":false,"var":"heroLvup","source":"scenes/animations/lvup_hero.ani"},

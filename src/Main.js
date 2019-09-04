@@ -5,10 +5,6 @@ import HeroConfig from "./gamescripts/config/HeroConfig";
 import { Global } from "./scripts/common/tool/Global";
 export class Main extends GameMain {
 	constructor() {
-		if (typeof wx != 'undefined') {
-			Global.gameHeight = wx.getSystemInfoSync().windowHeight
-			Global.AdaptiveWidth = Global.gameHeight > 800 ? 142 : 0
-		} 
 		var params = {
 			gameId: 1006,
 			// baseURL: "https://wxapi.xingqiu123.com/ServiceCore/",
@@ -39,7 +35,10 @@ export class Main extends GameMain {
 		//Laya.MouseManager.enabled=false;
 		Laya.MouseManager.multiTouchEnabled = false; //关闭多点触控
 		super.setupConfig();
-
+        if (typeof wx != 'undefined') {
+			Global.gameHeight = wx.getSystemInfoSync().windowWidth
+			Global.AdaptiveWidth = Global.gameHeight > 800 ? 142 : 0
+		} 
 		PaoYa.Navigator.scenesMap = {
 			WeaponHouse: `scenes/common/WeaponHouse`,
 			WeaponStore: `scenes/common/WeaponStore`,
@@ -252,6 +251,8 @@ export class Main extends GameMain {
 }
 //激活启动类
 new Main();
+Laya.UIConfig.closeDialogOnSide = false;
+Laya.Stat.show();
 /*   console.log=function(){};
 console.warn=function(){};
 console.error=function(){};    */

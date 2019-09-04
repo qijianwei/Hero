@@ -339,7 +339,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -394,10 +394,6 @@ var Main = exports.Main = function (_GameMain) {
 	function Main() {
 		_classCallCheck(this, Main);
 
-		if (typeof wx != 'undefined') {
-			_Global.Global.gameHeight = wx.getSystemInfoSync().windowHeight;
-			_Global.Global.AdaptiveWidth = _Global.Global.gameHeight > 800 ? 142 : 0;
-		}
 		var params = {
 			gameId: 1006,
 			// baseURL: "https://wxapi.xingqiu123.com/ServiceCore/",
@@ -432,7 +428,10 @@ var Main = exports.Main = function (_GameMain) {
 			//Laya.MouseManager.enabled=false;
 			Laya.MouseManager.multiTouchEnabled = false; //关闭多点触控
 			_get(Main.prototype.__proto__ || Object.getPrototypeOf(Main.prototype), "setupConfig", this).call(this);
-
+			if (typeof wx != 'undefined') {
+				_Global.Global.gameHeight = wx.getSystemInfoSync().windowWidth;
+				_Global.Global.AdaptiveWidth = _Global.Global.gameHeight > 800 ? 142 : 0;
+			}
 			PaoYa.Navigator.scenesMap = (_PaoYa$Navigator$scen = {
 				WeaponHouse: "scenes/common/WeaponHouse",
 				WeaponStore: "scenes/common/WeaponStore",
@@ -584,6 +583,8 @@ var Main = exports.Main = function (_GameMain) {
 
 
 new Main();
+Laya.UIConfig.closeDialogOnSide = false;
+Laya.Stat.show();
 /*   console.log=function(){};
 console.warn=function(){};
 console.error=function(){};    */
@@ -1386,7 +1387,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error("修改后的值:", params.weaponAttack);
                     this.weaponLaunch(params);
                     for (var i = 0; i < weaponNum - 1; i++) {
-                        this.weaponLaunch(params, 350);
+                        this.weaponLaunch(params, 350 * (i + 1));
                     }
                     break;
                 //造成几倍伤害 兵器前方加气流
@@ -1637,6 +1638,8 @@ var GameControl = function (_PaoYa$Component) {
             console.error('destroy111');
             this.selfWeapons = null;
             this.otherWeapons = null;
+            this.selfPlayer = null;
+            this.otherPlayer = null;
             Laya.timer.clearAll(this);
             Laya.MouseManager.enabled = true;
         }
@@ -1684,7 +1687,7 @@ exports.default = GameGuide;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1714,62 +1717,70 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var GameView = function (_PaoYa$View) {
-    _inherits(GameView, _PaoYa$View);
+  _inherits(GameView, _PaoYa$View);
 
-    function GameView() {
-        _classCallCheck(this, GameView);
+  function GameView() {
+    _classCallCheck(this, GameView);
 
-        return _possibleConstructorReturn(this, (GameView.__proto__ || Object.getPrototypeOf(GameView)).call(this));
+    return _possibleConstructorReturn(this, (GameView.__proto__ || Object.getPrototypeOf(GameView)).call(this));
+  }
+
+  _createClass(GameView, [{
+    key: "onAwake",
+    value: function onAwake() {
+      this.selfMPBarScr = this.boxSelfInfo.getChildByName('boxMPBar').getComponent(_MPBar2.default);
+      this.selfHPBarScr = this.boxSelfInfo.getChildByName('boxHPBar').getComponent(_HPBar2.default);
+
+      this.otherMPBarScr = this.boxOtherInfo.getChildByName('boxMPBar').getComponent(_MPBar2.default);
+      this.otherHPBarScr = this.boxOtherInfo.getChildByName('boxHPBar').getComponent(_HPBar2.default);
+
+      /*  this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
+       this.gameBannerScr.changeStyle({gameStyle:'battle'}); */
+      var sceneSK = new Laya.Skeleton();
+      sceneSK.load("spine/scene/scene1.sk", Laya.Handler.create(this, function (res) {
+
+        sceneSK.play('stand', true);
+        console.log(sceneSK._templet);
+      }));
+      this.sceneSK = sceneSK;
+      this.scenePoint.addChild(sceneSK);
     }
+  }, {
+    key: "onEnable",
+    value: function onEnable() {}
+  }, {
+    key: "initView",
+    value: function initView() {}
+  }, {
+    key: "setInfo",
+    value: function setInfo(data, isSelf) {
+      var boxInfo = isSelf ? this.boxSelfInfo : this.boxOtherInfo;
+      var imgIcon = boxInfo.getChildByName('imgIcon');
+      var lblName = boxInfo.getChildByName("lblName");
+      imgIcon.skin = data.icon;
+      lblName.text = data.name;
+    }
+  }, {
+    key: "setHPbar",
+    value: function setHPbar(value, isSelf) {
+      var HPBarScr = isSelf ? this.selfHPBarScr : this.otherHPBarScr;
+    }
+  }, {
+    key: "setMPBar",
+    value: function setMPBar(value, isSelf) {
+      var MPBarScr = isSelf ? this.selfMPBarScr : this.otherMPBarScr;
+    }
+  }, {
+    key: "onDestroy",
+    value: function onDestroy() {
+      /*   console.log(this.sceneSK._templet)
+        ///场景动画怎么处置
+         this.sceneSK&&this.sceneSK.destroy();
+        this.sceneSK=null;   */
+    }
+  }]);
 
-    _createClass(GameView, [{
-        key: "onAwake",
-        value: function onAwake() {
-            this.selfMPBarScr = this.boxSelfInfo.getChildByName('boxMPBar').getComponent(_MPBar2.default);
-            this.selfHPBarScr = this.boxSelfInfo.getChildByName('boxHPBar').getComponent(_HPBar2.default);
-
-            this.otherMPBarScr = this.boxOtherInfo.getChildByName('boxMPBar').getComponent(_MPBar2.default);
-            this.otherHPBarScr = this.boxOtherInfo.getChildByName('boxHPBar').getComponent(_HPBar2.default);
-
-            /*  this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
-             this.gameBannerScr.changeStyle({gameStyle:'battle'}); */
-            var scene = _HeroConfig2.default.getSkeleton('scene1');
-            this.scenePoint.addChild(scene);
-            scene.play('stand', true);
-        }
-    }, {
-        key: "onEnable",
-        value: function onEnable() {}
-    }, {
-        key: "initView",
-        value: function initView() {}
-    }, {
-        key: "setInfo",
-        value: function setInfo(data, isSelf) {
-            var boxInfo = isSelf ? this.boxSelfInfo : this.boxOtherInfo;
-            var imgIcon = boxInfo.getChildByName('imgIcon');
-            var lblName = boxInfo.getChildByName("lblName");
-            imgIcon.skin = data.icon;
-            lblName.text = data.name;
-        }
-    }, {
-        key: "setHPbar",
-        value: function setHPbar(value, isSelf) {
-            var HPBarScr = isSelf ? this.selfHPBarScr : this.otherHPBarScr;
-        }
-    }, {
-        key: "setMPBar",
-        value: function setMPBar(value, isSelf) {
-            var MPBarScr = isSelf ? this.selfMPBarScr : this.otherMPBarScr;
-        }
-    }, {
-        key: "onDestroy",
-        value: function onDestroy() {
-            //场景动画怎么处置
-        }
-    }]);
-
-    return GameView;
+  return GameView;
 }(PaoYa.View);
 
 exports.default = GameView;
@@ -2126,7 +2137,7 @@ var HeroConfig = {
       templet: null
     },
     npc_3: {
-      path: baseUrl + "spine/npc/npc_7.sk",
+      path: baseUrl + "spine/npc/npc_3.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -2237,6 +2248,7 @@ var AlertDialog = function (_PaoYa$Dialog) {
 
         var _this = _possibleConstructorReturn(this, (AlertDialog.__proto__ || Object.getPrototypeOf(AlertDialog)).call(this));
 
+        _this.autoDestroyAtClosed = true;
         params.confirmText = params.confirmText || '知道了';
         _this.params = params;
         _this.addSubviews();
@@ -2348,6 +2360,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
         key: "onAwake",
         value: function onAwake() {
             console.log(this.params);
+            this.autoDestroyAtClosed = true;
             var result = this.params.result;
             this.result = result;
             if (result == -1) {
@@ -2459,6 +2472,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
             var _this2 = this;
 
             console.log(this.params);
+            this.autoDestroyAtClosed = true;
             var result = this.params.result;
             this.result = result;
             if (result == -1) {
@@ -2489,7 +2503,6 @@ var PassResultDialog = function (_PaoYa$Dialog) {
             this.btnBack.on(Laya.Event.CLICK, this, this.backHandler);
             var warnDialog = void 0;
             if (this.params.refinerNew == 1) {
-                Laya.UIConfig.closeDialogOnSide = false;
                 warnDialog = new _AlertDialog2.default({
                     message: '提高武器属性，去炼器室试试',
                     confirmText: '前往',
@@ -2501,7 +2514,6 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 });
                 warnDialog.popup();
             } else if (this.params.roleNew == 1) {
-                Laya.UIConfig.closeDialogOnSide = false;
                 warnDialog = new _AlertDialog2.default({
                     message: '胜不骄败不馁，尝试升级英雄！',
                     confirmText: '前往',
@@ -2513,7 +2525,6 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 });
                 warnDialog.popup();
             } else if (this.params.weaponNew == 1) {
-                Laya.UIConfig.closeDialogOnSide = false;
                 warnDialog = new _AlertDialog2.default({
                     message: '想要神兵相助，去兵器库逛逛！',
                     confirmText: '前往',
@@ -2557,6 +2568,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                             message: msg,
                             confirmText: '前往',
                             confirmHandler: function confirmHandler() {
+                                this.close();
                                 PaoYa.navigator.popToRootScene();
                                 PaoYa.navigator.visibleScene.getComponent(_HomeControl2.default).goRefiner();
                             }
@@ -2758,6 +2770,7 @@ var GameGuideControl = function (_GameControl) {
         value: function step5() {
             var _this3 = this;
 
+            this.noCount = true;
             nextLabel.visible = false;
             maskArea.visible = false;
             otherSpeakMan.visible = false;
@@ -2814,10 +2827,11 @@ var GameGuideControl = function (_GameControl) {
             var _this5 = this;
 
             this.target.visible = false;
-            // this.imgTip.visible=false;
-            this.imgTip.skin = "remote/guide/8.png";
+            this.imgTip.visible = false;
+
             this.imgTip.y = 300;
-            Laya.timer.callLater(this, function () {
+            Laya.timer.once(200, this, function () {
+                _this5.imgTip.skin = "remote/guide/8.png";
                 _this5.imgTip.visible = true;
                 _this5.resumeArrowAni();
             });
@@ -2952,6 +2966,7 @@ var GameGuideControl = function (_GameControl) {
 
             _get(GameGuideControl.prototype.__proto__ || Object.getPrototypeOf(GameGuideControl.prototype), "onEnable", this).call(this);
             this.spriteBg.on(Laya.Event.CLICK, this, function (e) {
+                /*   if(this.noCount){return;} */
                 guideStep += 1;
                 switch (guideStep) {
                     case 4:
@@ -4830,7 +4845,10 @@ var Player = function (_PaoYa$Component) {
     }
   }, {
     key: "onDestroy",
-    value: function onDestroy() {}
+    value: function onDestroy() {
+      this.skeleton.off(Laya.Event.STOPPED, this);
+      this.skeleton.off(Laya.Event.LABEL, this);
+    }
   }]);
 
   return Player;
@@ -5583,7 +5601,7 @@ var Weapon = function (_PaoYa$Component) {
             case 54:
               var stealMp = skillConfig.stealMp;
               this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, function () {
-                _this2.selfPlayerComp.mpRecoverEffect(attackNum * stealMp);
+                _this2.selfPlayerComp.mpRecoverEffect(Math.ceil(attackNum * stealMp));
               });
               break;
             case 55:
@@ -6408,7 +6426,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "onDisappear",
         value: function onDisappear() {
-            this.player.stop();
+            this.player._templet && this.player.stop();
         }
     }, {
         key: "onClick",
@@ -7758,6 +7776,11 @@ var Swordsman = function (_PaoYa$View) {
     }, {
         key: "onDisable",
         value: function onDisable() {
+            if (this.heroSkin) {
+                this.heroSkin.stop();
+                this.heroSkin.destroy();
+                this.heroSkin = null;
+            }
             Laya.stage.removeChild(this.guideContainer);
         }
     }, {
@@ -9710,6 +9733,18 @@ var WeaponHouse = function (_PaoYa$View) {
         key: "onAwake",
         value: function onAwake() {}
     }, {
+        key: "onAppear",
+        value: function onAppear() {
+            this.goldNum.text = PaoYa.DataCenter.user.gold;
+            this.goldNum.font = "weaponNFontT";
+            this.goldNum.scale(0.7, 0.7);
+            this.goldNum.pos(381, 20);
+            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
+            this.diamondNum.font = "weaponNFontT";
+            this.diamondNum.scale(0.7, 0.7);
+            this.diamondNum.pos(622, 20);
+        }
+    }, {
         key: "onEnable",
         value: function onEnable() {
             var _this2 = this;
@@ -9719,14 +9754,6 @@ var WeaponHouse = function (_PaoYa$View) {
                 this.startGuide();
                 PaoYa.Request.POST("martial_change_new_hand", { type: "weaponNew" });
             }
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
 
             this.light.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
@@ -9769,7 +9796,6 @@ var WeaponHouse = function (_PaoYa$View) {
                 if (_WeaponHouseControl2.default.ins.isGuide) {
                     return;
                 }
-                _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.upgradeWeapon();
             });
 
@@ -10584,10 +10610,8 @@ var WeaponStore = function (_PaoYa$View) {
     }
 
     _createClass(WeaponStore, [{
-        key: "onEnable",
-        value: function onEnable() {
-            var _this2 = this;
-
+        key: "onAppear",
+        value: function onAppear() {
             this.goldNum.text = PaoYa.DataCenter.user.gold;
             this.goldNum.font = "weaponNFontT";
             this.goldNum.scale(0.7, 0.7);
@@ -10596,6 +10620,11 @@ var WeaponStore = function (_PaoYa$View) {
             this.diamondNum.font = "weaponNFontT";
             this.diamondNum.scale(0.7, 0.7);
             this.diamondNum.pos(622, 20);
+        }
+    }, {
+        key: "onEnable",
+        value: function onEnable() {
+            var _this2 = this;
 
             this.sellText.font = "weaponDFont";
             this.buyText.font = "weaponDFont";
@@ -11704,8 +11733,8 @@ var Award = function (_PaoYa$Dialog) {
                             case "sign":
                                 break;
                             case "wheel":
-                                PaoYa.DataCenter.user.gold += this.params.detail.gold;
-                                _WheelControl2.default.ins.owner.goldNum.text = PaoYa.DataCenter.user.gold;
+                                PaoYa.DataCenter.user.gold += this.params.detail.diamond;
+                                _WheelControl2.default.ins.owner.diamondNum.text = PaoYa.DataCenter.user.gold;
                                 break;
                         }
                         // this.num.pos(28, 175)
@@ -11870,7 +11899,7 @@ var Task = function (_PaoYa$Dialog) {
             name.text = cell.dataSource.member_nick;
             var num1 = cell.dataSource.score % 1000;
             var num2 = cell.dataSource.score / 1000 | 0;
-            rankdetail.text = PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName + "X" + num1;
+            rankdetail.text = PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName + "\xD7" + num1;
             name.visible = true;
             rankdetail.visible = true;
             usericon.skin = cell.dataSource.member_avstar;

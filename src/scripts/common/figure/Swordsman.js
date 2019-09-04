@@ -233,7 +233,6 @@ export default class Swordsman extends PaoYa.View {
             } else {
                 this.signGet.visible = true
             }
-
         }
 
         this.lvupbtn.disabled = this.showDetail.roleLevel >= this.showDetail.roleTopLevel ? true : false
@@ -272,6 +271,11 @@ export default class Swordsman extends PaoYa.View {
     }
 
     onDisable() {
+        if (this.heroSkin) {
+            this.heroSkin.stop()
+            this.heroSkin.destroy()
+            this.heroSkin = null
+        }
         Laya.stage.removeChild(this.guideContainer)
     }
 

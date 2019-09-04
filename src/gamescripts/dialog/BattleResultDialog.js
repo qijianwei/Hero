@@ -7,6 +7,7 @@ export default class BattleResultDialog extends PaoYa.Dialog{
     }
     onAwake(){
         console.log(this.params);
+        this.autoDestroyAtClosed=true;
         let result=this.params.result;
         this.result=result;
         if(result==-1){

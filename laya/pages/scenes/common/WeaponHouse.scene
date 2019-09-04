@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":108,
+    "selectedBox":42,
+    "selecteID":103,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/weapon/WeaponHouse.js","height":750},
     "nodeParent":-1,
@@ -360,13 +360,14 @@
             "props":{"y":105,"x":321,"width":412,"var":"weapon","height":603},
             "nodeParent":2,
             "label":"weapon",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":37,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":488,"x":254.5,"texture":"local/common/currencyBg.png","scaleY":0.6,"scaleX":0.6},
@@ -406,31 +407,20 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,showBg",
                     "props":{"y":75,"x":78,"width":128,"var":"showBg","skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"renderType":"render","height":129,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":37,
                     "label":"showBg",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":42,
                     "child":[
                         {
-                            "type":"Animation",
-                            "searchKey":"Animation,upeffects",
-                            "props":{"y":65,"x":64,"visible":false,"var":"upeffects","source":"gamescenes/animations/lvup_arms.ani","autoPlay":false},
-                            "nodeParent":42,
-                            "label":"upeffects",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":103,
-                            "child":[
-                                ]
-                        },
-                        {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,showWrap",
                             "props":{"y":65,"x":64,"var":"showWrap","skin":"local/common/quality_1.png","anchorY":0.5,"anchorX":0.5},
@@ -445,6 +435,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,showMark",
                             "props":{"y":-16,"x":-11,"var":"showMark","skin":"local/common/type_2.png"},
@@ -459,6 +450,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,showWeapon",
                             "props":{"y":0,"x":0,"var":"showWeapon","skin":"remote/small_weapons/s_g005_2.png"},
@@ -473,6 +465,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,currtWeaponLevel",
                             "props":{"y":82,"x":40,"visible":false,"var":"currtWeaponLevel","text":"LV.9","fontSize":22,"font":"SimSun","color":"#ffffff"},
@@ -486,6 +479,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,currutWeapon",
                             "props":{"y":14,"x":155,"width":19,"var":"currutWeapon","height":12},
@@ -499,6 +493,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,CDTime",
                             "props":{"y":75,"x":165,"var":"CDTime"},
@@ -510,10 +505,25 @@
                             "compId":51,
                             "child":[
                                 ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Animation",
+                            "searchKey":"Animation,upeffects",
+                            "props":{"y":63,"x":64,"visible":false,"var":"upeffects","source":"gamescenes/animations/lvup_arms.ani","scaleY":1.1,"scaleX":1.1,"blendMode":"lighter","autoPlay":false},
+                            "nodeParent":42,
+                            "label":"upeffects",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":103,
+                            "child":[
+                                ]
                         }],
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,detailNum",
                     "props":{"y":140,"x":11,"width":395,"var":"detailNum","height":147},
@@ -635,6 +645,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,detailSkill",
                     "props":{"y":300,"x":0,"width":406,"var":"detailSkill","height":164},
@@ -767,6 +778,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":466,"x":0,"texture":"remote/weaponhouse/22.png"},

@@ -665,7 +665,7 @@ export default class GameControl extends PaoYa.Component {
                 console.error("修改后的值:", params.weaponAttack)
                 this.weaponLaunch(params);
                 for (var i = 0; i < weaponNum - 1; i++) {
-                    this.weaponLaunch(params, 350);
+                    this.weaponLaunch(params, 350*(i+1));
                 }
                 break;
                 //造成几倍伤害 兵器前方加气流
@@ -889,6 +889,8 @@ export default class GameControl extends PaoYa.Component {
         console.error('destroy111');
         this.selfWeapons = null;
         this.otherWeapons = null;
+        this.selfPlayer=null;
+        this.otherPlayer=null;
         Laya.timer.clearAll(this);
         Laya.MouseManager.enabled = true;
     }

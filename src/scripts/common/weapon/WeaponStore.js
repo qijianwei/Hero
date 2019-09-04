@@ -8,7 +8,7 @@ export default class WeaponStore extends PaoYa.View {
         WeaponStore.ins = this
     }
 
-    onEnable() {
+    onAppear() {
         this.goldNum.text = PaoYa.DataCenter.user.gold
         this.goldNum.font = `weaponNFontT`
         this.goldNum.scale(0.7, 0.7)
@@ -17,6 +17,9 @@ export default class WeaponStore extends PaoYa.View {
         this.diamondNum.font = `weaponNFontT`
         this.diamondNum.scale(0.7, 0.7)
         this.diamondNum.pos(622, 20)
+    }
+
+    onEnable() {
 
         this.sellText.font = `weaponDFont`
         this.buyText.font = `weaponDFont`

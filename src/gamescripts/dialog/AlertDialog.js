@@ -1,6 +1,7 @@
 export default class AlertDialog extends PaoYa.Dialog {
     constructor(params){
         super()
+        this.autoDestroyAtClosed=true;
         params.confirmText = params.confirmText || '知道了'
         this.params = params
         this.addSubviews()

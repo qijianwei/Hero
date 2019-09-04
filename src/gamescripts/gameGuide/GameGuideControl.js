@@ -117,6 +117,7 @@ export default class GameGuideControl extends GameControl{
         interactionArea.graphics.clear();
     }
     step5(){
+        this.noCount=true;
         nextLabel.visible=false;
         maskArea.visible=false;
         otherSpeakMan.visible=false;
@@ -165,10 +166,11 @@ export default class GameGuideControl extends GameControl{
     }
     step7(){
        this.target.visible=false;
-     // this.imgTip.visible=false;
-       this.imgTip.skin=`remote/guide/8.png`;
+       this.imgTip.visible=false;
+      
        this.imgTip.y=300;
-       Laya.timer.callLater(this,()=>{
+       Laya.timer.once(200,this,()=>{
+        this.imgTip.skin=`remote/guide/8.png`;
            this.imgTip.visible=true;
            this.resumeArrowAni();
        })
@@ -284,6 +286,7 @@ export default class GameGuideControl extends GameControl{
     onEnable(){
         super.onEnable();
         this.spriteBg.on(Laya.Event.CLICK,this,(e)=>{
+          /*   if(this.noCount){return;} */
             guideStep+=1;
             switch(guideStep){
               case 4:

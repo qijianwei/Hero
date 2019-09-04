@@ -11,12 +11,7 @@ export default class WeaponHouse extends PaoYa.View {
 
     }
 
-    onEnable() {
-        // this.getComponent()
-        if (WeaponHouseControl.ins.isGuide) {
-            this.startGuide()
-            PaoYa.Request.POST(`martial_change_new_hand`,{type:`weaponNew`})
-        }
+    onAppear() {
         this.goldNum.text = PaoYa.DataCenter.user.gold
         this.goldNum.font = `weaponNFontT`
         this.goldNum.scale(0.7, 0.7)
@@ -25,6 +20,14 @@ export default class WeaponHouse extends PaoYa.View {
         this.diamondNum.font = `weaponNFontT`
         this.diamondNum.scale(0.7, 0.7)
         this.diamondNum.pos(622, 20)
+    }
+
+    onEnable() {
+        // this.getComponent()
+        if (WeaponHouseControl.ins.isGuide) {
+            this.startGuide()
+            PaoYa.Request.POST(`martial_change_new_hand`, { type: `weaponNew` })
+        }
 
         this.light.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
@@ -67,7 +70,6 @@ export default class WeaponHouse extends PaoYa.View {
             if (WeaponHouseControl.ins.isGuide) {
                 return
             }
-            SoundManager.ins.btn()
             WeaponHouseControl.ins.upgradeWeapon()
         })
 

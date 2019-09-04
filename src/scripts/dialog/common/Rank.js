@@ -40,7 +40,7 @@ export default class Task extends PaoYa.Dialog {
         name.text = cell.dataSource.member_nick
         let num1 = cell.dataSource.score % 1000
         let num2 = cell.dataSource.score / 1000 | 0
-        rankdetail.text = `${PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName}X${num1}`
+        rankdetail.text = `${PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName}×${num1}`
         name.visible = true
         rankdetail.visible = true
         usericon.skin=cell.dataSource.member_avstar;

@@ -11,6 +11,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
     }
     onAwake(){
         console.log(this.params);
+        this.autoDestroyAtClosed=true;
         let result=this.params.result;
         this.result=result;
         if(result==-1){
@@ -41,7 +42,6 @@ export default class PassResultDialog extends PaoYa.Dialog{
         this.btnBack.on(Laya.Event.CLICK,this,this.backHandler);
         let warnDialog;
         if(this.params.refinerNew==1){
-            Laya.UIConfig.closeDialogOnSide = false;
            warnDialog=new AlertDialog({
                message:'提高武器属性，去炼器室试试',
                confirmText:'前往',
@@ -53,7 +53,6 @@ export default class PassResultDialog extends PaoYa.Dialog{
            })
            warnDialog.popup();
         }else if(this.params.roleNew==1){
-            Laya.UIConfig.closeDialogOnSide = false;
             warnDialog=new AlertDialog({
                 message:'胜不骄败不馁，尝试升级英雄！',
                 confirmText:'前往',
@@ -66,7 +65,6 @@ export default class PassResultDialog extends PaoYa.Dialog{
             warnDialog.popup();
 
         }else if(this.params.weaponNew==1){
-            Laya.UIConfig.closeDialogOnSide = false;
             warnDialog=new AlertDialog({
                 message:'想要神兵相助，去兵器库逛逛！',
                 confirmText:'前往',
@@ -107,6 +105,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
                     message: msg,
                     confirmText:'前往',
                     confirmHandler:function(){
+                        this.close();
                        PaoYa.navigator.popToRootScene();
                        PaoYa.navigator.visibleScene.getComponent(HomeControl).goRefiner();
                     }

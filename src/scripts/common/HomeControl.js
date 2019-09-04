@@ -67,7 +67,7 @@ export default class HomeControl extends PaoYa.Component {
             
     }
     onDisappear() {
-        this.player.stop();
+        this.player._templet&&this.player.stop();
     }
     onClick(e) {
         if (e.target instanceof Laya.Button) {
