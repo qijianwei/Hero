@@ -18,13 +18,13 @@ export default class MPBar extends PaoYa.Component{
         console.log('初始的体力值:',MPValue);
         this.originMP=this.curMP=MPValue;
         this.imgMask.width=this.owner.width;
-        this.perAddMP=Math.floor(((this.originMP/360)*20));
+        this.perAddMP=Math.floor(((this.originMP/360)*5));
         this.originPerAddMP=this.perAddMP;
         this.lblMpPct.text=`${this.curMP}/${this.originMP}`;
         this.startBar()
     }
     startBar(){
-     Laya.timer.loop(500,this,this.autoIncreaseBar);
+     Laya.timer.loop(80,this,this.autoIncreaseBar);
     }
     autoIncreaseBar(){
         if(this.curMP>=this.originMP){

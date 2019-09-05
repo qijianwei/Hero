@@ -339,7 +339,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameGuide.scene";
+GameConfig.startScene = "scenes/HomeView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -406,13 +406,13 @@ var Main = exports.Main = function (_GameMain) {
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
-			userId: 11058, //151693, 109638
+			userId: 11120, //151693, 109638
 			offerId: "1450014295",
 			version: _Config2.default.version,
 			rankingType: PaoYa.RankingType.WIN,
 			release: _Config2.default.release,
 			//ignoreCmds: [],
-			debug: true,
+			debug: _Config2.default.debug,
 			ignoreCmds: ['defeated', 'message'],
 			showBannerAdWhenDialogPopup: false,
 			adUnitId: 'adunit-7860aaf8ed04aeb2',
@@ -483,6 +483,9 @@ var Main = exports.Main = function (_GameMain) {
    	SoundManager.playMusic("mainBgm"); */
 
 			this.arrayFont = [{
+				fontUrl: "font/weapon/lvfont.fnt",
+				fontAni: "weaponNFontT"
+			}, {
 				fontUrl: "font/recMP.fnt",
 				fontAni: "recoverMP"
 			}, {
@@ -509,9 +512,6 @@ var Main = exports.Main = function (_GameMain) {
 			}, {
 				fontUrl: "font/weapon/detailfont.fnt",
 				fontAni: "weaponDFont"
-			}, {
-				fontUrl: "font/weapon/lvfont.fnt",
-				fontAni: "weaponNFontT"
 			}, {
 				fontUrl: "font/figure/msz.fnt",
 				fontAni: "figureDetail"
@@ -591,11 +591,13 @@ var Main = exports.Main = function (_GameMain) {
 
 new Main();
 Laya.UIConfig.closeDialogOnSide = false;
-Laya.Stat.show();
+
 if (!_Config2.default.debug) {
 	console.log = function () {};
 	console.warn = function () {};
 	console.error = function () {};
+} else {
+	Laya.Stat.show();
 }
 
 },{"./Config":1,"./GameConfig":2,"./gamescripts/SoundManager":7,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":27,"./scripts/common/tool/Global":45}],4:[function(require,module,exports){
@@ -1261,7 +1263,11 @@ var GameControl = function (_PaoYa$Component) {
                 } else {
                     console.error("无法动弹");
                 }
-                Laya.timer.once(5000, this, this.startSelect);
+                if (this.gameType == "pass") {
+                    Laya.timer.once(3000, this, this.startSelect);
+                } else {
+                    Laya.timer.once(500, this, this.startSelect);
+                }
             } else {
                 this.seletedLaunch = false;
                 Laya.timer.once(500, this, this.startSelect);
@@ -2049,14 +2055,13 @@ var PrivateWeapon = function () {
         console.error('机器人兵器冷却中，不可使用');
         return false;
       }
-      this.freezeing = true;
-
       /*  return this.config; */
     }
   }, {
     key: 'startT',
     value: function startT() {
       console.error('机器人兵器进行冷却');
+      this.freezeing = true;
       Laya.timer.once(this.params.weaponCd * 1000, this, this.changeStatus);
     }
   }, {
@@ -4224,7 +4229,7 @@ var MPBar = function (_PaoYa$Component) {
             console.log('初始的体力值:', MPValue);
             this.originMP = this.curMP = MPValue;
             this.imgMask.width = this.owner.width;
-            this.perAddMP = Math.floor(this.originMP / 360 * 20);
+            this.perAddMP = Math.floor(this.originMP / 360 * 5);
             this.originPerAddMP = this.perAddMP;
             this.lblMpPct.text = this.curMP + '/' + this.originMP;
             this.startBar();
@@ -4232,7 +4237,7 @@ var MPBar = function (_PaoYa$Component) {
     }, {
         key: 'startBar',
         value: function startBar() {
-            Laya.timer.loop(500, this, this.autoIncreaseBar);
+            Laya.timer.loop(80, this, this.autoIncreaseBar);
         }
     }, {
         key: 'autoIncreaseBar',
@@ -4540,14 +4545,12 @@ var Player = function (_PaoYa$Component) {
       }
 
       if (this.HPComp.curHP <= 0) {
-        console.error('死亡结束');
+        console.warn('---------------死亡结束---------------');
         Laya.timer.clearAll(this);
         this.removeAllAni();
         _GameControl2.default.instance.deathHandler(this.isSelf);
         this.killed = true;
         this.skeleton.play("death", false);
-        //  GameControl.instance.passOver(this.isSelf);
-        /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
         return;
       }
       var aniName = this.typeAniName[posType];
@@ -4565,7 +4568,6 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removeAllAni",
     value: function removeAllAni() {
-      // this.skeleton.play('stand', true);
       this.boxAniPoison.visible = false;
       this.aniPoison.stop();
 
@@ -4606,19 +4608,11 @@ var Player = function (_PaoYa$Component) {
         this.showPlayerState("免疫");
         return;
       }
-      /*    this.canAction = false;
-         if (this.isSelf) {
-           Laya.MouseManager.enabled = false;
-           GameControl.instance.allBtnsLock();
-         } */
       this.boxAniPoison.visible = true;
       this.aniPoison.play(0, true);
       var startTime = new Date().getTime();
       var endTime = startTime + poisonTime + 1000;
-      // this.HPComp.changeHP(hpValue);
       this.showPlayerState("中毒");
-      // let showText=hpValue>0?"中毒+"+hpValue:"中毒"+hpValue;
-      // this.showFontEffect(showText,"poision")
       Laya.timer.loop(1000, this, this.minusHp, [endTime, hpValue]);
     }
   }, {
@@ -4644,11 +4638,6 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removePoison",
     value: function removePoison() {
-      /*   this.canAction = true;
-        if (this.isSelf) {
-          Laya.MouseManager.enabled = true;
-          GameControl.instance.allBtnsUnlock();
-        } */
       Laya.timer.clear(this, this.minusHp);
       this.boxAniPoison.visible = false;
       this.aniPoison.stop();
@@ -4664,7 +4653,6 @@ var Player = function (_PaoYa$Component) {
       }
       this.canAction = false;
       if (this.isSelf) {
-        // Laya.MouseManager.enabled = false;
         _GameControl2.default.instance.allBtnsLock();
       }
       this.boxAniDizzy.visible = true;
@@ -7530,7 +7518,10 @@ var Swordsman = function (_PaoYa$View) {
     function Swordsman() {
         _classCallCheck(this, Swordsman);
 
-        return _possibleConstructorReturn(this, (Swordsman.__proto__ || Object.getPrototypeOf(Swordsman)).call(this));
+        var _this = _possibleConstructorReturn(this, (Swordsman.__proto__ || Object.getPrototypeOf(Swordsman)).call(this));
+
+        Swordsman.ins = _this;
+        return _this;
     }
 
     _createClass(Swordsman, [{
@@ -7597,7 +7588,6 @@ var Swordsman = function (_PaoYa$View) {
             this.alreadyTxt.scale(0.8, 0.8);
             this.alreadyTxt.pos(35, 10);
 
-            this.initInfo();
             this.changeGold();
 
             this.lvupbtn.on(Laya.Event.CLICK, this, function () {
@@ -7621,7 +7611,7 @@ var Swordsman = function (_PaoYa$View) {
                     if (!res) {
                         return;
                     }
-                    _this2.navigator.push("Sign", res);
+                    _SwordsmanControl2.default.ins.navigator.push("Sign", res);
                 });
             });
 
@@ -7722,16 +7712,16 @@ var Swordsman = function (_PaoYa$View) {
             this.heroname.scale(0.8, 0.8);
 
             this.hp.text = "\u751F\u547D " + (this.showDetail.roleHp - this.showDetail.roleUpHp);
-            this.additionHp.text = "+" + this.showDetail.roleUpHp;
+            this.additionHp.text = this.showDetail.roleStatus ? "+" + this.showDetail.roleUpHp : "";
 
             this.force.text = "\u5185\u529B " + (this.showDetail.roleMp - this.showDetail.roleUpMp);
-            this.adddtionForce.text = "+" + this.showDetail.roleUpMp;
+            this.adddtionForce.text = this.showDetail.roleStatus ? "+" + this.showDetail.roleUpMp : "";
 
             this.muscle.text = "\u81C2\u529B " + (this.showDetail.roleStrength - this.showDetail.roleUpStrength);
-            this.additionMuscle.text = "+" + this.showDetail.roleUpStrength;
+            this.additionMuscle.text = this.showDetail.roleStatus ? "+" + this.showDetail.roleUpStrength : "";
 
             this.bone.text = "\u6839\u9AA8 " + (this.showDetail.roleBone - this.showDetail.roleUpBone);
-            this.additionBone.text = "+" + this.showDetail.roleUpBone;
+            this.additionBone.text = this.showDetail.roleStatus ? "+" + this.showDetail.roleUpBone : "";
 
             this.critical.text = "\u66B4\u51FB " + this.showDetail.roleCritProb + "%";
 
@@ -7773,50 +7763,105 @@ var Swordsman = function (_PaoYa$View) {
     }, {
         key: "changeGold",
         value: function changeGold() {
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
+            var _this4 = this;
+
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                _this4.goldNum.width = null;
+
+                PaoYa.DataCenter.user.gold = res.gold;
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
+                _this4.goldNum.text = goldnum;
+                _this4.goldNum.font = "weaponNFontT";
+                _this4.goldNum.scale(0.6, 0.6);
+                _this4.goldNum.pos(365 + (149 - _this4.goldNum.width * 0.6) / 2, 25);
+                _this4.diamondNum.text = diamondnum;
+                _this4.diamondNum.font = "weaponNFontT";
+                _this4.diamondNum.scale(0.6, 0.6);
+                _this4.diamondNum.pos(600 + (149 - _this4.goldNum.width * 0.6) / 2, 25);
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            var integ = num / 10000;
+                            return Math.floor(integ * 100) / 100 + '万';
+                            break;
+                        case num >= 100000000:
+                            var integ1 = num / 100000000;
+                            return Math.floor(integ1 * 100) / 100 + '亿';
+                            break;
+                        default:
+                            return num + '';
+                            break;
+                    }
+                };
+            });
         }
     }, {
         key: "onAppear",
         value: function onAppear() {
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
+            var _this5 = this;
+
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                _this5.goldNum.width = null;
+
+                PaoYa.DataCenter.user.gold = res.gold;
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
+                _this5.goldNum.text = goldnum;
+                _this5.goldNum.font = "weaponNFontT";
+                _this5.goldNum.scale(0.6, 0.6);
+                _this5.goldNum.pos(365 + (149 - _this5.goldNum.width * 0.6) / 2, 25);
+                _this5.diamondNum.text = diamondnum;
+                _this5.diamondNum.font = "weaponNFontT";
+                _this5.diamondNum.scale(0.6, 0.6);
+                _this5.diamondNum.pos(600 + (149 - _this5.goldNum.width * 0.6) / 2, 25);
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            var integ = num / 10000;
+                            return Math.floor(integ * 100) / 100 + '万';
+                            break;
+                        case num >= 100000000:
+                            var integ1 = num / 100000000;
+                            return Math.floor(integ1 * 100) / 100 + '亿';
+                            break;
+                        default:
+                            return num + '';
+                            break;
+                    }
+                };
+            });
         }
         //人物列表渲染
 
     }, {
         key: "figureRender",
         value: function figureRender(cell, idx) {
-            var _this4 = this;
+            var _this6 = this;
 
             console.log(cell.dataSource);
             cell.getChildByName("icon").skin = "local/common/" + cell.dataSource.roleDress + ".png";
             cell.getChildByName("bgwarp").visible = this.showDetail.roleId == cell.dataSource.roleId ? true : false;
             if (this.showDetail.roleId == cell.dataSource.roleId) {
                 this.prole = cell;
+                this.initInfo();
             }
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
-                if (_this4.isGuide) {
+                if (_this6.isGuide) {
                     return;
                 }
                 _SoundManager2.default.ins.btn();
-                _this4.prole.getChildByName("bgwarp").visible = false;
-                _this4.prole = cell;
-                _this4.showDetail = cell.dataSource;
-                _this4.initInfo();
+                _this6.prole.getChildByName("bgwarp").visible = false;
+                _this6.prole = cell;
+                _this6.showDetail = cell.dataSource;
+                _this6.initInfo();
                 cell.getChildByName("bgwarp").visible = true;
             });
         }
@@ -7833,7 +7878,7 @@ var Swordsman = function (_PaoYa$View) {
     }, {
         key: "guide1f",
         value: function guide1f(e) {
-            var _this5 = this;
+            var _this7 = this;
 
             if (this.guideBack) {
                 this.guide1.visible = false;
@@ -7841,17 +7886,17 @@ var Swordsman = function (_PaoYa$View) {
             }
             var n = e == 1 ? -1 : 1;
             Laya.Tween.to(this.guide1, { x: this.guide1.x + 15 * n }, 300, null, Laya.Handler.create(this, function () {
-                _this5.guide1f(n);
+                _this7.guide1f(n);
             }));
         }
     }, {
         key: "guide2f",
         value: function guide2f(e) {
-            var _this6 = this;
+            var _this8 = this;
 
             var n = e == 1 ? -1 : 1;
             Laya.Tween.to(this.guide2, { y: this.guide2.y + 15 * n }, 300, null, Laya.Handler.create(this, function () {
-                _this6.guide2f(n);
+                _this8.guide2f(n);
             }));
         }
     }, {
@@ -7978,6 +8023,11 @@ var SwordsmanControl = function (_PaoYa$Component) {
                 this.navigator.popup("figure/SkillDetail", detail);
             }
         }
+    }, {
+        key: "openGetD",
+        value: function openGetD() {
+            this.navigator.popup("weapon/DiamondLack");
+        }
     }]);
 
     return SwordsmanControl;
@@ -8090,6 +8140,14 @@ var Devour = function (_PaoYa$View) {
             this.initInfo();
         }
     }, {
+        key: "onAppear",
+        value: function onAppear() {
+            if (!_Refining2.default.ins.isGuide) {
+                this.guide2.visible = false;
+                this.guide3.visible = false;
+            }
+        }
+    }, {
         key: "initInfo",
         value: function initInfo() {
             this.pLv.text = "LV." + this.params.refiner.refinerLevel;
@@ -8154,6 +8212,12 @@ var Devour = function (_PaoYa$View) {
             Laya.stage.addChild(this.guide3);
             this.guide3.x = this.guide3.x + _Global.Global.AdaptiveWidth;
             this.guide3f(1);
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {
+            Laya.stage.removeChild(Devour.ins.guide2);
+            Laya.stage.removeChild(Devour.ins.guide3);
         }
     }]);
 
@@ -8521,7 +8585,9 @@ var Refining = function (_PaoYa$View) {
         value: function onAppear() {
             var _this3 = this;
 
-            console.log(this.params.refiner_list, 123);
+            if (!this.isGuide) {
+                this.guide1.visible = false;
+            }
             this.params.refiner_list.forEach(function (element, index) {
                 _this3[element.id + "Txt"].text = element.refinerName;
                 _this3[element.id + "Txt"].font = "weaponDFont";
@@ -8576,6 +8642,7 @@ var Refining = function (_PaoYa$View) {
                         _SoundManager2.default.ins.btn();
                         _DevourControl2.default.ins.eatWp();
                         _this4.guideStep = 3;
+                        _this4.isGuide = false;
                         _this4.nextStep();
                         _Devour2.default.ins.guide3.visible = false;
                         break;
@@ -8958,14 +9025,39 @@ var WeaponList = function (_PaoYa$View) {
         value: function onEnable() {
             var _this2 = this;
 
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                _this2.goldNum.width = null;
+
+                PaoYa.DataCenter.user.gold = res.gold;
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
+                _this2.goldNum.text = goldnum;
+                _this2.goldNum.font = "weaponNFontT";
+                _this2.goldNum.scale(0.6, 0.6);
+                _this2.goldNum.pos(365 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+                _this2.diamondNum.text = diamondnum;
+                _this2.diamondNum.font = "weaponNFontT";
+                _this2.diamondNum.scale(0.6, 0.6);
+                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            var integ = num / 10000;
+                            return Math.floor(integ * 100) / 100 + '万';
+                            break;
+                        case num >= 100000000:
+                            var integ1 = num / 100000000;
+                            return Math.floor(integ1 * 100) / 100 + '亿';
+                            break;
+                        default:
+                            return num + '';
+                            break;
+                    }
+                };
+            });
 
             this.warehouseList.vScrollBarSkin = "";
             this.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
@@ -9804,31 +9896,46 @@ var WeaponHouse = function (_PaoYa$View) {
     }, {
         key: "onAppear",
         value: function onAppear() {
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
-        }
-    }, {
-        key: "onAppear",
-        value: function onAppear() {
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
+            var _this2 = this;
+
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                _this2.goldNum.width = null;
+
+                PaoYa.DataCenter.user.gold = res.gold;
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
+                _this2.goldNum.text = goldnum;
+                _this2.goldNum.font = "weaponNFontT";
+                _this2.goldNum.scale(0.6, 0.6);
+                _this2.goldNum.pos(365 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+                _this2.diamondNum.text = diamondnum;
+                _this2.diamondNum.font = "weaponNFontT";
+                _this2.diamondNum.scale(0.6, 0.6);
+                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            var integ = num / 10000;
+                            return Math.floor(integ * 100) / 100 + '万';
+                            break;
+                        case num >= 100000000:
+                            var integ1 = num / 100000000;
+                            return Math.floor(integ1 * 100) / 100 + '亿';
+                            break;
+                        default:
+                            return num + '';
+                            break;
+                    }
+                };
+            });
         }
     }, {
         key: "onEnable",
         value: function onEnable() {
-            var _this2 = this;
+            var _this3 = this;
 
             // this.getComponent()
             if (_WeaponHouseControl2.default.ins.isGuide) {
@@ -9838,22 +9945,22 @@ var WeaponHouse = function (_PaoYa$View) {
 
             this.light.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("light");
-                _this2.lightNew.visible = false;
+                _this3.getWareBtnSkin("light");
+                _this3.lightNew.visible = false;
                 _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.lightList);
             });
 
             this.middle.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("middle");
-                _this2.middleNew.visible = false;
+                _this3.getWareBtnSkin("middle");
+                _this3.middleNew.visible = false;
                 _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.middleList);
             });
 
             this.large.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("large");
-                _this2.largeNew.visible = false;
+                _this3.getWareBtnSkin("large");
+                _this3.largeNew.visible = false;
                 _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.heavyList);
             });
 
@@ -9889,18 +9996,18 @@ var WeaponHouse = function (_PaoYa$View) {
     }, {
         key: "getWareBtnSkin",
         value: function getWareBtnSkin(name) {
-            var _this3 = this;
+            var _this4 = this;
 
             var arr = ["light", "middle", "large"];
             arr.forEach(function (element) {
-                _this3[element].skin = "remote/weaponhouse/14.png";
+                _this4[element].skin = "remote/weaponhouse/14.png";
             });
             this[name].skin = "remote/weaponhouse/13.png";
         }
     }, {
         key: "startGuide",
         value: function startGuide() {
-            var _this4 = this;
+            var _this5 = this;
 
             var Sprite = Laya.Sprite;
 
@@ -9942,39 +10049,39 @@ var WeaponHouse = function (_PaoYa$View) {
             Laya.stage.addChild(this.equipTips);
             //第一步装备
             this.equip.on(Laya.Event.CLICK, this, function () {
-                _this4.equip.x = _this4.equip.x - _Global.Global.AdaptiveWidth;
-                _this4.addChild(_this4.equip);
-                Laya.stage.removeChild(_this4.equip);
-                Laya.stage.removeChild(_this4.equipTips);
+                _this5.equip.x = _this5.equip.x - _Global.Global.AdaptiveWidth;
+                _this5.addChild(_this5.equip);
+                Laya.stage.removeChild(_this5.equip);
+                Laya.stage.removeChild(_this5.equipTips);
                 _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.chargeWeapon();
 
-                _this4.upGrade.x = _this4.upGrade.x + _Global.Global.AdaptiveWidth;
-                _this4.upGrade.visible = true;
-                Laya.stage.addChild(_this4.upGrade);
-                _this4.upGradeTips.x = _this4.upGradeTips.x + _Global.Global.AdaptiveWidth;
-                _this4.upGradeTips.visible = true;
-                Laya.stage.addChild(_this4.upGradeTips);
+                _this5.upGrade.x = _this5.upGrade.x + _Global.Global.AdaptiveWidth;
+                _this5.upGrade.visible = true;
+                Laya.stage.addChild(_this5.upGrade);
+                _this5.upGradeTips.x = _this5.upGradeTips.x + _Global.Global.AdaptiveWidth;
+                _this5.upGradeTips.visible = true;
+                Laya.stage.addChild(_this5.upGradeTips);
                 //第二步升级
-                _this4.upGrade.on(Laya.Event.CLICK, _this4, function () {
-                    _this4.upGrade.x = _this4.upGrade.x - _Global.Global.AdaptiveWidth;
-                    _this4.addChild(_this4.upGrade);
-                    Laya.stage.removeChild(_this4.upGrade);
-                    Laya.stage.removeChild(_this4.upGradeTips);
+                _this5.upGrade.on(Laya.Event.CLICK, _this5, function () {
+                    _this5.upGrade.x = _this5.upGrade.x - _Global.Global.AdaptiveWidth;
+                    _this5.addChild(_this5.upGrade);
+                    Laya.stage.removeChild(_this5.upGrade);
+                    Laya.stage.removeChild(_this5.upGradeTips);
                     _WeaponHouseControl2.default.ins.upgradeWeapon();
 
-                    _this4.benBack.x = _this4.benBack.x + _Global.Global.AdaptiveWidth;
-                    _this4.benBack.visible = true;
-                    Laya.stage.addChild(_this4.benBack);
-                    _this4.benBackTips.x = _this4.benBackTips.x + _Global.Global.AdaptiveWidth;
-                    _this4.benBackTips.visible = true;
-                    Laya.stage.addChild(_this4.benBackTips);
+                    _this5.benBack.x = _this5.benBack.x + _Global.Global.AdaptiveWidth;
+                    _this5.benBack.visible = true;
+                    Laya.stage.addChild(_this5.benBack);
+                    _this5.benBackTips.x = _this5.benBackTips.x + _Global.Global.AdaptiveWidth;
+                    _this5.benBackTips.visible = true;
+                    Laya.stage.addChild(_this5.benBackTips);
                     //第三步 返回
-                    _this4.benBack.on(Laya.Event.CLICK, _this4, function () {
+                    _this5.benBack.on(Laya.Event.CLICK, _this5, function () {
                         Laya.stage.removeChild(guideContainer);
                         Laya.stage.removeChild(gameContainer);
-                        Laya.stage.removeChild(_this4.benBack);
-                        Laya.stage.removeChild(_this4.benBackTips);
+                        Laya.stage.removeChild(_this5.benBack);
+                        Laya.stage.removeChild(_this5.benBackTips);
                         _WeaponHouseControl2.default.ins.isGuide = false;
                         _SoundManager2.default.ins.btn();
                         _WeaponHouseControl2.default.ins.navigator.pop();
@@ -10242,6 +10349,8 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     _this5.isWareChoiceWp._dataSource.isShowing = false;
                     _this5.isWareChoiceWp = cell;
                     _this5.isWareChoiceWp._dataSource.isShowing = true;
+                } else {
+                    _this5.isWareChoiceWp = cell;
                 }
                 cell.getChildByName("beChioce").visible = true;
                 // console.log(cell.getChildByName(`beChioce`),123)
@@ -10561,7 +10670,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             var _this9 = this;
 
             var numNew = 0;
-            if (this.isGuide) {
+            if (!this.isGuide) {
                 if (this.isRequesting) {
                     return;
                 }
@@ -10699,31 +10808,46 @@ var WeaponStore = function (_PaoYa$View) {
     _createClass(WeaponStore, [{
         key: "onAppear",
         value: function onAppear() {
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
-        }
-    }, {
-        key: "onAppear",
-        value: function onAppear() {
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
+            var _this2 = this;
+
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                _this2.goldNum.width = null;
+
+                PaoYa.DataCenter.user.gold = res.gold;
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
+                _this2.goldNum.text = goldnum;
+                _this2.goldNum.font = "weaponNFontT";
+                _this2.goldNum.scale(0.6, 0.6);
+                _this2.goldNum.pos(365 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+                _this2.diamondNum.text = diamondnum;
+                _this2.diamondNum.font = "weaponNFontT";
+                _this2.diamondNum.scale(0.6, 0.6);
+                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            var integ = num / 10000;
+                            return Math.floor(integ * 100) / 100 + '万';
+                            break;
+                        case num >= 100000000:
+                            var integ1 = num / 100000000;
+                            return Math.floor(integ1 * 100) / 100 + '亿';
+                            break;
+                        default:
+                            return num + '';
+                            break;
+                    }
+                };
+            });
         }
     }, {
         key: "onEnable",
         value: function onEnable() {
-            var _this2 = this;
+            var _this3 = this;
 
             this.sellText.font = "weaponDFont";
             this.buyText.font = "weaponDFont";
@@ -10777,12 +10901,12 @@ var WeaponStore = function (_PaoYa$View) {
             this.sell.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _WeaponStoreControl2.default.ins.wpdType = "sell";
-                _this2.sell.skin = "remote/weaponstore/3.png";
-                _this2.buy.skin = "remote/weaponstore/2.png";
-                _this2.sellPage.visible = true;
-                _this2.buyPage.visible = false;
-                _this2.getWareBtnSkin("light");
-                _this2.lightNew.visible = false;
+                _this3.sell.skin = "remote/weaponstore/3.png";
+                _this3.buy.skin = "remote/weaponstore/2.png";
+                _this3.sellPage.visible = true;
+                _this3.buyPage.visible = false;
+                _this3.getWareBtnSkin("light");
+                _this3.lightNew.visible = false;
                 _WeaponStoreControl2.default.ins.sellPresentIdx = 0;
                 _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
             });
@@ -10790,41 +10914,41 @@ var WeaponStore = function (_PaoYa$View) {
             this.buy.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _WeaponStoreControl2.default.ins.wpdType = "buy";
-                _this2.sell.skin = "remote/weaponstore/2.png";
-                _this2.buy.skin = "remote/weaponstore/3.png";
-                _this2.sellPage.visible = false;
-                _this2.buyPage.visible = true;
+                _this3.sell.skin = "remote/weaponstore/2.png";
+                _this3.buy.skin = "remote/weaponstore/3.png";
+                _this3.sellPage.visible = false;
+                _this3.buyPage.visible = true;
                 _WeaponStoreControl2.default.ins.buyPresentIdx = 0;
                 if (_WeaponStoreControl2.default.ins.buyList.length > 0) {
-                    _this2.weapon.visible = true;
-                    _this2.sellBtn.visible = true;
-                    _this2.buyBtn.visible = true;
+                    _this3.weapon.visible = true;
+                    _this3.sellBtn.visible = true;
+                    _this3.buyBtn.visible = true;
                 } else {
-                    _this2.weapon.visible = false;
-                    _this2.buyBtn.visible = false;
-                    _this2.sellBtn.visible = false;
+                    _this3.weapon.visible = false;
+                    _this3.buyBtn.visible = false;
+                    _this3.sellBtn.visible = false;
                 }
-                _this2.buyList.array = _WeaponStoreControl2.default.ins.buyList;
+                _this3.buyList.array = _WeaponStoreControl2.default.ins.buyList;
             });
 
             this.light.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("light");
-                _this2.lightNew.visible = false;
+                _this3.getWareBtnSkin("light");
+                _this3.lightNew.visible = false;
                 _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
             });
 
             this.middle.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("middle");
-                _this2.middleNew.visible = false;
+                _this3.getWareBtnSkin("middle");
+                _this3.middleNew.visible = false;
                 _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.middleList);
             });
 
             this.large.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("large");
-                _this2.largeNew.visible = false;
+                _this3.getWareBtnSkin("large");
+                _this3.largeNew.visible = false;
                 _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.heavyList);
             });
 
@@ -10834,12 +10958,12 @@ var WeaponStore = function (_PaoYa$View) {
                 if (!detail) {
                     return;
                 }
-                if (Number(detail.weaponPrice) > Number(_this2.goldNum.text)) {
+                if (Number(detail.weaponPrice) > Number(_this3.goldNum.text)) {
                     _WeaponStoreControl2.default.ins.navigator.popup("weapon/GoldLack");
                     return;
                 } else {
                     PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice);
-                    _this2.goldNum.text = PaoYa.DataCenter.user.gold;
+                    _this3.goldNum.text = PaoYa.DataCenter.user.gold;
                     _WeaponStoreControl2.default.ins.buyWp();
                 }
             });
@@ -10847,12 +10971,12 @@ var WeaponStore = function (_PaoYa$View) {
     }, {
         key: "getWareBtnSkin",
         value: function getWareBtnSkin(name) {
-            var _this3 = this;
+            var _this4 = this;
 
             _WeaponStoreControl2.default.ins.sellPresentIdx = 0;
             var arr = ["light", "middle", "large"];
             arr.forEach(function (element) {
-                _this3[element].skin = "remote/weaponhouse/14.png";
+                _this4[element].skin = "remote/weaponhouse/14.png";
             });
             this[name].skin = "remote/weaponhouse/13.png";
         }
@@ -11475,7 +11599,10 @@ var Wheel = function (_PaoYa$View) {
     function Wheel() {
         _classCallCheck(this, Wheel);
 
-        return _possibleConstructorReturn(this, (Wheel.__proto__ || Object.getPrototypeOf(Wheel)).call(this));
+        var _this = _possibleConstructorReturn(this, (Wheel.__proto__ || Object.getPrototypeOf(Wheel)).call(this));
+
+        Wheel.ins = _this;
+        return _this;
     }
 
     _createClass(Wheel, [{
@@ -11485,15 +11612,6 @@ var Wheel = function (_PaoYa$View) {
         key: "onEnable",
         value: function onEnable() {
             var _this2 = this;
-
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
 
             this.tip.font = "weaponNFontT";
             this.tip.scale(0.6, 0.6);
@@ -11519,6 +11637,11 @@ var Wheel = function (_PaoYa$View) {
                 if (_this2.isRunning) {
                     return;
                 }
+                if (PaoYa.DataCenter.user.diamond < 500) {
+                    _SoundManager2.default.ins.btn();
+                    _WheelControl2.default.ins.navigator.popup("weapon/DiamondLack");
+                    return;
+                }
                 _SoundManager2.default.ins.btn();
                 _WheelControl2.default.ins.addTimes();
             });
@@ -11532,6 +11655,50 @@ var Wheel = function (_PaoYa$View) {
 
             PaoYa.DataCenter.user.config_list.hero.wheelList.forEach(function (element, index) {
                 _this2.showList(_this2["award" + (index + 1)], element, index);
+            });
+        }
+    }, {
+        key: "onAppear",
+        value: function onAppear() {
+            this.changeDG();
+        }
+    }, {
+        key: "changeDG",
+        value: function changeDG() {
+            var _this3 = this;
+
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                _this3.goldNum.width = null;
+
+                PaoYa.DataCenter.user.gold = res.gold;
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
+                _this3.goldNum.text = goldnum;
+                _this3.goldNum.font = "weaponNFontT";
+                _this3.goldNum.scale(0.6, 0.6);
+                _this3.goldNum.pos(365 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
+                _this3.diamondNum.text = diamondnum;
+                _this3.diamondNum.font = "weaponNFontT";
+                _this3.diamondNum.scale(0.6, 0.6);
+                _this3.diamondNum.pos(600 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            var integ = num / 10000;
+                            return Math.floor(integ * 100) / 100 + '万';
+                            break;
+                        case num >= 100000000:
+                            var integ1 = num / 100000000;
+                            return Math.floor(integ1 * 100) / 100 + '亿';
+                            break;
+                        default:
+                            return num + '';
+                            break;
+                    }
+                };
             });
         }
     }, {
@@ -11639,11 +11806,11 @@ var WheelControl = function (_PaoYa$Component) {
             }
 
             this.POST("martial_wheel_times_buy", {}, function (res) {
-                //console.log(res)
                 if (!res) {
                     return;
                 }
                 _this2.owner.num.text = res;
+                _this2.owner.changeDG();
             });
         }
     }, {
@@ -11679,7 +11846,7 @@ var WheelControl = function (_PaoYa$Component) {
                     };
                     _this3.navigator.popup("common/Award", obj);
 
-                    Laya.timer.once(500, _this3, function () {
+                    Laya.timer.once(600, _this3, function () {
                         _this3.owner.pointer.rotation = 0;
                         _this3.owner.isRunning = false;
                     });
@@ -11713,6 +11880,10 @@ var _WheelControl2 = _interopRequireDefault(_WheelControl);
 var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+var _Wheel = require("../../common/wheel/Wheel");
+
+var _Wheel2 = _interopRequireDefault(_Wheel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11832,7 +12003,7 @@ var Award = function (_PaoYa$Dialog) {
                             case "sign":
                                 break;
                             case "wheel":
-                                PaoYa.DataCenter.user.gold += this.params.detail.diamond;
+                                PaoYa.DataCenter.user.diamond += this.params.detail.diamond;
                                 _WheelControl2.default.ins.owner.diamondNum.text = PaoYa.DataCenter.user.gold;
                                 break;
                         }
@@ -11854,6 +12025,7 @@ var Award = function (_PaoYa$Dialog) {
                     _Sign2.default.ins.initInfo();
                     break;
                 case "wheel":
+                    _Wheel2.default.ins.changeDG();
                     break;
             }
         }
@@ -11864,7 +12036,7 @@ var Award = function (_PaoYa$Dialog) {
 
 exports.default = Award;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":41,"../../common/wheel/WheelControl":52}],54:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":41,"../../common/wheel/Wheel":51,"../../common/wheel/WheelControl":52}],54:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12030,7 +12202,7 @@ var Task = function (_PaoYa$Dialog) {
 exports.default = Task;
 
 },{"../../../gamescripts/SoundManager":7}],56:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -12038,7 +12210,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _SoundManager = require("../../../gamescripts/SoundManager");
+var _SoundManager = require('../../../gamescripts/SoundManager');
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
@@ -12060,25 +12232,50 @@ var Task = function (_PaoYa$Dialog) {
     }
 
     _createClass(Task, [{
-        key: "onEnable",
+        key: 'onEnable',
         value: function onEnable() {
             var _this2 = this;
 
-            this.goldNum.text = PaoYa.DataCenter.user.gold;
-            this.goldNum.font = "weaponNFontT";
-            this.goldNum.scale(0.7, 0.7);
-            this.goldNum.pos(381, 20);
-            this.diamondNum.text = PaoYa.DataCenter.user.diamond;
-            this.diamondNum.font = "weaponNFontT";
-            this.diamondNum.scale(0.7, 0.7);
-            this.diamondNum.pos(622, 20);
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                _this2.goldNum.width = null;
+
+                PaoYa.DataCenter.user.gold = res.gold;
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
+                _this2.goldNum.text = goldnum;
+                _this2.goldNum.font = 'weaponNFontT';
+                _this2.goldNum.scale(0.6, 0.6);
+                _this2.goldNum.pos(365 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+                _this2.diamondNum.text = diamondnum;
+                _this2.diamondNum.font = 'weaponNFontT';
+                _this2.diamondNum.scale(0.6, 0.6);
+                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            var integ = num / 10000;
+                            return Math.floor(integ * 100) / 100 + '万';
+                            break;
+                        case num >= 100000000:
+                            var integ1 = num / 100000000;
+                            return Math.floor(integ1 * 100) / 100 + '亿';
+                            break;
+                        default:
+                            return num + '';
+                            break;
+                    }
+                };
+            });
 
             this.btnClose.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _this2.close();
             });
 
-            this.title.font = "weaponDFont";
+            this.title.font = 'weaponDFont';
             this.title.scale(0.6, 0.6);
             this.title.pos(515, 78);
 
@@ -12087,44 +12284,44 @@ var Task = function (_PaoYa$Dialog) {
             this.taskList.array = this.params;
         }
     }, {
-        key: "taskListItem",
+        key: 'taskListItem',
         value: function taskListItem(cell, index) {
             var _this3 = this;
 
             console.log(cell.dataSource, index);
-            var bg = cell.getChildByName("bg");
-            var num = cell.getChildByName("num");
-            var detail2 = cell.getChildByName("detail2");
-            var detail = cell.getChildByName("detail");
-            var img = cell.getChildByName("img");
-            var diamondNum = cell.getChildByName("diamondNum");
-            var btn = cell.getChildByName("btn");
-            var noThankTxt = cell.getChildByName("noThankTxt");
+            var bg = cell.getChildByName('bg');
+            var num = cell.getChildByName('num');
+            var detail2 = cell.getChildByName('detail2');
+            var detail = cell.getChildByName('detail');
+            var img = cell.getChildByName('img');
+            var diamondNum = cell.getChildByName('diamondNum');
+            var btn = cell.getChildByName('btn');
+            var noThankTxt = cell.getChildByName('noThankTxt');
 
             bg.visible = cell.dataSource.finish >= cell.dataSource.num;
             img.width = cell.dataSource.finish / cell.dataSource.num >= 1 ? 144 : cell.dataSource.finish / cell.dataSource.num * 144;
             diamondNum.text = cell.dataSource.diamond;
-            diamondNum.font = "weaponDFont";
+            diamondNum.font = 'weaponDFont';
             diamondNum.scale(0.65, 0.65);
             diamondNum.pos(598, 24);
 
-            btn.skin = cell.dataSource.finish / cell.dataSource.num >= 1 ? "local/common/btn_1.png" : "local/common/btn_2.png";
-            noThankTxt.text = cell.dataSource.finish / cell.dataSource.num >= 1 ? "\u9886\u53D6" : "\u53BB\u5B8C\u6210";
-            noThankTxt.font = "weaponDFont";
+            btn.skin = cell.dataSource.finish / cell.dataSource.num >= 1 ? 'local/common/btn_1.png' : 'local/common/btn_2.png';
+            noThankTxt.text = cell.dataSource.finish / cell.dataSource.num >= 1 ? '\u9886\u53D6' : '\u53BB\u5B8C\u6210';
+            noThankTxt.font = 'weaponDFont';
             noThankTxt.scale(0.65, 0.65);
             noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15);
 
             btn.offAll();
             if (cell.dataSource.status == 2) {
-                noThankTxt.text = "\u5DF2\u9886\u53D6";
-                noThankTxt.font = "weaponDFont";
+                noThankTxt.text = '\u5DF2\u9886\u53D6';
+                noThankTxt.font = 'weaponDFont';
                 noThankTxt.scale(0.65, 0.65);
                 noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15);
                 btn.disabled = true;
             } else {
                 if (cell.dataSource.finish / cell.dataSource.num >= 1) {
                     btn.on(Laya.Event.CLICK, this, function () {
-                        PaoYa.Request.POST("martial_task_receive", { taskKey: cell.dataSource.task }, function (res) {
+                        PaoYa.Request.POST('martial_task_receive', { taskKey: cell.dataSource.task }, function (res) {
                             _SoundManager2.default.ins.gold();
                             PaoYa.DataCenter.user.diamond += cell.dataSource.diamond;
                             _this3.diamondNum.text = PaoYa.DataCenter.user.diamond;
@@ -12149,75 +12346,75 @@ var Task = function (_PaoYa$Dialog) {
 
             switch (cell.dataSource.task) {
                 case "taskMonster":
-                    detail.text = "\u51FB\u8D25\u4E86";
+                    detail.text = '\u51FB\u8D25\u4E86';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u4E2A\u654C\u4EBA";
+                    detail2.text = '/' + cell.dataSource.num + '\u4E2A\u654C\u4EBA';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskBoss":
-                    detail.text = "\u51FB\u8D25";
+                    detail.text = '\u51FB\u8D25';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u4E2ABOSS";
+                    detail2.text = '/' + cell.dataSource.num + '\u4E2ABOSS';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskWin":
-                    detail.text = "\u5BF9\u5C40\u80DC\u5229";
+                    detail.text = '\u5BF9\u5C40\u80DC\u5229';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u5C40";
+                    detail2.text = '/' + cell.dataSource.num + '\u5C40';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskEncounter":
-                    detail.text = "\u5B8C\u6210";
+                    detail.text = '\u5B8C\u6210';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u6B21\u5947\u9047";
+                    detail2.text = '/' + cell.dataSource.num + '\u6B21\u5947\u9047';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskUpWeapon":
-                    detail.text = "\u5347\u7EA7";
+                    detail.text = '\u5347\u7EA7';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u6B21\u5175\u5668";
+                    detail2.text = '/' + cell.dataSource.num + '\u6B21\u5175\u5668';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskGetWeapon":
-                    detail.text = "\u83B7\u5F97";
+                    detail.text = '\u83B7\u5F97';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u4E2A\u5175\u5668";
+                    detail2.text = '/' + cell.dataSource.num + '\u4E2A\u5175\u5668';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskShare":
-                    detail.text = "\u5206\u4EAB";
+                    detail.text = '\u5206\u4EAB';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u6B21";
+                    detail2.text = '/' + cell.dataSource.num + '\u6B21';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskRefresh":
-                    detail.text = "\u5237\u65B0";
+                    detail.text = '\u5237\u65B0';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u6B21\u5546\u5E97";
+                    detail2.text = '/' + cell.dataSource.num + '\u6B21\u5546\u5E97';
                     detail2.x = num.width + num.x;
                     break;
                 case "taskInvite":
-                    detail.text = "\u9080\u8BF7";
+                    detail.text = '\u9080\u8BF7';
                     num.text = cell.dataSource.finish;
                     num.x = detail.width + detail.x;
                     num.color = cell.dataSource.finish >= cell.dataSource.num ? "#000000" : '#d10000';
-                    detail2.text = "/" + cell.dataSource.num + "\u4E2A\u597D\u53CB";
+                    detail2.text = '/' + cell.dataSource.num + '\u4E2A\u597D\u53CB';
                     detail2.x = num.width + num.x;
                     break;
             }
@@ -12299,22 +12496,28 @@ var BuyHero = function (_PaoYa$Dialog) {
             this.roleImg.skin = "remote/figure/role_" + this.params.roleId + ".png";
 
             this.buy.on(Laya.Event.CLICK, this, function () {
-                if (PaoYa.DataCenter.user.gold < _this2.params.rolePrice) {
+                if (PaoYa.DataCenter.user.diamond < _this2.params.rolePrice) {
                     _this2.close();
                     _SoundManager2.default.ins.btn();
-                    _SwordsmanControl2.default.ins.popup("weapon/DiamondLack");
+                    _SwordsmanControl2.default.ins.openGetD();
                     return;
                 }
                 PaoYa.Request.POST("martial_role_buy", { roleId: _this2.params.roleId }, function (res) {
-                    _SwordsmanControl2.default.ins.owner.params.roleList.forEach(function (element) {
+                    PaoYa.DataCenter.user.diamond -= Number(_this2.params.rolePrice);
+                    _Swordsman2.default.ins.changeGold();
+                    _SwordsmanControl2.default.ins.owner.params.roleList.forEach(function (element, index) {
                         if (element.roleId == res.role.roleId) {
-                            for (var key in element) {
-                                element[key] = res.role[key];
-                            }
+                            // for (const key in element) {
+                            element = res.role;
+                            // }
+                            _SwordsmanControl2.default.ins.owner.params.roleList[index] = element;
                             _SwordsmanControl2.default.ins.owner.showDetail = element;
                         }
                     });
-                    _SwordsmanControl2.default.ins.owner.initInfo();
+
+                    _SwordsmanControl2.default.ins.owner.herolist.array = _SwordsmanControl2.default.ins.owner.params.roleList;
+
+                    // SwordsmanControl.ins.owner.initInfo()
                     _this2.close();
                 });
             });
@@ -12597,18 +12800,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
     function DiamondLack() {
         _classCallCheck(this, DiamondLack);
 
-        /** @prop {name:intType, tips:"整数类型示例", type:Int, default:1000}*/
-        var _this = _possibleConstructorReturn(this, (DiamondLack.__proto__ || Object.getPrototypeOf(DiamondLack)).call(this));
-
-        var intType = 1000;
-        /** @prop {name:numType, tips:"数字类型示例", type:Number, default:1000}*/
-        var numType = 1000;
-        /** @prop {name:strType, tips:"字符串类型示例", type:String, default:"hello laya"}*/
-        var strType = "hello laya";
-        /** @prop {name:boolType, tips:"布尔类型示例", type:Bool, default:true}*/
-        var boolType = true;
-        // 更多参数说明请访问: https://ldc2.layabox.com/doc/?nav=zh-as-2-4-0
-        return _this;
+        return _possibleConstructorReturn(this, (DiamondLack.__proto__ || Object.getPrototypeOf(DiamondLack)).call(this));
     }
 
     _createClass(DiamondLack, [{
@@ -12626,7 +12818,13 @@ var DiamondLack = function (_PaoYa$Dialog) {
             this.btn.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _this2.close();
-                _HomeControl2.default.ins.navigator.push("Wheel");
+                _HomeControl2.default.ins.GET("martial_task_list", {}, function (res) {
+                    //console.log(res)
+                    if (!res) {
+                        return;
+                    }
+                    _HomeControl2.default.ins.navigator.popup("common/Task", res);
+                });
             });
         }
     }, {
@@ -13095,6 +13293,9 @@ var BeanBox = function (_PaoYa$Component) {
             this.labelBg = this.owner.getChildByName('labelBgCircle');
             this.skinLeft = this.owner.getChildByName("imgLeft");
             this.label = this.owner.getChildByName("label");
+            this.label.font = 'weaponNFontT';
+            //    / this.label.pivot(75,25);
+            this.label.scale(0.6, 0.6);
             this.changeBox();
         }
     }, {

@@ -53,7 +53,9 @@ export default class Refining extends PaoYa.View {
     }
 
     onAppear() {
-        console.log(this.params.refiner_list,123)
+        if (!this.isGuide) {
+            this.guide1.visible = false
+        }
         this.params.refiner_list.forEach((element, index) => {
             this[`${element.id}Txt`].text = element.refinerName
             this[`${element.id}Txt`].font = `weaponDFont`
@@ -107,6 +109,7 @@ export default class Refining extends PaoYa.View {
                     SoundManager.ins.btn()
                     DevourControl.ins.eatWp()
                     this.guideStep = 3
+                    this.isGuide = false
                     this.nextStep();
                     Devour.ins.guide3.visible = false
                     break;

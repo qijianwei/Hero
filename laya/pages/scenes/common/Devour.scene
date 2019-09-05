@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":157,
-    "selecteID":173,
+    "selectedBox":28,
+    "selecteID":32,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/refiner/Devour.js","height":750},
     "nodeParent":-1,
@@ -41,7 +41,7 @@
             "compId":153,
             "child":[
                 ],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
             "x":15,
@@ -219,14 +219,13 @@
             "props":{"y":0,"x":-138,"var":"benBack","texture":"local/common/back.png"},
             "nodeParent":2,
             "label":"benBack",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":26,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":30.5,"x":235,"texture":"remote/refining/15.png"},
@@ -248,13 +247,14 @@
             "props":{"y":0,"x":0,"var":"currencyBg"},
             "nodeParent":2,
             "label":"currencyBg",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":28,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":22,"x":584,"texture":"local/common/currencyBg.png"},
@@ -268,6 +268,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":20.5,"x":345,"texture":"local/common/currencyBg.png"},
@@ -281,6 +282,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":16,"x":324,"texture":"local/common/icon.png"},
@@ -294,6 +296,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":17,"x":563,"texture":"local/common/diamond.png"},
@@ -307,6 +310,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,goldNum",
                     "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
@@ -320,6 +324,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,diamondNum",
                     "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},

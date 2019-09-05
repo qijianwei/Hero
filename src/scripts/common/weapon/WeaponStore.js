@@ -9,28 +9,42 @@ export default class WeaponStore extends PaoYa.View {
     }
 
     onAppear() {
-        this.goldNum.text = PaoYa.DataCenter.user.gold
-        this.goldNum.font = `weaponNFontT`
-        this.goldNum.scale(0.7, 0.7)
-        this.goldNum.pos(381, 20)
-        this.diamondNum.text = PaoYa.DataCenter.user.diamond
-        this.diamondNum.font = `weaponNFontT`
-        this.diamondNum.scale(0.7, 0.7)
-        this.diamondNum.pos(622, 20)
-    }
-    onAppear(){
-        this.goldNum.text = PaoYa.DataCenter.user.gold
-        this.goldNum.font = `weaponNFontT`
-        this.goldNum.scale(0.7, 0.7)
-        this.goldNum.pos(381, 20)
-        this.diamondNum.text = PaoYa.DataCenter.user.diamond
-        this.diamondNum.font = `weaponNFontT`
-        this.diamondNum.scale(0.7, 0.7)
-        this.diamondNum.pos(622, 20) 
+        PaoYa.Request.GET('update_chips', {}, res => {
+            this.goldNum.width = null
+
+            PaoYa.DataCenter.user.gold = res.gold
+            PaoYa.DataCenter.user.diamond = res.diamond
+            let goldnum = addNumberUnit(PaoYa.DataCenter.user.gold)
+            let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
+
+            this.goldNum.text = goldnum
+            this.goldNum.font = `weaponNFontT`
+            this.goldNum.scale(0.6, 0.6)
+            this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
+            this.diamondNum.text = diamondnum
+            this.diamondNum.font = `weaponNFontT`
+            this.diamondNum.scale(0.6, 0.6)
+            this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25)
+
+            function addNumberUnit(num) {
+                switch (true) {
+                    case num >= 10000 && num < 100000000:
+                        let integ = num / 10000
+                        return Math.floor(integ * 100) / 100 + '万'
+                        break
+                    case num >= 100000000:
+                        let integ1 = num / 100000000
+                        return Math.floor(integ1 * 100) / 100 + '亿'
+                        break
+                    default:
+                        return num + ''
+                        break
+                }
+            };
+        })
     }
 
     onEnable() {
-
         this.sellText.font = `weaponDFont`
         this.buyText.font = `weaponDFont`
         this.needDiamon.text = 20

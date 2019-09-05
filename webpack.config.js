@@ -14,10 +14,10 @@ const {
 let copyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 module.exports = {
-  mode: "development", //开发环境 默认代码不压缩  production:默认js代码压缩
+  mode: "production", //开发环境 默认代码不压缩  production:默认js代码压缩
   entry: './src/Main.js',
   output: {
-    path: path.resolve(__dirname, './release2/wxgame/js'),
+    path: path.resolve(__dirname, './release/wxgame/js'),
     filename: 'bundle.js'
   },
   /*  entry: {
@@ -34,7 +34,7 @@ module.exports = {
        }, 
         hot:true 
    }, */
-  module: {
+ /*  module: {
     rules: [{
       test: /\.(png|jpg)/,
       use: [{
@@ -45,18 +45,18 @@ module.exports = {
         }
       }]
     }]
-  },
+  }, */
   plugins: [
-    /*  new CleanWebpackPlugin({
-       cleanOnceBeforeBuildPatterns: ['release2/*']
-     }), */
+    /*   new CleanWebpackPlugin({
+       cleanOnceBeforeBuildPatterns: ['release/wxgame/']
+     }),  */
     /*  new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: './bin/index.html', // 配置文件模板
       chunks:[], //要引入的js文件
     }), */
     /* 拷贝文件 */
-    new copyWebpackPlugin([{
+  /*   new copyWebpackPlugin([{
     
       from: './bin',
       to: path.resolve(__dirname, './release2/wxgame')
@@ -66,7 +66,7 @@ module.exports = {
         '{project.swan.json,swan-game-adapter.js}',
       ]
     }),
-
+ */
   ],
 
 };

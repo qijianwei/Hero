@@ -3279,6 +3279,7 @@ var Main = /** @class */ (function (_super) {
         };
         var login = function (suc) {
             _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在登录...');
+            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hideProgress();
             _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].login(suc, function () {
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '登录失败', '重试', function () {
                     login(suc);
@@ -3816,6 +3817,7 @@ var LaunchScreenView = /** @class */ (function (_super) {
         imgProgressBg.centerX = 0;
         imgProgressBg.bottom = 60;
         box.addChild(imgProgressBg);
+        this._imgProgressBg=imgProgressBg;
       /*   var lblTips = new Laya.Label('玩游戏享乐趣,好友都在玩的小游戏乐园');
         lblTips.color = '#227fb3';
         lblTips.fontSize = 28;
@@ -3874,6 +3876,13 @@ var LaunchScreenView = /** @class */ (function (_super) {
             this.ins.destroy();
         }
     };
+    LaunchScreenView.hideProgress=function(){
+         if(this.ins){
+            this.ins._imgProgressBg.visible=false;
+            this.ins._imgProgress.visible=false;
+            this.ins._lblProgress.visible=false;
+         }
+    }
     return LaunchScreenView;
 }(Laya.View));
 /* harmony default export */ __webpack_exports__["default"] = (LaunchScreenView);

@@ -78,4 +78,8 @@ export default class SwordsmanControl extends PaoYa.Component {
             this.navigator.popup("figure/SkillDetail", detail);
         }
     }
+
+    openGetD() {
+       this.navigator.popup("weapon/DiamondLack");
+    }
 }

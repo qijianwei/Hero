@@ -181,14 +181,12 @@ export default class Player extends PaoYa.Component {
     }
 
     if (this.HPComp.curHP <= 0) {
-      console.error('死亡结束')
+      console.warn('---------------死亡结束---------------')
       Laya.timer.clearAll(this);
       this.removeAllAni();
       GameControl.instance.deathHandler(this.isSelf);
       this.killed = true;
       this.skeleton.play("death", false);
-      //  GameControl.instance.passOver(this.isSelf);
-      /*  GameControl.instance.gameOver(this.isSelf); */ //对战用
       return;
     }
     let aniName = this.typeAniName[posType];
@@ -203,7 +201,6 @@ export default class Player extends PaoYa.Component {
   }
   //死亡时候移除所有动效
   removeAllAni(){
-   // this.skeleton.play('stand', true);
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
 
@@ -235,19 +232,11 @@ export default class Player extends PaoYa.Component {
       this.showPlayerState("免疫")
       return;
     }
-    /*    this.canAction = false;
-       if (this.isSelf) {
-         Laya.MouseManager.enabled = false;
-         GameControl.instance.allBtnsLock();
-       } */
     this.boxAniPoison.visible = true;
     this.aniPoison.play(0, true);
     let startTime = new Date().getTime();
     let endTime = startTime + poisonTime + 1000;
-    // this.HPComp.changeHP(hpValue);
     this.showPlayerState("中毒")
-    // let showText=hpValue>0?"中毒+"+hpValue:"中毒"+hpValue;
-    // this.showFontEffect(showText,"poision")
     Laya.timer.loop(1000, this, this.minusHp, [endTime, hpValue])
 
   }
@@ -270,11 +259,6 @@ export default class Player extends PaoYa.Component {
     }
   }
   removePoison() {
-    /*   this.canAction = true;
-      if (this.isSelf) {
-        Laya.MouseManager.enabled = true;
-        GameControl.instance.allBtnsUnlock();
-      } */
      Laya.timer.clear(this, this.minusHp);
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
@@ -287,7 +271,6 @@ export default class Player extends PaoYa.Component {
     }
     this.canAction = false;
     if (this.isSelf) {
-     // Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
     this.boxAniDizzy.visible = true;

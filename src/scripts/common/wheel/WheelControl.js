@@ -25,11 +25,11 @@ export default class WheelControl extends PaoYa.Component {
         }
 
         this.POST("martial_wheel_times_buy", {}, res => {
-            //console.log(res)
             if (!res) {
                 return
             }
             this.owner.num.text = res
+            this.owner.changeDG()
         })
     }
 
@@ -62,7 +62,7 @@ export default class WheelControl extends PaoYa.Component {
                 }
                 this.navigator.popup("common/Award", obj);
 
-                Laya.timer.once(500, this, () => {
+                Laya.timer.once(600, this, () => {
                     this.owner.pointer.rotation = 0
                     this.owner.isRunning = false
                 })

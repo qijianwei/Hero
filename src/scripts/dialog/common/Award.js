@@ -1,6 +1,7 @@
 import Sign from "../../common/sign/Sign";
 import WheelControl from "../../common/wheel/WheelControl";
 import SoundManager from "../../../gamescripts/SoundManager";
+import Wheel from "../../common/wheel/Wheel";
 
 export default class Award extends PaoYa.Dialog {
 
@@ -106,7 +107,7 @@ export default class Award extends PaoYa.Dialog {
                         case `sign`:
                             break;
                         case `wheel`:
-                            PaoYa.DataCenter.user.gold += this.params.detail.diamond
+                            PaoYa.DataCenter.user.diamond += this.params.detail.diamond
                             WheelControl.ins.owner.diamondNum.text = PaoYa.DataCenter.user.gold
                             break;
                     }
@@ -127,6 +128,7 @@ export default class Award extends PaoYa.Dialog {
                 Sign.ins.initInfo()
                 break;
             case `wheel`:
+                Wheel.ins.changeDG()
                 break;
         }
     }

@@ -545,7 +545,12 @@ export default class GameControl extends PaoYa.Component {
             } else {
                 console.error("无法动弹")
             }
-            Laya.timer.once(5000, this, this.startSelect);
+            if(this.gameType == "pass"){
+                Laya.timer.once(3000, this, this.startSelect);
+            }else{
+                Laya.timer.once(500, this, this.startSelect);
+            }
+           
         } else {
             this.seletedLaunch = false;
             Laya.timer.once(500, this, this.startSelect);

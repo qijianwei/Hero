@@ -4,6 +4,7 @@ import SoundManager from "../../../gamescripts/SoundManager";
 export default class Wheel extends PaoYa.View {
     constructor() {
         super();
+        Wheel.ins = this
     }
 
     onAwake() {
@@ -11,15 +12,6 @@ export default class Wheel extends PaoYa.View {
     }
 
     onEnable() {
-        this.goldNum.text = PaoYa.DataCenter.user.gold
-        this.goldNum.font = `weaponNFontT`
-        this.goldNum.scale(0.7, 0.7)
-        this.goldNum.pos(381, 20)
-        this.diamondNum.text = PaoYa.DataCenter.user.diamond
-        this.diamondNum.font = `weaponNFontT`
-        this.diamondNum.scale(0.7, 0.7)
-        this.diamondNum.pos(622, 20)
-
         this.tip.font = `weaponNFontT`
         this.tip.scale(0.6, 0.6)
 
@@ -44,6 +36,11 @@ export default class Wheel extends PaoYa.View {
             if (this.isRunning) {
                 return
             }
+            if (PaoYa.DataCenter.user.diamond < 500) {
+                SoundManager.ins.btn()
+                WheelControl.ins.navigator.popup("weapon/DiamondLack");
+                return
+            }
             SoundManager.ins.btn()
             WheelControl.ins.addTimes()
         })
@@ -58,6 +55,46 @@ export default class Wheel extends PaoYa.View {
         PaoYa.DataCenter.user.config_list.hero.wheelList.forEach((element, index) => {
             this.showList(this[`award${index + 1}`], element, index)
         });
+    }
+
+    onAppear() {
+        this.changeDG()
+    }
+
+    changeDG() {
+        PaoYa.Request.GET('update_chips', {}, res => {
+            this.goldNum.width = null
+
+            PaoYa.DataCenter.user.gold = res.gold
+            PaoYa.DataCenter.user.diamond = res.diamond
+            let goldnum = addNumberUnit(PaoYa.DataCenter.user.gold)
+            let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
+
+            this.goldNum.text = goldnum
+            this.goldNum.font = `weaponNFontT`
+            this.goldNum.scale(0.6, 0.6)
+            this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
+            this.diamondNum.text = diamondnum
+            this.diamondNum.font = `weaponNFontT`
+            this.diamondNum.scale(0.6, 0.6)
+            this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25)
+
+            function addNumberUnit(num) {
+                switch (true) {
+                    case num >= 10000 && num < 100000000:
+                        let integ = num / 10000
+                        return Math.floor(integ * 100) / 100 + '万'
+                        break
+                    case num >= 100000000:
+                        let integ1 = num / 100000000
+                        return Math.floor(integ1 * 100) / 100 + '亿'
+                        break
+                    default:
+                        return num + ''
+                        break
+                }
+            };
+        })
     }
 
     showList(cell, data, index) {

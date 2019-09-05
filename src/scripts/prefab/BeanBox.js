@@ -7,6 +7,9 @@ export default class BeanBox extends PaoYa.Component {
         this.labelBg = this.owner.getChildByName('labelBgCircle')
         this.skinLeft = this.owner.getChildByName("imgLeft");
         this.label = this.owner.getChildByName("label");
+        this.label.font=`weaponNFontT`;
+    //    / this.label.pivot(75,25);
+        this.label.scale(0.6,0.6);
         this.changeBox()
     }
     changeBox() {

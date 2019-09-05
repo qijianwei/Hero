@@ -34,14 +34,12 @@ class PrivateWeapon{
         if(this.freezeing){
             console.error('机器人兵器冷却中，不可使用');
             return false;
-        }
-       this.freezeing=true;
-       
-      
+        }   
       /*  return this.config; */
     }
     startT(){
         console.error('机器人兵器进行冷却');
+        this.freezeing=true;
         Laya.timer.once(this.params.weaponCd*1000,this,this.changeStatus);
     }
     changeStatus(){

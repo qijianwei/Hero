@@ -576,15 +576,15 @@ class AuthUserInfoDialog extends Laya.Dialog {
     constructor() {
         super();
         this.size(636, 508);
-        let image = new Laya.Image('local/auth/bg.png');
-        this.addChild(image);
+       /*  let image = new Laya.Image('local/auth/bg.png');
+        this.addChild(image); */
     }
     onOpened() {
         let frame = {
             x: 26,
             y: 400,
-            width: 588,
-            height: 85
+            width: 345,
+            height: 130
         };
         let pos = this.localToGlobal(new Laya.Point(frame.x, frame.y));
         this.showUserInfoButton({

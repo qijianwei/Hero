@@ -14,13 +14,13 @@ export class Main extends GameMain {
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
-			userId: 11058, //151693, 109638
+			userId: 11120, //151693, 109638
 			offerId: "1450014295",
 			version: config.version,
 			rankingType: PaoYa.RankingType.WIN,
 			release: config.release,
 			//ignoreCmds: [],
-			debug: true,
+			debug: config.debug,
 			ignoreCmds: ['defeated', 'message'],
 			showBannerAdWhenDialogPopup: false,
 			adUnitId: 'adunit-7860aaf8ed04aeb2',
@@ -95,7 +95,11 @@ export class Main extends GameMain {
 			}
 			SoundManager.playMusic("mainBgm"); */
 
-		this.arrayFont = [{
+		this.arrayFont = [
+			{
+				fontUrl: "font/weapon/lvfont.fnt",
+				fontAni: "weaponNFontT"
+			},{
 				fontUrl: "font/recMP.fnt",
 				fontAni: "recoverMP"
 			},
@@ -130,10 +134,6 @@ export class Main extends GameMain {
 			{
 				fontUrl: "font/weapon/detailfont.fnt",
 				fontAni: "weaponDFont"
-			},
-			{
-				fontUrl: "font/weapon/lvfont.fnt",
-				fontAni: "weaponNFontT"
 			},
 			{
 				fontUrl: "font/figure/msz.fnt",
@@ -256,10 +256,12 @@ export class Main extends GameMain {
 //激活启动类
 new Main();
 Laya.UIConfig.closeDialogOnSide = false;
-Laya.Stat.show();
+
 if(!config.debug){
 	console.log=function(){};
 	console.warn=function(){};
 	console.error=function(){};  
+}else{
+	Laya.Stat.show();
 }
 

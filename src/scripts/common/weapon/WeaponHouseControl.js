@@ -192,6 +192,8 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 this.isWareChoiceWp._dataSource.isShowing = false
                 this.isWareChoiceWp = cell
                 this.isWareChoiceWp._dataSource.isShowing = true
+            } else {
+                this.isWareChoiceWp = cell
             }
             cell.getChildByName(`beChioce`).visible = true
             // console.log(cell.getChildByName(`beChioce`),123)
@@ -490,7 +492,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
     //升级武器
     upgradeWeapon() {
         let numNew = 0
-        if (this.isGuide) {
+        if (!this.isGuide) {
             if (this.isRequesting) {
                 return
             }

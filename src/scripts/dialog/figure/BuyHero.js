@@ -18,7 +18,7 @@ export default class BuyHero extends PaoYa.Dialog {
     }
 
     onEnable() {
-        this.closeBtn.on(Laya.Event.CLICK, this, ()=>{
+        this.closeBtn.on(Laya.Event.CLICK, this, () => {
             this.close()
             SoundManager.ins.btn()
         })
@@ -32,25 +32,31 @@ export default class BuyHero extends PaoYa.Dialog {
         this.needNum.scale(1.5, 1.5)
         this.needNum.pos(755, 167)
 
-        this.roleImg.skin=`remote/figure/role_${this.params.roleId}.png`
+        this.roleImg.skin = `remote/figure/role_${this.params.roleId}.png`
 
         this.buy.on(Laya.Event.CLICK, this, () => {
-            if (PaoYa.DataCenter.user.gold < this.params.rolePrice) {
+            if (PaoYa.DataCenter.user.diamond < this.params.rolePrice) {
                 this.close()
                 SoundManager.ins.btn()
-                SwordsmanControl.ins.popup("weapon/DiamondLack");
+                SwordsmanControl.ins.openGetD()
                 return
             }
             PaoYa.Request.POST(`martial_role_buy`, { roleId: this.params.roleId }, res => {
-                SwordsmanControl.ins.owner.params.roleList.forEach(element => {
+                PaoYa.DataCenter.user.diamond -= Number(this.params.rolePrice)
+                Swordsman.ins.changeGold()
+                SwordsmanControl.ins.owner.params.roleList.forEach((element, index) => {
                     if (element.roleId == res.role.roleId) {
-                        for (const key in element) {
-                            element[key] = res.role[key]
-                        }
+                        // for (const key in element) {
+                        element = res.role
+                        // }
+                        SwordsmanControl.ins.owner.params.roleList[index] = element
                         SwordsmanControl.ins.owner.showDetail = element
                     }
                 });
-                SwordsmanControl.ins.owner.initInfo()
+
+                SwordsmanControl.ins.owner.herolist.array = SwordsmanControl.ins.owner.params.roleList
+
+                // SwordsmanControl.ins.owner.initInfo()
                 this.close()
             })
         })

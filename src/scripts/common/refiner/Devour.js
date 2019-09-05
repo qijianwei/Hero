@@ -70,6 +70,13 @@ export default class Devour extends PaoYa.View {
         this.initInfo()
     }
 
+    onAppear() {
+        if (!Refining.ins.isGuide) {
+            this.guide2.visible = false
+            this.guide3.visible = false
+        }
+    }
+
     initInfo() {
         this.pLv.text = `LV.${this.params.refiner.refinerLevel}`
         this.pLv.font = `weaponDFont`
@@ -125,5 +132,10 @@ export default class Devour extends PaoYa.View {
         Laya.stage.addChild(this.guide3)
         this.guide3.x = this.guide3.x + Global.AdaptiveWidth
         this.guide3f(1)
+    }
+
+    onDisable() {
+        Laya.stage.removeChild(Devour.ins.guide2);
+        Laya.stage.removeChild(Devour.ins.guide3);
     }
 }
