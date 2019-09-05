@@ -489,15 +489,20 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
     //升级武器
     upgradeWeapon() {
-        if (this.isRequesting) {
-            return
-        }
-        if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
-            this.navigator.popup("weapon/GoldLack");
-            return
+        let numNew = 0
+        if (this.isGuide) {
+            if (this.isRequesting) {
+                return
+            }
+            if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
+                this.navigator.popup("weapon/GoldLack");
+                return
+            } else {
+                PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
+                this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+            }
         } else {
-            PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
-            this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+            numNew = 1
         }
 
         let detail = this.currentMyUserWeapDetail
@@ -506,7 +511,8 @@ export default class WeaponHouseControl extends PaoYa.Component {
         Laya.timer.once(500, this, () => {
             this.isRequesting = false
         })
-        PaoYa.Request.POST(`martial_update_weapon`, { weaponId: `${detail.weaponId}-${detail.weaponLevel}`, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, res => {
+
+        PaoYa.Request.POST(`martial_update_weapon`, { weaponId: `${detail.weaponId}-${detail.weaponLevel}`, newHand: numNew, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, res => {
             SoundManager.ins.upgrade()
             let newDetail = null
             this.owner.upeffects.visible = true

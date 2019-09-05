@@ -148,6 +148,12 @@ export default class HomeControl extends PaoYa.Component {
             //华山论剑
             case "btnBattle":
                 console.log("华山论剑")
+                if(PaoYa.DataCenter.user.current<=5){
+                    py.showToast({
+                        title:'过5关解锁'
+                    })
+                    return;
+                }
                 this.GET("martial_role_list", {}, res => {
                     //console.log(res)
                     if (!res) {
@@ -158,6 +164,12 @@ export default class HomeControl extends PaoYa.Component {
                 break;
             //决战紫禁城之巅
             case "btnBoss":
+                    if(PaoYa.DataCenter.user.current<=10){
+                        py.showToast({
+                            title:'过10关解锁'
+                        })
+                        return;
+                    }
                 console.log("决战")
                 break;
             //排行榜

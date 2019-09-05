@@ -22,6 +22,17 @@ export default class WeaponHouse extends PaoYa.View {
         this.diamondNum.pos(622, 20)
     }
 
+    onAppear() {
+        this.goldNum.text = PaoYa.DataCenter.user.gold
+        this.goldNum.font = `weaponNFontT`
+        this.goldNum.scale(0.7, 0.7)
+        this.goldNum.pos(381, 20)
+        this.diamondNum.text = PaoYa.DataCenter.user.diamond
+        this.diamondNum.font = `weaponNFontT`
+        this.diamondNum.scale(0.7, 0.7)
+        this.diamondNum.pos(622, 20)
+    }
+
     onEnable() {
         // this.getComponent()
         if (WeaponHouseControl.ins.isGuide) {
@@ -162,7 +173,7 @@ export default class WeaponHouse extends PaoYa.View {
                     Laya.stage.removeChild(gameContainer);
                     Laya.stage.removeChild(this.benBack);
                     Laya.stage.removeChild(this.benBackTips);
-
+                    WeaponHouseControl.ins.isGuide = false
                     SoundManager.ins.btn()
                     WeaponHouseControl.ins.navigator.pop()
                 })

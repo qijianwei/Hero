@@ -15,26 +15,25 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     roleLevelUp() {
-        if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
-            return
-        }
-        if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
-            this.navigator.popup("weapon/GoldLack");
-            return
-        } else {
-            PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
-            this.owner.goldNum.text = PaoYa.DataCenter.user.gold
-        }
-
+        let numNew = 0
         if (this.owner.isGuide) {
-            this.owner.guideBack=true
-            // this.owner.guide2.visible=true
-            // this.owner.graR(100, 50, 125)
-            // this.owner.guide2f(1)
+            this.owner.guideBack = true
             this.owner.isGuide = false
             Laya.stage.removeChild(this.owner.guideContainer)
+            numNew = 1
+        } else {
+            if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
+                return
+            }
+            if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
+                this.navigator.popup("weapon/GoldLack");
+                return
+            } else {
+                PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
+                this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+            }
         }
-        PaoYa.Request.POST(`martial_update_role`, { roleId: this.owner.showDetail.roleId }, res => {
+        PaoYa.Request.POST(`martial_update_role`, { roleId: this.owner.showDetail.roleId, newHand: numNew }, res => {
             SoundManager.ins.upgrade()
             this.owner.heroLvup.visible = true
             this.owner.heroLvup.play(0, false)

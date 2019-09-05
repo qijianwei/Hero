@@ -61,6 +61,11 @@ export default class GameControl extends PaoYa.Component {
         this.fillPlayerInfo();
         this.initSkill();
     }
+  /*   onHide(){
+        if(!this.closeRobot){
+            this.navigator.popToRootScene();
+        }
+    } */
     //游戏重新开始
     restart() {
         this.gameState = 'start';
@@ -434,8 +439,12 @@ export default class GameControl extends PaoYa.Component {
             weaponBarComp.owner.gray = true;
         })
         this.dodgeOwner.gray = true;
-        this.skillOwner1.gray = true;
-        this.skillOwner2.gray = true;
+        if(!this.skillOwner1.disabled){
+            this.skillOwner1.gray = true;
+        }
+        if(!this.skillOwner2.disabled){
+            this.skillOwner2.gray = true;
+        }     
     }
     //所有兵器选择框和技能框置灰
     allBtnsUnlock() {
@@ -443,8 +452,13 @@ export default class GameControl extends PaoYa.Component {
             weaponBarComp.owner.gray = false;
         })
         this.dodgeOwner.gray = false;
-        this.skillOwner1.gray = false;
-        this.skillOwner2.gray = false;
+        if(!this.skillOwner1.disabled){
+            this.skillOwner1.gray = false;
+        }
+        if(!this.skillOwner2.disabled){
+            this.skillOwner2.gray = false;
+        }
+        
     }
     //所有暂停，除了出技能的人
     allPause(isSelf) {

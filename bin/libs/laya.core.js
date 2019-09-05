@@ -20935,8 +20935,10 @@ var Node=(function(_super){
 	*销毁所有子对象，不销毁自己本身。
 	*/
 	__proto.destroyChildren=function(){
-		if (this._children){
+		if (this._children){		
 			for (var i=0,n=this._children.length;i < n;i++){
+			/* 	console.log('.................')
+			console.warn(this._children[0] ) */
 				this._children[0].destroy(true);
 			}
 		}

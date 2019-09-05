@@ -3437,6 +3437,7 @@ var Main = /** @class */ (function (_super) {
         }
     };
     Main.prototype._onShow = function (res) {
+        _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onShow();
         if (!this.socket)
             return;
         this.isFirstLaunch = false;
@@ -3459,15 +3460,14 @@ var Main = /** @class */ (function (_super) {
             this.socket._startReconnect();
         }
         this.navigator._onShow(res);
-        this.onShow(res);
-        _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onShow();
+        this.onShow(res);    
     };
     Main.prototype._onHide = function (res) {
+        _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onHide();
         if (!this.socket)
             return;
         this.navigator._onHide(res);
-        this.onHide(res);
-        _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onHide();
+        this.onHide(res);     
     };
     /**当游戏进入前台时触发 */
     Main.prototype.onShow = function (res) {

@@ -34,17 +34,17 @@ export default class SoundManager {
     }
 
     homeBg() {
-        this.curBg = 'homeBg';
+        SoundManager.curBg = 'homeBg';
         this.playMusic('homeBg');
     }
     /* 对战战斗音乐 */
     battleBg() {
-        this.curBg = 'battleBg';
+        SoundManager.curBg = 'battleBg';
         this.playMusic('battleBg');
     }
     /* 闯关战斗音乐 */
     passBg() {
-        this.curBg = 'passBg';
+        SoundManager.curBg = 'passBg';
         this.playMusic('passBg');
     }
     /* 兵器撞击 */
@@ -98,3 +98,4 @@ export default class SoundManager {
     }
 }
 SoundManager._ins;
+SoundManager.curBg="homeBg";

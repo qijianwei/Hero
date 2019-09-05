@@ -3,6 +3,7 @@ import config from './Config'
 import GameMain from "./scripts/common/GameMain";
 import HeroConfig from "./gamescripts/config/HeroConfig";
 import { Global } from "./scripts/common/tool/Global";
+import SoundManager from "./gamescripts/SoundManager";
 export class Main extends GameMain {
 	constructor() {
 		var params = {
@@ -75,6 +76,9 @@ export class Main extends GameMain {
 			wx.onMemoryWarning(function () {
 				console.error('内存不足')
 			})
+		}
+		PaoYa.SoundManager.onShowHandler = function () {
+			SoundManager.ins.playMusic(SoundManager.curBg);
 		}
 		/* 	
 			PaoYa.SoundManager.onHideHandler = function () {
@@ -253,7 +257,9 @@ export class Main extends GameMain {
 new Main();
 Laya.UIConfig.closeDialogOnSide = false;
 Laya.Stat.show();
-/*   console.log=function(){};
-console.warn=function(){};
-console.error=function(){};    */
+if(!config.debug){
+	console.log=function(){};
+	console.warn=function(){};
+	console.error=function(){};  
+}
 

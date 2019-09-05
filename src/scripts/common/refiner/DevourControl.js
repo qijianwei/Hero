@@ -1,3 +1,5 @@
+import Refining from "./Refining";
+
 export default class DevourControl extends PaoYa.Component {
     constructor() {
         super();
@@ -171,10 +173,11 @@ export default class DevourControl extends PaoYa.Component {
         }
 
         PaoYa.Request.POST(`martial_update_refiner`, { weaponId: idlist, refinerId: this.owner.params.refiner.id, addExp: addexp }, res => {
-            if(res.refiner){
+            if (res.refiner) {
                 this.owner.params.refiner = res.refiner
                 this.owner.params.nextRefiner = res.nextRefiner
-            }else{
+                Refining.ins.params.refiner_list[Refining.ins.ReIndex] = this.owner.params.refiner
+            } else {
                 this.owner.params.refiner.currentExp = res.totalExp
             }
             this.owner.initInfo()

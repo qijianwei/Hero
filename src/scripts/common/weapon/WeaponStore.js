@@ -18,6 +18,16 @@ export default class WeaponStore extends PaoYa.View {
         this.diamondNum.scale(0.7, 0.7)
         this.diamondNum.pos(622, 20)
     }
+    onAppear(){
+        this.goldNum.text = PaoYa.DataCenter.user.gold
+        this.goldNum.font = `weaponNFontT`
+        this.goldNum.scale(0.7, 0.7)
+        this.goldNum.pos(381, 20)
+        this.diamondNum.text = PaoYa.DataCenter.user.diamond
+        this.diamondNum.font = `weaponNFontT`
+        this.diamondNum.scale(0.7, 0.7)
+        this.diamondNum.pos(622, 20) 
+    }
 
     onEnable() {
 
@@ -48,7 +58,7 @@ export default class WeaponStore extends PaoYa.View {
 
         this.refreshBtn.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
-            if(WeaponStore.ins.isRefrshing){
+            if (WeaponStore.ins.isRefrshing) {
                 true
             }
             let isHigh = false, highDeatil

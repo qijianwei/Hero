@@ -205,7 +205,7 @@ export default class Swordsman extends PaoYa.View {
         this.hurt.text = `爆伤 ${this.showDetail.roleCritHarm}`
 
         this.needGoldNum.font = `weaponNFontT`
-        this.needGoldNum.text = this.showDetail.upgradeCost
+        this.needGoldNum.text = this.isGuide ? 0 : this.showDetail.upgradeCost
         this.needGoldNum.scale(0.8, 0.8)
 
         this.equipbtn.visible = false
@@ -247,6 +247,17 @@ export default class Swordsman extends PaoYa.View {
         this.diamondNum.font = `weaponNFontT`
         this.diamondNum.scale(0.7, 0.7)
         this.diamondNum.pos(622, 20)
+    }
+
+    onAppear(){
+        this.goldNum.text = PaoYa.DataCenter.user.gold
+        this.goldNum.font = `weaponNFontT`
+        this.goldNum.scale(0.7, 0.7)
+        this.goldNum.pos(381, 20)
+        this.diamondNum.text = PaoYa.DataCenter.user.diamond
+        this.diamondNum.font = `weaponNFontT`
+        this.diamondNum.scale(0.7, 0.7)
+        this.diamondNum.pos(622, 20) 
     }
     //人物列表渲染
     figureRender(cell, idx) {

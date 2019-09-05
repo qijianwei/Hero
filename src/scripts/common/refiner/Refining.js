@@ -11,16 +11,14 @@ export default class Refining extends PaoYa.View {
     }
 
     onAwake() {
-
+        this.isGuide = this.params.isGuide
+        this.params = this.params.detail
     }
 
     onEnable() {
-        this.isGuide = this.params.isGuide
-        this.params = this.params.detail
-
         if (this.isGuide) {
             this.getMask()
-            PaoYa.Request.POST(`martial_change_new_hand`,{type:`refinerNew`})
+            PaoYa.Request.POST(`martial_change_new_hand`, { type: `refinerNew` })
         }
         this.benBack.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
@@ -51,7 +49,12 @@ export default class Refining extends PaoYa.View {
             this.weoponD.visible = true
         })
 
-        this.params.refiner_list.forEach(element => {
+
+    }
+
+    onAppear() {
+        console.log(this.params.refiner_list,123)
+        this.params.refiner_list.forEach((element, index) => {
             this[`${element.id}Txt`].text = element.refinerName
             this[`${element.id}Txt`].font = `weaponDFont`
             this[`${element.id}Txt`].scale(0.60, 0.60)
@@ -66,6 +69,7 @@ export default class Refining extends PaoYa.View {
 
             this[`${element.id}`].on(Laya.Event.CLICK, this, () => {
                 SoundManager.ins.btn()
+                this.ReIndex = index
                 RefiningControl.ins.addLv(element)
             })
         });

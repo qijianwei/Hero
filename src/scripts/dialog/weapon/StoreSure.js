@@ -51,6 +51,7 @@ export default class StoreSure extends PaoYa.Dialog {
             this.btn2.visible = true
             this.btn3.visible = false
             this.btn4.visible = false
+            this.btn5.visible = false
         } else {
             this.title.skin = `remote/weaponstore/7.png`
             this.title.x = (543 - this.title.width) / 2

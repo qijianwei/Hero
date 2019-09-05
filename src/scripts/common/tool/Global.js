@@ -66,7 +66,7 @@ var Global = {
                     "status": 0
                 }
             ],
-            "upgradeCost": 150,
+            "upgradeCost": 0,
             "weaponAttack": 23.0,
             "weaponCd": 1.8,
             "weaponConsume": 16.0,
@@ -76,7 +76,7 @@ var Global = {
             "weaponId": "d003_1",
             "weaponLevel": 1,
             "weaponName": "黄金匕首",
-            "weaponPrice": 1500,
+            "weaponPrice": 0,
             "weaponSalePrice": 300,
             "weaponSkills": "63",
             "weaponStar": 1,
