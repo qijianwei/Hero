@@ -465,8 +465,10 @@ class LoginManager {
                 fail() {
                     Laya.Dialog.manager = null;
                     UIConfig.closeDialogOnSide = false;
+                    UIConfig.popupBgAlpha = 0; 
                     let alert = new _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_1__["default"]();
                     alert.onReceiveUserInfo = function (userInfo) {
+                    UIConfig.popupBgAlpha = 0.5; 
                         cb({
                             type: 5,
                             platform: 5,

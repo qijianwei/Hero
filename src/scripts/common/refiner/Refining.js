@@ -68,7 +68,7 @@ export default class Refining extends PaoYa.View {
             this[`${element.id}Lv`].pos(26, 93)
 
             this[`${element.id}`].gray = element.status ? false : true
-
+            this[`${element.id}`].offAll()
             this[`${element.id}`].on(Laya.Event.CLICK, this, () => {
                 SoundManager.ins.btn()
                 this.ReIndex = index

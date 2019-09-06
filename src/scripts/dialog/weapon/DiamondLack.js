@@ -8,9 +8,9 @@ export default class DiamondLack extends PaoYa.Dialog {
     }
 
     onEnable() {
-        this.maskBg.on(Laya.Event.CLICK, this, () => {
-            this.close()
-        })
+        // this.maskBg.on(Laya.Event.CLICK, this, () => {
+        //     this.close()
+        // })
         this.tipTxt.font = `weaponDFont`
         this.tipTxt.scale(0.7, 0.7)
         this.tipTxt.pos(45, 12)

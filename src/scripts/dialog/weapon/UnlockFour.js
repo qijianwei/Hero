@@ -1,5 +1,6 @@
 import WeaponHouseControl from "../../common/weapon/WeaponHouseControl";
 import SoundManager from "../../../gamescripts/SoundManager";
+import HomeControl from "../../common/HomeControl";
 
 
 export default class UnlockFour extends PaoYa.Dialog {
@@ -24,14 +25,18 @@ export default class UnlockFour extends PaoYa.Dialog {
         })
         this.btn.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
-            WeaponHouseControl.ins.params.weaponGridNum += 1
-            WeaponHouseControl.ins.getMyUserDetailList()
-            WeaponHouseControl.ins.owner.userWeaponList.array = WeaponHouseControl.ins.myUserDetailList
             PaoYa.Request.POST(`martial_buy_grid`,{},res=>{
                 WeaponHouseControl.ins.owner.diamondNum.text = res.diamond
+                WeaponHouseControl.ins.params.weaponGridNum += 1
+                WeaponHouseControl.ins.getMyUserDetailList()
+                WeaponHouseControl.ins.owner.userWeaponList.array = WeaponHouseControl.ins.myUserDetailList
+                this.close()
+            },()=>{
+                this.close()
+                HomeControl.ins.navigator.popup("weapon/DiamondLack");
             })
            
-            this.close()
+          
         })
     }
 

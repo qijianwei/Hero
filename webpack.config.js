@@ -56,17 +56,21 @@ module.exports = {
       chunks:[], //要引入的js文件
     }), */
     /* 拷贝文件 */
-  /*   new copyWebpackPlugin([{
-    
-      from: './bin',
-      to: path.resolve(__dirname, './release2/wxgame')
+     new copyWebpackPlugin([{ 
+      from: './bin/gamescenes',
+      to: path.resolve(__dirname, './release/wxgame/gamescenes')
+    },{
+      from:'./bin/scenes',
+      to:path.resolve(__dirname, './release/wxgame/scenes')
     }], {
       ignore: [
-
-        '{project.swan.json,swan-game-adapter.js}',
-      ]
+        '{project.swan.json,swan-game-adapter.js,version.js}',
+      ],
+      /* 在使用webpack --watch 或者webpack-dev-server 构建的时候，
+        默认只是复制修改的 文件。设置为 true的时候就复制所有的文件。 */
+     /*  copyUnmodified: true */ 
     }),
- */
+  
   ],
 
 };

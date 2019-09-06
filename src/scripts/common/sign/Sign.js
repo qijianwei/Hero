@@ -90,6 +90,8 @@ export default class Sign extends PaoYa.View {
                 break;
             case `2`:
                 icon.visible = true
+                icon.getChildByName(`iconnum`).skin=`local/common/hero_${arr[1]}.png`
+                console.log(icon)
                 break;
             case `3`:
                 wp.getChildByName(`wp`).skin = `local/common/wp.png`

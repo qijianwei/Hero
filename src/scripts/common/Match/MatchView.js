@@ -14,11 +14,11 @@ export default class MatchView extends PaoYa.View{
     }
     initView(){
         let params=this.params;
-        this.selfRoleId=params.role.roleId;
-        this.otherRoleId=params.robotRole.roleId;
+        this.selfLadderId=params.ladder;
+        this.otherLadderId=params.robotLadder;
         this.selfName.text=params.nickName;
-        this.selfLadderInfo=this.findLadderById(this.selfRoleId);
-        this.otherLadderInfo=this.findLadderById(this.otherRoleId);
+        this.selfLadderInfo=this.findLadderById(this.selfLadderId);
+        this.otherLadderInfo=this.findLadderById(this.otherLadderId);
         this.selfLadderInfo.texture=`local/common/badge_${this.selfLadderInfo.ladderId}`;
         this.selfLadderName.text=this.selfLadderInfo.ladderName;
        

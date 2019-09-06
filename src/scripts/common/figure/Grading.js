@@ -43,6 +43,7 @@ export default class Grading extends PaoYa.View {
             }
         });
 
+        this.canUseList = this.canUseList.slice(0,2)
         this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
         this.herolist.array = this.canUseList
 
@@ -51,7 +52,7 @@ export default class Grading extends PaoYa.View {
             this.starNum2.visible = true
             this.starNumTxt.text = `×${this.params.ladderStar}`
             this.starNumTxt.font = `weaponNFontT`
-            this.starNumTxt.scale(0.8,0.8)
+            this.starNumTxt.scale(0.8, 0.8)
         } else {
             this.starNum.visible = true
             this.starNum2.visible = false
@@ -106,6 +107,8 @@ export default class Grading extends PaoYa.View {
     }
     //初始化展示信息
     initInfo() {
+        this.skbox.y = 370
+        this.skbox.x = 370
         if (this.heroSkin) {
             this.heroSkin.stop()
             this.heroSkin.destroy()

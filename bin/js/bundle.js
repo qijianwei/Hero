@@ -339,7 +339,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -2177,7 +2177,7 @@ var HeroConfig = {
       templet: null
     },
     npc_5: {
-      path: baseUrl + "spine/npc/npc_7.sk",
+      path: baseUrl + "spine/npc/npc_5.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -4229,7 +4229,7 @@ var MPBar = function (_PaoYa$Component) {
             console.log('初始的体力值:', MPValue);
             this.originMP = this.curMP = MPValue;
             this.imgMask.width = this.owner.width;
-            this.perAddMP = Math.floor(this.originMP / 360 * 5);
+            this.perAddMP = Math.ceil(this.originMP / 360 * 5);
             this.originPerAddMP = this.perAddMP;
             this.lblMpPct.text = this.curMP + '/' + this.originMP;
             this.startBar();
@@ -7085,7 +7085,7 @@ var MatchControl = function (_PaoYa$Component) {
             timerService.start();
             this.timerService = timerService;
             this.owner.startAni();
-            var randomTime = (Math.ceil(Math.random() * 5) + 5) * 1000;
+            var randomTime = (Math.ceil(Math.random() * 3) + 3) * 1000;
             Laya.timer.once(randomTime, this, this.matchOK);
         }
     }, {
@@ -7164,11 +7164,11 @@ var MatchView = function (_PaoYa$View) {
         key: 'initView',
         value: function initView() {
             var params = this.params;
-            this.selfRoleId = params.role.roleId;
-            this.otherRoleId = params.robotRole.roleId;
+            this.selfLadderId = params.ladder;
+            this.otherLadderId = params.robotLadder;
             this.selfName.text = params.nickName;
-            this.selfLadderInfo = this.findLadderById(this.selfRoleId);
-            this.otherLadderInfo = this.findLadderById(this.otherRoleId);
+            this.selfLadderInfo = this.findLadderById(this.selfLadderId);
+            this.otherLadderInfo = this.findLadderById(this.otherLadderId);
             this.selfLadderInfo.texture = 'local/common/badge_' + this.selfLadderInfo.ladderId;
             this.selfLadderName.text = this.selfLadderInfo.ladderName;
 
@@ -7332,6 +7332,7 @@ var Grading = function (_PaoYa$View) {
                 }
             });
 
+            this.canUseList = this.canUseList.slice(0, 2);
             this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
             this.herolist.array = this.canUseList;
 
@@ -7401,6 +7402,8 @@ var Grading = function (_PaoYa$View) {
     }, {
         key: "initInfo",
         value: function initInfo() {
+            this.skbox.y = 370;
+            this.skbox.x = 370;
             if (this.heroSkin) {
                 this.heroSkin.stop();
                 this.heroSkin.destroy();
@@ -7571,7 +7574,7 @@ var Swordsman = function (_PaoYa$View) {
                 _SwordsmanControl2.default.ins.postNotification("roleIdChanged", _this2.params.defaultRole);
                 _SwordsmanControl2.default.ins.navigator.pop();
             });
-
+            this.params.roleList = this.params.roleList.slice(0, 2);
             this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
             this.herolist.array = this.params.roleList;
 
@@ -7587,8 +7590,6 @@ var Swordsman = function (_PaoYa$View) {
             this.alreadyTxt.font = "weaponDFont";
             this.alreadyTxt.scale(0.8, 0.8);
             this.alreadyTxt.pos(35, 10);
-
-            this.changeGold();
 
             this.lvupbtn.on(Laya.Event.CLICK, this, function () {
                 _SwordsmanControl2.default.ins.roleLevelUp();
@@ -8600,7 +8601,7 @@ var Refining = function (_PaoYa$View) {
                 _this3[element.id + "Lv"].pos(26, 93);
 
                 _this3["" + element.id].gray = element.status ? false : true;
-
+                _this3["" + element.id].offAll();
                 _this3["" + element.id].on(Laya.Event.CLICK, _this3, function () {
                     _SoundManager2.default.ins.btn();
                     _this3.ReIndex = index;
@@ -8898,6 +8899,8 @@ var Sign = function (_PaoYa$View) {
                     break;
                 case "2":
                     icon.visible = true;
+                    icon.getChildByName("iconnum").skin = "local/common/hero_" + arr[1] + ".png";
+                    console.log(icon);
                     break;
                 case "3":
                     wp.getChildByName("wp").skin = "local/common/wp.png";
@@ -12514,7 +12517,7 @@ var BuyHero = function (_PaoYa$Dialog) {
                             _SwordsmanControl2.default.ins.owner.showDetail = element;
                         }
                     });
-
+                    wordsmanControl.ins.owner.params.roleList = wordsmanControl.ins.owner.params.roleList.slice(0, 2);
                     _SwordsmanControl2.default.ins.owner.herolist.array = _SwordsmanControl2.default.ins.owner.params.roleList;
 
                     // SwordsmanControl.ins.owner.initInfo()
@@ -12808,9 +12811,9 @@ var DiamondLack = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
-            this.maskBg.on(Laya.Event.CLICK, this, function () {
-                _this2.close();
-            });
+            // this.maskBg.on(Laya.Event.CLICK, this, () => {
+            //     this.close()
+            // })
             this.tipTxt.font = "weaponDFont";
             this.tipTxt.scale(0.7, 0.7);
             this.tipTxt.pos(45, 12);
@@ -13139,6 +13142,10 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _HomeControl = require("../../common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13178,14 +13185,16 @@ var UnlockFour = function (_PaoYa$Dialog) {
             });
             this.btn.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
-                _WeaponHouseControl2.default.ins.params.weaponGridNum += 1;
-                _WeaponHouseControl2.default.ins.getMyUserDetailList();
-                _WeaponHouseControl2.default.ins.owner.userWeaponList.array = _WeaponHouseControl2.default.ins.myUserDetailList;
                 PaoYa.Request.POST("martial_buy_grid", {}, function (res) {
                     _WeaponHouseControl2.default.ins.owner.diamondNum.text = res.diamond;
+                    _WeaponHouseControl2.default.ins.params.weaponGridNum += 1;
+                    _WeaponHouseControl2.default.ins.getMyUserDetailList();
+                    _WeaponHouseControl2.default.ins.owner.userWeaponList.array = _WeaponHouseControl2.default.ins.myUserDetailList;
+                    _this2.close();
+                }, function () {
+                    _this2.close();
+                    _HomeControl2.default.ins.navigator.popup("weapon/DiamondLack");
                 });
-
-                _this2.close();
             });
         }
     }, {
@@ -13198,7 +13207,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFour;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/weapon/WeaponHouseControl":48}],66:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":28,"../../common/weapon/WeaponHouseControl":48}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

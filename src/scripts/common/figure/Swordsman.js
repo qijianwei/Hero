@@ -53,7 +53,7 @@ export default class Swordsman extends PaoYa.View {
             SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
             SwordsmanControl.ins.navigator.pop()
         })
-
+        this.params.roleList=this.params.roleList.slice(0,2)
         this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
         this.herolist.array = this.params.roleList
 
@@ -69,8 +69,6 @@ export default class Swordsman extends PaoYa.View {
         this.alreadyTxt.font = `weaponDFont`
         this.alreadyTxt.scale(0.8, 0.8)
         this.alreadyTxt.pos(35, 10)
-
-        this.changeGold()
 
         this.lvupbtn.on(Laya.Event.CLICK, this, () => {
             SwordsmanControl.ins.roleLevelUp()

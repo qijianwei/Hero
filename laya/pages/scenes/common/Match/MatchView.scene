@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":210,
-    "selecteID":201,
+    "selectedBox":2,
+    "selecteID":211,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/Match/MatchView.js","height":750},
     "nodeParent":-1,
@@ -194,7 +194,7 @@
             "x":15,
             "type":"Label",
             "searchKey":"Label,selfLadderName",
-            "props":{"y":533,"x":316,"width":183,"var":"selfLadderName","valign":"middle","text":"label","height":44,"fontSize":30,"color":"#ffffff","align":"center"},
+            "props":{"y":550,"x":408,"width":183,"var":"selfLadderName","valign":"middle","text":"label","scaleY":0.8,"scaleX":0.8,"pivotY":20,"pivotX":92,"height":40,"fontSize":30,"color":"#ffffff","align":"center"},
             "nodeParent":2,
             "label":"selfLadderName",
             "isDirectory":false,
@@ -317,7 +317,7 @@
             "x":15,
             "type":"Label",
             "searchKey":"Label,otherLadderName",
-            "props":{"y":533,"x":832.5,"width":183,"var":"otherLadderName","valign":"middle","height":44,"fontSize":30,"color":"#ffffff","align":"center"},
+            "props":{"y":549,"x":925,"width":183,"var":"otherLadderName","valign":"middle","scaleY":0.8,"scaleX":0.8,"pivotY":21,"pivotX":92,"height":41,"fontSize":30,"color":"#ffffff","align":"center"},
             "nodeParent":2,
             "label":"otherLadderName",
             "isDirectory":false,
@@ -329,36 +329,18 @@
         },
         {
             "x":15,
-            "type":"Script",
-            "switchAble":true,
-            "source":"src/scripts/common/Match/MatchControl.js",
-            "searchKey":"Script,MatchControl",
-            "removeAble":true,
-            "props":{"boxGameBanner":"@node:19"},
-            "nodeParent":2,
-            "label":"MatchControl",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":200,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
             "type":"Box",
             "searchKey":"Box",
             "props":{"y":461,"x":232,"width":360,"height":56},
             "nodeParent":2,
             "label":"Box",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":210,
             "child":[
                 {
-                    "x":30,
                     "type":"HBox",
                     "searchKey":"HBox,selfStars",
                     "props":{"y":0,"var":"selfStars","space":10,"centerX":0},
@@ -379,14 +361,13 @@
             "props":{"y":462,"x":744,"width":360,"height":56},
             "nodeParent":2,
             "label":"Box",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":211,
             "child":[
                 {
-                    "x":30,
                     "type":"HBox",
                     "searchKey":"HBox,otherStars",
                     "props":{"y":0,"var":"otherStars","space":10,"centerX":0},
@@ -399,6 +380,23 @@
                     "child":[
                         ]
                 }]
+        },
+        {
+            "x":15,
+            "type":"Script",
+            "switchAble":true,
+            "source":"src/scripts/common/Match/MatchControl.js",
+            "searchKey":"Script,MatchControl",
+            "removeAble":true,
+            "props":{"y":0,"x":0,"boxGameBanner":"@node:19"},
+            "nodeParent":2,
+            "label":"MatchControl",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":200,
+            "child":[
+                ]
         }],
     "animations":[
         {
