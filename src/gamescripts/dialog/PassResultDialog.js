@@ -88,10 +88,26 @@ export default class PassResultDialog extends PaoYa.Dialog{
        }else{
            console.log("继续闯关")
            PaoYa.Request.POST("hero_game_start", { stageId: 1 }, (res) => {
-            
-            res.gameType="pass";
-            PaoYa.navigator.replace("GameView", res);
-            this.close();
+             // 绘制遮罩区，含透明度，
+           let  maskArea = new Laya.Sprite();
+		        maskArea.alpha = 0.5;
+                maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+                maskArea.pos(-150,0);
+                maskArea.mouseEnabled=true;
+                maskArea.zOrder=2000;
+                Laya.stage.addChild(maskArea);
+                let tween=new Laya.Tween();
+                tween.to(maskArea,{
+                    alpha:1
+                },1000,null,Laya.Handler.create(this,()=>{
+                    res.gameType="pass";
+                    PaoYa.navigator.replace("GameView", res);
+                     this.close();
+                     tween.to(maskArea,{alpha:0.5},1000,null,Laya.Handler.create(this,()=>{
+                          tween.clear();
+                          Laya.stage.removeChild(maskArea);
+                     }))
+                })); 
         },(msg,code)=>{
             let errorDialog;
             if(code==3018){

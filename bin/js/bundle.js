@@ -339,7 +339,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameGuide.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -1264,7 +1264,7 @@ var GameControl = function (_PaoYa$Component) {
                     console.error("无法动弹");
                 }
                 if (this.gameType == "pass") {
-                    Laya.timer.once(3000, this, this.startSelect);
+                    Laya.timer.once(800, this, this.startSelect);
                 } else {
                     Laya.timer.once(500, this, this.startSelect);
                 }
@@ -1609,9 +1609,11 @@ var GameControl = function (_PaoYa$Component) {
             //  SoundManager.ins.homeBg();
             if (!loserIsSelf) {
                 _SoundManager2.default.ins.win();
+                PaoYa.DataCenter.user.current = this.curNum + 1;
                 this.selfPlayer.comp.skeleton.play('win', true);
             } else {
                 _SoundManager2.default.ins.lose();
+                PaoYa.DataCenter.user.current = this.curNum;
                 this.otherPlayer.comp.skeleton.play('win', true);
             }
 
@@ -2579,10 +2581,26 @@ var PassResultDialog = function (_PaoYa$Dialog) {
             } else {
                 console.log("继续闯关");
                 PaoYa.Request.POST("hero_game_start", { stageId: 1 }, function (res) {
-
-                    res.gameType = "pass";
-                    PaoYa.navigator.replace("GameView", res);
-                    _this3.close();
+                    // 绘制遮罩区，含透明度，
+                    var maskArea = new Laya.Sprite();
+                    maskArea.alpha = 0.5;
+                    maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+                    maskArea.pos(-150, 0);
+                    maskArea.mouseEnabled = true;
+                    maskArea.zOrder = 2000;
+                    Laya.stage.addChild(maskArea);
+                    var tween = new Laya.Tween();
+                    tween.to(maskArea, {
+                        alpha: 1
+                    }, 1000, null, Laya.Handler.create(_this3, function () {
+                        res.gameType = "pass";
+                        PaoYa.navigator.replace("GameView", res);
+                        _this3.close();
+                        tween.to(maskArea, { alpha: 0.5 }, 1000, null, Laya.Handler.create(_this3, function () {
+                            tween.clear();
+                            Laya.stage.removeChild(maskArea);
+                        }));
+                    }));
                 }, function (msg, code) {
                     var errorDialog = void 0;
                     if (code == 3018) {
@@ -7169,7 +7187,8 @@ var MatchView = function (_PaoYa$View) {
             this.selfName.text = params.nickName;
             this.selfLadderInfo = this.findLadderById(this.selfLadderId);
             this.otherLadderInfo = this.findLadderById(this.otherLadderId);
-            this.selfLadderInfo.texture = 'local/common/badge_' + this.selfLadderInfo.ladderId;
+            this.selfLadder.texture = 'local/common/badge_' + this.selfLadderInfo.ladderId + '.png';
+            console.log(this.selfLadderInfo.texture);
             this.selfLadderName.text = this.selfLadderInfo.ladderName;
 
             this.resetStar(true);
@@ -8156,19 +8175,71 @@ var Devour = function (_PaoYa$View) {
             this.pLv.scale(0.55, 0.55);
             this.pLv.pos(28, 20);
 
-            var arr = this.params.refiner.refinerEffect.split("+");
+            // this.pd.fontSize = 20
+            // this.add.fontSize = 20
+            // this.pd2.fontSize = 20
+            // this.pnd.fontSize = 20
+            // this.pnd2.fontSize = 20
+            // this.pnadd.fontSize = 20
+
+            var nowaddtext = null;
+            var arr = [];
+            if (this.params.refiner.refinerEffect.indexOf("+") != -1) {
+                if (this.params.refiner.refinerEffect.indexOf("%") != -1) {
+                    arr = this.params.refiner.refinerEffect.split("+d%");
+                    nowaddtext = "+" + (this.params.refiner.refinerBasics.show | 0) + "%";
+                } else {
+                    arr = this.params.refiner.refinerEffect.split("+d");
+                    nowaddtext = "+" + (this.params.refiner.refinerBasics.show | 0);
+                }
+            } else {
+                if (this.params.refiner.refinerEffect.indexOf("%") != -1) {
+                    arr = this.params.refiner.refinerEffect.split("d%");
+                    nowaddtext = (this.params.refiner.refinerBasics.show | 0) + "%";
+                } else {
+                    arr = this.params.refiner.refinerEffect.split("d");
+                    nowaddtext = "" + (this.params.refiner.refinerBasics.show | 0);
+                }
+            }
             this.pd.text = arr[0];
-            this.add.x = this.pd.width + 35;
-            this.add.text = "+" + this.params.refiner.refinerBasics.show;
+            this.pd.x = 28;
+            this.add.x = this.pd.width + this.pd.x;
+            this.add.text = nowaddtext;
+            this.pd2.text = arr[1];
+            this.pd2.x = this.add.width + this.add.x;
 
             if (this.params.nextRefiner) {
-                var arrr = this.params.nextRefiner.refinerEffect.split("+");
+                var nowaddtext2 = null;
+                var arrr = [];
+                if (this.params.nextRefiner.refinerEffect.indexOf("+") != -1) {
+                    if (this.params.nextRefiner.refinerEffect.indexOf("%") != -1) {
+                        arrr = this.params.nextRefiner.refinerEffect.split("+d%");
+                        nowaddtext2 = "+" + (this.params.nextRefiner.refinerBasics.show | 0) + "%";
+                    } else {
+                        arrr = this.params.nextRefiner.refinerEffect.split("+d");
+                        nowaddtext2 = "+" + (this.params.nextRefiner.refinerBasics.show | 0);
+                    }
+                } else {
+                    if (this.params.nextRefiner.refinerEffect.indexOf("%") != -1) {
+                        arrr = this.params.nextRefiner.refinerEffect.split("d%");
+                        nowaddtext2 = (this.params.nextRefiner.refinerBasics.show | 0) + "%";
+                    } else {
+                        arrr = this.params.nextRefiner.refinerEffect.split("d");
+                        nowaddtext2 = "" + (this.params.nextRefiner.refinerBasics.show | 0);
+                    }
+                }
                 this.pnd.text = arrr[0];
-                this.pnadd.x = this.pnd.width + 35;
-                this.pnadd.text = "+" + this.params.nextRefiner.refinerBasics.show;
+                this.pnd.x = 28;
+                this.pnadd.x = this.pnd.width + this.pnd.x;
+                this.pnadd.text = nowaddtext2;
+                this.pnd2.text = arr[1];
+                this.pnd2.x = this.pnadd.width + this.pnadd.x;
             } else {
                 this.eatBtn.disabled = true;
                 this.choiceBtn.disabled = true;
+                this.pnd.text = "";
+                this.pnadd.text = "";
+                this.pnd2.text = "";
             }
 
             this.curryExp.width = this.params.refiner.currentExp / this.params.refiner.currentFullExp * 224;
@@ -8219,6 +8290,15 @@ var Devour = function (_PaoYa$View) {
         value: function onDisable() {
             Laya.stage.removeChild(Devour.ins.guide2);
             Laya.stage.removeChild(Devour.ins.guide3);
+
+            PaoYa.Request.GET("martial_refiner_list", {}, function (res) {
+                //console.log(res)
+                if (!res) {
+                    return;
+                }
+                _Refining2.default.ins.params.refiner_list = res.refiner_list;
+                _Refining2.default.ins.changeData();
+            });
         }
     }]);
 
@@ -8548,6 +8628,7 @@ var Refining = function (_PaoYa$View) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.changeData();
             if (this.isGuide) {
                 this.getMask();
                 PaoYa.Request.POST("martial_change_new_hand", { type: "refinerNew" });
@@ -8582,8 +8663,8 @@ var Refining = function (_PaoYa$View) {
             });
         }
     }, {
-        key: "onAppear",
-        value: function onAppear() {
+        key: "changeData",
+        value: function changeData() {
             var _this3 = this;
 
             if (!this.isGuide) {
@@ -8595,7 +8676,7 @@ var Refining = function (_PaoYa$View) {
                 _this3[element.id + "Txt"].scale(0.60, 0.60);
                 _this3[element.id + "Txt"].pos(35, 12);
 
-                _this3[element.id + "Lv"].text = "LV." + element.refinerLevel;
+                _this3[element.id + "Lv"].text = element.refinerLevel ? "LV." + element.refinerLevel : "LV.1";
                 _this3[element.id + "Lv"].font = "weaponNFontT";
                 _this3[element.id + "Lv"].scale(0.5, 0.5);
                 _this3[element.id + "Lv"].pos(26, 93);
@@ -12743,9 +12824,19 @@ var Canlock = function (_PaoYa$Dialog) {
                 }
             }
             this.skillList.x = arr.length == 2 ? 75 : 152;
+            switch (arr.length) {
+                case 1:
+                    this.skillList.x = 152;
+                    break;
+                case 2:
+                    this.skillList.x = 75;
+                    break;
+                case 3:
+                    this.skillList.x = 0;
+                    break;
+            }
             this.skillList.renderHandler = new Laya.Handler(this, this.skillRender);
             this.skillList.array = showList;
-            console.log(arr);
         }
     }, {
         key: "onDisable",

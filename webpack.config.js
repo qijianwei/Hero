@@ -20,6 +20,7 @@ module.exports = {
     path: path.resolve(__dirname, './release/wxgame/js'),
     filename: 'bundle.js'
   },
+//dll
   /*  devServer:{
        contentBase:'./bin',
         proxy: {
@@ -43,12 +44,11 @@ module.exports = {
       }]
     }]
   }, */
-  //插件是从后往前执行
   plugins: [
     /*  new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: './bin/index.html', // 配置文件模板
-      chunks:[], //要引入的js文件
+      chunks:[], //要引入的js文件,对应的是多入口
     }), */
      new CleanWebpackPlugin({
       //代码未构建前删除，只删除一次，即使在watch模式下

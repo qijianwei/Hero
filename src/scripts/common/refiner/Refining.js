@@ -16,6 +16,7 @@ export default class Refining extends PaoYa.View {
     }
 
     onEnable() {
+        this.changeData()
         if (this.isGuide) {
             this.getMask()
             PaoYa.Request.POST(`martial_change_new_hand`, { type: `refinerNew` })
@@ -52,7 +53,7 @@ export default class Refining extends PaoYa.View {
 
     }
 
-    onAppear() {
+    changeData(){
         if (!this.isGuide) {
             this.guide1.visible = false
         }
@@ -62,7 +63,7 @@ export default class Refining extends PaoYa.View {
             this[`${element.id}Txt`].scale(0.60, 0.60)
             this[`${element.id}Txt`].pos(35, 12)
 
-            this[`${element.id}Lv`].text = `LV.${element.refinerLevel}`
+            this[`${element.id}Lv`].text = element.refinerLevel ? `LV.${element.refinerLevel}` : `LV.1`
             this[`${element.id}Lv`].font = `weaponNFontT`
             this[`${element.id}Lv`].scale(0.5, 0.5)
             this[`${element.id}Lv`].pos(26, 93)

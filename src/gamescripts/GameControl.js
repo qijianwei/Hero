@@ -546,7 +546,7 @@ export default class GameControl extends PaoYa.Component {
                 console.error("无法动弹")
             }
             if(this.gameType == "pass"){
-                Laya.timer.once(3000, this, this.startSelect);
+                Laya.timer.once(800, this, this.startSelect);
             }else{
                 Laya.timer.once(500, this, this.startSelect);
             }
@@ -857,9 +857,11 @@ export default class GameControl extends PaoYa.Component {
       //  SoundManager.ins.homeBg();
         if (!loserIsSelf) {
             SoundManager.ins.win();
+            PaoYa.DataCenter.user.current=this.curNum+1;
             this.selfPlayer.comp.skeleton.play('win', true);
         } else {
             SoundManager.ins.lose();
+            PaoYa.DataCenter.user.current=this.curNum;
             this.otherPlayer.comp.skeleton.play('win', true);
         }
        

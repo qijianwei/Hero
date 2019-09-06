@@ -32,10 +32,20 @@ export default class Canlock extends PaoYa.Dialog {
                 }
             }
         }
-        this.skillList.x=arr.length==2?75:152
+        this.skillList.x = arr.length == 2 ? 75 : 152
+        switch (arr.length) {
+            case 1:
+                this.skillList.x = 152
+                break
+            case 2:
+                this.skillList.x = 75
+                break
+            case 3:
+                this.skillList.x = 0
+                break
+        }
         this.skillList.renderHandler = new Laya.Handler(this, this.skillRender);
         this.skillList.array = showList
-        console.log(arr)
     }
 
     onDisable() {
@@ -43,7 +53,7 @@ export default class Canlock extends PaoYa.Dialog {
 
     skillRender(cell, idx) {
         console.log(cell._dataSource)
-        cell.skin = cell._dataSource.type?`remote/refining/6.png`:`remote/refining/7.png`
+        cell.skin = cell._dataSource.type ? `remote/refining/6.png` : `remote/refining/7.png`
         cell.getChildByName(`refinerTxt`).text = cell._dataSource.refinerName
         cell.getChildByName(`refinerTxt`).font = `weaponDFont`
         cell.getChildByName(`refinerTxt`).scale(0.60, 0.60)

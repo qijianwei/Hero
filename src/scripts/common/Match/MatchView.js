@@ -19,7 +19,8 @@ export default class MatchView extends PaoYa.View{
         this.selfName.text=params.nickName;
         this.selfLadderInfo=this.findLadderById(this.selfLadderId);
         this.otherLadderInfo=this.findLadderById(this.otherLadderId);
-        this.selfLadderInfo.texture=`local/common/badge_${this.selfLadderInfo.ladderId}`;
+        this.selfLadder.texture=`local/common/badge_${this.selfLadderInfo.ladderId}.png`;
+        console.log(this.selfLadderInfo.texture)
         this.selfLadderName.text=this.selfLadderInfo.ladderName;
        
         this.resetStar(true);

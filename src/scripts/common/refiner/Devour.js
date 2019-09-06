@@ -83,19 +83,71 @@ export default class Devour extends PaoYa.View {
         this.pLv.scale(0.55, 0.55)
         this.pLv.pos(28, 20)
 
-        let arr = this.params.refiner.refinerEffect.split("+")
+        // this.pd.fontSize = 20
+        // this.add.fontSize = 20
+        // this.pd2.fontSize = 20
+        // this.pnd.fontSize = 20
+        // this.pnd2.fontSize = 20
+        // this.pnadd.fontSize = 20
+
+        let nowaddtext = null
+        let arr = []
+        if (this.params.refiner.refinerEffect.indexOf("+") != -1) {
+            if (this.params.refiner.refinerEffect.indexOf("%") != -1) {
+                arr = this.params.refiner.refinerEffect.split("+d%")
+                nowaddtext = `+${this.params.refiner.refinerBasics.show | 0}%`
+            } else {
+                arr = this.params.refiner.refinerEffect.split("+d")
+                nowaddtext = `+${this.params.refiner.refinerBasics.show | 0}`
+            }
+        } else {
+            if (this.params.refiner.refinerEffect.indexOf("%") != -1) {
+                arr = this.params.refiner.refinerEffect.split("d%")
+                nowaddtext = `${this.params.refiner.refinerBasics.show | 0}%`
+            } else {
+                arr = this.params.refiner.refinerEffect.split("d")
+                nowaddtext = `${this.params.refiner.refinerBasics.show | 0}`
+            }
+        }
         this.pd.text = arr[0]
-        this.add.x = this.pd.width + 35
-        this.add.text = `+${this.params.refiner.refinerBasics.show}`
+        this.pd.x = 28
+        this.add.x = this.pd.width + this.pd.x
+        this.add.text = nowaddtext
+        this.pd2.text = arr[1]
+        this.pd2.x = this.add.width + this.add.x
 
         if (this.params.nextRefiner) {
-            let arrr = this.params.nextRefiner.refinerEffect.split("+")
+            let nowaddtext2 = null
+            let arrr = []
+            if (this.params.nextRefiner.refinerEffect.indexOf("+") != -1) {
+                if (this.params.nextRefiner.refinerEffect.indexOf("%") != -1) {
+                    arrr = this.params.nextRefiner.refinerEffect.split("+d%")
+                    nowaddtext2 = `+${this.params.nextRefiner.refinerBasics.show | 0}%`
+                } else {
+                    arrr = this.params.nextRefiner.refinerEffect.split("+d")
+                    nowaddtext2 = `+${this.params.nextRefiner.refinerBasics.show | 0}`
+                }
+            } else {
+                if (this.params.nextRefiner.refinerEffect.indexOf("%") != -1) {
+                    arrr = this.params.nextRefiner.refinerEffect.split("d%")
+                    nowaddtext2 = `${this.params.nextRefiner.refinerBasics.show | 0}%`
+                } else {
+                    arrr = this.params.nextRefiner.refinerEffect.split("d")
+                    nowaddtext2 = `${this.params.nextRefiner.refinerBasics.show | 0}`
+                }
+            }
             this.pnd.text = arrr[0]
-            this.pnadd.x = this.pnd.width + 35
-            this.pnadd.text = `+${this.params.nextRefiner.refinerBasics.show}`
+            this.pnd.x = 28
+            this.pnadd.x = this.pnd.width + this.pnd.x
+            this.pnadd.text = nowaddtext2
+            this.pnd2.text = arr[1]
+            this.pnd2.x = this.pnadd.width + this.pnadd.x
         } else {
             this.eatBtn.disabled = true
             this.choiceBtn.disabled = true
+            this.pnd.text=``
+            this.pnadd.text=``
+            this.pnd2.text=``
         }
 
         this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
@@ -137,5 +189,14 @@ export default class Devour extends PaoYa.View {
     onDisable() {
         Laya.stage.removeChild(Devour.ins.guide2);
         Laya.stage.removeChild(Devour.ins.guide3);
+
+        PaoYa.Request.GET("martial_refiner_list", {}, res => {
+            //console.log(res)
+            if (!res) {
+                return
+            }
+            Refining.ins.params.refiner_list = res.refiner_list
+            Refining.ins.changeData()
+        })
     }
 }

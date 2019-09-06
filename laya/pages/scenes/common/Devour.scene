@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":28,
-    "selecteID":32,
+    "selectedBox":2,
+    "selecteID":153,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/refiner/Devour.js","height":750},
     "nodeParent":-1,
-    "maxID":184,
+    "maxID":187,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -14,20 +14,6 @@
     "hasChild":true,
     "compId":2,
     "child":[
-        {
-            "x":15,
-            "type":"Image",
-            "searchKey":"Image",
-            "props":{"y":82,"x":143,"width":73,"skin":"remote/weaponstore/1.png","sizeGrid":"0,0,0,0","height":643},
-            "nodeParent":2,
-            "label":"Image",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":156,
-            "child":[
-                ]
-        },
         {
             "x":15,
             "type":"Sprite",
@@ -46,10 +32,131 @@
         {
             "x":15,
             "type":"Sprite",
-            "searchKey":"Sprite",
-            "props":{"y":91,"x":198,"texture":"remote/weaponhouse/28.png"},
+            "searchKey":"Sprite,benBack",
+            "props":{"y":0,"x":-138,"var":"benBack","texture":"local/common/back.png"},
             "nodeParent":2,
-            "label":"Sprite",
+            "label":"benBack",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":26,
+            "child":[
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":30.5,"x":235,"texture":"remote/refining/15.png"},
+                    "nodeParent":26,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":34,
+                    "child":[
+                        ]
+                }],
+            "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,currencyBg",
+            "props":{"y":0,"x":0,"var":"currencyBg"},
+            "nodeParent":2,
+            "label":"currencyBg",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":28,
+            "child":[
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":22,"x":584,"texture":"local/common/currencyBg.png"},
+                    "nodeParent":28,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":31,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":20.5,"x":345,"texture":"local/common/currencyBg.png"},
+                    "nodeParent":28,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":29,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":16,"x":324,"texture":"local/common/icon.png"},
+                    "nodeParent":28,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":27,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":17,"x":563,"texture":"local/common/diamond.png"},
+                    "nodeParent":28,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":30,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Text",
+                    "searchKey":"Text,goldNum",
+                    "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
+                    "nodeParent":28,
+                    "label":"goldNum",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":32,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Text",
+                    "searchKey":"Text,diamondNum",
+                    "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
+                    "nodeParent":28,
+                    "label":"diamondNum",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":33,
+                    "child":[
+                        ]
+                }],
+            "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image",
+            "props":{"y":91,"x":198,"width":940,"skin":"remote/weaponhouse/28.png","sizeGrid":"0,489,0,400"},
+            "nodeParent":2,
+            "label":"Image",
             "isOpen":false,
             "isDirectory":false,
             "isAniNode":true,
@@ -63,7 +170,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,sellPage",
-            "props":{"y":170,"x":651,"width":415,"var":"sellPage","texture":"remote/weaponhouse/2.png","height":526},
+            "props":{"y":170,"x":691,"width":415,"var":"sellPage","texture":"remote/weaponhouse/2.png","height":526},
             "nodeParent":2,
             "label":"sellPage",
             "isOpen":false,
@@ -214,146 +321,18 @@
         },
         {
             "x":15,
-            "type":"Sprite",
-            "searchKey":"Sprite,benBack",
-            "props":{"y":0,"x":-138,"var":"benBack","texture":"local/common/back.png"},
-            "nodeParent":2,
-            "label":"benBack",
-            "isOpen":false,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":26,
-            "child":[
-                {
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":30.5,"x":235,"texture":"remote/refining/15.png"},
-                    "nodeParent":26,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":34,
-                    "child":[
-                        ]
-                }],
-            "$HIDDEN":false
-        },
-        {
-            "x":15,
-            "type":"Box",
-            "searchKey":"Box,currencyBg",
-            "props":{"y":0,"x":0,"var":"currencyBg"},
-            "nodeParent":2,
-            "label":"currencyBg",
-            "isOpen":true,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":28,
-            "child":[
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":22,"x":584,"texture":"local/common/currencyBg.png"},
-                    "nodeParent":28,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":31,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":20.5,"x":345,"texture":"local/common/currencyBg.png"},
-                    "nodeParent":28,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":29,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":16,"x":324,"texture":"local/common/icon.png"},
-                    "nodeParent":28,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":27,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":17,"x":563,"texture":"local/common/diamond.png"},
-                    "nodeParent":28,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":30,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Text",
-                    "searchKey":"Text,goldNum",
-                    "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
-                    "nodeParent":28,
-                    "label":"goldNum",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":32,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Text",
-                    "searchKey":"Text,diamondNum",
-                    "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
-                    "nodeParent":28,
-                    "label":"diamondNum",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":33,
-                    "child":[
-                        ]
-                }],
-            "$HIDDEN":false
-        },
-        {
-            "x":15,
             "type":"Box",
             "searchKey":"Box,devourD",
-            "props":{"y":105,"x":216,"var":"devourD"},
+            "props":{"y":105,"x":256,"var":"devourD"},
             "nodeParent":2,
             "label":"devourD",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":157,
             "child":[
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,title",
                     "props":{"y":12,"x":0,"var":"title","fontSize":36,"font":"Arial"},
@@ -367,10 +346,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,detail",
-                    "props":{"y":86,"x":4,"width":501,"var":"detail","valign":"middle","text":"text","scaleY":0.8,"scaleX":0.8,"height":46,"fontSize":32,"font":"Helvetica","align":"center"},
+                    "props":{"y":86,"x":-30,"width":544,"var":"detail","valign":"middle","text":"text","scaleY":0.8,"scaleX":0.8,"height":46,"fontSize":28,"font":"Helvetica","align":"center"},
                     "nodeParent":157,
                     "label":"detail",
                     "isOpen":true,
@@ -382,27 +360,11 @@
                         ]
                 },
                 {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":252,"x":183,"texture":"remote/refining/13.png"},
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"y":146,"x":-25,"width":423,"skin":"remote/refining/11.png"},
                     "nodeParent":157,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":161,
-                    "child":[
-                        ],
-                    "$HIDDEN":false
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":146,"x":18,"texture":"remote/refining/11.png"},
-                    "nodeParent":157,
-                    "label":"Sprite",
+                    "label":"Image",
                     "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
@@ -425,7 +387,7 @@
                         {
                             "type":"Text",
                             "searchKey":"Text,pd",
-                            "props":{"y":76,"x":28,"var":"pd","height":21,"fontSize":24,"font":"SimHei"},
+                            "props":{"y":76,"var":"pd","fontSize":24,"font":"SimHei"},
                             "nodeParent":160,
                             "label":"pd",
                             "isDirectory":false,
@@ -438,7 +400,7 @@
                         {
                             "type":"Text",
                             "searchKey":"Text,add",
-                            "props":{"y":75,"x":210,"width":98,"var":"add","height":21,"fontSize":24,"font":"SimHei","color":"#9c1016"},
+                            "props":{"y":75,"var":"add","fontSize":24,"font":"SimHei","color":"#9c1016"},
                             "nodeParent":160,
                             "label":"add",
                             "isDirectory":false,
@@ -454,7 +416,7 @@
                             "props":{"y":25,"x":98,"texture":"remote/refining/16.png"},
                             "nodeParent":160,
                             "label":"Sprite",
-                            "isOpen":true,
+                            "isOpen":false,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
@@ -488,17 +450,29 @@
                                         ],
                                     "$HIDDEN":false
                                 }]
+                        },
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,pd2",
+                            "props":{"y":76,"var":"pd2","fontSize":24,"font":"SimHei"},
+                            "nodeParent":160,
+                            "label":"pd2",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":184,
+                            "child":[
+                                ]
                         }],
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":312,"x":18,"texture":"remote/refining/12.png"},
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"y":312,"x":-25,"width":423,"skin":"remote/refining/12.png"},
                     "nodeParent":157,
-                    "label":"Sprite",
-                    "isOpen":false,
+                    "label":"Image",
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -520,7 +494,7 @@
                         {
                             "type":"Text",
                             "searchKey":"Text,pnadd",
-                            "props":{"y":75,"x":216,"width":98,"var":"pnadd","height":21,"fontSize":24,"font":"SimHei","color":"#9c1016"},
+                            "props":{"y":75,"x":216,"var":"pnadd","height":21,"fontSize":24,"font":"SimHei","color":"#9c1016"},
                             "nodeParent":162,
                             "label":"pnadd",
                             "isDirectory":false,
@@ -542,11 +516,23 @@
                             "compId":170,
                             "child":[
                                 ]
+                        },
+                        {
+                            "type":"Text",
+                            "searchKey":"Text,pnd2",
+                            "props":{"y":75,"x":33,"var":"pnd2","height":21,"fontSize":24,"font":"SimHei"},
+                            "nodeParent":162,
+                            "label":"pnd2",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":185,
+                            "child":[
+                                ]
                         }],
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":457,"x":8,"texture":"remote/weaponhouse/22.png"},
@@ -560,10 +546,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,choiceBtn",
-                    "props":{"y":490,"x":29,"width":179,"var":"choiceBtn","stateNum":"1","skin":"local/common/btn_2.png","height":71},
+                    "props":{"y":490,"x":-8,"width":179,"var":"choiceBtn","stateNum":"1","skin":"local/common/btn_2.png","height":71},
                     "nodeParent":157,
                     "label":"choiceBtn",
                     "isOpen":true,
@@ -573,7 +558,6 @@
                     "compId":178,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,choiceTxt",
                             "props":{"y":8,"x":29,"width":179,"var":"choiceTxt","valign":"middle","text":"一键选中","height":71,"align":"center"},
@@ -588,7 +572,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":67,"x":8,"texture":"remote/weaponhouse/22.png"},
@@ -602,10 +585,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,eatBtn",
-                    "props":{"y":491,"x":212,"width":179,"var":"eatBtn","stateNum":"1","skin":"local/common/btn_1.png","height":71},
+                    "props":{"y":491,"x":200,"width":179,"var":"eatBtn","stateNum":"1","skin":"local/common/btn_1.png","height":71},
                     "nodeParent":157,
                     "label":"eatBtn",
                     "isOpen":true,
@@ -615,7 +597,6 @@
                     "compId":173,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,eatTxt",
                             "props":{"y":8,"x":29,"width":179,"var":"eatTxt","valign":"middle","text":"吞噬升级","height":71,"align":"center"},
@@ -628,6 +609,20 @@
                             "child":[
                                 ]
                         }]
+                },
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":252,"x":158,"texture":"remote/refining/13.png"},
+                    "nodeParent":157,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":161,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
                 }]
         },
         {
@@ -637,7 +632,7 @@
             "source":"src/scripts/common/refiner/DevourControl.js",
             "searchKey":"Script,DevourControl",
             "removeAble":true,
-            "props":{},
+            "props":{"x":40},
             "nodeParent":2,
             "label":"DevourControl",
             "isDirectory":false,
@@ -651,7 +646,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,guide2",
-            "props":{"y":627,"x":179.5,"visible":false,"var":"guide2","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
+            "props":{"y":627,"x":193.5,"visible":false,"var":"guide2","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"guide2",
             "isDirectory":false,
@@ -665,7 +660,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,guide3",
-            "props":{"y":627,"x":366,"visible":false,"var":"guide3","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
+            "props":{"y":627,"x":402,"visible":false,"var":"guide3","skin":"remote/guide/hand.png","rotation":135,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"guide3",
             "isDirectory":false,
@@ -674,6 +669,21 @@
             "compId":182,
             "child":[
                 ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image",
+            "props":{"y":82,"x":143,"width":73,"skin":"remote/weaponstore/1.png","sizeGrid":"0,0,0,0","height":643},
+            "nodeParent":2,
+            "label":"Image",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":156,
+            "child":[
+                ],
+            "$HIDDEN":false
         }],
     "animations":[
         {

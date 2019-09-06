@@ -53,7 +53,7 @@ export default class Swordsman extends PaoYa.View {
             SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
             SwordsmanControl.ins.navigator.pop()
         })
-        this.params.roleList=this.params.roleList.slice(0,2)
+        this.params.roleList = this.params.roleList.slice(0, 2)
         this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
         this.herolist.array = this.params.roleList
 
@@ -187,20 +187,20 @@ export default class Swordsman extends PaoYa.View {
         this.heroname.scale(0.8, 0.8)
 
         this.hp.text = `生命 ${this.showDetail.roleHp - this.showDetail.roleUpHp}`
-        this.additionHp.text = this.showDetail.roleStatus ? `+${this.showDetail.roleUpHp}` : ""
+        this.additionHp.text = this.showDetail.roleStatus && this.showDetail.roleUpHp ? `+${this.showDetail.roleUpHp}` : ""
 
         this.force.text = `内力 ${this.showDetail.roleMp - this.showDetail.roleUpMp}`
-        this.adddtionForce.text = this.showDetail.roleStatus ? `+${this.showDetail.roleUpMp}` : ""
+        this.adddtionForce.text = this.showDetail.roleStatus && this.showDetail.roleUpMp ? `+${this.showDetail.roleUpMp}` : ""
 
         this.muscle.text = `臂力 ${this.showDetail.roleStrength - this.showDetail.roleUpStrength}`
-        this.additionMuscle.text = this.showDetail.roleStatus ? `+${this.showDetail.roleUpStrength}` : ""
+        this.additionMuscle.text = this.showDetail.roleStatus && this.showDetail.roleUpStrength ? `+${this.showDetail.roleUpStrength}` : ""
 
         this.bone.text = `根骨 ${this.showDetail.roleBone - this.showDetail.roleUpBone}`
-        this.additionBone.text = this.showDetail.roleStatus ? `+${this.showDetail.roleUpBone}` : ""
+        this.additionBone.text = this.showDetail.roleStatus && this.showDetail.roleUpBone ? `+${this.showDetail.roleUpBone}` : ""
 
         this.critical.text = `暴击 ${this.showDetail.roleCritProb}%`
 
-        this.hurt.text = `爆伤 ${this.showDetail.roleCritHarm}`
+        this.hurt.text = `爆伤 ${this.showDetail.roleCritHarm}%`
 
         this.needGoldNum.font = `weaponNFontT`
         this.needGoldNum.text = this.isGuide ? 0 : this.showDetail.upgradeCost
