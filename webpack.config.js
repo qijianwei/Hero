@@ -20,9 +20,6 @@ module.exports = {
     path: path.resolve(__dirname, './release/wxgame/js'),
     filename: 'bundle.js'
   },
-  /*  entry: {
-     app:'./src/Main.js',
-   }, */
   /*  devServer:{
        contentBase:'./bin',
         proxy: {
@@ -46,17 +43,27 @@ module.exports = {
       }]
     }]
   }, */
+  //插件是从后往前执行
   plugins: [
-    /*   new CleanWebpackPlugin({
-       cleanOnceBeforeBuildPatterns: ['release/wxgame/']
-     }),  */
     /*  new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: './bin/index.html', // 配置文件模板
       chunks:[], //要引入的js文件
     }), */
+     new CleanWebpackPlugin({
+      //代码未构建前删除，只删除一次，即使在watch模式下
+      cleanOnceBeforeBuildPatterns: [
+        path.join(process.cwd(), 'release/wxgame/scenes/*'),
+        path.join(process.cwd(), 'release/wxgame/gamescenes/*')
+      ],
+      //每次代码构建好后删除指定目录  构建：build 查看命令行就知道
+      cleanAfterEveryBuildPatterns:[
+        path.join(process.cwd(), 'release/wxgame/spine/npc'),
+        path.join(process.cwd(),'release/wxgame/font')
+      ]
+    }),   
     /* 拷贝文件 */
-     new copyWebpackPlugin([{ 
+      new copyWebpackPlugin([{ 
       from: './bin/gamescenes',
       to: path.resolve(__dirname, './release/wxgame/gamescenes')
     },{
@@ -66,11 +73,14 @@ module.exports = {
       ignore: [
         '{project.swan.json,swan-game-adapter.js,version.js}',
       ],
-      /* 在使用webpack --watch 或者webpack-dev-server 构建的时候，
-        默认只是复制修改的 文件。设置为 true的时候就复制所有的文件。 */
+       //在使用webpack --watch 或者webpack-dev-server 构建的时候，
+       //默认只是复制修改的 文件。设置为 true的时候就复制所有的文件。 
      /*  copyUnmodified: true */ 
     }),
+ 
+     
   
   ],
 
 };
+console.log(process.cwd());
