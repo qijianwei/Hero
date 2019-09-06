@@ -583,8 +583,8 @@ class AuthUserInfoDialog extends Laya.Dialog {
     }
     onOpened() {
         let frame = {
-            x: 26,
-            y: 400,
+            x: 145,
+            y: 460,
             width: 345,
             height: 130
         };
