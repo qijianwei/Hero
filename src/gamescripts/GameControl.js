@@ -27,12 +27,12 @@ export default class GameControl extends PaoYa.Component {
         super();
         GameControl.instance = this;
         Laya.MouseManager.multiTouchEnabled = false;
-        this.closeRobot=false;
+        this.closeRobot = false;
     }
     onDisappear() {
         Laya.MouseManager.enabled = true;
     }
-    onAwake() { 
+    onAwake() {
         Laya.Pool.clearBySign('weapon');
         Laya.Pool.clearBySign('player');
         Laya.MouseManager.enabled = true;
@@ -61,13 +61,14 @@ export default class GameControl extends PaoYa.Component {
         this.fillPlayerInfo();
         this.initSkill();
     }
-  /*   onHide(){
-        if(!this.closeRobot){
-            this.navigator.popToRootScene();
-        }
-    } */
+    /*   onHide(){
+          if(!this.closeRobot){
+              this.navigator.popToRootScene();
+          }
+      } */
     //游戏重新开始
     restart() {
+        this.showMaskAni();
         this.gameState = 'start';
         this.selfMultiMP = 1; //兵器造成的内力消耗倍数
         this.otherMultiMP = 1; //兵器造成的内力消耗倍数
@@ -77,28 +78,46 @@ export default class GameControl extends PaoYa.Component {
         this.otherPlayer && this.otherPlayer.node && this.otherPlayer.node.removeSelf();
         this.weaponList = this.params.weaponList;
         this.robotWeaponList = JSON.parse(JSON.stringify(this.params.robotWeaponList));
-       
+
         this.role = JSON.parse(JSON.stringify(this.params.role))
         this.robotRole = JSON.parse(JSON.stringify(this.params.robotRole))
         this.dealParams(this.weaponList);
         this.dealParams(this.robotWeaponList);
-       
+
         if (this.gameType == "pass") {
             this.initGameBanner();
             SoundManager.ins.passBg();
-        }else{
+        } else {
             SoundManager.ins.battleBg();
-            this.boxGameBanner.getComponent(GameBanner).changeStyle({
-                gameType:this.gameType
+            Laya.timer.once(1000, this, () => {//遮罩mask消失时间
+                this.boxGameBanner.getComponent(GameBanner).changeStyle({
+                    gameType: this.gameType
+                })
             })
         }
         this.resetPlayerInfo();
         //要加机器人定时器
-        if(!this.closeRobot){
+        if (!this.closeRobot) {
             Laya.timer.once(3000, this, this.firstWeaponSelect);
         }
     }
-    fillPlayerInfo(){
+    showMaskAni() {
+        let maskArea = new Laya.Sprite();
+        maskArea.alpha = 1;
+        maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+        maskArea.pos(-150, 0);
+        maskArea.mouseEnabled = true;
+        maskArea.zOrder = 2000;
+        Laya.stage.addChild(maskArea);
+        let tween = new Laya.Tween();
+        tween.to(maskArea, {
+            alpha: 0.5
+        }, 1000, null, Laya.Handler.create(this, () => {
+            tween.clear();
+            Laya.stage.removeChild(maskArea);
+        }))
+    }
+    fillPlayerInfo() {
         this.initPlayer(true);
         this.initPlayer(false);
     }
@@ -124,7 +143,7 @@ export default class GameControl extends PaoYa.Component {
             monsterNum: this.monsterNum
         })
     }
-  
+
     drawParabola() {
         let space = 5;
         let pathArr = [];
@@ -235,7 +254,7 @@ export default class GameControl extends PaoYa.Component {
             boxWeapon.addChild(weaponBar)
         }
         //初始化机器人的兵器
-    //     this.weaponManager = new WeaponManager(this.robotWeaponList);
+        //     this.weaponManager = new WeaponManager(this.robotWeaponList);
     }
     initPlayer(isSelf) {
         let name = isSelf ? 'self' : 'other';
@@ -263,8 +282,8 @@ export default class GameControl extends PaoYa.Component {
                 component.activeSkills.push(this[role].skills[i]);
             }
         }
-       /*  console.error('人物技能');
-        console.error(component.activeSkills) */
+        /*  console.error('人物技能');
+         console.error(component.activeSkills) */
 
         //component.attr.skillWeapon.params={};
         if (component.attr.skillWeapon) {
@@ -315,19 +334,19 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     skillClickHandler(name) {
-       /*  SoundManager.ins.heroSkill(); */
+        /*  SoundManager.ins.heroSkill(); */
         if (name == "skill1") {
             /*    this.allPause();
                return; */
-            SoundManager.ins.heroSkill1();    
+            SoundManager.ins.heroSkill1();
             this.skillWithWeapon(true);
         } else if (name == "skill2") {
             /*  this.allResume();
              return; */
-             SoundManager.ins.heroSkill2();    
+            SoundManager.ins.heroSkill2();
             this.skillWithoutWeapon(true);
         }
- 
+
     }
     skillWithWeapon(isSelf) {
         let name = isSelf ? 'self' : 'other';
@@ -439,12 +458,12 @@ export default class GameControl extends PaoYa.Component {
             weaponBarComp.owner.gray = true;
         })
         this.dodgeOwner.gray = true;
-        if(!this.skillOwner1.disabled){
+        if (!this.skillOwner1.disabled) {
             this.skillOwner1.gray = true;
         }
-        if(!this.skillOwner2.disabled){
+        if (!this.skillOwner2.disabled) {
             this.skillOwner2.gray = true;
-        }     
+        }
     }
     //所有兵器选择框和技能框置灰
     allBtnsUnlock() {
@@ -452,13 +471,13 @@ export default class GameControl extends PaoYa.Component {
             weaponBarComp.owner.gray = false;
         })
         this.dodgeOwner.gray = false;
-        if(!this.skillOwner1.disabled){
+        if (!this.skillOwner1.disabled) {
             this.skillOwner1.gray = false;
         }
-        if(!this.skillOwner2.disabled){
+        if (!this.skillOwner2.disabled) {
             this.skillOwner2.gray = false;
         }
-        
+
     }
     //所有暂停，除了出技能的人
     allPause(isSelf) {
@@ -505,9 +524,9 @@ export default class GameControl extends PaoYa.Component {
             this.selfPlayer.comp.skeleton.resume()
         }
         /* Laya.timer.once(1000, this, this.startSelect); */
-        if(!this.closeRobot){
+        if (!this.closeRobot) {
             this.firstWeaponSelect();
-        } 
+        }
         this.selfPlayer.comp.MPComp.resume();
         this.otherPlayer.comp.MPComp.resume();
         this.skillScr1.resume();
@@ -515,42 +534,42 @@ export default class GameControl extends PaoYa.Component {
         this.dodgeComp.resume();
     }
     firstWeaponSelect() {
-      //  console.error('..............................')
+        //  console.error('..............................')
         this.weaponManager = null;
         this.weaponManager = new WeaponManager(this.robotWeaponList);
         this.sWeapon = this.weaponManager.seletedWeapon();
         Laya.timer.once(1000, this, this.startSelect);
     }
     startSelect() {
-       /*  if(!this.sWeapon||this.gameState=='over'){
-            return;
-        } */  
+        /*  if(!this.sWeapon||this.gameState=='over'){
+             return;
+         } */
         //如果选中的已经发射了，才可以重新选
         if (this.seletedLaunch) {
             this.sWeapon = this.weaponManager.seletedWeapon();
-            if(!this.sWeapon){ //啥兵器都没有选中,都在冷却当中
+            if (!this.sWeapon) { //啥兵器都没有选中,都在冷却当中
                 Laya.timer.once(1000, this, this.startSelect);
                 return;
             }
         }
         let curMp = this.otherPlayer.comp.MPComp.curMP;
-        
+
         if (curMp >= this.sWeapon.params.weaponConsume) {
             this.seletedLaunch = true;
             if (this.otherPlayer.comp.canAction) {
                 this.sWeapon.isSelf = false;
                 this.sWeapon.selectedHandler();
-            //    / console.error(`鬼................... `)
+                //    / console.error(`鬼................... `)
                 this.weaponBarClickHandler(this.sWeapon);
             } else {
                 console.error("无法动弹")
             }
-            if(this.gameType == "pass"){
+            if (this.gameType == "pass") {
                 Laya.timer.once(800, this, this.startSelect);
-            }else{
+            } else {
                 Laya.timer.once(500, this, this.startSelect);
             }
-           
+
         } else {
             this.seletedLaunch = false;
             Laya.timer.once(500, this, this.startSelect);
@@ -576,7 +595,7 @@ export default class GameControl extends PaoYa.Component {
             }
             return;
         }
-       
+
         //人物表现
         if (this.isSelf) {
             console.error('用户发射武器........')
@@ -684,7 +703,7 @@ export default class GameControl extends PaoYa.Component {
                 console.error("修改后的值:", params.weaponAttack)
                 this.weaponLaunch(params);
                 for (var i = 0; i < weaponNum - 1; i++) {
-                    this.weaponLaunch(params, 350*(i+1));
+                    this.weaponLaunch(params, 350 * (i + 1));
                 }
                 break;
                 //造成几倍伤害 兵器前方加气流
@@ -742,7 +761,7 @@ export default class GameControl extends PaoYa.Component {
     }
 
     removeWeapon(target) {
-        let targetWeapons = target.isSelf ? this.selfWeapons:this.otherWeapons;
+        let targetWeapons = target.isSelf ? this.selfWeapons : this.otherWeapons;
         for (let i = 0, len = targetWeapons.length; i < len; i++) {
             if (targetWeapons[i] == target) {
                 targetWeapons.splice(i, 1);
@@ -777,9 +796,9 @@ export default class GameControl extends PaoYa.Component {
 
     }
     //所有有cd的
-    allCdEnd(){
+    allCdEnd() {
         this.weaponsBarArr.forEach((weaponBarComp) => {
-            weaponBarComp.endCD(); 
+            weaponBarComp.endCD();
         });
         this.skillScr1.endCD();
         this.skillScr2.endCD();
@@ -788,7 +807,7 @@ export default class GameControl extends PaoYa.Component {
     deathHandler(loserIsSelf) {
         Laya.MouseManager.enabled = false;
         Laya.timer.clearAll(this);
-        this.gameState = 'over'; 
+        this.gameState = 'over';
         this.removeAllWeapons();
         this.allCdEnd();
         switch (this.gameType) {
@@ -796,38 +815,39 @@ export default class GameControl extends PaoYa.Component {
                 this.dealPass(loserIsSelf);
                 break;
             case 'battle':
-              //  SoundManager.ins.homeBg();
+                //  SoundManager.ins.homeBg();
                 this.dealBattle(loserIsSelf);
                 break;
         }
 
     }
-    dealPass(loserIsSelf) { 
+    dealPass(loserIsSelf) {
         if (loserIsSelf) {
             this.passOver(loserIsSelf);
         } else {
             this.killNum += 1;
             if (this.killNum == this.monsterNum) {
-                console.error(`死亡个数：`,this.killNum)
+                console.error(`死亡个数：`, this.killNum)
                 this.passOver(loserIsSelf);
-            } else {       
-                Laya.timer.once(1500,this,this.replacePlayer)
+            } else {
+                Laya.timer.once(1500, this, this.replacePlayer)
             }
         }
     }
     dealBattle(loserIsSelf) {
         this.gameOver(loserIsSelf);
         let win = loserIsSelf ? 0 : 1;
-        Laya.timer.callLater(this,()=>{
+        Laya.timer.callLater(this, () => {
             this.POST('martial_match_end', {
                 win: win
             }, (res) => {
+                PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                 Laya.MouseManager.enabled = true;
                 res.result = loserIsSelf ? -1 : 1;
-                res.roleId=this.params.roleId,
-                res.robotRoleId=this.params.robotRoleId;
-                res.nickName=this.params.nickName;
-                res.robotNickName=this.params.robotNickName;
+                res.roleId = this.params.roleId,
+                    res.robotRoleId = this.params.robotRoleId;
+                res.nickName = this.params.nickName;
+                res.robotNickName = this.params.robotNickName;
                 this.navigator.popup('/dialog/BattleResultDialog', res);
             })
         })
@@ -835,8 +855,8 @@ export default class GameControl extends PaoYa.Component {
     //换角色
     replacePlayer() {
         Laya.MouseManager.enabled = true;
-        this.selfWeapons=[]; //以防万一没清理干净
-        this.otherWeapons=[];
+        this.selfWeapons = []; //以防万一没清理干净
+        this.otherWeapons = [];
         this.robotRole = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotRole));
         this.robotWeaponList = JSON.parse(JSON.stringify(this.params.monsterList[this.killNum].robotWeaponList));
         this.resetPlayerInfo(); //主要是重置对方的名字信息
@@ -854,17 +874,17 @@ export default class GameControl extends PaoYa.Component {
     }
     //关卡结束
     passOver(loserIsSelf) {
-      //  SoundManager.ins.homeBg();
+        //  SoundManager.ins.homeBg();
         if (!loserIsSelf) {
             SoundManager.ins.win();
-            PaoYa.DataCenter.user.current=this.curNum+1;
+            PaoYa.DataCenter.user.current = this.curNum + 1;
             this.selfPlayer.comp.skeleton.play('win', true);
         } else {
             SoundManager.ins.lose();
-            PaoYa.DataCenter.user.current=this.curNum;
+            PaoYa.DataCenter.user.current = this.curNum;
             this.otherPlayer.comp.skeleton.play('win', true);
         }
-       
+
         console.error('闯关');
 
         this.selfPlayer.comp.MPComp.stopIncrease();
@@ -874,13 +894,14 @@ export default class GameControl extends PaoYa.Component {
             this.POST('martial_game_end', {
                 killNum: this.killNum
             }, (res) => {
+                PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                 Laya.MouseManager.enabled = true;
                 res.result = loserIsSelf ? -1 : 1;
                 this.navigator.popup('/dialog/PassResultDialog', res);
             })
         })
     }
-    removeAllWeapons(){
+    removeAllWeapons() {
         console.error(`移除所有兵器`)
         //删除界面上兵器
         this.selfWeapons.forEach((weapon) => {
@@ -898,7 +919,7 @@ export default class GameControl extends PaoYa.Component {
             SoundManager.ins.lose();
             this.otherPlayer.comp.skeleton.play('win', true);
         }
-       
+
         console.error('游戏结束');
 
         this.selfPlayer.comp.MPComp.stopIncrease();
@@ -910,8 +931,8 @@ export default class GameControl extends PaoYa.Component {
         console.error('destroy111');
         this.selfWeapons = null;
         this.otherWeapons = null;
-        this.selfPlayer=null;
-        this.otherPlayer=null;
+        this.selfPlayer = null;
+        this.otherPlayer = null;
         Laya.timer.clearAll(this);
         Laya.MouseManager.enabled = true;
     }

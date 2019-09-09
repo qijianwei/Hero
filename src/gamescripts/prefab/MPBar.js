@@ -9,7 +9,7 @@ export default class MPBar extends PaoYa.Component{
        
       this.originW=this.owner.width;
       this.imgMP.mask=this.imgMask;
-     
+      this.loopTime=320;
     }
     onEnable(){
 
@@ -18,13 +18,13 @@ export default class MPBar extends PaoYa.Component{
         console.log('初始的体力值:',MPValue);
         this.originMP=this.curMP=MPValue;
         this.imgMask.width=this.owner.width;
-        this.perAddMP=Math.ceil(((this.originMP/360)*5));
+        this.perAddMP=Math.ceil(((this.originMP/360)*20));
         this.originPerAddMP=this.perAddMP;
         this.lblMpPct.text=`${this.curMP}/${this.originMP}`;
         this.startBar()
     }
     startBar(){
-     Laya.timer.loop(80,this,this.autoIncreaseBar);
+     Laya.timer.loop(this.loopTime,this,this.autoIncreaseBar);
     }
     autoIncreaseBar(){
         if(this.curMP>=this.originMP){
@@ -62,7 +62,7 @@ export default class MPBar extends PaoYa.Component{
         Laya.timer.clear(this,this.autoIncreaseBar);
     }
     resume(){
-        Laya.timer.loop(500,this,this.autoIncreaseBar);
+        Laya.timer.loop(this.loopTime,this,this.autoIncreaseBar);
     }
     onDisable(){
        Laya.timer.clear(this,this.autoIncreaseBar);

@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":141,
-    "selecteID":148,
+    "selectedBox":130,
+    "selecteID":165,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
@@ -454,14 +454,13 @@
                     "props":{"y":373,"x":250,"var":"skill2","stateNum":"1","skin":"remote/game/skill.png"},
                     "nodeParent":130,
                     "label":"skill2",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":163,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,skill2Txt",
                             "props":{"var":"skill2Txt","text":"text"},
@@ -531,33 +530,6 @@
                 },
                 {
                     "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":295,"x":144.4091796875,"texture":"local/common/fontBg.png"},
-                    "nodeParent":130,
-                    "label":"Sprite",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":165,
-                    "child":[
-                        {
-                            "type":"Sprite",
-                            "searchKey":"Sprite",
-                            "props":{"y":2,"x":126,"texture":"remote/figure/1.png"},
-                            "nodeParent":165,
-                            "label":"Sprite",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":175,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,equipbtn",
                     "props":{"y":528,"x":316,"var":"equipbtn","stateNum":"1","skin":"local/common/btn_2.png","scaleY":0.8,"scaleX":0.8},
@@ -619,14 +591,13 @@
                     "props":{"y":528,"x":124,"var":"lvupbtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.8,"scaleX":0.8},
                     "nodeParent":130,
                     "label":"lvupbtn",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":166,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-35,"x":51,"texture":"local/common/currencyBg.png","scaleY":0.8,"scaleX":0.8},
@@ -666,7 +637,6 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,lvupbtnTxt",
                             "props":{"var":"lvupbtnTxt","text":"升级"},

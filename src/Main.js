@@ -194,6 +194,7 @@ export class Main extends GameMain {
 				'spine/hero/hero_1.sk',
 				'spine/hero/hero_2.png',
 				'spine/hero/hero_2.sk', */
+			'res/atlas/remote/grading.atlas',
 
 			/* 场景 */
 			'spine/scene/scene1.png',
@@ -246,9 +247,10 @@ export class Main extends GameMain {
 		return list
 	}
 	onShareAppMessage() {
+		let random=Math.round(Math.random()*(PaoYa.DataCenter.config.game.share_list.length-1))
 		return {
-			title: PaoYa.DataCenter.config.game.share_list.randomItem,
-			imageUrl: PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img.randomItem,
+			title: PaoYa.DataCenter.config.game.share_list[random],
+			imageUrl: PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img[random],
 			query: ""
 		}
 	}
