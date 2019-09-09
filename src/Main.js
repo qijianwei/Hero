@@ -54,9 +54,8 @@ export class Main extends GameMain {
 			WeapList: 'scenes/common/WeapList',
 
 		}
-
 		//分享地址
-		PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
+		//PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
 	
 	/* 	PaoYa.DataCenter.GAMEPREPARE = {
 			async (cb) {
