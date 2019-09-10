@@ -145,9 +145,9 @@ export default class Devour extends PaoYa.View {
         } else {
             this.eatBtn.disabled = true
             this.choiceBtn.disabled = true
-            this.pnd.text=``
-            this.pnadd.text=``
-            this.pnd2.text=``
+            this.pnd.text = ``
+            this.pnadd.text = ``
+            this.pnd2.text = ``
         }
 
         this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224

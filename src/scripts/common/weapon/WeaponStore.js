@@ -10,38 +10,46 @@ export default class WeaponStore extends PaoYa.View {
 
     onAppear() {
         PaoYa.Request.GET('update_chips', {}, res => {
-            this.goldNum.width = null
+            this.changeHB(res)
+        })
+    }
 
+    changeHB(res){
+        this.goldNum.width = null
+
+        if (res.gold) {
             PaoYa.DataCenter.user.gold = res.gold
-            PaoYa.DataCenter.user.diamond = res.diamond
             let goldnum = addNumberUnit(PaoYa.DataCenter.user.gold)
-            let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
-
             this.goldNum.text = goldnum
             this.goldNum.font = `weaponNFontT`
             this.goldNum.scale(0.6, 0.6)
             this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
+        }
+
+        if (res.diamond) {
+            let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
+            PaoYa.DataCenter.user.diamond = res.diamond
             this.diamondNum.text = diamondnum
             this.diamondNum.font = `weaponNFontT`
             this.diamondNum.scale(0.6, 0.6)
             this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25)
+        }
 
-            function addNumberUnit(num) {
-                switch (true) {
-                    case num >= 10000 && num < 100000000:
-                        let integ = num / 10000
-                        return Math.floor(integ * 100) / 100 + '万'
-                        break
-                    case num >= 100000000:
-                        let integ1 = num / 100000000
-                        return Math.floor(integ1 * 100) / 100 + '亿'
-                        break
-                    default:
-                        return num + ''
-                        break
-                }
-            };
-        })
+        function addNumberUnit(num) {
+            switch (true) {
+                case num >= 10000 && num < 100000000:
+                    let integ = num / 10000
+                    return Math.floor(integ * 100) / 100 + '万'
+                    break
+                case num >= 100000000:
+                    let integ1 = num / 100000000
+                    return Math.floor(integ1 * 100) / 100 + '亿'
+                    break
+                default:
+                    return num + ''
+                    break
+            }
+        };
     }
 
     onEnable() {
@@ -157,8 +165,8 @@ export default class WeaponStore extends PaoYa.View {
                 WeaponStoreControl.ins.navigator.popup("weapon/GoldLack");
                 return
             } else {
-                PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
-                this.goldNum.text = PaoYa.DataCenter.user.gold
+                // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
+                // this.goldNum.text = PaoYa.DataCenter.user.gold
                 WeaponStoreControl.ins.buyWp()
             }
         })

@@ -1,5 +1,6 @@
 import SoundManager from "../../../gamescripts/SoundManager";
 import Wheel from "../../common/wheel/Wheel";
+import HomeControl from "../../common/HomeControl";
 
 export default class Task extends PaoYa.Dialog {
 
@@ -81,6 +82,7 @@ export default class Task extends PaoYa.Dialog {
         noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15)
 
         btn.offAll()
+        btn.disabled = false
         if (cell.dataSource.status == 2) {
             noThankTxt.text = `已领取`
             noThankTxt.font = `weaponDFont`
@@ -111,13 +113,20 @@ export default class Task extends PaoYa.Dialog {
                             }
                         };
 
+                        let statuss = false
                         this.params.forEach(element => {
                             if (element.task == cell.dataSource.task) {
                                 for (const key in res) {
                                     element[key] = res[key]
                                 }
                             }
+                        
+                            if (element.status == 1) {
+                                statuss = true
+                            }
                         });
+                        PaoYa.DataCenter.user.dailyTaskStatus = statuss
+                        HomeControl.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
 
                         this.taskList.array = this.params
                     })
@@ -206,7 +215,7 @@ export default class Task extends PaoYa.Dialog {
         }
     }
     onClosed() {
-        if(Wheel&&Wheel.ins){
+        if (Wheel && Wheel.ins) {
             Wheel.ins.changeDG()
         }
     }

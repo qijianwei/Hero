@@ -228,7 +228,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
         this.owner.addconsumeNum.visible = detail.weaponDownConsume ? true : false
         this.owner.addconsumeNum.text = `-${detail.weaponDownConsume}`
         this.owner.wpcdNum.text = `冷却： ${detail.weaponCd}秒`
-        
+
         //兵器技能
         this.owner[`skillName_1`].text = ``
         this.owner[`skillGl_1`].text = ``
@@ -364,8 +364,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
     buyWp() {
         let detail = this.currentBuyWeapDetail
         PaoYa.Request.POST(`martial_shop_buy`, { weaponId: detail.weaponId }, res => {
-            PaoYa.DataCenter.user.gold = res.gold
-            this.owner.goldNum.text = res.gold
+            this.owner.changeHB(res)
         })
 
 
@@ -436,8 +435,9 @@ export default class WeaponStoreControl extends PaoYa.Component {
             return
         }
         PaoYa.Request.POST(`martial_weapon_sale`, { weaponId: `${detail.weaponId}-${detail.weaponLevel}` }, res => {
-            PaoYa.DataCenter.user.gold = res.gold
-            this.owner.goldNum.text = res.gold
+            // PaoYa.DataCenter.user.gold = res.gold
+            // this.owner.goldNum.text = res.gold
+            this.owner.changeHB(res)
         })
 
         let newDetail = null
@@ -469,8 +469,12 @@ export default class WeaponStoreControl extends PaoYa.Component {
             this.navigator.popup("weapon/DiamondLack", 1);
             return
         }
-        PaoYa.DataCenter.user.diamond -= Number(this.owner.needDiamon.text)
-        this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
+        // PaoYa.DataCenter.user.diamond -= Number(this.owner.needDiamon.text)
+        // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
+        let obj = {
+            diamond: PaoYa.DataCenter.user.diamond -= Number(this.owner.needDiamon.text),
+        }
+        this.owner.changeHB(obj)
         this.isRefrshing = true
 
         PaoYa.Request.POST(`martial_shop_list`, { refresh: num }, res => {

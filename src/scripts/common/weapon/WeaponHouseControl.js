@@ -500,8 +500,10 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 this.navigator.popup("weapon/GoldLack");
                 return
             } else {
-                PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
-                this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+                let obj = {
+                    gold: PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text),
+                }
+                this.owner.changeHB(obj)
             }
         } else {
             numNew = 1

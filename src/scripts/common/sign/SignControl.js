@@ -1,4 +1,5 @@
 import Swordsman from "../figure/Swordsman";
+import HomeControl from "../HomeControl";
 
 export default class SignControl extends PaoYa.Component {
     constructor() {
@@ -16,6 +17,7 @@ export default class SignControl extends PaoYa.Component {
 
     getAward() {
         PaoYa.Request.POST(`martial_login_bonus_receive`, { adv: 0 }, res => {
+            PaoYa.DataCenter.user.ins.loginBonusStatus = false
             let obj = {
                 type: `sign`,
                 detail: res

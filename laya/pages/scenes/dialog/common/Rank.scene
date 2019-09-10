@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":2,
-    "selecteID":3,
+    "selectedBox":38,
+    "selecteID":42,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/dialog/common/Rank.js","height":750},
     "nodeParent":-1,
@@ -138,7 +138,8 @@
                             "hasChild":false,
                             "compId":40,
                             "child":[
-                                ]
+                                ],
+                            "$HIDDEN":false
                         },
                         {
                             "x":45,

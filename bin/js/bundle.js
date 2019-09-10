@@ -8668,7 +8668,6 @@ var DevourControl = function (_PaoYa$Component) {
         key: "singleWeapon",
         value: function singleWeapon(cell, idx) {
             cell.skin = "local/common/frameBg.png";
-            cell.getChildByName("beChioce").visible = false;
 
             cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
             cell.getChildByName("lv").text = "LV." + cell._dataSource.weaponLevel;
@@ -8701,6 +8700,12 @@ var DevourControl = function (_PaoYa$Component) {
             }
             cell.getChildByName("bgwrap").skin = skinq;
             cell.getChildByName("mark").skin = skint;
+
+            if (cell._dataSource.willBeEat) {
+                cell.getChildByName("beChioce").visible = true;
+            } else {
+                cell.getChildByName("beChioce").visible = false;
+            }
         }
         //是否选中操作
 
@@ -8725,6 +8730,7 @@ var DevourControl = function (_PaoYa$Component) {
                 this.newAllArr[index].ischiocedd = true;
                 this.willBeEatList.push(index);
                 cell._dataSource.willBeEat = true;
+                console.log(cell._dataSource.willBeEat, index, 132);
                 cell.getChildByName("beChioce").visible = true;
             }
 
@@ -9274,6 +9280,10 @@ var _Swordsman = require("../figure/Swordsman");
 
 var _Swordsman2 = _interopRequireDefault(_Swordsman);
 
+var _HomeControl = require("../HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9306,6 +9316,7 @@ var SignControl = function (_PaoYa$Component) {
             var _this2 = this;
 
             PaoYa.Request.POST("martial_login_bonus_receive", { adv: 0 }, function (res) {
+                PaoYa.DataCenter.user.ins.loginBonusStatus = false;
                 var obj = {
                     type: "sign",
                     detail: res
@@ -9330,7 +9341,7 @@ var SignControl = function (_PaoYa$Component) {
 
 exports.default = SignControl;
 
-},{"../figure/Swordsman":37}],45:[function(require,module,exports){
+},{"../HomeControl":30,"../figure/Swordsman":37}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10246,38 +10257,47 @@ var WeaponHouse = function (_PaoYa$View) {
             var _this2 = this;
 
             PaoYa.Request.GET('update_chips', {}, function (res) {
-                _this2.goldNum.width = null;
-
-                PaoYa.DataCenter.user.gold = res.gold;
-                PaoYa.DataCenter.user.diamond = res.diamond;
-                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
-                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
-
-                _this2.goldNum.text = goldnum;
-                _this2.goldNum.font = "weaponNFontT";
-                _this2.goldNum.scale(0.6, 0.6);
-                _this2.goldNum.pos(365 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
-                _this2.diamondNum.text = diamondnum;
-                _this2.diamondNum.font = "weaponNFontT";
-                _this2.diamondNum.scale(0.6, 0.6);
-                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
-
-                function addNumberUnit(num) {
-                    switch (true) {
-                        case num >= 10000 && num < 100000000:
-                            var integ = num / 10000;
-                            return Math.floor(integ * 100) / 100 + '万';
-                            break;
-                        case num >= 100000000:
-                            var integ1 = num / 100000000;
-                            return Math.floor(integ1 * 100) / 100 + '亿';
-                            break;
-                        default:
-                            return num + '';
-                            break;
-                    }
-                };
+                _this2.changeHB(res);
             });
+        }
+    }, {
+        key: "changeHB",
+        value: function changeHB(res) {
+            this.goldNum.width = null;
+
+            if (res.gold) {
+                PaoYa.DataCenter.user.gold = res.gold;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                this.goldNum.text = goldnum;
+                this.goldNum.font = "weaponNFontT";
+                this.goldNum.scale(0.6, 0.6);
+                this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25);
+            }
+
+            if (res.diamond) {
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                this.diamondNum.text = diamondnum;
+                this.diamondNum.font = "weaponNFontT";
+                this.diamondNum.scale(0.6, 0.6);
+                this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25);
+            }
+
+            function addNumberUnit(num) {
+                switch (true) {
+                    case num >= 10000 && num < 100000000:
+                        var integ = num / 10000;
+                        return Math.floor(integ * 100) / 100 + '万';
+                        break;
+                    case num >= 100000000:
+                        var integ1 = num / 100000000;
+                        return Math.floor(integ1 * 100) / 100 + '亿';
+                        break;
+                    default:
+                        return num + '';
+                        break;
+                }
+            };
         }
     }, {
         key: "onEnable",
@@ -11025,8 +11045,10 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     this.navigator.popup("weapon/GoldLack");
                     return;
                 } else {
-                    PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text);
-                    this.owner.goldNum.text = PaoYa.DataCenter.user.gold;
+                    var obj = {
+                        gold: PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
+                    };
+                    this.owner.changeHB(obj);
                 }
             } else {
                 numNew = 1;
@@ -11158,38 +11180,47 @@ var WeaponStore = function (_PaoYa$View) {
             var _this2 = this;
 
             PaoYa.Request.GET('update_chips', {}, function (res) {
-                _this2.goldNum.width = null;
-
-                PaoYa.DataCenter.user.gold = res.gold;
-                PaoYa.DataCenter.user.diamond = res.diamond;
-                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
-                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
-
-                _this2.goldNum.text = goldnum;
-                _this2.goldNum.font = "weaponNFontT";
-                _this2.goldNum.scale(0.6, 0.6);
-                _this2.goldNum.pos(365 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
-                _this2.diamondNum.text = diamondnum;
-                _this2.diamondNum.font = "weaponNFontT";
-                _this2.diamondNum.scale(0.6, 0.6);
-                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
-
-                function addNumberUnit(num) {
-                    switch (true) {
-                        case num >= 10000 && num < 100000000:
-                            var integ = num / 10000;
-                            return Math.floor(integ * 100) / 100 + '万';
-                            break;
-                        case num >= 100000000:
-                            var integ1 = num / 100000000;
-                            return Math.floor(integ1 * 100) / 100 + '亿';
-                            break;
-                        default:
-                            return num + '';
-                            break;
-                    }
-                };
+                _this2.changeHB(res);
             });
+        }
+    }, {
+        key: "changeHB",
+        value: function changeHB(res) {
+            this.goldNum.width = null;
+
+            if (res.gold) {
+                PaoYa.DataCenter.user.gold = res.gold;
+                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                this.goldNum.text = goldnum;
+                this.goldNum.font = "weaponNFontT";
+                this.goldNum.scale(0.6, 0.6);
+                this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25);
+            }
+
+            if (res.diamond) {
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+                PaoYa.DataCenter.user.diamond = res.diamond;
+                this.diamondNum.text = diamondnum;
+                this.diamondNum.font = "weaponNFontT";
+                this.diamondNum.scale(0.6, 0.6);
+                this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25);
+            }
+
+            function addNumberUnit(num) {
+                switch (true) {
+                    case num >= 10000 && num < 100000000:
+                        var integ = num / 10000;
+                        return Math.floor(integ * 100) / 100 + '万';
+                        break;
+                    case num >= 100000000:
+                        var integ1 = num / 100000000;
+                        return Math.floor(integ1 * 100) / 100 + '亿';
+                        break;
+                    default:
+                        return num + '';
+                        break;
+                }
+            };
         }
     }, {
         key: "onEnable",
@@ -11309,8 +11340,8 @@ var WeaponStore = function (_PaoYa$View) {
                     _WeaponStoreControl2.default.ins.navigator.popup("weapon/GoldLack");
                     return;
                 } else {
-                    PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice);
-                    _this3.goldNum.text = PaoYa.DataCenter.user.gold;
+                    // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
+                    // this.goldNum.text = PaoYa.DataCenter.user.gold
                     _WeaponStoreControl2.default.ins.buyWp();
                 }
             });
@@ -11771,8 +11802,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
 
             var detail = this.currentBuyWeapDetail;
             PaoYa.Request.POST("martial_shop_buy", { weaponId: detail.weaponId }, function (res) {
-                PaoYa.DataCenter.user.gold = res.gold;
-                _this9.owner.goldNum.text = res.gold;
+                _this9.owner.changeHB(res);
             });
 
             this.owner.showaniC.skin = this.isBuyChoiceWp.getChildByName("wp")._skin;
@@ -11846,8 +11876,9 @@ var WeaponStoreControl = function (_PaoYa$Component) {
                 return;
             }
             PaoYa.Request.POST("martial_weapon_sale", { weaponId: detail.weaponId + "-" + detail.weaponLevel }, function (res) {
-                PaoYa.DataCenter.user.gold = res.gold;
-                _this10.owner.goldNum.text = res.gold;
+                // PaoYa.DataCenter.user.gold = res.gold
+                // this.owner.goldNum.text = res.gold
+                _this10.owner.changeHB(res);
             });
 
             var newDetail = null;
@@ -11884,8 +11915,12 @@ var WeaponStoreControl = function (_PaoYa$Component) {
                 this.navigator.popup("weapon/DiamondLack", 1);
                 return;
             }
-            PaoYa.DataCenter.user.diamond -= Number(this.owner.needDiamon.text);
-            this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond;
+            // PaoYa.DataCenter.user.diamond -= Number(this.owner.needDiamon.text)
+            // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
+            var obj = {
+                diamond: PaoYa.DataCenter.user.diamond -= Number(this.owner.needDiamon.text)
+            };
+            this.owner.changeHB(obj);
             this.isRefrshing = true;
 
             PaoYa.Request.POST("martial_shop_list", { refresh: num }, function (res) {
@@ -12017,19 +12052,23 @@ var Wheel = function (_PaoYa$View) {
             PaoYa.Request.GET('update_chips', {}, function (res) {
                 _this3.goldNum.width = null;
 
-                PaoYa.DataCenter.user.gold = res.gold;
-                PaoYa.DataCenter.user.diamond = res.diamond;
-                var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
-                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+                if (res.gold) {
+                    PaoYa.DataCenter.user.gold = res.gold;
+                    var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
+                    _this3.goldNum.text = goldnum;
+                    _this3.goldNum.font = "weaponNFontT";
+                    _this3.goldNum.scale(0.6, 0.6);
+                    _this3.goldNum.pos(365 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
+                }
 
-                _this3.goldNum.text = goldnum;
-                _this3.goldNum.font = "weaponNFontT";
-                _this3.goldNum.scale(0.6, 0.6);
-                _this3.goldNum.pos(365 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
-                _this3.diamondNum.text = diamondnum;
-                _this3.diamondNum.font = "weaponNFontT";
-                _this3.diamondNum.scale(0.6, 0.6);
-                _this3.diamondNum.pos(600 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
+                if (res.diamondNum) {
+                    var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+                    PaoYa.DataCenter.user.diamond = res.diamond;
+                    _this3.diamondNum.text = diamondnum;
+                    _this3.diamondNum.font = "weaponNFontT";
+                    _this3.diamondNum.scale(0.6, 0.6);
+                    _this3.diamondNum.pos(600 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
+                }
 
                 function addNumberUnit(num) {
                     switch (true) {
@@ -12579,6 +12618,10 @@ var _Wheel = require("../../common/wheel/Wheel");
 
 var _Wheel2 = _interopRequireDefault(_Wheel);
 
+var _HomeControl = require("../../common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12677,6 +12720,7 @@ var Task = function (_PaoYa$Dialog) {
             noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15);
 
             btn.offAll();
+            btn.disabled = false;
             if (cell.dataSource.status == 2) {
                 noThankTxt.text = "\u5DF2\u9886\u53D6";
                 noThankTxt.font = "weaponDFont";
@@ -12707,13 +12751,20 @@ var Task = function (_PaoYa$Dialog) {
                                 }
                             };
 
+                            var statuss = false;
                             _this3.params.forEach(function (element) {
                                 if (element.task == cell.dataSource.task) {
                                     for (var key in res) {
                                         element[key] = res[key];
                                     }
                                 }
+
+                                if (element.status == 1) {
+                                    statuss = true;
+                                }
                             });
+                            PaoYa.DataCenter.user.dailyTaskStatus = statuss;
+                            _HomeControl2.default.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
 
                             _this3.taskList.array = _this3.params;
                         });
@@ -12815,7 +12866,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/wheel/Wheel":53}],59:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":30,"../../common/wheel/Wheel":53}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

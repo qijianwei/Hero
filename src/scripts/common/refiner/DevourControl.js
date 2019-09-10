@@ -79,7 +79,6 @@ export default class DevourControl extends PaoYa.Component {
     //单个兵器图签
     singleWeapon(cell, idx) {
         cell.skin = `local/common/frameBg.png`
-        cell.getChildByName(`beChioce`).visible = false
 
         cell.getChildByName(`wp`).skin = `remote/small_weapons/s_${cell._dataSource.weaponId}.png`
         cell.getChildByName(`lv`).text = `LV.${cell._dataSource.weaponLevel}`
@@ -112,6 +111,12 @@ export default class DevourControl extends PaoYa.Component {
         }
         cell.getChildByName(`bgwrap`).skin = skinq
         cell.getChildByName(`mark`).skin = skint
+
+        if (cell._dataSource.willBeEat) {
+            cell.getChildByName(`beChioce`).visible = true
+        } else {
+            cell.getChildByName(`beChioce`).visible = false
+        }
     }
     //是否选中操作
     chioceWp(cell, index) {
@@ -133,6 +138,7 @@ export default class DevourControl extends PaoYa.Component {
             this.newAllArr[index].ischiocedd = true
             this.willBeEatList.push(index)
             cell._dataSource.willBeEat = true
+            console.log(cell._dataSource.willBeEat,index,132)
             cell.getChildByName(`beChioce`).visible = true
         }
 

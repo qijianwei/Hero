@@ -65,19 +65,23 @@ export default class Wheel extends PaoYa.View {
         PaoYa.Request.GET('update_chips', {}, res => {
             this.goldNum.width = null
 
-            PaoYa.DataCenter.user.gold = res.gold
-            PaoYa.DataCenter.user.diamond = res.diamond
-            let goldnum = addNumberUnit(PaoYa.DataCenter.user.gold)
-            let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
+            if (res.gold) {
+                PaoYa.DataCenter.user.gold = res.gold
+                let goldnum = addNumberUnit(PaoYa.DataCenter.user.gold)
+                this.goldNum.text = goldnum
+                this.goldNum.font = `weaponNFontT`
+                this.goldNum.scale(0.6, 0.6)
+                this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
+            }
 
-            this.goldNum.text = goldnum
-            this.goldNum.font = `weaponNFontT`
-            this.goldNum.scale(0.6, 0.6)
-            this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
-            this.diamondNum.text = diamondnum
-            this.diamondNum.font = `weaponNFontT`
-            this.diamondNum.scale(0.6, 0.6)
-            this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25)
+            if (res.diamondNum) {
+                let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
+                PaoYa.DataCenter.user.diamond = res.diamond
+                this.diamondNum.text = diamondnum
+                this.diamondNum.font = `weaponNFontT`
+                this.diamondNum.scale(0.6, 0.6)
+                this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25)
+            }
 
             function addNumberUnit(num) {
                 switch (true) {
