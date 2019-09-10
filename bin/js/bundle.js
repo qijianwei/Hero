@@ -8369,7 +8369,13 @@ var Devour = function (_PaoYa$View) {
             });
 
             this.choiceBtn.on(Laya.Event.CLICK, this, function () {
+                // this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
+                // this.nextExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
                 _SoundManager2.default.ins.btn();
+                // if (DevourControl.ins.willBeEatList.length > 2) {
+                //     return
+                // }
+
                 _DevourControl2.default.ins.chiocethreeWp();
             });
 
@@ -8495,7 +8501,7 @@ var Devour = function (_PaoYa$View) {
     }, {
         key: "wareWeaponUpdateItem",
         value: function wareWeaponUpdateItem(cell, index) {
-            _DevourControl2.default.ins.childList.push(cell);
+            console.log(this.warehouseList);
             _DevourControl2.default.ins.singleWeapon(cell, index);
             cell.offAll();
             cell.on(Laya.Event.CLICK, this, function () {
@@ -8659,6 +8665,7 @@ var DevourControl = function (_PaoYa$Component) {
             this.isWareChoiceWp = null;
             this.newAllArr = arr;
             this.childList = [];
+            this.idList = [];
             this.owner.warehouseList.array = arr;
         }
 
@@ -8667,6 +8674,8 @@ var DevourControl = function (_PaoYa$Component) {
     }, {
         key: "singleWeapon",
         value: function singleWeapon(cell, idx) {
+            this.childList.push(cell);
+
             cell.skin = "local/common/frameBg.png";
 
             cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
@@ -8730,13 +8739,17 @@ var DevourControl = function (_PaoYa$Component) {
                 this.newAllArr[index].ischiocedd = true;
                 this.willBeEatList.push(index);
                 cell._dataSource.willBeEat = true;
-                console.log(cell._dataSource.willBeEat, index, 132);
                 cell.getChildByName("beChioce").visible = true;
             }
 
             var num = 0;
+            var allnum = 0;
             this.childList.forEach(function (element, index) {
+                if (allnum > 2) {
+                    return;
+                }
                 if (element._dataSource.willBeEat) {
+                    allnum++;
                     num += element._dataSource.exp;
                 }
             });
@@ -8805,16 +8818,18 @@ var DevourControl = function (_PaoYa$Component) {
             var _this4 = this;
 
             this.childList.forEach(function (element, index) {
-                if (element._dataSource.willBeEat) {
+                if (element.ischiocedd) {
                     _this4.chioceWp(element, index);
                 }
             });
 
-            for (var i = 0; i < 3; i++) {
-                if (this.childList[i]) {
-                    this.chioceWp(this.childList[i], i);
+            this.owner.warehouseList.tweenTo(0, 200, Laya.Handler.create(this, function () {
+                for (var i = 0; i < 3; i++) {
+                    if (_this4.childList[i]) {
+                        _this4.chioceWp(_this4.childList[i], i);
+                    }
                 }
-            }
+            }));
         }
     }]);
 

@@ -548,7 +548,6 @@ export default class GameControl extends PaoYa.Component {
         this.dodgeComp.resume();
     }
     firstWeaponSelect() {
-        //  console.error('..............................')
         this.weaponManager = null;
         this.weaponManager = new WeaponManager(this.robotWeaponList);
         this.sWeapon = this.weaponManager.seletedWeapon();

@@ -73,11 +73,14 @@ export default class DevourControl extends PaoYa.Component {
         this.isWareChoiceWp = null
         this.newAllArr = arr
         this.childList = []
+        this.idList = []
         this.owner.warehouseList.array = arr
     }
 
     //单个兵器图签
     singleWeapon(cell, idx) {
+        this.childList.push(cell)
+
         cell.skin = `local/common/frameBg.png`
 
         cell.getChildByName(`wp`).skin = `remote/small_weapons/s_${cell._dataSource.weaponId}.png`
@@ -138,13 +141,17 @@ export default class DevourControl extends PaoYa.Component {
             this.newAllArr[index].ischiocedd = true
             this.willBeEatList.push(index)
             cell._dataSource.willBeEat = true
-            console.log(cell._dataSource.willBeEat,index,132)
             cell.getChildByName(`beChioce`).visible = true
         }
 
         let num = 0
+        let allnum = 0
         this.childList.forEach((element, index) => {
+            if (allnum > 2) {
+                return
+            }
             if (element._dataSource.willBeEat) {
+                allnum++
                 num += element._dataSource.exp
             }
         });
@@ -202,15 +209,18 @@ export default class DevourControl extends PaoYa.Component {
     //一键选中
     chiocethreeWp() {
         this.childList.forEach((element, index) => {
-            if (element._dataSource.willBeEat) {
+            if (element.ischiocedd) {
                 this.chioceWp(element, index)
             }
         });
 
-        for (let i = 0; i < 3; i++) {
-            if (this.childList[i]) {
-                this.chioceWp(this.childList[i], i)
+        this.owner.warehouseList.tweenTo(0, 200, Laya.Handler.create(this, () => {
+            for (let i = 0; i < 3; i++) {
+                if (this.childList[i]) {
+                    this.chioceWp(this.childList[i], i)
+                }
             }
-        }
+        }))
     }
+
 }

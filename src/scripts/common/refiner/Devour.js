@@ -32,7 +32,13 @@ export default class Devour extends PaoYa.View {
         })
 
         this.choiceBtn.on(Laya.Event.CLICK, this, () => {
+            // this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
+            // this.nextExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
             SoundManager.ins.btn()
+            // if (DevourControl.ins.willBeEatList.length > 2) {
+            //     return
+            // }
+
             DevourControl.ins.chiocethreeWp()
         })
 
@@ -155,7 +161,7 @@ export default class Devour extends PaoYa.View {
     }
 
     wareWeaponUpdateItem(cell, index) {
-        DevourControl.ins.childList.push(cell)
+        console.log(this.warehouseList)
         DevourControl.ins.singleWeapon(cell, index)
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
