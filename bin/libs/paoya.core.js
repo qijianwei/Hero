@@ -3460,14 +3460,15 @@ var Main = /** @class */ (function (_super) {
             onShowHandler();
             this.socket._startReconnect();
         }
-        this.navigator._onShow(res);
+        this.navigator._onShow(res); 
         this.onShow(res);    
     };
     Main.prototype._onHide = function (res) {
         _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onHide();
+        this.navigator._onHide(res);
         if (!this.socket)
             return;
-        this.navigator._onHide(res);
+       /*  this.navigator._onHide(res); */
         this.onHide(res);     
     };
     /**当游戏进入前台时触发 */

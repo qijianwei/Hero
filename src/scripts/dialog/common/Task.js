@@ -1,4 +1,5 @@
 import SoundManager from "../../../gamescripts/SoundManager";
+import Wheel from "../../common/wheel/Wheel";
 
 export default class Task extends PaoYa.Dialog {
 
@@ -92,7 +93,24 @@ export default class Task extends PaoYa.Dialog {
                     PaoYa.Request.POST(`martial_task_receive`, { taskKey: cell.dataSource.task }, res => {
                         SoundManager.ins.gold()
                         PaoYa.DataCenter.user.diamond += cell.dataSource.diamond
-                        this.diamondNum.text = PaoYa.DataCenter.user.diamond
+                        this.diamondNum.text = addNumberUnit(PaoYa.DataCenter.user.diamond)
+
+                        function addNumberUnit(num) {
+                            switch (true) {
+                                case num >= 10000 && num < 100000000:
+                                    let integ = num / 10000
+                                    return Math.floor(integ * 100) / 100 + '万'
+                                    break
+                                case num >= 100000000:
+                                    let integ1 = num / 100000000
+                                    return Math.floor(integ1 * 100) / 100 + '亿'
+                                    break
+                                default:
+                                    return num + ''
+                                    break
+                            }
+                        };
+
                         this.params.forEach(element => {
                             if (element.task == cell.dataSource.task) {
                                 for (const key in res) {
@@ -185,6 +203,11 @@ export default class Task extends PaoYa.Dialog {
                 detail2.text = `/${cell.dataSource.num}个好友`
                 detail2.x = num.width + num.x
                 break;
+        }
+    }
+    onClosed() {
+        if(Wheel&&Wheel.ins){
+            Wheel.ins.changeDG()
         }
     }
 }

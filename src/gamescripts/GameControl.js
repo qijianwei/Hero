@@ -11,6 +11,7 @@ import PlayerSkill from './prefab/PlayerSkill';
 import WeaponSkill from './prefab/WeaponSkill';
 import GameBanner from './prefab/GameBanner';
 import SoundManager from './SoundManager';
+import PreOpenManager from './preOpen/preOpenManager';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -61,11 +62,13 @@ export default class GameControl extends PaoYa.Component {
         this.fillPlayerInfo();
         this.initSkill();
     }
-    /*   onHide(){
+    //切后台退出游戏，要加些处理，技能2要在下一个怪出现时关掉
+    onHide(){
           if(!this.closeRobot){
+              this.manager&&(this.manager.view.visible=false);
               this.navigator.popToRootScene();
           }
-      } */
+      } 
     //游戏重新开始
     restart() {
         this.showMaskAni();
@@ -96,14 +99,25 @@ export default class GameControl extends PaoYa.Component {
             })
         }
         this.resetPlayerInfo();
-        //要加机器人定时器
-        if (!this.closeRobot) {
-            Laya.timer.once(3000, this, this.firstWeaponSelect);
+        if(this.params.stage){
+            let manager=new PreOpenManager(()=>{
+                manager.start(this.params.stage)
+            });
+            manager.on(PreOpenManager.TALKEND,this,()=>{
+                Laya.timer.once(2000, this, this.firstWeaponSelect);
+            });
+            this.manager=manager;
+        }else{
+            //要加机器人定时器
+            if (!this.closeRobot) {
+               Laya.timer.once(3000, this, this.firstWeaponSelect);
+            }
         }
+       
     }
     showMaskAni() {
         let maskArea = new Laya.Sprite();
-        maskArea.alpha = 1;
+        maskArea.alpha = 0.9;
         maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
         maskArea.pos(-150, 0);
         maskArea.mouseEnabled = true;
@@ -111,7 +125,7 @@ export default class GameControl extends PaoYa.Component {
         Laya.stage.addChild(maskArea);
         let tween = new Laya.Tween();
         tween.to(maskArea, {
-            alpha: 0.5
+            alpha: 0.4
         }, 1000, null, Laya.Handler.create(this, () => {
             tween.clear();
             Laya.stage.removeChild(maskArea);
@@ -795,7 +809,7 @@ export default class GameControl extends PaoYa.Component {
 
 
     }
-    //所有有cd的
+    //所有有cd的 和技能关闭
     allCdEnd() {
         this.weaponsBarArr.forEach((weaponBarComp) => {
             weaponBarComp.endCD();
@@ -803,6 +817,7 @@ export default class GameControl extends PaoYa.Component {
         this.skillScr1.endCD();
         this.skillScr2.endCD();
         this.dodgeComp.endCD();
+        this.selfPlayer.comp.removeSkill2();
     }
     deathHandler(loserIsSelf) {
         Laya.MouseManager.enabled = false;

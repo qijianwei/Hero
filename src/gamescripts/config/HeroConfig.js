@@ -92,6 +92,7 @@ var HeroConfig = {
       templet: null,
     }
   },
+
   /* 提供给外部获取动画的接口，输入动画名字即可 */
   getSkeleton:function (spineName, index = 0,cb) {
     var skeleton;

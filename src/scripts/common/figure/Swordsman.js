@@ -88,6 +88,7 @@ export default class Swordsman extends PaoYa.View {
             SoundManager.ins.btn()
             PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
                 //console.log(res)
+                res.isFromSw=true
                 if (!res) {
                     return
                 }
@@ -196,7 +197,7 @@ export default class Swordsman extends PaoYa.View {
         this.additionMuscle.text = this.showDetail.roleStatus && this.showDetail.roleUpStrength ? `+${this.showDetail.roleUpStrength}` : ""
 
         this.bone.text = `根骨 ${this.showDetail.roleBone - this.showDetail.roleUpBone}`
-        this.additionBone.text = this.showDetail.roleStatus && this.showDetail.roleUpBone ? `+${this.showDetail.roleUpBone}` : ""
+        this.additionBone.text = this.showDetail.roleStatus && this.showDetail.roleUpBone ? `+${this.showDetail.roleUpBone}` : ""   
 
         this.critical.text = `暴击 ${this.showDetail.roleCritProb}%`
 

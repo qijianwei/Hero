@@ -5,6 +5,7 @@ import GameGuideData from "../../gamescripts/gameGuide/GameGuideData";
 
 import { Global } from "./tool/Global";
 import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
+import PreOpenManager from "../../gamescripts/preOpen/preOpenManager";
 let guideContainer,
     maskArea,
     interactionArea,
@@ -26,11 +27,11 @@ export default class HomeControl extends PaoYa.Component {
         HomeControl.ins = this
         let name = PaoYa.DataCenter.user.defaultRoleId;
         let ladder = PaoYa.DataCenter.user.ladder;
-      
-        let player =new Laya.Skeleton();
-        player.load(`spine/hero/hero_${name}.sk`,Laya.Handler.create(this,(res)=>{
-            player.play('stand', true); 
-       }))
+
+        let player = new Laya.Skeleton();
+        player.load(`spine/hero/hero_${name}.sk`, Laya.Handler.create(this, (res) => {
+            player.play('stand', true);
+        }))
         player.pos(371, 570);
         player.scale(1.5, 1.5)
         this.owner.addChild(player);
@@ -55,19 +56,20 @@ export default class HomeControl extends PaoYa.Component {
             this.navigator.push('GameGuide', GameGuideData);
         }
         // this.guideF(`btn2`)
-        this.showRankList()
+        this.showRankList();
     }
     onAppear() {
         SoundManager.ins.homeBg();
-        if(this.first){
-            this.player.play('stand', true);   
-        }else{
-            this.first=true;
+        if (this.first) {
+            this.player.play('stand', true);
+        } else {
+            this.first = true;
         }
-            
+        this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
+        this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
     }
     onDisappear() {
-        this.player._templet&&this.player.stop();
+        this.player._templet && this.player.stop();
     }
     onClick(e) {
         if (e.target instanceof Laya.Button) {
@@ -148,9 +150,9 @@ export default class HomeControl extends PaoYa.Component {
             //华山论剑
             case "btnBattle":
                 console.log("华山论剑")
-                if(PaoYa.DataCenter.user.current<=5){
+                if (PaoYa.DataCenter.user.current <= 5) {
                     py.showToast({
-                        title:'过5关解锁'
+                        title: '过5关解锁'
                     })
                     return;
                 }
@@ -164,12 +166,12 @@ export default class HomeControl extends PaoYa.Component {
                 break;
             //决战紫禁城之巅
             case "btnBoss":
-                    if(PaoYa.DataCenter.user.current<=10){
-                        py.showToast({
-                            title:'过10关解锁'
-                        })
-                        return;
-                    }
+                if (PaoYa.DataCenter.user.current <= 10) {
+                    py.showToast({
+                        title: '过10关解锁'
+                    })
+                    return;
+                }
                 console.log("决战")
                 break;
             //排行榜
@@ -375,7 +377,7 @@ export default class HomeControl extends PaoYa.Component {
         this.aniFinger.stop();
         interactionArea.graphics.clear();
         guideContainer.removeSelf();
-      /*   this.aniFinger.destroy(); */
+        /*   this.aniFinger.destroy(); */
         this.goPassGame();
     }
     nextTick(e) {

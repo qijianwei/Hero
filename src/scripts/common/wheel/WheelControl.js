@@ -20,7 +20,7 @@ export default class WheelControl extends PaoYa.Component {
 
     addTimesD() {
         if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text)) {
-            this.navigator.popup("weapon/DiamondLack", 1);
+            this.navigator.popup("common/BuyWheelTimes", 1);
             return
         }
 

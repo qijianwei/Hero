@@ -3,28 +3,42 @@ let instance
 /**
  * 游戏开场前管理类
  */
-export default class PreOpenManager {
-  constructor() {
-    if ( instance )
+export default class PreOpenManager extends Laya.EventDispatcher {
+  constructor(cb) {
+    super();
+    if ( instance ){
+     // cb();
+     Laya.timer.callLater(this,cb);
       return instance
-
-    instance = this
-
-    this.bgmAudio = new Audio()
-    this.bgmAudio.loop = true
-    this.bgmAudio.src  = 'audio/bgm.mp3'
-
-    this.shootAudio     = new Audio()
-    this.shootAudio.src = 'audio/bullet.mp3'
-
-    this.boomAudio     = new Audio()
-    this.boomAudio.src = 'audio/boom.mp3'
-
+    }
+    instance = this;
+    this.cb=cb;
+    Laya.loader.create('gamescenes/prefab/PreOpenView.json',Laya.Handler.create(this,this.onComplete))
     
   }
+  onComplete(obj){
+    let preOpenView=new Laya.Prefab();  
+     preOpenView.json=obj;
+    let view=Laya.Pool.getItemByCreateFun('PreOpenView',preOpenView.create,preOpenView);
+    Laya.stage.addChild(view);
+    view.pos(-150,0);
+    this.view=view;
+    this.view.on(`end`,this,this.endHandler);
+    this.cb();
+  }
+  init(){
 
-  
+  }
+  start(data){
+    this.view.visible=true;
+    this.view.start(data);
+  }
+  endHandler(){
+      this.view.visible=false;
+      this.event(PreOpenManager.TALKEND)
+  }
 }
+PreOpenManager.TALKEND=`talkend`;
 
 /* 先声明一个预设变量
 {Laya.loader.create("prefab/预设名字.json",Handler.create(this,onComplete));

@@ -6,7 +6,7 @@ export default class SoundManager {
     }
 
     constructor() {
-        this.url = PaoYa.DataCenter.RESURL + 'remote/sound/';
+        this.url = 'remote/sound/';
         this.suffix = Laya.Render.isConchApp ? '.wav' : '.mp3';
         if (localStorage.getItem("musicSwitchState") || localStorage.getItem("musicSwitchState") == 'true') {
             Laya.SoundManager.musicMuted = true;

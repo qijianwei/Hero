@@ -21,6 +21,10 @@ export default class SpeakMan extends PaoYa.Component{
         this.lblSpeakName.text=value;
         this.imgRole.visible=false;
     }
+    refresh(obj){
+        this.lblSpeakName.text=obj.name;
+        this.imgRole.texture=`remote/guide/${obj.dress}.png`;
+    }
     showWord(value){
         this.str=value;
         let len=this.str.length;

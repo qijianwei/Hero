@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":2,
-    "selecteID":5,
+    "selectedBox":10,
+    "selecteID":292,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","height":750},
     "nodeParent":-1,
-    "maxID":292,
+    "maxID":294,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image",
-            "props":{"y":0,"x":-150,"visible":true,"skin":"local/home/homeBg.jpg"},
+            "props":{"y":0,"x":-150,"skin":"local/home/homeBg.jpg"},
             "nodeParent":2,
             "label":"Image",
             "isDirectory":false,
@@ -201,12 +201,26 @@
                     "props":{"y":470,"x":1332,"stateNum":"1","skin":"local/home/btn_register.png","name":"btnRegister"},
                     "nodeParent":168,
                     "label":"btnRegister",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":10,
                     "child":[
-                        ],
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite,signDot",
+                            "props":{"y":8,"x":88,"var":"signDot","texture":"local/common/dot.png"},
+                            "nodeParent":10,
+                            "label":"signDot",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":292,
+                            "child":[
+                                ]
+                        }],
                     "$LOCKED":true
                 },
                 {
@@ -230,12 +244,26 @@
                     "props":{"y":130,"x":1332,"stateNum":"1","skin":"local/home/btn_task.png","name":"btnTask"},
                     "nodeParent":168,
                     "label":"btnTask",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":12,
                     "child":[
-                        ]
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite,taskDot",
+                            "props":{"y":8,"x":88,"var":"taskDot","texture":"local/common/dot.png"},
+                            "nodeParent":12,
+                            "label":"taskDot",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":293,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,

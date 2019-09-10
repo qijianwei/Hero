@@ -53,6 +53,7 @@ import BeanBox from "./scripts/prefab/BeanBox"
 import HomeControl from "./scripts/common/HomeControl"
 import SpeakMan from "./gamescripts/gameGuide/SpeakMan"
 import Player from "./gamescripts/prefab/Player"
+import PreOpenView from "./gamescripts/preOpen/PreOpenView"
 import Weapon from "./gamescripts/prefab/Weapon"
 import WeaponSkill from "./gamescripts/prefab/WeaponSkill"
 
@@ -114,6 +115,7 @@ export default class GameConfig {
 		reg("scripts/common/HomeControl.js",HomeControl);
 		reg("gamescripts/gameGuide/SpeakMan.js",SpeakMan);
 		reg("gamescripts/prefab/Player.js",Player);
+		reg("gamescripts/preOpen/PreOpenView.js",PreOpenView);
 		reg("gamescripts/prefab/Weapon.js",Weapon);
 		reg("gamescripts/prefab/WeaponSkill.js",WeaponSkill);
     }
@@ -124,7 +126,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameGuide.scene";
+GameConfig.startScene = "scenes/HomeView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

@@ -89,7 +89,7 @@ export default class GameGuideControl extends GameControl{
     step1(){
         selfSpeakMan.visible=false;
         otherSpeakMan.visible=true;
-        otherSpeakManComp.showWord('小哥哥谦虚了，出招把。'); 
+        otherSpeakManComp.showWord('小哥哥谦虚了，出招吧。'); 
     }
     step2(){
         selfSpeakMan.visible=true;
@@ -167,10 +167,10 @@ export default class GameGuideControl extends GameControl{
     step7(){
        this.target.visible=false;
        this.imgTip.visible=false;
-      
+       this.imgTip.skin=`remote/guide/8.png`;
        this.imgTip.y=300;
        Laya.timer.once(200,this,()=>{
-        this.imgTip.skin=`remote/guide/8.png`;
+        
            this.imgTip.visible=true;
            this.resumeArrowAni();
        })

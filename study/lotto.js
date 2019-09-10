@@ -270,4 +270,5 @@ var promise = new Promise(function () {
 promise.catch(function (error) {
     console.log(error instanceof TimeoutError);
 });
-/* 有了这个 TimeoutError 对象，我们就能很容易区分捕获的到底是因为超时而导致的错误，还是其他原因导致的Error对象了。 */
+/* 有了这个 TimeoutError 对象，我们就能很容易区分捕获的到底
+是因为超时而导致的错误，还是其他原因导致的Error对象了。 */

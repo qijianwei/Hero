@@ -1,5 +1,6 @@
 import WheelControl from "../../common/wheel/WheelControl";
 import SoundManager from "../../../gamescripts/SoundManager";
+import HomeControl from "../../common/HomeControl";
 
 
 export default class BuyWheelTimes extends PaoYa.Dialog {
@@ -17,13 +18,17 @@ export default class BuyWheelTimes extends PaoYa.Dialog {
         this.title.scale(0.75, 0.75)
         this.title.x = (544 - this.title.width * 0.75) / 2
 
-        this.buy.on(Laya.Event.CLICK,this,()=>{
+        this.buy.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
-            WheelControl.ins.addTimesD()
             this.close()
+            if (PaoYa.DataCenter.user.diamond > 500) {
+                WheelControl.ins.addTimesD()
+            } else {
+                HomeControl.ins.navigator.popup("weapon/DiamondLack", 1);
+            }
         })
 
-        this.closeBtn.on(Laya.Event.CLICK,this,()=>{
+        this.closeBtn.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
             this.close()
         })
