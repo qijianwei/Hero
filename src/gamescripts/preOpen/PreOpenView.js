@@ -5,9 +5,6 @@ export default class PreOpenView extends PaoYa.View{
         super();
     }
     onAwake(){
-        console.log(this);
-       /*  console.log(this.selfSpeakMan);
-        console.log(this.selfSpeakMan.getComponent(SpeakMan)); */
         this.selfSpeakMan=this.getChildByName('selfSpeakMan');
         this.otherSpeakMan=this.getChildByName('otherSpeakMan');
         console.log(this.selfSpeakMan.getComponent(SpeakMan));
@@ -51,7 +48,3 @@ export default class PreOpenView extends PaoYa.View{
     }
 }
 PreOpenView.END=`end`;
-
-
-/* 
- */
