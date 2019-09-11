@@ -15,8 +15,6 @@ export default class GameView extends PaoYa.View{
       this.otherMPBarScr=this.boxOtherInfo.getChildByName('boxMPBar').getComponent(MPBar);  
       this.otherHPBarScr=this.boxOtherInfo.getChildByName('boxHPBar').getComponent(HPBar);
 
-     /*  this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
-      this.gameBannerScr.changeStyle({gameStyle:'battle'}); */
       let sceneSK=new Laya.Skeleton();
       sceneSK.load(`spine/scene/scene1.sk`,Laya.Handler.create(this,(res)=>{
         
@@ -37,8 +35,8 @@ export default class GameView extends PaoYa.View{
    
     setInfo(data,isSelf){
       let boxInfo=isSelf?this.boxSelfInfo:this.boxOtherInfo;
-      let imgIcon=boxInfo.getChildByName('imgIcon');
-      let lblName=boxInfo.getChildByName("lblName");
+      let imgIcon=boxInfo.getChildByName(`imgIcon`);
+      let lblName=boxInfo.getChildByName(`lblName`);
       imgIcon.skin=data.icon;
       lblName.text=data.name;
     }

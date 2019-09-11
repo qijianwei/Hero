@@ -344,7 +344,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/GameGuide.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -808,8 +808,8 @@ var GameControl = function (_PaoYa$Component) {
         value: function showMaskAni() {
             var maskArea = new Laya.Sprite();
             maskArea.alpha = 0.9;
-            maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
-            maskArea.pos(-150, 0);
+            maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+            // maskArea.pos(-150, 0);
             maskArea.mouseEnabled = true;
             maskArea.zOrder = 2000;
             Laya.stage.addChild(maskArea);
@@ -1279,7 +1279,6 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'firstWeaponSelect',
         value: function firstWeaponSelect() {
-            //  console.error('..............................')
             this.weaponManager = null;
             this.weaponManager = new _WeaponManager2.default(this.robotWeaponList);
             this.sWeapon = this.weaponManager.seletedWeapon();
@@ -1571,7 +1570,7 @@ var GameControl = function (_PaoYa$Component) {
             this.skillScr1.endCD();
             this.skillScr2.endCD();
             this.dodgeComp.endCD();
-            this.selfPlayer.comp.removeSkill2();
+            this.selfPlayer.comp.removeSkill2(); //如果有技能2,直接关掉
         }
     }, {
         key: 'deathHandler',
@@ -1816,8 +1815,6 @@ var GameView = function (_PaoYa$View) {
       this.otherMPBarScr = this.boxOtherInfo.getChildByName('boxMPBar').getComponent(_MPBar2.default);
       this.otherHPBarScr = this.boxOtherInfo.getChildByName('boxHPBar').getComponent(_HPBar2.default);
 
-      /*  this.gameBannerScr=this.boxGameBanner.getComponent(GameBanner);
-       this.gameBannerScr.changeStyle({gameStyle:'battle'}); */
       var sceneSK = new Laya.Skeleton();
       sceneSK.load("spine/scene/scene1.sk", Laya.Handler.create(this, function (res) {
 
@@ -1837,7 +1834,7 @@ var GameView = function (_PaoYa$View) {
     key: "setInfo",
     value: function setInfo(data, isSelf) {
       var boxInfo = isSelf ? this.boxSelfInfo : this.boxOtherInfo;
-      var imgIcon = boxInfo.getChildByName('imgIcon');
+      var imgIcon = boxInfo.getChildByName("imgIcon");
       var lblName = boxInfo.getChildByName("lblName");
       imgIcon.skin = data.icon;
       lblName.text = data.name;
@@ -2637,8 +2634,8 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                     // 绘制遮罩区，含透明度，
                     var maskArea = new Laya.Sprite();
                     maskArea.alpha = 0.5;
-                    maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
-                    maskArea.pos(-150, 0);
+                    maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+                    // maskArea.pos(-150,0);
                     maskArea.mouseEnabled = true;
                     maskArea.zOrder = 2000;
                     Laya.stage.addChild(maskArea);
@@ -2665,7 +2662,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                             message: msg,
                             confirmText: '前往',
                             confirmHandler: function confirmHandler() {
-                                this.close();
+                                _this3.close();
                                 PaoYa.navigator.popToRootScene();
                                 PaoYa.navigator.visibleScene.getComponent(_HomeControl2.default).goRefiner();
                             }
@@ -4118,7 +4115,7 @@ var PreOpenManager = function (_Laya$EventDispatcher) {
       preOpenView.json = obj;
       var view = Laya.Pool.getItemByCreateFun('PreOpenView', preOpenView.create, preOpenView);
       Laya.stage.addChild(view);
-      view.pos(-150, 0);
+      // view.pos(-150,0);
       this.view = view;
       this.view.on('end', this, this.endHandler);
       this.cb();
@@ -4680,8 +4677,10 @@ var Player = function (_PaoYa$Component) {
         case 'skill2':
           this.canAction = true;
           _GameControl2.default.instance.allResume(this.isSelf);
-          this['aniSkill2Hero' + this.roleId].visible = true;
-          this['aniSkill2Hero' + this.roleId].play(0, true);
+          if (this['aniSkill2Hero' + this.roleId]) {
+            this['aniSkill2Hero' + this.roleId].visible = true;
+            this['aniSkill2Hero' + this.roleId].play(0, true);
+          }
           break;
         case 'launch':
           this.attackCallback();
@@ -4759,8 +4758,10 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removeSkill2",
     value: function removeSkill2() {
-      this['aniSkill2Hero' + this.roleId].visible = false;
-      this['aniSkill2Hero' + this.roleId].stop();
+      if (this['aniSkill2Hero' + this.roleId]) {
+        this['aniSkill2Hero' + this.roleId].visible = false;
+        this['aniSkill2Hero' + this.roleId].stop();
+      }
     }
     //人物触发兵器技能特效
 
@@ -6683,13 +6684,13 @@ var HomeControl = function (_PaoYa$Component) {
             if (PaoYa.DataCenter.user.is_first_game == 1) {
                 this.navigator.push('GameGuide', _GameGuideData2.default);
             }
-            // this.guideF(`btn2`)
+            // this.guideF(`btn1`)
             this.showRankList();
         }
     }, {
         key: "onAppear",
         value: function onAppear() {
-            _SoundManager2.default.ins.homeBg();
+            // SoundManager.ins.homeBg();
             if (this.first) {
                 this.player.play('stand', true);
             } else {
@@ -7081,7 +7082,7 @@ var HomeControl = function (_PaoYa$Component) {
             gameContainer.size(1634, 750);
             gameContainer.pos(-150, 0);
             gameContainer.mouseEnabled = true;
-            Laya.stage.addChild(gameContainer);
+            this.owner.addChild(gameContainer);
 
             var step = null;
 
@@ -7110,21 +7111,24 @@ var HomeControl = function (_PaoYa$Component) {
                         break;
                 }
                 _this10.aniFinger.visible = false;
-                Laya.stage.removeChild(guideContainer);
-                Laya.stage.removeChild(gameContainer);
-                Laya.stage.removeChild(_this10.aniFinger);
+                _this10.owner.removeChild(guideContainer);
+                _this10.owner.removeChild(gameContainer);
+                _this10.aniFinger.visible = false;
+                // this.owner.removeChild(this.aniFinger);
             });
 
             // 引导所在容器
-            var guideContainer = new Sprite();
-            Laya.stage.addChild(guideContainer);
-            guideContainer.cacheAs = "bitmap";
+            var guideContainer = new Laya.Sprite();
+            guideContainer.zOrder = 1000;
+            this.owner.addChild(guideContainer);
+            guideContainer.cacheAs = 'bitmap';
 
             // 绘制遮罩区，含透明度，可见游戏背景
             var maskArea = new Sprite();
             guideContainer.addChild(maskArea);
             maskArea.alpha = 0.5;
-            maskArea.graphics.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
+            maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+            maskArea.pos(-150, 0);
 
             // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
             var interactionArea = new Sprite();
@@ -7134,20 +7138,19 @@ var HomeControl = function (_PaoYa$Component) {
 
             // 设置点击区域
             var hitArea = new Laya.HitArea();
-            hitArea.hit.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
+            hitArea.hit.drawRect(-150, 0, 1634, 750, "#000");
             guideContainer.hitArea = hitArea;
             guideContainer.mouseEnabled = true;
 
             this.aniFinger.visible = true;
-            this.aniFinger.pos(step.x + step.width / 2 - 150 + _Global.Global.AdaptiveWidth, step.height / 2 + step.y);
+            this.aniFinger.pos(step.x + step.width / 2 - 150, step.height / 2 + step.y);
             this.aniFinger.play(0, true);
-            Laya.stage.addChild(this.aniFinger);
 
             hitArea.unHit.clear();
-            hitArea.unHit.drawCircle(step.x + step.width / 2 - 150 + _Global.Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
+            hitArea.unHit.drawCircle(step.x + step.width / 2 - 150, step.height / 2 + step.y, 65, "#000000");
 
             interactionArea.graphics.clear();
-            interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150 + _Global.Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
+            interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
         }
     }, {
         key: "onDisappear",
@@ -7805,17 +7808,16 @@ var Swordsman = function (_PaoYa$View) {
             this.params = this.params.detail;
             if (this.isGuide) {
                 this.guide1.visible = true;
+                this.guide1.zOrder = 999;
                 PaoYa.Request.POST("martial_change_new_hand", { type: "roleNew" });
                 this.guideContainer = new Laya.Sprite();
-                Laya.stage.addChild(this.guideContainer);
-                Laya.stage.addChild(this.guide1);
-                this.guide1.x = this.guide1.x + _Global.Global.AdaptiveWidth;
+                this.addChild(this.guideContainer);
                 this.guideContainer.cacheAs = "bitmap";
 
                 var spmask = new Laya.Sprite();
                 spmask.alpha = 0.5;
                 this.guideContainer.addChild(spmask);
-                spmask.graphics.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
+                spmask.graphics.drawRect(-150, 0, 1634, 750, "#000");
 
                 this.sp = new Laya.Sprite();
                 this.guideContainer.addChild(this.sp);
@@ -8140,7 +8142,7 @@ var Swordsman = function (_PaoYa$View) {
                 this.heroSkin.destroy();
                 this.heroSkin = null;
             }
-            Laya.stage.removeChild(this.guideContainer);
+            this.removeChild(this.guideContainer);
         }
     }, {
         key: "guide1f",
@@ -8227,7 +8229,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
             if (this.owner.isGuide) {
                 this.owner.guideBack = true;
                 this.owner.isGuide = false;
-                Laya.stage.removeChild(this.owner.guideContainer);
+                this.owner.removeChild(this.owner.guideContainer);
                 numNew = 1;
             } else {
                 if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
@@ -8325,6 +8327,10 @@ var _Refining2 = _interopRequireDefault(_Refining);
 
 var _Global = require("../tool/Global");
 
+var _RefiningControl = require("./RefiningControl");
+
+var _RefiningControl2 = _interopRequireDefault(_RefiningControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8352,11 +8358,7 @@ var Devour = function (_PaoYa$View) {
         key: "onEnable",
         value: function onEnable() {
             if (this.params.isGuide) {
-                Laya.stage.addChild(this.guide2);
-                this.guide2.x = this.guide2.x + _Global.Global.AdaptiveWidth;
-                this.guide2.visible = true;
-                this.guide2f(1);
-                _Refining2.default.ins.sceondStep();
+                _DevourControl2.default.ins.getMask();
             }
             this.benBack.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
@@ -8534,8 +8536,7 @@ var Devour = function (_PaoYa$View) {
         value: function nextP() {
             this.guide2.visible = false;
             this.guide3.visible = true;
-            Laya.stage.addChild(this.guide3);
-            this.guide3.x = this.guide3.x + _Global.Global.AdaptiveWidth;
+            this.guide3.zOrder = 2;
             this.guide3f(1);
         }
     }, {
@@ -8560,7 +8561,7 @@ var Devour = function (_PaoYa$View) {
 
 exports.default = Devour;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":47,"./DevourControl":40,"./Refining":41}],40:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":47,"./DevourControl":40,"./Refining":41,"./RefiningControl":42}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8572,6 +8573,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _Refining = require("./Refining");
 
 var _Refining2 = _interopRequireDefault(_Refining);
+
+var _RefiningControl = require("./RefiningControl");
+
+var _RefiningControl2 = _interopRequireDefault(_RefiningControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8831,6 +8840,101 @@ var DevourControl = function (_PaoYa$Component) {
                 }
             }));
         }
+    }, {
+        key: "getMask",
+        value: function getMask() {
+            var _this5 = this;
+
+            this.guideStep = 1;
+            this.guideSteps = [{ x: 120, y: 3, radius: 53 }, { x: 143, y: 0, radius: 90 }, { x: 143, y: 0, radius: 90 }];
+
+            var Sprite = Laya.Sprite;
+
+            this.owner.guide2.zOrder = 2;
+            this.owner.guide2.visible = true;
+            this.owner.guide2f(1);
+
+            _RefiningControl2.default.ins.sceondStep();
+            // 绘制底图
+            this.gameContainer = new Sprite();
+            this.gameContainer.size(1634, 750);
+            this.gameContainer.pos(-150, 0);
+            this.gameContainer.mouseEnabled = true;
+            this.owner.addChild(this.gameContainer);
+            this.gameContainer.on(Laya.Event.CLICK, this, function () {
+                switch (_this5.guideStep) {
+                    case 0:
+                        _RefiningControl2.default.ins.addLv(_this5.owner.params.refiner_list[0]);
+                        break;
+                    case 1:
+                        _this5.owner.nextP();
+                        _SoundManager2.default.ins.btn();
+                        _this5.guideStep = 2;
+                        _this5.chiocethreeWp();
+                        _this5.nextStep(_this5.owner.guide3);
+                        break;
+                    case 2:
+                        _SoundManager2.default.ins.btn();
+                        _this5.eatWp();
+                        _this5.guideStep = 3;
+                        _this5.isGuide = false;
+                        _this5.nextStep();
+                        _this5.owner.guide3.visible = false;
+                        break;
+                }
+            });
+
+            // 引导所在容器
+            this.guideContainer = new Sprite();
+            this.owner.addChild(this.guideContainer);
+            this.guideContainer.cacheAs = "bitmap";
+
+            // 绘制遮罩区，含透明度，可见游戏背景
+            this.maskArea = new Sprite();
+            this.guideContainer.addChild(this.maskArea);
+            this.maskArea.alpha = 0.5;
+            this.maskArea.graphics.drawRect(-150, 0, 1634, 750, "#000");
+
+            // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
+            this.interactionArea = new Sprite();
+            this.guideContainer.addChild(this.interactionArea);
+            // 设置叠加模式
+            this.interactionArea.blendMode = "destination-out";
+
+            // 设置点击区域
+            this.hitArea = new Laya.HitArea();
+            this.hitArea.hit.drawRect(-150, 0, 1634, 750, "#000");
+            this.guideContainer.hitArea = this.hitArea;
+            this.guideContainer.mouseEnabled = true;
+
+            this.nextStep(this.owner.guide2);
+        }
+    }, {
+        key: "sceondStep",
+        value: function sceondStep() {
+            this.owner.guide1.visible = false;
+            _SoundManager2.default.ins.btn();
+            this.guideStep = 1;
+            this.nextStep(Devour.ins.guide2);
+        }
+    }, {
+        key: "nextStep",
+        value: function nextStep(obj) {
+            if (this.guideStep === this.guideSteps.length) {
+                this.owner.removeChild(this.guideContainer);
+                this.owner.removeChild(this.gameContainer);
+                this.owner.guide2.visible = false;
+                this.owner.guide3.visible = false;
+                return;
+            }
+            var step = this.guideSteps[this.guideStep];
+
+            this.hitArea.unHit.clear();
+            this.hitArea.unHit.drawCircle(obj.x + step.x, obj.y + step.y, step.radius, "#000000");
+
+            this.interactionArea.graphics.clear();
+            this.interactionArea.graphics.drawCircle(obj.x + step.x, obj.y + step.y, step.radius, "#000000");
+        }
     }]);
 
     return DevourControl;
@@ -8838,7 +8942,7 @@ var DevourControl = function (_PaoYa$Component) {
 
 exports.default = DevourControl;
 
-},{"./Refining":41}],41:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./Refining":41,"./RefiningControl":42}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8898,7 +9002,7 @@ var Refining = function (_PaoYa$View) {
 
             this.changeData();
             if (this.isGuide) {
-                this.getMask();
+                _RefiningControl2.default.ins.getMask();
                 PaoYa.Request.POST("martial_change_new_hand", { type: "refinerNew" });
             }
             this.benBack.on(Laya.Event.CLICK, this, function () {
@@ -8959,109 +9063,13 @@ var Refining = function (_PaoYa$View) {
             });
         }
     }, {
-        key: "getMask",
-        value: function getMask() {
-            var _this4 = this;
-
-            this.guide1.visible = true;
-
-            this.guideStep = 0;
-            this.guideSteps = [{ x: 120, y: 3, radius: 53 }, { x: 153, y: 0, radius: 90 }, { x: 153, y: 0, radius: 90 }];
-
-            var Sprite = Laya.Sprite;
-
-            // 绘制底图
-            this.gameContainer = new Sprite();
-            this.gameContainer.size(1634, 750);
-            this.gameContainer.pos(-150, 0);
-            this.gameContainer.mouseEnabled = true;
-            Laya.stage.addChild(this.gameContainer);
-            this.gameContainer.on(Laya.Event.CLICK, this, function () {
-                switch (_this4.guideStep) {
-                    case 0:
-                        _RefiningControl2.default.ins.addLv(_this4.params.refiner_list[0]);
-                        break;
-                    case 1:
-                        _Devour2.default.ins.nextP();
-                        _SoundManager2.default.ins.btn();
-                        _this4.guideStep = 2;
-                        _DevourControl2.default.ins.chiocethreeWp();
-                        _this4.nextStep(_Devour2.default.ins.guide3);
-                        break;
-                    case 2:
-                        _SoundManager2.default.ins.btn();
-                        _DevourControl2.default.ins.eatWp();
-                        _this4.guideStep = 3;
-                        _this4.isGuide = false;
-                        _this4.nextStep();
-                        _Devour2.default.ins.guide3.visible = false;
-                        break;
-                }
-            });
-
-            // 引导所在容器
-            this.guideContainer = new Sprite();
-            Laya.stage.addChild(this.guideContainer);
-            Laya.stage.addChild(this.guide1);
-            this.guide1.x = this.guide1.x + _Global.Global.AdaptiveWidth;
-            this.guide1f(1);
-            this.guideContainer.cacheAs = "bitmap";
-
-            // 绘制遮罩区，含透明度，可见游戏背景
-            this.maskArea = new Sprite();
-            this.guideContainer.addChild(this.maskArea);
-            this.maskArea.alpha = 0.5;
-            this.maskArea.graphics.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
-
-            // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
-            this.interactionArea = new Sprite();
-            this.guideContainer.addChild(this.interactionArea);
-            // 设置叠加模式
-            this.interactionArea.blendMode = "destination-out";
-
-            // 设置点击区域
-            this.hitArea = new Laya.HitArea();
-            this.hitArea.hit.drawRect(-150 + _Global.Global.AdaptiveWidth, 0, 1634, 750, "#000");
-            this.guideContainer.hitArea = this.hitArea;
-            this.guideContainer.mouseEnabled = true;
-
-            this.nextStep(this.guide1);
-        }
-    }, {
-        key: "sceondStep",
-        value: function sceondStep() {
-            this.guide1.visible = false;
-            _SoundManager2.default.ins.btn();
-            this.guideStep = 1;
-            this.nextStep(_Devour2.default.ins.guide2);
-        }
-    }, {
-        key: "nextStep",
-        value: function nextStep(obj) {
-            if (this.guideStep === this.guideSteps.length) {
-                Laya.stage.removeChild(this.guideContainer);
-                Laya.stage.removeChild(this.gameContainer);
-                Laya.stage.removeChild(this.guide1);
-                Laya.stage.removeChild(_Devour2.default.ins.guide2);
-                Laya.stage.removeChild(_Devour2.default.ins.guide3);
-                return;
-            }
-            var step = this.guideSteps[this.guideStep];
-
-            this.hitArea.unHit.clear();
-            this.hitArea.unHit.drawCircle(obj.x + step.x, obj.y + step.y, step.radius, "#000000");
-
-            this.interactionArea.graphics.clear();
-            this.interactionArea.graphics.drawCircle(obj.x + step.x, obj.y + step.y, step.radius, "#000000");
-        }
-    }, {
         key: "guide1f",
         value: function guide1f(e) {
-            var _this5 = this;
+            var _this4 = this;
 
             var n = e == 1 ? -1 : 1;
             Laya.Tween.to(this.guide1, { x: this.guide1.x + 15 * n }, 300, null, Laya.Handler.create(this, function () {
-                _this5.guide1f(n);
+                _this4.guide1f(n);
             }));
         }
     }]);
@@ -9079,6 +9087,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+var _Devour = require("./Devour");
+
+var _Devour2 = _interopRequireDefault(_Devour);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9118,6 +9136,99 @@ var RefiningControl = function (_PaoYa$Component) {
                 this.navigator.popup("refiner/Canlock", e);
             }
         }
+    }, {
+        key: "getMask",
+        value: function getMask() {
+            var _this3 = this;
+
+            this.owner.guide1.visible = true;
+
+            this.guideStep = 0;
+            this.guideSteps = [{ x: 120, y: 3, radius: 53 }];
+
+            var Sprite = Laya.Sprite;
+
+            // 绘制底图
+            this.gameContainer = new Sprite();
+            this.gameContainer.size(1634, 750);
+            this.gameContainer.pos(-150, 0);
+            this.gameContainer.mouseEnabled = true;
+            this.owner.addChild(this.gameContainer);
+            this.gameContainer.on(Laya.Event.CLICK, this, function () {
+                switch (_this3.guideStep) {
+                    case 0:
+                        RefiningControl.ins.addLv(_this3.owner.params.refiner_list[0]);
+                        break;
+                    case 1:
+                        _Devour2.default.ins.nextP();
+                        _SoundManager2.default.ins.btn();
+                        _this3.guideStep = 2;
+                        DevourControl.ins.chiocethreeWp();
+                        _this3.nextStep(_Devour2.default.ins.guide3);
+                        break;
+                    case 2:
+                        _SoundManager2.default.ins.btn();
+                        DevourControl.ins.eatWp();
+                        _this3.guideStep = 3;
+                        _this3.isGuide = false;
+                        _this3.nextStep();
+                        _Devour2.default.ins.guide3.visible = false;
+                        break;
+                }
+            });
+
+            // 引导所在容器
+            this.guideContainer = new Sprite();
+            this.owner.addChild(this.guideContainer);
+            this.guideContainer.cacheAs = "bitmap";
+
+            this.owner.guide1.zOrder = 2;
+            this.owner.guide1f(1);
+
+            // 绘制遮罩区，含透明度，可见游戏背景
+            this.maskArea = new Sprite();
+            this.guideContainer.addChild(this.maskArea);
+            this.maskArea.alpha = 0.5;
+            this.maskArea.graphics.drawRect(-150, 0, 1634, 750, "#000");
+
+            // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
+            this.interactionArea = new Sprite();
+            this.guideContainer.addChild(this.interactionArea);
+            // 设置叠加模式
+            this.interactionArea.blendMode = "destination-out";
+
+            // 设置点击区域
+            this.hitArea = new Laya.HitArea();
+            this.hitArea.hit.drawRect(-150, 0, 1634, 750, "#000");
+            this.guideContainer.hitArea = this.hitArea;
+            this.guideContainer.mouseEnabled = true;
+
+            this.nextStep(this.owner.guide1);
+        }
+    }, {
+        key: "sceondStep",
+        value: function sceondStep() {
+            this.owner.guide1.visible = false;
+            this.guideStep = 1;
+            this.nextStep(_Devour2.default.ins.guide2);
+        }
+    }, {
+        key: "nextStep",
+        value: function nextStep(obj) {
+            if (this.guideStep === this.guideSteps.length) {
+                this.owner.removeChild(this.guideContainer);
+                this.owner.removeChild(this.gameContainer);
+                this.owner.guide1.visible = false;
+                return;
+            }
+            var step = this.guideSteps[this.guideStep];
+
+            this.hitArea.unHit.clear();
+            this.hitArea.unHit.drawCircle(obj.x + step.x, obj.y + step.y, step.radius, "#000000");
+
+            this.interactionArea.graphics.clear();
+            this.interactionArea.graphics.drawCircle(obj.x + step.x, obj.y + step.y, step.radius, "#000000");
+        }
     }]);
 
     return RefiningControl;
@@ -9125,7 +9236,7 @@ var RefiningControl = function (_PaoYa$Component) {
 
 exports.default = RefiningControl;
 
-},{}],43:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./Devour":39}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9331,7 +9442,7 @@ var SignControl = function (_PaoYa$Component) {
             var _this2 = this;
 
             PaoYa.Request.POST("martial_login_bonus_receive", { adv: 0 }, function (res) {
-                PaoYa.DataCenter.user.ins.loginBonusStatus = false;
+                PaoYa.DataCenter.user.loginBonusStatus = false;
                 var obj = {
                     type: "sign",
                     detail: res
@@ -10398,19 +10509,21 @@ var WeaponHouse = function (_PaoYa$View) {
             gameContainer.size(1634, 750);
             gameContainer.pos(-150, 0);
             gameContainer.mouseEnabled = true;
-            Laya.stage.addChild(gameContainer);
+            this.addChild(gameContainer);
 
             // 引导所在容器
             var guideContainer = new Sprite();
-            Laya.stage.addChild(guideContainer);
+            this.addChild(guideContainer);
             guideContainer.cacheAs = "bitmap";
+            guideContainer.zOrder = 10;
 
             // 绘制遮罩区，含透明度，可见游戏背景
             var maskArea = new Sprite();
             guideContainer.addChild(maskArea);
             maskArea.alpha = 0.5;
             maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
-            console.log(13465);
+            maskArea.zOrder = 10;
+
             // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
             var interactionArea = new Sprite();
             guideContainer.addChild(interactionArea);
@@ -10423,47 +10536,40 @@ var WeaponHouse = function (_PaoYa$View) {
             guideContainer.hitArea = hitArea;
             guideContainer.mouseEnabled = true;
 
-            this.equip.x = this.equip.x + _Global.Global.AdaptiveWidth;
             this.equip.visible = true;
-            Laya.stage.addChild(this.equip);
-            this.equipTips.x = this.equipTips.x + _Global.Global.AdaptiveWidth;
+            this.equip.zOrder = 20;
+            this.equipTips.x = this.equipTips.x;
             this.equipTips.visible = true;
-            Laya.stage.addChild(this.equipTips);
+            this.equipTips.zOrder = 20;
             //第一步装备
             this.equip.on(Laya.Event.CLICK, this, function () {
-                _this5.equip.x = _this5.equip.x - _Global.Global.AdaptiveWidth;
-                _this5.addChild(_this5.equip);
-                Laya.stage.removeChild(_this5.equip);
-                Laya.stage.removeChild(_this5.equipTips);
+                _this5.equip.zOrder = 0;
+                _this5.equipTips.visible = false;
                 _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.chargeWeapon();
 
-                _this5.upGrade.x = _this5.upGrade.x + _Global.Global.AdaptiveWidth;
                 _this5.upGrade.visible = true;
-                Laya.stage.addChild(_this5.upGrade);
-                _this5.upGradeTips.x = _this5.upGradeTips.x + _Global.Global.AdaptiveWidth;
+                _this5.upGrade.zOrder = 20;
+                _this5.upGradeTips.x = _this5.upGradeTips.x;
                 _this5.upGradeTips.visible = true;
-                Laya.stage.addChild(_this5.upGradeTips);
+                _this5.upGradeTips.zOrder = 20;
                 //第二步升级
                 _this5.upGrade.on(Laya.Event.CLICK, _this5, function () {
-                    _this5.upGrade.x = _this5.upGrade.x - _Global.Global.AdaptiveWidth;
-                    _this5.addChild(_this5.upGrade);
-                    Laya.stage.removeChild(_this5.upGrade);
-                    Laya.stage.removeChild(_this5.upGradeTips);
+                    _this5.upGrade.zOrder = 0;
+                    _this5.upGradeTips.visible = false;
                     _WeaponHouseControl2.default.ins.upgradeWeapon();
 
-                    _this5.benBack.x = _this5.benBack.x + _Global.Global.AdaptiveWidth;
                     _this5.benBack.visible = true;
-                    Laya.stage.addChild(_this5.benBack);
-                    _this5.benBackTips.x = _this5.benBackTips.x + _Global.Global.AdaptiveWidth;
+                    _this5.benBack.zOrder = 20;
+                    _this5.benBackTips.x = _this5.benBackTips.x;
                     _this5.benBackTips.visible = true;
-                    Laya.stage.addChild(_this5.benBackTips);
+                    _this5.benBackTips.zOrder = 20;
                     //第三步 返回
                     _this5.benBack.on(Laya.Event.CLICK, _this5, function () {
                         Laya.stage.removeChild(guideContainer);
                         Laya.stage.removeChild(gameContainer);
-                        Laya.stage.removeChild(_this5.benBack);
-                        Laya.stage.removeChild(_this5.benBackTips);
+                        _this5.benBack.zOrder = 0;
+                        _this5.benBackTips.visible = false;
                         _WeaponHouseControl2.default.ins.isGuide = false;
                         _SoundManager2.default.ins.btn();
                         _WeaponHouseControl2.default.ins.navigator.pop();

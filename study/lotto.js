@@ -3,7 +3,7 @@ var behindZone = new Map();
 var noteTimes = new Map();
 var pageSize=24;
 var selectedItem=6;
-function initProbability() {
+(function () {
     for (let i = 1; i <= 35; i++) {
         frontZone.set(i, 1);
     }
@@ -13,8 +13,8 @@ function initProbability() {
     for (let k = 1; k <= 10; k++) {
         noteTimes.set(k, 11 - k);
     }
-}
-initProbability();
+})();
+//initProbability();
 var promiseDlt = new Promise(function (resolve, reject) {
     var http = new XMLHttpRequest();
     http.open("GET", `http://apis.juhe.cn/lottery/history?key=e0a95b3906ce0e3888d3aac2049a15bc&lottery_id=dlt&page_size=${pageSize}&page=1`);

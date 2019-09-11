@@ -118,8 +118,8 @@ export default class GameControl extends PaoYa.Component {
     showMaskAni() {
         let maskArea = new Laya.Sprite();
         maskArea.alpha = 0.9;
-        maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
-        maskArea.pos(-150, 0);
+        maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+       // maskArea.pos(-150, 0);
         maskArea.mouseEnabled = true;
         maskArea.zOrder = 2000;
         Laya.stage.addChild(maskArea);
@@ -816,7 +816,7 @@ export default class GameControl extends PaoYa.Component {
         this.skillScr1.endCD();
         this.skillScr2.endCD();
         this.dodgeComp.endCD();
-        this.selfPlayer.comp.removeSkill2();
+        this.selfPlayer.comp.removeSkill2();//如果有技能2,直接关掉
     }
     deathHandler(loserIsSelf) {
         Laya.MouseManager.enabled = false;

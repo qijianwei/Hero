@@ -82,9 +82,11 @@ export default class Player extends PaoYa.Component {
           break;
         case 'skill2':
           this.canAction=true;
-          GameControl.instance.allResume(this.isSelf)
-          this['aniSkill2Hero'+this.roleId].visible = true;
-          this['aniSkill2Hero'+this.roleId].play(0, true);
+          GameControl.instance.allResume(this.isSelf);
+          if(this['aniSkill2Hero'+this.roleId]){
+            this['aniSkill2Hero'+this.roleId].visible = true;
+            this['aniSkill2Hero'+this.roleId].play(0, true);
+          } 
           break;
         case 'launch':
           this.attackCallback();
@@ -148,8 +150,10 @@ export default class Player extends PaoYa.Component {
     this.skeleton.play("skill2", false);
   }
   removeSkill2() {
-    this['aniSkill2Hero'+this.roleId].visible = false;
-    this['aniSkill2Hero'+this.roleId].stop();
+    if(this['aniSkill2Hero'+this.roleId]){
+      this['aniSkill2Hero'+this.roleId].visible = false;
+      this['aniSkill2Hero'+this.roleId].stop();
+    }
   }
   //人物触发兵器技能特效
   skillEffect() {

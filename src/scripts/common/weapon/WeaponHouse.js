@@ -17,7 +17,7 @@ export default class WeaponHouse extends PaoYa.View {
         })
     }
 
-    changeHB(res){
+    changeHB(res) {
         this.goldNum.width = null
 
         if (res.gold) {
@@ -129,19 +129,21 @@ export default class WeaponHouse extends PaoYa.View {
         gameContainer.size(1634, 750)
         gameContainer.pos(-150, 0)
         gameContainer.mouseEnabled = true;
-        Laya.stage.addChild(gameContainer);
+        this.addChild(gameContainer);
 
         // 引导所在容器
         let guideContainer = new Sprite();
-        Laya.stage.addChild(guideContainer);
+        this.addChild(guideContainer);
         guideContainer.cacheAs = "bitmap";
+        guideContainer.zOrder = 10
 
         // 绘制遮罩区，含透明度，可见游戏背景
         let maskArea = new Sprite();
         guideContainer.addChild(maskArea);
         maskArea.alpha = 0.5;
         maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
-        console.log(13465)
+        maskArea.zOrder = 10
+
         // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
         let interactionArea = new Sprite();
         guideContainer.addChild(interactionArea);
@@ -154,47 +156,40 @@ export default class WeaponHouse extends PaoYa.View {
         guideContainer.hitArea = hitArea;
         guideContainer.mouseEnabled = true;
 
-        this.equip.x = this.equip.x + Global.AdaptiveWidth
         this.equip.visible = true
-        Laya.stage.addChild(this.equip);
-        this.equipTips.x = this.equipTips.x + Global.AdaptiveWidth
+        this.equip.zOrder = 20
+        this.equipTips.x = this.equipTips.x
         this.equipTips.visible = true
-        Laya.stage.addChild(this.equipTips);
+        this.equipTips.zOrder = 20
         //第一步装备
         this.equip.on(Laya.Event.CLICK, this, () => {
-            this.equip.x = this.equip.x - Global.AdaptiveWidth
-            this.addChild(this.equip)
-            Laya.stage.removeChild(this.equip);
-            Laya.stage.removeChild(this.equipTips);
+            this.equip.zOrder = 0
+            this.equipTips.visible = false
             SoundManager.ins.btn()
             WeaponHouseControl.ins.chargeWeapon()
 
-            this.upGrade.x = this.upGrade.x + Global.AdaptiveWidth
             this.upGrade.visible = true
-            Laya.stage.addChild(this.upGrade);
-            this.upGradeTips.x = this.upGradeTips.x + Global.AdaptiveWidth
+            this.upGrade.zOrder = 20
+            this.upGradeTips.x = this.upGradeTips.x
             this.upGradeTips.visible = true
-            Laya.stage.addChild(this.upGradeTips);
+            this.upGradeTips.zOrder = 20
             //第二步升级
             this.upGrade.on(Laya.Event.CLICK, this, () => {
-                this.upGrade.x = this.upGrade.x - Global.AdaptiveWidth
-                this.addChild(this.upGrade)
-                Laya.stage.removeChild(this.upGrade);
-                Laya.stage.removeChild(this.upGradeTips);
+                this.upGrade.zOrder = 0
+                this.upGradeTips.visible = false
                 WeaponHouseControl.ins.upgradeWeapon()
 
-                this.benBack.x = this.benBack.x + Global.AdaptiveWidth
                 this.benBack.visible = true
-                Laya.stage.addChild(this.benBack);
-                this.benBackTips.x = this.benBackTips.x + Global.AdaptiveWidth
+                this.benBack.zOrder = 20
+                this.benBackTips.x = this.benBackTips.x
                 this.benBackTips.visible = true
-                Laya.stage.addChild(this.benBackTips);
+                this.benBackTips.zOrder = 20
                 //第三步 返回
                 this.benBack.on(Laya.Event.CLICK, this, () => {
                     Laya.stage.removeChild(guideContainer);
                     Laya.stage.removeChild(gameContainer);
-                    Laya.stage.removeChild(this.benBack);
-                    Laya.stage.removeChild(this.benBackTips);
+                    this.benBack.zOrder = 0
+                    this.benBackTips.visible = false
                     WeaponHouseControl.ins.isGuide = false
                     SoundManager.ins.btn()
                     WeaponHouseControl.ins.navigator.pop()

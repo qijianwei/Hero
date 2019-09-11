@@ -19,7 +19,7 @@ export default class SwordsmanControl extends PaoYa.Component {
         if (this.owner.isGuide) {
             this.owner.guideBack = true
             this.owner.isGuide = false
-            Laya.stage.removeChild(this.owner.guideContainer)
+            this.owner.removeChild(this.owner.guideContainer)
             numNew = 1
         } else {
             if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {

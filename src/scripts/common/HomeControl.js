@@ -55,11 +55,11 @@ export default class HomeControl extends PaoYa.Component {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
             this.navigator.push('GameGuide', GameGuideData);
         }
-        // this.guideF(`btn2`)
+        // this.guideF(`btn1`)
         this.showRankList();
     }
     onAppear() {
-        SoundManager.ins.homeBg();
+        // SoundManager.ins.homeBg();
         if (this.first) {
             this.player.play('stand', true);
         } else {
@@ -414,7 +414,7 @@ export default class HomeControl extends PaoYa.Component {
         gameContainer.size(1634, 750)
         gameContainer.pos(-150, 0)
         gameContainer.mouseEnabled = true;
-        Laya.stage.addChild(gameContainer);
+        this.owner.addChild(gameContainer);
 
         let step = null
 
@@ -443,21 +443,24 @@ export default class HomeControl extends PaoYa.Component {
                     break;
             }
             this.aniFinger.visible = false
-            Laya.stage.removeChild(guideContainer);
-            Laya.stage.removeChild(gameContainer);
-            Laya.stage.removeChild(this.aniFinger);
+            this.owner.removeChild(guideContainer);
+            this.owner.removeChild(gameContainer);
+            this.aniFinger.visible = false
+            // this.owner.removeChild(this.aniFinger);
         })
 
         // 引导所在容器
-        let guideContainer = new Sprite();
-        Laya.stage.addChild(guideContainer);
-        guideContainer.cacheAs = "bitmap";
+        let guideContainer = new Laya.Sprite();
+        guideContainer.zOrder = 1000;
+        this.owner.addChild(guideContainer);
+        guideContainer.cacheAs = 'bitmap';
 
         // 绘制遮罩区，含透明度，可见游戏背景
         let maskArea = new Sprite();
         guideContainer.addChild(maskArea);
         maskArea.alpha = 0.5;
-        maskArea.graphics.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
+        maskArea.graphics.drawRect(0, 0, 1634, 750, "#000");
+        maskArea.pos(-150, 0);
 
         // 绘制一个圆形区域，利用叠加模式，从遮罩区域抠出可交互区
         let interactionArea = new Sprite();
@@ -467,21 +470,20 @@ export default class HomeControl extends PaoYa.Component {
 
         // 设置点击区域
         let hitArea = new Laya.HitArea();
-        hitArea.hit.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
+        hitArea.hit.drawRect(-150, 0, 1634, 750, "#000");
         guideContainer.hitArea = hitArea;
         guideContainer.mouseEnabled = true;
 
 
         this.aniFinger.visible = true;
-        this.aniFinger.pos(step.x + step.width / 2 - 150 + Global.AdaptiveWidth, step.height / 2 + step.y);
+        this.aniFinger.pos(step.x + step.width / 2 - 150, step.height / 2 + step.y);
         this.aniFinger.play(0, true);
-        Laya.stage.addChild(this.aniFinger);
 
         hitArea.unHit.clear();
-        hitArea.unHit.drawCircle(step.x + step.width / 2 - 150 + Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
+        hitArea.unHit.drawCircle(step.x + step.width / 2 - 150, step.height / 2 + step.y, 65, "#000000");
 
         interactionArea.graphics.clear();
-        interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150 + Global.AdaptiveWidth, step.height / 2 + step.y, 65, "#000000");
+        interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
     }
 
     onDisappear() { }

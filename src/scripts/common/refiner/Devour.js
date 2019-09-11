@@ -2,6 +2,7 @@ import DevourControl from "./DevourControl";
 import SoundManager from "../../../gamescripts/SoundManager";
 import Refining from "./Refining";
 import { Global } from "../tool/Global";
+import RefiningControl from "./RefiningControl";
 
 export default class Devour extends PaoYa.View {
     constructor() {
@@ -15,11 +16,7 @@ export default class Devour extends PaoYa.View {
 
     onEnable() {
         if (this.params.isGuide) {
-            Laya.stage.addChild(this.guide2)
-            this.guide2.x = this.guide2.x + Global.AdaptiveWidth
-            this.guide2.visible = true
-            this.guide2f(1)
-            Refining.ins.sceondStep()
+            DevourControl.ins.getMask()
         }
         this.benBack.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
@@ -187,8 +184,7 @@ export default class Devour extends PaoYa.View {
     nextP() {
         this.guide2.visible = false
         this.guide3.visible = true
-        Laya.stage.addChild(this.guide3)
-        this.guide3.x = this.guide3.x + Global.AdaptiveWidth
+        this.guide3.zOrder = 2
         this.guide3f(1)
     }
 

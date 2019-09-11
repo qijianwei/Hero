@@ -19,23 +19,22 @@ export default class Swordsman extends PaoYa.View {
         this.params = this.params.detail
         if (this.isGuide) {
             this.guide1.visible = true
+            this.guide1.zOrder = 999
             PaoYa.Request.POST(`martial_change_new_hand`, { type: `roleNew` })
             this.guideContainer = new Laya.Sprite();
-            Laya.stage.addChild(this.guideContainer);
-            Laya.stage.addChild(this.guide1)
-            this.guide1.x = this.guide1.x + Global.AdaptiveWidth
+            this.addChild(this.guideContainer)
             this.guideContainer.cacheAs = "bitmap";
 
             let spmask = new Laya.Sprite()
             spmask.alpha = 0.5
             this.guideContainer.addChild(spmask)
-            spmask.graphics.drawRect(-150 + Global.AdaptiveWidth, 0, 1634, 750, "#000");
+            spmask.graphics.drawRect(-150, 0, 1634, 750, "#000");
 
             this.sp = new Laya.Sprite();
             this.guideContainer.addChild(this.sp);
             // 设置叠加模式
             this.sp.blendMode = "destination-out";
-            this.graR(this.guide1.x + 143, this.guide1.y, 90)
+            this.graR(this.guide1.x+143, this.guide1.y, 90)
 
             this.guide1f(1)
         }
@@ -88,7 +87,7 @@ export default class Swordsman extends PaoYa.View {
             SoundManager.ins.btn()
             PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
                 //console.log(res)
-                res.isFromSw=true
+                res.isFromSw = true
                 if (!res) {
                     return
                 }
@@ -197,7 +196,7 @@ export default class Swordsman extends PaoYa.View {
         this.additionMuscle.text = this.showDetail.roleStatus && this.showDetail.roleUpStrength ? `+${this.showDetail.roleUpStrength}` : ""
 
         this.bone.text = `根骨 ${this.showDetail.roleBone - this.showDetail.roleUpBone}`
-        this.additionBone.text = this.showDetail.roleStatus && this.showDetail.roleUpBone ? `+${this.showDetail.roleUpBone}` : ""   
+        this.additionBone.text = this.showDetail.roleStatus && this.showDetail.roleUpBone ? `+${this.showDetail.roleUpBone}` : ""
 
         this.critical.text = `暴击 ${this.showDetail.roleCritProb}%`
 
@@ -337,7 +336,7 @@ export default class Swordsman extends PaoYa.View {
             this.heroSkin.destroy()
             this.heroSkin = null
         }
-        Laya.stage.removeChild(this.guideContainer)
+        this.removeChild(this.guideContainer)
     }
 
     guide1f(e) {
