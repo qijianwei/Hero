@@ -4423,6 +4423,7 @@ var HPBar = function (_PaoYa$Component) {
       } else if (this.curHP > this.originHP) {
         this.curHP = this.originHP;
       }
+      this.curHP = Math.round(this.curHP);
       this.lblHpPct.text = this.curHP + '/' + this.originHP;
       var w = Math.floor(this.curHP / this.originHP * this.originW);
       this.imgMask.width = w;

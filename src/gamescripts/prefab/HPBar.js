@@ -28,6 +28,7 @@ export default class HPBar extends PaoYa.Component{
       }else if(this.curHP>this.originHP){
         this.curHP=this.originHP;
       }
+      this.curHP=Math.round(this.curHP);
       this.lblHpPct.text=`${this.curHP}/${this.originHP}`
       let w=Math.floor(this.curHP/this.originHP*this.originW);
       this.imgMask.width=w;
