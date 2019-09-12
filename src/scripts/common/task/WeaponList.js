@@ -26,7 +26,7 @@ export default class WeaponList extends PaoYa.View {
             this.diamondNum.text = diamondnum
             this.diamondNum.font = `weaponNFontT`
             this.diamondNum.scale(0.6, 0.6)
-            this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25)
+            this.diamondNum.pos(600 + (149 - this.diamondNum.width * 0.6) / 2, 25)
 
             function addNumberUnit(num) {
                 switch (true) {

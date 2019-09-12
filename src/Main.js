@@ -8,9 +8,9 @@ export class Main extends GameMain {
 	constructor() {
 		var params = {
 			gameId: 1006,
-			// baseURL: "https://wxapi.xingqiu123.com/ServiceCore/",
-			baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
-			//	baseURL:"https://juedi001test.goxiaochengxu.cn/ServiceCore/",
+			
+			//baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
+			baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,

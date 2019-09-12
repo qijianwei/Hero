@@ -405,9 +405,9 @@ var Main = exports.Main = function (_GameMain) {
 
 		var params = {
 			gameId: 1006,
-			// baseURL: "https://wxapi.xingqiu123.com/ServiceCore/",
-			baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
-			//	baseURL:"https://juedi001test.goxiaochengxu.cn/ServiceCore/",
+
+			//baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
+			baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
@@ -4112,7 +4112,6 @@ var PreOpenManager = function (_Laya$EventDispatcher) {
       var view = Laya.Pool.getItemByCreateFun('PreOpenView', preOpenView.create, preOpenView);
       Laya.stage.addChild(view);
       view.width = Laya.stage.width;
-      // view.pos(-150,0);
       this.view = view;
       this.view.on('end', this, this.endHandler);
       this.cb();
@@ -8101,7 +8100,7 @@ var Swordsman = function (_PaoYa$View) {
                 _this5.diamondNum.text = diamondnum;
                 _this5.diamondNum.font = "weaponNFontT";
                 _this5.diamondNum.scale(0.6, 0.6);
-                _this5.diamondNum.pos(600 + (149 - _this5.goldNum.width * 0.6) / 2, 25);
+                _this5.diamondNum.pos(600 + (149 - _this5.diamondNum.width * 0.6) / 2, 25);
 
                 function addNumberUnit(num) {
                     switch (true) {
@@ -9537,7 +9536,7 @@ var WeaponList = function (_PaoYa$View) {
                 _this2.diamondNum.text = diamondnum;
                 _this2.diamondNum.font = "weaponNFontT";
                 _this2.diamondNum.scale(0.6, 0.6);
-                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+                _this2.diamondNum.pos(600 + (149 - _this2.diamondNum.width * 0.6) / 2, 25);
 
                 function addNumberUnit(num) {
                     switch (true) {
@@ -10414,12 +10413,13 @@ var WeaponHouse = function (_PaoYa$View) {
             }
 
             if (res.diamond) {
-                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                 PaoYa.DataCenter.user.diamond = res.diamond;
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
+
                 this.diamondNum.text = diamondnum;
                 this.diamondNum.font = "weaponNFontT";
                 this.diamondNum.scale(0.6, 0.6);
-                this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25);
+                this.diamondNum.pos(600 + (149 - this.diamondNum.width * 0.6) / 2, 25);
             }
 
             function addNumberUnit(num) {
@@ -11355,12 +11355,12 @@ var WeaponStore = function (_PaoYa$View) {
             }
 
             if (res.diamond) {
-                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                 PaoYa.DataCenter.user.diamond = res.diamond;
+                var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                 this.diamondNum.text = diamondnum;
                 this.diamondNum.font = "weaponNFontT";
                 this.diamondNum.scale(0.6, 0.6);
-                this.diamondNum.pos(600 + (149 - this.goldNum.width * 0.6) / 2, 25);
+                this.diamondNum.pos(600 + (149 - this.diamondNum.width * 0.6) / 2, 25);
             }
 
             function addNumberUnit(num) {
@@ -12219,12 +12219,12 @@ var Wheel = function (_PaoYa$View) {
                 }
 
                 if (res.diamond) {
-                    var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                     PaoYa.DataCenter.user.diamond = res.diamond;
+                    var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                     _this3.diamondNum.text = diamondnum;
                     _this3.diamondNum.font = "weaponNFontT";
                     _this3.diamondNum.scale(0.6, 0.6);
-                    _this3.diamondNum.pos(600 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
+                    _this3.diamondNum.pos(600 + (149 - _this3.diamondNum.width * 0.6) / 2, 25);
                 }
 
                 function addNumberUnit(num) {
@@ -12635,7 +12635,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
             this.buy.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _this2.close();
-                if (PaoYa.DataCenter.user.diamond > 500) {
+                if (PaoYa.DataCenter.user.diamond >= 500) {
                     _WheelControl2.default.ins.addTimesD();
                 } else {
                     _HomeControl2.default.ins.navigator.popup("weapon/DiamondLack", 1);
@@ -12818,7 +12818,7 @@ var Task = function (_PaoYa$Dialog) {
                 _this2.diamondNum.text = diamondnum;
                 _this2.diamondNum.font = "weaponNFontT";
                 _this2.diamondNum.scale(0.6, 0.6);
-                _this2.diamondNum.pos(600 + (149 - _this2.goldNum.width * 0.6) / 2, 25);
+                _this2.diamondNum.pos(600 + (149 - _this2.diamondNum.width * 0.6) / 2, 25);
 
                 function addNumberUnit(num) {
                     switch (true) {
