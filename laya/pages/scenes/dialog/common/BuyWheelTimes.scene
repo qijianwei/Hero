@@ -103,7 +103,7 @@
             "x":15,
             "type":"Text",
             "searchKey":"Text",
-            "props":{"y":336,"x":520,"text":"500钻石购买     抽奖","fontSize":28,"font":"SimHei"},
+            "props":{"y":336,"x":520,"text":"500钻石购买       抽奖","fontSize":28,"font":"SimHei"},
             "nodeParent":2,
             "label":"Text",
             "isDirectory":false,

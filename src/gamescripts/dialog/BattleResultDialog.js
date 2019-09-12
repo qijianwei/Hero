@@ -11,9 +11,9 @@ export default class BattleResultDialog extends PaoYa.Dialog{
         let result=this.params.result;
         this.result=result;
         if(result==-1){
-            this.spPanel.text="remote/pass_result/imgLose.png";
+            this.spPanel.texture="remote/pass_result/imgLose.png";
         }else{
-            this.spPanel.text="remote/pass_result/imgWin.png";
+            this.spPanel.texture="remote/pass_result/imgWin.png";
         }
         this.lblPrize.text=this.params.diamond;
         this.spBtn.on(Laya.Event.CLICK,this,this.matchHandler);

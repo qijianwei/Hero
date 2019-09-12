@@ -13,6 +13,8 @@ export default class PreOpenView extends PaoYa.View{
         
         this.selfSpeakMan.visible=false;
         this.otherSpeakMan.visible=false;
+        this.selfSpeakMan.x=-50;
+        this.otherSpeakMan.right=0;
 
         this.on(Laya.Event.CLICK,this,this.clickHandler);
     }

@@ -21,7 +21,7 @@ export default class PreOpenManager extends Laya.EventDispatcher {
      preOpenView.json=obj;
     let view=Laya.Pool.getItemByCreateFun('PreOpenView',preOpenView.create,preOpenView);
     Laya.stage.addChild(view);
-   // view.pos(-150,0);
+    view.width=Laya.stage.width;
     this.view=view;
     this.view.on(`end`,this,this.endHandler);
     this.cb();

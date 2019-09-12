@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: true,
+    debug: false,
     version: '1.0',
     release: 10
 };
@@ -344,7 +344,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameGuide.scene";
+GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -2444,9 +2444,9 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
             var result = this.params.result;
             this.result = result;
             if (result == -1) {
-                this.spPanel.text = "remote/pass_result/imgLose.png";
+                this.spPanel.texture = "remote/pass_result/imgLose.png";
             } else {
-                this.spPanel.text = "remote/pass_result/imgWin.png";
+                this.spPanel.texture = "remote/pass_result/imgWin.png";
             }
             this.lblPrize.text = this.params.diamond;
             this.spBtn.on(Laya.Event.CLICK, this, this.matchHandler);
@@ -4011,6 +4011,8 @@ var PreOpenView = function (_PaoYa$View) {
 
             this.selfSpeakMan.visible = false;
             this.otherSpeakMan.visible = false;
+            this.selfSpeakMan.x = -50;
+            this.otherSpeakMan.right = 0;
 
             this.on(Laya.Event.CLICK, this, this.clickHandler);
         }
@@ -4109,6 +4111,7 @@ var PreOpenManager = function (_Laya$EventDispatcher) {
       preOpenView.json = obj;
       var view = Laya.Pool.getItemByCreateFun('PreOpenView', preOpenView.create, preOpenView);
       Laya.stage.addChild(view);
+      view.width = Laya.stage.width;
       // view.pos(-150,0);
       this.view = view;
       this.view.on('end', this, this.endHandler);
@@ -4724,7 +4727,7 @@ var Player = function (_PaoYa$Component) {
         this.skeleton.play('dizzy', true);
         return;
       }
-      //skeleton被打断，解除机器人不能动
+      //skeleton被打断，解除机器人不能动 机器人在受伤过程中不能动
       if (!this.isSelf) {
         this.canAction = true;
       }
