@@ -4003,9 +4003,6 @@ var PreOpenView = function (_PaoYa$View) {
     _createClass(PreOpenView, [{
         key: 'onAwake',
         value: function onAwake() {
-            console.log(this);
-            /*  console.log(this.selfSpeakMan);
-             console.log(this.selfSpeakMan.getComponent(SpeakMan)); */
             this.selfSpeakMan = this.getChildByName('selfSpeakMan');
             this.otherSpeakMan = this.getChildByName('otherSpeakMan');
             console.log(this.selfSpeakMan.getComponent(_SpeakMan2.default));
@@ -4061,9 +4058,6 @@ var PreOpenView = function (_PaoYa$View) {
 exports.default = PreOpenView;
 
 PreOpenView.END = 'end';
-
-/* 
- */
 
 },{"../gameGuide/SpeakMan":15}],17:[function(require,module,exports){
 'use strict';
@@ -4794,9 +4788,12 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "injuredEffect",
     value: function injuredEffect(posType, value, isCrit, cb) {
-      /*   if (this.isSelf) {
-          Laya.MouseManager.enabled = false;
-        } */
+      var _this3 = this;
+
+      //机器人用 以防机器人选兵器打断受伤从而打断其他效果
+      if (!this.isSelf) {
+        this.canAction = false;
+      }
       this.HPComp.changeHP(value);
       if (isCrit) {
         this.showFontEffect("暴击" + value, "crit");
@@ -4819,6 +4816,9 @@ var Player = function (_PaoYa$Component) {
       this['ani' + aniName].play(0, false);
       cb && this.skeleton.once(Laya.Event.LABEL, this, function (e) {
         if (e.name === "injuredEnd") {
+          if (!_this3.isSelf) {
+            _this3.canAction = true;
+          }
           cb();
         }
       });
@@ -10865,7 +10865,14 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 
             this.owner["skillImg_1"].visible = false;
             this.owner["skillImg_2"].visible = false;
-            var detail = this.currentMyUserWeapDetail;
+            var detail = null;
+            if (this.isEqWp) {
+                detail = this.isWareChoiceWp._dataSource;
+                this.isEqWp = false;
+            } else {
+                detail = this.currentMyUserWeapDetail;
+            }
+
             this.owner.showWeapon.skin = "remote/small_weapons/s_" + detail.weaponId + ".png";
             // this.owner.currtWeaponLevel.text = `LV.${detail.weaponLevel}`
             // this.owner.currtWeaponLevel.font = `weaponNFontT`
@@ -10981,15 +10988,16 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             var unShowWeap = JSON.parse(JSON.stringify(this.myUserList));
             unShowWeap.splice(this.currentMyUserIdx, 1);
             //筛选仓库武器
+            var isChoice = false;
             showList.forEach(function (element, index) {
                 for (var i = 0; i < unShowWeap.length; i++) {
                     if (element.weaponId == unShowWeap[i].name && element.weaponLevel == unShowWeap[i].lv) {
                         element.num -= 1;
                         element.isUsing = true;
+                        // unShowWeap.splice(i, 1)
                     }
                 }
                 //选出已装备武器
-                var isChoice = false;
                 for (var _i = 0; _i < element.num; _i++) {
                     var obj = JSON.parse(JSON.stringify(element));
                     obj.originalIndex = index;
@@ -11042,40 +11050,47 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 if (idx == this.currentMyUserIdx) {
                     cell.getChildByName("beChioce").visible = true;
                     cell.skin = "local/common/currutFrameBg.png";
-                    this.currentMyUserWeapDetail = cell._dataSource;
+                    // this.currentMyUserWeapDetail = cell._dataSource
                     // this.isUsingWeapon = cell
-                    this.renderCenterData(isUser);
+                    // this.renderCenterData(isUser)
                 }
             }
             //选定渲染
             if (this.myUserList[this.currentMyUserIdx] && this.myUserList[this.currentMyUserIdx].name == cell._dataSource.weaponId && this.myUserList[this.currentMyUserIdx].lv == cell._dataSource.weaponLevel) {
-                if (isUser) {} else if (cell._dataSource.isUsingWp) {
+                if (isUser) {
+                    this.currentMyUserWeapDetail = cell._dataSource;
+                    this.renderCenterData(isUser);
+                } else if (cell._dataSource.isUsingWp) {
                     cell.getChildByName("using").visible = true;
+                    if (cell._dataSource.isUsingWp) {
+                        this.currentMyUserWeapDetail = cell._dataSource;
+                        this.renderCenterData(isUser);
+                    }
                 }
-                this.currentMyUserWeapDetail = cell._dataSource;
-                // this.isUsingWeapon = cell
-                this.renderCenterData(isUser);
             }
 
             if (!this.isGuide) {
-                if (cell._dataSource.isShowing) {
+                if (cell._dataSource.isShowing && (!this.isWareChoiceWp || idx == -1)) {
                     cell.getChildByName("beChioce").visible = true;
                     // console.log(cell.getChildByName(`beChioce`),123)
                     this.isWareChoiceWp = cell;
                     cell.skin = "local/common/currutFrameBg.png";
-                    this.currentMyUserWeapDetail = cell._dataSource;
-                    // this.isUsingWeapon = cell
-                    this.renderCenterData(isUser);
+
+                    if (cell._dataSource.isUsingWp) {
+                        this.currentMyUserWeapDetail = cell._dataSource;
+                        this.renderCenterData(isUser);
+                    }
                 }
             } else {
-                if (cell._dataSource.willBeUse) {
+                if (cell._dataSource.willBeUse && (!this.isWareChoiceWp || idx == -1)) {
                     cell.getChildByName("beChioce").visible = true;
                     // console.log(cell.getChildByName(`beChioce`),123)
                     this.isWareChoiceWp = cell;
                     cell.skin = "local/common/currutFrameBg.png";
-                    this.currentMyUserWeapDetail = cell._dataSource;
-                    // this.isUsingWeapon = cell
-                    this.renderCenterData(isUser);
+                    if (cell._dataSource.isUsingWp) {
+                        this.currentMyUserWeapDetail = cell._dataSource;
+                        this.renderCenterData(isUser);
+                    }
                 }
             }
 
@@ -11137,7 +11152,9 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             });
             PaoYa.Request.POST("martial_change_weapon", { oldWeaponId: oldDetail.weaponId + "-" + oldDetail.weaponLevel, newWeaponId: detail.weaponId + "-" + detail.weaponLevel, type: wpType, index: this.currentMyUserIdx }, function (res) {
                 _this8.myUserList = [];
+                _this8.isEqWp = true;
                 var arr = res.userWeapons.split(",");
+                // this.currentMyUserWeapDetail.isUsingWp = true
                 arr.forEach(function (element) {
                     var obj = {
                         name: element.split("-")[0],
@@ -11176,7 +11193,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 numNew = 1;
             }
 
-            var detail = this.currentMyUserWeapDetail;
+            var detail = this.isWareChoiceWp._dataSource;
             var isusing = detail.isUsingWp ? 1 : 0;
             this.isRequesting = true;
             Laya.timer.once(500, this, function () {
@@ -11212,20 +11229,26 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 var al = _this9[newDetail].length;
                 var isNew = true;
                 res.weapon.num = 1;
+                var oldNum = 1,
+                    newNum = 1;
                 for (var i = 0; i < al; i++) {
                     var element = _this9[newDetail][i];
-                    if (element.weaponId == detail.weaponId && element.weaponLevel == detail.weaponLevel && element.num > 0) {
+                    if (element.weaponId == detail.weaponId && element.weaponLevel == detail.weaponLevel && element.num > 0 && oldNum) {
                         element.num -= 1;
+                        oldNum = 0;
                     }
-                    if (element.weaponId == res.weapon.weaponId && element.weaponLevel == res.weapon.weaponLevel) {
-                        isNew = false;
-                        for (var key in res.weapon) {
-                            element[key] = res.weapon[key];
-                        }
-                        element.num += 1;
-                    }
+                    // if (element.weaponId == res.weapon.weaponId && element.weaponLevel == res.weapon.weaponLevel && newNum) {
+                    //     isNew = false
+                    //     for (const key in res.weapon) {
+                    //         element[key] = res.weapon[key]
+                    //     }
+                    //     element.num += 1
+                    //     newNum = 0
+                    // }
                 }
-                isNew && _this9[newDetail].push(res.weapon);
+                // if (isNew) {
+                _this9[newDetail].push(res.weapon);
+                // }
 
                 _this9.allList = [];
                 _this9.allList = _this9.lightList.concat(_this9.heavyList, _this9.middleList);
@@ -11243,12 +11266,12 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     _this9.addWpList = [];
                     _this9.owner.userWeaponList.array = _this9.myUserDetailList;
                 } else {
-                    for (var _key in res.weapon) {
-                        _this9.isWareChoiceWp._dataSource[_key] = res.weapon[_key];
+                    for (var key in res.weapon) {
+                        _this9.isWareChoiceWp._dataSource[key] = res.weapon[key];
                     }
 
                     // this.isWareChoiceWp._dataSource = res.weapon
-                    _this9.singleWeapon(_this9.isWareChoiceWp);
+                    _this9.singleWeapon(_this9.isWareChoiceWp, -1);
                 }
             });
         }
@@ -12183,7 +12206,7 @@ var Wheel = function (_PaoYa$View) {
                     _this3.goldNum.pos(365 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
                 }
 
-                if (res.diamondNum) {
+                if (res.diamond) {
                     var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                     PaoYa.DataCenter.user.diamond = res.diamond;
                     _this3.diamondNum.text = diamondnum;
@@ -12317,6 +12340,7 @@ var WheelControl = function (_PaoYa$Component) {
                 if (!res) {
                     return;
                 }
+                PaoYa.DataCenter.user.wheelTimes = res;
                 _this2.owner.num.text = res;
                 _this2.owner.changeDG();
             });
@@ -12339,6 +12363,7 @@ var WheelControl = function (_PaoYa$Component) {
                 }
                 _SoundManager2.default.ins.round();
                 _this3.owner.num.text = res.wheelTimes;
+                PaoYa.DataCenter.user.wheelTimes = res.wheelTimes;
                 var rat = 0;
                 PaoYa.DataCenter.user.config_list.hero.wheelList.forEach(function (element, index) {
                     if (element.id == res.wheel.id) {

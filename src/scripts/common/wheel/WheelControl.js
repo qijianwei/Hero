@@ -28,6 +28,7 @@ export default class WheelControl extends PaoYa.Component {
             if (!res) {
                 return
             }
+            PaoYa.DataCenter.user.wheelTimes = res
             this.owner.num.text = res
             this.owner.changeDG()
         })
@@ -47,6 +48,7 @@ export default class WheelControl extends PaoYa.Component {
             }
             SoundManager.ins.round()
             this.owner.num.text = res.wheelTimes
+            PaoYa.DataCenter.user.wheelTimes = res.wheelTimes
             let rat = 0
             PaoYa.DataCenter.user.config_list.hero.wheelList.forEach((element, index) => {
                 if (element.id == res.wheel.id) {

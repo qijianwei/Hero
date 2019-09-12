@@ -174,9 +174,10 @@ export default class Player extends PaoYa.Component {
   }
   //受击打,所有武器碰到都有这效果
   injuredEffect(posType, value, isCrit, cb) {
-  /*   if (this.isSelf) {
-      Laya.MouseManager.enabled = false;
-    } */
+    //机器人用 以防机器人选兵器打断受伤从而打断其他效果
+     if (!this.isSelf) {
+       this.canAction=false;
+    } 
     this.HPComp.changeHP(value);
     if (isCrit) {
       this.showFontEffect("暴击" + value, "crit")
@@ -185,7 +186,7 @@ export default class Player extends PaoYa.Component {
     }
 
     if (this.HPComp.curHP <= 0) {
-      console.warn('---------------死亡结束---------------')
+      console.warn(`---------------死亡结束---------------`)
       Laya.timer.clearAll(this);
       this.removeAllAni();
       GameControl.instance.deathHandler(this.isSelf);
@@ -198,7 +199,10 @@ export default class Player extends PaoYa.Component {
     this['boxAni' + aniName].visible = true;
     this['ani' + aniName].play(0, false);
     cb&&this.skeleton.once(Laya.Event.LABEL, this, (e) => {
-      if (e.name === "injuredEnd") {   
+      if (e.name === "injuredEnd") { 
+        if (!this.isSelf) {
+          this.canAction=true;
+       } 
         cb()
       }
     })

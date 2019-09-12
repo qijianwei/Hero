@@ -2,7 +2,7 @@
     "x":0,
     "type":"Box",
     "selectedBox":261,
-    "selecteID":264,
+    "selecteID":258,
     "searchKey":"Box,otherSpeakMan",
     "props":{"y":0,"x":0,"var":"otherSpeakMan","presetID":1,"preset":"laya/pages/gamescenes/prefab/OtherSpeakMan.prefab","isPresetRoot":true},
     "nodeParent":-1,
