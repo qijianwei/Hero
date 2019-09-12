@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: false,
+    debug: true,
     version: '1.0',
     release: 10
 };
@@ -816,7 +816,7 @@ var GameControl = function (_PaoYa$Component) {
             var tween = new Laya.Tween();
             tween.to(maskArea, {
                 alpha: 0.4
-            }, 1000, null, Laya.Handler.create(this, function () {
+            }, 600, null, Laya.Handler.create(this, function () {
                 tween.clear();
                 Laya.stage.removeChild(maskArea);
             }));
@@ -1306,7 +1306,7 @@ var GameControl = function (_PaoYa$Component) {
                 if (this.otherPlayer.comp.canAction) {
                     this.sWeapon.isSelf = false;
                     this.sWeapon.selectedHandler();
-                    //    / console.error(`鬼................... `)
+                    console.error('\u53EF\u4EE5\u52A8\u5F39');
                     this.weaponBarClickHandler(this.sWeapon);
                 } else {
                     console.error("无法动弹");
@@ -2234,7 +2234,7 @@ var HeroConfig = {
       templet: null
     },
     npc_6: {
-      path: baseUrl + "spine/npc/npc_7.sk",
+      path: baseUrl + "spine/npc/npc_6.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -2642,7 +2642,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                     var tween = new Laya.Tween();
                     tween.to(maskArea, {
                         alpha: 1
-                    }, 1000, null, Laya.Handler.create(_this3, function () {
+                    }, 600, null, Laya.Handler.create(_this3, function () {
                         res.gameType = "pass";
                         PaoYa.navigator.replace("GameView", res);
                         _this3.close();
@@ -4668,6 +4668,7 @@ var Player = function (_PaoYa$Component) {
         case 'stop':
           this.canAction = false;
           _GameControl2.default.instance.allPause(this.isSelf);
+
           break;
         case 'skill2':
           this.canAction = true;
@@ -4711,14 +4712,21 @@ var Player = function (_PaoYa$Component) {
         });
         return;
       }
-      /*   if (this.sectionAni == 2) {
-          this.sectionAni += 1;
-          this.skeleton.play('dodge3', false)
-          return;
-        } */
       if (this.sectionAni == 3) {
         this.removeDodge();
         // return;
+      }
+      if (this.plasyState || this.freezeState) {
+        this.skeleton.play('freeze', true);
+        return;
+      }
+      if (this.dizzyState) {
+        this.skeleton.play('dizzy', true);
+        return;
+      }
+      //skeleton被打断，解除机器人不能动
+      if (!this.isSelf) {
+        this.canAction = true;
       }
       this.skeleton.play('stand', true);
     }
@@ -4788,9 +4796,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "injuredEffect",
     value: function injuredEffect(posType, value, isCrit, cb) {
-      var _this3 = this;
-
-      //机器人用 以防机器人选兵器打断受伤从而打断其他效果
+      //机器人用 以防机器人选兵器打断受伤从而打断其他效果,比如中毒回调不执行
       if (!this.isSelf) {
         this.canAction = false;
       }
@@ -4802,7 +4808,7 @@ var Player = function (_PaoYa$Component) {
       }
 
       if (this.HPComp.curHP <= 0) {
-        console.warn('---------------死亡结束---------------');
+        console.warn("---------------\u6B7B\u4EA1\u7ED3\u675F---------------");
         Laya.timer.clearAll(this);
         this.removeAllAni();
         _GameControl2.default.instance.deathHandler(this.isSelf);
@@ -4814,12 +4820,9 @@ var Player = function (_PaoYa$Component) {
       this.skeleton.play("injured", false);
       this['boxAni' + aniName].visible = true;
       this['ani' + aniName].play(0, false);
-      cb && this.skeleton.once(Laya.Event.LABEL, this, function (e) {
+      this.skeleton.once(Laya.Event.LABEL, this, function (e) {
         if (e.name === "injuredEnd") {
-          if (!_this3.isSelf) {
-            _this3.canAction = true;
-          }
-          cb();
+          cb && cb();
         }
       });
     }
@@ -4912,6 +4915,7 @@ var Player = function (_PaoYa$Component) {
         return;
       }
       this.canAction = false;
+      this.dizzyState = true;
       if (this.isSelf) {
         _GameControl2.default.instance.allBtnsLock();
       }
@@ -4925,6 +4929,7 @@ var Player = function (_PaoYa$Component) {
     key: "removeDizzy",
     value: function removeDizzy() {
       this.canAction = true;
+      this.dizzyState = false;
       if (this.isSelf) {
         //  Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
@@ -4942,6 +4947,7 @@ var Player = function (_PaoYa$Component) {
         this.showPlayerState("免疫");
         return;
       }
+      this.plasyState = true;
       this.canAction = false;
       if (this.isSelf) {
         // Laya.MouseManager.enabled = false;
@@ -4957,6 +4963,7 @@ var Player = function (_PaoYa$Component) {
     key: "removePalsy",
     value: function removePalsy() {
       this.canAction = true;
+      this.plasyState = false;
       if (this.isSelf) {
         //  Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
@@ -4977,6 +4984,7 @@ var Player = function (_PaoYa$Component) {
         return;
       }
       this.canAction = false;
+      this.freezeState = true;
       if (this.isSelf) {
         // Laya.MouseManager.enabled = false;
         _GameControl2.default.instance.allBtnsLock();
@@ -4991,6 +4999,7 @@ var Player = function (_PaoYa$Component) {
     key: "removeFreeze",
     value: function removeFreeze() {
       this.canAction = true;
+      this.freezeState = false;
       if (this.isSelf) {
         // Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();

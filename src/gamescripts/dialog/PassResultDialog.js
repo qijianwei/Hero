@@ -99,7 +99,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
                 let tween=new Laya.Tween();
                 tween.to(maskArea,{
                     alpha:1
-                },1000,null,Laya.Handler.create(this,()=>{
+                },600,null,Laya.Handler.create(this,()=>{
                     res.gameType="pass";
                     PaoYa.navigator.replace("GameView", res);
                      this.close();

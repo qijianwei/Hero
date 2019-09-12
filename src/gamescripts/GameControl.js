@@ -126,7 +126,7 @@ export default class GameControl extends PaoYa.Component {
         let tween = new Laya.Tween();
         tween.to(maskArea, {
             alpha: 0.4
-        }, 1000, null, Laya.Handler.create(this, () => {
+        }, 600, null, Laya.Handler.create(this, () => {
             tween.clear();
             Laya.stage.removeChild(maskArea);
         }))
@@ -572,7 +572,7 @@ export default class GameControl extends PaoYa.Component {
             if (this.otherPlayer.comp.canAction) {
                 this.sWeapon.isSelf = false;
                 this.sWeapon.selectedHandler();
-                //    / console.error(`鬼................... `)
+               console.error(`可以动弹`)
                 this.weaponBarClickHandler(this.sWeapon);
             } else {
                 console.error("无法动弹")

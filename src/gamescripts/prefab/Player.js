@@ -18,86 +18,87 @@ export default class Player extends PaoYa.Component {
   /** @prop {name:aniMp,tips:"回蓝动效节点",type:Node} */
   /** @prop {name:boxAniPoison,tips:"中毒动效box",type:Node} */
   /** @prop {name:aniPoison,tips:"中毒动效节点",type:Node} */
- /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */
+  /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */
   /** @prop {name:aniSkill2Hero1,tips:"1号英雄技能2动效节点",type:Node} */
-   /** @prop {name:aniSkill2Hero2,tips:"2号英雄技能2动效节点",type:Node} */
+  /** @prop {name:aniSkill2Hero2,tips:"2号英雄技能2动效节点",type:Node} */
   constructor() {
     super();
   }
   onAwake() {
-    let owner=this.owner;
-   
+    let owner = this.owner;
+
     let width = owner.width,
-        height = owner.height;
+      height = owner.height;
     let posX = Math.floor(width / 2),
-        posY = height;
+      posY = height;
     this.centerX = posX;
 
     console.error('角色服装:', this.attr.roleDress);
     let dressIcon = this.attr.roleDress;
-    this.dressIcon=dressIcon;
-    this.roleId=this.attr.roleId;
+    this.dressIcon = dressIcon;
+    this.roleId = this.attr.roleId;
     let skeleton = HeroConfig.getSkeleton(dressIcon);
     skeleton.play('stand', true);
     skeleton.pos(posX, posY - 10);
     //不管什么状态播放完，都继续播放待机状态
     skeleton.on(Laya.Event.STOPPED, this, this.stopHandler);
-    skeleton.on(Laya.Event.LABEL,this,this.labelHandler);
-    this.skeleton=skeleton;
-    
+    skeleton.on(Laya.Event.LABEL, this, this.labelHandler);
+    this.skeleton = skeleton;
+
     this.owner.addChild(skeleton);
     this.typeAniName = ["", "Bot", "Mid", "Top", "Top"]; //对应轨迹的动画名称
     let freeze = HeroConfig.getSkeleton('freeze');
     freeze.pos(posX, posY)
     this.owner.addChild(freeze);
-    this.freeze = freeze;   
-    this.index=0;
+    this.freeze = freeze;
+    this.index = 0;
   }
   //执行两次，找原因(因为player在GameControl的onAwake创建)
   onEnable() {
     this.killed = false;
-    this.index+=1;
+    this.index += 1;
 
-    if(this.dressIcon!=this.attr.roleDress){
-      this.dressIcon=this.attr.roleDress
-      let templet=HeroConfig.spineMap[this.dressIcon].templet;
-      this.skeleton.init(templet,0);   
-      this.skeleton.play('stand',true)
+    if (this.dressIcon != this.attr.roleDress) {
+      this.dressIcon = this.attr.roleDress
+      let templet = HeroConfig.spineMap[this.dressIcon].templet;
+      this.skeleton.init(templet, 0);
+      this.skeleton.play('stand', true)
     }
     this.canAction = true;
     this.sectionAni = 0; //分段动画
   }
   /* 监听事件帧 */
   labelHandler(e) {
-   // this.skeleton.on(Laya.Event.LABEL, this, (e) => {
-      switch (e.name) {
-        case 'skill1':
-          this.canAction=true;
-          GameControl.instance.allResume(this.isSelf)
-          this.skillCallback();
-          break;
-        case 'stop': 
-          this.canAction=false;
-          GameControl.instance.allPause(this.isSelf)
-          break;
-        case 'skill2':
-          this.canAction=true;
-          GameControl.instance.allResume(this.isSelf);
-          if(this['aniSkill2Hero'+this.roleId]){
-            this['aniSkill2Hero'+this.roleId].visible = true;
-            this['aniSkill2Hero'+this.roleId].play(0, true);
-          } 
-          break;
-        case 'launch':
-          this.attackCallback();
-          break;
-      }
+    // this.skeleton.on(Laya.Event.LABEL, this, (e) => {
+    switch (e.name) {
+      case 'skill1':
+        this.canAction = true;
+        GameControl.instance.allResume(this.isSelf)
+        this.skillCallback();
+        break;
+      case 'stop':
+        this.canAction = false;
+        GameControl.instance.allPause(this.isSelf)
 
-   // })
+        break;
+      case 'skill2':
+        this.canAction = true;
+        GameControl.instance.allResume(this.isSelf);
+        if (this['aniSkill2Hero' + this.roleId]) {
+          this['aniSkill2Hero' + this.roleId].visible = true;
+          this['aniSkill2Hero' + this.roleId].play(0, true);
+        }
+        break;
+      case 'launch':
+        this.attackCallback();
+        break;
+    }
+
+    // })
   }
   //监听动画停止；
   stopHandler() {
-    let time=0;
+    let time = 0;
     //Laya.MouseManager.enabled = true;
     if (this.killed) {
       this.owner.removeSelf();
@@ -106,26 +107,33 @@ export default class Player extends PaoYa.Component {
     if (this.sectionAni == 1) {
       this.sectionAni += 1;
       this.skeleton.play('dodge2', true);
-      if(this.roleId==1){
-        time=800;
-      }else{
-        time=200;
+      if (this.roleId == 1) {
+        time = 800;
+      } else {
+        time = 200;
       }
-      Laya.timer.once(time,this,()=>{
+      Laya.timer.once(time, this, () => {
         this.sectionAni += 1;
         this.skeleton.play('dodge3', false)
       })
       return;
     }
-  /*   if (this.sectionAni == 2) {
-      this.sectionAni += 1;
-      this.skeleton.play('dodge3', false)
-      return;
-    } */
     if (this.sectionAni == 3) {
       this.removeDodge();
       // return;
     }
+    if (this.plasyState || this.freezeState) {
+      this.skeleton.play('freeze', true);
+      return;
+    }
+    if (this.dizzyState) {
+      this.skeleton.play('dizzy', true);
+      return;
+    }
+    //skeleton被打断，解除机器人不能动 机器人在受伤过程中不能动
+    if (!this.isSelf) {
+          this.canAction = true;
+    } 
     this.skeleton.play('stand', true)
   }
   //动态注册技能回调
@@ -150,9 +158,9 @@ export default class Player extends PaoYa.Component {
     this.skeleton.play("skill2", false);
   }
   removeSkill2() {
-    if(this['aniSkill2Hero'+this.roleId]){
-      this['aniSkill2Hero'+this.roleId].visible = false;
-      this['aniSkill2Hero'+this.roleId].stop();
+    if (this['aniSkill2Hero' + this.roleId]) {
+      this['aniSkill2Hero' + this.roleId].visible = false;
+      this['aniSkill2Hero' + this.roleId].stop();
     }
   }
   //人物触发兵器技能特效
@@ -174,9 +182,9 @@ export default class Player extends PaoYa.Component {
   }
   //受击打,所有武器碰到都有这效果
   injuredEffect(posType, value, isCrit, cb) {
-    //机器人用 以防机器人选兵器打断受伤从而打断其他效果
-     if (!this.isSelf) {
-       this.canAction=false;
+    //机器人用 以防机器人选兵器打断受伤从而打断其他效果,比如中毒回调不执行
+    if (!this.isSelf) {
+      this.canAction = false;
     } 
     this.HPComp.changeHP(value);
     if (isCrit) {
@@ -198,17 +206,14 @@ export default class Player extends PaoYa.Component {
     this.skeleton.play("injured", false);
     this['boxAni' + aniName].visible = true;
     this['ani' + aniName].play(0, false);
-    cb&&this.skeleton.once(Laya.Event.LABEL, this, (e) => {
-      if (e.name === "injuredEnd") { 
-        if (!this.isSelf) {
-          this.canAction=true;
-       } 
-        cb()
+    this.skeleton.once(Laya.Event.LABEL, this, (e) => {
+      if (e.name === "injuredEnd") {
+        cb && cb();
       }
     })
   }
   //死亡时候移除所有动效
-  removeAllAni(){
+  removeAllAni() {
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
 
@@ -250,7 +255,7 @@ export default class Player extends PaoYa.Component {
   }
   minusHp(endTime, hpValue) {
     if (new Date().getTime() > endTime) {
-      this.removePoison(); 
+      this.removePoison();
       return;
     }
     let showText = hpValue > 0 ? "中毒+" + hpValue : "中毒" + hpValue;
@@ -258,7 +263,7 @@ export default class Player extends PaoYa.Component {
     this.HPComp.changeHP(hpValue);
     if (this.HPComp.curHP <= 0) {
       console.error('中毒死亡结束')
-       //关掉所有定时器，比如中毒
+      //关掉所有定时器，比如中毒
       this.removePoison();
       this.killed = true;
       this.skeleton.play("death", false);
@@ -267,7 +272,7 @@ export default class Player extends PaoYa.Component {
     }
   }
   removePoison() {
-     Laya.timer.clear(this, this.minusHp);
+    Laya.timer.clear(this, this.minusHp);
     this.boxAniPoison.visible = false;
     this.aniPoison.stop();
   }
@@ -278,6 +283,7 @@ export default class Player extends PaoYa.Component {
       return;
     }
     this.canAction = false;
+    this.dizzyState = true;
     if (this.isSelf) {
       GameControl.instance.allBtnsLock();
     }
@@ -289,8 +295,9 @@ export default class Player extends PaoYa.Component {
   }
   removeDizzy() {
     this.canAction = true;
+    this.dizzyState = false;
     if (this.isSelf) {
-    //  Laya.MouseManager.enabled = true;
+      //  Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
     this.skeleton.play('stand', true);
@@ -303,9 +310,10 @@ export default class Player extends PaoYa.Component {
       this.showPlayerState("免疫")
       return;
     }
+    this.plasyState = true;
     this.canAction = false;
     if (this.isSelf) {
-     // Laya.MouseManager.enabled = false;
+      // Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
     this.boxAniPalsy.visible = true;
@@ -316,8 +324,9 @@ export default class Player extends PaoYa.Component {
   }
   removePalsy() {
     this.canAction = true;
+    this.plasyState = false;
     if (this.isSelf) {
-    //  Laya.MouseManager.enabled = true;
+      //  Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
     this.skeleton.play('stand', true);
@@ -331,8 +340,9 @@ export default class Player extends PaoYa.Component {
       return;
     }
     this.canAction = false;
+    this.freezeState = true;
     if (this.isSelf) {
-     // Laya.MouseManager.enabled = false;
+      // Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
     }
     this.freeze.visible = true;
@@ -343,8 +353,9 @@ export default class Player extends PaoYa.Component {
   }
   removeFreeze() {
     this.canAction = true;
+    this.freezeState = false;
     if (this.isSelf) {
-     // Laya.MouseManager.enabled = true;
+      // Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
     this.freeze.visible = false;
@@ -446,13 +457,13 @@ export default class Player extends PaoYa.Component {
     }, [hurt]));
   }
   onDisable() {
-   /*  this.skeleton.off(Laya.Event.STOPPED, this, this.stopHandler);
-    this.skeleton.off(Laya.Event.LABEL,this,this.labelHandler);
-    this.skeleton.removeSelf(); */
+    /*  this.skeleton.off(Laya.Event.STOPPED, this, this.stopHandler);
+     this.skeleton.off(Laya.Event.LABEL,this,this.labelHandler);
+     this.skeleton.removeSelf(); */
     Laya.Pool.recover("player", this.owner);
   }
   onDestroy() {
     this.skeleton.off(Laya.Event.STOPPED, this);
-    this.skeleton.off(Laya.Event.LABEL,this);
+    this.skeleton.off(Laya.Event.LABEL, this);
   }
 }
