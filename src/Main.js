@@ -9,8 +9,8 @@ export class Main extends GameMain {
 		var params = {
 			gameId: 1006,
 			
-			//baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
-			baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
+			baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
+			//baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
@@ -33,6 +33,7 @@ export class Main extends GameMain {
 
 	}
 	setupConfig() {
+		let _this=this;
 		//Laya.MouseManager.enabled=false;
 		Laya.MouseManager.multiTouchEnabled = false; //关闭多点触控
 		super.setupConfig();
@@ -57,19 +58,13 @@ export class Main extends GameMain {
 		//分享地址
 		//PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
 	
-	/* 	PaoYa.DataCenter.GAMEPREPARE = {
-			async (cb) {
-				console.log('【异步】准备工作已完成')
-                Laya.loader.load(prepareList,Laya.Handler.create(this,()=>{
-					console.log(`游戏中资源加载完成`)
-				}))
-				cb()
-			},
+		PaoYa.DataCenter.GAMEPREPARE = {
 			sync() {
+				_this.loadFontFnt(0);
 				console.log('【同步】准备工作已完成')
 			}
 		};
- */
+ 
 		if (typeof wx != 'undefined' || Laya.Render.isConchApp) {
 			// console.log=function(){};
 			wx.onMemoryWarning(function () {
@@ -139,7 +134,7 @@ export class Main extends GameMain {
 				fontAni: "figureDetail"
 			},
 		]
-		this.loadFontFnt(0);
+		
 		HeroConfig.loadAllSpine();
 	}
 	setupAsyncRes(){
@@ -173,7 +168,7 @@ export class Main extends GameMain {
 			var font = new Laya.BitmapFont();
 			var itemFont = this.arrayFont[index];
 			var _this = this
-			font.loadFont(PaoYa.DataCenter.RESURL + itemFont.fontUrl, Laya.Handler.create(_this, function () {
+			font.loadFont( itemFont.fontUrl, Laya.Handler.create(_this, function () {
 				Laya.Text.registerBitmapFont(itemFont.fontAni, font);
 				index++;
 				_this.loadFontFnt(index);

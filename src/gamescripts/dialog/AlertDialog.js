@@ -44,13 +44,18 @@ export default class AlertDialog extends PaoYa.Dialog {
         hBox.addChild(this._makeButton(this.params.confirmText,Laya.Dialog.YES))
     }
     _makeButton(label,name){
-        let btn = new Laya.Button('local/common/btn_1.png',label)
+        let btn = new Laya.Button('local/common/btn_1.png')
         btn.size(200,64)
         btn.name = name
-        btn.labelSize = 35
-        btn.labelFont='SimHei'
-        btn.labelColors = '#ffffff'
         btn.stateNum = 1
+        
+        let labelF=new Laya.Label(); 
+        labelF.font=`weaponDFont`;
+        labelF.centerX=0;
+        labelF.centerY=0;
+        labelF.scale(0.7,0.7);
+        labelF.text=label;
+        btn.addChild(labelF);
         return btn
     }
     onClosed(type){

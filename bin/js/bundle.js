@@ -344,7 +344,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/BattleResultDialog.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -406,8 +406,8 @@ var Main = exports.Main = function (_GameMain) {
 		var params = {
 			gameId: 1006,
 
-			//baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
-			baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
+			baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
+			//baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
@@ -434,6 +434,7 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupConfig() {
 			var _PaoYa$Navigator$scen;
 
+			var _this = this;
 			//Laya.MouseManager.enabled=false;
 			Laya.MouseManager.multiTouchEnabled = false; //关闭多点触控
 			_get(Main.prototype.__proto__ || Object.getPrototypeOf(Main.prototype), "setupConfig", this).call(this);
@@ -449,19 +450,13 @@ var Main = exports.Main = function (_GameMain) {
 			//分享地址
 			//PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
 
-			/* 	PaoYa.DataCenter.GAMEPREPARE = {
-   		async (cb) {
-   			console.log('【异步】准备工作已完成')
-                  Laya.loader.load(prepareList,Laya.Handler.create(this,()=>{
-   				console.log(`游戏中资源加载完成`)
-   			}))
-   			cb()
-   		},
-   		sync() {
-   			console.log('【同步】准备工作已完成')
-   		}
-   	};
-   */
+			PaoYa.DataCenter.GAMEPREPARE = {
+				sync: function sync() {
+					_this.loadFontFnt(0);
+					console.log('【同步】准备工作已完成');
+				}
+			};
+
 			if (typeof wx != 'undefined' || Laya.Render.isConchApp) {
 				// console.log=function(){};
 				wx.onMemoryWarning(function () {
@@ -520,7 +515,7 @@ var Main = exports.Main = function (_GameMain) {
 				fontUrl: "font/figure/msz.fnt",
 				fontAni: "figureDetail"
 			}];
-			this.loadFontFnt(0);
+
 			_HeroConfig2.default.loadAllSpine();
 		}
 	}, {
@@ -541,7 +536,7 @@ var Main = exports.Main = function (_GameMain) {
 				var font = new Laya.BitmapFont();
 				var itemFont = this.arrayFont[index];
 				var _this = this;
-				font.loadFont(PaoYa.DataCenter.RESURL + itemFont.fontUrl, Laya.Handler.create(_this, function () {
+				font.loadFont(itemFont.fontUrl, Laya.Handler.create(_this, function () {
 					Laya.Text.registerBitmapFont(itemFont.fontAni, font);
 					index++;
 					_this.loadFontFnt(index);
@@ -2377,13 +2372,18 @@ var AlertDialog = function (_PaoYa$Dialog) {
     }, {
         key: '_makeButton',
         value: function _makeButton(label, name) {
-            var btn = new Laya.Button('local/common/btn_1.png', label);
+            var btn = new Laya.Button('local/common/btn_1.png');
             btn.size(200, 64);
             btn.name = name;
-            btn.labelSize = 35;
-            btn.labelFont = 'SimHei';
-            btn.labelColors = '#ffffff';
             btn.stateNum = 1;
+
+            var labelF = new Laya.Label();
+            labelF.font = 'weaponDFont';
+            labelF.centerX = 0;
+            labelF.centerY = 0;
+            labelF.scale(0.7, 0.7);
+            labelF.text = label;
+            btn.addChild(labelF);
             return btn;
         }
     }, {

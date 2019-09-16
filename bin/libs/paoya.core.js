@@ -3646,7 +3646,7 @@ var Game = /** @class */ (function (_super) {
             if (Laya.URL['formatURLCopy']) {
                 url = Laya.URL['formatURLCopy'](url);
             }
-            if (_this.loadNetworkRes && url.indexOf('remote/') >= 0 && url.indexOf('http') < 0) {
+            if (_this.loadNetworkRes && (url.indexOf('remote/') >= 0||url.indexOf('font/') >= 0) && url.indexOf('http') < 0) {
                 url = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL + url;
             }
             return url;
