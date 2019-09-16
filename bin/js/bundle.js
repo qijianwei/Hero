@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: false,
+    debug: true,
     version: '1.0',
     release: 10
 };
@@ -344,7 +344,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/PassResult.scene";
+GameConfig.startScene = "scenes/HomeView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -725,7 +725,7 @@ var GameControl = function (_PaoYa$Component) {
             this.otherSkillText = this.owner.otherSkillText;
             this.selfSkillTextComp = this.selfSkillText.getComponent(_PlayerSkill2.default);
             this.otherSkillTextComp = this.otherSkillText.getComponent(_PlayerSkill2.default);
-            this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；还有置灰功能
+            this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能;还有置灰功能
             this.initWeaponsBar();
         }
     }, {
@@ -2419,6 +2419,10 @@ var _SoundManager = require("../SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _HeroConfig = require("../config/HeroConfig");
+
+var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2445,6 +2449,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
             this.result = result;
             if (result == -1) {
                 this.spPanel.texture = "remote/pass_result/imgLose.png";
+                this.spIcon.texture = "remote/pass_result/lose.png";
             } else {
                 this.spPanel.texture = "remote/pass_result/imgWin.png";
             }
@@ -2453,6 +2458,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
             this.btnBack.on(Laya.Event.CLICK, this, this.backHandler);
             this.btnHeroHouse.on(Laya.Event.CLICK, this, this.goHeroHouse);
             this.fillInfo(this.params); //补全双方信息
+            PaoYa.DataCenter.user.ladderName = _HeroConfig2.default.ladderArr[this.params.ladder];
         }
     }, {
         key: "fillInfo",
@@ -2500,7 +2506,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = BattleResultDialog;
 
-},{"../../scripts/common/HomeControl":30,"../SoundManager":7}],12:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":30,"../SoundManager":7,"../config/HeroConfig":9}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4280,12 +4286,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _GameControl = require("../GameControl");
-
-var _GameControl2 = _interopRequireDefault(_GameControl);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -4365,7 +4365,7 @@ var GameBanner = function (_PaoYa$Component) {
 
 exports.default = GameBanner;
 
-},{"../GameControl":4}],20:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5620,14 +5620,14 @@ var Weapon = function (_PaoYa$Component) {
       //根据weaponType不同，运动轨迹不同,造成curvature
       this.curvature = this.pathsCurvature[this.params.weaponType];
       /*
-      * 因为经过(0, 0), 因此c = 0
-      * 于是：
-      * y = a * x*x + b*x;
-      * y1 = a * x1*x1 + b*x1;
-      * y2 = a * x2*x2 + b*x2;
-      * 利用第二个坐标：
-      * b = (y2+ a*x2*x2) / x2
-      */
+       * 因为经过(0, 0), 因此c = 0
+       * 于是：
+       * y = a * x*x + b*x;
+       * y1 = a * x1*x1 + b*x1;
+       * y2 = a * x2*x2 + b*x2;
+       * 利用第二个坐标：
+       * b = (y2+ a*x2*x2) / x2
+       */
       this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
       this.currentAni = null; //暂存当前的animation
       this.initWeaponInfo();
@@ -5853,6 +5853,7 @@ var Weapon = function (_PaoYa$Component) {
             attackNum = _calcAttackNum.attackNum,
             isCrit = _calcAttackNum.isCrit;
 
+        this.effectRefiner(this.selfPlayerComp.attr); //计算炼器效果
         if (skillEffect) {
           var skillConfig = skill.skillConfig,
               skillId = skill.skillId;
@@ -5963,6 +5964,33 @@ var Weapon = function (_PaoYa$Component) {
       };
     }
   }, {
+    key: "effectRefiner",
+    value: function effectRefiner(selfAttr) {
+      if (!selfAttr.refiners) {
+        return;
+      }
+      var len = selfAttr.refiners.length;
+      var refiners = selfAttr.refiners;
+      for (var i = 0; i < len; i++) {
+        if (this.weaponType == refiners[i].refinerBasics.weaponType) {
+          if (refiners[i].id == "refiner_12") {
+            var hitRecoveHp = refiners[i].refinerBasics.hitRecoveHp;
+            this.selfPlayerComp.hpRecoverEffect(hitRecoveHp);
+          } else if (refiners[i].id == "refiner_13") {
+            var hitRivalDownMp = refiners[i].refinerBasics.hitRivalDownMp;
+            this.otherPlayerComp.mpRecoverEffect(-hitRivalDownMp);
+          } else if (refiners[i].id == "refiner_14") {
+            //有几率晕眩三秒
+            var random = Math.round(Math.random() * 100);
+            if (1 <= refiners[i].refinerBasics.dizzinessRate) {
+              console.log("------------\u4F7F\u5BF9\u624B\u6655\u7729\u4E09\u79D2-------------");
+              // this.otherPlayerComp.dizzyEffect(3000);
+            }
+          }
+        }
+      }
+    }
+  }, {
     key: "calcRefinerHurt",
     value: function calcRefinerHurt(selfAttr) {
       console.error("\u8BA1\u7B97\u70BC\u5668\u4F24\u5BB3\u767E\u5206\u6BD4");
@@ -5973,13 +6001,9 @@ var Weapon = function (_PaoYa$Component) {
       var len = selfAttr.refiners.length;
       var refiners = selfAttr.refiners;
       for (var i = 0; i < len; i++) {
-        if (refiners[i].hurt) {
-          if (refiners[i].weaponType) {
-            if (this.weaponType == refiners[i].weaponType) {
-              return refiners[i].hurt;
-            }
-          } else {
-            return refiners[i].hurt;
+        if (refiners[i].refinerBasics.hurt) {
+          if (this.weaponType == refiners[i].refinerBasics.weaponType) {
+            return refiners[i].refinerBasics.hurt;
           }
         }
       }
@@ -5995,9 +6019,9 @@ var Weapon = function (_PaoYa$Component) {
       var len = otherAttr.refiners.length;
       var refiners = otherAttr.refiners;
       for (var i = 0; i < len; i++) {
-        if (refiners[i].reduceHurt) {
-          console.error(".......\u9632\u5FA1\u65B9\u70BC\u5668\u51CF\u4F24\u767E\u5206\u6BD4:", refiners[i].reduceHurt);
-          return refiners[i].reduceHurt;
+        if (refiners[i].refinerBasics.reduceHurt) {
+          console.error(".......\u9632\u5FA1\u65B9\u70BC\u5668\u51CF\u4F24\u767E\u5206\u6BD4:", refiners[i].refinerBasics.reduceHurt);
+          return refiners[i].refinerBasics.reduceHurt;
         }
       }
       return otherReduceHurt;
@@ -6680,7 +6704,7 @@ var HomeControl = function (_PaoYa$Component) {
             this.lblLadder.font = "weaponNFontT";
             this.lblLadder.scale(0.8, 0.8);
             this.lblLadder.text = _HeroConfig2.default.ladderArr[ladder];
-
+            PaoYa.DataCenter.user.ladderName = _HeroConfig2.default.ladderArr[ladder];
             this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
             this.onNotification('roleIdChanged', this, function (roleId) {
                 if (name != roleId) {
@@ -6708,6 +6732,7 @@ var HomeControl = function (_PaoYa$Component) {
             } else {
                 this.first = true;
             }
+            this.lblLadder.text = PaoYa.DataCenter.user.ladderName;
             this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
             this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
         }
@@ -7364,7 +7389,7 @@ var MatchControl = function (_PaoYa$Component) {
             timerService.start();
             this.timerService = timerService;
             this.owner.startAni();
-            var randomTime = (Math.ceil(Math.random() * 3) + 3) * 1000;
+            var randomTime = (Math.floor(Math.random() * 3) + 3) * 1000;
             Laya.timer.once(randomTime, this, this.matchOK);
         }
     }, {

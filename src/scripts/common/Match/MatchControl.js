@@ -20,7 +20,7 @@ export default class MatchControl extends PaoYa.Component{
         timerService.start();
         this.timerService=timerService; 
         this.owner.startAni();
-        let randomTime=(Math.ceil(Math.random()*3)+3)*1000;
+        let randomTime=(Math.floor(Math.random()*3)+3)*1000;
         Laya.timer.once(randomTime,this,this.matchOK);
     }
     onClick(e){

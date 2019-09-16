@@ -1,5 +1,3 @@
-import GameControl from "../GameControl";
-
 export default class GameBanner extends PaoYa.Component{
      /** @prop {name:lblGameType,tips:'比赛类型',type:Node}*/
     /** @prop {name:lblTime,tips:'时间label或者闯关数字',type:Node}*/

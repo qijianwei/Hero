@@ -41,7 +41,7 @@ export default class HomeControl extends PaoYa.Component {
         this.lblLadder.font = "weaponNFontT";
         this.lblLadder.scale(0.8, 0.8);
         this.lblLadder.text = HeroConfig.ladderArr[ladder];
-
+        PaoYa.DataCenter.user.ladderName= HeroConfig.ladderArr[ladder];
         this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
         this.onNotification('roleIdChanged', this, roleId => {
             if (name != roleId) {
@@ -50,6 +50,7 @@ export default class HomeControl extends PaoYa.Component {
                 this.player.init(templet, 0);
             }
         });
+        
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
@@ -65,6 +66,7 @@ export default class HomeControl extends PaoYa.Component {
         } else {
             this.first = true;
         }
+        this.lblLadder.text =  PaoYa.DataCenter.user.ladderName;
         this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
         this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
     }

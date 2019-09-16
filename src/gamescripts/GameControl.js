@@ -52,7 +52,7 @@ export default class GameControl extends PaoYa.Component {
         this.otherSkillText = this.owner.otherSkillText;
         this.selfSkillTextComp = this.selfSkillText.getComponent(PlayerSkill);
         this.otherSkillTextComp = this.otherSkillText.getComponent(PlayerSkill);
-        this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能；还有置灰功能
+        this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能;还有置灰功能
         this.initWeaponsBar();
     }
     onEnable() {

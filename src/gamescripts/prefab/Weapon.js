@@ -1,53 +1,53 @@
 import GameControl from "../GameControl";
 import SoundManager from "../SoundManager";
 var WeaponAniType;
-(function(WeaponAniType){
-    WeaponAniType[WeaponAniType["aniRepeat1"]=43]="aniRepeat1";
-    WeaponAniType[WeaponAniType["aniRepeat2"]=44]="aniRepeat2";
-    WeaponAniType[WeaponAniType["aniPoison1"]=45]="aniPoison1";
-    WeaponAniType[WeaponAniType["aniPoison2"]=46]="aniPoison2";
-    WeaponAniType[WeaponAniType["aniCrit1"]=47]="aniCrit1";
-    WeaponAniType[WeaponAniType["aniCrit2"]=48]="aniCrit2";
-    WeaponAniType[WeaponAniType["aniBlood"]=53]="aniBlood";
-    WeaponAniType[WeaponAniType["aniBlue"]=54]="aniBlue";
-    WeaponAniType[WeaponAniType["aniReduce"]=55]="aniReduce";
-    WeaponAniType[WeaponAniType["aniThump1"]=56]="aniThump1";
-    WeaponAniType[WeaponAniType["aniThump2"]=57]="aniThump2";
-    WeaponAniType[WeaponAniType["aniFreeze"]=59]="aniFreeze";
-    WeaponAniType[WeaponAniType["aniThump3"]=61]="aniThump3";
-    WeaponAniType[WeaponAniType["aniPetrifie"]=62]="aniPetrifie";
-    WeaponAniType[WeaponAniType["aniHero1"]=88]="aniHero1";
-    WeaponAniType[WeaponAniType["aniHero2"]=89]="aniHero2";
-})(WeaponAniType||(WeaponAniType={}));
+(function (WeaponAniType) {
+  WeaponAniType[WeaponAniType["aniRepeat1"] = 43] = "aniRepeat1";
+  WeaponAniType[WeaponAniType["aniRepeat2"] = 44] = "aniRepeat2";
+  WeaponAniType[WeaponAniType["aniPoison1"] = 45] = "aniPoison1";
+  WeaponAniType[WeaponAniType["aniPoison2"] = 46] = "aniPoison2";
+  WeaponAniType[WeaponAniType["aniCrit1"] = 47] = "aniCrit1";
+  WeaponAniType[WeaponAniType["aniCrit2"] = 48] = "aniCrit2";
+  WeaponAniType[WeaponAniType["aniBlood"] = 53] = "aniBlood";
+  WeaponAniType[WeaponAniType["aniBlue"] = 54] = "aniBlue";
+  WeaponAniType[WeaponAniType["aniReduce"] = 55] = "aniReduce";
+  WeaponAniType[WeaponAniType["aniThump1"] = 56] = "aniThump1";
+  WeaponAniType[WeaponAniType["aniThump2"] = 57] = "aniThump2";
+  WeaponAniType[WeaponAniType["aniFreeze"] = 59] = "aniFreeze";
+  WeaponAniType[WeaponAniType["aniThump3"] = 61] = "aniThump3";
+  WeaponAniType[WeaponAniType["aniPetrifie"] = 62] = "aniPetrifie";
+  WeaponAniType[WeaponAniType["aniHero1"] = 88] = "aniHero1";
+  WeaponAniType[WeaponAniType["aniHero2"] = 89] = "aniHero2";
+})(WeaponAniType || (WeaponAniType = {}));
 export default class Weapon extends PaoYa.Component {
   /** @prop {name:imgWeapon,tips:"四个点",type:Node}*/
   /** @prop {name:boxAniWeapon,tips:"武器碰撞动效Box",type:Node}*/
   /** @prop {name:boxAniCollision,tips:"武器碰撞动效",type:Node}*/
   /** @prop {name:boxHpWeapon,tips:"武器的血条",type:Node}*/
   /** @prop {name:imgHpMask,tips:"武器血条mask",type:Node}*/
-  /** @prop {name:imgHp,tips:"武器血条图片",type:Node}*/ 
-   /** @prop {name:aniCrit1,tips:"致命特效",type:Node}*/
-   /** @prop {name:aniCrit2,tips:"诛心特效",type:Node}*/
-   /** @prop {name:aniPoison1,tips:"浸毒特效",type:Node}*/
-   /** @prop {name:aniPoison2,tips:"奇毒特效",type:Node}*/
-   /** @prop {name:aniRepeat1,tips:"双刃特效",type:Node}*/
-   /** @prop {name:aniRepeat2,tips:"影刃特效",type:Node}*/
-   /** @prop {name:aniBlood,tips:"嗜血特效",type:Node}*/
-   /** @prop {name:aniBlue,tips:"嗜魔特效",type:Node}*/
-   /** @prop {name:aniReduce,tips:"气绝特效",type:Node}*/
+  /** @prop {name:imgHp,tips:"武器血条图片",type:Node}*/
+  /** @prop {name:aniCrit1,tips:"致命特效",type:Node}*/
+  /** @prop {name:aniCrit2,tips:"诛心特效",type:Node}*/
+  /** @prop {name:aniPoison1,tips:"浸毒特效",type:Node}*/
+  /** @prop {name:aniPoison2,tips:"奇毒特效",type:Node}*/
+  /** @prop {name:aniRepeat1,tips:"双刃特效",type:Node}*/
+  /** @prop {name:aniRepeat2,tips:"影刃特效",type:Node}*/
+  /** @prop {name:aniBlood,tips:"嗜血特效",type:Node}*/
+  /** @prop {name:aniBlue,tips:"嗜魔特效",type:Node}*/
+  /** @prop {name:aniReduce,tips:"气绝特效",type:Node}*/
 
-    /** @prop {name:aniThump1,tips:"重击特效",type:Node}*/
-   /** @prop {name:aniThump2,tips:"碎石特效",type:Node}*/
-   /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
-   /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
-    /** @prop {name:aniPetrifie,tips:"石化特效",type:Node}*/
-    /** @prop {name:aniHero1,tips:"人物1技能2特效",type:Node}*/
-    /** @prop {name:aniHero2,tips:"人物2技能2特效",type:Node}*/
+  /** @prop {name:aniThump1,tips:"重击特效",type:Node}*/
+  /** @prop {name:aniThump2,tips:"碎石特效",type:Node}*/
+  /** @prop {name:aniThump3,tips:"斩皇特效",type:Node}*/
+  /** @prop {name:aniFreeze,tips:"冰心特效",type:Node}*/
+  /** @prop {name:aniPetrifie,tips:"石化特效",type:Node}*/
+  /** @prop {name:aniHero1,tips:"人物1技能2特效",type:Node}*/
+  /** @prop {name:aniHero2,tips:"人物2技能2特效",type:Node}*/
 
   constructor() {
     super();
-    this.pathsCurvature = [0, 0,0.0008, 0.0015,0.0025];
-    this.speedsArr=[0,680/100,680/80,680/100,680/80]
+    this.pathsCurvature = [0, 0, 0.0008, 0.0015, 0.0025];
+    this.speedsArr = [0, 680 / 100, 680 / 80, 680 / 100, 680 / 80]
   }
   onAwake() {
     this.tween = new Laya.Tween();
@@ -74,9 +74,9 @@ export default class Weapon extends PaoYa.Component {
 
   //可能执行多次
   onEnable() {
-  
+
     this.params = this.owner.params;
-   
+
     if (this.params.weaponType != 1) {
       this.rotateAngle = 360
     }
@@ -88,41 +88,41 @@ export default class Weapon extends PaoYa.Component {
 
     this.effectAni = false; //兵器是否在做碰撞动效
     this.boxAniWeapon.visible = false;
-   
+
     //武器图片 
     this.imgWeapon.skin = `remote/weapons/${this.params.weaponId}.png`;
     this.weaponAttack = this.params.weaponAttack; //武器攻击力
     this.weaponDurable = this.params.weaponDurable;
     this.owner.zOrder = 100 - this.weaponDurable;
     let imgW = this.imgWeapon.width,
-        imgH = this.imgWeapon.height;
-       
-    this.imgWeapon.pivot(imgW / 2, imgH / 2);//图片的位置
-    let  x=this.imgWeapon.x,
-         y=this.imgWeapon.y,
-         skillX=-Math.floor(imgW/2);
-    this.boxAniWeapon.pos(x, y);//碰撞动效的位置
-    this.aniPoison1.pos(x,y);
-    this.aniPoison2.pos(skillX,y);
-  //  this.boxAniCrit1.pos(x,y);
-    this.aniCrit1.pos(x,y);
-    this.aniCrit2.pos(skillX+5,y);
-    this.aniRepeat1.pos(skillX+5,y);
-    this.aniRepeat2.pos(skillX+5,y);
-   
-    this.aniBlood.pos(x,y);
-    this.aniBlue.pos(x,y);
-    this.aniReduce.pos(x,y);
-    this.aniThump1.pos(x,y);
-    this.aniThump2.pos(x,y);
-    this.aniThump3.pos(x,y);
-    this.aniPetrifie.pos(x,y);
-    this.aniHero1.pos(0,y);
-    this.aniHero2.pos(0,y);
+      imgH = this.imgWeapon.height;
+
+    this.imgWeapon.pivot(imgW / 2, imgH / 2); //图片的位置
+    let x = this.imgWeapon.x,
+      y = this.imgWeapon.y,
+      skillX = -Math.floor(imgW / 2);
+    this.boxAniWeapon.pos(x, y); //碰撞动效的位置
+    this.aniPoison1.pos(x, y);
+    this.aniPoison2.pos(skillX, y);
+    //  this.boxAniCrit1.pos(x,y);
+    this.aniCrit1.pos(x, y);
+    this.aniCrit2.pos(skillX + 5, y);
+    this.aniRepeat1.pos(skillX + 5, y);
+    this.aniRepeat2.pos(skillX + 5, y);
+
+    this.aniBlood.pos(x, y);
+    this.aniBlue.pos(x, y);
+    this.aniReduce.pos(x, y);
+    this.aniThump1.pos(x, y);
+    this.aniThump2.pos(x, y);
+    this.aniThump3.pos(x, y);
+    this.aniPetrifie.pos(x, y);
+    this.aniHero1.pos(0, y);
+    this.aniHero2.pos(0, y);
     /* this.aniPoison1.play(0,true); */
     this.collideSp.size(Math.floor(imgW * 0.2), imgH);
     let collideW = this.collideSp.width,
-        collideH = this.collideSp.height;
+      collideH = this.collideSp.height;
     this.collideW = collideW;
     this.collideH = collideH;
 
@@ -134,12 +134,12 @@ export default class Weapon extends PaoYa.Component {
 
     this.newX = 0;
     this.newY = 0;
- 
+
     let speed = this.speedsArr[this.params.weaponType]; //代表 像素/帧
-    this.speed=speed;
+    this.speed = speed;
     //根据weaponType不同，运动轨迹不同,造成curvature
     this.curvature = this.pathsCurvature[this.params.weaponType];
-     /*
+    /*
      * 因为经过(0, 0), 因此c = 0
      * 于是：
      * y = a * x*x + b*x;
@@ -149,42 +149,42 @@ export default class Weapon extends PaoYa.Component {
      * b = (y2+ a*x2*x2) / x2
      */
     this.b = (this.driftY - this.curvature * this.driftX * this.driftX) / this.driftX;
-    this.currentAni=null;//暂存当前的animation
+    this.currentAni = null; //暂存当前的animation
     this.initWeaponInfo();
     //初始化血条状态
     this.initBar();
-    this.initSkillEffect();//兵器技能特效
-    Laya.timer.frameLoop(1, this, this.startParabola,[speed]);
+    this.initSkillEffect(); //兵器技能特效
+    Laya.timer.frameLoop(1, this, this.startParabola, [speed]);
   }
   initBar() {
     this.originHpW = this.imgHp.width;
     this.originHP = this.curHP = this.weaponDurable;
     this.boxHpWeapon.visible = false;
-    this.imgHpMask.width=this.originHpW;
+    this.imgHpMask.width = this.originHpW;
   }
-  initSkillEffect(){
-    if(this.params.skillEffect){
-      let skillId=this.params.activeSkill.skillId;
-      if(WeaponAniType[skillId]){
-         this[WeaponAniType[skillId]].visible=true;
-         this[WeaponAniType[skillId]].play(0,true);
-         this.currentAni=this[WeaponAniType[skillId]];
+  initSkillEffect() {
+    if (this.params.skillEffect) {
+      let skillId = this.params.activeSkill.skillId;
+      if (WeaponAniType[skillId]) {
+        this[WeaponAniType[skillId]].visible = true;
+        this[WeaponAniType[skillId]].play(0, true);
+        this.currentAni = this[WeaponAniType[skillId]];
       }
     }
   }
-  stopSkillEffect(){
-    if(this.params.skillEffect){
-      let skillId=this.params.activeSkill.skillId;
-      if(WeaponAniType[skillId]){
-         this[WeaponAniType[skillId]].visible=false;
-         this[WeaponAniType[skillId]].stop();
-         this.currentAni=null;
+  stopSkillEffect() {
+    if (this.params.skillEffect) {
+      let skillId = this.params.activeSkill.skillId;
+      if (WeaponAniType[skillId]) {
+        this[WeaponAniType[skillId]].visible = false;
+        this[WeaponAniType[skillId]].stop();
+        this.currentAni = null;
       }
     }
   }
-  initWeaponInfo(){
-     //暂时这么写  
-     if (this.isSelf) {
+  initWeaponInfo() {
+    //暂时这么写  
+    if (this.isSelf) {
       this.selfPlayerComp = GameControl.instance.selfPlayer.comp;
       this.otherPlayerComp = GameControl.instance.otherPlayer.comp;
       this.owner.scaleX = 1;
@@ -196,7 +196,7 @@ export default class Weapon extends PaoYa.Component {
         x: 1150,
         y: 450
       }
-    
+
     } else {
       this.selfPlayerComp = GameControl.instance.otherPlayer.comp;
       this.otherPlayerComp = GameControl.instance.selfPlayer.comp;
@@ -213,7 +213,7 @@ export default class Weapon extends PaoYa.Component {
     //这个是武器发射的坐标
     this.originX = this.owner.x;
     this.originY = this.owner.y;
-    this.diffX=Math.abs(this.originX-this.startPos.x);
+    this.diffX = Math.abs(this.originX - this.startPos.x);
     this.beginTime = (new Date()).valueOf();
 
     this.weaponPoint = [{
@@ -228,18 +228,18 @@ export default class Weapon extends PaoYa.Component {
     }, {
       x: Math.floor(this.originX - this.collideW / 2),
       y: Math.floor(this.originY + this.collideH / 2)
-    }] 
+    }]
   }
   changeHP(value) {
     this.boxHpWeapon.visible = true;
-    
+
     this.curHP += value;
     if (this.curHP <= 0) {
       this.curHP = 0;
       this.imgMask.width = 0;
       return;
     } else if (this.curHP > this.originHP) {
-      this.curHP = this.originHP; 
+      this.curHP = this.originHP;
     }
     let w = Math.floor(this.curHP / this.originHP * this.originHpW);
     this.imgHpMask.width = w;
@@ -250,7 +250,7 @@ export default class Weapon extends PaoYa.Component {
     let now = (new Date()).valueOf();
     let x, y, curAngle;
 
-    x = Math.floor((now - this.beginTime) * 0.06 * speed)+this.diffX;
+    x = Math.floor((now - this.beginTime) * 0.06 * speed) + this.diffX;
     y = Math.floor(this.curvature * x * x + this.b * x);
     curAngle = Math.floor(x / this.driftX * 720)
     this.doMove(x, y, curAngle);
@@ -260,18 +260,18 @@ export default class Weapon extends PaoYa.Component {
     Laya.timer.clear(this, this.startParabola);
   }
   //暂停动画
-  pause(){
+  pause() {
     Laya.timer.clear(this, this.startParabola);
-    this.pauseTime=(new Date()).valueOf();
-    this.playedTime=this.pauseTime-this.beginTime;
-    this.currentAni&&this.currentAni.stop();
+    this.pauseTime = (new Date()).valueOf();
+    this.playedTime = this.pauseTime - this.beginTime;
+    this.currentAni && this.currentAni.stop();
   }
   //恢复动画
-  resume(){
-    let speed=this.speed;
-    this.beginTime=(new Date()).valueOf()-this.playedTime;
-    Laya.timer.frameLoop(1, this, this.startParabola,[speed]);
-    this.currentAni&&this.currentAni.play(0,true);
+  resume() {
+    let speed = this.speed;
+    this.beginTime = (new Date()).valueOf() - this.playedTime;
+    Laya.timer.frameLoop(1, this, this.startParabola, [speed]);
+    this.currentAni && this.currentAni.play(0, true);
   }
   //运动
   doMove(x, y, curAngle) {
@@ -297,7 +297,7 @@ export default class Weapon extends PaoYa.Component {
 
     // 
     this.refreshWeaponPoint(this.newX, this.newY)
-    if (this.newX > 1334 || this.newY > 750 || this.newX < 0||this.selfPlayerComp.killed||this.otherPlayerComp.killed) {
+    if (this.newX > 1334 || this.newY > 750 || this.newX < 0 || this.selfPlayerComp.killed || this.otherPlayerComp.killed) {
       this.endMove();
       return;
     }
@@ -311,106 +311,111 @@ export default class Weapon extends PaoYa.Component {
           sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
           sprite.zOrder=10000;
           sprite.rotation=this.imgWeapon.rotation */
-   
-    this.postNotification('collide');
-    //如果对方闪避状态，无敌
-    if(this.otherPlayerComp.dodge){
-      console.error('无敌状态或者一方已经死亡')
-      return;
-    }
-    //如果roleId=4,会20%反弹兵器。不会受到暴击。
-    //let targetName=this.isSelf?'other':'self';
-    if(this.otherPlayerComp.attr.roleId==4){
-       let random=Math.ceil(Math.random()*100);
-       let reboundRate=this.selfPlayerComp.attr.skills[1].skillConfig.reboundRate;
-        if(random<=reboundRate){
+
+      this.postNotification('collide');
+      //如果对方闪避状态，无敌
+      if (this.otherPlayerComp.dodge) {
+        console.error('无敌状态或者一方已经死亡')
+        return;
+      }
+      //如果roleId=4,会20%反弹兵器。不会受到暴击。
+      //let targetName=this.isSelf?'other':'self';
+      if (this.otherPlayerComp.attr.roleId == 4) {
+        let random = Math.ceil(Math.random() * 100);
+        let reboundRate = this.selfPlayerComp.attr.skills[1].skillConfig.reboundRate;
+        if (random <= reboundRate) {
           //反弹提示
           this.otherPlayerComp.showPlayerState("游龙入水");
           this.goBack();
           return;
-        } 
-    }
-       //如果是roleId是2
-    if(this.selfPlayerComp.attr.roleId==2){
-      console.error('我是龙儿')
-      if(this.selfPlayerComp.attr.skills[1].skillType==1){
-         let addHitRecoverMp=this.selfPlayerComp.attr.skills[1].skillConfig.addHitRecoverMp;
-         this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
+        }
       }
-    }
+      //如果是roleId是2
+      if (this.selfPlayerComp.attr.roleId == 2) {
+        console.error('我是龙儿')
+        if (this.selfPlayerComp.attr.skills[1].skillType == 1) {
+          let addHitRecoverMp = this.selfPlayerComp.attr.skills[1].skillConfig.addHitRecoverMp;
+          this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
+        }
+      }
       SoundManager.ins.injured();
       this.endMove();
-      let skill = this.params.activeSkill;  
-      let skillEffect=this.params.skillEffect;
-      let {attackNum,isCrit}=this.calcAttackNum(skillEffect);
-      if (skillEffect) { 
-        let skillConfig=skill.skillConfig,
-            skillId = skill.skillId;
+      let skill = this.params.activeSkill;
+      let skillEffect = this.params.skillEffect;
+      let {
+        attackNum,
+        isCrit
+      } = this.calcAttackNum(skillEffect);
+      this.effectRefiner(this.selfPlayerComp.attr);//计算炼器效果
+      if (skillEffect) {
+        let skillConfig = skill.skillConfig,
+          skillId = skill.skillId;
         //this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
         switch (skillId) {
           case 45:
           case 46:
-            let arr=skillConfig.poison.split('-').map(Number);
-            let time=arr[0];
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
-                this.otherPlayerComp.poisonEffect(time*1000,-arr[1]/time)
+            let arr = skillConfig.poison.split('-').map(Number);
+            let time = arr[0];
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+              this.otherPlayerComp.poisonEffect(time * 1000, -arr[1] / time)
             });
-            
+
             break;
             //麻痹和冰冻一个效果 指的是skeleton
           case 49:
           case 50:
-              this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
-                this.otherPlayerComp.palsyEffect(skillConfig.mabi*1000);
-            });      
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+              this.otherPlayerComp.palsyEffect(skillConfig.mabi * 1000);
+            });
             break;
           case 53:
-            let stealHp=skillConfig.stealHp;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
-              this.selfPlayerComp.hpRecoverEffect(attackNum*stealHp);//数值暂定，要算
-            });   
+            let stealHp = skillConfig.stealHp;
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+              this.selfPlayerComp.hpRecoverEffect(attackNum * stealHp); //数值暂定，要算
+            });
             break;
           case 54:
-            let stealMp=skillConfig.stealMp;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
-               this.selfPlayerComp.mpRecoverEffect( Math.ceil(attackNum*stealMp))
-            }); 
+            let stealMp = skillConfig.stealMp;
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+              this.selfPlayerComp.mpRecoverEffect(Math.ceil(attackNum * stealMp))
+            });
             break;
-          case 55:      
-            let recoverDown=skillConfig.recoverDown.split('-').map(Number);
-            let recoverDownT=recoverDown[0],recoverDownPer=recoverDown[1];
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,null); 
-            this.otherPlayerComp.changePerMp(recoverDownT*1000,recoverDownPer)  
+          case 55:
+            let recoverDown = skillConfig.recoverDown.split('-').map(Number);
+            let recoverDownT = recoverDown[0],
+              recoverDownPer = recoverDown[1];
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
+            this.otherPlayerComp.changePerMp(recoverDownT * 1000, recoverDownPer)
             break;
           case 59:
-            let freezeTime=skillConfig.freeze*1000
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+            let freezeTime = skillConfig.freeze * 1000
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
               this.otherPlayerComp.freezedEffect(freezeTime);
-           });      
+            });
             break;
           case 89:
             console.error('释放人物技能89,让对方内力减少100点');
-            let downMP=skillConfig.downMp;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,null); 
+            let downMP = skillConfig.downMp;
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
             this.otherPlayerComp.MPComp.changeMP(-downMP);
             break;
             //命中后对手晕眩2秒
           case 90:
-            let dizzyT=skillConfig.dizziness*1000;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit,()=>{
+            let dizzyT = skillConfig.dizziness * 1000;
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
               this.otherPlayerComp.dizzyEffect(dizzyT);
-            });   
+            });
             break;
-          default :
-            this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit);
+          default:
+            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
             break;
         }
-       
-      }else{
-        this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum,isCrit);
+
+      } else {
+        this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
       }
     }
-   
+
     if (this.isSelf) {
       this.collideWithWeapon();
     }
@@ -420,71 +425,92 @@ export default class Weapon extends PaoYa.Component {
 [暴伤百分比]=角色自身暴伤百分比+兵器技能附加暴伤百分比+兵器炼器暴伤百分比
 [1+英雄技能伤害加成百分比]//不用管
   */
-  calcAttackNum(skillEffect){
-    let randomNum=Math.floor(Math.random()*100+1);
+  calcAttackNum(skillEffect) {
+    let randomNum = Math.floor(Math.random() * 100 + 1);
     //console.error('暴击百分比',this.selfPlayerComp.attr.calcCritProb);
-    let selfAttr=this.selfPlayerComp.attr, 
-        otherAttr=this.otherPlayerComp.attr,
-        selfStrength=selfAttr.roleStrength,//臂力
-        roleCritHarm=selfAttr.calcCritProb,
-        selfCritHarm=(randomNum<roleCritHarm)?selfAttr.roleCritHarm/100:1,
-        otherBone=otherAttr.roleBone,
-        //otherStrength=otherAttr.roleStrength,
-        //兵器炼器伤害加成百分比
-        refinerHurt=this.calcRefinerHurt(selfAttr),
-        //减伤百分比
-        otherReduceHurt=this.calcReduceHurt(otherAttr),
-        hurtPer=selfStrength-otherBone<0?1:(selfStrength-otherBone)/selfStrength,
-        skillHurtMulti=1;
-        if(skillEffect){
-          console.error('触发技能伤害，有莫有伤害倍数不知道');//技能伤害百分比
-          skillHurtMulti=(this.params.activeSkill.skillConfig.hurt)?this.params.activeSkill.skillConfig.hurt:1;
-        }
-    let attackNum=Math.floor(this.weaponAttack*hurtPer*selfCritHarm*refinerHurt*(1-otherReduceHurt)*skillHurtMulti);
+    let selfAttr = this.selfPlayerComp.attr,
+      otherAttr = this.otherPlayerComp.attr,
+      selfStrength = selfAttr.roleStrength, //臂力
+      roleCritHarm = selfAttr.calcCritProb,
+      selfCritHarm = (randomNum < roleCritHarm) ? selfAttr.roleCritHarm / 100 : 1,
+      otherBone = otherAttr.roleBone,
+      //otherStrength=otherAttr.roleStrength,
+      //兵器炼器伤害加成百分比
+      refinerHurt = this.calcRefinerHurt(selfAttr),
+      //减伤百分比
+      otherReduceHurt = this.calcReduceHurt(otherAttr),
+      hurtPer = selfStrength - otherBone < 0 ? 1 : (selfStrength - otherBone) / selfStrength,
+      skillHurtMulti = 1;
+    if (skillEffect) {
+      console.error('触发技能伤害，有莫有伤害倍数不知道'); //技能伤害百分比
+      skillHurtMulti = (this.params.activeSkill.skillConfig.hurt) ? this.params.activeSkill.skillConfig.hurt : 1;
+    }
+    let attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
     return {
-      attackNum:attackNum,
-      isCrit:randomNum<roleCritHarm
+      attackNum: attackNum,
+      isCrit: randomNum < roleCritHarm
     };
   }
-  calcRefinerHurt(selfAttr){
-    console.error(`计算炼器伤害百分比`)
-     let refinerHurt=1;
-     if(!selfAttr.refiners){
-       return refinerHurt;
-     }
-     let len=selfAttr.refiners.length;
-     let refiners=selfAttr.refiners;   
-     for(let i=0;i<len;i++){
-       if(refiners[i].hurt){
-         if(refiners[i].weaponType){
-            if(this.weaponType==refiners[i].weaponType){
-               return refiners[i].hurt
-            }
-         }else{
-            return refiners[i].hurt;
-         }
-       }
-     }
-     return refinerHurt;
+  effectRefiner(selfAttr){
+    if (!selfAttr.refiners) {
+      return ;
+    }
+    let len = selfAttr.refiners.length;
+    let refiners = selfAttr.refiners;
+    for (let i = 0; i < len; i++) {
+      if(this.weaponType==refiners[i].refinerBasics.weaponType){
+        if (refiners[i].id==`refiner_12`) {
+          let hitRecoveHp=refiners[i].refinerBasics.hitRecoveHp;
+          this.selfPlayerComp.hpRecoverEffect(hitRecoveHp);
+        }else if(refiners[i].id==`refiner_13`){
+          let hitRivalDownMp=refiners[i].refinerBasics.hitRivalDownMp;
+          this.otherPlayerComp.mpRecoverEffect(-hitRivalDownMp);
+        }else if(refiners[i].id==`refiner_14`){ //有几率晕眩三秒
+          let random=Math.round(Math.random()*100);
+          if(random<=refiners[i].refinerBasics.dizzinessRate){
+            console.log(`------------使对手晕眩三秒-------------`)
+           // this.otherPlayerComp.dizzyEffect(3000);
+          }     
+        }
+      }    
+    }
   }
-  calcReduceHurt(otherAttr){
-    let otherReduceHurt=0;
-    if(!otherAttr.refiners){
+  calcRefinerHurt(selfAttr) {
+    console.error(`计算炼器伤害百分比`)
+    let refinerHurt = 1;
+    if (!selfAttr.refiners) {
+      return refinerHurt;
+    }
+    let len = selfAttr.refiners.length;
+    let refiners = selfAttr.refiners;
+    for (let i = 0; i < len; i++) {
+      if (refiners[i].refinerBasics.hurt) {
+        if (this.weaponType == refiners[i].refinerBasics.weaponType) {
+          return refiners[i].refinerBasics.hurt
+        }
+
+      }
+    }
+    return refinerHurt;
+  }
+  calcReduceHurt(otherAttr) {
+    let otherReduceHurt = 0;
+    if (!otherAttr.refiners) {
       return otherReduceHurt;
     }
-    let len=otherAttr.refiners.length;
-    let refiners=otherAttr.refiners;  
-    for(let i=0;i<len;i++){
-      if(refiners[i].reduceHurt){
-        console.error(`.......防御方炼器减伤百分比:`,refiners[i].reduceHurt);
-         return refiners[i].reduceHurt
+    let len = otherAttr.refiners.length;
+    let refiners = otherAttr.refiners;
+    for (let i = 0; i < len; i++) {
+      if (refiners[i].refinerBasics.reduceHurt) {
+        console.error(`.......防御方炼器减伤百分比:`, refiners[i].refinerBasics.reduceHurt);
+        return refiners[i].refinerBasics.reduceHurt
       }
     }
     return otherReduceHurt;
   }
   //兵器反弹
-  goBack(){
-    this.isSelf=!this.isSelf;
+  goBack() {
+    this.isSelf = !this.isSelf;
     this.initWeaponInfo();
   }
   //根据抛物线的点求角度和计算矩形四个位置
@@ -541,7 +567,7 @@ export default class Weapon extends PaoYa.Component {
     //GameControl.instance.selfWeapons.forEach((weaponComp,index)=>{
     for (let i = 0; i < GameControl.instance.otherWeapons.length; i++) {
       let otherWeapon = GameControl.instance.otherWeapons[i];
-      if (!this.effectAni && !otherWeapon.effectAni&&this.weaponType==otherWeapon.weaponType) {
+      if (!this.effectAni && !otherWeapon.effectAni && this.weaponType == otherWeapon.weaponType) {
         if (this.doPolygonsIntersect(this.weaponPoint, otherWeapon.weaponPoint)) {
           /*   console.log(this.owner.x);
             console.log(this.weaponPoint,otherWeapon.weaponPoint)
@@ -591,7 +617,7 @@ export default class Weapon extends PaoYa.Component {
       scaleY: 1.5,
       alpha: 0.3
     }, 500, Laya.Ease.linearIn, Laya.Handler.create(this, () => {
-     // console.log('变大效果播放完', new Date().getTime());
+      // console.log('变大效果播放完', new Date().getTime());
       this.endMove();
     }))
     this.boxAniCollision.play(0, false);
@@ -666,6 +692,6 @@ export default class Weapon extends PaoYa.Component {
     Laya.Pool.recover("weapon", this.owner);
   }
   onDestroy() {
-   
+
   }
 }

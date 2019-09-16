@@ -1,5 +1,6 @@
 import HomeControl from "../../scripts/common/HomeControl";
 import SoundManager from "../SoundManager";
+import HeroConfig from "../config/HeroConfig";
 
 export default class BattleResultDialog extends PaoYa.Dialog{
     constructor(){
@@ -12,6 +13,7 @@ export default class BattleResultDialog extends PaoYa.Dialog{
         this.result=result;
         if(result==-1){
             this.spPanel.texture="remote/pass_result/imgLose.png";
+            this.spIcon.texture=`remote/pass_result/lose.png`;
         }else{
             this.spPanel.texture="remote/pass_result/imgWin.png";
         }
@@ -20,7 +22,7 @@ export default class BattleResultDialog extends PaoYa.Dialog{
         this.btnBack.on(Laya.Event.CLICK,this,this.backHandler);
         this.btnHeroHouse.on(Laya.Event.CLICK,this,this.goHeroHouse);
         this.fillInfo(this.params);//补全双方信息
-        
+        PaoYa.DataCenter.user.ladderName= HeroConfig.ladderArr[this.params.ladder];
     }
     fillInfo(params){
         this.selfName.text=params.nickName;
