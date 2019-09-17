@@ -32,7 +32,7 @@ export default class HomeControl extends PaoYa.Component {
         player.load(`spine/hero/hero_${name}.sk`, Laya.Handler.create(this, (res) => {
             player.play('stand', true);
         }))
-        player.pos(371, 570);
+        player.pos(371, 590);
         player.scale(1.5, 1.5)
         this.owner.addChild(player);
         this.player = player;

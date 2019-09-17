@@ -178,6 +178,7 @@ export class Main extends GameMain {
 		let list = [
 			/* 首屏资源和公共资源 */
 			'scenes/HomeView.scene',
+			'local/home/homeNewBg.jpg',
 			'res/atlas/local/common.atlas',
 			'res/atlas/local/home.atlas',
 			'res/atlas/remote/guide.atlas',

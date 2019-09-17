@@ -121,7 +121,7 @@ export default class Swordsman extends PaoYa.View {
     }
     //初始化展示信息
     initInfo() {
-        this.skbox.y = 370
+        this.skbox.y = 390
         this.skbox.x = 370
         if (this.heroSkin) {
             this.heroSkin.stop()

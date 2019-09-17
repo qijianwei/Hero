@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":141,
-    "selecteID":148,
+    "selectedBox":2,
+    "selecteID":192,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
@@ -35,29 +35,13 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite",
-            "props":{"y":0,"x":-150,"texture":"local/home/homeBg.jpg"},
+            "props":{"y":0,"x":-150,"texture":"local/home/homeNewBg.jpg"},
             "nodeParent":2,
             "label":"Sprite",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
             "compId":192,
-            "child":[
-                ],
-            "$HIDDEN":false
-        },
-        {
-            "x":15,
-            "type":"Sprite",
-            "searchKey":"Sprite",
-            "props":{"y":529,"x":132,"texture":"local/home/6.png"},
-            "nodeParent":2,
-            "label":"Sprite",
-            "isOpen":true,
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":193,
             "child":[
                 ],
             "$HIDDEN":false

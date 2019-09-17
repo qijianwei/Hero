@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":10,
-    "selecteID":292,
+    "selectedBox":2,
+    "selecteID":168,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","height":750},
     "nodeParent":-1,
@@ -18,7 +18,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image",
-            "props":{"y":0,"x":-150,"skin":"local/home/homeBg.jpg"},
+            "props":{"y":0,"x":-150,"skin":"local/home/homeNewBg.jpg"},
             "nodeParent":2,
             "label":"Image",
             "isDirectory":false,
@@ -53,21 +53,6 @@
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":268,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":532,"x":283,"texture":"local/home/6.png"},
-                    "nodeParent":168,
-                    "label":"Sprite",
-                    "isOpen":true,
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":164,
                     "child":[
                         ]
                 },
@@ -403,14 +388,13 @@
                     "nodeParent":168,
                     "maxID":113,
                     "label":"Box(BeanBox)",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":155,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"presetID":10,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
@@ -424,7 +408,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"presetID":4,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
@@ -438,7 +421,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"presetID":6,"preset":"laya/pages/scenes/prefab/BeanBox.prefab"},
@@ -452,7 +434,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/scripts/prefab/BeanBox.js",

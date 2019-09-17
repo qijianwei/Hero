@@ -6685,7 +6685,7 @@ var HomeControl = function (_PaoYa$Component) {
             player.load("spine/hero/hero_" + name + ".sk", Laya.Handler.create(this, function (res) {
                 player.play('stand', true);
             }));
-            player.pos(371, 570);
+            player.pos(371, 590);
             player.scale(1.5, 1.5);
             this.owner.addChild(player);
             this.player = player;
@@ -7697,7 +7697,7 @@ var Grading = function (_PaoYa$View) {
     }, {
         key: "initInfo",
         value: function initInfo() {
-            this.skbox.y = 370;
+            this.skbox.y = 390;
             this.skbox.x = 370;
             if (this.heroSkin) {
                 this.heroSkin.stop();
@@ -7942,7 +7942,7 @@ var Swordsman = function (_PaoYa$View) {
         value: function initInfo() {
             var _this3 = this;
 
-            this.skbox.y = 370;
+            this.skbox.y = 390;
             this.skbox.x = 370;
             if (this.heroSkin) {
                 this.heroSkin.stop();
