@@ -29,8 +29,7 @@ export default class SwordsmanControl extends PaoYa.Component {
                 this.navigator.popup("weapon/GoldLack");
                 return
             } else {
-                PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
-                this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+                this.owner.changeGold()
             }
         }
         PaoYa.Request.POST(`martial_update_role`, { roleId: this.owner.showDetail.roleId, newHand: numNew }, res => {

@@ -423,15 +423,13 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 }
             }
         } else {
-            if (cell._dataSource.willBeUse && (!this.isWareChoiceWp || idx == -1)) {
+            if (cell._dataSource.willBeUse) {
                 cell.getChildByName(`beChioce`).visible = true
                 // console.log(cell.getChildByName(`beChioce`),123)
                 this.isWareChoiceWp = cell
                 cell.skin = `local/common/currutFrameBg.png`
-                if (cell._dataSource.isUsingWp) {
-                    this.currentMyUserWeapDetail = cell._dataSource
-                    this.renderCenterData(isUser)
-                }
+                this.currentMyUserWeapDetail = cell._dataSource
+                this.renderCenterData(isUser)
             }
         }
 
@@ -515,10 +513,10 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 this.navigator.popup("weapon/GoldLack");
                 return
             } else {
-                let obj = {
-                    gold: PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text),
-                }
-                this.owner.changeHB(obj)
+                // let obj = {
+                //     gold: PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text),
+                // }
+                // this.owner.changeHB(obj)
             }
         } else {
             numNew = 1
@@ -533,6 +531,9 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
         PaoYa.Request.POST(`martial_update_weapon`, { weaponId: `${detail.weaponId}-${detail.weaponLevel}`, newHand: numNew, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, res => {
             SoundManager.ins.upgrade()
+            PaoYa.Request.GET('update_chips', {}, res => {
+                this.owner.changeHB(res)
+            })
             let newDetail = null
             this.owner.upeffects.visible = true
             this.owner.upeffects.play(0, false)

@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":19,
-    "selecteID":31,
+    "selectedBox":20,
+    "selecteID":25,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/wheel/Wheel.js","height":750},
     "nodeParent":-1,
@@ -121,13 +121,14 @@
             "props":{"y":0,"x":0,"var":"currencyBg"},
             "nodeParent":2,
             "label":"currencyBg",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":20,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":22,"x":584,"texture":"local/common/currencyBg.png"},
@@ -141,6 +142,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":20.5,"x":345,"texture":"local/common/currencyBg.png"},
@@ -154,6 +156,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":16,"x":324,"texture":"local/common/icon.png"},
@@ -167,6 +170,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":17,"x":563,"texture":"local/common/diamond.png"},
@@ -180,9 +184,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,goldNum",
-                    "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
+                    "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
                     "nodeParent":20,
                     "label":"goldNum",
                     "isDirectory":false,
@@ -193,9 +198,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,diamondNum",
-                    "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
+                    "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
                     "nodeParent":20,
                     "label":"diamondNum",
                     "isDirectory":false,

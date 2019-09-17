@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":295,
-    "selecteID":296,
+    "selectedBox":2,
+    "selecteID":255,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/task/WeaponList.js","height":750},
     "nodeParent":-1,
@@ -221,14 +221,13 @@
                     "props":{"y":140,"x":11,"width":395,"var":"detailNum","height":147},
                     "nodeParent":231,
                     "label":"detailNum",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":246,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,attackNum",
                             "props":{"y":11,"x":55,"width":48,"var":"attackNum","height":27,"fontSize":24},
@@ -242,7 +241,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,enduranceNum",
                             "props":{"y":48,"x":55,"width":48,"var":"enduranceNum","height":27,"fontSize":24},
@@ -256,7 +254,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,consumeNum",
                             "props":{"y":85,"x":55,"width":48,"var":"consumeNum","height":27,"fontSize":24},
@@ -271,7 +268,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,wpcdNum",
                             "props":{"y":122,"x":55,"width":48,"var":"wpcdNum","height":27,"fontSize":24},
@@ -286,7 +282,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-4,"x":0,"texture":"remote/weaponhouse/22.png"},
@@ -301,7 +296,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addattackNum",
                             "props":{"y":11,"x":188,"width":48,"var":"addattackNum","height":27,"fontSize":24,"color":"#2e634a"},
@@ -315,7 +309,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addenduranceNum",
                             "props":{"y":48,"x":188,"width":48,"var":"addenduranceNum","height":27,"fontSize":24,"color":"#2e634a"},
@@ -329,7 +322,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,addconsumeNum",
                             "props":{"y":85,"x":188,"width":48,"var":"addconsumeNum","height":27,"fontSize":24,"color":"#2e634a"},
@@ -498,14 +490,13 @@
                     "props":{"y":467,"x":13,"texture":"remote/task/16.png"},
                     "nodeParent":231,
                     "label":"Sprite",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":295,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,wpinfo",
                             "props":{"y":18,"x":34,"wordWrap":true,"width":318,"var":"wpinfo","leading":10,"height":95,"fontSize":22,"font":"SimHei"},
@@ -545,14 +536,13 @@
             "props":{"y":139,"x":664,"width":395,"var":"warehouseList","spaceY":-2,"height":548},
             "nodeParent":2,
             "label":"warehouseList",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":232,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":79,"x":69.5,"width":128,"skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"renderType":"render","height":129,"anchorY":0.5,"anchorX":0.5},
@@ -565,7 +555,6 @@
                     "compId":266,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,beChioce",
                             "props":{"y":-9,"x":-7,"visible":true,"skin":"local/common/frameBg_2.png","name":"beChioce"},
@@ -580,7 +569,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,bgwrap",
                             "props":{"y":65,"x":64,"skin":"local/common/quality_1.png","name":"bgwrap","anchorY":0.5,"anchorX":0.5},
@@ -595,7 +583,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,mark",
                             "props":{"y":-16,"x":-11,"skin":"local/common/type_2.png","name":"mark"},
@@ -610,7 +597,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,wp",
                             "props":{"y":0,"x":0,"skin":"remote/small_weapons/s_g005_2.png","name":"wp"},
@@ -634,13 +620,14 @@
             "props":{"y":0,"x":0,"var":"currencyBg"},
             "nodeParent":2,
             "label":"currencyBg",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":275,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":22,"x":584,"texture":"local/common/currencyBg.png"},
@@ -654,6 +641,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":20.5,"x":345,"texture":"local/common/currencyBg.png"},
@@ -667,6 +655,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":16,"x":324,"texture":"local/common/icon.png"},
@@ -680,6 +669,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":17,"x":563,"texture":"local/common/diamond.png"},
@@ -693,9 +683,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,goldNum",
-                    "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
+                    "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
                     "nodeParent":275,
                     "label":"goldNum",
                     "isDirectory":false,
@@ -706,9 +697,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,diamondNum",
-                    "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
+                    "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
                     "nodeParent":275,
                     "label":"diamondNum",
                     "isDirectory":false,

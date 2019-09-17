@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":2,
-    "selecteID":17,
+    "selectedBox":21,
+    "selecteID":33,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/dialog/common/Award.js","height":750},
     "nodeParent":-1,
@@ -118,17 +118,16 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,icon,icon",
-                    "props":{"y":-9,"x":-6,"visible":false,"var":"icon","texture":"remote/game/avstarBg.png","scaleY":0.95,"scaleX":0.95,"name":"icon"},
+                    "props":{"y":-9,"x":-6,"visible":false,"var":"icon","texture":"remote/game/avstarBg.png","name":"icon"},
                     "nodeParent":21,
                     "label":"icon",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":32,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,iconnum,iconnum",
                             "props":{"y":11,"x":12,"var":"iconnum","skin":"local/common/hero_4.png","name":"iconnum"},
@@ -148,17 +147,16 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,wp,wp",
-                    "props":{"y":66,"x":64,"width":128,"visible":false,"var":"wp","skin":"local/common/frameBg.png","scaleY":0.8,"scaleX":0.8,"renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
+                    "props":{"y":66,"x":64,"width":128,"visible":false,"var":"wp","skin":"local/common/frameBg.png","renderType":"render","name":"wp","height":129,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":21,
                     "label":"wp",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":33,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,bgwrap,bgwrap",
                             "props":{"y":65,"x":64,"var":"bgwrap","skin":"local/common/quality_3.png","name":"bgwrap","anchorY":0.5,"anchorX":0.5},
@@ -173,7 +171,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,wpimage,wpimage",
                             "props":{"y":0,"x":0,"var":"wpimage","skin":"remote/small_weapons/s_z015_3.png","name":"wpimage"},
@@ -188,7 +185,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,mark,mark",
                             "props":{"y":-16,"x":-11,"var":"mark","skin":"local/common/type_2.png","name":"mark"},

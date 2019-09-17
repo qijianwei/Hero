@@ -119,7 +119,6 @@ export default class GameControl extends PaoYa.Component {
         let maskArea = new Laya.Sprite();
         maskArea.alpha = 0.9;
         maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
-       // maskArea.pos(-150, 0);
         maskArea.mouseEnabled = true;
         maskArea.zOrder = 2000;
         Laya.stage.addChild(maskArea);
@@ -171,7 +170,6 @@ export default class GameControl extends PaoYa.Component {
         }
         pathArr.push(["moveTo", 0, 0]);
 
-
         // X轴Y轴的偏移总量
         this.driftX = this.endPos.x - this.startPos.x;
         this.driftY = this.endPos.y - this.startPos.y;
@@ -182,14 +180,11 @@ export default class GameControl extends PaoYa.Component {
             pathArr.push(["lineTo", x, y]);
         }
         pathArr.push(["closePath"]);
-        // this.owner.spDraw.graphics.clear();
         this.owner.spDraw.graphics.drawPath(this.startPos.x, this.startPos.y, pathArr, null, {
             strokeStyle: "#ff0000",
             lineWidth: 2,
             lineCap: "round"
         })
-        //this.owner.spDraw.graphics.drawPath(340,450,)
-
     }
     dealParams(weaponList) {
         for (var i = 0; i < weaponList.length; i++) {
@@ -258,7 +253,6 @@ export default class GameControl extends PaoYa.Component {
 
         for (let i = 0, len = this.weaponList.length; i < len; i++) {
             //暂时
-            // if()
             let weaponBar = this.weaponBar.create.call(this.weaponBar);
             let weaponBarComp = weaponBar.getComponent(WeaponBar);
             weaponBarComp.params = this.weaponList[i];
@@ -274,7 +268,6 @@ export default class GameControl extends PaoYa.Component {
         let name = isSelf ? 'self' : 'other';
         let role = isSelf ? 'role' : 'robotRole';
         let player = Laya.Pool.getItemByCreateFun('player', this.player.create, this.player);
-
         //let player=this.player.create();
         let spCollide = this.owner[name + 'Collide'];
         let spX = spCollide.x,
@@ -296,14 +289,11 @@ export default class GameControl extends PaoYa.Component {
                 component.activeSkills.push(this[role].skills[i]);
             }
         }
-        /*  console.error('人物技能');
-         console.error(component.activeSkills) */
-
-        //component.attr.skillWeapon.params={};
+      
         if (component.attr.skillWeapon) {
             component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
         }
-        // console.error(component.attr.skillWeapon)
+
         component.MPComp = this[name + 'MP'].getComponent(MPBar);
         component.HPComp = this[name + 'HP'].getComponent(HPBar);
         component.MPComp.initBar(this[role].roleMp);
@@ -348,15 +338,10 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     skillClickHandler(name) {
-        /*  SoundManager.ins.heroSkill(); */
         if (name == "skill1") {
-            /*    this.allPause();
-               return; */
             SoundManager.ins.heroSkill1();
             this.skillWithWeapon(true);
         } else if (name == "skill2") {
-            /*  this.allResume();
-             return; */
             SoundManager.ins.heroSkill2();
             this.skillWithoutWeapon(true);
         }
@@ -537,7 +522,6 @@ export default class GameControl extends PaoYa.Component {
         } else {
             this.selfPlayer.comp.skeleton.resume()
         }
-        /* Laya.timer.once(1000, this, this.startSelect); */
         if (!this.closeRobot) {
             this.firstWeaponSelect();
         }
@@ -658,7 +642,6 @@ export default class GameControl extends PaoYa.Component {
             targetComp.startT();
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP * this[name + 'MultiMP']);
         }
-        //正常开始技能冷却
 
     }
     weaponLaunch(params, deltaT) {
@@ -667,9 +650,6 @@ export default class GameControl extends PaoYa.Component {
         let weaponComp = weapon.getComponent(Weapon);
         weaponComp.weaponType = params.weaponType;
         weapon.params = params;
-        /*    console.log(weapon);
-           console.log(weaponComp)
-           */
         weaponComp.isSelf = params.isSelf;
         if (params.isSelf) {
             weapon.pos(280, 450)
@@ -712,8 +692,7 @@ export default class GameControl extends PaoYa.Component {
             case 43:
             case 44:
                 let weaponNum = skillConfig.weaponNum;
-
-                console.error("修改后的值:", params.weaponAttack)
+                console.warn("------修改后的值------:", params.weaponAttack)
                 this.weaponLaunch(params);
                 for (var i = 0; i < weaponNum - 1; i++) {
                     this.weaponLaunch(params, 350 * (i + 1));

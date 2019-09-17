@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":130,
-    "selecteID":165,
+    "selectedBox":141,
+    "selecteID":148,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Swordsman.js","height":750},
     "nodeParent":-1,
@@ -272,14 +272,13 @@
             "props":{"y":0,"x":703,"texture":"remote/figure/5.png"},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":130,
             "child":[
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,hp",
                     "props":{"y":161,"x":102,"var":"hp","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -293,7 +292,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionHp",
                     "props":{"y":161,"x":213,"var":"additionHp","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -307,7 +305,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,force",
                     "props":{"y":161,"x":304,"var":"force","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -322,7 +319,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,adddtionForce",
                     "props":{"y":161,"x":402,"var":"adddtionForce","text":"生命 999","fontSize":22,"font":"Arial","color":"#066117"},
@@ -336,7 +332,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,muscle",
                     "props":{"y":206,"x":102,"var":"muscle","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -350,7 +345,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionMuscle",
                     "props":{"y":206,"x":213,"var":"additionMuscle","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -364,7 +358,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,bone",
                     "props":{"y":206,"x":304,"var":"bone","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -378,7 +371,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionBone",
                     "props":{"y":206,"x":413,"var":"additionBone","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -392,7 +384,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,critical",
                     "props":{"y":252,"x":102,"var":"critical","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -406,7 +397,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionAritical",
                     "props":{"y":252,"x":213,"visible":false,"var":"additionAritical","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -420,7 +410,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,hurt",
                     "props":{"y":252,"x":304,"var":"hurt","text":"生命 999","fontSize":22,"font":"Arial"},
@@ -434,7 +423,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,additionHurt",
                     "props":{"y":252,"x":415.326171875,"visible":false,"var":"additionHurt","text":"+2","fontSize":22,"font":"Arial","color":"#066117"},
@@ -448,7 +436,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,skill2",
                     "props":{"y":373,"x":250,"var":"skill2","stateNum":"1","skin":"remote/game/skill.png"},
@@ -475,7 +462,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,skill1",
                     "props":{"y":373,"x":123,"var":"skill1","stateNum":"1","skin":"remote/game/skill.png","disabled":false},
@@ -502,7 +488,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,skill3",
                     "props":{"y":373,"x":382,"var":"skill3","stateNum":"1","skin":"remote/game/skill.png"},
@@ -529,7 +514,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,equipbtn",
                     "props":{"y":528,"x":316,"var":"equipbtn","stateNum":"1","skin":"local/common/btn_2.png","scaleY":0.8,"scaleX":0.8},
@@ -557,7 +541,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,already",
                     "props":{"y":528,"x":316,"var":"already","stateNum":"1","skin":"local/common/btn_3.png","scaleY":0.8,"scaleX":0.8},
@@ -585,7 +568,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,lvupbtn",
                     "props":{"y":528,"x":124,"var":"lvupbtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.8,"scaleX":0.8},
@@ -652,7 +634,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,buyBtn",
                     "props":{"y":512,"x":213,"visible":false,"var":"buyBtn","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
@@ -693,7 +674,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,signGet",
                     "props":{"y":512,"x":213,"visible":false,"var":"signGet","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.9,"scaleX":0.9},
@@ -836,7 +816,7 @@
                     "x":30,
                     "type":"Text",
                     "searchKey":"Text,goldNum",
-                    "props":{"y":21,"x":376,"width":148,"var":"goldNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
+                    "props":{"y":21,"x":376,"width":148,"var":"goldNum","valign":"middle","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
                     "nodeParent":141,
                     "label":"goldNum",
                     "isDirectory":false,
@@ -850,7 +830,7 @@
                     "x":30,
                     "type":"Text",
                     "searchKey":"Text,diamondNum",
-                    "props":{"y":17,"x":613,"width":149,"var":"diamondNum","valign":"middle","text":"text","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
+                    "props":{"y":17,"x":613,"width":149,"var":"diamondNum","valign":"middle","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
                     "nodeParent":141,
                     "label":"diamondNum",
                     "isDirectory":false,

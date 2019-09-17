@@ -804,7 +804,6 @@ var GameControl = function (_PaoYa$Component) {
             var maskArea = new Laya.Sprite();
             maskArea.alpha = 0.9;
             maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
-            // maskArea.pos(-150, 0);
             maskArea.mouseEnabled = true;
             maskArea.zOrder = 2000;
             Laya.stage.addChild(maskArea);
@@ -873,13 +872,11 @@ var GameControl = function (_PaoYa$Component) {
                 pathArr.push(["lineTo", x, y]);
             }
             pathArr.push(["closePath"]);
-            // this.owner.spDraw.graphics.clear();
             this.owner.spDraw.graphics.drawPath(this.startPos.x, this.startPos.y, pathArr, null, {
                 strokeStyle: "#ff0000",
                 lineWidth: 2,
                 lineCap: "round"
             });
-            //this.owner.spDraw.graphics.drawPath(340,450,)
         }
     }, {
         key: 'dealParams',
@@ -955,7 +952,6 @@ var GameControl = function (_PaoYa$Component) {
 
             for (var i = 0, len = this.weaponList.length; i < len; i++) {
                 //暂时
-                // if()
                 var weaponBar = this.weaponBar.create.call(this.weaponBar);
                 var weaponBarComp = weaponBar.getComponent(_WeaponBar2.default);
                 weaponBarComp.params = this.weaponList[i];
@@ -973,7 +969,6 @@ var GameControl = function (_PaoYa$Component) {
             var name = isSelf ? 'self' : 'other';
             var role = isSelf ? 'role' : 'robotRole';
             var player = Laya.Pool.getItemByCreateFun('player', this.player.create, this.player);
-
             //let player=this.player.create();
             var spCollide = this.owner[name + 'Collide'];
             var spX = spCollide.x,
@@ -995,14 +990,11 @@ var GameControl = function (_PaoYa$Component) {
                     component.activeSkills.push(this[role].skills[i]);
                 }
             }
-            /*  console.error('人物技能');
-             console.error(component.activeSkills) */
 
-            //component.attr.skillWeapon.params={};
             if (component.attr.skillWeapon) {
                 component.attr.skillWeapon.activeSkill = component.attr.skillWeapon.skills[0];
             }
-            // console.error(component.attr.skillWeapon)
+
             component.MPComp = this[name + 'MP'].getComponent(_MPBar2.default);
             component.HPComp = this[name + 'HP'].getComponent(_HPBar2.default);
             component.MPComp.initBar(this[role].roleMp);
@@ -1052,15 +1044,10 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'skillClickHandler',
         value: function skillClickHandler(name) {
-            /*  SoundManager.ins.heroSkill(); */
             if (name == "skill1") {
-                /*    this.allPause();
-                   return; */
                 _SoundManager2.default.ins.heroSkill1();
                 this.skillWithWeapon(true);
             } else if (name == "skill2") {
-                /*  this.allResume();
-                 return; */
                 _SoundManager2.default.ins.heroSkill2();
                 this.skillWithoutWeapon(true);
             }
@@ -1261,7 +1248,6 @@ var GameControl = function (_PaoYa$Component) {
             } else {
                 this.selfPlayer.comp.skeleton.resume();
             }
-            /* Laya.timer.once(1000, this, this.startSelect); */
             if (!this.closeRobot) {
                 this.firstWeaponSelect();
             }
@@ -1395,7 +1381,6 @@ var GameControl = function (_PaoYa$Component) {
                 targetComp.startT();
                 _this6[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this6[name + 'MultiMP']);
             };
-            //正常开始技能冷却
         }
     }, {
         key: 'weaponLaunch',
@@ -1407,9 +1392,6 @@ var GameControl = function (_PaoYa$Component) {
             var weaponComp = weapon.getComponent(_Weapon2.default);
             weaponComp.weaponType = params.weaponType;
             weapon.params = params;
-            /*    console.log(weapon);
-               console.log(weaponComp)
-               */
             weaponComp.isSelf = params.isSelf;
             if (params.isSelf) {
                 weapon.pos(280, 450);
@@ -1454,8 +1436,7 @@ var GameControl = function (_PaoYa$Component) {
                 case 43:
                 case 44:
                     var weaponNum = skillConfig.weaponNum;
-
-                    console.error("修改后的值:", params.weaponAttack);
+                    console.warn("------修改后的值------:", params.weaponAttack);
                     this.weaponLaunch(params);
                     for (var i = 0; i < weaponNum - 1; i++) {
                         this.weaponLaunch(params, 350 * (i + 1));
@@ -5752,7 +5733,6 @@ var Weapon = function (_PaoYa$Component) {
   }, {
     key: "stopParabola",
     value: function stopParabola() {
-      //console.log("清除定时器");
       Laya.timer.clear(this, this.startParabola);
     }
     //暂停动画
@@ -5808,7 +5788,6 @@ var Weapon = function (_PaoYa$Component) {
         return;
       }
       if (this.doPolygonsIntersect(this.weaponPoint, this.otherPlayerComp.collidePoint)) {
-        // console.error(this.weaponPoint, this.otherPlayerComp.collidePoint)
         /*     let sprite=new Laya.Sprite();
             GameControl.instance.owner.addChild(sprite);
             sprite.pos(this.weaponPoint[0].x,this.weaponPoint[0].y)
@@ -5821,7 +5800,7 @@ var Weapon = function (_PaoYa$Component) {
         this.postNotification('collide');
         //如果对方闪避状态，无敌
         if (this.otherPlayerComp.dodge) {
-          console.error('无敌状态或者一方已经死亡');
+          console.log('------无敌状态或者一方已经死亡------');
           return;
         }
         //如果roleId=4,会20%反弹兵器。不会受到暴击。
@@ -5838,7 +5817,7 @@ var Weapon = function (_PaoYa$Component) {
         }
         //如果是roleId是2
         if (this.selfPlayerComp.attr.roleId == 2) {
-          console.error('我是龙儿');
+          console.warn('------我是龙儿------');
           if (this.selfPlayerComp.attr.skills[1].skillType == 1) {
             var addHitRecoverMp = this.selfPlayerComp.attr.skills[1].skillConfig.addHitRecoverMp;
             this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp);
@@ -5901,7 +5880,7 @@ var Weapon = function (_PaoYa$Component) {
               });
               break;
             case 89:
-              console.error('释放人物技能89,让对方内力减少100点');
+              console.warn('--------释放人物技能89,让对方内力减少100点--------');
               var downMP = skillConfig.downMp;
               this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
               this.otherPlayerComp.MPComp.changeMP(-downMP);
@@ -5936,7 +5915,6 @@ var Weapon = function (_PaoYa$Component) {
     key: "calcAttackNum",
     value: function calcAttackNum(skillEffect) {
       var randomNum = Math.floor(Math.random() * 100 + 1);
-      //console.error('暴击百分比',this.selfPlayerComp.attr.calcCritProb);
       var selfAttr = this.selfPlayerComp.attr,
           otherAttr = this.otherPlayerComp.attr,
           selfStrength = selfAttr.roleStrength,
@@ -5954,7 +5932,7 @@ var Weapon = function (_PaoYa$Component) {
           hurtPer = selfStrength - otherBone < 0 ? 1 : (selfStrength - otherBone) / selfStrength,
           skillHurtMulti = 1;
       if (skillEffect) {
-        console.error('触发技能伤害，有莫有伤害倍数不知道'); //技能伤害百分比
+        console.warn('--------触发技能伤害，有莫有伤害倍数不知道--------'); //技能伤害百分比
         skillHurtMulti = this.params.activeSkill.skillConfig.hurt ? this.params.activeSkill.skillConfig.hurt : 1;
       }
       var attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
@@ -5982,8 +5960,8 @@ var Weapon = function (_PaoYa$Component) {
           } else if (refiners[i].id == "refiner_14") {
             //有几率晕眩三秒
             var random = Math.round(Math.random() * 100);
-            if (1 <= refiners[i].refinerBasics.dizzinessRate) {
-              console.log("------------\u4F7F\u5BF9\u624B\u6655\u7729\u4E09\u79D2-------------");
+            if (random <= refiners[i].refinerBasics.dizzinessRate) {
+              console.log("----------\u4F7F\u5BF9\u624B\u6655\u7729\u4E09\u79D2----------");
               // this.otherPlayerComp.dizzyEffect(3000);
             }
           }
@@ -5993,7 +5971,7 @@ var Weapon = function (_PaoYa$Component) {
   }, {
     key: "calcRefinerHurt",
     value: function calcRefinerHurt(selfAttr) {
-      console.error("\u8BA1\u7B97\u70BC\u5668\u4F24\u5BB3\u767E\u5206\u6BD4");
+      console.log("------\u8BA1\u7B97\u70BC\u5668\u4F24\u5BB3\u767E\u5206\u6BD4------");
       var refinerHurt = 1;
       if (!selfAttr.refiners) {
         return refinerHurt;
@@ -6020,7 +5998,7 @@ var Weapon = function (_PaoYa$Component) {
       var refiners = otherAttr.refiners;
       for (var i = 0; i < len; i++) {
         if (refiners[i].refinerBasics.reduceHurt) {
-          console.error(".......\u9632\u5FA1\u65B9\u70BC\u5668\u51CF\u4F24\u767E\u5206\u6BD4:", refiners[i].refinerBasics.reduceHurt);
+          console.warn("------\u9632\u5FA1\u65B9\u70BC\u5668\u51CF\u4F24\u767E\u5206\u6BD4------", refiners[i].refinerBasics.reduceHurt);
           return refiners[i].refinerBasics.reduceHurt;
         }
       }
@@ -8276,8 +8254,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
                     this.navigator.popup("weapon/GoldLack");
                     return;
                 } else {
-                    PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text);
-                    this.owner.goldNum.text = PaoYa.DataCenter.user.gold;
+                    this.owner.changeGold();
                 }
             }
             PaoYa.Request.POST("martial_update_role", { roleId: this.owner.showDetail.roleId, newHand: numNew }, function (res) {
@@ -11119,15 +11096,13 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     }
                 }
             } else {
-                if (cell._dataSource.willBeUse && (!this.isWareChoiceWp || idx == -1)) {
+                if (cell._dataSource.willBeUse) {
                     cell.getChildByName("beChioce").visible = true;
                     // console.log(cell.getChildByName(`beChioce`),123)
                     this.isWareChoiceWp = cell;
                     cell.skin = "local/common/currutFrameBg.png";
-                    if (cell._dataSource.isUsingWp) {
-                        this.currentMyUserWeapDetail = cell._dataSource;
-                        this.renderCenterData(isUser);
-                    }
+                    this.currentMyUserWeapDetail = cell._dataSource;
+                    this.renderCenterData(isUser);
                 }
             }
 
@@ -11221,10 +11196,10 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     this.navigator.popup("weapon/GoldLack");
                     return;
                 } else {
-                    var obj = {
-                        gold: PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text)
-                    };
-                    this.owner.changeHB(obj);
+                    // let obj = {
+                    //     gold: PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text),
+                    // }
+                    // this.owner.changeHB(obj)
                 }
             } else {
                 numNew = 1;
@@ -11239,6 +11214,9 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 
             PaoYa.Request.POST("martial_update_weapon", { weaponId: detail.weaponId + "-" + detail.weaponLevel, newHand: numNew, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, function (res) {
                 _SoundManager2.default.ins.upgrade();
+                PaoYa.Request.GET('update_chips', {}, function (res) {
+                    _this9.owner.changeHB(res);
+                });
                 var newDetail = null;
                 _this9.owner.upeffects.visible = true;
                 _this9.owner.upeffects.play(0, false);

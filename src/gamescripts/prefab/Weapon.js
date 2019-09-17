@@ -256,7 +256,6 @@ export default class Weapon extends PaoYa.Component {
     this.doMove(x, y, curAngle);
   }
   stopParabola() {
-    //console.log("清除定时器");
     Laya.timer.clear(this, this.startParabola);
   }
   //暂停动画
@@ -290,7 +289,6 @@ export default class Weapon extends PaoYa.Component {
     }
     if (this.params.weaponType != 1) {
       this.imgWeapon.rotation = this.firstAngle + curAngle;
-
     } else {
       this.imgWeapon.rotation = this.getDegreeByPos(x, y, this.newX, this.newY);
     }
@@ -302,7 +300,6 @@ export default class Weapon extends PaoYa.Component {
       return;
     }
     if (this.doPolygonsIntersect(this.weaponPoint, this.otherPlayerComp.collidePoint)) {
-      // console.error(this.weaponPoint, this.otherPlayerComp.collidePoint)
       /*     let sprite=new Laya.Sprite();
           GameControl.instance.owner.addChild(sprite);
           sprite.pos(this.weaponPoint[0].x,this.weaponPoint[0].y)
@@ -315,7 +312,7 @@ export default class Weapon extends PaoYa.Component {
       this.postNotification('collide');
       //如果对方闪避状态，无敌
       if (this.otherPlayerComp.dodge) {
-        console.error('无敌状态或者一方已经死亡')
+        console.log('------无敌状态或者一方已经死亡------')
         return;
       }
       //如果roleId=4,会20%反弹兵器。不会受到暴击。
@@ -332,7 +329,7 @@ export default class Weapon extends PaoYa.Component {
       }
       //如果是roleId是2
       if (this.selfPlayerComp.attr.roleId == 2) {
-        console.error('我是龙儿')
+        console.warn('------我是龙儿------')
         if (this.selfPlayerComp.attr.skills[1].skillType == 1) {
           let addHitRecoverMp = this.selfPlayerComp.attr.skills[1].skillConfig.addHitRecoverMp;
           this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
@@ -394,7 +391,7 @@ export default class Weapon extends PaoYa.Component {
             });
             break;
           case 89:
-            console.error('释放人物技能89,让对方内力减少100点');
+            console.warn('--------释放人物技能89,让对方内力减少100点--------');
             let downMP = skillConfig.downMp;
             this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
             this.otherPlayerComp.MPComp.changeMP(-downMP);
@@ -427,7 +424,6 @@ export default class Weapon extends PaoYa.Component {
   */
   calcAttackNum(skillEffect) {
     let randomNum = Math.floor(Math.random() * 100 + 1);
-    //console.error('暴击百分比',this.selfPlayerComp.attr.calcCritProb);
     let selfAttr = this.selfPlayerComp.attr,
       otherAttr = this.otherPlayerComp.attr,
       selfStrength = selfAttr.roleStrength, //臂力
@@ -442,7 +438,7 @@ export default class Weapon extends PaoYa.Component {
       hurtPer = selfStrength - otherBone < 0 ? 1 : (selfStrength - otherBone) / selfStrength,
       skillHurtMulti = 1;
     if (skillEffect) {
-      console.error('触发技能伤害，有莫有伤害倍数不知道'); //技能伤害百分比
+      console.warn('--------触发技能伤害，有莫有伤害倍数不知道--------'); //技能伤害百分比
       skillHurtMulti = (this.params.activeSkill.skillConfig.hurt) ? this.params.activeSkill.skillConfig.hurt : 1;
     }
     let attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
@@ -468,7 +464,7 @@ export default class Weapon extends PaoYa.Component {
         }else if(refiners[i].id==`refiner_14`){ //有几率晕眩三秒
           let random=Math.round(Math.random()*100);
           if(random<=refiners[i].refinerBasics.dizzinessRate){
-            console.log(`------------使对手晕眩三秒-------------`)
+            console.log(`----------使对手晕眩三秒----------`)
            // this.otherPlayerComp.dizzyEffect(3000);
           }     
         }
@@ -476,7 +472,7 @@ export default class Weapon extends PaoYa.Component {
     }
   }
   calcRefinerHurt(selfAttr) {
-    console.error(`计算炼器伤害百分比`)
+    console.log(`------计算炼器伤害百分比------`)
     let refinerHurt = 1;
     if (!selfAttr.refiners) {
       return refinerHurt;
@@ -502,7 +498,7 @@ export default class Weapon extends PaoYa.Component {
     let refiners = otherAttr.refiners;
     for (let i = 0; i < len; i++) {
       if (refiners[i].refinerBasics.reduceHurt) {
-        console.error(`.......防御方炼器减伤百分比:`, refiners[i].refinerBasics.reduceHurt);
+        console.warn(`------防御方炼器减伤百分比------`, refiners[i].refinerBasics.reduceHurt);
         return refiners[i].refinerBasics.reduceHurt
       }
     }
