@@ -22,8 +22,7 @@ export default class GameView extends PaoYa.View{
         console.log(sceneSK._templet) 
       }))
       this.sceneSK=sceneSK;
-      this.scenePoint.addChild(sceneSK);
-     
+      this.scenePoint.addChild(sceneSK);  
     }
 
     onEnable(){

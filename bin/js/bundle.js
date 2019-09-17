@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: true,
+    debug: false,
     version: '1.0',
     release: 10
 };
@@ -548,12 +548,7 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupGameRes() {
 			var list = [
 			/* 首屏资源和公共资源 */
-			'scenes/HomeView.scene', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'local/home/homeBg.jpg',
-			/* 	'spine/hero/hero_1.png',
-   	'spine/hero/hero_1.sk',
-   	'spine/hero/hero_2.png',
-   	'spine/hero/hero_2.sk', */
-			'res/atlas/remote/grading.atlas',
+			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas',
 
 			/* 场景 */
 			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
@@ -11217,7 +11212,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 numNew = 1;
             }
 
-            var detail = this.isWareChoiceWp._dataSource;
+            var detail = this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail;
             var isusing = detail.isUsingWp ? 1 : 0;
             this.isRequesting = true;
             Laya.timer.once(500, this, function () {
@@ -11294,7 +11289,9 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     _this9.owner.userWeaponList.array = _this9.myUserDetailList;
                 } else {
                     for (var key in res.weapon) {
-                        _this9.isWareChoiceWp._dataSource[key] = res.weapon[key];
+                        if (_this9.isWareChoiceWp && _this9.isWareChoiceWp._dataSource) {
+                            _this9.isWareChoiceWp._dataSource[key] = res.weapon[key];
+                        }
                     }
 
                     // this.isWareChoiceWp._dataSource = res.weapon

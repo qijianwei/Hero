@@ -179,14 +179,10 @@ export class Main extends GameMain {
 			/* 首屏资源和公共资源 */
 			'scenes/HomeView.scene',
 			'local/home/homeNewBg.jpg',
+			'local/home/homeBg.jpg',
 			'res/atlas/local/common.atlas',
 			'res/atlas/local/home.atlas',
-			'res/atlas/remote/guide.atlas',
-             'local/home/homeBg.jpg',
-			/* 	'spine/hero/hero_1.png',
-				'spine/hero/hero_1.sk',
-				'spine/hero/hero_2.png',
-				'spine/hero/hero_2.sk', */
+			'res/atlas/remote/guide.atlas',    
 			'res/atlas/remote/grading.atlas',
 
 			/* 场景 */
@@ -226,16 +222,7 @@ export class Main extends GameMain {
 			/* 武器图标 */
 			'res/atlas/remote/weapons.atlas',
 			'res/atlas/remote/small_weapons.atlas',
-			'res/atlas/remote/game.atlas',
-
-
-
-			/* 不知 */
-			/* 'res/atlas/remote/lvup_arms.atlas',
-			'res/atlas/lvup_hero.atlas', */
-
-			/* 	'' */
-
+			'res/atlas/remote/game.atlas'
 		];
 		return list
 	}

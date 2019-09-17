@@ -522,7 +522,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
             numNew = 1
         }
 
-        let detail = this.isWareChoiceWp._dataSource
+        let detail = this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail
         let isusing = detail.isUsingWp ? 1 : 0
         this.isRequesting = true
         Laya.timer.once(500, this, () => {
@@ -598,7 +598,9 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 this.owner.userWeaponList.array = this.myUserDetailList
             } else {
                 for (const key in res.weapon) {
-                    this.isWareChoiceWp._dataSource[key] = res.weapon[key]
+                    if (this.isWareChoiceWp && this.isWareChoiceWp._dataSource) {
+                        this.isWareChoiceWp._dataSource[key] = res.weapon[key]
+                    }
                 }
 
                 // this.isWareChoiceWp._dataSource = res.weapon
