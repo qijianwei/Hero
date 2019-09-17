@@ -405,9 +405,7 @@ var Main = exports.Main = function (_GameMain) {
 
 		var params = {
 			gameId: 1006,
-
-			baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
-			//baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
+			baseURL: _Config2.default.debug ? "https://juedi001test.goxiaochengxu.cn/ServiceCore/" : "https://juedi001.goxiaochengxu.cn/ServiceCore/",
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
@@ -422,7 +420,7 @@ var Main = exports.Main = function (_GameMain) {
 			showBannerAdWhenDialogPopup: false,
 			adUnitId: 'adunit-7860aaf8ed04aeb2',
 			bannerUnitId: 'adunit-4bec7f17587df319', //bannerID
-			portrait: "landscape",
+			portrait: false,
 			loadNetworkRes: true,
 			is_config: 0
 		};
@@ -1287,10 +1285,10 @@ var GameControl = function (_PaoYa$Component) {
                 if (this.otherPlayer.comp.canAction) {
                     this.sWeapon.isSelf = false;
                     this.sWeapon.selectedHandler();
-                    console.error('\u53EF\u4EE5\u52A8\u5F39');
+                    console.log('------\u53EF\u4EE5\u52A8\u5F39------');
                     this.weaponBarClickHandler(this.sWeapon);
                 } else {
-                    console.error("无法动弹");
+                    console.log("-----无法动弹-----");
                 }
                 if (this.gameType == "pass") {
                     Laya.timer.once(800, this, this.startSelect);
@@ -1334,7 +1332,7 @@ var GameControl = function (_PaoYa$Component) {
 
             //人物表现
             if (this.isSelf) {
-                console.error('用户发射武器........');
+                console.log('用户发射武器........');
             }
 
             this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb;
@@ -1353,6 +1351,7 @@ var GameControl = function (_PaoYa$Component) {
 
                 if (skillType == 1 && status == 1) {
                     var random = Math.floor(Math.random() * 100 + 1);
+                    // if(skillId==50){prob=100;} 测试用
                     if (random <= prob) {
                         /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                         params.skillEffect = true;
@@ -1370,7 +1369,7 @@ var GameControl = function (_PaoYa$Component) {
                         };
                         return;
                     } else {
-                        console.warn('不好意思,没有触发技能');
+                        console.warn('\u4E0D\u597D\u610F\u601D,' + name + '\u6CA1\u6709\u89E6\u53D1\u6280\u80FD');
                     }
                 }
             }
@@ -1527,7 +1526,7 @@ var GameControl = function (_PaoYa$Component) {
             }
             this.showSkillText(isSelf, "闪避");
             this[name + "Player"].comp.MPComp.changeMP(-consumeMP);
-            console.error('闪避技能使用');
+            console.log('闪避技能使用');
             this[name + 'Player'].comp.dodgeEffect();
         }
         // 全局碰撞检测
@@ -1621,7 +1620,7 @@ var GameControl = function (_PaoYa$Component) {
                 battleIndex: this.battleIndex,
                 monsterNum: this.monsterNum
             });
-            console.error('换角色');
+            // console.error('换角色');
             this.gameState = 'start';
             this.firstWeaponSelect();
         }
@@ -1643,7 +1642,7 @@ var GameControl = function (_PaoYa$Component) {
                 this.otherPlayer.comp.skeleton.play('win', true);
             }
 
-            console.error('闯关');
+            // console.error('闯关');
 
             this.selfPlayer.comp.MPComp.stopIncrease();
             this.otherPlayer.comp.MPComp.stopIncrease();
@@ -1662,7 +1661,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'removeAllWeapons',
         value: function removeAllWeapons() {
-            console.error('\u79FB\u9664\u6240\u6709\u5175\u5668');
+            console.warn('------\u79FB\u9664\u6240\u6709\u5175\u5668------');
             //删除界面上兵器
             this.selfWeapons.forEach(function (weapon) {
                 weapon.endMove();
@@ -4599,7 +4598,7 @@ var Player = function (_PaoYa$Component) {
           posY = height;
       this.centerX = posX;
 
-      console.error('角色服装:', this.attr.roleDress);
+      //console.error('角色服装:', this.attr.roleDress);
       var dressIcon = this.attr.roleDress;
       this.dressIcon = dressIcon;
       this.roleId = this.attr.roleId;
@@ -4635,6 +4634,10 @@ var Player = function (_PaoYa$Component) {
       }
       this.canAction = true;
       this.sectionAni = 0; //分段动画
+      //状态清零 以免影响下一个
+      this.plasyState = false;
+      this.freezeState = false;
+      this.dizzyState = false;
     }
     /* 监听事件帧 */
 
@@ -4649,6 +4652,7 @@ var Player = function (_PaoYa$Component) {
           this.skillCallback();
           break;
         case 'stop':
+          console.log("------stop-------");
           this.canAction = false;
           _GameControl2.default.instance.allPause(this.isSelf);
 
@@ -4700,10 +4704,12 @@ var Player = function (_PaoYa$Component) {
         // return;
       }
       if (this.plasyState || this.freezeState) {
+        console.log("------freeze still-------");
         this.skeleton.play('freeze', true);
         return;
       }
       if (this.dizzyState) {
+        console.log("------dizzy still-------");
         this.skeleton.play('dizzy', true);
         return;
       }
@@ -4872,7 +4878,7 @@ var Player = function (_PaoYa$Component) {
       this.showFontEffect(showText, "poision");
       this.HPComp.changeHP(hpValue);
       if (this.HPComp.curHP <= 0) {
-        console.error('中毒死亡结束');
+        console.error('--------中毒死亡结束--------');
         //关掉所有定时器，比如中毒
         this.removePoison();
         this.killed = true;
@@ -4897,6 +4903,7 @@ var Player = function (_PaoYa$Component) {
         this.showPlayerState("免疫");
         return;
       }
+      console.log("------dizzy-------");
       this.canAction = false;
       this.dizzyState = true;
       if (this.isSelf) {
@@ -4911,6 +4918,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removeDizzy",
     value: function removeDizzy() {
+      console.log("------remove dizzy-------");
       this.canAction = true;
       this.dizzyState = false;
       if (this.isSelf) {
@@ -4930,6 +4938,7 @@ var Player = function (_PaoYa$Component) {
         this.showPlayerState("免疫");
         return;
       }
+      console.log("------palsy-------");
       this.plasyState = true;
       this.canAction = false;
       if (this.isSelf) {
@@ -4945,6 +4954,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removePalsy",
     value: function removePalsy() {
+      console.log("------remove palsy-------");
       this.canAction = true;
       this.plasyState = false;
       if (this.isSelf) {
@@ -4966,6 +4976,7 @@ var Player = function (_PaoYa$Component) {
         this.showPlayerState("免疫");
         return;
       }
+      console.log("------freeze-------");
       this.canAction = false;
       this.freezeState = true;
       if (this.isSelf) {
@@ -4981,6 +4992,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "removeFreeze",
     value: function removeFreeze() {
+      console.log("------remove freeze-------");
       this.canAction = true;
       this.freezeState = false;
       if (this.isSelf) {
@@ -6328,13 +6340,13 @@ var WeaponBar = function (_PaoYa$Component) {
                 _GameControl2.default.instance.showTips("技能未冷却");
                 return;
             }
-            console.error('传出去的武器攻击值:', this.params.weaponAttack);
+            // console.error('传出去的武器攻击值:',this.params.weaponAttack)
             this.postNotification(WeaponBar.CLICK, [this]);
         }
     }, {
         key: "setCdTime",
         value: function setCdTime(cdTime) {
-            console.warn('修改cd时间:', cdTime);
+            //console.warn('修改cd时间:',cdTime);
             //cd 时间
             this.cdTime = cdTime;
         }
@@ -6349,7 +6361,7 @@ var WeaponBar = function (_PaoYa$Component) {
         key: "startT",
         value: function startT(time) {
             if (this.cdTime == 0) {
-                console.error('冷却免疫');
+                // console.error('冷却免疫');
                 return;
             }
             this.spShadow.visible = true;
@@ -6549,7 +6561,7 @@ var GameMain = function (_PaoYa$Main) {
 		key: 'setupLoadingView',
 		value: function setupLoadingView(cb) {
 			Laya.Scene.load('scenes/common/Loading/LoadWaitingView.scene', Laya.Handler.create(this, function (scene) {
-				PaoYa.Navigator.adjustViewPosition(scene);
+				PaoYa.Navigator.adjustViewPosition(scene, false);
 				Laya.Scene.setLoadingPage(scene);
 				Laya.AtlasInfoManager.enable('fileconfig.json', Laya.Handler.create(this, cb));
 			}));
@@ -10414,7 +10426,7 @@ var WeaponHouse = function (_PaoYa$View) {
                 this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25);
             }
 
-            if (res.diamond) {
+            if (res.diamond || res.diamond == 0) {
                 PaoYa.DataCenter.user.diamond = res.diamond;
                 var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
 
@@ -11357,7 +11369,7 @@ var WeaponStore = function (_PaoYa$View) {
                 this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25);
             }
 
-            if (res.diamond) {
+            if (res.diamond || res.diamond == 0) {
                 PaoYa.DataCenter.user.diamond = res.diamond;
                 var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                 this.diamondNum.text = diamondnum;
@@ -12221,7 +12233,7 @@ var Wheel = function (_PaoYa$View) {
                     _this3.goldNum.pos(365 + (149 - _this3.goldNum.width * 0.6) / 2, 25);
                 }
 
-                if (res.diamond) {
+                if (res.diamond || res.diamond == 0) {
                     PaoYa.DataCenter.user.diamond = res.diamond;
                     var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                     _this3.diamondNum.text = diamondnum;

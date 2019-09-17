@@ -8,9 +8,7 @@ export class Main extends GameMain {
 	constructor() {
 		var params = {
 			gameId: 1006,
-			
-			baseURL: "https://juedi001test.goxiaochengxu.cn/ServiceCore/",
-			//baseURL: "https://juedi001.goxiaochengxu.cn/ServiceCore/",
+			baseURL: config.debug?"https://juedi001test.goxiaochengxu.cn/ServiceCore/":"https://juedi001.goxiaochengxu.cn/ServiceCore/",
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
@@ -25,7 +23,7 @@ export class Main extends GameMain {
 			showBannerAdWhenDialogPopup: false,
 			adUnitId: 'adunit-7860aaf8ed04aeb2',
 			bannerUnitId: 'adunit-4bec7f17587df319', //bannerID
-			portrait: "landscape",
+			portrait:false,
 			loadNetworkRes: true,
 			is_config: 0
 		};

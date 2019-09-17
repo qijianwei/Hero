@@ -348,10 +348,10 @@
                 {
                     "x":30,
                     "type":"Text",
-                    "searchKey":"Text,  ",
-                    "props":{"y":14,"x":622,"width":139,"var":"  ","valign":"middle","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
+                    "searchKey":"Text,diamondNum",
+                    "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
                     "nodeParent":28,
-                    "label":"  ",
+                    "label":"diamondNum",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,

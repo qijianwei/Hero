@@ -30,7 +30,7 @@ export default class GameMain extends PaoYa.Main {
 
 	setupLoadingView(cb) {
 		Laya.Scene.load('scenes/common/Loading/LoadWaitingView.scene', Laya.Handler.create(this, function (scene) {
-		 	PaoYa.Navigator.adjustViewPosition(scene)
+		 	PaoYa.Navigator.adjustViewPosition(scene,false)
 			Laya.Scene.setLoadingPage(scene) 
 			Laya.AtlasInfoManager.enable('fileconfig.json', Laya.Handler.create(this, cb))
 		}))

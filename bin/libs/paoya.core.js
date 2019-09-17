@@ -365,7 +365,7 @@ var Component = /** @class */ (function (_super) {
     };
     /**移除socket的事件监听 */
     Component.prototype.offMessageListener = function () {
-        this.socket&&this.socket.offAllCaller(this);
+        this.socket && this.socket.offAllCaller(this);
     };
     /**向socket发送消息 */
     Component.prototype.sendMessage = function (cmd, params) {
@@ -1344,7 +1344,6 @@ var LoginService = /** @class */ (function () {
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].gold.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.gold = res.member_gold;
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].rmb.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.rmb = res.member_rmb;
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].integral.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.integral = res.member_integral;
-            _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].diamond.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.diamond = res.member_diamond;
             var token = res.token;
             _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["RequestConfig"].token = _this.token = token;
             localStorage.setItem(USER_TOKEN_KEY, token);
@@ -1467,7 +1466,7 @@ var DataCenter = /** @class */ (function () {
     DataCenter.rmb = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     /**用户积分变更监听 */
     DataCenter.integral = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-     /**用户钻石变更监听 */
+    /**用户钻石变更监听 */
     DataCenter.diamond = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     return DataCenter;
 }());
@@ -1902,8 +1901,6 @@ var GameEntryType;
     GameEntryType[GameEntryType["Arena"] = 4] = "Arena";
     /**人满开赛 */
     GameEntryType[GameEntryType["Full"] = 5] = "Full";
-    /** 在线匹配*/
-    GameEntryType[GameEntryType["OnlineMatch"] = 6] = "OnlineMatch";
 })(GameEntryType || (GameEntryType = {}));
 var SocketURLType;
 (function (SocketURLType) {
@@ -2441,10 +2438,7 @@ var commonScenes = {
     RankGroupView: 'common/Rank/RankGroupView',
     QTRoomView: 'common/QTRoom/QTRoomView',
     HomeView: 'HomeView',
-    FBView: 'common/InviteFriend/FBView',
-    NewMatchView:'common/NewMatch/NewMatchView',
-    PersonalView:'common/Personal/PersonalView',
-    NewGameResultView:'common/GameResult/NewGameResultView'
+    FBView: 'common/InviteFriend/FBView'
 };
 var Navigator = /** @class */ (function (_super) {
     __extends(Navigator, _super);
@@ -2614,28 +2608,29 @@ var Navigator = /** @class */ (function (_super) {
             var screenHeight = Laya.Browser.height;
             var width = stage.designWidth;
             var height = stage.designHeight;
-           /*  var scaleX = screenWidth / width;
+            var scaleX = screenWidth / width;
             var y = (screenHeight - height * scaleX >> 1) / scaleX;
-            scene.y = Math.floor(y); */
-            var scaleY=screenHeight/height;
-            var x=(screenWidth-width*scaleY>>1)/scaleY;
-            scene.x=Math.floor(x);
+            scene.y = Math.floor(y);
             Laya.Scene.setLoadingPage(scene);
             cb && cb();
         }));
     };
-    Navigator.adjustViewPosition = function (view) {
+    Navigator.adjustViewPosition = function (view, portrait) {
         var stage = Laya.stage;
         var screenWidth = Laya.Browser.width;
         var screenHeight = Laya.Browser.height;
         var width = stage.designWidth;
         var height = stage.designHeight;
-        /* var scaleX = screenWidth / width;
-        var y = (screenHeight - height * scaleX >> 1) / scaleX;
-        view.y = Math.floor(y); */
-        var scaleY=screenHeight/height;
-        var x=(screenWidth-width*scaleY>>1)/scaleY;
-        view.x=Math.floor(x);
+        if (portrait == undefined || portrait) {
+            var scaleX = screenWidth / width;
+            var y = (screenHeight - height * scaleX >> 1) / scaleX;
+            view.y = Math.floor(y);
+        }
+        else {
+            var scaleY = screenHeight / height;
+            var x = (screenWidth - width * scaleY >> 1) / scaleY;
+            view.x = Math.floor(x);
+        }
     };
     /**================= dispatch system event =================**/
     Navigator.prototype._onReceiveMessage = function (cmd, value, code, message) {
@@ -3235,6 +3230,9 @@ var Main = /** @class */ (function (_super) {
         if (!params.zone) {
             console.error("初始化时必须传入zone");
         }
+        if (params.useSocket == undefined) {
+            params.useSocket = false;
+        }
         _this_1.gameId = params.gameId;
         _this_1.params.rankingType = _this_1.params.rankingType || _enums__WEBPACK_IMPORTED_MODULE_11__["RankingType"].Score;
         if (_this_1.params.showBannerAdWhenDialogPopup != undefined) {
@@ -3262,24 +3260,34 @@ var Main = /** @class */ (function (_super) {
         this.setupOthers();
     };
     Main.prototype.loadRes = function () {
-        var _this = this;
-        var connectWebsocket = function () {
-            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在连接...');
-           // _this._initClient(function () {
+        var _this = this, connectWebsocket = null;
+        if (!this.params.useSocket) {
+            connectWebsocket = function () {
                 _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
                 _this.setupLoadingView(function () {
                     _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
                     _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
                 });
-           /*  }, function () {
-                _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '连接服务器失败', '重试', function () {
-                    _this.socket.connect();
+            };
+        }
+        else {
+            connectWebsocket = function () {
+                _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在连接...');
+                _this._initClient(function () {
+                    _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
+                    _this.setupLoadingView(function () {
+                        _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
+                        _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
+                    });
+                }, function () {
+                    _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '连接服务器失败', '重试', function () {
+                        _this.socket.connect();
+                    });
                 });
-            });  */
-        };
+            };
+        }
         var login = function (suc) {
             _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在登录...');
-            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hideProgress();
             _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].login(suc, function () {
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '登录失败', '重试', function () {
                     login(suc);
@@ -3460,16 +3468,15 @@ var Main = /** @class */ (function (_super) {
             onShowHandler();
             this.socket._startReconnect();
         }
-        this.navigator._onShow(res); 
-        this.onShow(res);    
+        this.navigator._onShow(res);
+        this.onShow(res);
     };
     Main.prototype._onHide = function (res) {
         _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onHide();
         this.navigator._onHide(res);
         if (!this.socket)
             return;
-       /*  this.navigator._onHide(res); */
-        this.onHide(res);     
+        this.onHide(res);
     };
     /**当游戏进入前台时触发 */
     Main.prototype.onShow = function (res) {
@@ -3548,7 +3555,7 @@ var Game = /** @class */ (function (_super) {
         }
         _this.initLaya();
         //初始化导航控制器
-        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/" + _this.gameId + "/";
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://res.xingqiu123.com/" + _this.gameId + "/";
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitId = params.adUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].bannerUnitId = params.bannerUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].qqViewId = params.qqViewId || 1003;
@@ -3568,8 +3575,15 @@ var Game = /** @class */ (function (_super) {
     });
     /**初始化Laya引擎，子类可重写此方法，实现自己的界面展示 */
     Game.prototype.initLaya = function () {
-        var width = this.params.width || 1334;
-        var height = this.params.height || 750;
+        var width = 0, height = 0;
+        if (this.params.portrait == undefined || this.params.portrait) {
+            width = this.params.width || 750;
+            height = this.params.height || 1334;
+        }
+        else {
+            width = this.params.width || 1334;
+            height = this.params.height || 750;
+        }
         var config = this.params;
         if (window['Laya3D']) {
             Laya3D.init(width, height);
@@ -3588,10 +3602,9 @@ var Game = /** @class */ (function (_super) {
         //屏幕适配相关
         var stage = Laya.stage;
         var Stage = Laya.Stage;
-        console.log(Laya.Browser.width,Laya.Browser.height)
         stage.alignH = config.alignH || Stage.ALIGN_CENTER;
         stage.alignV = config.alignV || Stage.ALIGN_MIDDLE;
-        if (config.portrait == undefined || config.portrait=="portrait") {
+        if (config.portrait == undefined || config.portrait) {
             stage.screenMode = Stage.SCREEN_VERTICAL;
             stage.scaleMode = config.scaleMode || Stage.SCALE_FIXED_WIDTH;
         }
@@ -3607,7 +3620,7 @@ var Game = /** @class */ (function (_super) {
         this._setupResLoadConfig();
         //激活资源版本控制，version.json由IDE发布功能自动生成，如果没有也不影响后续流程
         Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, function () {
-            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_5__["default"].show();
+            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_5__["default"].show(this.params.portrait);
             Laya.AtlasInfoManager.enable('fileconfig.json', Laya.Handler.create(this, this.loadRes));
         }), Laya.ResourceVersion.FILENAME_VERSION);
     };
@@ -3620,10 +3633,16 @@ var Game = /** @class */ (function (_super) {
     };
     Game.prototype.configNavigator = function () {
         _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].navigator = this.navigator = new _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__["default"]();
-        var view = Laya.Scene.root;
+        var view = Laya.Scene.root, portrait = true;
+        if (this.params.portrait == undefined || this.params.portrait) {
+            portrait = true;
+        }
+        else {
+            portrait = false;
+        }
         if (view) {
             var resize = function () {
-                _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__["default"].adjustViewPosition(this);
+                _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__["default"].adjustViewPosition(this, portrait);
             };
             view.on(Laya.Event.RESIZE, view, resize);
             resize.call(view);
@@ -3646,7 +3665,7 @@ var Game = /** @class */ (function (_super) {
             if (Laya.URL['formatURLCopy']) {
                 url = Laya.URL['formatURLCopy'](url);
             }
-            if (_this.loadNetworkRes && (url.indexOf('remote/') >= 0||url.indexOf('font/') >= 0) && url.indexOf('http') < 0) {
+            if (_this.loadNetworkRes && url.indexOf('remote/') >= 0 && url.indexOf('http') < 0) {
                 url = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL + url;
             }
             return url;
@@ -3802,29 +3821,35 @@ var LaunchScreenView = /** @class */ (function (_super) {
         return _this;
     }
     LaunchScreenView.prototype.setup = function () {
-        this.size(1334, 750);
         var box = new Laya.Box();
-        box.size(1334, 750);
+        if (this._portrait) {
+            this.size(750, 1334);
+            box.size(750, 1334);
+        }
+        else {
+            this.size(1334, 750);
+            box.size(1334, 750);
+        }
         box.cacheAs = 'normal';
         this.addChild(box);
         var imgBg = new Laya.Image('local/loading/bg.jpg');
-        imgBg.x=-150;
-        box.addChild(imgBg); 
+        imgBg.x = -150;
+        box.addChild(imgBg);
         var imgLogo = new Laya.Image('local/loading/logo.png');
         imgLogo.centerX = 0;
         imgLogo.top = 100;
-        box.addChild(imgLogo); 
+        box.addChild(imgLogo);
         var imgProgressBg = new Laya.Image('local/loading/progress-bg.png');
         imgProgressBg.centerX = 0;
         imgProgressBg.bottom = 60;
         box.addChild(imgProgressBg);
-        this._imgProgressBg=imgProgressBg;
-      /*   var lblTips = new Laya.Label('玩游戏享乐趣,好友都在玩的小游戏乐园');
-        lblTips.color = '#227fb3';
-        lblTips.fontSize = 28;
-        lblTips.centerX = 0;
-        lblTips.bottom = 70; 
-        box.addChild(lblTips);*/
+        this._imgProgressBg = imgProgressBg;
+        /*   let lblTips = new Laya.Label('玩游戏享乐趣,好友都在玩的小游戏乐园')
+          lblTips.color = '#227fb3'
+          lblTips.fontSize = 28
+          lblTips.centerX = 0
+          lblTips.bottom = 70
+          box.addChild(lblTips) */
         var imgProgress = new Laya.Image('local/loading/progress-bar.png');
         imgProgress.centerX = 0;
         imgProgress.bottom = 80;
@@ -3838,7 +3863,7 @@ var LaunchScreenView = /** @class */ (function (_super) {
         lblProgress.color = '#ffffff';
         lblProgress.fontSize = 30;
         lblProgress.centerX = 0;
-        lblProgress.bottom =76 ;
+        lblProgress.bottom = 76;
         this.addChild(lblProgress);
         this._lblProgress = lblProgress;
     };
@@ -3865,25 +3890,31 @@ var LaunchScreenView = /** @class */ (function (_super) {
     LaunchScreenView.setTips = function (tip) {
         this.ins._lblProgress.text = tip;
     };
-    LaunchScreenView.show = function () {
+    LaunchScreenView.show = function (portrait) {
         var view = new LaunchScreenView();
-        _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_0__["default"].adjustViewPosition(view);
+        _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_0__["default"].adjustViewPosition(view, portrait);
         view.zOrder = 999;
         Laya.stage.addChild(view);
         this.ins = view;
+        if (portrait == undefined || portrait) {
+            this.ins._portrait = true;
+        }
+        else {
+            this.ins._portrait = false;
+        }
     };
     LaunchScreenView.hide = function () {
         if (this.ins) {
             this.ins.destroy();
         }
     };
-    LaunchScreenView.hideProgress=function(){
-         if(this.ins){
-            this.ins._imgProgressBg.visible=false;
-            this.ins._imgProgress.visible=false;
-            this.ins._lblProgress.visible=false;
-         }
-    }
+    LaunchScreenView.hideProgress = function () {
+        if (this.ins) {
+            this.ins._imgProgressBg.visible = false;
+            this.ins._imgProgress.visible = false;
+            this.ins._lblProgress.visible = false;
+        }
+    };
     return LaunchScreenView;
 }(Laya.View));
 /* harmony default export */ __webpack_exports__["default"] = (LaunchScreenView);

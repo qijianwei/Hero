@@ -33,7 +33,7 @@ export default class Player extends PaoYa.Component {
       posY = height;
     this.centerX = posX;
 
-    console.error('角色服装:', this.attr.roleDress);
+    //console.error('角色服装:', this.attr.roleDress);
     let dressIcon = this.attr.roleDress;
     this.dressIcon = dressIcon;
     this.roleId = this.attr.roleId;
@@ -66,6 +66,10 @@ export default class Player extends PaoYa.Component {
     }
     this.canAction = true;
     this.sectionAni = 0; //分段动画
+    //状态清零 以免影响下一个
+    this.plasyState=false;
+    this.freezeState=false;
+    this.dizzyState=false;
   }
   /* 监听事件帧 */
   labelHandler(e) {
@@ -77,6 +81,7 @@ export default class Player extends PaoYa.Component {
         this.skillCallback();
         break;
       case 'stop':
+        console.log(`------stop-------`)
         this.canAction = false;
         GameControl.instance.allPause(this.isSelf)
 
@@ -123,10 +128,12 @@ export default class Player extends PaoYa.Component {
       // return;
     }
     if (this.plasyState || this.freezeState) {
+      console.log(`------freeze still-------`)
       this.skeleton.play('freeze', true);
       return;
     }
     if (this.dizzyState) {
+      console.log(`------dizzy still-------`)
       this.skeleton.play('dizzy', true);
       return;
     }
@@ -262,7 +269,7 @@ export default class Player extends PaoYa.Component {
     this.showFontEffect(showText, "poision")
     this.HPComp.changeHP(hpValue);
     if (this.HPComp.curHP <= 0) {
-      console.error('中毒死亡结束')
+      console.error('--------中毒死亡结束--------')
       //关掉所有定时器，比如中毒
       this.removePoison();
       this.killed = true;
@@ -282,6 +289,7 @@ export default class Player extends PaoYa.Component {
       this.showPlayerState("免疫")
       return;
     }
+    console.log(`------dizzy-------`)
     this.canAction = false;
     this.dizzyState = true;
     if (this.isSelf) {
@@ -294,6 +302,7 @@ export default class Player extends PaoYa.Component {
     Laya.timer.once(dizzyTime, this, this.removeDizzy)
   }
   removeDizzy() {
+    console.log(`------remove dizzy-------`)
     this.canAction = true;
     this.dizzyState = false;
     if (this.isSelf) {
@@ -310,6 +319,7 @@ export default class Player extends PaoYa.Component {
       this.showPlayerState("免疫")
       return;
     }
+    console.log(`------palsy-------`)
     this.plasyState = true;
     this.canAction = false;
     if (this.isSelf) {
@@ -323,6 +333,7 @@ export default class Player extends PaoYa.Component {
     Laya.timer.once(palsyTime, this, this.removePalsy)
   }
   removePalsy() {
+    console.log(`------remove palsy-------`)
     this.canAction = true;
     this.plasyState = false;
     if (this.isSelf) {
@@ -339,6 +350,7 @@ export default class Player extends PaoYa.Component {
       this.showPlayerState("免疫")
       return;
     }
+    console.log(`------freeze-------`)
     this.canAction = false;
     this.freezeState = true;
     if (this.isSelf) {
@@ -352,6 +364,7 @@ export default class Player extends PaoYa.Component {
     Laya.timer.once(freezeTime, this, this.removeFreeze)
   }
   removeFreeze() {
+    console.log(`------remove freeze-------`)
     this.canAction = true;
     this.freezeState = false;
     if (this.isSelf) {

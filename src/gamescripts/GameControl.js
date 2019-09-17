@@ -556,10 +556,10 @@ export default class GameControl extends PaoYa.Component {
             if (this.otherPlayer.comp.canAction) {
                 this.sWeapon.isSelf = false;
                 this.sWeapon.selectedHandler();
-               console.error(`可以动弹`)
+               console.log(`------可以动弹------`)
                 this.weaponBarClickHandler(this.sWeapon);
             } else {
-                console.error("无法动弹")
+                console.log("-----无法动弹-----")
             }
             if (this.gameType == "pass") {
                 Laya.timer.once(800, this, this.startSelect);
@@ -595,7 +595,7 @@ export default class GameControl extends PaoYa.Component {
 
         //人物表现
         if (this.isSelf) {
-            console.error('用户发射武器........')
+            console.log('用户发射武器........')
         }
 
         this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb;
@@ -614,6 +614,7 @@ export default class GameControl extends PaoYa.Component {
 
             if (skillType == 1 && status == 1) {
                 let random = Math.floor(Math.random() * 100 + 1);
+               // if(skillId==50){prob=100;} 测试用
                 if (random <= prob) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     params.skillEffect = true;
@@ -631,7 +632,7 @@ export default class GameControl extends PaoYa.Component {
                     }
                     return;
                 } else {
-                    console.warn('不好意思,没有触发技能')
+                    console.warn(`不好意思,${name}没有触发技能`)
                 }
             }
         }
@@ -779,7 +780,7 @@ export default class GameControl extends PaoYa.Component {
         }
         this.showSkillText(isSelf, "闪避")
         this[name + "Player"].comp.MPComp.changeMP(-consumeMP)
-        console.error('闪避技能使用')
+        console.log('闪避技能使用')
         this[name + 'Player'].comp.dodgeEffect();
     }
     // 全局碰撞检测
@@ -861,7 +862,7 @@ export default class GameControl extends PaoYa.Component {
             battleIndex: this.battleIndex,
             monsterNum: this.monsterNum
         })
-        console.error('换角色');
+       // console.error('换角色');
         this.gameState = 'start';
         this.firstWeaponSelect();
     }
@@ -878,7 +879,7 @@ export default class GameControl extends PaoYa.Component {
             this.otherPlayer.comp.skeleton.play('win', true);
         }
 
-        console.error('闯关');
+       // console.error('闯关');
 
         this.selfPlayer.comp.MPComp.stopIncrease();
         this.otherPlayer.comp.MPComp.stopIncrease();
@@ -895,7 +896,7 @@ export default class GameControl extends PaoYa.Component {
         })
     }
     removeAllWeapons() {
-        console.error(`移除所有兵器`)
+        console.warn(`------移除所有兵器------`)
         //删除界面上兵器
         this.selfWeapons.forEach((weapon) => {
             weapon.endMove();

@@ -75,11 +75,11 @@ export default class WeaponBar extends PaoYa.Component {
             GameControl.instance.showTips("技能未冷却");
           return; 
         }
-        console.error('传出去的武器攻击值:',this.params.weaponAttack)
+       // console.error('传出去的武器攻击值:',this.params.weaponAttack)
         this.postNotification(WeaponBar.CLICK,[this]);
     }
     setCdTime(cdTime) {
-        console.warn('修改cd时间:',cdTime);
+        //console.warn('修改cd时间:',cdTime);
         //cd 时间
         this.cdTime = cdTime;   
     }
@@ -89,7 +89,7 @@ export default class WeaponBar extends PaoYa.Component {
     //所谓冷却是一种障眼法
     startT(time) {
         if(this.cdTime==0){
-            console.error('冷却免疫');
+           // console.error('冷却免疫');
             return;
         }
         this.spShadow.visible=true;

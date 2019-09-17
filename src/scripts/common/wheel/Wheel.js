@@ -74,7 +74,7 @@ export default class Wheel extends PaoYa.View {
                 this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
             }
 
-            if (res.diamond) {
+            if (res.diamond||res.diamond==0) {
                 PaoYa.DataCenter.user.diamond = res.diamond
                 let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
                 this.diamondNum.text = diamondnum
