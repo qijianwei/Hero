@@ -354,7 +354,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -2469,6 +2469,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _WeaponBar = require("../prefab/WeaponBar");
+
+var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -2488,10 +2494,33 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "onAwake",
         value: function onAwake() {
             this.autoDestroyAtClosed = true;
+            this.params = {
+                result: -1,
+                type: 1,
+                "gold": 5600,
+                "weaponList": [{ "exp": 0, "num": 0, "skills": [{ "skillCd": 0.0, "skillConfig": { "freeze": 5 }, "skillDesc": "冰冻对手5秒", "skillId": 59, "skillLevel": 1, "skillName": "冰心", "skillProb": 12, "skillType": 1, "skillUnlock": 0, "status": 0 }, { "skillCd": 0.0, "skillConfig": { "hp": 90 }, "skillDesc": "生命+90 ", "skillId": 76, "skillLevel": 1, "skillName": "健硕", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }],
+                    "upgradeCost": 150,
+                    "weaponAttack": 98.0,
+                    "weaponCd": 3.5,
+                    "weaponConsume": 44.0,
+                    "weaponDownConsume": 0,
+                    "weaponDurable": 6,
+                    "weaponIcon": "来源不明。相传为北极万年冰晶所炼，通体泛蓝白色光辉，寒冰中暗藏杀机。",
+                    "weaponId": "z007_2",
+                    "weaponLevel": 1,
+                    "weaponName": "寒冰剑",
+                    "weaponPrice": 7500,
+                    "weaponSalePrice": 1500,
+                    "weaponSkills": "59,76",
+                    "weaponStar": 2,
+                    "weaponTopLevel": 10,
+                    "weaponType": 2,
+                    "weaponUpAttack": 0,
+                    "weaponUpDurable": 0
+                }, { "exp": 0, "num": 0, "skills": [{ "skillCd": 0.0, "skillConfig": { "way": "1-2" }, "skillDesc": "向上中路各发出1件兵器", "skillId": 51, "skillLevel": 1, "skillName": "剑舞", "skillProb": 12, "skillType": 1, "skillUnlock": 0, "status": 0 }, { "skillCd": 0.0, "skillConfig": { "critHarm": 10, "critProb": 3 }, "skillDesc": "暴击+3%，爆伤+10%", "skillId": 64, "skillLevel": 1, "skillName": "灵敏", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }], "upgradeCost": 150, "weaponAttack": 85.0, "weaponCd": 3.3, "weaponConsume": 51.0, "weaponDownConsume": 0, "weaponDurable": 12, "weaponIcon": "与君子剑大小长短，全无二致，具有极强的磁性，如果双剑放的距离较近，会自动吸在一起。", "weaponId": "z010_2", "weaponLevel": 1, "weaponName": "淑女剑", "weaponPrice": 8000, "weaponSalePrice": 1600, "weaponSkills": "51,64", "weaponStar": 2, "weaponTopLevel": 10, "weaponType": 2, "weaponUpAttack": 0, "weaponUpDurable": 0 }, { "exp": 0, "num": 0, "skills": [{ "skillCd": 0.0, "skillConfig": { "poison": "6-210" }, "skillDesc": "使对手中剧毒，6秒损失210点生命", "skillId": 46, "skillLevel": 1, "skillName": "奇毒", "skillProb": 18, "skillType": 1, "skillUnlock": 0, "status": 0 }, { "skillCd": 0.0, "skillConfig": { "notPoison": 1 }, "skillDesc": "免疫中毒", "skillId": 83, "skillLevel": 1, "skillName": "药师", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }], "upgradeCost": 150, "weaponAttack": 84.0, "weaponCd": 2.0, "weaponConsume": 65.0, "weaponDownConsume": 0, "weaponDurable": 15, "weaponIcon": "听闻江湖没有人见过这把匕首，因为见过的人都已经死了，故而得名绝命。", "weaponId": "d014_3", "weaponLevel": 1, "weaponName": "绝命", "weaponPrice": 25000, "weaponSalePrice": 5000, "weaponSkills": "46,83", "weaponStar": 3, "weaponTopLevel": 15, "weaponType": 1, "weaponUpAttack": 0, "weaponUpDurable": 0 }], "dailyTaskStatus": 1, "weaponNew": 0, "refinerNew": 0, "roleNew": 0 };
             var params = this.params;
             var result = this.params.result;
             var type = this.params.type;
-
             if (type == 1) {
                 this.dealType1(result);
             } else if (type == 2) {
@@ -2523,11 +2552,13 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "sureHandler",
         value: function sureHandler() {
             console.log("\u786E\u8BA4....");
+            this.close();
         }
     }, {
         key: "rejectHandler",
         value: function rejectHandler() {
             console.log("\u8D70\u4EBA\u6492");
+            this.close();
         }
     }, {
         key: "shareHandler",
@@ -2544,10 +2575,13 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         value: function dealType1(result) {
             if (result == 1) {
                 this.boxWin.visible = true;
+                this.img.skin = "remote/adventure/winText1.png";
                 this.btnSure.getChildByName("lbl").font = "adventure";
                 this.btnSure.getChildByName("lbl").text = "\u4E3E\u624B\u4E4B\u52B3\uFF0C\u4E0D\u8DB3\u6302\u9F7F";
             } else {
+                this.boxWeapons.visible = false;
                 this.boxLose1.visible = true;
+                this.img.skin = "remote/adventure/loseText1.png";
                 this.btnShare.getChildByName("lbl").font = "adventure";
                 this.boxLose1.getChildByName("btnReject").getChildByName("lbl").font = "adventure";
             }
@@ -2557,12 +2591,15 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         value: function dealType2(result) {
             if (result == 1) {
                 this.boxWin.visible = true;
+                this.img.skin = "remote/adventure/winText2.png";
                 this.btnSure.getChildByName("lbl").font = "adventure";
                 this.btnSure.getChildByName("lbl").text = "\u6B23\u7136\u6536\u4E0B\u8D4F\u91D1";
             } else {
                 this.boxLose2.visible = true;
+                this.img.skin = "remote/adventure/loseText2.png";
                 this.btnVideo.getChildByName("lbl").font = "adventure";
                 this.btnReject.getChildByName("lbl").font = "adventure";
+                this.btnReject.getChildByName("lbl").scale(0.86, 0.86);
             }
         }
     }, {
@@ -2574,7 +2611,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
                 var weaponBarsArr = this.boxWeapons._children;
                 for (var i = 0; i < len; i++) {
                     weaponBarsArr[i].visible = true;
-                    var weaponBarsComp = weaponBarsArr[i].getComponent(WeaponBar);
+                    var weaponBarsComp = weaponBarsArr[i].getComponent(_WeaponBar2.default);
                     weaponBarsComp.params = weaponList[i];
                     weaponBarsComp.initView();
                     weaponBarsArr[i].off(Laya.Event.CLICK, weaponBarsComp);
@@ -2588,7 +2625,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog;
 
-},{}],12:[function(require,module,exports){
+},{"../prefab/WeaponBar":29}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7011,8 +7048,9 @@ var HomeControl = function (_PaoYa$Component) {
                     _this3.player.init(templet, 0);
                 }
             });
+            //奇遇弹框测试
             Laya.timer.once(2000, this, function () {
-                _this3.navigator.popup('/dialog/AdventDialog');
+                _this3.navigator.popup('/dialog/AdventResultDialog');
             });
         }
     }, {

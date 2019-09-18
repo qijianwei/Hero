@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":98,
-    "selecteID":99,
+    "selectedBox":89,
+    "selecteID":90,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/dialog/AdventResultDialog.js","height":750},
     "nodeParent":-1,
@@ -576,7 +576,7 @@
             "x":15,
             "type":"Box",
             "searchKey":"Box,boxWin",
-            "props":{"y":616,"x":534,"visible":false,"var":"boxWin"},
+            "props":{"y":616,"x":534,"visible":false,"var":"boxWin","mouseEnabled":true},
             "nodeParent":2,
             "label":"boxWin",
             "isOpen":true,
@@ -619,16 +619,17 @@
             "x":15,
             "type":"Box",
             "searchKey":"Box,boxLose1",
-            "props":{"y":457,"x":523,"visible":false,"var":"boxLose1"},
+            "props":{"y":457,"x":523,"visible":false,"var":"boxLose1","mouseEnabled":true},
             "nodeParent":2,
             "label":"boxLose1",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":95,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,btnShare,btnShare",
                     "props":{"x":10,"var":"btnShare","texture":"remote/adventure/btn1.png","name":"btnShare","mouseEnabled":true},
@@ -641,11 +642,13 @@
                     "compId":89,
                     "child":[
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,lbl",
-                            "props":{"y":0,"x":129,"width":133,"valign":"middle","text":"再战一回","name":"lbl","height":65,"align":"left"},
+                            "props":{"y":0,"x":114,"width":133,"valign":"middle","text":"再战一回","name":"lbl","height":65,"align":"left"},
                             "nodeParent":89,
                             "label":"lbl",
+                            "isOpen":false,
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
@@ -654,9 +657,10 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
-                            "props":{"y":4.5,"x":47,"texture":"remote/adventure/icon.png"},
+                            "props":{"y":4.5,"x":42,"texture":"remote/adventure/icon.png"},
                             "nodeParent":89,
                             "label":"Sprite",
                             "isDirectory":false,
@@ -668,6 +672,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Label",
                     "searchKey":"Label",
                     "props":{"y":88,"x":-523,"text":"战斗成功即可获得丰厚奖励","fontSize":24,"font":"Microsoft YaHei","color":"#ffffff","centerX":0},
@@ -681,6 +686,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,btnReject",
                     "props":{"y":159,"x":10,"texture":"remote/adventure/btn2.png","name":"btnReject","mouseEnabled":true},
@@ -693,6 +699,7 @@
                     "compId":93,
                     "child":[
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,lbl",
                             "props":{"y":0,"x":11,"width":252,"valign":"middle","text":"三十六计走为上计","name":"lbl","height":68,"align":"center"},
@@ -713,7 +720,7 @@
             "x":15,
             "type":"Box",
             "searchKey":"Box,boxLose2",
-            "props":{"y":616,"x":0,"width":1334,"visible":false,"var":"boxLose2","height":137},
+            "props":{"y":616,"x":0,"width":1334,"visible":false,"var":"boxLose2","mouseEnabled":true,"height":137},
             "nodeParent":2,
             "label":"boxLose2",
             "isOpen":true,
@@ -726,7 +733,7 @@
                     "x":30,
                     "type":"HBox",
                     "searchKey":"HBox",
-                    "props":{"y":0,"x":667,"space":40,"centerX":0},
+                    "props":{"y":0,"x":667,"space":40,"mouseEnabled":true,"centerX":0},
                     "nodeParent":106,
                     "label":"HBox",
                     "isOpen":true,
@@ -739,7 +746,7 @@
                             "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,btnVideo,btnVideo",
-                            "props":{"var":"btnVideo","texture":"remote/adventure/btn1.png","name":"btnVideo","mouseEnabled":true},
+                            "props":{"width":269,"var":"btnVideo","texture":"remote/adventure/btn1.png","name":"btnVideo","mouseEnabled":true,"height":75},
                             "nodeParent":98,
                             "label":"btnVideo",
                             "isOpen":true,
@@ -776,7 +783,7 @@
                                     "child":[
                                         ]
                                 }],
-                            "$HIDDEN":true
+                            "$HIDDEN":false
                         },
                         {
                             "x":45,
@@ -795,7 +802,7 @@
                                     "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,lbl",
-                                    "props":{"y":23,"x":135,"width":269,"valign":"middle","text":"技不如人，我甘拜下风","pivotY":23,"pivotX":135,"name":"lbl","height":63,"align":"center"},
+                                    "props":{"y":32,"x":135,"width":269,"valign":"middle","text":"技不如人，我甘拜下风","pivotY":32,"pivotX":135,"name":"lbl","height":63,"align":"center"},
                                     "nodeParent":100,
                                     "label":"lbl",
                                     "isDirectory":false,
