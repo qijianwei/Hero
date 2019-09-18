@@ -17,6 +17,7 @@ export default class MatchView extends PaoYa.View{
         this.selfLadderId=params.ladder;
         this.otherLadderId=params.robotLadder;
         this.selfName.text=params.nickName;
+        this.selfAvstar.texture=`local/common/hero_${params.roleId}.png`
         this.selfLadderInfo=this.findLadderById(this.selfLadderId);
         this.otherLadderInfo=this.findLadderById(this.otherLadderId);
         this.selfLadder.texture=`local/common/badge_${this.selfLadderInfo.ladderId}.png`;

@@ -131,6 +131,10 @@ export class Main extends GameMain {
 				fontUrl: "font/figure/msz.fnt",
 				fontAni: "figureDetail"
 			},
+			{
+				fontUrl: "font/adventure.fnt",
+				fontAni: "adventure"
+			}
 		]
 		
 		HeroConfig.loadAllSpine();

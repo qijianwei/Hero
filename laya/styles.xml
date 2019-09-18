@@ -16,4 +16,6 @@
    <item name="remote/pass_result/losePanel.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/pass_result/lose.png" type="Sprite" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
    <item name="local/auth/button.png" type="Button" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/adventure/inputBg.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=13,13,13,13" picType="0" scale="0"/>
+   <item name="remote/adventure/winText1.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
 </res>

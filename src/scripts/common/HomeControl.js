@@ -50,7 +50,10 @@ export default class HomeControl extends PaoYa.Component {
                 this.player.init(templet, 0);
             }
         });
-        
+        //奇遇弹框测试
+      /*    Laya.timer.once(2000,this,()=>{
+            this.navigator.popup('/dialog/AdventDialog');
+        })  */
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
