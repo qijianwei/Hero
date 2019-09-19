@@ -63,6 +63,8 @@ export default class Player extends PaoYa.Component {
       let templet = HeroConfig.spineMap[this.dressIcon].templet;
       this.skeleton.init(templet, 0);
       this.skeleton.play('stand', true)
+    }else{
+      this.skeleton.play('stand',true);
     }
     this.canAction = true;
     this.sectionAni = 0; //分段动画

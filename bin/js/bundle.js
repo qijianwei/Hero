@@ -1632,6 +1632,16 @@ var GameControl = function (_PaoYa$Component) {
             this.gameState = 'start';
             this.firstWeaponSelect();
         }
+        //角色复活
+
+    }, {
+        key: 'revive',
+        value: function revive() {
+            this.initPlayer(true);
+            this.firstWeaponSelect();
+            this.otherPlayer.comp.MPComp.startBar();
+        }
+
         //关卡结束
 
     }, {
@@ -2956,9 +2966,12 @@ var PassResultDialog = function (_PaoYa$Dialog) {
             _SoundManager2.default.ins.btn();
             if (this.result == -1) {
                 //console.log("再试一次")
+
                 this.close();
                 _GameControl2.default.instance.restart();
                 _GameControl2.default.instance.fillPlayerInfo();
+                //测试复活 ok
+                //  GameControl.instance.revive()
             } else {
                 console.log("继续闯关");
                 PaoYa.Request.POST("hero_game_start", { stageId: 1 }, function (res) {
@@ -4975,6 +4988,8 @@ var Player = function (_PaoYa$Component) {
         this.dressIcon = this.attr.roleDress;
         var templet = _HeroConfig2.default.spineMap[this.dressIcon].templet;
         this.skeleton.init(templet, 0);
+        this.skeleton.play('stand', true);
+      } else {
         this.skeleton.play('stand', true);
       }
       this.canAction = true;
@@ -7048,10 +7063,10 @@ var HomeControl = function (_PaoYa$Component) {
                     _this3.player.init(templet, 0);
                 }
             });
-            //奇遇弹框测试
-            Laya.timer.once(2000, this, function () {
-                _this3.navigator.popup('/dialog/AdventResultDialog');
-            });
+            //奇遇入口和结果弹框测试
+            /*    Laya.timer.once(2000,this,()=>{
+                 this.navigator.popup('/dialog/AdventResultDialog');
+             })   */
         }
     }, {
         key: "onEnable",

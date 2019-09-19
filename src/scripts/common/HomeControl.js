@@ -51,9 +51,9 @@ export default class HomeControl extends PaoYa.Component {
             }
         });
         //奇遇入口和结果弹框测试
-          Laya.timer.once(2000,this,()=>{
+       /*    Laya.timer.once(2000,this,()=>{
             this.navigator.popup('/dialog/AdventResultDialog');
-        })  
+        })   */
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {

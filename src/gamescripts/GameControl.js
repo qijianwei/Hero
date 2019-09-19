@@ -866,6 +866,13 @@ export default class GameControl extends PaoYa.Component {
         this.gameState = 'start';
         this.firstWeaponSelect();
     }
+    //角色复活
+    revive(){
+       this.initPlayer(true);
+       this.firstWeaponSelect();
+       this.otherPlayer.comp.MPComp.startBar();
+    }
+        
     //关卡结束
     passOver(loserIsSelf) {
         //  SoundManager.ins.homeBg();

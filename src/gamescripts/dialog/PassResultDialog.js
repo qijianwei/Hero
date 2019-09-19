@@ -82,9 +82,12 @@ export default class PassResultDialog extends PaoYa.Dialog{
         SoundManager.ins.btn();
        if(this.result==-1){
            //console.log("再试一次")
+          
            this.close();   
-           GameControl.instance.restart();
-           GameControl.instance.fillPlayerInfo();
+            GameControl.instance.restart();
+           GameControl.instance.fillPlayerInfo(); 
+           //测试复活 ok
+         //  GameControl.instance.revive()
        }else{
            console.log("继续闯关")
            PaoYa.Request.POST("hero_game_start", { stageId: 1 }, (res) => {
