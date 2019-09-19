@@ -3,9 +3,16 @@ import WeaponBar from "../prefab/WeaponBar";
 export default class AdventDialog extends PaoYa.Dialog {
     constructor() {
         super();
+       
+    }
+    onAwake() {
+        this.autoDestroyAtClosed = true;
+        let _this = this;
+        this.params=this.params.encounter;
+        let type = this.params.type;
         this.adventType = [{
             type: 1,
-            target: `击杀2个匪徒`,
+            target: `击杀${this.params.num}个匪徒`,
             detail: `远处一落魄女子抱着包袱跌跌撞撞地冲你跑来，后面跟着一群拿到的韩非，那女子向你喊到:"救命啊！路上偶遇狂徒，不胜其扰，恳请大侠救救小女子"`,
             agreeText: `放开那个女孩`,
             rejectText: `多一事不如少一事`
@@ -16,23 +23,6 @@ export default class AdventDialog extends PaoYa.Dialog {
             agreeText: `狭路相逢勇者胜`,
             rejectText: `小命要紧溜了溜了`
         }]
-    }
-    onAwake() {
-        this.autoDestroyAtClosed = true;
-        let _this = this;
-        this.params=this.params.encounter;
-        /*  this.params={
-             "gold":100,
-             "diamond":100,
-             "weaponList":[
-                 {"exp":0,"num":0,"skills":[{"skillCd":0.0,"skillConfig":{"hp":50},"skillDesc":"生命+50 ","skillId":75,"skillLevel":1,"skillName":"健康","skillProb":100,"skillType":0,"skillUnlock":0,"status":0},{"skillCd":0.0,"skillConfig":{"addRecoverHp":20},"skillDesc":"每5秒自动恢复20点生命","skillId":79,"skillLevel":1,"skillName":"萃精","skillProb":100,"skillType":0,"skillUnlock":0,"status":0}],"upgradeCost":150,"weaponAttack":44.0,"weaponCd":2.0,"weaponConsume":32.0,"weaponDownConsume":0,"weaponDurable":12,"weaponIcon":"羊角做的匕首，最大限度地保留了羊角的形状，兼顾了实用性和观赏性。","weaponId":"d004_2","weaponLevel":1,"weaponName":"羊角匕首","weaponPrice":4000,"weaponSalePrice":800,"weaponSkills":"75,79","weaponStar":2,"weaponTopLevel":10,"weaponType":1,"weaponUpAttack":0,"weaponUpDurable":0}
-             ],
-             "dailyTaskStatus":1,
-             "weaponNew":0,
-             "refinerNew":0,
-             "roleNew":0
-         } */
-        let type = 1;
         let advent = this.findAdventByType(type);
         let lbls = this.boxDetail._children;
         lbls[0].text = advent.target;

@@ -354,7 +354,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -1546,6 +1546,7 @@ var GameControl = function (_PaoYa$Component) {
         key: 'allCdEnd',
         value: function allCdEnd() {
             this.weaponsBarArr.forEach(function (weaponBarComp) {
+                weaponBarComp.setCdTime(weaponBarComp.originCdTime); //恢复原来的冷却时间
                 weaponBarComp.endCD();
             });
             this.skillScr1.endCD();
@@ -1557,7 +1558,8 @@ var GameControl = function (_PaoYa$Component) {
         key: 'deathHandler',
         value: function deathHandler(loserIsSelf) {
             Laya.MouseManager.enabled = false;
-            Laya.timer.clearAll(this);
+            Laya.timer.clear(this, this.startSelect);
+            // Laya.timer.clearAll(this);
             this.gameState = 'over';
             this.removeAllWeapons();
             this.allCdEnd();
@@ -1592,6 +1594,7 @@ var GameControl = function (_PaoYa$Component) {
         value: function dealBattle(loserIsSelf) {
             var _this8 = this;
 
+            Laya.timer.clearAll(this);
             this.gameOver(loserIsSelf);
             var win = loserIsSelf ? 0 : 1;
             Laya.timer.callLater(this, function () {
@@ -1650,6 +1653,7 @@ var GameControl = function (_PaoYa$Component) {
             var _this9 = this;
 
             //  SoundManager.ins.homeBg();
+            Laya.timer.clearAll(this);
             if (!loserIsSelf) {
                 _SoundManager2.default.ins.win();
                 PaoYa.DataCenter.user.current = this.curNum + 1;
@@ -1680,8 +1684,10 @@ var GameControl = function (_PaoYa$Component) {
                         }
                     });
                 } else if (_this9.gameType == 'adventure') {
+
                     _this9.POST('martial_encounter_finish', {
-                        result: loserIsSelf ? -1 : 1
+                        result: loserIsSelf ? -1 : 1,
+                        complete: loserIsSelf ? -1 : 1
                     }, function (res) {
                         PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                         Laya.MouseManager.enabled = true;
@@ -2340,22 +2346,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
     function AdventDialog() {
         _classCallCheck(this, AdventDialog);
 
-        var _this2 = _possibleConstructorReturn(this, (AdventDialog.__proto__ || Object.getPrototypeOf(AdventDialog)).call(this));
-
-        _this2.adventType = [{
-            type: 1,
-            target: '\u51FB\u67402\u4E2A\u532A\u5F92',
-            detail: '\u8FDC\u5904\u4E00\u843D\u9B44\u5973\u5B50\u62B1\u7740\u5305\u88B1\u8DCC\u8DCC\u649E\u649E\u5730\u51B2\u4F60\u8DD1\u6765\uFF0C\u540E\u9762\u8DDF\u7740\u4E00\u7FA4\u62FF\u5230\u7684\u97E9\u975E\uFF0C\u90A3\u5973\u5B50\u5411\u4F60\u558A\u5230:"\u6551\u547D\u554A\uFF01\u8DEF\u4E0A\u5076\u9047\u72C2\u5F92\uFF0C\u4E0D\u80DC\u5176\u6270\uFF0C\u6073\u8BF7\u5927\u4FA0\u6551\u6551\u5C0F\u5973\u5B50"',
-            agreeText: '\u653E\u5F00\u90A3\u4E2A\u5973\u5B69',
-            rejectText: '\u591A\u4E00\u4E8B\u4E0D\u5982\u5C11\u4E00\u4E8B'
-        }, {
-            type: 2,
-            target: '\u5C3D\u53EF\u80FD\u5730\u6253\u8D25\u5B88\u64C2\u4EBA',
-            detail: '\u57CE\u5916\u64C2\u53F0\u8FB9\u4EBA\u5934\u6512\u52A8\uFF0C\u539F\u662F\u544A\u793A\u724C\u4E0A\u65B0\u5F20\u8D34\u4E86\u4E00\u5F20\u82F1\u96C4\u699C\u3002\u56E0\u8FD9\u6B21\u5B88\u64C2\u4E4B\u4EBA\u8749\u8054\u4E86\u56DB\u6B21\u64C2\u4E3B\u4E4B\u4F4D\uFF0C\u5956\u52B1\u53F2\u65E0\u524D\u4F8B\u7684\u4E30\u539A\u3002\u5F88\u591A\u4E60\u6B66\u4E4B\u4EBA\u90FD\u8DC3\u8DC3\u6B32\u8BD5\uFF0C\u8981\u4E0D\u53BB\u770B\u770B\uFF1F',
-            agreeText: '\u72ED\u8DEF\u76F8\u9022\u52C7\u8005\u80DC',
-            rejectText: '\u5C0F\u547D\u8981\u7D27\u6E9C\u4E86\u6E9C\u4E86'
-        }];
-        return _this2;
+        return _possibleConstructorReturn(this, (AdventDialog.__proto__ || Object.getPrototypeOf(AdventDialog)).call(this));
     }
 
     _createClass(AdventDialog, [{
@@ -2366,18 +2357,20 @@ var AdventDialog = function (_PaoYa$Dialog) {
             this.autoDestroyAtClosed = true;
             var _this = this;
             this.params = this.params.encounter;
-            /*  this.params={
-                 "gold":100,
-                 "diamond":100,
-                 "weaponList":[
-                     {"exp":0,"num":0,"skills":[{"skillCd":0.0,"skillConfig":{"hp":50},"skillDesc":"生命+50 ","skillId":75,"skillLevel":1,"skillName":"健康","skillProb":100,"skillType":0,"skillUnlock":0,"status":0},{"skillCd":0.0,"skillConfig":{"addRecoverHp":20},"skillDesc":"每5秒自动恢复20点生命","skillId":79,"skillLevel":1,"skillName":"萃精","skillProb":100,"skillType":0,"skillUnlock":0,"status":0}],"upgradeCost":150,"weaponAttack":44.0,"weaponCd":2.0,"weaponConsume":32.0,"weaponDownConsume":0,"weaponDurable":12,"weaponIcon":"羊角做的匕首，最大限度地保留了羊角的形状，兼顾了实用性和观赏性。","weaponId":"d004_2","weaponLevel":1,"weaponName":"羊角匕首","weaponPrice":4000,"weaponSalePrice":800,"weaponSkills":"75,79","weaponStar":2,"weaponTopLevel":10,"weaponType":1,"weaponUpAttack":0,"weaponUpDurable":0}
-                 ],
-                 "dailyTaskStatus":1,
-                 "weaponNew":0,
-                 "refinerNew":0,
-                 "roleNew":0
-             } */
-            var type = 1;
+            var type = this.params.type;
+            this.adventType = [{
+                type: 1,
+                target: '\u51FB\u6740' + this.params.num + '\u4E2A\u532A\u5F92',
+                detail: '\u8FDC\u5904\u4E00\u843D\u9B44\u5973\u5B50\u62B1\u7740\u5305\u88B1\u8DCC\u8DCC\u649E\u649E\u5730\u51B2\u4F60\u8DD1\u6765\uFF0C\u540E\u9762\u8DDF\u7740\u4E00\u7FA4\u62FF\u5230\u7684\u97E9\u975E\uFF0C\u90A3\u5973\u5B50\u5411\u4F60\u558A\u5230:"\u6551\u547D\u554A\uFF01\u8DEF\u4E0A\u5076\u9047\u72C2\u5F92\uFF0C\u4E0D\u80DC\u5176\u6270\uFF0C\u6073\u8BF7\u5927\u4FA0\u6551\u6551\u5C0F\u5973\u5B50"',
+                agreeText: '\u653E\u5F00\u90A3\u4E2A\u5973\u5B69',
+                rejectText: '\u591A\u4E00\u4E8B\u4E0D\u5982\u5C11\u4E00\u4E8B'
+            }, {
+                type: 2,
+                target: '\u5C3D\u53EF\u80FD\u5730\u6253\u8D25\u5B88\u64C2\u4EBA',
+                detail: '\u57CE\u5916\u64C2\u53F0\u8FB9\u4EBA\u5934\u6512\u52A8\uFF0C\u539F\u662F\u544A\u793A\u724C\u4E0A\u65B0\u5F20\u8D34\u4E86\u4E00\u5F20\u82F1\u96C4\u699C\u3002\u56E0\u8FD9\u6B21\u5B88\u64C2\u4E4B\u4EBA\u8749\u8054\u4E86\u56DB\u6B21\u64C2\u4E3B\u4E4B\u4F4D\uFF0C\u5956\u52B1\u53F2\u65E0\u524D\u4F8B\u7684\u4E30\u539A\u3002\u5F88\u591A\u4E60\u6B66\u4E4B\u4EBA\u90FD\u8DC3\u8DC3\u6B32\u8BD5\uFF0C\u8981\u4E0D\u53BB\u770B\u770B\uFF1F',
+                agreeText: '\u72ED\u8DEF\u76F8\u9022\u52C7\u8005\u80DC',
+                rejectText: '\u5C0F\u547D\u8981\u7D27\u6E9C\u4E86\u6E9C\u4E86'
+            }];
             var advent = this.findAdventByType(type);
             var lbls = this.boxDetail._children;
             lbls[0].text = advent.target;
@@ -2551,33 +2544,13 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "onAwake",
         value: function onAwake() {
             this.autoDestroyAtClosed = true;
-            this.params = {
-                result: -1,
-                type: 1,
-                "gold": 5600,
-                "weaponList": [{ "exp": 0, "num": 0, "skills": [{ "skillCd": 0.0, "skillConfig": { "freeze": 5 }, "skillDesc": "冰冻对手5秒", "skillId": 59, "skillLevel": 1, "skillName": "冰心", "skillProb": 12, "skillType": 1, "skillUnlock": 0, "status": 0 }, { "skillCd": 0.0, "skillConfig": { "hp": 90 }, "skillDesc": "生命+90 ", "skillId": 76, "skillLevel": 1, "skillName": "健硕", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }],
-                    "upgradeCost": 150,
-                    "weaponAttack": 98.0,
-                    "weaponCd": 3.5,
-                    "weaponConsume": 44.0,
-                    "weaponDownConsume": 0,
-                    "weaponDurable": 6,
-                    "weaponIcon": "来源不明。相传为北极万年冰晶所炼，通体泛蓝白色光辉，寒冰中暗藏杀机。",
-                    "weaponId": "z007_2",
-                    "weaponLevel": 1,
-                    "weaponName": "寒冰剑",
-                    "weaponPrice": 7500,
-                    "weaponSalePrice": 1500,
-                    "weaponSkills": "59,76",
-                    "weaponStar": 2,
-                    "weaponTopLevel": 10,
-                    "weaponType": 2,
-                    "weaponUpAttack": 0,
-                    "weaponUpDurable": 0
-                }, { "exp": 0, "num": 0, "skills": [{ "skillCd": 0.0, "skillConfig": { "way": "1-2" }, "skillDesc": "向上中路各发出1件兵器", "skillId": 51, "skillLevel": 1, "skillName": "剑舞", "skillProb": 12, "skillType": 1, "skillUnlock": 0, "status": 0 }, { "skillCd": 0.0, "skillConfig": { "critHarm": 10, "critProb": 3 }, "skillDesc": "暴击+3%，爆伤+10%", "skillId": 64, "skillLevel": 1, "skillName": "灵敏", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }], "upgradeCost": 150, "weaponAttack": 85.0, "weaponCd": 3.3, "weaponConsume": 51.0, "weaponDownConsume": 0, "weaponDurable": 12, "weaponIcon": "与君子剑大小长短，全无二致，具有极强的磁性，如果双剑放的距离较近，会自动吸在一起。", "weaponId": "z010_2", "weaponLevel": 1, "weaponName": "淑女剑", "weaponPrice": 8000, "weaponSalePrice": 1600, "weaponSkills": "51,64", "weaponStar": 2, "weaponTopLevel": 10, "weaponType": 2, "weaponUpAttack": 0, "weaponUpDurable": 0 }, { "exp": 0, "num": 0, "skills": [{ "skillCd": 0.0, "skillConfig": { "poison": "6-210" }, "skillDesc": "使对手中剧毒，6秒损失210点生命", "skillId": 46, "skillLevel": 1, "skillName": "奇毒", "skillProb": 18, "skillType": 1, "skillUnlock": 0, "status": 0 }, { "skillCd": 0.0, "skillConfig": { "notPoison": 1 }, "skillDesc": "免疫中毒", "skillId": 83, "skillLevel": 1, "skillName": "药师", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }], "upgradeCost": 150, "weaponAttack": 84.0, "weaponCd": 2.0, "weaponConsume": 65.0, "weaponDownConsume": 0, "weaponDurable": 15, "weaponIcon": "听闻江湖没有人见过这把匕首，因为见过的人都已经死了，故而得名绝命。", "weaponId": "d014_3", "weaponLevel": 1, "weaponName": "绝命", "weaponPrice": 25000, "weaponSalePrice": 5000, "weaponSkills": "46,83", "weaponStar": 3, "weaponTopLevel": 15, "weaponType": 1, "weaponUpAttack": 0, "weaponUpDurable": 0 }], "dailyTaskStatus": 1, "weaponNew": 0, "refinerNew": 0, "roleNew": 0 };
+            /*  */
             var params = this.params;
             var result = this.params.result;
             var type = this.params.type;
+            if (result == -1) {
+                this.spIcon.texture = "remote/pass_result/lose.png";
+            }
             if (type == 1) {
                 this.dealType1(result);
             } else if (type == 2) {
@@ -2614,7 +2587,18 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
     }, {
         key: "rejectHandler",
         value: function rejectHandler() {
+            var _this3 = this;
+
             console.log("\u8D70\u4EBA\u6492");
+            this.POST('martial_encounter_finish', {
+                result: this.params.result,
+                complete: 1
+            }, function (res) {
+                PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
+                Laya.MouseManager.enabled = true;
+                res.result = loserIsSelf ? -1 : 1;
+                _this3.navigator.popup('/dialog/adventResultDialog', res);
+            });
             this.close();
         }
     }, {
@@ -2625,10 +2609,15 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
             var random = Math.round(Math.random() * (PaoYa.DataCenter.config.game.share_list.length - 1));
             var title = PaoYa.DataCenter.config.game.share_list[random];
             PaoYa.ShareManager.imageURL = PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img[random];
-            PaoYa.ShareManager.shareTitle(title, {}, function () {
+            if (window['wx']) {
+                PaoYa.ShareManager.shareTitle(title, {}, function () {
+                    _this.close();
+                    _GameControl2.default.instance.revive(); //复活
+                });
+            } else {
                 _this.close();
                 _GameControl2.default.instance.revive(); //复活
-            });
+            }
         }
     }, {
         key: "videoHandler",
@@ -4703,12 +4692,15 @@ var GameBanner = function (_PaoYa$Component) {
     }, {
         key: "changeStyle",
         value: function changeStyle(params) {
-
             if (params.gameType == "battle") {
                 this.lblGameType.text = "匹配赛";
                 this.startCount();
             } else if (params.gameType == "pass" || "adventure") {
-                this.lblGameType.text = "\u7B2C" + params.curNum + "\u5173";
+                if (params.gameType == "pass") {
+                    this.lblGameType.text = "\u7B2C" + params.curNum + "\u5173";
+                } else {
+                    this.lblGameType.text = "\u5947\u9047";
+                }
                 this.lblTime.text = params.battleIndex + "/" + params.monsterNum;
             }
         }

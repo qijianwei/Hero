@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":89,
-    "selecteID":90,
+    "selectedBox":95,
+    "selecteID":93,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/dialog/AdventResultDialog.js","height":750},
     "nodeParent":-1,
@@ -819,7 +819,7 @@
                     "x":30,
                     "type":"Label",
                     "searchKey":"Label",
-                    "props":{"y":83,"x":329,"text":"攻擂成功后会有大额奖赏","fontSize":24,"font":"Microsoft YaHei","color":"#fffffff"},
+                    "props":{"y":83,"x":329,"text":"攻擂成功后会有大额奖赏","fontSize":24,"font":"Microsoft YaHei","color":"#ffffff"},
                     "nodeParent":106,
                     "label":"Label",
                     "isDirectory":false,
@@ -828,7 +828,8 @@
                     "compId":104,
                     "child":[
                         ]
-                }]
+                }],
+            "$HIDDEN":true
         }],
     "animations":[
         {

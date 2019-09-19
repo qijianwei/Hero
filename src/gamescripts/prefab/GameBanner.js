@@ -7,13 +7,16 @@ export default class GameBanner extends PaoYa.Component{
     onAwake(){
         this.lblGameType.font="weaponNFontT"; 
     }
-    changeStyle(params){
-        
-      if(params.gameType=="battle"){  
+    changeStyle(params){   
+      if(params.gameType==`battle`){  
         this.lblGameType.text="匹配赛";
         this.startCount();
-      }else if(params.gameType=="pass"||`adventure`){
-        this.lblGameType.text=`第${params.curNum}关`;
+      }else if(params.gameType==`pass`||`adventure`){
+        if(params.gameType==`pass`){
+            this.lblGameType.text=`第${params.curNum}关`;
+        }else{
+            this.lblGameType.text=`奇遇`;  
+        }  
         this.lblTime.text=`${params.battleIndex}/${params.monsterNum}`
       }
     }

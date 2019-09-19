@@ -789,6 +789,7 @@ export default class GameControl extends PaoYa.Component {
     //所有有cd的 和技能关闭
     allCdEnd() {
         this.weaponsBarArr.forEach((weaponBarComp) => {
+            weaponBarComp.setCdTime(weaponBarComp.originCdTime);//恢复原来的冷却时间
             weaponBarComp.endCD();
         });
         this.skillScr1.endCD();
@@ -798,7 +799,8 @@ export default class GameControl extends PaoYa.Component {
     }
     deathHandler(loserIsSelf) {
         Laya.MouseManager.enabled = false;
-        Laya.timer.clearAll(this);
+        Laya.timer.clear(this,this.startSelect);
+       // Laya.timer.clearAll(this);
         this.gameState = 'over';
         this.removeAllWeapons();
         this.allCdEnd();
@@ -828,6 +830,7 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     dealBattle(loserIsSelf) {
+        Laya.timer.clearAll(this);
         this.gameOver(loserIsSelf);
         let win = loserIsSelf ? 0 : 1;
         Laya.timer.callLater(this, () => {
@@ -876,6 +879,7 @@ export default class GameControl extends PaoYa.Component {
     //关卡结束
     passOver(loserIsSelf) {
         //  SoundManager.ins.homeBg();
+        Laya.timer.clearAll(this);
         if (!loserIsSelf) {
             SoundManager.ins.win();
             PaoYa.DataCenter.user.current = this.curNum + 1;
@@ -906,8 +910,10 @@ export default class GameControl extends PaoYa.Component {
                     }
                 })
             }else if(this.gameType==`adventure`){
+                
                 this.POST('martial_encounter_finish', {
-                    result:loserIsSelf?-1:1
+                    result:loserIsSelf?-1:1,
+                    complete:loserIsSelf?-1:1
                 }, (res) => {
                     PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                     Laya.MouseManager.enabled = true;
