@@ -250,9 +250,7 @@ export default class HomeControl extends PaoYa.Component {
     }
     goPassGame() {
         let _this = this;
-        this.POST("hero_game_start", {
-            stageId: 1
-        }, (res) => {
+        this.POST("hero_game_start",{}, (res) => {
             res.gameType = 'pass';
             this.navigator.push("GameView", res);
         }, (msg, code) => {

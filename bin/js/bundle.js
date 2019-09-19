@@ -354,7 +354,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventResultDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -776,7 +776,7 @@ var GameControl = function (_PaoYa$Component) {
             this.dealParams(this.weaponList);
             this.dealParams(this.robotWeaponList);
 
-            if (this.gameType == "pass") {
+            if (this.gameType == 'pass' || 'adventure') {
                 this.initGameBanner();
                 _SoundManager2.default.ins.passBg();
             } else {
@@ -847,7 +847,7 @@ var GameControl = function (_PaoYa$Component) {
             this.battleIndex = 1;
             this.curNum = this.params.stageId;
             this.boxGameBanner.getComponent(_GameBanner2.default).changeStyle({
-                gameType: 'pass',
+                gameType: this.gameType,
                 curNum: this.curNum,
                 battleIndex: this.battleIndex,
                 monsterNum: this.monsterNum
@@ -975,14 +975,12 @@ var GameControl = function (_PaoYa$Component) {
             var name = isSelf ? 'self' : 'other';
             var role = isSelf ? 'role' : 'robotRole';
             var player = Laya.Pool.getItemByCreateFun('player', this.player.create, this.player);
-            //let player=this.player.create();
             var spCollide = this.owner[name + 'Collide'];
             var spX = spCollide.x,
                 spY = spCollide.y,
                 spW = spCollide.width,
                 spH = spCollide.height;
 
-            //let playerScr=player.getComponent(Player)
             var component = player.getComponent(_Player2.default);
             component.isSelf = isSelf;
             component.attr = this[role];
@@ -1298,7 +1296,7 @@ var GameControl = function (_PaoYa$Component) {
                 } else {
                     console.log("-----无法动弹-----");
                 }
-                if (this.gameType == "pass") {
+                if (this.gameType == 'pass' || 'adventure') {
                     Laya.timer.once(800, this, this.startSelect);
                 } else {
                     Laya.timer.once(500, this, this.startSelect);
@@ -1564,6 +1562,7 @@ var GameControl = function (_PaoYa$Component) {
             this.removeAllWeapons();
             this.allCdEnd();
             switch (this.gameType) {
+                case 'adventure':
                 case 'pass':
                     this.dealPass(loserIsSelf);
                     break;
@@ -1637,6 +1636,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'revive',
         value: function revive() {
+            _SoundManager2.default.ins.passBg();
             this.initPlayer(true);
             this.firstWeaponSelect();
             this.otherPlayer.comp.MPComp.startBar();
@@ -1666,14 +1666,29 @@ var GameControl = function (_PaoYa$Component) {
             this.otherPlayer.comp.MPComp.stopIncrease();
 
             Laya.timer.once(1000, this, function () {
-                _this9.POST('martial_game_end', {
-                    killNum: _this9.killNum
-                }, function (res) {
-                    PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
-                    Laya.MouseManager.enabled = true;
-                    res.result = loserIsSelf ? -1 : 1;
-                    _this9.navigator.popup('/dialog/PassResultDialog', res);
-                });
+                if (_this9.gameType == 'pass') {
+                    _this9.POST('martial_game_end', {
+                        killNum: _this9.killNum
+                    }, function (res) {
+                        Laya.MouseManager.enabled = true;
+                        res.result = loserIsSelf ? -1 : 1;
+                        if (res.encounter == undefined) {
+                            PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
+                            _this9.navigator.popup('/dialog/PassResultDialog', res);
+                        } else {
+                            _this9.navigator.popup('/dialog/adventDialog', res);
+                        }
+                    });
+                } else if (_this9.gameType == 'adventure') {
+                    _this9.POST('martial_encounter_finish', {
+                        result: loserIsSelf ? -1 : 1
+                    }, function (res) {
+                        PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
+                        Laya.MouseManager.enabled = true;
+                        res.result = loserIsSelf ? -1 : 1;
+                        _this9.navigator.popup('/dialog/adventResultDialog', res);
+                    });
+                }
             });
         }
     }, {
@@ -2299,7 +2314,7 @@ var HeroConfig = {
 };exports.default = HeroConfig;
 
 },{}],10:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -2307,7 +2322,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _WeaponBar = require("../prefab/WeaponBar");
+var _WeaponBar = require('../prefab/WeaponBar');
 
 var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
 
@@ -2329,36 +2344,39 @@ var AdventDialog = function (_PaoYa$Dialog) {
 
         _this2.adventType = [{
             type: 1,
-            target: "\u51FB\u67402\u4E2A\u532A\u5F92",
-            detail: "\u8FDC\u5904\u4E00\u843D\u9B44\u5973\u5B50\u62B1\u7740\u5305\u88B1\u8DCC\u8DCC\u649E\u649E\u5730\u51B2\u4F60\u8DD1\u6765\uFF0C\u540E\u9762\u8DDF\u7740\u4E00\u7FA4\u62FF\u5230\u7684\u97E9\u975E\uFF0C\u90A3\u5973\u5B50\u5411\u4F60\u558A\u5230:\"\u6551\u547D\u554A\uFF01\u8DEF\u4E0A\u5076\u9047\u72C2\u5F92\uFF0C\u4E0D\u80DC\u5176\u6270\uFF0C\u6073\u8BF7\u5927\u4FA0\u6551\u6551\u5C0F\u5973\u5B50\"",
-            agreeText: "\u653E\u5F00\u90A3\u4E2A\u5973\u5B69",
-            rejectText: "\u591A\u4E00\u4E8B\u4E0D\u5982\u5C11\u4E00\u4E8B"
+            target: '\u51FB\u67402\u4E2A\u532A\u5F92',
+            detail: '\u8FDC\u5904\u4E00\u843D\u9B44\u5973\u5B50\u62B1\u7740\u5305\u88B1\u8DCC\u8DCC\u649E\u649E\u5730\u51B2\u4F60\u8DD1\u6765\uFF0C\u540E\u9762\u8DDF\u7740\u4E00\u7FA4\u62FF\u5230\u7684\u97E9\u975E\uFF0C\u90A3\u5973\u5B50\u5411\u4F60\u558A\u5230:"\u6551\u547D\u554A\uFF01\u8DEF\u4E0A\u5076\u9047\u72C2\u5F92\uFF0C\u4E0D\u80DC\u5176\u6270\uFF0C\u6073\u8BF7\u5927\u4FA0\u6551\u6551\u5C0F\u5973\u5B50"',
+            agreeText: '\u653E\u5F00\u90A3\u4E2A\u5973\u5B69',
+            rejectText: '\u591A\u4E00\u4E8B\u4E0D\u5982\u5C11\u4E00\u4E8B'
         }, {
             type: 2,
-            target: "\u5C3D\u53EF\u80FD\u5730\u6253\u8D25\u5B88\u64C2\u4EBA",
-            detail: "\u57CE\u5916\u64C2\u53F0\u8FB9\u4EBA\u5934\u6512\u52A8\uFF0C\u539F\u662F\u544A\u793A\u724C\u4E0A\u65B0\u5F20\u8D34\u4E86\u4E00\u5F20\u82F1\u96C4\u699C\u3002\u56E0\u8FD9\u6B21\u5B88\u64C2\u4E4B\u4EBA\u8749\u8054\u4E86\u56DB\u6B21\u64C2\u4E3B\u4E4B\u4F4D\uFF0C\u5956\u52B1\u53F2\u65E0\u524D\u4F8B\u7684\u4E30\u539A\u3002\u5F88\u591A\u4E60\u6B66\u4E4B\u4EBA\u90FD\u8DC3\u8DC3\u6B32\u8BD5\uFF0C\u8981\u4E0D\u53BB\u770B\u770B\uFF1F",
-            agreeText: "\u72ED\u8DEF\u76F8\u9022\u52C7\u8005\u80DC",
-            rejectText: "\u5C0F\u547D\u8981\u7D27\u6E9C\u4E86\u6E9C\u4E86"
+            target: '\u5C3D\u53EF\u80FD\u5730\u6253\u8D25\u5B88\u64C2\u4EBA',
+            detail: '\u57CE\u5916\u64C2\u53F0\u8FB9\u4EBA\u5934\u6512\u52A8\uFF0C\u539F\u662F\u544A\u793A\u724C\u4E0A\u65B0\u5F20\u8D34\u4E86\u4E00\u5F20\u82F1\u96C4\u699C\u3002\u56E0\u8FD9\u6B21\u5B88\u64C2\u4E4B\u4EBA\u8749\u8054\u4E86\u56DB\u6B21\u64C2\u4E3B\u4E4B\u4F4D\uFF0C\u5956\u52B1\u53F2\u65E0\u524D\u4F8B\u7684\u4E30\u539A\u3002\u5F88\u591A\u4E60\u6B66\u4E4B\u4EBA\u90FD\u8DC3\u8DC3\u6B32\u8BD5\uFF0C\u8981\u4E0D\u53BB\u770B\u770B\uFF1F',
+            agreeText: '\u72ED\u8DEF\u76F8\u9022\u52C7\u8005\u80DC',
+            rejectText: '\u5C0F\u547D\u8981\u7D27\u6E9C\u4E86\u6E9C\u4E86'
         }];
         return _this2;
     }
 
     _createClass(AdventDialog, [{
-        key: "onAwake",
+        key: 'onAwake',
         value: function onAwake() {
             var _this3 = this;
 
             this.autoDestroyAtClosed = true;
             var _this = this;
-            this.params = {
-                "gold": 100,
-                "diamond": 100,
-                "weaponList": [{ "exp": 0, "num": 0, "skills": [{ "skillCd": 0.0, "skillConfig": { "hp": 50 }, "skillDesc": "生命+50 ", "skillId": 75, "skillLevel": 1, "skillName": "健康", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }, { "skillCd": 0.0, "skillConfig": { "addRecoverHp": 20 }, "skillDesc": "每5秒自动恢复20点生命", "skillId": 79, "skillLevel": 1, "skillName": "萃精", "skillProb": 100, "skillType": 0, "skillUnlock": 0, "status": 0 }], "upgradeCost": 150, "weaponAttack": 44.0, "weaponCd": 2.0, "weaponConsume": 32.0, "weaponDownConsume": 0, "weaponDurable": 12, "weaponIcon": "羊角做的匕首，最大限度地保留了羊角的形状，兼顾了实用性和观赏性。", "weaponId": "d004_2", "weaponLevel": 1, "weaponName": "羊角匕首", "weaponPrice": 4000, "weaponSalePrice": 800, "weaponSkills": "75,79", "weaponStar": 2, "weaponTopLevel": 10, "weaponType": 1, "weaponUpAttack": 0, "weaponUpDurable": 0 }],
-                "dailyTaskStatus": 1,
-                "weaponNew": 0,
-                "refinerNew": 0,
-                "roleNew": 0
-            };
+            this.params = this.params.encounter;
+            /*  this.params={
+                 "gold":100,
+                 "diamond":100,
+                 "weaponList":[
+                     {"exp":0,"num":0,"skills":[{"skillCd":0.0,"skillConfig":{"hp":50},"skillDesc":"生命+50 ","skillId":75,"skillLevel":1,"skillName":"健康","skillProb":100,"skillType":0,"skillUnlock":0,"status":0},{"skillCd":0.0,"skillConfig":{"addRecoverHp":20},"skillDesc":"每5秒自动恢复20点生命","skillId":79,"skillLevel":1,"skillName":"萃精","skillProb":100,"skillType":0,"skillUnlock":0,"status":0}],"upgradeCost":150,"weaponAttack":44.0,"weaponCd":2.0,"weaponConsume":32.0,"weaponDownConsume":0,"weaponDurable":12,"weaponIcon":"羊角做的匕首，最大限度地保留了羊角的形状，兼顾了实用性和观赏性。","weaponId":"d004_2","weaponLevel":1,"weaponName":"羊角匕首","weaponPrice":4000,"weaponSalePrice":800,"weaponSkills":"75,79","weaponStar":2,"weaponTopLevel":10,"weaponType":1,"weaponUpAttack":0,"weaponUpDurable":0}
+                 ],
+                 "dailyTaskStatus":1,
+                 "weaponNew":0,
+                 "refinerNew":0,
+                 "roleNew":0
+             } */
             var type = 1;
             var advent = this.findAdventByType(type);
             var lbls = this.boxDetail._children;
@@ -2383,19 +2401,19 @@ var AdventDialog = function (_PaoYa$Dialog) {
              this.btnReject.on(Laya.Event.CLICK,this,rejectHandler); */
         }
     }, {
-        key: "clickHandler",
+        key: 'clickHandler',
         value: function clickHandler(e) {
             switch (e.target.name) {
-                case "btnAgree":
+                case 'btnAgree':
                     this.agreeHandler();
                     break;
-                case "btnReject":
+                case 'btnReject':
                     this.rejectHandler();
                     break;
             }
         }
     }, {
-        key: "initReward",
+        key: 'initReward',
         value: function initReward(jsons) {
             var weaponList = this.params.weaponList;
             var len = weaponList.length;
@@ -2412,56 +2430,81 @@ var AdventDialog = function (_PaoYa$Dialog) {
             if (this.params.diamond) {
                 var diamondView = this.createRewardBox(jsons[1]);
                 console.log(diamondView.getChildByName("lblNum").text);
-                diamondView.getChildByName("lblNum").scale(0.4, 0.4);
-                diamondView.getChildByName("lblNum").text = "\xD7 " + this.params.diamond;
-                diamondView.getChildByName("lblNum").font = "weaponNFontT";
+                diamondView.getChildByName('lblNum').scale(0.4, 0.4);
+                diamondView.getChildByName('lblNum').text = '\xD7 ' + this.params.diamond;
+                diamondView.getChildByName('lblNum').font = 'weaponNFontT';
                 this.hboxReward.addChild(diamondView);
             }
             if (this.params.gold) {
                 var goldView = this.createRewardBox(jsons[1]);
                 goldView.getChildByName('lblNum').scale(0.4, 0.4);
-                goldView.getChildByName('lblNum').text = "\xD7 " + this.params.gold;
-                goldView.getChildByName('lblNum').font = "weaponNFontT";
-                goldView.getChildByName("spReward").texture = "local/common/icon.png";
+                goldView.getChildByName('lblNum').text = '\xD7 ' + this.params.gold;
+                goldView.getChildByName('lblNum').font = 'weaponNFontT';
+                goldView.getChildByName('spReward').texture = 'local/common/icon.png';
                 this.hboxReward.addChild(goldView);
             }
         }
     }, {
-        key: "createRewardBox",
+        key: 'createRewardBox',
         value: function createRewardBox(json) {
             var rewardView = new Laya.Prefab();
             rewardView.json = json;
-            var view = Laya.Pool.getItemByCreateFun("RewardView", rewardView.create, rewardView);
+            var view = Laya.Pool.getItemByCreateFun('RewardView', rewardView.create, rewardView);
             return view;
         }
     }, {
-        key: "initFont",
+        key: 'initFont',
         value: function initFont(advent) {
             var len = this.boxLbls._children.length;
             for (var i = 0; i < len; i++) {
-                this.boxLbls._children[i].font = "adventure";
+                this.boxLbls._children[i].font = 'adventure';
             }
             this.lblAgree.text = advent.agreeText;
             this.lblReject.text = advent.rejectText;
-            this.lblAgree.font = "adventure";
-            this.lblReject.font = "adventure";
+            this.lblAgree.font = 'adventure';
+            this.lblReject.font = 'adventure';
         }
     }, {
-        key: "findAdventByType",
+        key: 'findAdventByType',
         value: function findAdventByType(type) {
             return this.adventType.filter(function (item) {
                 return item.type == type;
             })[0];
         }
     }, {
-        key: "agreeHandler",
+        key: 'agreeHandler',
         value: function agreeHandler() {
-            console.log("\u8FDB\u5165\u5947\u9047");
+            var _this4 = this;
+
+            var _this = this;
+            console.log('\u8FDB\u5165\u5947\u9047');
+            PaoYa.Request.POST("hero_game_start", {
+                stageId: this.params.id
+            }, function (res) {
+                // 绘制遮罩区，含透明度，
+                var maskArea = new Laya.Sprite();
+                maskArea.alpha = 0.5;
+                maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+                // maskArea.pos(-150,0);
+                maskArea.mouseEnabled = true;
+                maskArea.zOrder = 2000;
+                Laya.stage.addChild(maskArea);
+                var tween = new Laya.Tween();
+                tween.to(maskArea, {
+                    alpha: 1
+                }, 600, null, Laya.Handler.create(_this4, function () {
+                    res.gameType = "adventure";
+                    PaoYa.navigator.replace("GameView", res);
+                    _this4.close();
+                    tween.clear();
+                    Laya.stage.removeChild(maskArea);
+                }));
+            });
         }
     }, {
-        key: "rejectHandler",
+        key: 'rejectHandler',
         value: function rejectHandler() {
-            console.log("\u5C11\u4E00\u4E8B");
+            console.log('\u5C11\u4E00\u4E8B');
         }
     }]);
 
@@ -2482,6 +2525,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _WeaponBar = require("../prefab/WeaponBar");
 
 var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
+
+var _GameControl = require("../GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2574,6 +2621,14 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "shareHandler",
         value: function shareHandler() {
             console.log("\u5206\u4EAB\u590D\u6D3B");
+            var _this = this;
+            var random = Math.round(Math.random() * (PaoYa.DataCenter.config.game.share_list.length - 1));
+            var title = PaoYa.DataCenter.config.game.share_list[random];
+            PaoYa.ShareManager.imageURL = PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img[random];
+            PaoYa.ShareManager.shareTitle(title, {}, function () {
+                _this.close();
+                _GameControl2.default.instance.revive(); //复活
+            });
         }
     }, {
         key: "videoHandler",
@@ -2635,7 +2690,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog;
 
-},{"../prefab/WeaponBar":29}],12:[function(require,module,exports){
+},{"../GameControl":4,"../prefab/WeaponBar":29}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3269,7 +3324,6 @@ var GameGuideControl = function (_GameControl) {
             this.imgTip.skin = "remote/guide/8.png";
             this.imgTip.y = 300;
             Laya.timer.once(200, this, function () {
-
                 _this5.imgTip.visible = true;
                 _this5.resumeArrowAni();
             });
@@ -4653,7 +4707,7 @@ var GameBanner = function (_PaoYa$Component) {
             if (params.gameType == "battle") {
                 this.lblGameType.text = "匹配赛";
                 this.startCount();
-            } else if (params.gameType == "pass") {
+            } else if (params.gameType == "pass" || "adventure") {
                 this.lblGameType.text = "\u7B2C" + params.curNum + "\u5173";
                 this.lblTime.text = params.battleIndex + "/" + params.monsterNum;
             }
@@ -7288,9 +7342,7 @@ var HomeControl = function (_PaoYa$Component) {
             var _this8 = this;
 
             var _this = this;
-            this.POST("hero_game_start", {
-                stageId: 1
-            }, function (res) {
+            this.POST("hero_game_start", {}, function (res) {
                 res.gameType = 'pass';
                 _this8.navigator.push("GameView", res);
             }, function (msg, code) {

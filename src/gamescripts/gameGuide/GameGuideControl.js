@@ -169,8 +169,7 @@ export default class GameGuideControl extends GameControl{
        this.imgTip.visible=false;
        this.imgTip.skin=`remote/guide/8.png`;
        this.imgTip.y=300;
-       Laya.timer.once(200,this,()=>{
-        
+       Laya.timer.once(200,this,()=>{ 
            this.imgTip.visible=true;
            this.resumeArrowAni();
        })

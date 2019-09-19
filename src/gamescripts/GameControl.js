@@ -87,7 +87,7 @@ export default class GameControl extends PaoYa.Component {
         this.dealParams(this.weaponList);
         this.dealParams(this.robotWeaponList);
 
-        if (this.gameType == "pass") {
+        if (this.gameType == `pass`||`adventure`) {
             this.initGameBanner();
             SoundManager.ins.passBg();
         } else {
@@ -150,7 +150,7 @@ export default class GameControl extends PaoYa.Component {
         this.battleIndex = 1;
         this.curNum = this.params.stageId;
         this.boxGameBanner.getComponent(GameBanner).changeStyle({
-            gameType: 'pass',
+            gameType: this.gameType,
             curNum: this.curNum,
             battleIndex: this.battleIndex,
             monsterNum: this.monsterNum
@@ -268,14 +268,12 @@ export default class GameControl extends PaoYa.Component {
         let name = isSelf ? 'self' : 'other';
         let role = isSelf ? 'role' : 'robotRole';
         let player = Laya.Pool.getItemByCreateFun('player', this.player.create, this.player);
-        //let player=this.player.create();
         let spCollide = this.owner[name + 'Collide'];
         let spX = spCollide.x,
             spY = spCollide.y,
             spW = spCollide.width,
             spH = spCollide.height;
 
-        //let playerScr=player.getComponent(Player)
         let component = player.getComponent(Player);
         component.isSelf = isSelf;
         component.attr = this[role];
@@ -561,7 +559,7 @@ export default class GameControl extends PaoYa.Component {
             } else {
                 console.log("-----无法动弹-----")
             }
-            if (this.gameType == "pass") {
+            if (this.gameType == `pass`||`adventure`) {
                 Laya.timer.once(800, this, this.startSelect);
             } else {
                 Laya.timer.once(500, this, this.startSelect);
@@ -805,7 +803,8 @@ export default class GameControl extends PaoYa.Component {
         this.removeAllWeapons();
         this.allCdEnd();
         switch (this.gameType) {
-            case 'pass':
+            case `adventure`:
+            case `pass`:
                 this.dealPass(loserIsSelf);
                 break;
             case 'battle':
@@ -868,6 +867,7 @@ export default class GameControl extends PaoYa.Component {
     }
     //角色复活
     revive(){
+       SoundManager.ins.passBg();
        this.initPlayer(true);
        this.firstWeaponSelect();
        this.otherPlayer.comp.MPComp.startBar();
@@ -890,16 +890,31 @@ export default class GameControl extends PaoYa.Component {
 
         this.selfPlayer.comp.MPComp.stopIncrease();
         this.otherPlayer.comp.MPComp.stopIncrease();
-
+     
         Laya.timer.once(1000, this, () => {
-            this.POST('martial_game_end', {
-                killNum: this.killNum
-            }, (res) => {
-                PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
-                Laya.MouseManager.enabled = true;
-                res.result = loserIsSelf ? -1 : 1;
-                this.navigator.popup('/dialog/PassResultDialog', res);
-            })
+            if(this.gameType==`pass`){
+                this.POST('martial_game_end', {
+                    killNum: this.killNum
+                }, (res) => {
+                    Laya.MouseManager.enabled = true;
+                    res.result = loserIsSelf ? -1 : 1;
+                    if(res.encounter==undefined){
+                        PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;         
+                        this.navigator.popup('/dialog/PassResultDialog', res);
+                    }else{
+                        this.navigator.popup('/dialog/adventDialog', res);
+                    }
+                })
+            }else if(this.gameType==`adventure`){
+                this.POST('martial_encounter_finish', {
+                    result:loserIsSelf?-1:1
+                }, (res) => {
+                    PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
+                    Laya.MouseManager.enabled = true;
+                    res.result = loserIsSelf ? -1 : 1;
+                    this.navigator.popup('/dialog/adventResultDialog', res);
+                })
+            }
         })
     }
     removeAllWeapons() {

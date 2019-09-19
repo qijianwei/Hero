@@ -1,4 +1,5 @@
 import WeaponBar from "../prefab/WeaponBar";
+import GameControl from "../GameControl";
 
 export default class AdventResultDialog extends PaoYa.Dialog {
     constructor() {
@@ -38,6 +39,9 @@ export default class AdventResultDialog extends PaoYa.Dialog {
         let params = this.params;
         let result = this.params.result;
         let type = this.params.type;
+        if(result==-1){
+            this.spIcon.texture=`remote/pass_result/lose.png`;
+        }
         if(type==1){
            this.dealType1(result);
         }else if(type==2){
@@ -73,6 +77,19 @@ export default class AdventResultDialog extends PaoYa.Dialog {
     }
     shareHandler(){
         console.log(`分享复活`);
+        let _this=this;
+        let random=Math.round(Math.random()*(PaoYa.DataCenter.config.game.share_list.length-1))
+        let title = PaoYa.DataCenter.config.game.share_list[random];
+        PaoYa.ShareManager.imageURL=PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img[random];
+        if(window[wx]){
+            PaoYa.ShareManager.shareTitle(title, {}, () => {
+                _this.close();
+               GameControl.instance.revive(); //复活
+            })  
+        }else{
+            _this.close();
+            GameControl.instance.revive(); //复活
+        }  
     }
     videoHandler(){
         console.log(`看广告复活`);
