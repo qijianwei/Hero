@@ -124,7 +124,7 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
     createRewardBox(json) {
         let rewardView = new Laya.Prefab();
         rewardView.json = json;
-        let view = Laya.Pool.getItemByCreateFun(`RewardView`, rewardView.create, rewardView);
+        let view = Laya.Pool.getItemByCreateFun(`RewardViewBig`, rewardView.create, rewardView);
         return view;
     }
 }

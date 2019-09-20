@@ -364,7 +364,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventResultDialog5.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventResultDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -2724,23 +2724,20 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         value: function sureHandler() {
             console.log("\u786E\u8BA4....");
             this.close();
+            PaoYa.navigator.popToRootScene();
         }
     }, {
         key: "rejectHandler",
         value: function rejectHandler() {
-            var _this3 = this;
-
             console.log("\u8D70\u4EBA\u6492");
             this.POST('martial_encounter_finish', {
                 result: this.params.result,
                 complete: 1
             }, function (res) {
-                PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
-                Laya.MouseManager.enabled = true;
-                res.result = loserIsSelf ? -1 : 1;
-                _this3.navigator.popup('/dialog/adventResultDialog', res);
+                console.log("");
             });
             this.close();
+            PaoYa.navigator.popToRootScene();
         }
     }, {
         key: "shareHandler",
@@ -2764,6 +2761,30 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "videoHandler",
         value: function videoHandler() {
             console.log("\u770B\u5E7F\u544A\u590D\u6D3B");
+            var _this = this;
+            var params = {
+                onClose: function onClose(res) {
+                    if (res.isEnded) {
+                        console.log("\u770B\u5B8C\u5E7F\u544A");
+                        _this.close();
+                        _GameControl2.default.instance.revive(); //复活
+                    } else {
+                        var errorDialog = new _AlertDialog2.default({
+                            title: "\u6E29\u99A8\u63D0\u793A",
+                            message: '看完广告才可复活哦~'
+                        });
+                        errorDialog.popup();
+                    }
+                },
+                onError: function onError(res) {
+                    var errorDialog = new AlertDialog({
+                        title: "温馨提示",
+                        message: res.message
+                    });
+                    errorDialog.popup();
+                }
+            };
+            PaoYa.RewardedVideoAd.show(params);
         }
     }, {
         key: "dealType1",
@@ -2893,8 +2914,10 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
         key: 'videoHandler',
         value: function videoHandler() {
             var _this = this;
-            this.showGetState(); //测试
-            return;
+            if (window['wx']) {
+                this.showGetState();
+                return;
+            }
             //看视频
             var params = {
                 onClose: function onClose(res) {
@@ -2984,7 +3007,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
         value: function createRewardBox(json) {
             var rewardView = new Laya.Prefab();
             rewardView.json = json;
-            var view = Laya.Pool.getItemByCreateFun('RewardView', rewardView.create, rewardView);
+            var view = Laya.Pool.getItemByCreateFun('RewardViewBig', rewardView.create, rewardView);
             return view;
         }
     }]);
@@ -7426,11 +7449,11 @@ var HomeControl = function (_PaoYa$Component) {
                 }
             });
             //奇遇入口和结果弹框测试
-            Laya.timer.once(2000, this, function () {
-                _this3.GET("martial_encounter_detail", {}, function (res) {
-                    _this3.navigator.popup('/dialog/AdventDialog5', res);
-                });
-            });
+            /* Laya.timer.once(2000,this,()=>{
+                this.GET(`martial_encounter_detail`,{},(res)=>{
+                 this.navigator.popup('/dialog/AdventDialog5',res);
+                }) 
+            })  */
         }
     }, {
         key: "onEnable",
