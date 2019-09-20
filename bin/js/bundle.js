@@ -35,6 +35,10 @@ var _AdventDialog = require("./gamescripts/dialog/AdventDialog");
 
 var _AdventDialog2 = _interopRequireDefault(_AdventDialog);
 
+var _AdventDialog3 = require("./gamescripts/dialog/AdventDialog5");
+
+var _AdventDialog4 = _interopRequireDefault(_AdventDialog3);
+
 var _AdventResultDialog = require("./gamescripts/dialog/AdventResultDialog");
 
 var _AdventResultDialog2 = _interopRequireDefault(_AdventResultDialog);
@@ -42,6 +46,10 @@ var _AdventResultDialog2 = _interopRequireDefault(_AdventResultDialog);
 var _WeaponBar = require("./gamescripts/prefab/WeaponBar");
 
 var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
+
+var _AdventResultDialog3 = require("./gamescripts/dialog/AdventResultDialog5");
+
+var _AdventResultDialog4 = _interopRequireDefault(_AdventResultDialog3);
 
 var _BattleResultDialog = require("./gamescripts/dialog/BattleResultDialog");
 
@@ -282,8 +290,10 @@ var GameConfig = function () {
 												//注册Script或者Runtime引用
 												var reg = Laya.ClassUtils.regClass;
 												reg("gamescripts/dialog/AdventDialog.js", _AdventDialog2.default);
+												reg("gamescripts/dialog/AdventDialog5.js", _AdventDialog4.default);
 												reg("gamescripts/dialog/AdventResultDialog.js", _AdventResultDialog2.default);
 												reg("gamescripts/prefab/WeaponBar.js", _WeaponBar2.default);
+												reg("gamescripts/dialog/AdventResultDialog5.js", _AdventResultDialog4.default);
 												reg("gamescripts/dialog/BattleResultDialog.js", _BattleResultDialog2.default);
 												reg("gamescripts/dialog/PassResultDialog.js", _PassResultDialog2.default);
 												reg("gamescripts/GameGuide/GameGuide.js", _GameGuide2.default);
@@ -354,7 +364,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventResultDialog.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventResultDialog5.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -363,7 +373,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/AdventDialog":10,"./gamescripts/dialog/AdventResultDialog":11,"./gamescripts/dialog/BattleResultDialog":13,"./gamescripts/dialog/PassResultDialog":14,"./gamescripts/gameGuide/GameGuideControl":15,"./gamescripts/gameGuide/SpeakMan":17,"./gamescripts/preOpen/PreOpenView":18,"./gamescripts/prefab/Dodge":20,"./gamescripts/prefab/GameBanner":21,"./gamescripts/prefab/HPBar":22,"./gamescripts/prefab/MPBar":23,"./gamescripts/prefab/Player":24,"./gamescripts/prefab/PlayerSkill":25,"./gamescripts/prefab/PlayerState":26,"./gamescripts/prefab/Skill":27,"./gamescripts/prefab/Weapon":28,"./gamescripts/prefab/WeaponBar":29,"./gamescripts/prefab/WeaponSkill":30,"./scripts/common/HomeControl":32,"./scripts/common/Loading/LoadingControl":33,"./scripts/common/Loading/LoadingView":34,"./scripts/common/Match/MatchControl":35,"./scripts/common/Match/MatchView":36,"./scripts/common/figure/Grading":37,"./scripts/common/figure/GradingControl":38,"./scripts/common/figure/Swordsman":39,"./scripts/common/figure/SwordsmanControl":40,"./scripts/common/refiner/Devour":41,"./scripts/common/refiner/DevourControl":42,"./scripts/common/refiner/Refining":43,"./scripts/common/refiner/RefiningControl":44,"./scripts/common/sign/Sign":45,"./scripts/common/sign/SignControl":46,"./scripts/common/task/WeaponList":47,"./scripts/common/task/WeaponListControl":48,"./scripts/common/weapon/WeaponHouse":51,"./scripts/common/weapon/WeaponHouseControl":52,"./scripts/common/weapon/WeaponStore":53,"./scripts/common/weapon/WeaponStoreControl":54,"./scripts/common/wheel/Wheel":55,"./scripts/common/wheel/WheelControl":56,"./scripts/dialog/common/Award":57,"./scripts/dialog/common/BuyWheelTimes":58,"./scripts/dialog/common/Rank":59,"./scripts/dialog/common/Task":60,"./scripts/dialog/figure/BuyHero":61,"./scripts/dialog/figure/GetNewSkill":62,"./scripts/dialog/figure/SkillDetail":63,"./scripts/dialog/refiner/Canlock":64,"./scripts/dialog/weapon/DiamondLack":65,"./scripts/dialog/weapon/GoldLack":66,"./scripts/dialog/weapon/StoreSure":67,"./scripts/dialog/weapon/UnlockFifth":68,"./scripts/dialog/weapon/UnlockFour":69,"./scripts/dialog/weapon/UnlockTips":70,"./scripts/prefab/BeanBox":71}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/AdventDialog":10,"./gamescripts/dialog/AdventDialog5":11,"./gamescripts/dialog/AdventResultDialog":12,"./gamescripts/dialog/AdventResultDialog5":13,"./gamescripts/dialog/BattleResultDialog":15,"./gamescripts/dialog/PassResultDialog":16,"./gamescripts/gameGuide/GameGuideControl":17,"./gamescripts/gameGuide/SpeakMan":19,"./gamescripts/preOpen/PreOpenView":20,"./gamescripts/prefab/Dodge":22,"./gamescripts/prefab/GameBanner":23,"./gamescripts/prefab/HPBar":24,"./gamescripts/prefab/MPBar":25,"./gamescripts/prefab/Player":26,"./gamescripts/prefab/PlayerSkill":27,"./gamescripts/prefab/PlayerState":28,"./gamescripts/prefab/Skill":29,"./gamescripts/prefab/Weapon":30,"./gamescripts/prefab/WeaponBar":31,"./gamescripts/prefab/WeaponSkill":32,"./scripts/common/HomeControl":34,"./scripts/common/Loading/LoadingControl":35,"./scripts/common/Loading/LoadingView":36,"./scripts/common/Match/MatchControl":37,"./scripts/common/Match/MatchView":38,"./scripts/common/figure/Grading":39,"./scripts/common/figure/GradingControl":40,"./scripts/common/figure/Swordsman":41,"./scripts/common/figure/SwordsmanControl":42,"./scripts/common/refiner/Devour":43,"./scripts/common/refiner/DevourControl":44,"./scripts/common/refiner/Refining":45,"./scripts/common/refiner/RefiningControl":46,"./scripts/common/sign/Sign":47,"./scripts/common/sign/SignControl":48,"./scripts/common/task/WeaponList":49,"./scripts/common/task/WeaponListControl":50,"./scripts/common/weapon/WeaponHouse":53,"./scripts/common/weapon/WeaponHouseControl":54,"./scripts/common/weapon/WeaponStore":55,"./scripts/common/weapon/WeaponStoreControl":56,"./scripts/common/wheel/Wheel":57,"./scripts/common/wheel/WheelControl":58,"./scripts/dialog/common/Award":59,"./scripts/dialog/common/BuyWheelTimes":60,"./scripts/dialog/common/Rank":61,"./scripts/dialog/common/Task":62,"./scripts/dialog/figure/BuyHero":63,"./scripts/dialog/figure/GetNewSkill":64,"./scripts/dialog/figure/SkillDetail":65,"./scripts/dialog/refiner/Canlock":66,"./scripts/dialog/weapon/DiamondLack":67,"./scripts/dialog/weapon/GoldLack":68,"./scripts/dialog/weapon/StoreSure":69,"./scripts/dialog/weapon/UnlockFifth":70,"./scripts/dialog/weapon/UnlockFour":71,"./scripts/dialog/weapon/UnlockTips":72,"./scripts/prefab/BeanBox":73}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -607,7 +617,7 @@ if (!_Config2.default.debug) {
 	Laya.Stat.show();
 }
 
-},{"./Config":1,"./GameConfig":2,"./gamescripts/SoundManager":7,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":31,"./scripts/common/tool/Global":49}],4:[function(require,module,exports){
+},{"./Config":1,"./GameConfig":2,"./gamescripts/SoundManager":7,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":33,"./scripts/common/tool/Global":51}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1745,7 +1755,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"./SoundManager":7,"./WeaponManager":8,"./preOpen/preOpenManager":19,"./prefab/Dodge":20,"./prefab/GameBanner":21,"./prefab/HPBar":22,"./prefab/MPBar":23,"./prefab/Player":24,"./prefab/PlayerSkill":25,"./prefab/PlayerState":26,"./prefab/Skill":27,"./prefab/Weapon":28,"./prefab/WeaponBar":29,"./prefab/WeaponSkill":30}],5:[function(require,module,exports){
+},{"./SoundManager":7,"./WeaponManager":8,"./preOpen/preOpenManager":21,"./prefab/Dodge":22,"./prefab/GameBanner":23,"./prefab/HPBar":24,"./prefab/MPBar":25,"./prefab/Player":26,"./prefab/PlayerSkill":27,"./prefab/PlayerState":28,"./prefab/Skill":29,"./prefab/Weapon":30,"./prefab/WeaponBar":31,"./prefab/WeaponSkill":32}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1878,7 +1888,7 @@ var GameView = function (_PaoYa$View) {
 
 exports.default = GameView;
 
-},{"./config/HeroConfig":9,"./prefab/GameBanner":21,"./prefab/HPBar":22,"./prefab/MPBar":23}],7:[function(require,module,exports){
+},{"./config/HeroConfig":9,"./prefab/GameBanner":23,"./prefab/HPBar":24,"./prefab/MPBar":25}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2497,7 +2507,15 @@ var AdventDialog = function (_PaoYa$Dialog) {
     }, {
         key: 'rejectHandler',
         value: function rejectHandler() {
-            console.log('\u5C11\u4E00\u4E8B');
+            var _this5 = this;
+
+            console.log('\u653E\u5F03\u5947\u9047');
+            PaoYa.Request.POST('martial_encounter_cancel', {}, function () {
+                _this5.close();
+                if (PaoYa.navigator.scenes.length > 1) {
+                    PaoYa.navigator.popup('/dialog/adventDialog', _this5.params);
+                }
+            });
         }
     }]);
 
@@ -2506,7 +2524,130 @@ var AdventDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventDialog;
 
-},{"../prefab/WeaponBar":29}],11:[function(require,module,exports){
+},{"../prefab/WeaponBar":31}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AdventureDialog5 = function (_PaoYa$Dialog) {
+    _inherits(AdventureDialog5, _PaoYa$Dialog);
+
+    function AdventureDialog5() {
+        _classCallCheck(this, AdventureDialog5);
+
+        return _possibleConstructorReturn(this, (AdventureDialog5.__proto__ || Object.getPrototypeOf(AdventureDialog5)).call(this));
+    }
+
+    _createClass(AdventureDialog5, [{
+        key: 'onAwake',
+        value: function onAwake() {
+            this.autoDestroyAtClosed = true;
+            this.isPlaying = false;
+            var _this = this;
+
+            var type = this.params.type;
+            var advent = {
+                type: 5,
+                detail: '\u76F8\u4F20\u771F\u795E\u5E94\u9F99\u66FE\u86F0\u5C45\u5728\u540E\u5C71\uFF0C\u5E76\u5728\u6B64\u7559\u4E0B\u4E86\u8BB8\u591A\u73CD\u5B9D\uFF0C\u4E0D\u5982\u6709\u7A7A\u7684\u65F6\u5019\u53BB\u770B\u770B\uFF0C\u8BF4\u4E0D\u5B9Aji',
+                agreeText: '\u5F00\u59CB\u5BFB\u5B9D',
+                rejectText: '\u4EFB\u6027\u79BB\u5F00'
+            };
+
+            this.lblDetail.text = advent.detail;
+            this.initFont(advent);
+            this.on(Laya.Event.CLICK, this, this.clickHandler);
+        }
+    }, {
+        key: 'clickHandler',
+        value: function clickHandler(e) {
+            if (this.isPlaying) {
+                return;
+            }
+            switch (e.target.name) {
+                case 'btnAgree':
+                    this.agreeHandler();
+                    break;
+                case 'btnReject':
+                    this.rejectHandler();
+                    break;
+                case 'closeT':
+                    this.closeHandler();
+                    break;
+            }
+        }
+    }, {
+        key: 'closeHandler',
+        value: function closeHandler() {}
+    }, {
+        key: 'agreeHandler',
+        value: function agreeHandler() {
+            var _this3 = this;
+
+            this.isPlaying = true;
+            var _this = this;
+            console.log('\u8FDB\u5165\u5947\u9047');
+            var huntSK = new Laya.Skeleton();
+
+            huntSK.load('spine/hunt/hunt.sk', Laya.Handler.create(this, function (res) {
+                _this3.spHunt.visible = false;
+                huntSK.playbackRate(1.5);
+                huntSK.play('hunt', false);
+            }));
+            huntSK.pos(0, 0);
+            huntSK.on(Laya.Event.STOPPED, this, this.stopHandler);
+            this.map.addChild(huntSK);
+        }
+    }, {
+        key: 'rejectHandler',
+        value: function rejectHandler() {
+            var _this4 = this;
+
+            PaoYa.Request.POST('martial_encounter_cancel', {}, function () {
+                _this4.close();
+                if (PaoYa.navigator.scenes.length > 1) {
+                    PaoYa.navigator.popup('/dialog/adventDialog', _this4.params);
+                }
+            });
+        }
+    }, {
+        key: 'stopHandler',
+        value: function stopHandler() {
+            var _this5 = this;
+
+            this.isPlaying = false;
+            PaoYa.Request.POST('martial_encounter_start', {}, function (res) {
+                _this5.params.state = 'wait';
+                _this5.params.time = res.time;
+                PaoYa.navigator.popup('/dialog/AdventResultDialog5', _this5.params);
+            });
+        }
+    }, {
+        key: 'initFont',
+        value: function initFont(advent) {
+            this.detailTxt.font = 'adventure';
+            this.lblAgree.text = advent.agreeText;
+            this.lblReject.text = advent.rejectText;
+            this.lblAgree.font = 'adventure';
+            this.lblReject.font = 'adventure';
+        }
+    }]);
+
+    return AdventureDialog5;
+}(PaoYa.Dialog);
+
+exports.default = AdventureDialog5;
+
+},{}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2679,7 +2820,181 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog;
 
-},{"../GameControl":4,"../prefab/WeaponBar":29}],12:[function(require,module,exports){
+},{"../GameControl":4,"../prefab/WeaponBar":31}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _AlertDialog = require('./AlertDialog');
+
+var _AlertDialog3 = _interopRequireDefault(_AlertDialog);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AdventResultDialog5 = function (_PaoYa$Dialog) {
+    _inherits(AdventResultDialog5, _PaoYa$Dialog);
+
+    function AdventResultDialog5() {
+        _classCallCheck(this, AdventResultDialog5);
+
+        return _possibleConstructorReturn(this, (AdventResultDialog5.__proto__ || Object.getPrototypeOf(AdventResultDialog5)).call(this));
+    }
+
+    _createClass(AdventResultDialog5, [{
+        key: 'onAwake',
+        value: function onAwake() {
+            var state = this.params.state;
+            var time = this.params.time;
+            if (state == 'wait') {
+                this.boxWait.visible = true;
+                this.lbl1.font = 'adventure';
+                this.lbl2.font = 'adventure';
+                this.lbl3.font = 'adventure';
+                this.startCount(time);
+            } else if (state == 'get') {
+                this.boxGet.visible = true;
+                this.lbl3.font = 'adventure';
+            }
+
+            this.on(Laya.Event.CLICK, this, this.clickHandler);
+        }
+    }, {
+        key: 'clickHandler',
+        value: function clickHandler(e) {
+            switch (e.target.name) {
+                case 'btnSure':
+                    this.sureHandler();
+                    break;
+                case 'btnVideo':
+                    this.videoHandler();
+                    break;
+            }
+        }
+    }, {
+        key: 'sureHandler',
+        value: function sureHandler() {
+            //分情况，在游戏结果促发后展示结果界面
+            this.close();
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/adventDialog', this.params);
+            }
+        }
+    }, {
+        key: 'videoHandler',
+        value: function videoHandler() {
+            var _this = this;
+            this.showGetState(); //测试
+            return;
+            //看视频
+            var params = {
+                onClose: function onClose(res) {
+                    if (res.isEnded) {
+                        console.log('\u770B\u5B8C\u5E7F\u544A');
+                        _this.showGetState();
+                        PaoYa.Request.POST('martial_encounter_finish', {
+                            result: 1,
+                            complete: 1
+                        }, function () {
+                            console.log('\u5947\u9047\u5B8C\u6210');
+                        });
+                    } else {
+                        var errorDialog = new _AlertDialog2.default({
+                            title: '\u6E29\u99A8\u63D0\u793A',
+                            message: '看完广告才可拥有哦~'
+                        });
+                        errorDialog.popup();
+                    }
+                },
+                onError: function onError(res) {
+                    var errorDialog = new _AlertDialog3.default({
+                        title: "温馨提示",
+                        message: res.message
+                    });
+                    errorDialog.popup();
+                }
+            };
+            PaoYa.RewardedVideoAd.show(params);
+        }
+    }, {
+        key: 'startCount',
+        value: function startCount(time) {
+            var _this3 = this;
+
+            var timeStamp = (time * 1000 - new Date().valueOf()) / 1000;
+            console.log(timeStamp);
+            var timerService = new PaoYa.TimerService(timeStamp, 1, false);
+            timerService.on(PaoYa.TimerService.PROGRESS, this, function (time) {
+
+                _this3.lblTime.text = time.formatTime('M:S') + "";
+            });
+            timerService.on(PaoYa.TimerService.STOP, this, function () {});
+            timerService.start();
+            this.timerService = timerService;
+        }
+    }, {
+        key: 'showGetState',
+        value: function showGetState() {
+            var _this4 = this;
+
+            var _this = this;
+            this.boxWait.visible = false;
+            this.boxGet.visible = true;
+            var rewardPromise = new Promise(function (resolve, reject) {
+                Laya.loader.create('gamescenes/prefab/RewardBig.json', Laya.Handler.create(_this4, function (json) {
+                    resolve(json);
+                }));
+            });
+            rewardPromise.then(function (json) {
+                _this.initReward(json);
+            });
+        }
+    }, {
+        key: 'initReward',
+        value: function initReward(json) {
+            if (this.params.diamond) {
+                var diamondView = this.createRewardBox(json);
+                diamondView.getChildByName('lblNum').scale(0.6, 0.6);
+                diamondView.getChildByName('lblNum').text = '\xD7 ' + this.params.diamond;
+                diamondView.getChildByName('lblNum').font = 'weaponNFontT';
+                diamondView.getChildByName('spBg').scale(1, 1);
+                this.hboxReward.addChild(diamondView);
+            }
+            if (this.params.gold) {
+                var goldView = this.createRewardBox(json);
+                goldView.getChildByName('lblNum').scale(0.6, 0.6);
+                goldView.getChildByName('lblNum').text = '\xD7 ' + this.params.gold;
+                goldView.getChildByName('lblNum').font = 'weaponNFontT';
+                goldView.getChildByName('spBg').scale(1, 1);
+                goldView.getChildByName('spReward').texture = 'local/common/icon.png';
+                this.hboxReward.addChild(goldView);
+            }
+        }
+    }, {
+        key: 'createRewardBox',
+        value: function createRewardBox(json) {
+            var rewardView = new Laya.Prefab();
+            rewardView.json = json;
+            var view = Laya.Pool.getItemByCreateFun('RewardView', rewardView.create, rewardView);
+            return view;
+        }
+    }]);
+
+    return AdventResultDialog5;
+}(PaoYa.Dialog);
+
+exports.default = AdventResultDialog5;
+
+},{"./AlertDialog":14}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2781,7 +3096,7 @@ var AlertDialog = function (_PaoYa$Dialog) {
 
 exports.default = AlertDialog;
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2885,7 +3200,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = BattleResultDialog;
 
-},{"../../scripts/common/HomeControl":32,"../SoundManager":7,"../config/HeroConfig":9}],14:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":34,"../SoundManager":7,"../config/HeroConfig":9}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3074,7 +3389,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = PassResultDialog;
 
-},{"../../scripts/common/HomeControl":32,"../GameControl":4,"../SoundManager":7,"../prefab/WeaponBar":29,"./AlertDialog":12}],15:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":34,"../GameControl":4,"../SoundManager":7,"../prefab/WeaponBar":31,"./AlertDialog":14}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3561,7 +3876,7 @@ var GameGuideControl = function (_GameControl) {
 
 exports.default = GameGuideControl;
 
-},{"../../scripts/common/HomeControl":32,"../GameControl":4,"../WeaponManager":8,"./SpeakMan":17}],16:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":34,"../GameControl":4,"../WeaponManager":8,"./SpeakMan":19}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4254,7 +4569,7 @@ exports.default = {
 	}
 };
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4357,7 +4672,7 @@ var SpeakMan = function (_PaoYa$Component) {
 
 exports.default = SpeakMan;
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4448,7 +4763,7 @@ exports.default = PreOpenView;
 
 PreOpenView.END = 'end';
 
-},{"../gameGuide/SpeakMan":17}],19:[function(require,module,exports){
+},{"../gameGuide/SpeakMan":19}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4535,7 +4850,7 @@ private function onComplete(obj:Object):Void{
   一个sprite = Pool.getItemByCreateFun("自己起一个名字", this.一个预设变量.create, this.一个预设变量);
 } */
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4658,7 +4973,7 @@ var Dodge = function (_PaoYa$Component) {
 
 exports.default = Dodge;
 
-},{"../GameControl":4}],21:[function(require,module,exports){
+},{"../GameControl":4}],23:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4749,7 +5064,7 @@ var GameBanner = function (_PaoYa$Component) {
 
 exports.default = GameBanner;
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4821,7 +5136,7 @@ var HPBar = function (_PaoYa$Component) {
 
 exports.default = HPBar;
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4938,7 +5253,7 @@ var MPBar = function (_PaoYa$Component) {
 
 exports.default = MPBar;
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5537,7 +5852,7 @@ var Player = function (_PaoYa$Component) {
 
 exports.default = Player;
 
-},{"../GameControl":4,"../config/HeroConfig":9}],25:[function(require,module,exports){
+},{"../GameControl":4,"../config/HeroConfig":9}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5623,7 +5938,7 @@ var PlayerSkill = function (_PaoYa$Component) {
 
 exports.default = PlayerSkill;
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5688,7 +6003,7 @@ var PlayerState = function (_PaoYa$Component) {
 
 exports.default = PlayerState;
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5843,7 +6158,7 @@ exports.default = Skill;
 
 Skill.CLICK = "skillClick";
 
-},{"../GameControl":4}],28:[function(require,module,exports){
+},{"../GameControl":4}],30:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6635,7 +6950,7 @@ var Weapon = function (_PaoYa$Component) {
 
 exports.default = Weapon;
 
-},{"../GameControl":4,"../SoundManager":7}],29:[function(require,module,exports){
+},{"../GameControl":4,"../SoundManager":7}],31:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6832,7 +7147,7 @@ exports.default = WeaponBar;
 
 WeaponBar.CLICK = "weanponBarClick";
 
-},{"../GameControl":4}],30:[function(require,module,exports){
+},{"../GameControl":4}],32:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6906,7 +7221,7 @@ var WeaponSkill = function (_PaoYa$Component) {
 
 exports.default = WeaponSkill;
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7008,7 +7323,7 @@ var GameMain = function (_PaoYa$Main) {
 
 exports.default = GameMain;
 
-},{"./Loading/LoadingView":34}],32:[function(require,module,exports){
+},{"./Loading/LoadingView":36}],34:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7105,14 +7420,17 @@ var HomeControl = function (_PaoYa$Component) {
             this.onNotification('roleIdChanged', this, function (roleId) {
                 if (name != roleId) {
                     name = roleId;
+                    PaoYa.DataCenter.user.defaultRoleId = roleId;
                     var templet = _HeroConfig2.default.spineMap["hero_" + name].templet;
                     _this3.player.init(templet, 0);
                 }
             });
             //奇遇入口和结果弹框测试
-            /*    Laya.timer.once(2000,this,()=>{
-                 this.navigator.popup('/dialog/AdventResultDialog');
-             })   */
+            Laya.timer.once(2000, this, function () {
+                _this3.GET("martial_encounter_detail", {}, function (res) {
+                    _this3.navigator.popup('/dialog/AdventDialog5', res);
+                });
+            });
         }
     }, {
         key: "onEnable",
@@ -7603,7 +7921,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":12,"../../gamescripts/gameGuide/GameGuideData":16,"../../gamescripts/gameGuide/SpeakMan":17,"../../gamescripts/preOpen/preOpenManager":19,"./tool/Global":49}],33:[function(require,module,exports){
+},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":14,"../../gamescripts/gameGuide/GameGuideData":18,"../../gamescripts/gameGuide/SpeakMan":19,"../../gamescripts/preOpen/preOpenManager":21,"./tool/Global":51}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7669,7 +7987,7 @@ var LoadingControl = function (_PaoYa$Component) {
 
 exports.default = LoadingControl;
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7732,7 +8050,7 @@ var LoadingView = function (_PaoYa$View) {
 
 exports.default = LoadingView;
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7828,7 +8146,7 @@ var MatchControl = function (_PaoYa$Component) {
 
 exports.default = MatchControl;
 
-},{"../../../gamescripts/prefab/GameBanner":21}],36:[function(require,module,exports){
+},{"../../../gamescripts/prefab/GameBanner":23}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7961,7 +8279,7 @@ var MatchView = function (_PaoYa$View) {
 
 exports.default = MatchView;
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8138,7 +8456,7 @@ var Grading = function (_PaoYa$View) {
 
 exports.default = Grading;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"./GradingControl":38}],38:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"./GradingControl":40}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8188,7 +8506,7 @@ var GradingControl = function (_PaoYa$Component) {
 
 exports.default = GradingControl;
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8617,7 +8935,7 @@ var Swordsman = function (_PaoYa$View) {
 
 exports.default = Swordsman;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":49,"./SwordsmanControl":40}],40:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51,"./SwordsmanControl":42}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8739,7 +9057,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
 
 exports.default = SwordsmanControl;
 
-},{"../../../gamescripts/SoundManager":7}],41:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8996,7 +9314,7 @@ var Devour = function (_PaoYa$View) {
 
 exports.default = Devour;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":49,"./DevourControl":42,"./Refining":43,"./RefiningControl":44}],42:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./DevourControl":44,"./Refining":45,"./RefiningControl":46}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9377,7 +9695,7 @@ var DevourControl = function (_PaoYa$Component) {
 
 exports.default = DevourControl;
 
-},{"../../../gamescripts/SoundManager":7,"./Refining":43,"./RefiningControl":44}],43:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./Refining":45,"./RefiningControl":46}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9514,7 +9832,7 @@ var Refining = function (_PaoYa$View) {
 
 exports.default = Refining;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":49,"./Devour":41,"./DevourControl":42,"./RefiningControl":44}],44:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./Devour":43,"./DevourControl":44,"./RefiningControl":46}],46:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9671,7 +9989,7 @@ var RefiningControl = function (_PaoYa$Component) {
 
 exports.default = RefiningControl;
 
-},{"../../../gamescripts/SoundManager":7,"./Devour":41}],45:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./Devour":43}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9828,7 +10146,7 @@ var Sign = function (_PaoYa$View) {
 
 exports.default = Sign;
 
-},{"../../../gamescripts/SoundManager":7,"./SignControl":46}],46:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./SignControl":48}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9902,7 +10220,7 @@ var SignControl = function (_PaoYa$Component) {
 
 exports.default = SignControl;
 
-},{"../HomeControl":32,"../figure/Swordsman":39}],47:[function(require,module,exports){
+},{"../HomeControl":34,"../figure/Swordsman":41}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10029,7 +10347,7 @@ var WeaponList = function (_PaoYa$View) {
 
 exports.default = WeaponList;
 
-},{"../../../gamescripts/SoundManager":7,"./WeaponListControl":48}],48:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./WeaponListControl":50}],50:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10260,7 +10578,7 @@ var WeaponListControl = function (_PaoYa$Component) {
 
 exports.default = WeaponListControl;
 
-},{"../../../gamescripts/SoundManager":7}],49:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10539,7 +10857,7 @@ var Global = {
 
 exports.Global = Global;
 
-},{}],50:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10773,7 +11091,7 @@ var Tool = function () {
 
 exports.default = Tool;
 
-},{"./Global":49}],51:[function(require,module,exports){
+},{"./Global":51}],53:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11029,7 +11347,7 @@ var WeaponHouse = function (_PaoYa$View) {
 
 exports.default = WeaponHouse;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":49,"./WeaponHouseControl":52}],52:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./WeaponHouseControl":54}],54:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11720,7 +12038,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 
 exports.default = WeaponHouseControl;
 
-},{"../../../gamescripts/SoundManager":7}],53:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11951,7 +12269,7 @@ var WeaponStore = function (_PaoYa$View) {
 
 exports.default = WeaponStore;
 
-},{"../../../gamescripts/SoundManager":7,"./WeaponStoreControl":54}],54:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./WeaponStoreControl":56}],56:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12533,7 +12851,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
 
 exports.default = WeaponStoreControl;
 
-},{"../../../gamescripts/SoundManager":7}],55:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12720,7 +13038,7 @@ var Wheel = function (_PaoYa$View) {
 
 exports.default = Wheel;
 
-},{"../../../gamescripts/SoundManager":7,"./WheelControl":56}],56:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./WheelControl":58}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12831,7 +13149,7 @@ var WheelControl = function (_PaoYa$Component) {
 
 exports.default = WheelControl;
 
-},{"../../../gamescripts/SoundManager":7}],57:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13007,7 +13325,7 @@ var Award = function (_PaoYa$Dialog) {
 
 exports.default = Award;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":45,"../../common/wheel/Wheel":55,"../../common/wheel/WheelControl":56}],58:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":47,"../../common/wheel/Wheel":57,"../../common/wheel/WheelControl":58}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13080,7 +13398,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
 
 exports.default = BuyWheelTimes;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":32,"../../common/wheel/WheelControl":56}],59:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/wheel/WheelControl":58}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13186,7 +13504,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7}],60:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13451,7 +13769,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":32,"../../common/wheel/Wheel":55}],61:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/wheel/Wheel":57}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13557,7 +13875,7 @@ var BuyHero = function (_PaoYa$Dialog) {
 
 exports.default = BuyHero;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/figure/Swordsman":39,"../../common/figure/SwordsmanControl":40}],62:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/figure/Swordsman":41,"../../common/figure/SwordsmanControl":42}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13630,7 +13948,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{"../../../gamescripts/SoundManager":7}],63:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13701,7 +14019,7 @@ var SkillDetail = function (_PaoYa$Dialog) {
 
 exports.default = SkillDetail;
 
-},{"../../../gamescripts/SoundManager":7}],64:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13804,7 +14122,7 @@ var Canlock = function (_PaoYa$Dialog) {
 
 exports.default = Canlock;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/refiner/RefiningControl":44}],65:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/refiner/RefiningControl":46}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13872,7 +14190,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
 exports.default = DiamondLack;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":32}],66:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13945,7 +14263,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":32}],67:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14088,7 +14406,7 @@ var StoreSure = function (_PaoYa$Dialog) {
 
 exports.default = StoreSure;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/refiner/DevourControl":42,"../../common/weapon/WeaponStoreControl":54}],68:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/refiner/DevourControl":44,"../../common/weapon/WeaponStoreControl":56}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14157,7 +14475,7 @@ var UnlockFifth = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFifth;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/tool/Tool":50}],69:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/tool/Tool":52}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14239,7 +14557,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFour;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":32,"../../common/weapon/WeaponHouseControl":52}],70:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/weapon/WeaponHouseControl":54}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14300,7 +14618,7 @@ var UnlockTips = function (_PaoYa$Dialog) {
 
 exports.default = UnlockTips;
 
-},{"../../../gamescripts/SoundManager":7}],71:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

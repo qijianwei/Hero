@@ -46,14 +46,18 @@ export default class HomeControl extends PaoYa.Component {
         this.onNotification('roleIdChanged', this, roleId => {
             if (name != roleId) {
                 name = roleId;
+                PaoYa.DataCenter.user.defaultRoleId=roleId;
                 let templet = HeroConfig.spineMap[`hero_` + name].templet;
                 this.player.init(templet, 0);
             }
         });
         //奇遇入口和结果弹框测试
-       /*    Laya.timer.once(2000,this,()=>{
-            this.navigator.popup('/dialog/AdventResultDialog');
-        })   */
+           Laya.timer.once(2000,this,()=>{
+               this.GET(`martial_encounter_detail`,{},(res)=>{
+                this.navigator.popup('/dialog/AdventDialog5',res);
+               })
+           
+        })   
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {

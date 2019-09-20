@@ -42,6 +42,7 @@ export default class AdventResultDialog extends PaoYa.Dialog {
     sureHandler(){
         console.log(`确认....`)
         this.close();
+        PaoYa.navigator.popToRootScene();
     }
     rejectHandler(){
         console.log(`走人撒`);
@@ -49,12 +50,10 @@ export default class AdventResultDialog extends PaoYa.Dialog {
             result:this.params.result,
             complete:1
         }, (res) => {
-            PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
-            Laya.MouseManager.enabled = true;
-            res.result = loserIsSelf ? -1 : 1;
-            this.navigator.popup('/dialog/adventResultDialog', res);
+           console.log(``)
         })
         this.close();
+        PaoYa.navigator.popToRootScene();
     }
     shareHandler(){
         console.log(`分享复活`);
@@ -74,6 +73,30 @@ export default class AdventResultDialog extends PaoYa.Dialog {
     }
     videoHandler(){
         console.log(`看广告复活`);
+        let _this=this;
+        var params = {
+            onClose: function onClose(res) {
+                if (res.isEnded) {
+                    console.log(`看完广告`)
+                    _this.close();
+                    GameControl.instance.revive(); //复活
+                } else {
+                    var errorDialog = new _AlertDialog2.default({
+                        title: `温馨提示`,
+                        message: '看完广告才可复活哦~'
+                    });
+                    errorDialog.popup();
+                }
+            },
+            onError: function onError(res) {
+                var errorDialog = new AlertDialog({
+                    title: "温馨提示",
+                    message: res.message
+                });
+                errorDialog.popup();
+            }
+        };
+        PaoYa.RewardedVideoAd.show(params);
     }
     dealType1(result){
        if(result==1){

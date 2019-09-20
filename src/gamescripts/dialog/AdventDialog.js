@@ -133,6 +133,12 @@ export default class AdventDialog extends PaoYa.Dialog {
         })
     }
     rejectHandler() {
-        console.log(`少一事`)
+        console.log(`放弃奇遇`)
+        PaoYa.Request.POST(`martial_encounter_cancel`,{},()=>{
+            this.close();
+            if(PaoYa.navigator.scenes.length>1){
+                PaoYa.navigator.popup('/dialog/adventDialog', this.params)
+            }
+        })
     }
 }
