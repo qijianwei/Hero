@@ -21,7 +21,8 @@ export class Main extends GameMain {
 			debug: config.debug,
 			ignoreCmds: ['defeated', 'message'],
 			showBannerAdWhenDialogPopup: false,
-			adUnitId: 'adunit-7860aaf8ed04aeb2',
+			adUnitId: 'adunit-f54386c29a35dd95',
+			interstitialUnitId:'adunit-92a0cb233fbbaacb',
 			bannerUnitId: 'adunit-4bec7f17587df319', //bannerID
 			portrait:false,
 			loadNetworkRes: true,

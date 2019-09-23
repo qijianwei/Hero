@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":20,
-    "selecteID":25,
+    "selectedBox":19,
+    "selecteID":31,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/wheel/Wheel.js","height":750},
     "nodeParent":-1,
-    "maxID":141,
+    "maxID":142,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -74,7 +74,7 @@
                     "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,addbtn",
-                    "props":{"y":503,"x":404,"var":"addbtn","texture":"remote/wheel/4.png"},
+                    "props":{"y":503,"x":404,"visible":false,"var":"addbtn","texture":"remote/wheel/4.png"},
                     "nodeParent":19,
                     "label":"addbtn",
                     "isDirectory":false,
@@ -98,9 +98,10 @@
                     "compId":32,
                     "child":[
                         {
+                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,startWheelTxt",
-                            "props":{"y":0,"x":0,"var":"startWheelTxt","text":"抽奖"},
+                            "props":{"y":0,"var":"startWheelTxt","text":"抽奖"},
                             "nodeParent":32,
                             "label":"startWheelTxt",
                             "isDirectory":false,
@@ -111,6 +112,20 @@
                                 ]
                         }],
                     "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,video",
+                    "props":{"y":561.5,"x":211,"visible":false,"var":"video","texture":"local/common/sp.png"},
+                    "nodeParent":19,
+                    "label":"video",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":141,
+                    "child":[
+                        ]
                 }],
             "$HIDDEN":false
         },
@@ -121,14 +136,13 @@
             "props":{"y":0,"x":0,"var":"currencyBg"},
             "nodeParent":2,
             "label":"currencyBg",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":20,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":22,"x":584,"texture":"local/common/currencyBg.png"},
@@ -142,7 +156,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":20.5,"x":345,"texture":"local/common/currencyBg.png"},
@@ -156,7 +169,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":16,"x":324,"texture":"local/common/icon.png"},
@@ -170,7 +182,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":17,"x":563,"texture":"local/common/diamond.png"},
@@ -184,7 +195,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,goldNum",
                     "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
@@ -198,7 +208,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,diamondNum",
                     "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},

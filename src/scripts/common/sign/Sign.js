@@ -1,5 +1,6 @@
 import SignControl from "./SignControl";
 import SoundManager from "../../../gamescripts/SoundManager";
+import Tool from "../tool/Tool";
 
 export default class Sign extends PaoYa.View {
     constructor() {
@@ -31,12 +32,14 @@ export default class Sign extends PaoYa.View {
         if (this.params.status) {
             this.showtips.visible = true
             this.showBtn.visible = false
+            this.video.visible = false
 
             this.tips.font = `figureDetail`
             this.tips.scale(0.8, 0.8)
         } else {
             this.showtips.visible = false
             this.showBtn.visible = true
+            this.video.visible = true
 
             this.eatTxt.font = `weaponDFont`
             this.eatTxt.scale(0.6, 0.6)
@@ -48,8 +51,11 @@ export default class Sign extends PaoYa.View {
                     return
                 }
                 SoundManager.ins.btn()
-                let title = PaoYa.DataCenter.config.game.share_list.randomItem;
-                PaoYa.ShareManager.shareTitle(title, {}, () => {
+                // let title = PaoYa.DataCenter.config.game.share_list.randomItem;
+                // PaoYa.ShareManager.shareTitle(title, {}, () => {
+                //     SignControl.ins.getAward()
+                // })
+                Tool.showVideoAD(()=>{
                     SignControl.ins.getAward()
                 })
             })

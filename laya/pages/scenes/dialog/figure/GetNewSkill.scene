@@ -2,11 +2,11 @@
     "x":0,
     "type":"Dialog",
     "selectedBox":2,
-    "selecteID":3,
+    "selecteID":24,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/dialog/figure/GetNewSkill.js","height":750},
     "nodeParent":-1,
-    "maxID":24,
+    "maxID":25,
     "label":"Dialog",
     "isOpen":true,
     "isDirectory":true,
@@ -36,14 +36,13 @@
             "props":{"y":92,"x":443,"width":450,"skin":"local/common/bg3.png","sizeGrid":"50,59,46,308","height":571},
             "nodeParent":2,
             "label":"Image",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":15,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":133,"x":59,"texture":"local/common/fontBg.png"},
@@ -59,7 +58,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,skillName",
                     "props":{"y":122,"x":0,"var":"skillName"},
@@ -70,7 +68,8 @@
                     "hasChild":false,
                     "compId":20,
                     "child":[
-                        ]
+                        ],
+                    "$HIDDEN":false
                 }],
             "$HIDDEN":false
         },

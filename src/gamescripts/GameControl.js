@@ -64,13 +64,14 @@ export default class GameControl extends PaoYa.Component {
     }
     //切后台退出游戏，要加些处理，技能2要在下一个怪出现时关掉
     onHide(){
-          if(!this.closeRobot){
+          if(!this.closeRobot&&!this.hasInterstitialAd){
               this.manager&&(this.manager.view.visible=false);
               this.navigator.popToRootScene();
           }
       } 
     //游戏重新开始
     restart() {
+        let _this=this;
         this.showMaskAni();
         this.gameState = 'start';
         this.selfMultiMP = 1; //兵器造成的内力消耗倍数
@@ -99,6 +100,24 @@ export default class GameControl extends PaoYa.Component {
             })
         }
         this.resetPlayerInfo();
+        
+        var adParams = {
+                onClose: function onClose(res) {
+                   _this.beforeGame()
+                },
+                onError: function onError(res) {
+                   _this.hasInterstitialAd=false;
+                   _this.beforeGame()
+                }
+            };
+        this.hasInterstitialAd=true;
+        PaoYa.InterstitialAd.show(adParams);
+       
+   
+       
+       
+    }
+    beforeGame(){
         if(this.params.stage){
             let manager=new PreOpenManager(()=>{
                 manager.start(this.params.stage)
@@ -110,10 +129,9 @@ export default class GameControl extends PaoYa.Component {
         }else{
             //要加机器人定时器
             if (!this.closeRobot) {
-               Laya.timer.once(3000, this, this.firstWeaponSelect);
+               Laya.timer.once(2000, this, this.firstWeaponSelect);
             }
         }
-       
     }
     showMaskAni() {
         let maskArea = new Laya.Sprite();
@@ -906,7 +924,12 @@ export default class GameControl extends PaoYa.Component {
                         PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;         
                         this.navigator.popup('/dialog/PassResultDialog', res);
                     }else{
-                        this.navigator.popup('/dialog/adventDialog', res);
+                        if(res.encounter.type==1||res.encounter.type==5){
+                            this.navigator.popup('/dialog/adventDialog', res);
+                        }else{
+                            this.navigator.popup('/dialog/adventDialog5', res);
+                        }
+                      
                     }
                 })
             }else if(this.gameType==`adventure`){

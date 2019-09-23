@@ -19,7 +19,7 @@ export default class GameView extends PaoYa.View{
       sceneSK.load(`spine/scene/scene1.sk`,Laya.Handler.create(this,(res)=>{
         
         sceneSK.play('stand', true);
-        console.log(sceneSK._templet) 
+      //  console.log(sceneSK._templet) 
       }))
       this.sceneSK=sceneSK;
       this.scenePoint.addChild(sceneSK);  

@@ -20,9 +20,16 @@ export default class Wheel extends PaoYa.View {
         this.num.pos(363, 508)
         this.num.scale(1.2, 1.2)
 
-        this.startWheelTxt.font = `weaponDFont`
-        this.startWheelTxt.scale(0.8, 0.8)
-        this.startWheelTxt.pos(60, 10)
+        if (PaoYa.DataCenter.user.wheelTimes == 0) {
+            this.video.visible = true
+            this.startWheelTxt.font = `weaponDFont`
+            this.startWheelTxt.scale(0.8, 0.8)
+            this.startWheelTxt.pos(90, 10)
+        } else {
+            this.startWheelTxt.font = `weaponDFont`
+            this.startWheelTxt.scale(0.8, 0.8)
+            this.startWheelTxt.pos(60, 10)
+        }
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
             if (this.isRunning) {
@@ -74,7 +81,7 @@ export default class Wheel extends PaoYa.View {
                 this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
             }
 
-            if (res.diamond||res.diamond==0) {
+            if (res.diamond || res.diamond == 0) {
                 PaoYa.DataCenter.user.diamond = res.diamond
                 let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
                 this.diamondNum.text = diamondnum

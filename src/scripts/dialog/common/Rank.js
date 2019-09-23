@@ -41,7 +41,7 @@ export default class Task extends PaoYa.Dialog {
         let award1 = cell.getChildByName(`award1`)
         let award2 = cell.getChildByName(`award2`)
 
-        name.text = cell.dataSource.member_nick
+        name.text = PaoYa.Utils.formatName(cell.dataSource.member_nick)
         let num1 = cell.dataSource.score % 1000
         let num2 = cell.dataSource.score / 1000 | 0
         rankdetail.text = `${PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName}×${num1}`

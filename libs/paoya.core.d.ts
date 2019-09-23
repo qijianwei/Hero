@@ -109,6 +109,7 @@ interface UserInfo {
     gold: number
     rmb: string
     integral: number
+    diamond:number
     nickname: string
     id: number
     avstar: string
@@ -244,8 +245,12 @@ declare interface GameConfig {
     /**是否从网络获取资源 */
     loadNetworkRes: boolean
     /**广告ID */
-    adUnitId:string
-    qqViewId:number
+    adUnitId: string
+    bannerUnitId: string
+    interstitialUnitId:string
+    adUnitIdLong:string
+    qqViewId: number
+    showBannerAdWhenDialogPopup: boolean
 }
 
 declare module PaoYa {
@@ -293,6 +298,8 @@ declare module PaoYa {
         static CDNURL: string;
         static videoAd: any;
         static isShare: boolean;
+        /**游戏开始时间 */
+        static gameStartTime: number
         /**用户金币数变更监听 */
         static gold: Observer
         /**用户提现变更监听 */
@@ -358,11 +365,11 @@ declare module PaoYa {
         share(title: string, image: string, query: object | Function, success?: Function, fail?: Function): void
         /**分享方法，可以不用传入图片，图片将从 ShareManager.imageURL 获取 */
         shareTitle(title: any, query: any, success: any, fail?: any): void
-
+        shareDefault(query: any, success?: any, fail?: any): void
         /**显示激励广告 */
         showRewardedVideoAd(params)
         /**显示Banner广告 */
-        showBannerAd(params) 
+        showBannerAd(params)
 
         /**进入前台时执行，由游戏事件分发主动调用 */
         onShow(res)
@@ -395,7 +402,7 @@ declare module PaoYa {
         setupJSONView()
     }
     class Dialog extends Laya.Dialog {
-
+        showBannerAdWhenDialogPopup: boolean
     }
     class LoginService {
         static token: string
@@ -554,6 +561,8 @@ declare module PaoYa {
     class ShareManager {
         /**分享的图片地址，可以是本地图片，也可以是网络图片 */
         static imageURL: string;
+        /**分享的图片地址，可以高度自定义 */
+        static makeShareImageURLHandler: () => string
         /**自定义方法处理分享的query，比如添加全局统一参数,返回的是个对象 */
         static makeQueryHandler: Function;
         /**是否验证群ID */
@@ -790,7 +799,7 @@ declare module PaoYa {
          *      ...其余参数请参考BannerAd构造方法中的参数
          * }
          */
-        static show(params):BannerAd
+        static show(params): BannerAd
         /**隐藏指定广告 */
         static hide(bannerAd)
         /**销毁指定广告 */
@@ -804,7 +813,7 @@ declare module PaoYa {
         /**广告关闭事件名称 */
         static CLOSE
 
-        constructor(params?:any)
+        constructor(params?: any)
         /**
          * 
          * @param params 
@@ -813,7 +822,8 @@ declare module PaoYa {
          *      onError  //广告加载失败时调用
          *      onClose  //广告关闭时调用
          * }
+         * @param isLong 是否需要30秒广告，默认false
          */
-        static show(params)
+        static show(params,isLong)
     }
 }

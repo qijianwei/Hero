@@ -1,4 +1,5 @@
 import SoundManager from "../../../gamescripts/SoundManager";
+import Tool from "../tool/Tool";
 
 export default class WheelControl extends PaoYa.Component {
     constructor() {
@@ -19,10 +20,10 @@ export default class WheelControl extends PaoYa.Component {
     }
 
     addTimesD() {
-        if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text)) {
-            this.navigator.popup("common/BuyWheelTimes", 1);
-            return
-        }
+        // if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text)) {
+        //     this.navigator.popup("common/BuyWheelTimes", 1);
+        //     return
+        // }
 
         this.POST("martial_wheel_times_buy", {}, res => {
             if (!res) {
@@ -37,7 +38,14 @@ export default class WheelControl extends PaoYa.Component {
     wheelTurn() {
         if (this.owner.num.text < 1) {
             SoundManager.ins.btn()
-            this.navigator.popup("common/BuyWheelTimes");
+            // this.navigator.popup("common/BuyWheelTimes");
+            Tool.showVideoAD(() => {
+                this.addTimesD()
+                this.owner.video.visible = false
+                this.startWheelTxt.font = `weaponDFont`
+                this.startWheelTxt.scale(0.8, 0.8)
+                this.owner.startWheelTxt.pos(60, 10)
+            })
             return
         }
 
@@ -48,6 +56,12 @@ export default class WheelControl extends PaoYa.Component {
             }
             SoundManager.ins.round()
             this.owner.num.text = res.wheelTimes
+            if (res.wheelTimes == 0) {
+                this.owner.video.visible = true
+                this.owner.startWheelTxt.font = `weaponDFont`
+                this.owner.startWheelTxt.scale(0.8, 0.8)
+                this.owner.startWheelTxt.pos(90, 10)
+            }
             PaoYa.DataCenter.user.wheelTimes = res.wheelTimes
             let rat = 0
             PaoYa.DataCenter.user.config_list.hero.wheelList.forEach((element, index) => {

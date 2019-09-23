@@ -219,13 +219,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(16);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BannerAd", function() { return _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_26__["default"]; });
 
-/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(35);
-/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_27___default = /*#__PURE__*/__webpack_require__.n(_utils_Array__WEBPACK_IMPORTED_MODULE_27__);
-/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(36);
-/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_28___default = /*#__PURE__*/__webpack_require__.n(_utils_Date__WEBPACK_IMPORTED_MODULE_28__);
-/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(37);
-/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(_utils_Number__WEBPACK_IMPORTED_MODULE_29__);
-/* harmony import */ var _laya_laya__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(38);
+/* harmony import */ var _wx_ad_interstitialAd__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(35);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "InterstitialAd", function() { return _wx_ad_interstitialAd__WEBPACK_IMPORTED_MODULE_27__["default"]; });
+
+/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(36);
+/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_28___default = /*#__PURE__*/__webpack_require__.n(_utils_Array__WEBPACK_IMPORTED_MODULE_28__);
+/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(37);
+/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(_utils_Date__WEBPACK_IMPORTED_MODULE_29__);
+/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(38);
+/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_30___default = /*#__PURE__*/__webpack_require__.n(_utils_Number__WEBPACK_IMPORTED_MODULE_30__);
+/* harmony import */ var _laya_laya__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(39);
+
 
 
 
@@ -2137,13 +2141,20 @@ var RewardedVideoAd = /** @class */ (function (_super) {
             }
         }
     };
-    RewardedVideoAd.show = function (params) {
+    RewardedVideoAd.show = function (params, isLong) {
         if (window['wx'] && !_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId) {
             console.error('请在Main中设置adUnitId之后再观看广告');
             return;
         }
-        if (!this.ad) {
-            this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId });
+        if (isLong == undefined || !isLong) {
+            if (!this.ad) {
+                this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId });
+            }
+        }
+        else {
+            if (!this.ad) {
+                this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitIdLong });
+            }
         }
         var ad = this.ad;
         ad.offAllCaller(this);
@@ -3288,6 +3299,7 @@ var Main = /** @class */ (function (_super) {
         }
         var login = function (suc) {
             _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在登录...');
+            _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hideProgress();
             _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].login(suc, function () {
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('提示', '登录失败', '重试', function () {
                     login(suc);
@@ -3555,9 +3567,11 @@ var Game = /** @class */ (function (_super) {
         }
         _this.initLaya();
         //初始化导航控制器
-        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://res.xingqiu123.com/" + _this.gameId + "/";
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/" + _this.gameId + "/";
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitId = params.adUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].bannerUnitId = params.bannerUnitId;
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].interstitialUnitId = params.interstitialUnitId;
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitIdLong = params.adUnitIdLong;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].qqViewId = params.qqViewId || 1003;
         _this.configNavigator();
         _this.setupConfig();
@@ -3665,7 +3679,7 @@ var Game = /** @class */ (function (_super) {
             if (Laya.URL['formatURLCopy']) {
                 url = Laya.URL['formatURLCopy'](url);
             }
-            if (_this.loadNetworkRes && url.indexOf('remote/') >= 0 && url.indexOf('http') < 0) {
+            if (_this.loadNetworkRes && (url.indexOf('remote/') >= 0 || url.indexOf('font/') >= 0) && url.indexOf('http') < 0) {
                 url = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL + url;
             }
             return url;
@@ -4373,6 +4387,107 @@ var AuthManager = /** @class */ (function () {
 
 /***/ }),
 /* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var InterstitialAd = /** @class */ (function (_super) {
+    __extends(InterstitialAd, _super);
+    function InterstitialAd(params) {
+        var _this_1 = _super.call(this) || this;
+        _this_1.isLoaded = false;
+        _this_1.createAd(params);
+        return _this_1;
+    }
+    InterstitialAd.prototype.createAd = function (params) {
+        var _this = this;
+        var interstitialAd = wx.createInterstitialAd({ adUnitId: params.adUnitId });
+        interstitialAd.onLoad(function (res) {
+            _this.isLoaded = true;
+            _this.event(InterstitialAd.LOAD, res);
+        });
+        interstitialAd.onError(function (res) {
+            _this.isLoaded = false;
+            if (window['BK']) {
+                res = {
+                    errMsg: res.msg,
+                    errCode: res.code
+                };
+            }
+            _this.event(InterstitialAd.ERROR, res);
+        });
+        interstitialAd.onClose(function (res) {
+            _this.isLoaded = false;
+            /**兼容微信低版本 */
+            if (!res) {
+                res = { isEnded: true };
+            }
+            _this.event(InterstitialAd.CLOSE, res);
+            _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionEnd();
+        });
+        this.interstitialAd = interstitialAd;
+    };
+    InterstitialAd.prototype.show = function () {
+        if (window['BK']) {
+            this.interstitialAd.show();
+        }
+        else {
+            if (this.isLoaded) {
+                this.interstitialAd.show();
+            }
+            else {
+                this.interstitialAd.load();
+                this.once(InterstitialAd.LOAD, this, function () {
+                    var _this_1 = this;
+                    this.interstitialAd.show().then(null, function (res) {
+                        _this_1.event(InterstitialAd.ERROR, res);
+                    });
+                });
+            }
+        }
+    };
+    InterstitialAd.show = function (params) {
+        if (window['wx'] && !_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].interstitialUnitId) {
+            console.error('请在Main中设置interstitialUnitId之后再观看广告');
+            return;
+        }
+        if (!this.ad) {
+            this.ad = new InterstitialAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].interstitialUnitId });
+        }
+        var ad = this.ad;
+        ad.offAllCaller(this);
+        ad.on(this.LOAD, this, params.onLoad);
+        ad.on(this.ERROR, this, params.onError);
+        ad.on(this.CLOSE, this, params.onClose);
+        _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionBegin();
+        ad.show();
+    };
+    InterstitialAd.LOAD = 'load_ad';
+    InterstitialAd.ERROR = 'error_ad';
+    InterstitialAd.CLOSE = 'close_ad';
+    InterstitialAd.ad = null;
+    return InterstitialAd;
+}(Laya.EventDispatcher));
+/* harmony default export */ __webpack_exports__["default"] = (InterstitialAd);
+
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports) {
 
 /**返回数组中最后一个元素，如果数组为空，返回null */
@@ -4401,7 +4516,7 @@ Object.defineProperty(Array.prototype, "randomItem", {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /**
@@ -4431,7 +4546,7 @@ Date.prototype.formatWithStyle = function (format) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 /**
@@ -4462,7 +4577,7 @@ Number.prototype.formatTime = function (format) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

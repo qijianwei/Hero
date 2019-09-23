@@ -75,8 +75,34 @@ export default class PassResultDialog extends PaoYa.Dialog{
                 }
             })
             warnDialog.popup();
+        }else{
+            this.showAD();//插片广告
         }
         
+    }
+    showAD(){
+        var params = {
+            onClose: function onClose(res) {
+                if (res.isEnded) {
+                    console.log(`看完广告`)
+                  
+                } else {
+                    var errorDialog = new _AlertDialog2.default({
+                        title: `温馨提示`,
+                        message: '看完广告才可拥有哦~'
+                    });
+                    errorDialog.popup();
+                }
+            },
+            onError: function onError(res) {
+                var errorDialog = new AlertDialog({
+                    title: "温馨提示",
+                    message: res.message
+                });
+                errorDialog.popup();
+            }
+        };
+        PaoYa.InterstitialAd.show(params);
     }
     clickHandler(){
         SoundManager.ins.btn();

@@ -382,7 +382,6 @@ export default class WeaponStoreControl extends PaoYa.Component {
                 this.owner.ware.visible = false
                 this.owner.ware.alpha = 1
             }));
-
         }));
 
         Laya.timer.once(100, this, () => {
