@@ -33,7 +33,7 @@ export default class GetAward extends PaoYa.Dialog {
                     this.close()
                     let obj = {
                         type: `sign`,
-                        detail: res
+                        detail: { gold: res.gold, isclose: 1 }
                     }
                     HomeControl.ins.navigator.popup("common/Award", obj);
                 })

@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":2,
-    "selecteID":57,
+    "selectedBox":65,
+    "selecteID":85,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/dialog/common/Task.js","height":750},
     "nodeParent":-1,
-    "maxID":85,
+    "maxID":86,
     "label":"Dialog",
     "isOpen":true,
     "isDirectory":true,
@@ -221,7 +221,7 @@
                             "x":45,
                             "type":"Text",
                             "searchKey":"Text,diamondNum",
-                            "props":{"y":23,"x":598,"width":70,"valign":"middle","text":"text","name":"diamondNum","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
+                            "props":{"y":23,"x":598,"width":70,"valign":"middle","name":"diamondNum","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
                             "nodeParent":65,
                             "label":"diamondNum",
                             "isDirectory":false,
@@ -258,7 +258,8 @@
                             "hasChild":false,
                             "compId":75,
                             "child":[
-                                ]
+                                ],
+                            "$HIDDEN":false
                         },
                         {
                             "x":45,
@@ -287,9 +288,23 @@
                             "compId":77,
                             "child":[
                                 ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite,sp",
+                            "props":{"y":11,"x":765,"visible":false,"texture":"local/common/sp.png","name":"sp"},
+                            "nodeParent":65,
+                            "label":"sp",
+                            "isDirectory":false,
+                            "isAniNode":false,
+                            "hasChild":false,
+                            "compId":85,
+                            "child":[
+                                ]
                         }]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
             "x":15,

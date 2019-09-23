@@ -2,6 +2,7 @@ import Sign from "../../common/sign/Sign";
 import WheelControl from "../../common/wheel/WheelControl";
 import SoundManager from "../../../gamescripts/SoundManager";
 import Wheel from "../../common/wheel/Wheel";
+import Tool from "../../common/tool/Tool";
 
 export default class Award extends PaoYa.Dialog {
 
@@ -42,10 +43,12 @@ export default class Award extends PaoYa.Dialog {
                 this.againTxt.pos(100, 15)
 
                 this.again.on(Laya.Event.CLICK, this, () => {
-                    this.close()
                     SoundManager.ins.btn()
-                    PaoYa.Request.POST('martial_adv_receive', { exchangeId: this.params.detail.wheel.id }, () => {
-                        Wheel.ins.changeDG()
+                    Tool.showVideoAD(() => {
+                        PaoYa.Request.POST('martial_adv_receive', { exchangeId: this.params.detail.wheel.id }, () => {
+                            Wheel.ins.changeDG()
+                            this.close()
+                        })
                     })
                 })
 
@@ -126,6 +129,9 @@ export default class Award extends PaoYa.Dialog {
     onClosed() {
         switch (this.params.type) {
             case `sign`:
+                if (this.params.detail.isclose) {
+                    return
+                }
                 Sign.ins.params.status++
                 Sign.ins.params.login_days++
                 Sign.ins.initInfo()

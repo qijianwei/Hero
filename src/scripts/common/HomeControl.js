@@ -41,22 +41,22 @@ export default class HomeControl extends PaoYa.Component {
         this.lblLadder.font = "weaponNFontT";
         this.lblLadder.scale(0.8, 0.8);
         this.lblLadder.text = HeroConfig.ladderArr[ladder];
-        PaoYa.DataCenter.user.ladderName= HeroConfig.ladderArr[ladder];
+        PaoYa.DataCenter.user.ladderName = HeroConfig.ladderArr[ladder];
         this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
         this.onNotification('roleIdChanged', this, roleId => {
             if (name != roleId) {
                 name = roleId;
-                PaoYa.DataCenter.user.defaultRoleId=roleId;
+                PaoYa.DataCenter.user.defaultRoleId = roleId;
                 let templet = HeroConfig.spineMap[`hero_` + name].templet;
                 this.player.init(templet, 0);
             }
         });
         //奇遇入口和结果弹框测试
-           /* Laya.timer.once(2000,this,()=>{
-               this.GET(`martial_encounter_detail`,{},(res)=>{
-                this.navigator.popup('/dialog/AdventDialog5',res);
-               }) 
-           })  */  
+        /* Laya.timer.once(2000,this,()=>{
+            this.GET(`martial_encounter_detail`,{},(res)=>{
+             this.navigator.popup('/dialog/AdventDialog5',res);
+            }) 
+        })  */
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
@@ -72,7 +72,7 @@ export default class HomeControl extends PaoYa.Component {
         } else {
             this.first = true;
         }
-        this.lblLadder.text =  PaoYa.DataCenter.user.ladderName;
+        this.lblLadder.text = PaoYa.DataCenter.user.ladderName;
         this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
         this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
     }
@@ -199,14 +199,17 @@ export default class HomeControl extends PaoYa.Component {
                 break;
             //设置
             case "btnTask":
-                this.GET("martial_task_list", {}, res => {
-                    //console.log(res)
-                    if (!res) {
-                        return
-                    }
-                    this.navigator.popup("common/Task", res);
+                // this.GET("martial_task_list", {}, res => {
+                //     //console.log(res)
+                //     if (!res) {
+                //         return
+                //     }
+                //     this.navigator.popup("common/Task", res);
+                // })
+                // console.log("任务")
+                this.GET(`martial_encounter_detail`, {}, (res) => {
+                    this.navigator.popup('adventure/ChangeWp', res);
                 })
-                console.log("任务")
                 break;
 
         }
@@ -253,7 +256,7 @@ export default class HomeControl extends PaoYa.Component {
     }
     goPassGame() {
         let _this = this;
-        this.POST("hero_game_start",{}, (res) => {
+        this.POST("hero_game_start", {}, (res) => {
             res.gameType = 'pass';
             this.navigator.push("GameView", res);
         }, (msg, code) => {

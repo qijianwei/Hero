@@ -114,8 +114,30 @@ export default class GameControl extends PaoYa.Component {
         PaoYa.InterstitialAd.show(adParams);
        
    
+       //测试
+       this.addDragon();
        
-       
+    }
+    addDragon(){
+        let dragonBg=new Laya.Sprite();
+        dragonBg.size(Laya.Browser.width,Laya.Browser.height);
+        this.owner.addChild(dragonBg);
+        let dragonAni=new Laya.Animation();
+        dragonAni.loadAnimation(`gamescenes/animations/hero4_skill1.ani`,Laya.Handler.create(this,(ani)=>{
+            console.log(dragonAni.width)
+            dragonAni.play(0,true);
+            Laya.timer.frameLoop(1,this,this.sportDragon);
+        }))
+        dragonAni.pos(-616,420);
+        this.dragonAni=dragonAni
+        dragonBg.addChild(dragonAni);
+        let maskSP =new Laya.Sprite();
+        maskSP.graphics.drawRect(230,0,880,750,'#ffffff')
+        dragonBg.mask=maskSP
+        
+    }
+    sportDragon(){
+        this.dragonAni.x+=15;
     }
     beforeGame(){
         if(this.params.stage){

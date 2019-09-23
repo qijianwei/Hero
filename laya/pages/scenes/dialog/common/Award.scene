@@ -2,11 +2,11 @@
     "x":0,
     "type":"Dialog",
     "selectedBox":2,
-    "selecteID":21,
+    "selecteID":17,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/dialog/common/Award.js","height":750},
     "nodeParent":-1,
-    "maxID":38,
+    "maxID":39,
     "label":"Dialog",
     "isOpen":true,
     "isDirectory":true,
@@ -33,7 +33,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite",
-            "props":{"y":0,"x":50,"texture":"remote/wheel/6.png"},
+            "props":{"y":0,"x":50,"texture":"local/common/fan.png"},
             "nodeParent":2,
             "label":"Sprite",
             "isDirectory":false,
@@ -260,7 +260,7 @@
                     "x":30,
                     "type":"Text",
                     "searchKey":"Text,noThankTxt",
-                    "props":{"var":"noThankTxt","text":"不了谢谢"},
+                    "props":{"var":"noThankTxt","text":"领取"},
                     "nodeParent":25,
                     "label":"noThankTxt",
                     "isDirectory":false,
@@ -269,13 +269,14 @@
                     "compId":26,
                     "child":[
                         ]
-                }]
+                }],
+            "$HIDDEN":true
         },
         {
             "x":15,
             "type":"Button",
             "searchKey":"Button,again",
-            "props":{"y":448,"x":578,"visible":false,"var":"again","stateNum":"1","skin":"local/common/btn_1.png","scaleY":0.8,"scaleX":0.8},
+            "props":{"y":480,"x":663,"width":280,"visible":false,"var":"again","stateNum":"1","skin":"local/common/btn_1.png","sizeGrid":"22,66,41,71","scaleY":0.8,"scaleX":0.8,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":2,
             "label":"again",
             "isOpen":true,
@@ -288,7 +289,7 @@
                     "x":30,
                     "type":"Text",
                     "searchKey":"Text,againTxt",
-                    "props":{"var":"againTxt","text":"再抽一次"},
+                    "props":{"var":"againTxt","text":"三倍领取"},
                     "nodeParent":27,
                     "label":"againTxt",
                     "isDirectory":false,
@@ -297,7 +298,23 @@
                     "compId":28,
                     "child":[
                         ]
-                }]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":7,"x":33,"texture":"local/common/sp.png"},
+                    "nodeParent":27,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":38,
+                    "child":[
+                        ]
+                }],
+            "$LOCKED":true,
+            "$HIDDEN":false
         }],
     "animations":[
         {

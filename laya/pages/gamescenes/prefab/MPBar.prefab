@@ -2,7 +2,6 @@
     "x":0,
     "type":"Box",
     "selectedBox":74,
-    "selecteID":76,
     "searchKey":"Box",
     "props":{"y":0,"x":0,"presetID":1,"preset":"laya/pages/gamescenes/prefab/MPBar.prefab","isPresetRoot":true},
     "nodeParent":-1,
@@ -21,13 +20,14 @@
             "props":{"skin":"remote/game/mp.png","presetID":2,"preset":"laya/pages/gamescenes/prefab/MPBar.prefab"},
             "nodeParent":74,
             "label":"Image(MPBar)",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":72,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":0,"x":0,"skin":"remote/game/mpMask.png","sizeGrid":"0,11,0,0","renderType":"mask","presetID":3,"preset":"laya/pages/gamescenes/prefab/MPBar.prefab"},

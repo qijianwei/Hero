@@ -190,7 +190,7 @@ export class Main extends GameMain {
 			'res/atlas/local/home.atlas',
 			'res/atlas/remote/guide.atlas',
 			'res/atlas/remote/grading.atlas',
-
+            'res/atlas/remote/hero_skill/hero4_skill1.atlas',
 			/* 场景 */
 			'spine/scene/scene1.png',
 			'spine/scene/scene1.sk',

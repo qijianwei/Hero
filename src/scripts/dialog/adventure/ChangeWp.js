@@ -40,9 +40,9 @@ export default class ChangeWp extends PaoYa.Dialog {
                 this.sellyWp()
             } else {
                 Tool.showVideoAD(() => {
-                this.params.weaponId = `video`
-                },null,null,1)
-                this.infoDetail()
+                    this.params.weaponId = `video`
+                    this.infoDetail()
+                }, null, null, 1)
             }
         })
     }
@@ -69,7 +69,7 @@ export default class ChangeWp extends PaoYa.Dialog {
 
     sellyWp() {
         // PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, res => { 
-            this.close()
+        this.close()
         // })
     }
 }
