@@ -8,7 +8,7 @@ export class Main extends GameMain {
 	constructor() {
 		var params = {
 			gameId: 1006,
-			baseURL: config.debug?"https://juedi001test.goxiaochengxu.cn/ServiceCore/":"https://juedi001.goxiaochengxu.cn/ServiceCore/",
+			baseURL: config.debug ? "https://juedi001test.goxiaochengxu.cn/ServiceCore/" : "https://juedi001.goxiaochengxu.cn/ServiceCore/",
 			zone: "cate",
 			showStat: false,
 			showDebugTool: true,
@@ -22,9 +22,10 @@ export class Main extends GameMain {
 			ignoreCmds: ['defeated', 'message'],
 			showBannerAdWhenDialogPopup: false,
 			adUnitId: 'adunit-f54386c29a35dd95',
-			interstitialUnitId:'adunit-92a0cb233fbbaacb',
+			interstitialUnitId: 'adunit-92a0cb233fbbaacb',
 			bannerUnitId: 'adunit-4bec7f17587df319', //bannerID
-			portrait:false,
+			adUnitIdLong: 'adunit-e2f9bd1a37b91681',
+			portrait: false,
 			loadNetworkRes: true,
 			is_config: 0
 		};
@@ -32,14 +33,14 @@ export class Main extends GameMain {
 
 	}
 	setupConfig() {
-		let _this=this;
+		let _this = this;
 		//Laya.MouseManager.enabled=false;
 		Laya.MouseManager.multiTouchEnabled = false; //关闭多点触控
 		super.setupConfig();
-        if (typeof wx != 'undefined') {
+		if (typeof wx != 'undefined') {
 			Global.gameHeight = wx.getSystemInfoSync().windowWidth
 			Global.AdaptiveWidth = Global.gameHeight > 800 ? 142 : 0
-		} 
+		}
 		PaoYa.Navigator.scenesMap = {
 			WeaponHouse: `scenes/common/WeaponHouse`,
 			WeaponStore: `scenes/common/WeaponStore`,
@@ -56,14 +57,14 @@ export class Main extends GameMain {
 		}
 		//分享地址
 		//PaoYa.ShareManager.imageURL = "https://res.xingqiu123.com/1028/share/share.jpg";
-	
+
 		PaoYa.DataCenter.GAMEPREPARE = {
 			sync() {
 				_this.loadFontFnt(0);
 				console.log('【同步】准备工作已完成')
 			}
 		};
- 
+
 		if (typeof wx != 'undefined' || Laya.Render.isConchApp) {
 			// console.log=function(){};
 			wx.onMemoryWarning(function () {
@@ -92,7 +93,7 @@ export class Main extends GameMain {
 			{
 				fontUrl: "font/weapon/lvfont.fnt",
 				fontAni: "weaponNFontT"
-			},{
+			}, {
 				fontUrl: "font/recMP.fnt",
 				fontAni: "recoverMP"
 			},
@@ -137,10 +138,10 @@ export class Main extends GameMain {
 				fontAni: "adventure"
 			}
 		]
-		
+
 		HeroConfig.loadAllSpine();
 	}
-	setupAsyncRes(){
+	setupAsyncRes() {
 		let prepareList = [
 			/* 武器上的动效 */
 			'res/atlas/remote/weapon_effect/weapon_blood.atlas',
@@ -171,7 +172,7 @@ export class Main extends GameMain {
 			var font = new Laya.BitmapFont();
 			var itemFont = this.arrayFont[index];
 			var _this = this
-			font.loadFont( itemFont.fontUrl, Laya.Handler.create(_this, function () {
+			font.loadFont(itemFont.fontUrl, Laya.Handler.create(_this, function () {
 				Laya.Text.registerBitmapFont(itemFont.fontAni, font);
 				index++;
 				_this.loadFontFnt(index);
@@ -187,14 +188,14 @@ export class Main extends GameMain {
 			'local/home/homeBg.jpg',
 			'res/atlas/local/common.atlas',
 			'res/atlas/local/home.atlas',
-			'res/atlas/remote/guide.atlas',    
+			'res/atlas/remote/guide.atlas',
 			'res/atlas/remote/grading.atlas',
 
 			/* 场景 */
 			'spine/scene/scene1.png',
 			'spine/scene/scene1.sk',
 			/* 动效animation资源 */
-			 'res/atlas/remote/debuff_dizzy.atlas',
+			'res/atlas/remote/debuff_dizzy.atlas',
 			'res/atlas/remote/debuff_palsy.atlas',
 			'res/atlas/remote/debuff_poison.atlas',
 			'res/atlas/remote/injured.atlas',
@@ -202,18 +203,18 @@ export class Main extends GameMain {
 			'res/atlas/remote/recover_power.atlas',
 			'res/atlas/remote/trigger_skill.atlas',
 			'res/atlas/remote/warn_arms.atlas',//cd发光效果
-			'res/atlas/remote/collision.atlas', 
+			'res/atlas/remote/collision.atlas',
 
 			/* 武器上的动效 */
-			 	'res/atlas/remote/weapon_effect/weapon_blood.atlas',
-				'res/atlas/remote/weapon_effect/weapon_blue.atlas',
-				'res/atlas/remote/weapon_effect/weapon_crits.atlas',
-				'res/atlas/remote/weapon_effect/weapon_freeze.atlas',
-				'res/atlas/remote/weapon_effect/weapon_palsy.atlas',
-				'res/atlas/remote/weapon_effect/weapon_poison.atlas',
-				'res/atlas/remote/weapon_effect/weapon_reduce.atlas',
-				'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
-				'res/atlas/remote/weapon_effect/weapon_thump.atlas', 
+			'res/atlas/remote/weapon_effect/weapon_blood.atlas',
+			'res/atlas/remote/weapon_effect/weapon_blue.atlas',
+			'res/atlas/remote/weapon_effect/weapon_crits.atlas',
+			'res/atlas/remote/weapon_effect/weapon_freeze.atlas',
+			'res/atlas/remote/weapon_effect/weapon_palsy.atlas',
+			'res/atlas/remote/weapon_effect/weapon_poison.atlas',
+			'res/atlas/remote/weapon_effect/weapon_reduce.atlas',
+			'res/atlas/remote/weapon_effect/weapon_repeat.atlas',
+			'res/atlas/remote/weapon_effect/weapon_thump.atlas',
 
 			/* 技能 */
 			'res/atlas/remote/hero_skill/hero1_skill1.atlas',
@@ -232,7 +233,7 @@ export class Main extends GameMain {
 		return list
 	}
 	onShareAppMessage() {
-		let random=Math.round(Math.random()*(PaoYa.DataCenter.config.game.share_list.length-1))
+		let random = Math.round(Math.random() * (PaoYa.DataCenter.config.game.share_list.length - 1))
 		return {
 			title: PaoYa.DataCenter.config.game.share_list[random],
 			imageUrl: PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img[random],
@@ -244,11 +245,11 @@ export class Main extends GameMain {
 new Main();
 Laya.UIConfig.closeDialogOnSide = false;
 
-if(!config.debug){
-	console.log=function(){};
-	console.warn=function(){};
-	console.error=function(){};  
-}else{
+if (!config.debug) {
+	console.log = function () { };
+	console.warn = function () { };
+	console.error = function () { };
+} else {
 	Laya.Stat.show();
 }
 

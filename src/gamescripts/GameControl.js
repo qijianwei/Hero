@@ -924,10 +924,10 @@ export default class GameControl extends PaoYa.Component {
                         PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;         
                         this.navigator.popup('/dialog/PassResultDialog', res);
                     }else{
-                        if(res.encounter.type==1||res.encounter.type==5){
-                            this.navigator.popup('/dialog/adventDialog', res);
+                        if(res.encounter.type==1||res.encounter.type==2){
+                            this.navigator.popup('/dialog/AdventDialog', res);
                         }else{
-                            this.navigator.popup('/dialog/adventDialog5', res);
+                            this.navigator.popup('/dialog/AdventDialog5', res);
                         }
                       
                     }

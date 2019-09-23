@@ -23,7 +23,7 @@ export default class Award extends PaoYa.Dialog {
                 this.sure.scale(0.6, 0.6)
                 this.sure.pos(60, 13)
 
-                this.btnClose.on(Laya.Event.CLICK, this, ()=>{
+                this.btnClose.on(Laya.Event.CLICK, this, () => {
                     SoundManager.ins.btn()
                     this.close()
                 })
@@ -35,19 +35,21 @@ export default class Award extends PaoYa.Dialog {
 
                 this.noThankTxt.font = `weaponDFont`
                 this.noThankTxt.scale(0.6, 0.6)
-                this.noThankTxt.pos(35, 13)
+                this.noThankTxt.pos(75, 15)
 
                 this.againTxt.font = `weaponDFont`
                 this.againTxt.scale(0.6, 0.6)
-                this.againTxt.pos(35, 13)
+                this.againTxt.pos(100, 15)
 
                 this.again.on(Laya.Event.CLICK, this, () => {
                     this.close()
                     SoundManager.ins.btn()
-                    WheelControl.ins.wheelTurn()
+                    PaoYa.Request.POST('martial_adv_receive', { exchangeId: this.params.detail.wheel.id }, () => {
+                        Wheel.ins.changeDG()
+                    })
                 })
 
-                this.noThankTxt.on(Laya.Event.CLICK, this,  ()=>{
+                this.noThankTxt.on(Laya.Event.CLICK, this, () => {
                     SoundManager.ins.btn()
                     this.close()
                 })
@@ -58,6 +60,7 @@ export default class Award extends PaoYa.Dialog {
         for (const key in this.params.detail) {
             switch (key) {
                 case `weaponId`:
+                    this.again.visible = false
                     if (this.params.detail.weaponId.indexOf(`g`) != -1) {
                         this.mark.skin = `local/common/type_1.png`
                     }

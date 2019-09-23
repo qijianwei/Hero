@@ -39,6 +39,9 @@ import WeaponStore from "./scripts/common/weapon/WeaponStore"
 import WeaponStoreControl from "./scripts/common/weapon/WeaponStoreControl"
 import Wheel from "./scripts/common/wheel/Wheel"
 import WheelControl from "./scripts/common/wheel/WheelControl"
+import BuyWp from "./scripts/dialog/adventure/BuyWp"
+import ChangeWp from "./scripts/dialog/adventure/ChangeWp"
+import GetAward from "./scripts/dialog/adventure/GetAward"
 import Award from "./scripts/dialog/common/Award"
 import BuyWheelTimes from "./scripts/dialog/common/BuyWheelTimes"
 import Rank from "./scripts/dialog/common/Rank"
@@ -105,6 +108,9 @@ export default class GameConfig {
 		reg("scripts/common/weapon/WeaponStoreControl.js",WeaponStoreControl);
 		reg("scripts/common/wheel/Wheel.js",Wheel);
 		reg("scripts/common/wheel/WheelControl.js",WheelControl);
+		reg("scripts/dialog/adventure/BuyWp.js",BuyWp);
+		reg("scripts/dialog/adventure/ChangeWp.js",ChangeWp);
+		reg("scripts/dialog/adventure/GetAward.js",GetAward);
 		reg("scripts/dialog/common/Award.js",Award);
 		reg("scripts/dialog/common/BuyWheelTimes.js",BuyWheelTimes);
 		reg("scripts/dialog/common/Rank.js",Rank);
@@ -134,7 +140,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventResultDialog.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog5.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

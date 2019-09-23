@@ -46,10 +46,6 @@ export default class Sign extends PaoYa.View {
             this.eatTxt.pos(35, 13)
 
             this.eatTxt.on(Laya.Event.CLICK, this, () => {
-                if (typeof wx == 'undefined') {
-                    SignControl.ins.getAward()
-                    return
-                }
                 SoundManager.ins.btn()
                 // let title = PaoYa.DataCenter.config.game.share_list.randomItem;
                 // PaoYa.ShareManager.shareTitle(title, {}, () => {

@@ -191,6 +191,18 @@ var _WheelControl = require("./scripts/common/wheel/WheelControl");
 
 var _WheelControl2 = _interopRequireDefault(_WheelControl);
 
+var _BuyWp = require("./scripts/dialog/adventure/BuyWp");
+
+var _BuyWp2 = _interopRequireDefault(_BuyWp);
+
+var _ChangeWp = require("./scripts/dialog/adventure/ChangeWp");
+
+var _ChangeWp2 = _interopRequireDefault(_ChangeWp);
+
+var _GetAward = require("./scripts/dialog/adventure/GetAward");
+
+var _GetAward2 = _interopRequireDefault(_GetAward);
+
 var _Award = require("./scripts/dialog/common/Award");
 
 var _Award2 = _interopRequireDefault(_Award);
@@ -329,6 +341,9 @@ var GameConfig = function () {
 												reg("scripts/common/weapon/WeaponStoreControl.js", _WeaponStoreControl2.default);
 												reg("scripts/common/wheel/Wheel.js", _Wheel2.default);
 												reg("scripts/common/wheel/WheelControl.js", _WheelControl2.default);
+												reg("scripts/dialog/adventure/BuyWp.js", _BuyWp2.default);
+												reg("scripts/dialog/adventure/ChangeWp.js", _ChangeWp2.default);
+												reg("scripts/dialog/adventure/GetAward.js", _GetAward2.default);
 												reg("scripts/dialog/common/Award.js", _Award2.default);
 												reg("scripts/dialog/common/BuyWheelTimes.js", _BuyWheelTimes2.default);
 												reg("scripts/dialog/common/Rank.js", _Rank2.default);
@@ -364,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventResultDialog.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog5.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -373,7 +388,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/AdventDialog":10,"./gamescripts/dialog/AdventDialog5":11,"./gamescripts/dialog/AdventResultDialog":12,"./gamescripts/dialog/AdventResultDialog5":13,"./gamescripts/dialog/BattleResultDialog":15,"./gamescripts/dialog/PassResultDialog":16,"./gamescripts/gameGuide/GameGuideControl":17,"./gamescripts/gameGuide/SpeakMan":19,"./gamescripts/preOpen/PreOpenView":20,"./gamescripts/prefab/Dodge":22,"./gamescripts/prefab/GameBanner":23,"./gamescripts/prefab/HPBar":24,"./gamescripts/prefab/MPBar":25,"./gamescripts/prefab/Player":26,"./gamescripts/prefab/PlayerSkill":27,"./gamescripts/prefab/PlayerState":28,"./gamescripts/prefab/Skill":29,"./gamescripts/prefab/Weapon":30,"./gamescripts/prefab/WeaponBar":31,"./gamescripts/prefab/WeaponSkill":32,"./scripts/common/HomeControl":34,"./scripts/common/Loading/LoadingControl":35,"./scripts/common/Loading/LoadingView":36,"./scripts/common/Match/MatchControl":37,"./scripts/common/Match/MatchView":38,"./scripts/common/figure/Grading":39,"./scripts/common/figure/GradingControl":40,"./scripts/common/figure/Swordsman":41,"./scripts/common/figure/SwordsmanControl":42,"./scripts/common/refiner/Devour":43,"./scripts/common/refiner/DevourControl":44,"./scripts/common/refiner/Refining":45,"./scripts/common/refiner/RefiningControl":46,"./scripts/common/sign/Sign":47,"./scripts/common/sign/SignControl":48,"./scripts/common/task/WeaponList":49,"./scripts/common/task/WeaponListControl":50,"./scripts/common/weapon/WeaponHouse":53,"./scripts/common/weapon/WeaponHouseControl":54,"./scripts/common/weapon/WeaponStore":55,"./scripts/common/weapon/WeaponStoreControl":56,"./scripts/common/wheel/Wheel":57,"./scripts/common/wheel/WheelControl":58,"./scripts/dialog/common/Award":59,"./scripts/dialog/common/BuyWheelTimes":60,"./scripts/dialog/common/Rank":61,"./scripts/dialog/common/Task":62,"./scripts/dialog/figure/BuyHero":63,"./scripts/dialog/figure/GetNewSkill":64,"./scripts/dialog/figure/SkillDetail":65,"./scripts/dialog/refiner/Canlock":66,"./scripts/dialog/weapon/DiamondLack":67,"./scripts/dialog/weapon/GoldLack":68,"./scripts/dialog/weapon/StoreSure":69,"./scripts/dialog/weapon/UnlockFifth":70,"./scripts/dialog/weapon/UnlockFour":71,"./scripts/dialog/weapon/UnlockTips":72,"./scripts/prefab/BeanBox":73}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/AdventDialog":10,"./gamescripts/dialog/AdventDialog5":11,"./gamescripts/dialog/AdventResultDialog":12,"./gamescripts/dialog/AdventResultDialog5":13,"./gamescripts/dialog/BattleResultDialog":15,"./gamescripts/dialog/PassResultDialog":16,"./gamescripts/gameGuide/GameGuideControl":17,"./gamescripts/gameGuide/SpeakMan":19,"./gamescripts/preOpen/PreOpenView":20,"./gamescripts/prefab/Dodge":22,"./gamescripts/prefab/GameBanner":23,"./gamescripts/prefab/HPBar":24,"./gamescripts/prefab/MPBar":25,"./gamescripts/prefab/Player":26,"./gamescripts/prefab/PlayerSkill":27,"./gamescripts/prefab/PlayerState":28,"./gamescripts/prefab/Skill":29,"./gamescripts/prefab/Weapon":30,"./gamescripts/prefab/WeaponBar":31,"./gamescripts/prefab/WeaponSkill":32,"./scripts/common/HomeControl":34,"./scripts/common/Loading/LoadingControl":35,"./scripts/common/Loading/LoadingView":36,"./scripts/common/Match/MatchControl":37,"./scripts/common/Match/MatchView":38,"./scripts/common/figure/Grading":39,"./scripts/common/figure/GradingControl":40,"./scripts/common/figure/Swordsman":41,"./scripts/common/figure/SwordsmanControl":42,"./scripts/common/refiner/Devour":43,"./scripts/common/refiner/DevourControl":44,"./scripts/common/refiner/Refining":45,"./scripts/common/refiner/RefiningControl":46,"./scripts/common/sign/Sign":47,"./scripts/common/sign/SignControl":48,"./scripts/common/task/WeaponList":49,"./scripts/common/task/WeaponListControl":50,"./scripts/common/weapon/WeaponHouse":53,"./scripts/common/weapon/WeaponHouseControl":54,"./scripts/common/weapon/WeaponStore":55,"./scripts/common/weapon/WeaponStoreControl":56,"./scripts/common/wheel/Wheel":57,"./scripts/common/wheel/WheelControl":58,"./scripts/dialog/adventure/BuyWp":59,"./scripts/dialog/adventure/ChangeWp":60,"./scripts/dialog/adventure/GetAward":61,"./scripts/dialog/common/Award":62,"./scripts/dialog/common/BuyWheelTimes":63,"./scripts/dialog/common/Rank":64,"./scripts/dialog/common/Task":65,"./scripts/dialog/figure/BuyHero":66,"./scripts/dialog/figure/GetNewSkill":67,"./scripts/dialog/figure/SkillDetail":68,"./scripts/dialog/refiner/Canlock":69,"./scripts/dialog/weapon/DiamondLack":70,"./scripts/dialog/weapon/GoldLack":71,"./scripts/dialog/weapon/StoreSure":72,"./scripts/dialog/weapon/UnlockFifth":73,"./scripts/dialog/weapon/UnlockFour":74,"./scripts/dialog/weapon/UnlockTips":75,"./scripts/prefab/BeanBox":76}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -441,6 +456,7 @@ var Main = exports.Main = function (_GameMain) {
 			adUnitId: 'adunit-f54386c29a35dd95',
 			interstitialUnitId: 'adunit-92a0cb233fbbaacb',
 			bannerUnitId: 'adunit-4bec7f17587df319', //bannerID
+			adUnitIdLong: 'adunit-e2f9bd1a37b91681',
 			portrait: false,
 			loadNetworkRes: true,
 			is_config: 0
@@ -1710,10 +1726,10 @@ var GameControl = function (_PaoYa$Component) {
                             PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                             _this11.navigator.popup('/dialog/PassResultDialog', res);
                         } else {
-                            if (res.encounter.type == 1 || res.encounter.type == 5) {
-                                _this11.navigator.popup('/dialog/adventDialog', res);
+                            if (res.encounter.type == 1 || res.encounter.type == 2) {
+                                _this11.navigator.popup('/dialog/AdventDialog', res);
                             } else {
-                                _this11.navigator.popup('/dialog/adventDialog5', res);
+                                _this11.navigator.popup('/dialog/AdventDialog5', res);
                             }
                         }
                     });
@@ -2392,6 +2408,10 @@ var AdventDialog = function (_PaoYa$Dialog) {
             var _this = this;
             this.params = this.params.encounter;
             var type = this.params.type;
+            this.spRole.texture = 'remote/guide/' + this.params.dress + '.png';
+            if (this.params.dress == 'npc_3') {
+                this.spRole.y = 177;
+            }
             this.adventType = [{
                 type: 1,
                 target: '\u51FB\u6740' + this.params.num + '\u4E2A\u532A\u5F92',
@@ -2537,7 +2557,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
             PaoYa.Request.POST('martial_encounter_cancel', {}, function () {
                 _this5.close();
                 if (PaoYa.navigator.scenes.length > 1) {
-                    PaoYa.navigator.popup('/dialog/adventDialog', _this5.params);
+                    PaoYa.navigator.popup('/dialog/PassResultDialog', _this5.params);
                 }
             });
         }
@@ -2580,6 +2600,10 @@ var AdventureDialog5 = function (_PaoYa$Dialog) {
             var _this = this;
 
             var type = this.params.type;
+            this.spRole.texture = 'remote/guide/' + this.params.dress + '.png';
+            if (this.params.dress == 'npc_3') {
+                this.spRole.y = 177;
+            }
             var advent = {
                 type: 5,
                 detail: '\u76F8\u4F20\u771F\u795E\u5E94\u9F99\u66FE\u86F0\u5C45\u5728\u540E\u5C71\uFF0C\u5E76\u5728\u6B64\u7559\u4E0B\u4E86\u8BB8\u591A\u73CD\u5B9D\uFF0C\u4E0D\u5982\u6709\u7A7A\u7684\u65F6\u5019\u53BB\u770B\u770B\uFF0C\u8BF4\u4E0D\u5B9Aji',
@@ -2639,7 +2663,7 @@ var AdventureDialog5 = function (_PaoYa$Dialog) {
             PaoYa.Request.POST('martial_encounter_cancel', {}, function () {
                 _this4.close();
                 if (PaoYa.navigator.scenes.length > 1) {
-                    PaoYa.navigator.popup('/dialog/adventDialog', _this4.params);
+                    PaoYa.navigator.popup('/dialog/PassResultDialog', _this4.params);
                 }
             });
         }
@@ -2648,11 +2672,13 @@ var AdventureDialog5 = function (_PaoYa$Dialog) {
         value: function stopHandler() {
             var _this5 = this;
 
-            this.isPlaying = false;
-            PaoYa.Request.POST('martial_encounter_start', {}, function (res) {
-                _this5.params.state = 'wait';
-                _this5.params.time = res.time;
-                PaoYa.navigator.popup('/dialog/AdventResultDialog5', _this5.params);
+            Laya.timer.once(200, this, function () {
+                _this5.isPlaying = false;
+                PaoYa.Request.POST('martial_encounter_start', {}, function (res) {
+                    _this5.params.state = 'wait';
+                    _this5.params.time = res.time;
+                    PaoYa.navigator.popup('/dialog/AdventResultDialog5', _this5.params);
+                });
             });
         }
     }, {
@@ -2687,6 +2713,10 @@ var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
 var _GameControl = require("../GameControl");
 
 var _GameControl2 = _interopRequireDefault(_GameControl);
+
+var _AlertDialog = require("./AlertDialog");
+
+var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2747,6 +2777,12 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "sureHandler",
         value: function sureHandler() {
             console.log("\u786E\u8BA4....");
+            PaoYa.Request.POST('martial_encounter_finish', {
+                result: this.params.result,
+                complete: 1
+            }, function (res) {
+                console.log("");
+            });
             this.close();
             PaoYa.navigator.popToRootScene();
         }
@@ -2754,7 +2790,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "rejectHandler",
         value: function rejectHandler() {
             console.log("\u8D70\u4EBA\u6492");
-            this.POST('martial_encounter_finish', {
+            PaoYa.Request.POST('martial_encounter_finish', {
                 result: this.params.result,
                 complete: 1
             }, function (res) {
@@ -2801,14 +2837,14 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
                     }
                 },
                 onError: function onError(res) {
-                    var errorDialog = new AlertDialog({
+                    var errorDialog = new _AlertDialog2.default({
                         title: "温馨提示",
                         message: res.message
                     });
                     errorDialog.popup();
                 }
             };
-            PaoYa.RewardedVideoAd.show(params);
+            PaoYa.RewardedVideoAd.show(params, true);
         }
     }, {
         key: "dealType1",
@@ -2865,7 +2901,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog;
 
-},{"../GameControl":4,"../prefab/WeaponBar":31}],13:[function(require,module,exports){
+},{"../GameControl":4,"../prefab/WeaponBar":31,"./AlertDialog":14}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2876,7 +2912,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _AlertDialog = require('./AlertDialog');
 
-var _AlertDialog3 = _interopRequireDefault(_AlertDialog);
+var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2931,14 +2967,14 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
             //分情况，在游戏结果促发后展示结果界面
             this.close();
             if (PaoYa.navigator.scenes.length > 1) {
-                PaoYa.navigator.popup('/dialog/adventDialog', this.params);
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.params);
             }
         }
     }, {
         key: 'videoHandler',
         value: function videoHandler() {
             var _this = this;
-            if (window['wx']) {
+            if (!window['wx']) {
                 this.showGetState();
                 return;
             }
@@ -2963,14 +2999,14 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
                     }
                 },
                 onError: function onError(res) {
-                    var errorDialog = new _AlertDialog3.default({
+                    var errorDialog = new _AlertDialog2.default({
                         title: "温馨提示",
                         message: res.message
                     });
                     errorDialog.popup();
                 }
             };
-            PaoYa.RewardedVideoAd.show(params);
+            PaoYa.RewardedVideoAd.show(params, true);
         }
     }, {
         key: 'startCount',
@@ -3384,7 +3420,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 onError: function onError(res) {
                     var errorDialog = new _AlertDialog3.default({
                         title: "温馨提示",
-                        message: res.message
+                        message: "\u5E7F\u544A\u62C9\u53D6\u5931\u8D25"
                     });
                     errorDialog.popup();
                 }
@@ -10080,6 +10116,10 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _Tool = require("../tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10126,25 +10166,26 @@ var Sign = function (_PaoYa$View) {
             if (this.params.status) {
                 this.showtips.visible = true;
                 this.showBtn.visible = false;
+                this.video.visible = false;
 
                 this.tips.font = "figureDetail";
                 this.tips.scale(0.8, 0.8);
             } else {
                 this.showtips.visible = false;
                 this.showBtn.visible = true;
+                this.video.visible = true;
 
                 this.eatTxt.font = "weaponDFont";
                 this.eatTxt.scale(0.6, 0.6);
                 this.eatTxt.pos(35, 13);
 
                 this.eatTxt.on(Laya.Event.CLICK, this, function () {
-                    if (typeof wx == 'undefined') {
-                        _SignControl2.default.ins.getAward();
-                        return;
-                    }
                     _SoundManager2.default.ins.btn();
-                    var title = PaoYa.DataCenter.config.game.share_list.randomItem;
-                    PaoYa.ShareManager.shareTitle(title, {}, function () {
+                    // let title = PaoYa.DataCenter.config.game.share_list.randomItem;
+                    // PaoYa.ShareManager.shareTitle(title, {}, () => {
+                    //     SignControl.ins.getAward()
+                    // })
+                    _Tool2.default.showVideoAD(function () {
                         _SignControl2.default.ins.getAward();
                     });
                 });
@@ -10220,7 +10261,7 @@ var Sign = function (_PaoYa$View) {
 
 exports.default = Sign;
 
-},{"../../../gamescripts/SoundManager":7,"./SignControl":48}],48:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Tool":52,"./SignControl":48}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11006,12 +11047,12 @@ var Tool = function () {
         }
     }, {
         key: 'showVideoAD',
-        value: function showVideoAD(callBack, cancel, err, num) {
+        value: function showVideoAD(callBack, cancel, err, isAdventure, num) {
             // Global.dataPoints(`点击观看视频次数`, { points: "103" })
             var p = {
                 onLoad: function onLoad() {
                     console.log('\u89C6\u9891\u5F39\u51FA');
-                    PaoYa.Request.POST('manage_data', { code: num });
+                    // PaoYa.Request.POST(`manage_data`, { code: num })
                 },
                 onError: function onError() {
                     // PaoYa.Request.GET("change_advertising", {}, () => {
@@ -11030,7 +11071,7 @@ var Tool = function () {
                     }
                 }
             };
-            PaoYa.RewardedVideoAd.show(p);
+            PaoYa.RewardedVideoAd.show(p, isAdventure);
         }
 
         /**设置用户领钻石小红点值 */
@@ -12975,12 +13016,19 @@ var Wheel = function (_PaoYa$View) {
 
             this.num.text = PaoYa.DataCenter.user.wheelTimes;
             this.num.font = "recoverHP";
-            this.num.pos(363, 508);
+            this.num.pos(393, 508);
             this.num.scale(1.2, 1.2);
 
-            this.startWheelTxt.font = "weaponDFont";
-            this.startWheelTxt.scale(0.8, 0.8);
-            this.startWheelTxt.pos(60, 10);
+            if (PaoYa.DataCenter.user.wheelTimes == 0) {
+                this.video.visible = true;
+                this.startWheelTxt.font = "weaponDFont";
+                this.startWheelTxt.scale(0.8, 0.8);
+                this.startWheelTxt.pos(90, 10);
+            } else {
+                this.startWheelTxt.font = "weaponDFont";
+                this.startWheelTxt.scale(0.8, 0.8);
+                this.startWheelTxt.pos(60, 10);
+            }
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
                 if (_this2.isRunning) {
@@ -13125,6 +13173,10 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _Tool = require("../tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13161,10 +13213,10 @@ var WheelControl = function (_PaoYa$Component) {
         value: function addTimesD() {
             var _this2 = this;
 
-            if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text)) {
-                this.navigator.popup("common/BuyWheelTimes", 1);
-                return;
-            }
+            // if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text)) {
+            //     this.navigator.popup("common/BuyWheelTimes", 1);
+            //     return
+            // }
 
             this.POST("martial_wheel_times_buy", {}, function (res) {
                 if (!res) {
@@ -13182,7 +13234,14 @@ var WheelControl = function (_PaoYa$Component) {
 
             if (this.owner.num.text < 1) {
                 _SoundManager2.default.ins.btn();
-                this.navigator.popup("common/BuyWheelTimes");
+                // this.navigator.popup("common/BuyWheelTimes");
+                _Tool2.default.showVideoAD(function () {
+                    _this3.addTimesD();
+                    _this3.owner.video.visible = false;
+                    _this3.startWheelTxt.font = "weaponDFont";
+                    _this3.startWheelTxt.scale(0.8, 0.8);
+                    _this3.owner.startWheelTxt.pos(60, 10);
+                });
                 return;
             }
 
@@ -13193,6 +13252,12 @@ var WheelControl = function (_PaoYa$Component) {
                 }
                 _SoundManager2.default.ins.round();
                 _this3.owner.num.text = res.wheelTimes;
+                if (res.wheelTimes == 0) {
+                    _this3.owner.video.visible = true;
+                    _this3.owner.startWheelTxt.font = "weaponDFont";
+                    _this3.owner.startWheelTxt.scale(0.8, 0.8);
+                    _this3.owner.startWheelTxt.pos(90, 10);
+                }
                 PaoYa.DataCenter.user.wheelTimes = res.wheelTimes;
                 var rat = 0;
                 PaoYa.DataCenter.user.config_list.hero.wheelList.forEach(function (element, index) {
@@ -13223,7 +13288,468 @@ var WheelControl = function (_PaoYa$Component) {
 
 exports.default = WheelControl;
 
-},{"../../../gamescripts/SoundManager":7}],59:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Tool":52}],59:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Global = require("../../common/tool/Global");
+
+var _HomeControl = require("../../common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BuyWp = function (_PaoYa$Dialog) {
+    _inherits(BuyWp, _PaoYa$Dialog);
+
+    function BuyWp() {
+        _classCallCheck(this, BuyWp);
+
+        var _this = _possibleConstructorReturn(this, (BuyWp.__proto__ || Object.getPrototypeOf(BuyWp)).call(this));
+
+        BuyWp.ins = _this;
+        return _this;
+    }
+
+    _createClass(BuyWp, [{
+        key: "onEnable",
+        value: function onEnable() {
+            var _this2 = this;
+
+            this.heroImage.skin = "remote/guide/hero_" + PaoYa.DataCenter.user.defaultRoleId + ".png";
+
+            this.tips.font = "adventure";
+
+            this.buyBtnText.font = "adventure";
+            this.buyBtnText.pos(10, 10);
+
+            this.closeBtnText.font = "adventure";
+            this.closeBtnText.pos(25, 10);
+            this.closeBtn.on(Laya.Event.CLICK, this, function () {
+                PaoYa.Request.POST("martial_encounter_cancel", {}, function (res) {
+                    _this2.close();
+                });
+            });
+
+            this.closeBtn2.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+            });
+
+            this.buyBtn.on(Laya.Event.CLICK, this, function () {
+                _this2.buyWp();
+            });
+
+            this.warehouseList.vScrollBarSkin = "";
+            this.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
+            this.showlist = this.params.weaponList;
+            this.cellList = [];
+            this.warehouseList.array = this.showlist;
+
+            // Laya.stage.on(Laya.Event.MOUSE_UP, this, () => {
+            //     this.changeStatus()
+            // })
+        }
+    }, {
+        key: "wareWeaponUpdateItem",
+        value: function wareWeaponUpdateItem(cell, idx) {
+            var _this3 = this;
+
+            this.cellList.push(cell);
+            cell.getChildByName("beChioce").visible = false;
+            if (cell._dataSource.isChioced) {
+                cell.getChildByName("beChioce").visible = true;
+            }
+            cell.getChildByName("bg").getChildByName("txt").text = "" + cell._dataSource.weaponPrice;
+            cell.getChildByName("bg").getChildByName("txt").font = "weaponNFontT";
+            cell.getChildByName("bg").getChildByName("txt").scale(0.75, 0.75);
+            cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
+            var skinq = "";
+            var skint = "";
+            switch (cell._dataSource.weaponStar) {
+                case 1:
+                    skinq = "local/common/quality_1.png";
+                    break;
+                case 2:
+                    skinq = "local/common/quality_2.png";
+                    break;
+                case 3:
+                    skinq = "local/common/quality_3.png";
+                    break;
+            }
+            switch (cell._dataSource.weaponType) {
+                case 3:
+                    skint = "local/common/type_1.png";
+                    break;
+                case 2:
+                    skint = "local/common/type_2.png";
+                    break;
+                case 1:
+                    skint = "local/common/type_3.png";
+                    break;
+            }
+            cell.getChildByName("bgwrap").skin = skinq;
+            cell.getChildByName("mark").skin = skint;
+
+            cell.offAll();
+
+            cell.on(Laya.Event.MOUSE_DOWN, this, function () {
+                _this3.count = 0;
+                _this3.pressIdx = idx;
+                Laya.timer.loop(100, _this3, _this3.addTime);
+            });
+
+            cell.on(Laya.Event.MOUSE_UP, this, function () {
+                if (_this3.count <= 5) {
+                    if (_this3.showlist[idx].isChioced) {
+                        _this3.showlist[idx].isChioced = false;
+                    } else {
+                        _this3.showlist[idx].isChioced = true;
+                    }
+                    _this3.cellList = [];
+                    _this3.warehouseList.array = _this3.showlist;
+                }
+                _this3.changeStatus();
+            });
+        }
+    }, {
+        key: "addTime",
+        value: function addTime() {
+            if (this.count > 5) {
+                Laya.timer.clear(this, this.addTime);
+                this.renderDetail();
+            } else {
+                this.count++;
+            }
+        }
+    }, {
+        key: "changeStatus",
+        value: function changeStatus() {
+            if (this.wpInfo.visible) {
+                this.wpInfo.visible = false;
+            }
+            this.pressIdx = -1;
+            Laya.timer.clear(this, this.addTime);
+        }
+    }, {
+        key: "buyWp",
+        value: function buyWp() {
+            var _this4 = this;
+
+            var moveArr = [],
+                wpString = "",
+                num = 0;
+            this.showlist.forEach(function (element, index) {
+                if (element.isChioced) {
+                    wpString = wpString + "," + element.weaponId;
+                    num += Number(element.weaponPrice);
+                    var obj = {
+                        idx: index,
+                        detail: _this4.cellList[index]
+                    };
+                    moveArr.push(obj);
+                }
+            });
+
+            if (moveArr.length == 0) {
+                return;
+            }
+
+            if (num > PaoYa.DataCenter.user.diamond) {
+                this.close();
+                _HomeControl2.default.ins.navigator.popup("weapon/DiamondLack", 1);
+                return;
+            }
+
+            PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: wpString }, function (res) {
+                _this4.ware.visible = true;
+
+                moveArr.forEach(function (element) {
+                    _this4["showani" + element.idx].x = 749.5 + 128 * element.idx;
+                    _this4["showani" + element.idx].y = 391;
+                    _this4["showani" + element.idx].visible = true;
+                    _this4["bgwrap" + element.idx].skin = element.detail.getChildByName("bgwrap").skin;
+                    _this4["mark" + element.idx].skin = element.detail.getChildByName("mark").skin;
+                    _this4["wp" + element.idx].skin = element.detail.getChildByName("wp").skin;
+
+                    Laya.Tween.to(_this4["showani" + element.idx], { x: 296, y: 652, scaleX: 0, scaleY: 0 }, 800, Laya.Ease.quintIn, Laya.Handler.create(_this4, function () {
+                        _this4["showani" + element.idx].visible = false;
+                        Laya.Tween.to(_this4.ware, { alpha: 0 }, 400, Laya.Ease.quintIn, Laya.Handler.create(_this4, function () {
+                            _this4.ware.visible = false;
+                            _this4.ware.alpha = 1;
+                            _this4.close();
+                        }));
+                    }));
+                });
+            });
+        }
+    }, {
+        key: "renderDetail",
+        value: function renderDetail() {
+            var _this5 = this;
+
+            this.wpInfo.visible = true;
+
+            this.wpInfo.x = 698 + 120 * this.pressIdx;
+
+            var detail = this.showlist[this.pressIdx];
+
+            this.currutWeapon.text = detail.weaponName;
+            this.currutWeapon.font = "weaponDFont";
+            this.currutWeapon.scale(0.5, 0.5);
+
+            this.currtWeaponLevel.text = "LV." + detail.weaponLevel + "/" + detail.weaponTopLevel;
+            this.currtWeaponLevel.font = "weaponNFontT";
+            this.currtWeaponLevel.scale(0.6, 0.6);
+
+            this.attackNum.text = "\u653B\u51FB\uFF1A " + detail.weaponAttack;
+            this.enduranceNum.text = "\u8010\u4E45\uFF1A " + detail.weaponDurable;
+            this.consumeNum.text = "\u6D88\u8017\uFF1A " + detail.weaponConsume;
+            this.wpcdNum.text = "\u51B7\u5374\uFF1A " + detail.weaponCd + "\u79D2";
+
+            //兵器技能
+            this["skillName_1"].text = "";
+            this["skillGl_1"].text = "";
+            this["skillDetail_1"].text = "";
+            this["skillImg_1"].visible = false;
+            this["skillName_2"].text = "";
+            this["skillGl_2"].text = "";
+            this["skillDetail_2"].text = "";
+            this["skillImg_2"].visible = false;
+            if (detail.skills.length > 0) {
+                detail.skills.forEach(function (element, index) {
+                    _this5["skillName_" + (index + 1)].color = "#4a4948";
+                    _this5["skillGl_" + (index + 1)].color = "#4a4948";
+                    _this5["skillDetail_" + (index + 1)].color = "#4a4948";
+                    _this5["skillName_" + (index + 1)].text = element.skillName;
+                    _this5["skillGl_" + (index + 1)].text = "\u51E0\u7387" + element.skillProb + "%";
+                    _this5["skillDetail_" + (index + 1)].text = element.skillDesc;
+                    _this5["skillImg_" + (index + 1)].visible = true;
+                    if (element.status) {
+                        _this5["skillName_" + (index + 1)].color = "#004418";
+                        _this5["skillGl_" + (index + 1)].color = "#004418";
+                        _this5["skillDetail_" + (index + 1)].color = "#004418";
+                    }
+                });
+            }
+        }
+    }, {
+        key: "onDisable",
+        value: function onDisable() {}
+    }]);
+
+    return BuyWp;
+}(PaoYa.Dialog);
+
+exports.default = BuyWp;
+
+},{"../../common/HomeControl":34,"../../common/tool/Global":51}],60:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Global = require("../../common/tool/Global");
+
+var _HomeControl = require("../../common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+var _Tool = require("../../common/tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ChangeWp = function (_PaoYa$Dialog) {
+    _inherits(ChangeWp, _PaoYa$Dialog);
+
+    function ChangeWp() {
+        _classCallCheck(this, ChangeWp);
+
+        var _this = _possibleConstructorReturn(this, (ChangeWp.__proto__ || Object.getPrototypeOf(ChangeWp)).call(this));
+
+        ChangeWp.ins = _this;
+        return _this;
+    }
+
+    _createClass(ChangeWp, [{
+        key: "onEnable",
+        value: function onEnable() {
+            var _this2 = this;
+
+            this.tips.font = "adventure";
+            var name = "八卦斧";
+            this.label2.text = "\u5E74\u8F7B\u4EBA\uFF0C\u8BF7\u95EE\u4F60\u6709\u6CA1\u6709\u4E00\u628A" + name + "\u3002\u5982\u679C\u4F60\u80FD\u628A\u5B83\u8BA9\u7ED9\u6211\u7684\u8BDD\uFF0C\u8C22\u67D0\u5B9A\u5F53\u91CD\u8C22";
+
+            this.buyBtnText.font = "adventure";
+            this.buyBtnText.pos(40, 10);
+
+            this.closeBtnText.font = "adventure";
+            this.closeBtnText.pos(60, 10);
+
+            this.getWp.font = "adventure";
+
+            this.infoDetail();
+
+            this.closeBtn.on(Laya.Event.CLICK, this, function () {
+                PaoYa.Request.POST("martial_encounter_cancel", {}, function (res) {
+                    _this2.close();
+                });
+            });
+
+            this.closeBtn2.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+            });
+
+            this.buyBtn.on(Laya.Event.CLICK, this, function () {
+                if (_this2.params.weaponId) {
+                    _this2.sellyWp();
+                } else {
+                    _Tool2.default.showVideoAD(function () {
+                        _this2.params.weaponId = "video";
+                    }, null, null, 1);
+                    _this2.infoDetail();
+                }
+            });
+        }
+    }, {
+        key: "infoDetail",
+        value: function infoDetail() {
+            var hhnum = this.params.weaponId ? 1 : 0;
+            if (!hhnum) {
+                this.buyBtnText.visible = false;
+                this.tips2.visible = true;
+                this.getWp.visible = true;
+                this.get.visible = true;
+            } else {
+                this.buyBtnText.visible = true;
+                this.tips2.visible = false;
+                this.getWp.visible = false;
+                this.get.visible = false;
+            }
+            this.num.font = "weaponNFontT";
+            this.wpnum.text = hhnum + "/1";
+            this.wpnum.font = "weaponNFontT";
+            this.num.scale(0.7, 0.7);
+            this.wpnum.scale(0.7, 0.7);
+        }
+    }, {
+        key: "sellyWp",
+        value: function sellyWp() {
+            // PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, res => { 
+            this.close();
+            // })
+        }
+    }]);
+
+    return ChangeWp;
+}(PaoYa.Dialog);
+
+exports.default = ChangeWp;
+
+},{"../../common/HomeControl":34,"../../common/tool/Global":51,"../../common/tool/Tool":52}],61:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Global = require("../../common/tool/Global");
+
+var _HomeControl = require("../../common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+var _Tool = require("../../common/tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GetAward = function (_PaoYa$Dialog) {
+    _inherits(GetAward, _PaoYa$Dialog);
+
+    function GetAward() {
+        _classCallCheck(this, GetAward);
+
+        var _this = _possibleConstructorReturn(this, (GetAward.__proto__ || Object.getPrototypeOf(GetAward)).call(this));
+
+        GetAward.ins = _this;
+        return _this;
+    }
+
+    _createClass(GetAward, [{
+        key: "onEnable",
+        value: function onEnable() {
+            var _this2 = this;
+
+            this.tips.font = "adventure";
+            this.closeBtnText.font = "adventure";
+            this.closeBtnText.scale(0.9, 0.9);
+            this.closeBtnText.pos(10, 15);
+
+            this.getWp.font = "adventure";
+
+            this.closeBtn.on(Laya.Event.CLICK, this, function () {
+                PaoYa.Request.POST("martial_encounter_cancel", {}, function (res) {
+                    _this2.close();
+                });
+            });
+
+            this.closeBtn2.on(Laya.Event.CLICK, this, function () {
+                _this2.close();
+            });
+
+            this.buyBtn.on(Laya.Event.CLICK, this, function () {
+                _Tool2.default.showVideoAD(function () {
+                    PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, function (res) {
+                        _this2.close();
+                        var obj = {
+                            type: "sign",
+                            detail: res
+                        };
+                        _HomeControl2.default.ins.navigator.popup("common/Award", obj);
+                    });
+                }, null, null, 1);
+            });
+        }
+    }]);
+
+    return GetAward;
+}(PaoYa.Dialog);
+
+exports.default = GetAward;
+
+},{"../../common/HomeControl":34,"../../common/tool/Global":51,"../../common/tool/Tool":52}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13295,16 +13821,18 @@ var Award = function (_PaoYa$Dialog) {
 
                     this.noThankTxt.font = "weaponDFont";
                     this.noThankTxt.scale(0.6, 0.6);
-                    this.noThankTxt.pos(35, 13);
+                    this.noThankTxt.pos(75, 15);
 
                     this.againTxt.font = "weaponDFont";
                     this.againTxt.scale(0.6, 0.6);
-                    this.againTxt.pos(35, 13);
+                    this.againTxt.pos(100, 15);
 
                     this.again.on(Laya.Event.CLICK, this, function () {
                         _this2.close();
                         _SoundManager2.default.ins.btn();
-                        _WheelControl2.default.ins.wheelTurn();
+                        PaoYa.Request.POST('martial_adv_receive', { exchangeId: _this2.params.detail.wheel.id }, function () {
+                            _Wheel2.default.ins.changeDG();
+                        });
                     });
 
                     this.noThankTxt.on(Laya.Event.CLICK, this, function () {
@@ -13317,6 +13845,7 @@ var Award = function (_PaoYa$Dialog) {
             for (var key in this.params.detail) {
                 switch (key) {
                     case "weaponId":
+                        this.again.visible = false;
                         if (this.params.detail.weaponId.indexOf("g") != -1) {
                             this.mark.skin = "local/common/type_1.png";
                         }
@@ -13399,7 +13928,7 @@ var Award = function (_PaoYa$Dialog) {
 
 exports.default = Award;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":47,"../../common/wheel/Wheel":57,"../../common/wheel/WheelControl":58}],60:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":47,"../../common/wheel/Wheel":57,"../../common/wheel/WheelControl":58}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13472,7 +14001,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
 
 exports.default = BuyWheelTimes;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/wheel/WheelControl":58}],61:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/wheel/WheelControl":58}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13542,7 +14071,7 @@ var Task = function (_PaoYa$Dialog) {
             var award1 = cell.getChildByName("award1");
             var award2 = cell.getChildByName("award2");
 
-            name.text = cell.dataSource.member_nick;
+            name.text = PaoYa.Utils.formatName(cell.dataSource.member_nick);
             var num1 = cell.dataSource.score % 1000;
             var num2 = cell.dataSource.score / 1000 | 0;
             rankdetail.text = PaoYa.DataCenter.user.config_list.hero.ladderList[num2 - 1].ladderName + "\xD7" + num1;
@@ -13578,7 +14107,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7}],62:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13598,6 +14127,10 @@ var _Wheel2 = _interopRequireDefault(_Wheel);
 var _HomeControl = require("../../common/HomeControl");
 
 var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+var _Tool = require("../../common/tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13682,6 +14215,8 @@ var Task = function (_PaoYa$Dialog) {
             var diamondNum = cell.getChildByName("diamondNum");
             var btn = cell.getChildByName("btn");
             var noThankTxt = cell.getChildByName("noThankTxt");
+            var sp = cell.getChildByName("sp");
+            sp.visible = false;
 
             bg.visible = cell.dataSource.finish >= cell.dataSource.num;
             img.width = cell.dataSource.finish / cell.dataSource.num >= 1 ? 144 : cell.dataSource.finish / cell.dataSource.num * 144;
@@ -13691,10 +14226,6 @@ var Task = function (_PaoYa$Dialog) {
             diamondNum.pos(598, 24);
 
             btn.skin = cell.dataSource.finish / cell.dataSource.num >= 1 ? "local/common/btn_1.png" : "local/common/btn_2.png";
-            noThankTxt.text = cell.dataSource.finish / cell.dataSource.num >= 1 ? "\u9886\u53D6" : "\u53BB\u5B8C\u6210";
-            noThankTxt.font = "weaponDFont";
-            noThankTxt.scale(0.65, 0.65);
-            noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15);
 
             btn.offAll();
             btn.disabled = false;
@@ -13706,47 +14237,58 @@ var Task = function (_PaoYa$Dialog) {
                 btn.disabled = true;
             } else {
                 if (cell.dataSource.finish / cell.dataSource.num >= 1) {
+                    noThankTxt.text = "\u9886\u53D6";
+                    noThankTxt.font = "weaponDFont";
+                    noThankTxt.scale(0.65, 0.65);
+                    noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2 + 30, 15);
+                    sp.visible = true;
                     btn.on(Laya.Event.CLICK, this, function () {
-                        PaoYa.Request.POST("martial_task_receive", { taskKey: cell.dataSource.task }, function (res) {
-                            _SoundManager2.default.ins.gold();
-                            PaoYa.DataCenter.user.diamond += cell.dataSource.diamond;
-                            _this3.diamondNum.text = addNumberUnit(PaoYa.DataCenter.user.diamond);
+                        _Tool2.default.showVideoAD(function () {
+                            PaoYa.Request.POST("martial_task_receive", { taskKey: cell.dataSource.task }, function (res) {
+                                _SoundManager2.default.ins.gold();
+                                PaoYa.DataCenter.user.diamond += cell.dataSource.diamond;
+                                _this3.diamondNum.text = addNumberUnit(PaoYa.DataCenter.user.diamond);
 
-                            function addNumberUnit(num) {
-                                switch (true) {
-                                    case num >= 10000 && num < 100000000:
-                                        var integ = num / 10000;
-                                        return Math.floor(integ * 100) / 100 + '万';
-                                        break;
-                                    case num >= 100000000:
-                                        var integ1 = num / 100000000;
-                                        return Math.floor(integ1 * 100) / 100 + '亿';
-                                        break;
-                                    default:
-                                        return num + '';
-                                        break;
-                                }
-                            };
-
-                            var statuss = false;
-                            _this3.params.forEach(function (element) {
-                                if (element.task == cell.dataSource.task) {
-                                    for (var key in res) {
-                                        element[key] = res[key];
+                                function addNumberUnit(num) {
+                                    switch (true) {
+                                        case num >= 10000 && num < 100000000:
+                                            var integ = num / 10000;
+                                            return Math.floor(integ * 100) / 100 + '万';
+                                            break;
+                                        case num >= 100000000:
+                                            var integ1 = num / 100000000;
+                                            return Math.floor(integ1 * 100) / 100 + '亿';
+                                            break;
+                                        default:
+                                            return num + '';
+                                            break;
                                     }
-                                }
+                                };
 
-                                if (element.status == 1) {
-                                    statuss = true;
-                                }
+                                var statuss = false;
+                                _this3.params.forEach(function (element) {
+                                    if (element.task == cell.dataSource.task) {
+                                        for (var key in res) {
+                                            element[key] = res[key];
+                                        }
+                                    }
+
+                                    if (element.status == 1) {
+                                        statuss = true;
+                                    }
+                                });
+                                PaoYa.DataCenter.user.dailyTaskStatus = statuss;
+                                _HomeControl2.default.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
+
+                                _this3.taskList.array = _this3.params;
                             });
-                            PaoYa.DataCenter.user.dailyTaskStatus = statuss;
-                            _HomeControl2.default.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
-
-                            _this3.taskList.array = _this3.params;
                         });
                     });
                 } else {
+                    noThankTxt.text = "\u53BB\u5B8C\u6210";
+                    noThankTxt.font = "weaponDFont";
+                    noThankTxt.scale(0.65, 0.65);
+                    noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15);
                     btn.on(Laya.Event.CLICK, this, function () {
                         _SoundManager2.default.ins.btn();
                         _this3.close();
@@ -13843,7 +14385,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/wheel/Wheel":57}],63:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/tool/Tool":52,"../../common/wheel/Wheel":57}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13949,7 +14491,7 @@ var BuyHero = function (_PaoYa$Dialog) {
 
 exports.default = BuyHero;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/figure/Swordsman":41,"../../common/figure/SwordsmanControl":42}],64:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/figure/Swordsman":41,"../../common/figure/SwordsmanControl":42}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14022,7 +14564,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{"../../../gamescripts/SoundManager":7}],65:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14093,7 +14635,7 @@ var SkillDetail = function (_PaoYa$Dialog) {
 
 exports.default = SkillDetail;
 
-},{"../../../gamescripts/SoundManager":7}],66:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14196,7 +14738,7 @@ var Canlock = function (_PaoYa$Dialog) {
 
 exports.default = Canlock;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/refiner/RefiningControl":46}],67:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/refiner/RefiningControl":46}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14264,7 +14806,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
 exports.default = DiamondLack;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],68:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14337,7 +14879,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],69:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14480,7 +15022,7 @@ var StoreSure = function (_PaoYa$Dialog) {
 
 exports.default = StoreSure;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/refiner/DevourControl":44,"../../common/weapon/WeaponStoreControl":56}],70:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/refiner/DevourControl":44,"../../common/weapon/WeaponStoreControl":56}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14549,7 +15091,7 @@ var UnlockFifth = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFifth;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/tool/Tool":52}],71:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/tool/Tool":52}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14631,7 +15173,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFour;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/weapon/WeaponHouseControl":54}],72:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/weapon/WeaponHouseControl":54}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14692,7 +15234,7 @@ var UnlockTips = function (_PaoYa$Dialog) {
 
 exports.default = UnlockTips;
 
-},{"../../../gamescripts/SoundManager":7}],73:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

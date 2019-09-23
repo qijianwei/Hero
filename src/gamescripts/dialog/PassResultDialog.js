@@ -97,7 +97,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
             onError: function onError(res) {
                 var errorDialog = new AlertDialog({
                     title: "温馨提示",
-                    message: res.message
+                    message: `广告拉取失败`
                 });
                 errorDialog.popup();
             }

@@ -39,9 +39,9 @@ export default class ChangeWp extends PaoYa.Dialog {
             if (this.params.weaponId) {
                 this.sellyWp()
             } else {
-                // Tool.showVideoAD(() => {
+                Tool.showVideoAD(() => {
                 this.params.weaponId = `video`
-                // })
+                },null,null,1)
                 this.infoDetail()
             }
         })

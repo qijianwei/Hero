@@ -28,11 +28,16 @@ export default class GetAward extends PaoYa.Dialog {
         })
 
         this.buyBtn.on(Laya.Event.CLICK, this, () => {
-            // Tool.showVideoAD(() => {
-            // PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, res => { 
-            this.close()
-            // })
-            // })
+            Tool.showVideoAD(() => {
+                PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, res => {
+                    this.close()
+                    let obj = {
+                        type: `sign`,
+                        detail: res
+                    }
+                    HomeControl.ins.navigator.popup("common/Award", obj);
+                })
+            }, null, null, 1)
         })
     }
 }

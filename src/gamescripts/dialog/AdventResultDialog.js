@@ -1,5 +1,6 @@
 import WeaponBar from "../prefab/WeaponBar";
 import GameControl from "../GameControl";
+import AlertDialog from "./AlertDialog";
 
 export default class AdventResultDialog extends PaoYa.Dialog {
     constructor() {
@@ -41,12 +42,18 @@ export default class AdventResultDialog extends PaoYa.Dialog {
     }
     sureHandler(){
         console.log(`确认....`)
+        PaoYa.Request.POST('martial_encounter_finish', {
+            result:this.params.result,
+            complete:1
+        }, (res) => {
+           console.log(``)
+        })
         this.close();
         PaoYa.navigator.popToRootScene();
     }
     rejectHandler(){
         console.log(`走人撒`);
-        this.POST('martial_encounter_finish', {
+        PaoYa.Request.POST('martial_encounter_finish', {
             result:this.params.result,
             complete:1
         }, (res) => {
@@ -81,7 +88,7 @@ export default class AdventResultDialog extends PaoYa.Dialog {
                     _this.close();
                     GameControl.instance.revive(); //复活
                 } else {
-                    var errorDialog = new _AlertDialog2.default({
+                    var errorDialog = new AlertDialog({
                         title: `温馨提示`,
                         message: '看完广告才可复活哦~'
                     });
@@ -96,7 +103,7 @@ export default class AdventResultDialog extends PaoYa.Dialog {
                 errorDialog.popup();
             }
         };
-        PaoYa.RewardedVideoAd.show(params);
+        PaoYa.RewardedVideoAd.show(params,true);
     }
     dealType1(result){
        if(result==1){

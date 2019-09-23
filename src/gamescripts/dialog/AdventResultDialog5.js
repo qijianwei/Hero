@@ -35,13 +35,13 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
         //分情况，在游戏结果促发后展示结果界面
         this.close();
         if (PaoYa.navigator.scenes.length > 1) {
-            PaoYa.navigator.popup('/dialog/adventDialog', this.params)
+            PaoYa.navigator.popup('/dialog/PassResultDialog', this.params)
         }
 
     }
     videoHandler() {
         let _this = this;       
-        if(window['wx']){
+        if(!window['wx']){
             this.showGetState();
             return;
         }
@@ -58,7 +58,7 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
                         console.log(`奇遇完成`)
                     })
                 } else {
-                    var errorDialog = new _AlertDialog2.default({
+                    var errorDialog = new AlertDialog({
                         title: `温馨提示`,
                         message: '看完广告才可拥有哦~'
                     });
@@ -73,7 +73,7 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
                 errorDialog.popup();
             }
         };
-        PaoYa.RewardedVideoAd.show(params);
+        PaoYa.RewardedVideoAd.show(params,true);
     }
     startCount(time) {
         let timeStamp = (time * 1000 - (new Date()).valueOf()) / 1000;

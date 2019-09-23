@@ -43,12 +43,12 @@ export default class Tool {
         return PaoYa.game.params.adUnitId ? true : false;
     }
 
-    static showVideoAD(callBack, cancel, err, num) {
+    static showVideoAD(callBack, cancel, err, isAdventure, num) {
         // Global.dataPoints(`点击观看视频次数`, { points: "103" })
         var p = {
             onLoad: function () {
                 console.log(`视频弹出`)
-                PaoYa.Request.POST(`manage_data`, { code: num })
+                // PaoYa.Request.POST(`manage_data`, { code: num })
             },
             onError() {
                 // PaoYa.Request.GET("change_advertising", {}, () => {
@@ -67,7 +67,7 @@ export default class Tool {
                 }
             }
         }
-        PaoYa.RewardedVideoAd.show(p);
+        PaoYa.RewardedVideoAd.show(p, isAdventure);
     }
 
     /**设置用户领钻石小红点值 */

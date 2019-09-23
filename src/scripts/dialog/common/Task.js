@@ -1,6 +1,7 @@
 import SoundManager from "../../../gamescripts/SoundManager";
 import Wheel from "../../common/wheel/Wheel";
 import HomeControl from "../../common/HomeControl";
+import Tool from "../../common/tool/Tool";
 
 export default class Task extends PaoYa.Dialog {
 
@@ -67,6 +68,8 @@ export default class Task extends PaoYa.Dialog {
         let diamondNum = cell.getChildByName(`diamondNum`)
         let btn = cell.getChildByName(`btn`)
         let noThankTxt = cell.getChildByName(`noThankTxt`)
+        let sp = cell.getChildByName(`sp`)
+        sp.visible = false
 
         bg.visible = cell.dataSource.finish >= cell.dataSource.num
         img.width = (cell.dataSource.finish / cell.dataSource.num) >= 1 ? 144 : (cell.dataSource.finish / cell.dataSource.num) * 144
@@ -76,10 +79,6 @@ export default class Task extends PaoYa.Dialog {
         diamondNum.pos(598, 24)
 
         btn.skin = (cell.dataSource.finish / cell.dataSource.num) >= 1 ? `local/common/btn_1.png` : `local/common/btn_2.png`
-        noThankTxt.text = (cell.dataSource.finish / cell.dataSource.num) >= 1 ? `领取` : `去完成`
-        noThankTxt.font = `weaponDFont`
-        noThankTxt.scale(0.65, 0.65)
-        noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15)
 
         btn.offAll()
         btn.disabled = false
@@ -91,47 +90,58 @@ export default class Task extends PaoYa.Dialog {
             btn.disabled = true
         } else {
             if ((cell.dataSource.finish / cell.dataSource.num) >= 1) {
+                noThankTxt.text = `领取`
+                noThankTxt.font = `weaponDFont`
+                noThankTxt.scale(0.65, 0.65)
+                noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2 + 30, 15)
+                sp.visible = true
                 btn.on(Laya.Event.CLICK, this, () => {
-                    PaoYa.Request.POST(`martial_task_receive`, { taskKey: cell.dataSource.task }, res => {
-                        SoundManager.ins.gold()
-                        PaoYa.DataCenter.user.diamond += cell.dataSource.diamond
-                        this.diamondNum.text = addNumberUnit(PaoYa.DataCenter.user.diamond)
+                    Tool.showVideoAD(() => {
+                        PaoYa.Request.POST(`martial_task_receive`, { taskKey: cell.dataSource.task }, res => {
+                            SoundManager.ins.gold()
+                            PaoYa.DataCenter.user.diamond += cell.dataSource.diamond
+                            this.diamondNum.text = addNumberUnit(PaoYa.DataCenter.user.diamond)
 
-                        function addNumberUnit(num) {
-                            switch (true) {
-                                case num >= 10000 && num < 100000000:
-                                    let integ = num / 10000
-                                    return Math.floor(integ * 100) / 100 + '万'
-                                    break
-                                case num >= 100000000:
-                                    let integ1 = num / 100000000
-                                    return Math.floor(integ1 * 100) / 100 + '亿'
-                                    break
-                                default:
-                                    return num + ''
-                                    break
-                            }
-                        };
-
-                        let statuss = false
-                        this.params.forEach(element => {
-                            if (element.task == cell.dataSource.task) {
-                                for (const key in res) {
-                                    element[key] = res[key]
+                            function addNumberUnit(num) {
+                                switch (true) {
+                                    case num >= 10000 && num < 100000000:
+                                        let integ = num / 10000
+                                        return Math.floor(integ * 100) / 100 + '万'
+                                        break
+                                    case num >= 100000000:
+                                        let integ1 = num / 100000000
+                                        return Math.floor(integ1 * 100) / 100 + '亿'
+                                        break
+                                    default:
+                                        return num + ''
+                                        break
                                 }
-                            }
-                        
-                            if (element.status == 1) {
-                                statuss = true
-                            }
-                        });
-                        PaoYa.DataCenter.user.dailyTaskStatus = statuss
-                        HomeControl.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
+                            };
 
-                        this.taskList.array = this.params
+                            let statuss = false
+                            this.params.forEach(element => {
+                                if (element.task == cell.dataSource.task) {
+                                    for (const key in res) {
+                                        element[key] = res[key]
+                                    }
+                                }
+
+                                if (element.status == 1) {
+                                    statuss = true
+                                }
+                            });
+                            PaoYa.DataCenter.user.dailyTaskStatus = statuss
+                            HomeControl.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
+
+                            this.taskList.array = this.params
+                        })
                     })
                 })
             } else {
+                noThankTxt.text = `去完成`
+                noThankTxt.font = `weaponDFont`
+                noThankTxt.scale(0.65, 0.65)
+                noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2, 15)
                 btn.on(Laya.Event.CLICK, this, () => {
                     SoundManager.ins.btn()
                     this.close()

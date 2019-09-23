@@ -4462,6 +4462,10 @@ var InterstitialAd = /** @class */ (function (_super) {
         }
     };
     InterstitialAd.show = function (params) {
+        if (!window['wx']) {
+            params.onError && params.onError();
+            return;
+        }
         if (window['wx'] && !_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].interstitialUnitId) {
             console.error('请在Main中设置interstitialUnitId之后再观看广告');
             return;

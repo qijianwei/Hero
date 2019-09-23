@@ -10,6 +10,10 @@ export default class AdventDialog extends PaoYa.Dialog {
         let _this = this;
         this.params=this.params.encounter;
         let type = this.params.type;
+        this.spRole.texture=`remote/guide/${this.params.dress}.png`;
+        if(this.params.dress==`npc_3`){
+            this.spRole.y=177
+        }
         this.adventType = [{
             type: 1,
             target: `击杀${this.params.num}个匪徒`,
@@ -137,7 +141,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         PaoYa.Request.POST(`martial_encounter_cancel`,{},()=>{
             this.close();
             if(PaoYa.navigator.scenes.length>1){
-                PaoYa.navigator.popup('/dialog/adventDialog', this.params)
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.params)
             }
         })
     }
