@@ -2,6 +2,7 @@ import SoundManager from "../../../gamescripts/SoundManager";
 import Wheel from "../../common/wheel/Wheel";
 import HomeControl from "../../common/HomeControl";
 import Tool from "../../common/tool/Tool";
+import { Global } from "../../common/tool/Global";
 
 export default class Task extends PaoYa.Dialog {
 
@@ -10,6 +11,8 @@ export default class Task extends PaoYa.Dialog {
     }
 
     onEnable() {
+        Global.dataPoints('进入任务页面')
+        this.autoDestroyAtClosed = true;
         PaoYa.Request.GET('update_chips', {}, res => {
             this.goldNum.width = null
 
@@ -96,6 +99,7 @@ export default class Task extends PaoYa.Dialog {
                 noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2 + 30, 15)
                 sp.visible = true
                 btn.on(Laya.Event.CLICK, this, () => {
+                    Global.dataPoints('任务奖励领取激励广告')
                     Tool.showVideoAD(() => {
                         PaoYa.Request.POST(`martial_task_receive`, { taskKey: cell.dataSource.task }, res => {
                             SoundManager.ins.gold()

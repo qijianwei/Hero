@@ -8,6 +8,7 @@ export default class DiamondLack extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         // this.maskBg.on(Laya.Event.CLICK, this, () => {
         //     this.close()
         // })
@@ -23,7 +24,7 @@ export default class DiamondLack extends PaoYa.Dialog {
                 if (!res) {
                     return
                 }
-                HomeControl.ins.navigator.popup("common/Task", res);
+                PaoYa.navigator.popup("common/Task", res);
             })
         })
     }

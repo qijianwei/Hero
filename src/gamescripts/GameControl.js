@@ -115,7 +115,7 @@ export default class GameControl extends PaoYa.Component {
        
    
        //测试
-       this.addDragon();
+       //this.addDragon();
        
     }
     addDragon(){

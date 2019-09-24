@@ -1,5 +1,4 @@
 import { Global } from "../../common/tool/Global";
-import HomeControl from "../../common/HomeControl";
 
 export default class BuyWp extends PaoYa.Dialog {
 
@@ -9,6 +8,13 @@ export default class BuyWp extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
+        this.resultParams=JSON.parse(JSON.stringify(this.params)); 
+
+        if (this.params.encounter) {
+            this.params = this.params.encounter;
+        }
+
         this.heroImage.skin = `remote/guide/hero_${PaoYa.DataCenter.user.defaultRoleId}.png`
 
         this.tips.font = `adventure`
@@ -139,7 +145,7 @@ export default class BuyWp extends PaoYa.Dialog {
 
         if (num > PaoYa.DataCenter.user.diamond) {
             this.close()
-            HomeControl.ins.navigator.popup("weapon/DiamondLack", 1);
+            PaoYa.navigator.popup("weapon/DiamondLack", 1);
             return
         }
 
@@ -213,7 +219,9 @@ export default class BuyWp extends PaoYa.Dialog {
         }
     }
 
-    onDisable() {
-
+    onClosed() {
+        if (PaoYa.navigator.scenes.length > 1) {
+            PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
+        }
     }
 }

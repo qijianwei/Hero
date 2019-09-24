@@ -8,7 +8,10 @@ export default class AdventDialog extends PaoYa.Dialog {
     onAwake() {
         this.autoDestroyAtClosed = true;
         let _this = this;
-        this.params=this.params.encounter;
+        this.resultParams=JSON.parse(JSON.stringify(this.params));
+        if(this.params.encounter){
+            this.params=this.params.encounter;
+        }  
         let type = this.params.type;
         this.spRole.texture=`remote/guide/${this.params.dress}.png`;
         if(this.params.dress==`npc_3`){
@@ -57,6 +60,15 @@ export default class AdventDialog extends PaoYa.Dialog {
             case `btnReject`:
                 this.rejectHandler();
                 break;
+            case `closeT`:
+                this.hangUp();
+                break;
+        }
+    }
+    hangUp(){
+        this.close();
+        if(PaoYa.navigator.scenes.length>1){
+            PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
         }
     }
     initReward(jsons) {
@@ -117,23 +129,30 @@ export default class AdventDialog extends PaoYa.Dialog {
             stageId: this.params.id
         }, (res) => {
             // 绘制遮罩区，含透明度，
-            let maskArea = new Laya.Sprite();
-            maskArea.alpha = 0.5;
-            maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
-            // maskArea.pos(-150,0);
-            maskArea.mouseEnabled = true;
-            maskArea.zOrder = 2000;
-            Laya.stage.addChild(maskArea);
-            let tween = new Laya.Tween();
-            tween.to(maskArea, {
-                alpha: 1
-            }, 600, null, Laya.Handler.create(this, () => {
-                res.gameType = "adventure";
-                PaoYa.navigator.replace("GameView", res);
+            if(PaoYa.navigator.scenes.length>1){
+                let maskArea = new Laya.Sprite();
+                maskArea.alpha = 0.5;
+                maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+                // maskArea.pos(-150,0);
+                maskArea.mouseEnabled = true;
+                maskArea.zOrder = 2000;
+                Laya.stage.addChild(maskArea);
+                let tween = new Laya.Tween();
+                tween.to(maskArea, {
+                    alpha: 1
+                }, 600, null, Laya.Handler.create(this, () => {
+                    res.gameType = "adventure";
+                    PaoYa.navigator.replace("GameView", res);
+                    this.close();
+                    tween.clear();
+                    Laya.stage.removeChild(maskArea);
+                }));
+            }else{
                 this.close();
-                tween.clear();
-                Laya.stage.removeChild(maskArea);
-            }));
+                res.gameType = 'adventure';
+                PaoYa.navigator.push("GameView", res);
+            }
+          
         })
     }
     rejectHandler() {
@@ -141,7 +160,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         PaoYa.Request.POST(`martial_encounter_cancel`,{},()=>{
             this.close();
             if(PaoYa.navigator.scenes.length>1){
-                PaoYa.navigator.popup('/dialog/PassResultDialog', this.params)
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
             }
         })
     }

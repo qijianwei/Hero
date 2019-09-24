@@ -1,5 +1,4 @@
 import { Global } from "../../common/tool/Global";
-import HomeControl from "../../common/HomeControl";
 import Tool from "../../common/tool/Tool";
 
 export default class ChangeWp extends PaoYa.Dialog {
@@ -10,6 +9,12 @@ export default class ChangeWp extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
+        this.resultParams = JSON.parse(JSON.stringify(this.params));
+
+        if (this.params.encounter) {
+            this.params = this.params.encounter;
+        }
 
         this.tips.font = `adventure`
         let name = "八卦斧"
@@ -39,6 +44,7 @@ export default class ChangeWp extends PaoYa.Dialog {
             if (this.params.weaponId) {
                 this.sellyWp()
             } else {
+                Global.dataPoints('奇遇b激励广告')
                 Tool.showVideoAD(() => {
                     this.params.weaponId = `video`
                     this.infoDetail()
@@ -68,8 +74,14 @@ export default class ChangeWp extends PaoYa.Dialog {
     }
 
     sellyWp() {
-        // PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, res => { 
-        this.close()
-        // })
+        PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, res => {
+            this.close()
+        })
+    }
+
+    onClosed() {
+        if (PaoYa.navigator.scenes.length > 1) {
+            PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
+        }
     }
 }

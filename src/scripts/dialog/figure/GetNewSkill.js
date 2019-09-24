@@ -16,6 +16,7 @@ export default class GoldLack extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         this.btn.on(Laya.Event.CLICK, this, ()=>{
             this.close()
             SoundManager.ins.btn()

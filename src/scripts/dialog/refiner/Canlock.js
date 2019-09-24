@@ -8,6 +8,7 @@ export default class Canlock extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         this.title.font = `figureDetail`
         this.title.scale(0.8, 0.8)
         this.title.x = (543 - this.title.width) / 2

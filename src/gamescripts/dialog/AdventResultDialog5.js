@@ -1,4 +1,5 @@
 import AlertDialog from "./AlertDialog";
+import { Global } from "../../scripts/common/tool/Global";
 
 export default class AdventResultDialog5 extends PaoYa.Dialog {
     constructor() {
@@ -45,6 +46,7 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
             this.showGetState();
             return;
         }
+        Global.dataPoints('奇遇d激励广告')
         //看视频
         var params = {
             onClose: function onClose(res) {

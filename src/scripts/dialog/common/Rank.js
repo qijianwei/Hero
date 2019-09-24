@@ -7,6 +7,7 @@ export default class Task extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         this.btnClose.on(Laya.Event.CLICK, this, () => {
             this.close()
             SoundManager.ins.btn()

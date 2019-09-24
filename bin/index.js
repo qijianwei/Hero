@@ -19,5 +19,6 @@ if(window.qq){
 }else{
     loadLib("libs/platform.browser.js")
 }
+loadLib("libs/ald-game.js")
 loadLib("libs/paoya.core.js")
 loadLib("js/bundle.js"); 

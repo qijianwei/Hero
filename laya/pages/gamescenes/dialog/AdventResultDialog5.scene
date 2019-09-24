@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":2,
-    "selecteID":127,
+    "selectedBox":121,
+    "selecteID":128,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/dialog/AdventResultDialog5.js","height":750},
     "nodeParent":-1,
-    "maxID":128,
+    "maxID":129,
     "label":"Dialog",
     "isOpen":true,
     "isDirectory":true,
@@ -216,6 +216,20 @@
                             "child":[
                                 ]
                         }]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":219,"x":98,"texture":"remote/adventure/advent5.png"},
+                    "nodeParent":121,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":128,
+                    "child":[
+                        ]
                 }],
             "$HIDDEN":false
         },

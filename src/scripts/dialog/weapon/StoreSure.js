@@ -10,6 +10,7 @@ export default class StoreSure extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         // this.mask.on(Laya.Event.CLICK, this, this.close)
         this.btn1.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()

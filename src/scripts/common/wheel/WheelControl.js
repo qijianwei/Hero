@@ -1,5 +1,6 @@
 import SoundManager from "../../../gamescripts/SoundManager";
 import Tool from "../tool/Tool";
+import { Global } from "../tool/Global";
 
 export default class WheelControl extends PaoYa.Component {
     constructor() {
@@ -39,6 +40,7 @@ export default class WheelControl extends PaoYa.Component {
         if (this.owner.num.text < 1) {
             SoundManager.ins.btn()
             // this.navigator.popup("common/BuyWheelTimes");
+            Global.dataPoints('增加转盘次数激励广告')
             Tool.showVideoAD(() => {
                 this.addTimesD()
                 this.owner.video.visible = false

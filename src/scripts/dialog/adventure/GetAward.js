@@ -1,5 +1,4 @@
 import { Global } from "../../common/tool/Global";
-import HomeControl from "../../common/HomeControl";
 import Tool from "../../common/tool/Tool";
 
 export default class GetAward extends PaoYa.Dialog {
@@ -10,6 +9,13 @@ export default class GetAward extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
+        this.resultParams=JSON.parse(JSON.stringify(this.params)); 
+
+        if (this.params.encounter) {
+            this.params = this.params.encounter;
+        }
+
         this.tips.font = `adventure`
         this.closeBtnText.font = `adventure`
         this.closeBtnText.scale(0.9, 0.9)
@@ -28,6 +34,7 @@ export default class GetAward extends PaoYa.Dialog {
         })
 
         this.buyBtn.on(Laya.Event.CLICK, this, () => {
+            Global.dataPoints('进入炼器页面')
             Tool.showVideoAD(() => {
                 PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, res => {
                     this.close()
@@ -35,9 +42,15 @@ export default class GetAward extends PaoYa.Dialog {
                         type: `sign`,
                         detail: { gold: res.gold, isclose: 1 }
                     }
-                    HomeControl.ins.navigator.popup("common/Award", obj);
+                    PaoYa.navigator.popup("common/Award", obj);
                 })
             }, null, null, 1)
         })
+    }
+
+    onClosed() {
+        if (PaoYa.navigator.scenes.length > 1) {
+            PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
+        }
     }
 }

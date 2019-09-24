@@ -1,6 +1,7 @@
 import SignControl from "./SignControl";
 import SoundManager from "../../../gamescripts/SoundManager";
 import Tool from "../tool/Tool";
+import { Global } from "../tool/Global";
 
 export default class Sign extends PaoYa.View {
     constructor() {
@@ -13,6 +14,7 @@ export default class Sign extends PaoYa.View {
     }
 
     onEnable() {
+        Global.dataPoints('进入签到页面')
         this.benBack.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
             SignControl.ins.navigator.pop()
@@ -51,6 +53,7 @@ export default class Sign extends PaoYa.View {
                 // PaoYa.ShareManager.shareTitle(title, {}, () => {
                 //     SignControl.ins.getAward()
                 // })
+                Global.dataPoints('签到激励广告')
                 Tool.showVideoAD(()=>{
                     SignControl.ins.getAward()
                 })

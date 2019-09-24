@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -588,7 +588,7 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupGameRes() {
 			var list = [
 			/* 首屏资源和公共资源 */
-			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/hero_skill/hero4_skill1.atlas',
+			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas', 'res/atlas/remote/hero_skill/hero4_skill1.atlas',
 			/* 场景 */
 			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
 			/* 动效animation资源 */
@@ -830,7 +830,7 @@ var GameControl = function (_PaoYa$Component) {
             PaoYa.InterstitialAd.show(adParams);
 
             //测试
-            this.addDragon();
+            //this.addDragon();
         }
     }, {
         key: 'addDragon',
@@ -2434,7 +2434,10 @@ var AdventDialog = function (_PaoYa$Dialog) {
 
             this.autoDestroyAtClosed = true;
             var _this = this;
-            this.params = this.params.encounter;
+            this.resultParams = JSON.parse(JSON.stringify(this.params));
+            if (this.params.encounter) {
+                this.params = this.params.encounter;
+            }
             var type = this.params.type;
             this.spRole.texture = 'remote/guide/' + this.params.dress + '.png';
             if (this.params.dress == 'npc_3') {
@@ -2485,6 +2488,17 @@ var AdventDialog = function (_PaoYa$Dialog) {
                 case 'btnReject':
                     this.rejectHandler();
                     break;
+                case 'closeT':
+                    this.hangUp();
+                    break;
+            }
+        }
+    }, {
+        key: 'hangUp',
+        value: function hangUp() {
+            this.close();
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams);
             }
         }
     }, {
@@ -2557,23 +2571,29 @@ var AdventDialog = function (_PaoYa$Dialog) {
                 stageId: this.params.id
             }, function (res) {
                 // 绘制遮罩区，含透明度，
-                var maskArea = new Laya.Sprite();
-                maskArea.alpha = 0.5;
-                maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
-                // maskArea.pos(-150,0);
-                maskArea.mouseEnabled = true;
-                maskArea.zOrder = 2000;
-                Laya.stage.addChild(maskArea);
-                var tween = new Laya.Tween();
-                tween.to(maskArea, {
-                    alpha: 1
-                }, 600, null, Laya.Handler.create(_this4, function () {
-                    res.gameType = "adventure";
-                    PaoYa.navigator.replace("GameView", res);
+                if (PaoYa.navigator.scenes.length > 1) {
+                    var maskArea = new Laya.Sprite();
+                    maskArea.alpha = 0.5;
+                    maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+                    // maskArea.pos(-150,0);
+                    maskArea.mouseEnabled = true;
+                    maskArea.zOrder = 2000;
+                    Laya.stage.addChild(maskArea);
+                    var tween = new Laya.Tween();
+                    tween.to(maskArea, {
+                        alpha: 1
+                    }, 600, null, Laya.Handler.create(_this4, function () {
+                        res.gameType = "adventure";
+                        PaoYa.navigator.replace("GameView", res);
+                        _this4.close();
+                        tween.clear();
+                        Laya.stage.removeChild(maskArea);
+                    }));
+                } else {
                     _this4.close();
-                    tween.clear();
-                    Laya.stage.removeChild(maskArea);
-                }));
+                    res.gameType = 'adventure';
+                    PaoYa.navigator.push("GameView", res);
+                }
             });
         }
     }, {
@@ -2585,7 +2605,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
             PaoYa.Request.POST('martial_encounter_cancel', {}, function () {
                 _this5.close();
                 if (PaoYa.navigator.scenes.length > 1) {
-                    PaoYa.navigator.popup('/dialog/PassResultDialog', _this5.params);
+                    PaoYa.navigator.popup('/dialog/PassResultDialog', _this5.resultParams);
                 }
             });
         }
@@ -2657,13 +2677,18 @@ var AdventureDialog5 = function (_PaoYa$Dialog) {
                     this.rejectHandler();
                     break;
                 case 'closeT':
-                    this.closeHandler();
+                    this.hangUp();
                     break;
             }
         }
     }, {
-        key: 'closeHandler',
-        value: function closeHandler() {}
+        key: 'hangUp',
+        value: function hangUp() {
+            this.close();
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.params);
+            }
+        }
     }, {
         key: 'agreeHandler',
         value: function agreeHandler() {
@@ -2745,6 +2770,8 @@ var _GameControl2 = _interopRequireDefault(_GameControl);
 var _AlertDialog = require("./AlertDialog");
 
 var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
+
+var _Global = require("../../scripts/common/tool/Global");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2837,6 +2864,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
             PaoYa.ShareManager.imageURL = PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img[random];
             if (window['wx']) {
                 PaoYa.ShareManager.shareTitle(title, {}, function () {
+                    _Global.Global.dataPoints('奇遇a1失败复活');
                     _this.close();
                     _GameControl2.default.instance.revive(); //复活
                 });
@@ -2849,6 +2877,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         key: "videoHandler",
         value: function videoHandler() {
             console.log("\u770B\u5E7F\u544A\u590D\u6D3B");
+            _Global.Global.dataPoints('奇遇a激励广告');
             var _this = this;
             var params = {
                 onClose: function onClose(res) {
@@ -2929,8 +2958,8 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog;
 
-},{"../GameControl":4,"../prefab/WeaponBar":31,"./AlertDialog":14}],13:[function(require,module,exports){
-'use strict';
+},{"../../scripts/common/tool/Global":51,"../GameControl":4,"../prefab/WeaponBar":31,"./AlertDialog":14}],13:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -2938,9 +2967,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _AlertDialog = require('./AlertDialog');
+var _AlertDialog = require("./AlertDialog");
 
 var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
+
+var _Global = require("../../scripts/common/tool/Global");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2960,37 +2991,37 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
     }
 
     _createClass(AdventResultDialog5, [{
-        key: 'onAwake',
+        key: "onAwake",
         value: function onAwake() {
             var state = this.params.state;
             var time = this.params.time;
-            if (state == 'wait') {
+            if (state == "wait") {
                 this.boxWait.visible = true;
-                this.lbl1.font = 'adventure';
-                this.lbl2.font = 'adventure';
-                this.lbl3.font = 'adventure';
+                this.lbl1.font = "adventure";
+                this.lbl2.font = "adventure";
+                this.lbl3.font = "adventure";
                 this.startCount(time);
-            } else if (state == 'get') {
+            } else if (state == "get") {
                 this.boxGet.visible = true;
-                this.lbl3.font = 'adventure';
+                this.lbl3.font = "adventure";
             }
 
             this.on(Laya.Event.CLICK, this, this.clickHandler);
         }
     }, {
-        key: 'clickHandler',
+        key: "clickHandler",
         value: function clickHandler(e) {
             switch (e.target.name) {
-                case 'btnSure':
+                case "btnSure":
                     this.sureHandler();
                     break;
-                case 'btnVideo':
+                case "btnVideo":
                     this.videoHandler();
                     break;
             }
         }
     }, {
-        key: 'sureHandler',
+        key: "sureHandler",
         value: function sureHandler() {
             //分情况，在游戏结果促发后展示结果界面
             this.close();
@@ -2999,28 +3030,29 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
             }
         }
     }, {
-        key: 'videoHandler',
+        key: "videoHandler",
         value: function videoHandler() {
             var _this = this;
             if (!window['wx']) {
                 this.showGetState();
                 return;
             }
+            _Global.Global.dataPoints('奇遇d激励广告');
             //看视频
             var params = {
                 onClose: function onClose(res) {
                     if (res.isEnded) {
-                        console.log('\u770B\u5B8C\u5E7F\u544A');
+                        console.log("\u770B\u5B8C\u5E7F\u544A");
                         _this.showGetState();
-                        PaoYa.Request.POST('martial_encounter_finish', {
+                        PaoYa.Request.POST("martial_encounter_finish", {
                             result: 1,
                             complete: 1
                         }, function () {
-                            console.log('\u5947\u9047\u5B8C\u6210');
+                            console.log("\u5947\u9047\u5B8C\u6210");
                         });
                     } else {
                         var errorDialog = new _AlertDialog2.default({
-                            title: '\u6E29\u99A8\u63D0\u793A',
+                            title: "\u6E29\u99A8\u63D0\u793A",
                             message: '看完广告才可拥有哦~'
                         });
                         errorDialog.popup();
@@ -3037,7 +3069,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
             PaoYa.RewardedVideoAd.show(params, true);
         }
     }, {
-        key: 'startCount',
+        key: "startCount",
         value: function startCount(time) {
             var _this3 = this;
 
@@ -3053,7 +3085,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
             this.timerService = timerService;
         }
     }, {
-        key: 'showGetState',
+        key: "showGetState",
         value: function showGetState() {
             var _this4 = this;
 
@@ -3070,32 +3102,32 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
             });
         }
     }, {
-        key: 'initReward',
+        key: "initReward",
         value: function initReward(json) {
             if (this.params.diamond) {
                 var diamondView = this.createRewardBox(json);
                 diamondView.getChildByName('lblNum').scale(0.6, 0.6);
-                diamondView.getChildByName('lblNum').text = '\xD7 ' + this.params.diamond;
-                diamondView.getChildByName('lblNum').font = 'weaponNFontT';
-                diamondView.getChildByName('spBg').scale(1, 1);
+                diamondView.getChildByName("lblNum").text = "\xD7 " + this.params.diamond;
+                diamondView.getChildByName("lblNum").font = "weaponNFontT";
+                diamondView.getChildByName("spBg").scale(1, 1);
                 this.hboxReward.addChild(diamondView);
             }
             if (this.params.gold) {
                 var goldView = this.createRewardBox(json);
                 goldView.getChildByName('lblNum').scale(0.6, 0.6);
-                goldView.getChildByName('lblNum').text = '\xD7 ' + this.params.gold;
-                goldView.getChildByName('lblNum').font = 'weaponNFontT';
-                goldView.getChildByName('spBg').scale(1, 1);
-                goldView.getChildByName('spReward').texture = 'local/common/icon.png';
+                goldView.getChildByName('lblNum').text = "\xD7 " + this.params.gold;
+                goldView.getChildByName('lblNum').font = "weaponNFontT";
+                goldView.getChildByName("spBg").scale(1, 1);
+                goldView.getChildByName("spReward").texture = "local/common/icon.png";
                 this.hboxReward.addChild(goldView);
             }
         }
     }, {
-        key: 'createRewardBox',
+        key: "createRewardBox",
         value: function createRewardBox(json) {
             var rewardView = new Laya.Prefab();
             rewardView.json = json;
-            var view = Laya.Pool.getItemByCreateFun('RewardViewBig', rewardView.create, rewardView);
+            var view = Laya.Pool.getItemByCreateFun("RewardViewBig", rewardView.create, rewardView);
             return view;
         }
     }]);
@@ -3105,7 +3137,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog5;
 
-},{"./AlertDialog":14}],14:[function(require,module,exports){
+},{"../../scripts/common/tool/Global":51,"./AlertDialog":14}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3554,6 +3586,8 @@ var _WeaponManager = require("../WeaponManager");
 
 var _WeaponManager2 = _interopRequireDefault(_WeaponManager);
 
+var _Global = require("../../scripts/common/tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3693,6 +3727,7 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "step4",
         value: function step4() {
+            _Global.Global.dataPoints('点击第一格兵器');
             this.noCount = false;
             this.aniFinger.visible = false;
             this.aniFinger.stop();
@@ -3738,6 +3773,7 @@ var GameGuideControl = function (_GameControl) {
         value: function step6() {
             var _this4 = this;
 
+            _Global.Global.dataPoints('点击第二格兵器');
             this.noCount = false;
             this.aniFinger.visible = false;
             this.aniFinger.stop();
@@ -3829,6 +3865,7 @@ var GameGuideControl = function (_GameControl) {
     }, {
         key: "step10",
         value: function step10() {
+            _Global.Global.dataPoints('点击闪避');
             this.noCount = false;
             this.aniFinger.visible = false;
             this.aniFinger.stop();
@@ -4014,7 +4051,7 @@ var GameGuideControl = function (_GameControl) {
 
 exports.default = GameGuideControl;
 
-},{"../../scripts/common/HomeControl":34,"../GameControl":4,"../WeaponManager":8,"./SpeakMan":19}],18:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":34,"../../scripts/common/tool/Global":51,"../GameControl":4,"../WeaponManager":8,"./SpeakMan":19}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7563,12 +7600,27 @@ var HomeControl = function (_PaoYa$Component) {
                     _this3.player.init(templet, 0);
                 }
             });
+            this.adventBox = new Laya.Box();
+            this.adventBox.size(152, 145);
+            this.adventBox.pos(500, 500);
+            this.adventBox.visible = true;
+            this.owner.addChild(this.adventBox);
+            var spIcon = new Laya.Sprite();
+            this.spIcon = spIcon;
+            this.adventBox.addChild(spIcon);
+            var adventAni = new Laya.Animation();
+            adventAni.pos(this.adventBox.width / 2, this.adventBox.height / 2);
+            this.adventAni = adventAni;
+            this.adventBox.addChild(this.adventAni);
+            this.originAdventType = 0;
+            this.adventAni.blendMode = "lighter";
             //奇遇入口和结果弹框测试
             /* Laya.timer.once(2000,this,()=>{
                 this.GET(`martial_encounter_detail`,{},(res)=>{
                  this.navigator.popup('/dialog/AdventDialog5',res);
                 }) 
             })  */
+            this.adventBox.on(Laya.Event.CLICK, this, this.adventIconClick);
         }
     }, {
         key: "onEnable",
@@ -7582,6 +7634,8 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "onAppear",
         value: function onAppear() {
+            var _this4 = this;
+
             // SoundManager.ins.homeBg();
             if (this.first) {
                 this.player.play('stand', true);
@@ -7591,16 +7645,58 @@ var HomeControl = function (_PaoYa$Component) {
             this.lblLadder.text = PaoYa.DataCenter.user.ladderName;
             this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
             this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
+            this.GET("martial_encounter_detail", {}, function (res) {
+                _this4.adventParams = res;
+                if (Object.keys(res).length) {
+                    _this4.adventBox.visible = true;
+                    if (_this4.originAdventType != res.type) {
+                        _this4.originAdventType = res.type;
+                        _this4.spIcon.texture = "remote/adventure/advent" + res.type + ".png";
+                        _this4.adventAni.loadAnimation("gamescenes/animations/advent_effect" + res.type + ".ani", Laya.Handler.create(_this4, function () {
+                            _this4.adventAni.play(0, true);
+                        }));
+                    } else {
+                        _this4.adventAni.play(0, true);
+                    }
+                } else {
+                    _this4.adventBox.visible = false;
+                }
+            });
+        }
+    }, {
+        key: "adventIconClick",
+        value: function adventIconClick() {
+            var res = this.adventParams;
+            switch (this.originAdventType) {
+                case 1:
+                case 2:
+                    this.navigator.popup("/dialog/AdventDialog", res);
+                    break;
+                case 3:
+                    this.navigator.popup("adventure/BuyWp", res);
+                    break;
+                case 4:
+                    this.navigator.popup("adventure/GetAward", res);
+                    break;
+                case 5:
+                    this.navigator.popup("/dialog/AdventDialog5", res);
+                    break;
+                case 6:
+                    this.navigator.popup("adventure/ChangeWp", res);
+                    break;
+            }
+            res = null;
         }
     }, {
         key: "onDisappear",
         value: function onDisappear() {
             this.player._templet && this.player.stop();
+            this.adventAni && this.adventAni.stop();
         }
     }, {
         key: "onClick",
         value: function onClick(e) {
-            var _this4 = this;
+            var _this5 = this;
 
             if (e.target instanceof Laya.Button) {
                 _SoundManager2.default.ins.btn();
@@ -7621,7 +7717,7 @@ var HomeControl = function (_PaoYa$Component) {
                             return;
                         }
                         //console.log(res)
-                        _this4.POST("martial_user_weapon_list", {}, function (data) {
+                        _this5.POST("martial_user_weapon_list", {}, function (data) {
                             if (!data) {
                                 return;
                             }
@@ -7629,7 +7725,7 @@ var HomeControl = function (_PaoYa$Component) {
                                 buyList: res,
                                 sellList: data
                             };
-                            _this4.navigator.push("WeaponStore", obj);
+                            _this5.navigator.push("WeaponStore", obj);
                         });
                     });
                     break;
@@ -7645,7 +7741,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this4.navigator.push("WeapList", res);
+                        _this5.navigator.push("WeapList", res);
                     });
                     console.log("进入兵器谱");
                     break;
@@ -7662,7 +7758,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this4.navigator.push("Sign", res);
+                        _this5.navigator.push("Sign", res);
                     });
                     console.log("打开签到");
                     break;
@@ -7690,7 +7786,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this4.navigator.push("Grading", res);
+                        _this5.navigator.push("Grading", res);
                     });
                     break;
                 //决战紫禁城之巅
@@ -7710,7 +7806,7 @@ var HomeControl = function (_PaoYa$Component) {
                         if (!res) {
                             return;
                         }
-                        _this4.navigator.popup("common/Rank", res);
+                        _this5.navigator.popup("common/Rank", res);
                     });
                     console.log("进入排行榜");
                     break;
@@ -7720,14 +7816,17 @@ var HomeControl = function (_PaoYa$Component) {
                     break;
                 //设置
                 case "btnTask":
-                    this.GET("martial_task_list", {}, function (res) {
-                        //console.log(res)
-                        if (!res) {
-                            return;
-                        }
-                        _this4.navigator.popup("common/Task", res);
+                    // this.GET("martial_task_list", {}, res => {
+                    //     //console.log(res)
+                    //     if (!res) {
+                    //         return
+                    //     }
+                    //     this.navigator.popup("common/Task", res);
+                    // })
+                    // console.log("任务")
+                    this.GET("martial_encounter_detail", {}, function (res) {
+                        _this5.navigator.popup('adventure/ChangeWp', res);
                     });
-                    console.log("任务");
                     break;
 
             }
@@ -7735,7 +7834,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "goRefiner",
         value: function goRefiner(num) {
-            var _this5 = this;
+            var _this6 = this;
 
             this.GET("martial_refiner_list", {}, function (res) {
                 //console.log(res)
@@ -7746,13 +7845,13 @@ var HomeControl = function (_PaoYa$Component) {
                     isGuide: num,
                     detail: res
                 };
-                _this5.navigator.push("Refining", obj);
+                _this6.navigator.push("Refining", obj);
             });
         }
     }, {
         key: "goHerosHouse",
         value: function goHerosHouse(num) {
-            var _this6 = this;
+            var _this7 = this;
 
             this.GET("martial_role_list", {}, function (res) {
                 //console.log(res)
@@ -7763,13 +7862,13 @@ var HomeControl = function (_PaoYa$Component) {
                     isGuide: num,
                     detail: res
                 };
-                _this6.navigator.push("Swordsman", obj);
+                _this7.navigator.push("Swordsman", obj);
             });
         }
     }, {
         key: "goWeaponHouse",
         value: function goWeaponHouse(num) {
-            var _this7 = this;
+            var _this8 = this;
 
             this.POST("martial_user_weapon_list", {}, function (res) {
                 //console.log(res)
@@ -7781,18 +7880,18 @@ var HomeControl = function (_PaoYa$Component) {
                     isGuide: num,
                     detail: num ? _Global.Global.wpGuide : res
                 };
-                _this7.navigator.push("WeaponHouse", obj);
+                _this8.navigator.push("WeaponHouse", obj);
             });
         }
     }, {
         key: "goPassGame",
         value: function goPassGame() {
-            var _this8 = this;
+            var _this9 = this;
 
             var _this = this;
             this.POST("hero_game_start", {}, function (res) {
                 res.gameType = 'pass';
-                _this8.navigator.push("GameView", res);
+                _this9.navigator.push("GameView", res);
             }, function (msg, code) {
                 var errorDialog = void 0;
                 if (code == 3018) {
@@ -7817,7 +7916,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "setGuide",
         value: function setGuide() {
-            var _this9 = this;
+            var _this10 = this;
 
             //引导所在容器
             guideContainer = new Laya.Sprite();
@@ -7880,7 +7979,7 @@ var HomeControl = function (_PaoYa$Component) {
                     case 1:
                     case 2:
                     case 3:
-                        _this9['step' + guideStep]();
+                        _this10['step' + guideStep]();
                         break;
                 }
             });
@@ -7889,7 +7988,7 @@ var HomeControl = function (_PaoYa$Component) {
                 switch (guideStep) {
                     case 4:
                         e.stopPropagation();
-                        _this9.step4();
+                        _this10.step4();
                         break;
                 }
                 console.log("\u63A5\u6536\u5230\u70B9\u51FB");
@@ -7930,6 +8029,7 @@ var HomeControl = function (_PaoYa$Component) {
             interactionArea.graphics.clear();
             guideContainer.removeSelf();
             /*   this.aniFinger.destroy(); */
+            _Global.Global.dataPoints('点击开始游戏');
             this.goPassGame();
         }
     }, {
@@ -7964,7 +8064,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "guideF",
         value: function guideF(name) {
-            var _this10 = this;
+            var _this11 = this;
 
             var Sprite = Laya.Sprite;
 
@@ -7992,19 +8092,19 @@ var HomeControl = function (_PaoYa$Component) {
             gameContainer.on(Laya.Event.CLICK, this, function () {
                 switch (name) {
                     case "btn1":
-                        _this10.goHerosHouse(1);
+                        _this11.goHerosHouse(1);
                         break;
                     case "btn2":
-                        _this10.goWeaponHouse(1);
+                        _this11.goWeaponHouse(1);
                         break;
                     case "btn3":
-                        _this10.goRefiner(1);
+                        _this11.goRefiner(1);
                         break;
                 }
-                _this10.aniFinger.visible = false;
-                _this10.owner.removeChild(guideContainer);
-                _this10.owner.removeChild(gameContainer);
-                _this10.aniFinger.visible = false;
+                _this11.aniFinger.visible = false;
+                _this11.owner.removeChild(guideContainer);
+                _this11.owner.removeChild(gameContainer);
+                _this11.aniFinger.visible = false;
                 // this.owner.removeChild(this.aniFinger);
             });
 
@@ -8438,6 +8538,8 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _Global = require("../tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8463,6 +8565,7 @@ var Grading = function (_PaoYa$View) {
         value: function onEnable() {
             var _this2 = this;
 
+            _Global.Global.dataPoints('进入华山论剑');
             this.benBack.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _GradingControl2.default.ins.navigator.pop();
@@ -8594,7 +8697,7 @@ var Grading = function (_PaoYa$View) {
 
 exports.default = Grading;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"./GradingControl":40}],40:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51,"./GradingControl":40}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8699,6 +8802,7 @@ var Swordsman = function (_PaoYa$View) {
             this.guideBack = false;
             this.params = this.params.detail;
             if (this.isGuide) {
+                _Global.Global.dataPoints('用户进入人物引导页面');
                 this.guide1.visible = true;
                 this.guide1.zOrder = 999;
                 PaoYa.Request.POST("martial_change_new_hand", { type: "roleNew" });
@@ -8726,6 +8830,9 @@ var Swordsman = function (_PaoYa$View) {
             });
 
             this.benBack.on(Laya.Event.CLICK, this, function () {
+                if (_this2.isGuide) {
+                    _Global.Global.dataPoints('用户点击人物升级');
+                }
                 if (_this2.isGuide && !_this2.guideBack) {
                     return;
                 }
@@ -9891,6 +9998,7 @@ var Refining = function (_PaoYa$View) {
         value: function onEnable() {
             var _this2 = this;
 
+            _Global.Global.dataPoints('进入炼器页面');
             this.changeData();
             if (this.isGuide) {
                 _RefiningControl2.default.ins.getMask();
@@ -9987,6 +10095,8 @@ var _Devour = require("./Devour");
 
 var _Devour2 = _interopRequireDefault(_Devour);
 
+var _Global = require("../tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10049,8 +10159,10 @@ var RefiningControl = function (_PaoYa$Component) {
                 switch (_this3.guideStep) {
                     case 0:
                         RefiningControl.ins.addLv(_this3.owner.params.refiner_list[0]);
+                        _Global.Global.dataPoints('点击淬体');
                         break;
                     case 1:
+                        _Global.Global.dataPoints('点击一键选中');
                         _Devour2.default.ins.nextP();
                         _SoundManager2.default.ins.btn();
                         _this3.guideStep = 2;
@@ -10058,6 +10170,7 @@ var RefiningControl = function (_PaoYa$Component) {
                         _this3.nextStep(_Devour2.default.ins.guide3);
                         break;
                     case 2:
+                        _Global.Global.dataPoints('点击吞噬升级');
                         _SoundManager2.default.ins.btn();
                         DevourControl.ins.eatWp();
                         _this3.guideStep = 3;
@@ -10127,7 +10240,7 @@ var RefiningControl = function (_PaoYa$Component) {
 
 exports.default = RefiningControl;
 
-},{"../../../gamescripts/SoundManager":7,"./Devour":43}],47:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./Devour":43}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10147,6 +10260,8 @@ var _SoundManager2 = _interopRequireDefault(_SoundManager);
 var _Tool = require("../tool/Tool");
 
 var _Tool2 = _interopRequireDefault(_Tool);
+
+var _Global = require("../tool/Global");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10174,6 +10289,7 @@ var Sign = function (_PaoYa$View) {
     }, {
         key: "onEnable",
         value: function onEnable() {
+            _Global.Global.dataPoints('进入签到页面');
             this.benBack.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _SignControl2.default.ins.navigator.pop();
@@ -10213,6 +10329,7 @@ var Sign = function (_PaoYa$View) {
                     // PaoYa.ShareManager.shareTitle(title, {}, () => {
                     //     SignControl.ins.getAward()
                     // })
+                    _Global.Global.dataPoints('签到激励广告');
                     _Tool2.default.showVideoAD(function () {
                         _SignControl2.default.ins.getAward();
                     });
@@ -10289,7 +10406,7 @@ var Sign = function (_PaoYa$View) {
 
 exports.default = Sign;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Tool":52,"./SignControl":48}],48:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"../tool/Tool":52,"./SignControl":48}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11327,6 +11444,7 @@ var WeaponHouse = function (_PaoYa$View) {
         value: function onEnable() {
             var _this3 = this;
 
+            _Global.Global.dataPoints('进入兵器店页面');
             // this.getComponent()
             if (_WeaponHouseControl2.default.ins.isGuide) {
                 this.startGuide();
@@ -11444,7 +11562,7 @@ var WeaponHouse = function (_PaoYa$View) {
                 _this5.equipTips.visible = false;
                 _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.chargeWeapon();
-
+                _Global.Global.dataPoints('点击装备');
                 _this5.upGrade.visible = true;
                 _this5.upGrade.zOrder = 20;
                 _this5.upGradeTips.x = _this5.upGradeTips.x;
@@ -11455,7 +11573,7 @@ var WeaponHouse = function (_PaoYa$View) {
                     _this5.upGrade.zOrder = 0;
                     _this5.upGradeTips.visible = false;
                     _WeaponHouseControl2.default.ins.upgradeWeapon();
-
+                    _Global.Global.dataPoints('点击升级');
                     _this5.benBack.visible = true;
                     _this5.benBack.zOrder = 20;
                     _this5.benBackTips.x = _this5.benBackTips.x;
@@ -11463,6 +11581,7 @@ var WeaponHouse = function (_PaoYa$View) {
                     _this5.benBackTips.zOrder = 20;
                     //第三步 返回
                     _this5.benBack.on(Laya.Event.CLICK, _this5, function () {
+                        _Global.Global.dataPoints('点击返回');
                         Laya.stage.removeChild(guideContainer);
                         Laya.stage.removeChild(gameContainer);
                         _this5.benBack.zOrder = 0;
@@ -13205,6 +13324,8 @@ var _Tool = require("../tool/Tool");
 
 var _Tool2 = _interopRequireDefault(_Tool);
 
+var _Global = require("../tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13263,6 +13384,7 @@ var WheelControl = function (_PaoYa$Component) {
             if (this.owner.num.text < 1) {
                 _SoundManager2.default.ins.btn();
                 // this.navigator.popup("common/BuyWheelTimes");
+                _Global.Global.dataPoints('增加转盘次数激励广告');
                 _Tool2.default.showVideoAD(function () {
                     _this3.addTimesD();
                     _this3.owner.video.visible = false;
@@ -13316,7 +13438,7 @@ var WheelControl = function (_PaoYa$Component) {
 
 exports.default = WheelControl;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Tool":52}],59:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"../tool/Tool":52}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13326,12 +13448,6 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _Global = require("../../common/tool/Global");
-
-var _HomeControl = require("../../common/HomeControl");
-
-var _HomeControl2 = _interopRequireDefault(_HomeControl);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -13355,6 +13471,13 @@ var BuyWp = function (_PaoYa$Dialog) {
         key: "onEnable",
         value: function onEnable() {
             var _this2 = this;
+
+            this.autoDestroyAtClosed = true;
+            this.resultParams = JSON.parse(JSON.stringify(this.params));
+
+            if (this.params.encounter) {
+                this.params = this.params.encounter;
+            }
 
             this.heroImage.skin = "remote/guide/hero_" + PaoYa.DataCenter.user.defaultRoleId + ".png";
 
@@ -13496,7 +13619,7 @@ var BuyWp = function (_PaoYa$Dialog) {
 
             if (num > PaoYa.DataCenter.user.diamond) {
                 this.close();
-                _HomeControl2.default.ins.navigator.popup("weapon/DiamondLack", 1);
+                PaoYa.navigator.popup("weapon/DiamondLack", 1);
                 return;
             }
 
@@ -13573,8 +13696,12 @@ var BuyWp = function (_PaoYa$Dialog) {
             }
         }
     }, {
-        key: "onDisable",
-        value: function onDisable() {}
+        key: "onClosed",
+        value: function onClosed() {
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams);
+            }
+        }
     }]);
 
     return BuyWp;
@@ -13582,7 +13709,7 @@ var BuyWp = function (_PaoYa$Dialog) {
 
 exports.default = BuyWp;
 
-},{"../../common/HomeControl":34,"../../common/tool/Global":51}],60:[function(require,module,exports){
+},{"../../common/tool/Global":51}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13592,10 +13719,6 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _Global = require("../../common/tool/Global");
-
-var _HomeControl = require("../../common/HomeControl");
-
-var _HomeControl2 = _interopRequireDefault(_HomeControl);
 
 var _Tool = require("../../common/tool/Tool");
 
@@ -13626,6 +13749,13 @@ var ChangeWp = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
+            this.resultParams = JSON.parse(JSON.stringify(this.params));
+
+            if (this.params.encounter) {
+                this.params = this.params.encounter;
+            }
+
             this.tips.font = "adventure";
             var name = "八卦斧";
             this.label2.text = "\u5E74\u8F7B\u4EBA\uFF0C\u8BF7\u95EE\u4F60\u6709\u6CA1\u6709\u4E00\u628A" + name + "\u3002\u5982\u679C\u4F60\u80FD\u628A\u5B83\u8BA9\u7ED9\u6211\u7684\u8BDD\uFF0C\u8C22\u67D0\u5B9A\u5F53\u91CD\u8C22";
@@ -13654,10 +13784,11 @@ var ChangeWp = function (_PaoYa$Dialog) {
                 if (_this2.params.weaponId) {
                     _this2.sellyWp();
                 } else {
+                    _Global.Global.dataPoints('奇遇b激励广告');
                     _Tool2.default.showVideoAD(function () {
                         _this2.params.weaponId = "video";
+                        _this2.infoDetail();
                     }, null, null, 1);
-                    _this2.infoDetail();
                 }
             });
         }
@@ -13685,9 +13816,18 @@ var ChangeWp = function (_PaoYa$Dialog) {
     }, {
         key: "sellyWp",
         value: function sellyWp() {
-            // PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, res => { 
-            this.close();
-            // })
+            var _this3 = this;
+
+            PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, function (res) {
+                _this3.close();
+            });
+        }
+    }, {
+        key: "onClosed",
+        value: function onClosed() {
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams);
+            }
         }
     }]);
 
@@ -13696,7 +13836,7 @@ var ChangeWp = function (_PaoYa$Dialog) {
 
 exports.default = ChangeWp;
 
-},{"../../common/HomeControl":34,"../../common/tool/Global":51,"../../common/tool/Tool":52}],61:[function(require,module,exports){
+},{"../../common/tool/Global":51,"../../common/tool/Tool":52}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13706,10 +13846,6 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _Global = require("../../common/tool/Global");
-
-var _HomeControl = require("../../common/HomeControl");
-
-var _HomeControl2 = _interopRequireDefault(_HomeControl);
 
 var _Tool = require("../../common/tool/Tool");
 
@@ -13740,6 +13876,13 @@ var GetAward = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
+            this.resultParams = JSON.parse(JSON.stringify(this.params));
+
+            if (this.params.encounter) {
+                this.params = this.params.encounter;
+            }
+
             this.tips.font = "adventure";
             this.closeBtnText.font = "adventure";
             this.closeBtnText.scale(0.9, 0.9);
@@ -13758,17 +13901,25 @@ var GetAward = function (_PaoYa$Dialog) {
             });
 
             this.buyBtn.on(Laya.Event.CLICK, this, function () {
+                _Global.Global.dataPoints('进入炼器页面');
                 _Tool2.default.showVideoAD(function () {
                     PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, function (res) {
                         _this2.close();
                         var obj = {
                             type: "sign",
-                            detail: res
+                            detail: { gold: res.gold, isclose: 1 }
                         };
-                        _HomeControl2.default.ins.navigator.popup("common/Award", obj);
+                        PaoYa.navigator.popup("common/Award", obj);
                     });
                 }, null, null, 1);
             });
+        }
+    }, {
+        key: "onClosed",
+        value: function onClosed() {
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams);
+            }
         }
     }]);
 
@@ -13777,7 +13928,7 @@ var GetAward = function (_PaoYa$Dialog) {
 
 exports.default = GetAward;
 
-},{"../../common/HomeControl":34,"../../common/tool/Global":51,"../../common/tool/Tool":52}],62:[function(require,module,exports){
+},{"../../common/tool/Global":51,"../../common/tool/Tool":52}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13802,6 +13953,12 @@ var _Wheel = require("../../common/wheel/Wheel");
 
 var _Wheel2 = _interopRequireDefault(_Wheel);
 
+var _Tool = require("../../common/tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
+var _Global = require("../../common/tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13824,6 +13981,7 @@ var Award = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.tips.font = "weaponDFont";
             this.tips.scale(0.7, 0.7);
             // this.tips.pos(45, 12)
@@ -13856,10 +14014,13 @@ var Award = function (_PaoYa$Dialog) {
                     this.againTxt.pos(100, 15);
 
                     this.again.on(Laya.Event.CLICK, this, function () {
-                        _this2.close();
                         _SoundManager2.default.ins.btn();
-                        PaoYa.Request.POST('martial_adv_receive', { exchangeId: _this2.params.detail.wheel.id }, function () {
-                            _Wheel2.default.ins.changeDG();
+                        _Global.Global.dataPoints('转盘倍数领取激励广告');
+                        _Tool2.default.showVideoAD(function () {
+                            PaoYa.Request.POST('martial_adv_receive', { exchangeId: _this2.params.detail.wheel.id }, function () {
+                                _Wheel2.default.ins.changeDG();
+                                _this2.close();
+                            });
                         });
                     });
 
@@ -13940,6 +14101,9 @@ var Award = function (_PaoYa$Dialog) {
         value: function onClosed() {
             switch (this.params.type) {
                 case "sign":
+                    if (this.params.detail.isclose) {
+                        return;
+                    }
                     _Sign2.default.ins.params.status++;
                     _Sign2.default.ins.params.login_days++;
                     _Sign2.default.ins.initInfo();
@@ -13956,7 +14120,7 @@ var Award = function (_PaoYa$Dialog) {
 
 exports.default = Award;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":47,"../../common/wheel/Wheel":57,"../../common/wheel/WheelControl":58}],63:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":47,"../../common/tool/Global":51,"../../common/tool/Tool":52,"../../common/wheel/Wheel":57,"../../common/wheel/WheelControl":58}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13972,10 +14136,6 @@ var _WheelControl2 = _interopRequireDefault(_WheelControl);
 var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
-
-var _HomeControl = require("../../common/HomeControl");
-
-var _HomeControl2 = _interopRequireDefault(_HomeControl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13999,6 +14159,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.buybtnTxt.font = "weaponDFont";
             this.buybtnTxt.scale(0.8, 0.8);
             this.buybtnTxt.pos(55, 10);
@@ -14013,7 +14174,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
                 if (PaoYa.DataCenter.user.diamond >= 500) {
                     _WheelControl2.default.ins.addTimesD();
                 } else {
-                    _HomeControl2.default.ins.navigator.popup("weapon/DiamondLack", 1);
+                    PaoYa.navigator.popup("weapon/DiamondLack", 1);
                 }
             });
 
@@ -14029,7 +14190,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
 
 exports.default = BuyWheelTimes;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/wheel/WheelControl":58}],64:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/wheel/WheelControl":58}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14064,6 +14225,7 @@ var Task = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.btnClose.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
                 _SoundManager2.default.ins.btn();
@@ -14160,6 +14322,8 @@ var _Tool = require("../../common/tool/Tool");
 
 var _Tool2 = _interopRequireDefault(_Tool);
 
+var _Global = require("../../common/tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14182,6 +14346,8 @@ var Task = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            _Global.Global.dataPoints('进入任务页面');
+            this.autoDestroyAtClosed = true;
             PaoYa.Request.GET('update_chips', {}, function (res) {
                 _this2.goldNum.width = null;
 
@@ -14271,6 +14437,7 @@ var Task = function (_PaoYa$Dialog) {
                     noThankTxt.pos(751 + (172 - noThankTxt.width * 0.65) / 2 + 30, 15);
                     sp.visible = true;
                     btn.on(Laya.Event.CLICK, this, function () {
+                        _Global.Global.dataPoints('任务奖励领取激励广告');
                         _Tool2.default.showVideoAD(function () {
                             PaoYa.Request.POST("martial_task_receive", { taskKey: cell.dataSource.task }, function (res) {
                                 _SoundManager2.default.ins.gold();
@@ -14413,7 +14580,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/tool/Tool":52,"../../common/wheel/Wheel":57}],66:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/tool/Global":51,"../../common/tool/Tool":52,"../../common/wheel/Wheel":57}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14467,6 +14634,7 @@ var BuyHero = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.closeBtn.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
                 _SoundManager2.default.ins.btn();
@@ -14565,6 +14733,7 @@ var GoldLack = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.btn.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
                 _SoundManager2.default.ins.btn();
@@ -14638,6 +14807,7 @@ var SkillDetail = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.maskBg.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _this2.close();
@@ -14702,6 +14872,7 @@ var Canlock = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.title.font = "figureDetail";
             this.title.scale(0.8, 0.8);
             this.title.x = (543 - this.title.width) / 2;
@@ -14805,6 +14976,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             // this.maskBg.on(Laya.Event.CLICK, this, () => {
             //     this.close()
             // })
@@ -14820,7 +14992,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
                     if (!res) {
                         return;
                     }
-                    _HomeControl2.default.ins.navigator.popup("common/Task", res);
+                    PaoYa.navigator.popup("common/Task", res);
                 });
             });
         }
@@ -14842,10 +15014,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _HomeControl = require("../../common/HomeControl");
-
-var _HomeControl2 = _interopRequireDefault(_HomeControl);
 
 var _SoundManager = require("../../../gamescripts/SoundManager");
 
@@ -14884,6 +15052,7 @@ var GoldLack = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.maskBg.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
             });
@@ -14894,7 +15063,7 @@ var GoldLack = function (_PaoYa$Dialog) {
             this.btn.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
                 _SoundManager2.default.ins.btn();
-                _HomeControl2.default.ins.navigator.push("Wheel");
+                PaoYa.navigator.push("Wheel");
             });
         }
     }, {
@@ -14907,7 +15076,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],72:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14951,6 +15120,7 @@ var StoreSure = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             // this.mask.on(Laya.Event.CLICK, this, this.close)
             this.btn1.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
@@ -15067,6 +15237,8 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
+var _Global = require("../../common/tool/Global");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -15100,11 +15272,13 @@ var UnlockFifth = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.maskBg.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _this2.close();
             });
             this.btn.on(Laya.Event.CLICK, this, function () {
+                _Global.Global.dataPoints('五号兵器格分享');
                 _SoundManager2.default.ins.btn();
                 _Tool2.default.inviteFriend();
             });
@@ -15119,7 +15293,7 @@ var UnlockFifth = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFifth;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/tool/Tool":52}],74:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../common/tool/Global":51,"../../common/tool/Tool":52}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15173,6 +15347,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.maskBg.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
                 _this2.close();
@@ -15247,6 +15422,7 @@ var UnlockTips = function (_PaoYa$Dialog) {
         value: function onEnable() {
             var _this2 = this;
 
+            this.autoDestroyAtClosed = true;
             this.btn.on(Laya.Event.CLICK, this, function () {
                 _this2.close();
                 _SoundManager2.default.ins.btn();

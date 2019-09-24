@@ -18,6 +18,7 @@ export default class BuyHero extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         this.closeBtn.on(Laya.Event.CLICK, this, () => {
             this.close()
             SoundManager.ins.btn()

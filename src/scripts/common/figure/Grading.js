@@ -1,6 +1,7 @@
 import GradingControl from "./GradingControl";
 import HeroConfig from "../../../gamescripts/config/HeroConfig";
 import SoundManager from "../../../gamescripts/SoundManager";
+import { Global } from "../tool/Global";
 
 export default class Grading extends PaoYa.View {
     constructor() {
@@ -12,7 +13,7 @@ export default class Grading extends PaoYa.View {
     }
 
     onEnable() {
-
+        Global.dataPoints('进入华山论剑')
         this.benBack.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
             GradingControl.ins.navigator.pop()

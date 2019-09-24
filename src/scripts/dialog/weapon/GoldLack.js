@@ -1,4 +1,3 @@
-import HomeControl from "../../common/HomeControl";
 import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class GoldLack extends PaoYa.Dialog {
@@ -17,6 +16,7 @@ export default class GoldLack extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         this.maskBg.on(Laya.Event.CLICK,this,()=>{
             this.close()
         })
@@ -27,7 +27,7 @@ export default class GoldLack extends PaoYa.Dialog {
         this.btn.on(Laya.Event.CLICK,this,()=>{
             this.close()
             SoundManager.ins.btn()
-            HomeControl.ins.navigator.push("Wheel");
+            PaoYa.navigator.push("Wheel");
         })
     }
 

@@ -3,6 +3,7 @@ import WheelControl from "../../common/wheel/WheelControl";
 import SoundManager from "../../../gamescripts/SoundManager";
 import Wheel from "../../common/wheel/Wheel";
 import Tool from "../../common/tool/Tool";
+import { Global } from "../../common/tool/Global";
 
 export default class Award extends PaoYa.Dialog {
 
@@ -11,6 +12,7 @@ export default class Award extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         this.tips.font = `weaponDFont`
         this.tips.scale(0.7, 0.7)
         // this.tips.pos(45, 12)
@@ -44,6 +46,7 @@ export default class Award extends PaoYa.Dialog {
 
                 this.again.on(Laya.Event.CLICK, this, () => {
                     SoundManager.ins.btn()
+                    Global.dataPoints('转盘倍数领取激励广告')
                     Tool.showVideoAD(() => {
                         PaoYa.Request.POST('martial_adv_receive', { exchangeId: this.params.detail.wheel.id }, () => {
                             Wheel.ins.changeDG()

@@ -16,6 +16,7 @@ export default class SkillDetail extends PaoYa.Dialog {
     }
 
     onEnable() {
+        this.autoDestroyAtClosed = true;
         this.maskBg.on(Laya.Event.CLICK,this,()=>{
             SoundManager.ins.btn()
             this.close()

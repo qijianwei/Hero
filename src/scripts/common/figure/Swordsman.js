@@ -18,6 +18,7 @@ export default class Swordsman extends PaoYa.View {
         this.guideBack = false
         this.params = this.params.detail
         if (this.isGuide) {
+            Global.dataPoints('用户进入人物引导页面')
             this.guide1.visible = true
             this.guide1.zOrder = 999
             PaoYa.Request.POST(`martial_change_new_hand`, { type: `roleNew` })
@@ -45,6 +46,9 @@ export default class Swordsman extends PaoYa.View {
         });
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
+            if(this.isGuide){
+                Global.dataPoints('用户点击人物升级')
+            }
             if (this.isGuide && !this.guideBack) {
                 return
             }

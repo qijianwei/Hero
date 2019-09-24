@@ -2,6 +2,7 @@ import GameControl from "../GameControl";
 import SpeakMan from "./SpeakMan";
 import HomeControl from "../../scripts/common/HomeControl";
 import WeaponManager from "../WeaponManager";
+import { Global } from "../../scripts/common/tool/Global";
 let guideSteps = 
 	[
 		{ x: 100, y: 617, w:150, h:110 ,tip:"res/guide/help6.png", fingerX:200, fingerY:250 },
@@ -109,6 +110,7 @@ export default class GameGuideControl extends GameControl{
         this.aniFinger.play(0,true);
     }
     step4(){
+        Global.dataPoints('点击第一格兵器')
         this.noCount=false;
         this.aniFinger.visible=false;
         this.aniFinger.stop();
@@ -145,6 +147,7 @@ export default class GameGuideControl extends GameControl{
 
     //遮罩消失后,全局不能点击
     step6(){
+        Global.dataPoints('点击第二格兵器')
         this.noCount=false;
         this.aniFinger.visible=false;
         this.aniFinger.stop();
@@ -225,6 +228,7 @@ export default class GameGuideControl extends GameControl{
     }
     //呼，还好闪得快，不然够我喝一壶。
     step10(){
+        Global.dataPoints('点击闪避')
         this.noCount=false;
         this.aniFinger.visible=false;
         this.aniFinger.stop();

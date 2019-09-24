@@ -16,6 +16,7 @@ export default class Refining extends PaoYa.View {
     }
 
     onEnable() {
+        Global.dataPoints('进入炼器页面')
         this.changeData()
         if (this.isGuide) {
             RefiningControl.ins.getMask()

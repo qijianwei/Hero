@@ -1,6 +1,7 @@
 import WeaponBar from "../prefab/WeaponBar";
 import GameControl from "../GameControl";
 import AlertDialog from "./AlertDialog";
+import { Global } from "../../scripts/common/tool/Global";
 
 export default class AdventResultDialog extends PaoYa.Dialog {
     constructor() {
@@ -70,6 +71,7 @@ export default class AdventResultDialog extends PaoYa.Dialog {
         PaoYa.ShareManager.imageURL=PaoYa.DataCenter.CDNURL + PaoYa.DataCenter.config.game.share_img[random];
         if(window['wx']){
             PaoYa.ShareManager.shareTitle(title, {}, () => {
+               Global.dataPoints('奇遇a1失败复活')
                 _this.close();
                GameControl.instance.revive(); //复活
             })  
@@ -80,6 +82,7 @@ export default class AdventResultDialog extends PaoYa.Dialog {
     }
     videoHandler(){
         console.log(`看广告复活`);
+        Global.dataPoints('奇遇a激励广告')
         let _this=this;
         var params = {
             onClose: function onClose(res) {

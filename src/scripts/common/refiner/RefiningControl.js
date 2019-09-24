@@ -1,5 +1,6 @@
 import SoundManager from "../../../gamescripts/SoundManager";
 import Devour from "./Devour";
+import { Global } from "../tool/Global";
 
 export default class RefiningControl extends PaoYa.Component {
     constructor() {
@@ -44,8 +45,10 @@ export default class RefiningControl extends PaoYa.Component {
             switch (this.guideStep) {
                 case 0:
                     RefiningControl.ins.addLv(this.owner.params.refiner_list[0])
+                    Global.dataPoints('点击淬体')
                     break;
                 case 1:
+                    Global.dataPoints('点击一键选中')
                     Devour.ins.nextP()
                     SoundManager.ins.btn()
                     this.guideStep = 2
@@ -53,6 +56,7 @@ export default class RefiningControl extends PaoYa.Component {
                     this.nextStep(Devour.ins.guide3);
                     break;
                 case 2:
+                    Global.dataPoints('点击吞噬升级')
                     SoundManager.ins.btn()
                     DevourControl.ins.eatWp()
                     this.guideStep = 3

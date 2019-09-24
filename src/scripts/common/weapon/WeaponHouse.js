@@ -57,6 +57,7 @@ export default class WeaponHouse extends PaoYa.View {
     }
 
     onEnable() {
+        Global.dataPoints('进入兵器店页面')
         // this.getComponent()
         if (WeaponHouseControl.ins.isGuide) {
             this.startGuide()
@@ -168,7 +169,7 @@ export default class WeaponHouse extends PaoYa.View {
             this.equipTips.visible = false
             SoundManager.ins.btn()
             WeaponHouseControl.ins.chargeWeapon()
-
+            Global.dataPoints('点击装备')
             this.upGrade.visible = true
             this.upGrade.zOrder = 20
             this.upGradeTips.x = this.upGradeTips.x
@@ -179,7 +180,7 @@ export default class WeaponHouse extends PaoYa.View {
                 this.upGrade.zOrder = 0
                 this.upGradeTips.visible = false
                 WeaponHouseControl.ins.upgradeWeapon()
-
+                Global.dataPoints('点击升级')
                 this.benBack.visible = true
                 this.benBack.zOrder = 20
                 this.benBackTips.x = this.benBackTips.x
@@ -187,6 +188,7 @@ export default class WeaponHouse extends PaoYa.View {
                 this.benBackTips.zOrder = 20
                 //第三步 返回
                 this.benBack.on(Laya.Event.CLICK, this, () => {
+                    Global.dataPoints('点击返回')
                     Laya.stage.removeChild(guideContainer);
                     Laya.stage.removeChild(gameContainer);
                     this.benBack.zOrder = 0

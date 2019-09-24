@@ -35,12 +35,15 @@ export default class AdventureDialog5 extends PaoYa.Dialog{
                 this.rejectHandler();
                 break;
             case `closeT`:
-                this.closeHandler();
+                this.hangUp();
                 break;
         }
     }
-    closeHandler(){
-      
+    hangUp(){
+        this.close();
+        if(PaoYa.navigator.scenes.length>1){
+            PaoYa.navigator.popup('/dialog/PassResultDialog', this.params)
+        }
     }
     agreeHandler() {
         this.isPlaying=true;

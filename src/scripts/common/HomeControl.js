@@ -51,12 +51,27 @@ export default class HomeControl extends PaoYa.Component {
                 this.player.init(templet, 0);
             }
         });
+        this.adventBox=new Laya.Box();
+        this.adventBox.size(152,145);
+        this.adventBox.pos(500,500)
+        this.adventBox.visible=true;
+        this.owner.addChild(this.adventBox);
+        let spIcon=new Laya.Sprite();
+        this.spIcon=spIcon;
+        this.adventBox.addChild(spIcon);
+        let adventAni=new Laya.Animation();
+        adventAni.pos(this.adventBox.width/2,this.adventBox.height/2)
+        this.adventAni=adventAni;
+        this.adventBox.addChild(this.adventAni);
+        this.originAdventType=0;
+        this.adventAni.blendMode=`lighter`;
         //奇遇入口和结果弹框测试
         /* Laya.timer.once(2000,this,()=>{
             this.GET(`martial_encounter_detail`,{},(res)=>{
              this.navigator.popup('/dialog/AdventDialog5',res);
             }) 
         })  */
+        this.adventBox.on(Laya.Event.CLICK,this,this.adventIconClick);
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
@@ -75,9 +90,49 @@ export default class HomeControl extends PaoYa.Component {
         this.lblLadder.text = PaoYa.DataCenter.user.ladderName;
         this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
         this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
+        this.GET(`martial_encounter_detail`,{},(res)=>{
+            this.adventParams=res;
+            if(Object.keys(res).length){ 
+                this.adventBox.visible=true;
+                if(this.originAdventType!=res.type){
+                    this.originAdventType=res.type; 
+                    this.spIcon.texture=`remote/adventure/advent${res.type}.png`
+                    this.adventAni.loadAnimation(`gamescenes/animations/advent_effect${res.type}.ani`,Laya.Handler.create(this,()=>{
+                    this.adventAni.play(0,true);
+                    }))
+                }else{
+                    this.adventAni.play(0,true);
+                }
+            }else{
+                this.adventBox.visible=false;
+            }
+        })
+    }
+    adventIconClick(){
+            let res=this.adventParams;
+            switch(this.originAdventType){
+              case 1:
+              case 2:
+                  this.navigator.popup(`/dialog/AdventDialog`,res)
+                  break;
+              case 3:
+                   this.navigator.popup(`adventure/BuyWp`,res)
+                  break;
+               case 4:
+                   this.navigator.popup(`adventure/GetAward`,res)
+                   break;
+               case 5:
+                   this.navigator.popup(`/dialog/AdventDialog5`,res)
+                   break;
+               case 6:
+                   this.navigator.popup(`adventure/ChangeWp`,res)
+                   break;
+            }
+            res=null;
     }
     onDisappear() {
         this.player._templet && this.player.stop();
+        this.adventAni&&this.adventAni.stop();
     }
     onClick(e) {
         if (e.target instanceof Laya.Button) {
@@ -387,6 +442,7 @@ export default class HomeControl extends PaoYa.Component {
         interactionArea.graphics.clear();
         guideContainer.removeSelf();
         /*   this.aniFinger.destroy(); */
+        Global.dataPoints('点击开始游戏')
         this.goPassGame();
     }
     nextTick(e) {
