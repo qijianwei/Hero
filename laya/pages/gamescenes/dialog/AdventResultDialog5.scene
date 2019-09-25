@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":121,
-    "selecteID":128,
+    "selectedBox":2,
+    "selecteID":125,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/dialog/AdventResultDialog5.js","height":750},
     "nodeParent":-1,
@@ -197,13 +197,14 @@
                     "props":{"y":485,"x":54,"stateNum":"1","skin":"remote/adventure/btn2.png","name":"btnSure"},
                     "nodeParent":121,
                     "label":"btnSure",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":113,
                     "child":[
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label,lbl2",
                             "props":{"y":0,"x":0,"width":268,"var":"lbl2","valign":"middle","text":"静候宝箱自然开启","height":65,"align":"center"},
@@ -277,10 +278,10 @@
                 {
                     "x":30,
                     "type":"Button",
-                    "searchKey":"Button,btnSure",
-                    "props":{"y":462,"x":133.5,"stateNum":"1","skin":"remote/adventure/btn1.png","name":"btnSure"},
+                    "searchKey":"Button,btnGet",
+                    "props":{"y":462,"x":133.5,"stateNum":"1","skin":"remote/adventure/btn1.png","name":"btnGet"},
                     "nodeParent":127,
-                    "label":"btnSure",
+                    "label":"btnGet",
                     "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
@@ -302,7 +303,7 @@
                                 ]
                         }]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         }],
     "animations":[
         {

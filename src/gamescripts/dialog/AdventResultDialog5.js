@@ -16,6 +16,7 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
             this.startCount(time);
         } else if (state == `get`) {
             this.boxGet.visible = true;
+            this.showGetState()
             this.lbl3.font = `adventure`;
         }
 
@@ -29,6 +30,10 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
             case `btnVideo`:
                 this.videoHandler();
                 break;
+            case `btnGet`:
+
+                this.getHandler();
+                break;
         }
     }
 
@@ -38,7 +43,25 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
         if (PaoYa.navigator.scenes.length > 1) {
             PaoYa.navigator.popup('/dialog/PassResultDialog', this.params)
         }
-
+    }
+    getHandler(){
+        PaoYa.Request.POST(`martial_encounter_finish`, {
+            result: 1,
+            complete: 1
+        }, () => {   
+            PaoYa.Request.POST(`martial_encounter_finish`, {
+                result: 1,
+                complete: 1
+            }, () => {
+                PaoYa.NotificationCenter.postNotification(`adventComplete`)
+                this.close();
+                if (PaoYa.navigator.scenes.length > 1) {
+                    PaoYa.navigator.popup('/dialog/PassResultDialog', this.params)
+                }
+            })
+            
+            console.log(`奇遇5完成`)
+        })
     }
     videoHandler() {
         let _this = this;       
@@ -53,12 +76,6 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
                 if (res.isEnded) {
                     console.log(`看完广告`)
                     _this.showGetState();
-                    PaoYa.Request.POST(`martial_encounter_finish`, {
-                        result: 1,
-                        complete: 1
-                    }, () => {
-                        console.log(`奇遇完成`)
-                    })
                 } else {
                     var errorDialog = new AlertDialog({
                         title: `温馨提示`,

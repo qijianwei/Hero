@@ -256,10 +256,12 @@ export default class Weapon extends PaoYa.Component {
     this.doMove(x, y, curAngle);
   }
   stopParabola() {
+    //console.error(`-------关闭抛物线定时器1-------`)
     Laya.timer.clear(this, this.startParabola);
   }
   //暂停动画
   pause() {
+    //console.error(`--------关闭抛物线定时器2-------`)
     Laya.timer.clear(this, this.startParabola);
     this.pauseTime = (new Date()).valueOf();
     this.playedTime = this.pauseTime - this.beginTime;
@@ -319,10 +321,10 @@ export default class Weapon extends PaoYa.Component {
       //let targetName=this.isSelf?'other':'self';
       if (this.otherPlayerComp.attr.roleId == 4) {
         let random = Math.ceil(Math.random() * 100);
-        let reboundRate = this.selfPlayerComp.attr.skills[1].skillConfig.reboundRate;
+        let reboundRate = this.otherPlayerComp.attr.skills[1].skillConfig.reboundRate;
         if (random <= reboundRate) {
           //反弹提示
-          this.otherPlayerComp.showPlayerState("游龙入水");
+          //this.otherPlayerComp.showPlayerState("游龙入水");
           this.goBack();
           return;
         }
@@ -506,7 +508,9 @@ export default class Weapon extends PaoYa.Component {
   }
   //兵器反弹
   goBack() {
+    GameControl.instance.removeWeapon(this);
     this.isSelf = !this.isSelf;
+    GameControl.instance.selfWeapons.push(this);
     this.initWeaponInfo();
   }
   //根据抛物线的点求角度和计算矩形四个位置

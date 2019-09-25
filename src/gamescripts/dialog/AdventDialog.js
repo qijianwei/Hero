@@ -77,6 +77,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         for (let i = 0; i < len; i++) {
             let weaponView = new Laya.Prefab();
             weaponView.json = jsons[0];
+            this.weaponView=weaponView;
             let view = Laya.Pool.getItemByCreateFun('WeaponView', weaponView.create, weaponView);
             let weaponBarsComp = view.getComponent(WeaponBar);
             weaponBarsComp.params = weaponList[i];
@@ -149,6 +150,8 @@ export default class AdventDialog extends PaoYa.Dialog {
                 }));
             }else{
                 this.close();
+              /*  delete `gamescenes/prefab/WeaponBar.json` */
+           /*    this.weaponView=null; */
                 res.gameType = 'adventure';
                 PaoYa.navigator.push("GameView", res);
             }
@@ -159,10 +162,10 @@ export default class AdventDialog extends PaoYa.Dialog {
         console.log(`放弃奇遇`)
         PaoYa.Request.POST(`martial_encounter_cancel`,{},()=>{
             this.close();
+            PaoYa.NotificationCenter.postNotification(`adventCancel`)
             if(PaoYa.navigator.scenes.length>1){
                 PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
-            }
-            PaoYa.NotificationCenter.postNotification(`adventCancel`)
+            }       
         })
     }
 }

@@ -38,6 +38,7 @@ export default class GetAward extends PaoYa.Dialog {
             Global.dataPoints('奇遇c激励广告')
             Tool.showVideoAD(() => {
                 PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, res => {
+                    PaoYa.NotificationCenter.postNotification(`adventComplete`)
                     this.close()
                     let obj = {
                         type: `sign`,

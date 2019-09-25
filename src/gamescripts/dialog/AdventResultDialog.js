@@ -47,10 +47,11 @@ export default class AdventResultDialog extends PaoYa.Dialog {
             result:this.params.result,
             complete:1
         }, (res) => {
-           console.log(``)
+           PaoYa.NotificationCenter.postNotification(`adventComplate`);
+           this.close();
+           PaoYa.navigator.popToRootScene();
         })
-        this.close();
-        PaoYa.navigator.popToRootScene();
+        
     }
     rejectHandler(){
         console.log(`走人撒`);
@@ -58,10 +59,11 @@ export default class AdventResultDialog extends PaoYa.Dialog {
             result:this.params.result,
             complete:1
         }, (res) => {
-           console.log(``)
+           this.close();
+           PaoYa.navigator.popToRootScene();
+           PaoYa.NotificationCenter.postNotification(`adventComplate`);
         })
-        this.close();
-        PaoYa.navigator.popToRootScene();
+        
     }
     shareHandler(){
         console.log(`分享复活`);

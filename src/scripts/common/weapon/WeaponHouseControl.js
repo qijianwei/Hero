@@ -605,6 +605,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
                 // this.isWareChoiceWp._dataSource = res.weapon
                 this.singleWeapon(this.isWareChoiceWp, -1)
+                this.renderCenterData()
             }
         })
     }

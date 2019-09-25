@@ -1,4 +1,4 @@
-let baseUrl='https://xgamejuedixiaomie.goxiaochengxu.cn/1006/'
+const baseUrl='https://xgamejuedixiaomie.goxiaochengxu.cn/1006/'
 var HeroConfig = {
   ladderArr:["","无名小卒",'初出茅庐','后起之秀','江湖少侠','武林高手','名震江湖','独步武林','一代宗师','独孤求败'],
   roleName: '',
@@ -41,7 +41,7 @@ var HeroConfig = {
       templet: null
     },
     hero_4: {
-      path: 'spine/hero/hero_1.sk',
+      path: 'spine/hero/hero_4.sk',
       name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
       templet: null
     },

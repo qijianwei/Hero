@@ -76,6 +76,7 @@ export default class ChangeWp extends PaoYa.Dialog {
 
     sellyWp() {
         PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, res => {
+            PaoYa.NotificationCenter.postNotification(`adventComplete`)
             this.close()
         })
     }

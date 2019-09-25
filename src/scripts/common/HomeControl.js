@@ -78,6 +78,11 @@ export default class HomeControl extends PaoYa.Component {
                 this.onAppear();
             }
         });
+        this.onNotification('adventComplete', this, () => {
+            if(PaoYa.navigator.scenes.length==1){
+                this.onAppear();
+            }
+        });
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
@@ -128,7 +133,18 @@ export default class HomeControl extends PaoYa.Component {
                 this.navigator.popup(`adventure/GetAward`, res)
                 break;
             case 5:
-                this.navigator.popup(`/dialog/AdventDialog5`, res)
+                if( res.time * 1000>0){
+                    if(res.time*1000- new Date().valueOf()<0){
+                        res.state=`get`;
+                        this.navigator.popup(`/dialog/AdventResultDialog5`, res)         
+                    }else{
+                        res.state=`wait`
+                        this.navigator.popup(`/dialog/AdventResultDialog5`, res) 
+                    }             
+                }else{
+                    this.navigator.popup(`/dialog/AdventDialog5`, res)
+                }
+               
                 break;
             case 6:
                 this.navigator.popup(`adventure/ChangeWp`, res)

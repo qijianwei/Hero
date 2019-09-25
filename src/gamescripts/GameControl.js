@@ -119,44 +119,69 @@ export default class GameControl extends PaoYa.Component {
 
 
         //测试
-        this.addDragon();
+        //this.addDragon();
 
     }
-    addDragon() {
+    dragonLaunch(skillType=1) {
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;
         dragonBg.zOrder = 2000;
         this.owner.addChild(dragonBg);
         let dragonAni = new Laya.Animation();
-        dragonAni.loadAnimation(`gamescenes/animations/hero4_skill1.ani`, Laya.Handler.create(this, (ani) => {
+        dragonAni.loadAnimation(`gamescenes/animations/hero4_skill${skillType}.ani`, Laya.Handler.create(this, (ani) => {
             console.log(dragonAni.width)
             dragonAni.play(0, true);
-            Laya.timer.frameLoop(1, this, this.sportDragon);
+          Laya.timer.frameLoop(1, this, this.sportDragon,[skillType]);
         }))
-        dragonAni.pos(-616, 420);
+        dragonAni.pos(-80, 446);
         this.dragonAni = dragonAni
         dragonBg.addChild(dragonAni);
         let maskSP = new Laya.Sprite();
-        maskSP.graphics.drawRect(230, 0, 880, 750, '#ffffff')
+        maskSP.graphics.drawRect(300, 0, 810, 750, '#ff0000') 
+    
         dragonBg.mask = maskSP
         this.dragonCollide=false;
     }
-    sportDragon() {
-        this.dragonAni.x += 15;
+    sportDragon(skillType) {
+        this.dragonAni.x += 25;
+    //    / this.dragonBg.repaint()
         if(!this.dragonCollide&&this.dragonAni.x+423>1120){
+            //Laya.timer.clear(this, this.sportDragon);
             this.dragonCollide=true;
-            this.dragonHurt();
+            this.addDragonCollideAni(skillType);
+            this.dragonHurt(skillType);
+           
         }
         if (this.dragonAni.x > 1334) {
             Laya.timer.clear(this, this.sportDragon);
             this.dragonAni.stop();
             this.dragonAni.removeSelf();
+            this.collideAni.stop();
+            this.collideAni.removeSelf();
             this.owner.removeChild(this.dragonBg);
         }
     }
-    dragonHurt(){
-        let attackNum=Math.round(this.selfPlayer.comp.attr.roleStrength*0.22);
+    addDragonCollideAni(skillType){
+        if(skillType==1){
+            let collideAni = new Laya.Animation();
+            collideAni.loadAnimation(`gamescenes/animations/hero4_injured${skillType}.ani`, Laya.Handler.create(this, (ani) => {
+                collideAni.play(0, true);
+            }))
+            collideAni.pos(1072,430);
+            collideAni.zOrder=2200;
+            this.owner.addChild(collideAni)
+            this.collideAni=collideAni;
+        }
+    } 
+    dragonHurt(skillType){
+        console.log(skillType)
+        let attackNum=0
+        if(skillType==1){
+            attackNum=Math.round(this.selfPlayer.comp.attr.roleStrength*0.22);
+        }else if(skillType==2){
+            attackNum=Math.round(this.selfPlayer.comp.attr.roleStrength*0.5);
+        }
         let dizzyT=800;
         this.otherPlayer.comp.injuredEffect(1, -attackNum, false, () => {
             this.otherPlayer.comp.dragonEffect(dizzyT);
@@ -316,7 +341,15 @@ export default class GameControl extends PaoYa.Component {
 
         for (let i = 0, len = this.weaponList.length; i < len; i++) {
             //暂时
-            let weaponBar = this.weaponBar.create.call(this.weaponBar);
+            let weaponBar=null;
+            if(this.weaponBar.create){
+                 weaponBar = this.weaponBar.create.call(this.weaponBar);
+            }else{
+           
+                let prefabWeapon = new Laya.Prefab();
+                    prefabWeapon.json = this.weaponBar;
+                 weaponBar = prefabWeapon.create.call(prefabWeapon);
+            }     
             let weaponBarComp = weaponBar.getComponent(WeaponBar);
             weaponBarComp.params = this.weaponList[i];
             weaponBarComp.isSelf = true;
@@ -401,12 +434,20 @@ export default class GameControl extends PaoYa.Component {
     skillClickHandler(name) {
         if (name == "skill1") {
             SoundManager.ins.heroSkill1();
-            this.skillWithWeapon(true);
+            if(this.selfPlayer.comp.roleId!=4){
+                this.skillWithWeapon(true);
+            }else{
+                this.skillWithDragon(true);
+            }
+            
         } else if (name == "skill2") {
             SoundManager.ins.heroSkill2();
-            this.skillWithoutWeapon(true);
+            if(this.selfPlayer.comp.roleId!=4){
+                this.skillWithoutWeapon(true);
+            }else{
+                this.skillWithTwoDragon(true);
+            }        
         }
-
     }
     skillWithWeapon(isSelf) {
         let name = isSelf ? 'self' : 'other';
@@ -429,7 +470,8 @@ export default class GameControl extends PaoYa.Component {
         skillWeapon.isSelf = isSelf;
         this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
         skillWeapon.skillEffect = true;
-        switch (skillWeapon.activeSkill.skillId) {
+        let skillId=skillWeapon.activeSkill.skillId;
+        switch (skillId) {
             case 88:
                 let addCritProb = skillWeapon.activeSkill.skillConfig.critProb;
                 this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb + addCritProb;
@@ -440,14 +482,28 @@ export default class GameControl extends PaoYa.Component {
                 //铸铁剑法 造成臂力*0.32倍伤害
             case 90:
                 break;
-                //打出一条小金龙，是否写在这里待定
+                //打出一条小金龙，是否写在这里待定 不能写在这里，不走兵器路线
             case 91:
                 break;
         }
         //先展示技能，再展示攻击，再发射兵器
         this[name + 'Player'].comp.showSkill1();
-        this[name + 'Player'].comp.skillCallback = () => {
-            this.weaponLaunch(skillWeapon);
+        this[name + 'Player'].comp.skillCallback = () => {  
+                this.weaponLaunch(skillWeapon);         
+        }
+    }
+    skillWithDragon(isSelf){
+        let name = isSelf ? 'self' : 'other';
+        this[name + 'Player'].comp.showSkill1();
+        this[name + 'Player'].comp.skillCallback = () => {  
+                this.dragonLaunch(1);         
+        }
+    }
+    skillWithTwoDragon(isSelf){
+        let name = isSelf ? 'self' : 'other';
+        this[name + 'Player'].comp.showSkill1();
+        this[name + 'Player'].comp.skillCallback = () => {  
+                this.dragonLaunch(2);         
         }
     }
     skillWithoutWeapon(isSelf) {
@@ -622,7 +678,7 @@ export default class GameControl extends PaoYa.Component {
             } else {
                 console.log("-----无法动弹-----")
             }
-            if (this.gameType == `pass` || `adventure`) {
+            if (this.gameType == `pass` || this.gameType==`adventure`) {
                 Laya.timer.once(800, this, this.startSelect);
             } else {
                 Laya.timer.once(500, this, this.startSelect);
@@ -965,7 +1021,7 @@ export default class GameControl extends PaoYa.Component {
                 }, (res) => {
                     Laya.MouseManager.enabled = true;
                     res.result = loserIsSelf ? -1 : 1;
-                    if (!Object.keys(res.encounter).length) {
+                    if (JSON.stringify(res.encounter)=='{}') {
                         PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                         this.navigator.popup('/dialog/PassResultDialog', res);
                     } else {
@@ -999,7 +1055,7 @@ export default class GameControl extends PaoYa.Component {
                     PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                     Laya.MouseManager.enabled = true;
                     res.result = loserIsSelf ? -1 : 1;
-                    this.navigator.popup('/dialog/adventResultDialog', res);
+                    this.navigator.popup('/dialog/AdventResultDialog', res);
                 })
             }
         })

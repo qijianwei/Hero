@@ -35,7 +35,7 @@ export default class Swordsman extends PaoYa.View {
             this.guideContainer.addChild(this.sp);
             // 设置叠加模式
             this.sp.blendMode = "destination-out";
-            this.graR(this.guide1.x+143, this.guide1.y, 90)
+            this.graR(this.guide1.x + 143, this.guide1.y, 90)
 
             this.guide1f(1)
         }
@@ -46,7 +46,7 @@ export default class Swordsman extends PaoYa.View {
         });
 
         this.benBack.on(Laya.Event.CLICK, this, () => {
-            if(this.isGuide){
+            if (this.isGuide) {
                 Global.dataPoints('用户点击人物升级')
             }
             if (this.isGuide && !this.guideBack) {
@@ -56,7 +56,8 @@ export default class Swordsman extends PaoYa.View {
             SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
             SwordsmanControl.ins.navigator.pop()
         })
-        this.params.roleList = this.params.roleList.slice(0, 2)
+        this.params.roleList.splice(2, 1)
+        this.params.roleList = this.params.roleList
         this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
         this.herolist.array = this.params.roleList
 

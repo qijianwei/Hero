@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog5.scene";
+GameConfig.startScene = "scenes/dialog/adventure/ChangeWp.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -588,7 +588,8 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupGameRes() {
 			var list = [
 			/* 首屏资源和公共资源 */
-			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas', 'res/atlas/remote/hero_skill/hero4_skill1.atlas',
+			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas', 'res/atlas/remote/hero_skill/hero4_skill1.atlas', //添加promiase
+			'res/atlas/remote/hero_skill/hero4_injured1.atlas',
 			/* 场景 */
 			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
 			/* 动效animation资源 */
@@ -630,6 +631,7 @@ if (!_Config2.default.debug) {
 	console.warn = function () {};
 	console.error = function () {};
 } else {
+	//console.log = function () { };
 	Laya.Stat.show();
 }
 
@@ -834,12 +836,14 @@ var GameControl = function (_PaoYa$Component) {
             }
 
             //测试
-            this.addDragon();
+            //this.addDragon();
         }
     }, {
-        key: 'addDragon',
-        value: function addDragon() {
+        key: 'dragonLaunch',
+        value: function dragonLaunch() {
             var _this4 = this;
+
+            var skillType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             var dragonBg = new Laya.Sprite();
             dragonBg.size(Laya.Browser.width, Laya.Browser.height);
@@ -847,40 +851,66 @@ var GameControl = function (_PaoYa$Component) {
             dragonBg.zOrder = 2000;
             this.owner.addChild(dragonBg);
             var dragonAni = new Laya.Animation();
-            dragonAni.loadAnimation('gamescenes/animations/hero4_skill1.ani', Laya.Handler.create(this, function (ani) {
+            dragonAni.loadAnimation('gamescenes/animations/hero4_skill' + skillType + '.ani', Laya.Handler.create(this, function (ani) {
                 console.log(dragonAni.width);
                 dragonAni.play(0, true);
-                Laya.timer.frameLoop(1, _this4, _this4.sportDragon);
+                Laya.timer.frameLoop(1, _this4, _this4.sportDragon, [skillType]);
             }));
-            dragonAni.pos(-616, 420);
+            dragonAni.pos(-80, 446);
             this.dragonAni = dragonAni;
             dragonBg.addChild(dragonAni);
             var maskSP = new Laya.Sprite();
-            maskSP.graphics.drawRect(230, 0, 880, 750, '#ffffff');
+            maskSP.graphics.drawRect(300, 0, 810, 750, '#ff0000');
+
             dragonBg.mask = maskSP;
             this.dragonCollide = false;
         }
     }, {
         key: 'sportDragon',
-        value: function sportDragon() {
-            this.dragonAni.x += 15;
+        value: function sportDragon(skillType) {
+            this.dragonAni.x += 25;
+            //    / this.dragonBg.repaint()
             if (!this.dragonCollide && this.dragonAni.x + 423 > 1120) {
+                //Laya.timer.clear(this, this.sportDragon);
                 this.dragonCollide = true;
-                this.dragonHurt();
+                this.addDragonCollideAni(skillType);
+                this.dragonHurt(skillType);
             }
             if (this.dragonAni.x > 1334) {
                 Laya.timer.clear(this, this.sportDragon);
                 this.dragonAni.stop();
                 this.dragonAni.removeSelf();
+                this.collideAni.stop();
+                this.collideAni.removeSelf();
                 this.owner.removeChild(this.dragonBg);
             }
         }
     }, {
+        key: 'addDragonCollideAni',
+        value: function addDragonCollideAni(skillType) {
+            if (skillType == 1) {
+                var collideAni = new Laya.Animation();
+                collideAni.loadAnimation('gamescenes/animations/hero4_injured' + skillType + '.ani', Laya.Handler.create(this, function (ani) {
+                    collideAni.play(0, true);
+                }));
+                collideAni.pos(1072, 430);
+                collideAni.zOrder = 2200;
+                this.owner.addChild(collideAni);
+                this.collideAni = collideAni;
+            }
+        }
+    }, {
         key: 'dragonHurt',
-        value: function dragonHurt() {
+        value: function dragonHurt(skillType) {
             var _this5 = this;
 
-            var attackNum = Math.round(this.selfPlayer.comp.attr.roleStrength * 0.22);
+            console.log(skillType);
+            var attackNum = 0;
+            if (skillType == 1) {
+                attackNum = Math.round(this.selfPlayer.comp.attr.roleStrength * 0.22);
+            } else if (skillType == 2) {
+                attackNum = Math.round(this.selfPlayer.comp.attr.roleStrength * 0.5);
+            }
             var dizzyT = 800;
             this.otherPlayer.comp.injuredEffect(1, -attackNum, false, function () {
                 _this5.otherPlayer.comp.dragonEffect(dizzyT);
@@ -1060,7 +1090,15 @@ var GameControl = function (_PaoYa$Component) {
 
             for (var i = 0, len = this.weaponList.length; i < len; i++) {
                 //暂时
-                var weaponBar = this.weaponBar.create.call(this.weaponBar);
+                var weaponBar = null;
+                if (this.weaponBar.create) {
+                    weaponBar = this.weaponBar.create.call(this.weaponBar);
+                } else {
+
+                    var prefabWeapon = new Laya.Prefab();
+                    prefabWeapon.json = this.weaponBar;
+                    weaponBar = prefabWeapon.create.call(prefabWeapon);
+                }
                 var weaponBarComp = weaponBar.getComponent(_WeaponBar2.default);
                 weaponBarComp.params = this.weaponList[i];
                 weaponBarComp.isSelf = true;
@@ -1152,10 +1190,18 @@ var GameControl = function (_PaoYa$Component) {
         value: function skillClickHandler(name) {
             if (name == "skill1") {
                 _SoundManager2.default.ins.heroSkill1();
-                this.skillWithWeapon(true);
+                if (this.selfPlayer.comp.roleId != 4) {
+                    this.skillWithWeapon(true);
+                } else {
+                    this.skillWithDragon(true);
+                }
             } else if (name == "skill2") {
                 _SoundManager2.default.ins.heroSkill2();
-                this.skillWithoutWeapon(true);
+                if (this.selfPlayer.comp.roleId != 4) {
+                    this.skillWithoutWeapon(true);
+                } else {
+                    this.skillWithTwoDragon(true);
+                }
             }
         }
     }, {
@@ -1183,7 +1229,8 @@ var GameControl = function (_PaoYa$Component) {
             skillWeapon.isSelf = isSelf;
             this[name + 'Player'].comp.MPComp.changeMP(-consumeMP);
             skillWeapon.skillEffect = true;
-            switch (skillWeapon.activeSkill.skillId) {
+            var skillId = skillWeapon.activeSkill.skillId;
+            switch (skillId) {
                 case 88:
                     var addCritProb = skillWeapon.activeSkill.skillConfig.critProb;
                     this[name + 'Player'].comp.attr.calcCritProb = this[name + 'Player'].comp.attr.roleCritProb + addCritProb;
@@ -1194,7 +1241,7 @@ var GameControl = function (_PaoYa$Component) {
                 //铸铁剑法 造成臂力*0.32倍伤害
                 case 90:
                     break;
-                //打出一条小金龙，是否写在这里待定
+                //打出一条小金龙，是否写在这里待定 不能写在这里，不走兵器路线
                 case 91:
                     break;
             }
@@ -1205,9 +1252,31 @@ var GameControl = function (_PaoYa$Component) {
             };
         }
     }, {
+        key: 'skillWithDragon',
+        value: function skillWithDragon(isSelf) {
+            var _this8 = this;
+
+            var name = isSelf ? 'self' : 'other';
+            this[name + 'Player'].comp.showSkill1();
+            this[name + 'Player'].comp.skillCallback = function () {
+                _this8.dragonLaunch(1);
+            };
+        }
+    }, {
+        key: 'skillWithTwoDragon',
+        value: function skillWithTwoDragon(isSelf) {
+            var _this9 = this;
+
+            var name = isSelf ? 'self' : 'other';
+            this[name + 'Player'].comp.showSkill1();
+            this[name + 'Player'].comp.skillCallback = function () {
+                _this9.dragonLaunch(2);
+            };
+        }
+    }, {
         key: 'skillWithoutWeapon',
         value: function skillWithoutWeapon(isSelf) {
-            var _this8 = this;
+            var _this10 = this;
 
             var name = isSelf ? 'self' : 'other';
             var skillInfo = this[name + 'Player'].comp.activeSkills[1];
@@ -1238,7 +1307,7 @@ var GameControl = function (_PaoYa$Component) {
                     this[name + 'Player'].comp.changePerMp(t * 1000, perMP);
                     this[name + 'Player'].comp.HPComp.changeHP(originHP * resumeHP);
                     Laya.timer.once(t * 1000, this, function () {
-                        _this8[name + 'Player'].comp.removeSkill2();
+                        _this10[name + 'Player'].comp.removeSkill2();
                     });
                     break;
                 case 39:
@@ -1247,8 +1316,8 @@ var GameControl = function (_PaoYa$Component) {
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
-                        _this8[name + 'MultiMP'] = 1;
-                        _this8[name + 'Player'].comp.removeSkill2();
+                        _this10[name + 'MultiMP'] = 1;
+                        _this10[name + 'Player'].comp.removeSkill2();
                     });
                     break;
                 case 45:
@@ -1258,7 +1327,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'allWeaponsUnfreeze',
         value: function allWeaponsUnfreeze(name, skillInfo) {
-            var _this9 = this;
+            var _this11 = this;
 
             var time = skillInfo.skillConfig.time * 1000;
             this.weaponsBarArr.forEach(function (weaponBarComp) {
@@ -1267,10 +1336,10 @@ var GameControl = function (_PaoYa$Component) {
             });
 
             Laya.timer.once(time, this, function () {
-                _this9.weaponsBarArr.forEach(function (weaponBarComp) {
+                _this11.weaponsBarArr.forEach(function (weaponBarComp) {
                     weaponBarComp.setCdTime(weaponBarComp.originCdTime);
                 });
-                _this9[name + 'Player'].comp.removeSkill2();
+                _this11[name + 'Player'].comp.removeSkill2();
             });
         }
         //所有兵器选择框和技能框置灰
@@ -1398,7 +1467,7 @@ var GameControl = function (_PaoYa$Component) {
                 } else {
                     console.log("-----无法动弹-----");
                 }
-                if (this.gameType == 'pass' || 'adventure') {
+                if (this.gameType == 'pass' || this.gameType == 'adventure') {
                     Laya.timer.once(800, this, this.startSelect);
                 } else {
                     Laya.timer.once(500, this, this.startSelect);
@@ -1424,7 +1493,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBarClickHandler',
         value: function weaponBarClickHandler(targetComp) {
-            var _this10 = this;
+            var _this12 = this;
 
             //体力不够
             var name = targetComp.isSelf ? 'self' : 'other';
@@ -1466,8 +1535,8 @@ var GameControl = function (_PaoYa$Component) {
                         this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
                         this[name + 'Player'].comp.attackCallback = function () {
                             _SoundManager2.default.ins.weaponSkill();
-                            _this10.weaponWithSkills(params, skillId);
-                            _this10[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this10[name + 'MultiMP']);
+                            _this12.weaponWithSkills(params, skillId);
+                            _this12[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this12[name + 'MultiMP']);
                             if (skillId == 58) {
                                 targetComp.startT(200); //快速冷却     
                             } else {
@@ -1484,15 +1553,15 @@ var GameControl = function (_PaoYa$Component) {
             this[name + 'Player'].comp.attackEffect(false);
             this[name + 'Player'].comp.attackCallback = function () {
                 _SoundManager2.default.ins.weaponLaunch();
-                _this10.weaponLaunch(params);
+                _this12.weaponLaunch(params);
                 targetComp.startT();
-                _this10[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this10[name + 'MultiMP']);
+                _this12[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this12[name + 'MultiMP']);
             };
         }
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params, deltaT) {
-            var _this11 = this;
+            var _this13 = this;
 
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
@@ -1509,8 +1578,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this11.owner.addChild(weapon);
-                    _this11[name + 'Weapons'].push(weaponComp);
+                    _this13.owner.addChild(weapon);
+                    _this13[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1694,22 +1763,22 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'dealBattle',
         value: function dealBattle(loserIsSelf) {
-            var _this12 = this;
+            var _this14 = this;
 
             Laya.timer.clearAll(this);
             this.gameOver(loserIsSelf);
             var win = loserIsSelf ? 0 : 1;
             Laya.timer.callLater(this, function () {
-                _this12.POST('martial_match_end', {
+                _this14.POST('martial_match_end', {
                     win: win
                 }, function (res) {
                     PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                     Laya.MouseManager.enabled = true;
                     res.result = loserIsSelf ? -1 : 1;
-                    res.roleId = _this12.params.roleId, res.robotRoleId = _this12.params.robotRoleId;
-                    res.nickName = _this12.params.nickName;
-                    res.robotNickName = _this12.params.robotNickName;
-                    _this12.navigator.popup('/dialog/BattleResultDialog', res);
+                    res.roleId = _this14.params.roleId, res.robotRoleId = _this14.params.robotRoleId;
+                    res.nickName = _this14.params.nickName;
+                    res.robotNickName = _this14.params.robotNickName;
+                    _this14.navigator.popup('/dialog/BattleResultDialog', res);
                 });
             });
         }
@@ -1752,7 +1821,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'passOver',
         value: function passOver(loserIsSelf) {
-            var _this13 = this;
+            var _this15 = this;
 
             //  SoundManager.ins.homeBg();
             Laya.timer.clearAll(this);
@@ -1772,46 +1841,46 @@ var GameControl = function (_PaoYa$Component) {
             this.otherPlayer.comp.MPComp.stopIncrease();
 
             Laya.timer.once(1000, this, function () {
-                if (_this13.gameType == 'pass') {
-                    _this13.POST('martial_game_end', {
-                        killNum: _this13.killNum
+                if (_this15.gameType == 'pass') {
+                    _this15.POST('martial_game_end', {
+                        killNum: _this15.killNum
                     }, function (res) {
                         Laya.MouseManager.enabled = true;
                         res.result = loserIsSelf ? -1 : 1;
-                        if (!Object.keys(res.encounter).length) {
+                        if (JSON.stringify(res.encounter) == '{}') {
                             PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
-                            _this13.navigator.popup('/dialog/PassResultDialog', res);
+                            _this15.navigator.popup('/dialog/PassResultDialog', res);
                         } else {
                             switch (res.encounter.type) {
                                 case 1:
                                 case 2:
-                                    _this13.navigator.popup('/dialog/AdventDialog', res);
+                                    _this15.navigator.popup('/dialog/AdventDialog', res);
                                     break;
                                 case 3:
-                                    _this13.navigator.popup('adventure/BuyWp', res);
+                                    _this15.navigator.popup('adventure/BuyWp', res);
                                     break;
                                 case 4:
-                                    _this13.navigator.popup('adventure/GetAward', res);
+                                    _this15.navigator.popup('adventure/GetAward', res);
                                     break;
                                 case 5:
-                                    _this13.navigator.popup('/dialog/AdventDialog5', res);
+                                    _this15.navigator.popup('/dialog/AdventDialog5', res);
                                     break;
                                 case 6:
-                                    _this13.navigator.popup('adventure/ChangeWp', res);
+                                    _this15.navigator.popup('adventure/ChangeWp', res);
                                     break;
                             }
                         }
                     });
-                } else if (_this13.gameType == 'adventure') {
+                } else if (_this15.gameType == 'adventure') {
 
-                    _this13.POST('martial_encounter_finish', {
+                    _this15.POST('martial_encounter_finish', {
                         result: loserIsSelf ? -1 : 1,
                         complete: loserIsSelf ? -1 : 1
                     }, function (res) {
                         PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                         Laya.MouseManager.enabled = true;
                         res.result = loserIsSelf ? -1 : 1;
-                        _this13.navigator.popup('/dialog/adventResultDialog', res);
+                        _this15.navigator.popup('/dialog/AdventResultDialog', res);
                     });
                 }
             });
@@ -2332,7 +2401,7 @@ var HeroConfig = {
       templet: null
     },
     hero_4: {
-      path: 'spine/hero/hero_1.sk',
+      path: 'spine/hero/hero_4.sk',
       name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
       templet: null
     },
@@ -2550,6 +2619,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
             for (var i = 0; i < len; i++) {
                 var weaponView = new Laya.Prefab();
                 weaponView.json = jsons[0];
+                this.weaponView = weaponView;
                 var view = Laya.Pool.getItemByCreateFun('WeaponView', weaponView.create, weaponView);
                 var weaponBarsComp = view.getComponent(_WeaponBar2.default);
                 weaponBarsComp.params = weaponList[i];
@@ -2632,6 +2702,8 @@ var AdventDialog = function (_PaoYa$Dialog) {
                     }));
                 } else {
                     _this4.close();
+                    /*  delete `gamescenes/prefab/WeaponBar.json` */
+                    /*    this.weaponView=null; */
                     res.gameType = 'adventure';
                     PaoYa.navigator.push("GameView", res);
                 }
@@ -2645,10 +2717,10 @@ var AdventDialog = function (_PaoYa$Dialog) {
             console.log('\u653E\u5F03\u5947\u9047');
             PaoYa.Request.POST('martial_encounter_cancel', {}, function () {
                 _this5.close();
+                PaoYa.NotificationCenter.postNotification('adventCancel');
                 if (PaoYa.navigator.scenes.length > 1) {
                     PaoYa.navigator.popup('/dialog/PassResultDialog', _this5.resultParams);
                 }
-                PaoYa.NotificationCenter.postNotification('adventCancel');
             });
         }
     }]);
@@ -2874,28 +2946,32 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
     }, {
         key: "sureHandler",
         value: function sureHandler() {
+            var _this3 = this;
+
             console.log("\u786E\u8BA4....");
             PaoYa.Request.POST('martial_encounter_finish', {
                 result: this.params.result,
                 complete: 1
             }, function (res) {
-                console.log("");
+                PaoYa.NotificationCenter.postNotification("adventComplate");
+                _this3.close();
+                PaoYa.navigator.popToRootScene();
             });
-            this.close();
-            PaoYa.navigator.popToRootScene();
         }
     }, {
         key: "rejectHandler",
         value: function rejectHandler() {
+            var _this4 = this;
+
             console.log("\u8D70\u4EBA\u6492");
             PaoYa.Request.POST('martial_encounter_finish', {
                 result: this.params.result,
                 complete: 1
             }, function (res) {
-                console.log("");
+                _this4.close();
+                PaoYa.navigator.popToRootScene();
+                PaoYa.NotificationCenter.postNotification("adventComplate");
             });
-            this.close();
-            PaoYa.navigator.popToRootScene();
         }
     }, {
         key: "shareHandler",
@@ -3046,6 +3122,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
                 this.startCount(time);
             } else if (state == "get") {
                 this.boxGet.visible = true;
+                this.showGetState();
                 this.lbl3.font = "adventure";
             }
 
@@ -3061,6 +3138,10 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
                 case "btnVideo":
                     this.videoHandler();
                     break;
+                case "btnGet":
+
+                    this.getHandler();
+                    break;
             }
         }
     }, {
@@ -3071,6 +3152,29 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
             if (PaoYa.navigator.scenes.length > 1) {
                 PaoYa.navigator.popup('/dialog/PassResultDialog', this.params);
             }
+        }
+    }, {
+        key: "getHandler",
+        value: function getHandler() {
+            var _this3 = this;
+
+            PaoYa.Request.POST("martial_encounter_finish", {
+                result: 1,
+                complete: 1
+            }, function () {
+                PaoYa.Request.POST("martial_encounter_finish", {
+                    result: 1,
+                    complete: 1
+                }, function () {
+                    PaoYa.NotificationCenter.postNotification("adventComplete");
+                    _this3.close();
+                    if (PaoYa.navigator.scenes.length > 1) {
+                        PaoYa.navigator.popup('/dialog/PassResultDialog', _this3.params);
+                    }
+                });
+
+                console.log("\u5947\u90475\u5B8C\u6210");
+            });
         }
     }, {
         key: "videoHandler",
@@ -3087,12 +3191,6 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
                     if (res.isEnded) {
                         console.log("\u770B\u5B8C\u5E7F\u544A");
                         _this.showGetState();
-                        PaoYa.Request.POST("martial_encounter_finish", {
-                            result: 1,
-                            complete: 1
-                        }, function () {
-                            console.log("\u5947\u9047\u5B8C\u6210");
-                        });
                     } else {
                         var errorDialog = new _AlertDialog2.default({
                             title: "\u6E29\u99A8\u63D0\u793A",
@@ -3114,14 +3212,14 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
     }, {
         key: "startCount",
         value: function startCount(time) {
-            var _this3 = this;
+            var _this4 = this;
 
             var timeStamp = (time * 1000 - new Date().valueOf()) / 1000;
             console.log(timeStamp);
             var timerService = new PaoYa.TimerService(timeStamp, 1, false);
             timerService.on(PaoYa.TimerService.PROGRESS, this, function (time) {
 
-                _this3.lblTime.text = time.formatTime('M:S') + "";
+                _this4.lblTime.text = time.formatTime('M:S') + "";
             });
             timerService.on(PaoYa.TimerService.STOP, this, function () {});
             timerService.start();
@@ -3130,13 +3228,13 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
     }, {
         key: "showGetState",
         value: function showGetState() {
-            var _this4 = this;
+            var _this5 = this;
 
             var _this = this;
             this.boxWait.visible = false;
             this.boxGet.visible = true;
             var rewardPromise = new Promise(function (resolve, reject) {
-                Laya.loader.create('gamescenes/prefab/RewardBig.json', Laya.Handler.create(_this4, function (json) {
+                Laya.loader.create('gamescenes/prefab/RewardBig.json', Laya.Handler.create(_this5, function (json) {
                     resolve(json);
                 }));
             });
@@ -6711,6 +6809,7 @@ var Weapon = function (_PaoYa$Component) {
   }, {
     key: "stopParabola",
     value: function stopParabola() {
+      //console.error(`-------关闭抛物线定时器1-------`)
       Laya.timer.clear(this, this.startParabola);
     }
     //暂停动画
@@ -6718,6 +6817,7 @@ var Weapon = function (_PaoYa$Component) {
   }, {
     key: "pause",
     value: function pause() {
+      //console.error(`--------关闭抛物线定时器2-------`)
       Laya.timer.clear(this, this.startParabola);
       this.pauseTime = new Date().valueOf();
       this.playedTime = this.pauseTime - this.beginTime;
@@ -6785,10 +6885,10 @@ var Weapon = function (_PaoYa$Component) {
         //let targetName=this.isSelf?'other':'self';
         if (this.otherPlayerComp.attr.roleId == 4) {
           var random = Math.ceil(Math.random() * 100);
-          var reboundRate = this.selfPlayerComp.attr.skills[1].skillConfig.reboundRate;
+          var reboundRate = this.otherPlayerComp.attr.skills[1].skillConfig.reboundRate;
           if (random <= reboundRate) {
             //反弹提示
-            this.otherPlayerComp.showPlayerState("游龙入水");
+            //this.otherPlayerComp.showPlayerState("游龙入水");
             this.goBack();
             return;
           }
@@ -6987,7 +7087,9 @@ var Weapon = function (_PaoYa$Component) {
   }, {
     key: "goBack",
     value: function goBack() {
+      _GameControl2.default.instance.removeWeapon(this);
       this.isSelf = !this.isSelf;
+      _GameControl2.default.instance.selfWeapons.push(this);
       this.initWeaponInfo();
     }
     //根据抛物线的点求角度和计算矩形四个位置
@@ -7599,10 +7701,6 @@ var _SpeakMan = require("../../gamescripts/gameGuide/SpeakMan");
 
 var _SpeakMan2 = _interopRequireDefault(_SpeakMan);
 
-var _preOpenManager = require("../../gamescripts/preOpen/preOpenManager");
-
-var _preOpenManager2 = _interopRequireDefault(_preOpenManager);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7696,6 +7794,11 @@ var HomeControl = function (_PaoYa$Component) {
                     _this3.onAppear();
                 }
             });
+            this.onNotification('adventComplete', this, function () {
+                if (PaoYa.navigator.scenes.length == 1) {
+                    _this3.onAppear();
+                }
+            });
         }
     }, {
         key: "onEnable",
@@ -7754,7 +7857,18 @@ var HomeControl = function (_PaoYa$Component) {
                     this.navigator.popup("adventure/GetAward", res);
                     break;
                 case 5:
-                    this.navigator.popup("/dialog/AdventDialog5", res);
+                    if (res.time * 1000 > 0) {
+                        if (res.time * 1000 - new Date().valueOf() < 0) {
+                            res.state = "get";
+                            this.navigator.popup("/dialog/AdventResultDialog5", res);
+                        } else {
+                            res.state = "wait";
+                            this.navigator.popup("/dialog/AdventResultDialog5", res);
+                        }
+                    } else {
+                        this.navigator.popup("/dialog/AdventDialog5", res);
+                    }
+
                     break;
                 case 6:
                     this.navigator.popup("adventure/ChangeWp", res);
@@ -8236,7 +8350,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":14,"../../gamescripts/gameGuide/GameGuideData":18,"../../gamescripts/gameGuide/SpeakMan":19,"../../gamescripts/preOpen/preOpenManager":21,"./tool/Global":51}],35:[function(require,module,exports){
+},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":14,"../../gamescripts/gameGuide/GameGuideData":18,"../../gamescripts/gameGuide/SpeakMan":19,"./tool/Global":51}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8917,7 +9031,8 @@ var Swordsman = function (_PaoYa$View) {
                 _SwordsmanControl2.default.ins.postNotification("roleIdChanged", _this2.params.defaultRole);
                 _SwordsmanControl2.default.ins.navigator.pop();
             });
-            this.params.roleList = this.params.roleList.slice(0, 2);
+            this.params.roleList.splice(2, 1);
+            this.params.roleList = this.params.roleList;
             this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
             this.herolist.array = this.params.roleList;
 
@@ -12367,6 +12482,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 
                     // this.isWareChoiceWp._dataSource = res.weapon
                     _this9.singleWeapon(_this9.isWareChoiceWp, -1);
+                    _this9.renderCenterData();
                 }
             });
         }
@@ -13703,7 +13819,7 @@ var BuyWp = function (_PaoYa$Dialog) {
 
             PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: wpString }, function (res) {
                 _this4.ware.visible = true;
-
+                PaoYa.NotificationCenter.postNotification("adventComplete");
                 moveArr.forEach(function (element) {
                     _this4["showani" + element.idx].x = 749.5 + 128 * element.idx;
                     _this4["showani" + element.idx].y = 391;
@@ -13898,6 +14014,7 @@ var ChangeWp = function (_PaoYa$Dialog) {
             var _this3 = this;
 
             PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, function (res) {
+                PaoYa.NotificationCenter.postNotification("adventComplete");
                 _this3.close();
             });
         }
@@ -13984,6 +14101,7 @@ var GetAward = function (_PaoYa$Dialog) {
                 _Global.Global.dataPoints('奇遇c激励广告');
                 _Tool2.default.showVideoAD(function () {
                     PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, function (res) {
+                        PaoYa.NotificationCenter.postNotification("adventComplete");
                         _this2.close();
                         var obj = {
                             type: "sign",

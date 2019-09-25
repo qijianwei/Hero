@@ -152,7 +152,7 @@ export default class BuyWp extends PaoYa.Dialog {
 
         PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: wpString }, res => {
             this.ware.visible = true
-
+            PaoYa.NotificationCenter.postNotification(`adventComplete`)
             moveArr.forEach((element) => {
                 this[`showani${element.idx}`].x = 749.5 + 128 * element.idx
                 this[`showani${element.idx}`].y = 391
