@@ -9,7 +9,7 @@ export default class BuyWp extends PaoYa.Dialog {
 
     onEnable() {
         this.autoDestroyAtClosed = true;
-        this.resultParams=JSON.parse(JSON.stringify(this.params)); 
+        this.resultParams = JSON.parse(JSON.stringify(this.params));
 
         if (this.params.encounter) {
             this.params = this.params.encounter;
@@ -18,7 +18,7 @@ export default class BuyWp extends PaoYa.Dialog {
         this.heroImage.skin = `remote/guide/hero_${PaoYa.DataCenter.user.defaultRoleId}.png`
 
         this.tips.font = `adventure`
-
+        this.tips.x = 630
         this.buyBtnText.font = `adventure`
         this.buyBtnText.pos(10, 10)
 
@@ -127,10 +127,10 @@ export default class BuyWp extends PaoYa.Dialog {
     }
 
     buyWp() {
-        let moveArr = [], wpString = ``, num = 0
+        let moveArr = [], wpString = null, num = 0
         this.showlist.forEach((element, index) => {
             if (element.isChioced) {
-                wpString = `${wpString},${element.weaponId}`
+                wpString = wpString ? `${wpString},${element.weaponId}` : `${element.weaponId}`
                 num += Number(element.weaponPrice)
                 let obj = {
                     idx: index,
@@ -152,6 +152,10 @@ export default class BuyWp extends PaoYa.Dialog {
 
         PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: wpString }, res => {
             this.ware.visible = true
+            PaoYa.Request.GET('update_chips', {}, res => {
+                PaoYa.DataCenter.gold.value = res.gold
+                PaoYa.DataCenter.diamond.value = res.diamond
+            })
             PaoYa.NotificationCenter.postNotification(`adventComplete`)
             moveArr.forEach((element) => {
                 this[`showani${element.idx}`].x = 749.5 + 128 * element.idx

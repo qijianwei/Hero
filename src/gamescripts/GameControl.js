@@ -123,6 +123,13 @@ export default class GameControl extends PaoYa.Component {
 
     }
     dragonLaunch(skillType=1) {
+        //开始cd
+           if(skillType==1){
+                this.skillScr1.startT()
+            }else{
+                this.skillScr2.startT()
+            }
+
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;
@@ -157,21 +164,50 @@ export default class GameControl extends PaoYa.Component {
             Laya.timer.clear(this, this.sportDragon);
             this.dragonAni.stop();
             this.dragonAni.removeSelf();
-            this.collideAni.stop();
-            this.collideAni.removeSelf();
+            if(skillType==1){
+                this.collideAni.stop();
+                this.collideAni.removeSelf();
+            }else{
+                this.collideAni1.stop();
+                this.collideAni1.removeSelf();
+                this.collideAni2.stop();
+                this.collideAni2.removeSelf();
+            }   
             this.owner.removeChild(this.dragonBg);
         }
     }
     addDragonCollideAni(skillType){
         if(skillType==1){
             let collideAni = new Laya.Animation();
-            collideAni.loadAnimation(`gamescenes/animations/hero4_injured${skillType}.ani`, Laya.Handler.create(this, (ani) => {
+            collideAni.loadAnimation(`gamescenes/animations/hero4_injured1.ani`, Laya.Handler.create(this, (ani) => {
                 collideAni.play(0, true);
-            }))
+            }),`res/atlas/remote/hero_skill/hero4_injured1.atlas`)
             collideAni.pos(1072,430);
             collideAni.zOrder=2200;
             this.owner.addChild(collideAni)
             this.collideAni=collideAni;
+        }else if(skillType==2){
+           /*  for(let i=0;i<2;i++){
+            
+            } */
+            let collideAni1 = new Laya.Animation();
+            collideAni1.loadAnimation(`gamescenes/animations/hero4_injured1.ani`, Laya.Handler.create(this, (ani) => {
+                collideAni1.play(0, true);
+            }),`res/atlas/remote/hero_skill/hero4_injured1.atlas`)
+            collideAni1.pos(1092,380);
+            collideAni1.zOrder=2200;
+            this.owner.addChild(collideAni1)
+            this.collideAni1=collideAni1;
+
+            let collideAni2 = new Laya.Animation();
+            collideAni2.loadAnimation(`gamescenes/animations/hero4_injured1.ani`, Laya.Handler.create(this, (ani) => {
+                collideAni2.play(0, true);
+            }),`res/atlas/remote/hero_skill/hero4_injured1.atlas`)
+            collideAni2.pos(1052,470);
+            collideAni2.zOrder=2200;
+            this.owner.addChild(collideAni2)
+            this.collideAni2=collideAni2;
+          
         }
     } 
     dragonHurt(skillType){
@@ -501,7 +537,7 @@ export default class GameControl extends PaoYa.Component {
     }
     skillWithTwoDragon(isSelf){
         let name = isSelf ? 'self' : 'other';
-        this[name + 'Player'].comp.showSkill1();
+        this[name + 'Player'].comp.showSkill2();
         this[name + 'Player'].comp.skillCallback = () => {  
                 this.dragonLaunch(2);         
         }

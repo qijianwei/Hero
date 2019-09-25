@@ -845,6 +845,14 @@ var GameControl = function (_PaoYa$Component) {
 
             var skillType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
+            //开始cd
+
+            if (skillType == 1) {
+                this.skillScr1.startT();
+            } else {
+                this.skillScr2.startT();
+            }
+
             var dragonBg = new Laya.Sprite();
             dragonBg.size(Laya.Browser.width, Laya.Browser.height);
             this.dragonBg = dragonBg;
@@ -880,8 +888,15 @@ var GameControl = function (_PaoYa$Component) {
                 Laya.timer.clear(this, this.sportDragon);
                 this.dragonAni.stop();
                 this.dragonAni.removeSelf();
-                this.collideAni.stop();
-                this.collideAni.removeSelf();
+                if (skillType == 1) {
+                    this.collideAni.stop();
+                    this.collideAni.removeSelf();
+                } else {
+                    this.collideAni1.stop();
+                    this.collideAni1.removeSelf();
+                    this.collideAni2.stop();
+                    this.collideAni2.removeSelf();
+                }
                 this.owner.removeChild(this.dragonBg);
             }
         }
@@ -890,13 +905,34 @@ var GameControl = function (_PaoYa$Component) {
         value: function addDragonCollideAni(skillType) {
             if (skillType == 1) {
                 var collideAni = new Laya.Animation();
-                collideAni.loadAnimation('gamescenes/animations/hero4_injured' + skillType + '.ani', Laya.Handler.create(this, function (ani) {
+                collideAni.loadAnimation('gamescenes/animations/hero4_injured1.ani', Laya.Handler.create(this, function (ani) {
                     collideAni.play(0, true);
-                }));
+                }), 'res/atlas/remote/hero_skill/hero4_injured1.atlas');
                 collideAni.pos(1072, 430);
                 collideAni.zOrder = 2200;
                 this.owner.addChild(collideAni);
                 this.collideAni = collideAni;
+            } else if (skillType == 2) {
+                /*  for(let i=0;i<2;i++){
+                 
+                 } */
+                var collideAni1 = new Laya.Animation();
+                collideAni1.loadAnimation('gamescenes/animations/hero4_injured1.ani', Laya.Handler.create(this, function (ani) {
+                    collideAni1.play(0, true);
+                }), 'res/atlas/remote/hero_skill/hero4_injured1.atlas');
+                collideAni1.pos(1092, 380);
+                collideAni1.zOrder = 2200;
+                this.owner.addChild(collideAni1);
+                this.collideAni1 = collideAni1;
+
+                var collideAni2 = new Laya.Animation();
+                collideAni2.loadAnimation('gamescenes/animations/hero4_injured1.ani', Laya.Handler.create(this, function (ani) {
+                    collideAni2.play(0, true);
+                }), 'res/atlas/remote/hero_skill/hero4_injured1.atlas');
+                collideAni2.pos(1052, 470);
+                collideAni2.zOrder = 2200;
+                this.owner.addChild(collideAni2);
+                this.collideAni2 = collideAni2;
             }
         }
     }, {
@@ -1268,7 +1304,7 @@ var GameControl = function (_PaoYa$Component) {
             var _this9 = this;
 
             var name = isSelf ? 'self' : 'other';
-            this[name + 'Player'].comp.showSkill1();
+            this[name + 'Player'].comp.showSkill2();
             this[name + 'Player'].comp.skillCallback = function () {
                 _this9.dragonLaunch(2);
             };
@@ -5697,6 +5733,7 @@ var Player = function (_PaoYa$Component) {
         case 'skill2':
           this.canAction = true;
           _GameControl2.default.instance.allResume(this.isSelf);
+          this.skillCallback();
           if (this['aniSkill2Hero' + this.roleId]) {
             this['aniSkill2Hero' + this.roleId].visible = true;
             this['aniSkill2Hero' + this.roleId].play(0, true);
@@ -7851,7 +7888,7 @@ var HomeControl = function (_PaoYa$Component) {
                     this.navigator.popup("/dialog/AdventDialog", res);
                     break;
                 case 3:
-                    this.navigator.popup("adventure/BuyWp", res);
+                    this.navigator.popup("adventure/ChangeWp", res);
                     break;
                 case 4:
                     this.navigator.popup("adventure/GetAward", res);
@@ -7871,7 +7908,8 @@ var HomeControl = function (_PaoYa$Component) {
 
                     break;
                 case 6:
-                    this.navigator.popup("adventure/ChangeWp", res);
+                    this.navigator.popup("adventure/BuyWp", res);
+
                     break;
             }
             res = null;
@@ -13675,7 +13713,7 @@ var BuyWp = function (_PaoYa$Dialog) {
             this.heroImage.skin = "remote/guide/hero_" + PaoYa.DataCenter.user.defaultRoleId + ".png";
 
             this.tips.font = "adventure";
-
+            this.tips.x = 630;
             this.buyBtnText.font = "adventure";
             this.buyBtnText.pos(10, 10);
 
@@ -13793,11 +13831,11 @@ var BuyWp = function (_PaoYa$Dialog) {
             var _this4 = this;
 
             var moveArr = [],
-                wpString = "",
+                wpString = null,
                 num = 0;
             this.showlist.forEach(function (element, index) {
                 if (element.isChioced) {
-                    wpString = wpString + "," + element.weaponId;
+                    wpString = wpString ? wpString + "," + element.weaponId : "" + element.weaponId;
                     num += Number(element.weaponPrice);
                     var obj = {
                         idx: index,
@@ -13819,6 +13857,10 @@ var BuyWp = function (_PaoYa$Dialog) {
 
             PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: wpString }, function (res) {
                 _this4.ware.visible = true;
+                PaoYa.Request.GET('update_chips', {}, function (res) {
+                    PaoYa.DataCenter.gold.value = res.gold;
+                    PaoYa.DataCenter.diamond.value = res.diamond;
+                });
                 PaoYa.NotificationCenter.postNotification("adventComplete");
                 moveArr.forEach(function (element) {
                     _this4["showani" + element.idx].x = 749.5 + 128 * element.idx;
@@ -13951,6 +13993,7 @@ var ChangeWp = function (_PaoYa$Dialog) {
             }
 
             this.tips.font = "adventure";
+            this.tips.x = 630;
             var name = "八卦斧";
             this.label2.text = "\u5E74\u8F7B\u4EBA\uFF0C\u8BF7\u95EE\u4F60\u6709\u6CA1\u6709\u4E00\u628A" + name + "\u3002\u5982\u679C\u4F60\u80FD\u628A\u5B83\u8BA9\u7ED9\u6211\u7684\u8BDD\uFF0C\u8C22\u67D0\u5B9A\u5F53\u91CD\u8C22";
 
@@ -14014,6 +14057,10 @@ var ChangeWp = function (_PaoYa$Dialog) {
             var _this3 = this;
 
             PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, function (res) {
+                PaoYa.Request.GET('update_chips', {}, function (res) {
+                    PaoYa.DataCenter.gold.value = res.gold;
+                    PaoYa.DataCenter.diamond.value = res.diamond;
+                });
                 PaoYa.NotificationCenter.postNotification("adventComplete");
                 _this3.close();
             });
@@ -14080,6 +14127,7 @@ var GetAward = function (_PaoYa$Dialog) {
             }
 
             this.tips.font = "adventure";
+            this.tips.x = 630;
             this.closeBtnText.font = "adventure";
             this.closeBtnText.scale(0.9, 0.9);
             this.closeBtnText.pos(10, 15);
@@ -14101,6 +14149,10 @@ var GetAward = function (_PaoYa$Dialog) {
                 _Global.Global.dataPoints('奇遇c激励广告');
                 _Tool2.default.showVideoAD(function () {
                     PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, function (res) {
+                        PaoYa.Request.GET('update_chips', {}, function (res) {
+                            PaoYa.DataCenter.gold.value = res.gold;
+                            PaoYa.DataCenter.diamond.value = res.diamond;
+                        });
                         PaoYa.NotificationCenter.postNotification("adventComplete");
                         _this2.close();
                         var obj = {
@@ -14767,6 +14819,10 @@ var Task = function (_PaoYa$Dialog) {
     }, {
         key: "onClosed",
         value: function onClosed() {
+            PaoYa.Request.GET('update_chips', {}, function (res) {
+                PaoYa.DataCenter.gold.value = res.gold;
+                PaoYa.DataCenter.diamond.value = res.diamond;
+            });
             if (_Wheel2.default && _Wheel2.default.ins) {
                 _Wheel2.default.ins.changeDG();
             }

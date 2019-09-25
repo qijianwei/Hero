@@ -10,13 +10,14 @@ export default class GetAward extends PaoYa.Dialog {
 
     onEnable() {
         this.autoDestroyAtClosed = true;
-        this.resultParams=JSON.parse(JSON.stringify(this.params)); 
+        this.resultParams = JSON.parse(JSON.stringify(this.params));
 
         if (this.params.encounter) {
             this.params = this.params.encounter;
         }
 
         this.tips.font = `adventure`
+        this.tips.x = 630
         this.closeBtnText.font = `adventure`
         this.closeBtnText.scale(0.9, 0.9)
         this.closeBtnText.pos(10, 15)
@@ -38,6 +39,10 @@ export default class GetAward extends PaoYa.Dialog {
             Global.dataPoints('奇遇c激励广告')
             Tool.showVideoAD(() => {
                 PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, res => {
+                    PaoYa.Request.GET('update_chips', {}, res => {
+                        PaoYa.DataCenter.gold.value = res.gold
+                        PaoYa.DataCenter.diamond.value = res.diamond
+                    })
                     PaoYa.NotificationCenter.postNotification(`adventComplete`)
                     this.close()
                     let obj = {

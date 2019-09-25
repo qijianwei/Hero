@@ -229,6 +229,10 @@ export default class Task extends PaoYa.Dialog {
         }
     }
     onClosed() {
+        PaoYa.Request.GET('update_chips', {}, res => {
+            PaoYa.DataCenter.gold.value = res.gold
+            PaoYa.DataCenter.diamond.value = res.diamond
+        })
         if (Wheel && Wheel.ins) {
             Wheel.ins.changeDG()
         }

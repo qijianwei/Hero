@@ -91,6 +91,7 @@ export default class Player extends PaoYa.Component {
       case 'skill2':
         this.canAction = true;
         GameControl.instance.allResume(this.isSelf);
+        this.skillCallback();
         if (this['aniSkill2Hero' + this.roleId]) {
           this['aniSkill2Hero' + this.roleId].visible = true;
           this['aniSkill2Hero' + this.roleId].play(0, true);

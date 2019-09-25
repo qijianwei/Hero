@@ -17,6 +17,7 @@ export default class ChangeWp extends PaoYa.Dialog {
         }
 
         this.tips.font = `adventure`
+        this.tips.x = 630
         let name = "八卦斧"
         this.label2.text = `年轻人，请问你有没有一把${name}。如果你能把它让给我的话，谢某定当重谢`
 
@@ -76,6 +77,10 @@ export default class ChangeWp extends PaoYa.Dialog {
 
     sellyWp() {
         PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1, weaponId: this.params.weaponId }, res => {
+            PaoYa.Request.GET('update_chips', {}, res => {
+                PaoYa.DataCenter.gold.value = res.gold
+                PaoYa.DataCenter.diamond.value = res.diamond
+            })
             PaoYa.NotificationCenter.postNotification(`adventComplete`)
             this.close()
         })

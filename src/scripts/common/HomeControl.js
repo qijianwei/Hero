@@ -127,7 +127,7 @@ export default class HomeControl extends PaoYa.Component {
                 this.navigator.popup(`/dialog/AdventDialog`, res)
                 break;
             case 3:
-                this.navigator.popup(`adventure/BuyWp`, res)
+                    this.navigator.popup(`adventure/ChangeWp`, res)
                 break;
             case 4:
                 this.navigator.popup(`adventure/GetAward`, res)
@@ -147,7 +147,8 @@ export default class HomeControl extends PaoYa.Component {
                
                 break;
             case 6:
-                this.navigator.popup(`adventure/ChangeWp`, res)
+                    this.navigator.popup(`adventure/BuyWp`, res)
+                
                 break;
         }
         res = null;
