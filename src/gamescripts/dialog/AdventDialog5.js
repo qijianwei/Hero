@@ -8,13 +8,13 @@ export default class AdventureDialog5 extends PaoYa.Dialog{
         let _this = this;
       
         let type = this.params.type;
-        this.spRole.texture=`remote/guide/${this.params.dress}.png`;
+      /*   this.spRole.texture=`remote/guide/${this.params.dress}.png`;
         if(this.params.dress==`npc_3`){
             this.spRole.y=177
-        }
+        } */
         let advent ={
             type: 5,
-            detail: `相传真神应龙曾蛰居在后山，并在此留下了许多珍宝，不如有空的时候去看看，说不定ji`,
+            detail: `相传真神应龙曾蛰居在后山，并在此留下了许多珍宝，不如有空的时候去看看，说不定集齐天时地利人和能发现点什么呢？`,
             agreeText: `开始寻宝`,
             rejectText: `任性离开`
         }
@@ -66,6 +66,7 @@ export default class AdventureDialog5 extends PaoYa.Dialog{
             if(PaoYa.navigator.scenes.length>1){
                 PaoYa.navigator.popup('/dialog/PassResultDialog', this.params) 
             }
+            PaoYa.NotificationCenter.postNotification(`adventCancel`)
         })
     }
     stopHandler(){

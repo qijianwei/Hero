@@ -32,6 +32,7 @@ export default class ChangeWp extends PaoYa.Dialog {
 
         this.closeBtn.on(Laya.Event.CLICK, this, () => {
             PaoYa.Request.POST("martial_encounter_cancel", {}, res => {
+                PaoYa.NotificationCenter.postNotification(`adventCancel`)
                 this.close()
             })
         })

@@ -11,7 +11,7 @@ export default class GameBanner extends PaoYa.Component{
       if(params.gameType==`battle`){  
         this.lblGameType.text="匹配赛";
         this.startCount();
-      }else if(params.gameType==`pass`||`adventure`){
+      }else if(params.gameType==`pass`||params.gameType==`adventure`){
         if(params.gameType==`pass`){
             this.lblGameType.text=`第${params.curNum}关`;
         }else{

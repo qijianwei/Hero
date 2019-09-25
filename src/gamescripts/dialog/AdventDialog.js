@@ -36,7 +36,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         lbls[1].text = advent.detail;
         this.initFont(advent);
         let weaponBarPromise = new Promise((resolve, reject) => {
-            Laya.loader.create('gamescenes/prefab/weaponBar.json', Laya.Handler.create(this, (json) => {
+            Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
                 resolve(json);
             }))
         })
@@ -162,6 +162,7 @@ export default class AdventDialog extends PaoYa.Dialog {
             if(PaoYa.navigator.scenes.length>1){
                 PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
             }
+            PaoYa.NotificationCenter.postNotification(`adventCancel`)
         })
     }
 }

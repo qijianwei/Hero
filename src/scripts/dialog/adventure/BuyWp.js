@@ -26,6 +26,7 @@ export default class BuyWp extends PaoYa.Dialog {
         this.closeBtnText.pos(25, 10)
         this.closeBtn.on(Laya.Event.CLICK, this, () => {
             PaoYa.Request.POST("martial_encounter_cancel", {}, res => {
+                PaoYa.NotificationCenter.postNotification(`adventCancel`)
                 this.close()
             })
         })

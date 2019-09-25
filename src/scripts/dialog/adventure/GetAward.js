@@ -25,6 +25,7 @@ export default class GetAward extends PaoYa.Dialog {
 
         this.closeBtn.on(Laya.Event.CLICK, this, () => {
             PaoYa.Request.POST("martial_encounter_cancel", {}, res => {
+                PaoYa.NotificationCenter.postNotification(`adventCancel`)
                 this.close()
             })
         })
@@ -34,7 +35,7 @@ export default class GetAward extends PaoYa.Dialog {
         })
 
         this.buyBtn.on(Laya.Event.CLICK, this, () => {
-            Global.dataPoints('进入炼器页面')
+            Global.dataPoints('奇遇c激励广告')
             Tool.showVideoAD(() => {
                 PaoYa.Request.POST("martial_encounter_finish", { result: 1, complete: 1 }, res => {
                     this.close()

@@ -3,9 +3,10 @@ import AlertDialog from "../../gamescripts/dialog/AlertDialog";
 import SoundManager from "../../gamescripts/SoundManager";
 import GameGuideData from "../../gamescripts/gameGuide/GameGuideData";
 
-import { Global } from "./tool/Global";
+import {
+    Global
+} from "./tool/Global";
 import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
-import PreOpenManager from "../../gamescripts/preOpen/preOpenManager";
 let guideContainer,
     maskArea,
     interactionArea,
@@ -51,27 +52,32 @@ export default class HomeControl extends PaoYa.Component {
                 this.player.init(templet, 0);
             }
         });
-        this.adventBox=new Laya.Box();
-        this.adventBox.size(152,145);
-        this.adventBox.pos(500,500)
-        this.adventBox.visible=true;
+        this.adventBox = new Laya.Box();
+        this.adventBox.size(152, 145);
+        this.adventBox.pos(500, 500)
+        this.adventBox.visible = true;
         this.owner.addChild(this.adventBox);
-        let spIcon=new Laya.Sprite();
-        this.spIcon=spIcon;
+        let spIcon = new Laya.Sprite();
+        this.spIcon = spIcon;
         this.adventBox.addChild(spIcon);
-        let adventAni=new Laya.Animation();
-        adventAni.pos(this.adventBox.width/2,this.adventBox.height/2)
-        this.adventAni=adventAni;
+        let adventAni = new Laya.Animation();
+        adventAni.pos(this.adventBox.width / 2, this.adventBox.height / 2)
+        this.adventAni = adventAni;
         this.adventBox.addChild(this.adventAni);
-        this.originAdventType=0;
-        this.adventAni.blendMode=`lighter`;
+        this.originAdventType = 0;
+        this.adventAni.blendMode = `lighter`;
         //奇遇入口和结果弹框测试
         /* Laya.timer.once(2000,this,()=>{
             this.GET(`martial_encounter_detail`,{},(res)=>{
              this.navigator.popup('/dialog/AdventDialog5',res);
             }) 
         })  */
-        this.adventBox.on(Laya.Event.CLICK,this,this.adventIconClick);
+        this.adventBox.on(Laya.Event.CLICK, this, this.adventIconClick);
+        this.onNotification('adventCancel', this, () => {
+            if(PaoYa.navigator.scenes.length==1){
+                this.onAppear();
+            }
+        });
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
@@ -90,49 +96,49 @@ export default class HomeControl extends PaoYa.Component {
         this.lblLadder.text = PaoYa.DataCenter.user.ladderName;
         this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
         this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
-        this.GET(`martial_encounter_detail`,{},(res)=>{
-            this.adventParams=res;
-            if(Object.keys(res).length){ 
-                this.adventBox.visible=true;
-                if(this.originAdventType!=res.type){
-                    this.originAdventType=res.type; 
-                    this.spIcon.texture=`remote/adventure/advent${res.type}.png`
-                    this.adventAni.loadAnimation(`gamescenes/animations/advent_effect${res.type}.ani`,Laya.Handler.create(this,()=>{
-                    this.adventAni.play(0,true);
-                    }))
-                }else{
-                    this.adventAni.play(0,true);
+            this.GET(`martial_encounter_detail`, {}, (res) => {
+                this.adventParams = res;
+                if (JSON.stringify(res)!='{}') {
+                    this.adventBox.visible = true;
+                    if (this.originAdventType != res.type) {
+                        this.originAdventType = res.type;
+                        this.spIcon.texture = `remote/adventure/advent${res.type}.png`
+                        this.adventAni.loadAnimation(`gamescenes/animations/advent_effect${res.type}.ani`, Laya.Handler.create(this, () => {
+                            this.adventAni.play(0, true);
+                        }))
+                    } else {
+                        this.adventAni.play(0, true);
+                    }
+                } else {
+                    this.adventBox.visible = false;
                 }
-            }else{
-                this.adventBox.visible=false;
-            }
-        })
+            })
     }
-    adventIconClick(){
-            let res=this.adventParams;
-            switch(this.originAdventType){
-              case 1:
-              case 2:
-                  this.navigator.popup(`/dialog/AdventDialog`,res)
-                  break;
-              case 3:
-                   this.navigator.popup(`adventure/BuyWp`,res)
-                  break;
-               case 4:
-                   this.navigator.popup(`adventure/GetAward`,res)
-                   break;
-               case 5:
-                   this.navigator.popup(`/dialog/AdventDialog5`,res)
-                   break;
-               case 6:
-                   this.navigator.popup(`adventure/ChangeWp`,res)
-                   break;
-            }
-            res=null;
+    adventIconClick() {
+        let res = this.adventParams;
+        switch (this.originAdventType) {
+            case 1:
+            case 2:
+                this.navigator.popup(`/dialog/AdventDialog`, res)
+                break;
+            case 3:
+                this.navigator.popup(`adventure/BuyWp`, res)
+                break;
+            case 4:
+                this.navigator.popup(`adventure/GetAward`, res)
+                break;
+            case 5:
+                this.navigator.popup(`/dialog/AdventDialog5`, res)
+                break;
+            case 6:
+                this.navigator.popup(`adventure/ChangeWp`, res)
+                break;
+        }
+        res = null;
     }
     onDisappear() {
         this.player._templet && this.player.stop();
-        this.adventAni&&this.adventAni.stop();
+        this.adventAni && this.adventAni.stop();
     }
     onClick(e) {
         if (e.target instanceof Laya.Button) {
@@ -144,7 +150,7 @@ export default class HomeControl extends PaoYa.Component {
                 console.log("进入兵器库")
                 this.goWeaponHouse()
                 break;
-            //兵器商店
+                //兵器商店
             case "btnWeaponStore":
                 console.log("进入兵器商店")
                 this.POST("martial_shop_list", {
@@ -167,12 +173,12 @@ export default class HomeControl extends PaoYa.Component {
 
                 })
                 break;
-            //炼器
+                //炼器
             case "btnRefiner":
                 console.log("进入炼器")
                 this.goRefiner();
                 break;
-            //兵器谱
+                //兵器谱
             case "btnWeaponSpectrum":
                 this.GET("martial_weapon_list", {}, res => {
                     //console.log(res)
@@ -183,13 +189,13 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("进入兵器谱")
                 break;
-            //英雄库
+                //英雄库
             case "btnHerosHouse":
                 console.log("进入英雄库")
                 this.goHerosHouse();
                 break;
 
-            //签到
+                //签到
             case "btnRegister":
                 this.GET("martial_login_bonus_list", {}, res => {
                     //console.log(res)
@@ -200,17 +206,17 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("打开签到")
                 break;
-            //抽奖转盘
+                //抽奖转盘
             case "btnRoulette":
                 this.navigator.push("Wheel");
                 console.log("去抽奖")
                 break;
-            //开始游戏：
+                //开始游戏：
             case "btnStartGame":
                 console.log("开始游戏请求的数据......")
                 this.goPassGame();
                 break;
-            //华山论剑
+                //华山论剑
             case "btnBattle":
                 console.log("华山论剑")
                 if (PaoYa.DataCenter.user.current <= 5) {
@@ -227,7 +233,7 @@ export default class HomeControl extends PaoYa.Component {
                     this.navigator.push("Grading", res);
                 })
                 break;
-            //决战紫禁城之巅
+                //决战紫禁城之巅
             case "btnBoss":
                 if (PaoYa.DataCenter.user.current <= 10) {
                     py.showToast({
@@ -237,9 +243,11 @@ export default class HomeControl extends PaoYa.Component {
                 }
                 console.log("决战")
                 break;
-            //排行榜
+                //排行榜
             case "rank":
-                this.GET("ranking_list", { type: 1 }, res => {
+                this.GET("ranking_list", {
+                    type: 1
+                }, res => {
                     //console.log(res)
                     if (!res) {
                         return
@@ -248,23 +256,23 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("进入排行榜")
                 break;
-            //玩法
+                //玩法
             case "btnPlayRule":
                 console.log("玩法介绍")
                 break;
-            //设置
+                //设置
             case "btnTask":
-                // this.GET("martial_task_list", {}, res => {
-                //     //console.log(res)
-                //     if (!res) {
-                //         return
-                //     }
-                //     this.navigator.popup("common/Task", res);
-                // })
-                // console.log("任务")
-                this.GET(`martial_encounter_detail`, {}, (res) => {
-                    this.navigator.popup('adventure/ChangeWp', res);
+                this.GET("martial_task_list", {}, res => {
+                    //console.log(res)
+                    if (!res) {
+                        return
+                    }
+                    this.navigator.popup("common/Task", res);
                 })
+                console.log("任务")
+                // this.GET(`martial_encounter_detail`, {}, (res) => {
+                //     this.navigator.popup('adventure/ChangeWp', res);
+                // })
                 break;
 
         }
@@ -316,7 +324,7 @@ export default class HomeControl extends PaoYa.Component {
             this.navigator.push("GameView", res);
         }, (msg, code) => {
             let errorDialog;
-            if (code == 3018) {//通关
+            if (code == 3018) { //通关
                 errorDialog = new AlertDialog({
                     title: "",
                     message: msg
@@ -551,8 +559,8 @@ export default class HomeControl extends PaoYa.Component {
         interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
     }
 
-    onDisappear() { }
+    onDisappear() {}
 
-    onDisable() { }
-    onDestroy() { }
+    onDisable() {}
+    onDestroy() {}
 }

@@ -376,6 +376,26 @@ export default class Player extends PaoYa.Component {
     this.freeze.visible = false;
     this.skeleton.play('stand', true);
   }
+  //龙的效果
+  dragonEffect(freezeTime = 3000) {
+    this.canAction = false;
+    this.freezeState = true;
+    if (this.isSelf) {
+      // Laya.MouseManager.enabled = false;
+      GameControl.instance.allBtnsLock();
+    }
+    this.skeleton.play('freeze', true)
+    Laya.timer.once(freezeTime, this, this.removeDragonEffect)
+  }
+  removeDragonEffect() {
+    console.log(`------remove freeze-------`)
+    this.canAction = true;
+    this.freezeState = false;
+    if (this.isSelf) {
+      GameControl.instance.allBtnsUnlock();
+    }
+    this.skeleton.play('stand', true);
+  }
   //闪避技能
   dodgeEffect() {
     this.sectionAni = true;

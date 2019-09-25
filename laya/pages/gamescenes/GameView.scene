@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":253,
-    "selecteID":255,
+    "selectedBox":2,
+    "selecteID":256,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
     "nodeParent":-1,
-    "maxID":256,
+    "maxID":257,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -1188,48 +1188,6 @@
             "compId":7,
             "child":[
                 ]
-        },
-        {
-            "x":15,
-            "type":"Sprite",
-            "searchKey":"Sprite",
-            "props":{"y":0,"x":0,"width":1487,"height":766},
-            "nodeParent":2,
-            "label":"Sprite",
-            "isOpen":true,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":253,
-            "child":[
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":44,"x":183,"width":460,"renderType":"mask","height":595},
-                    "nodeParent":253,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":255,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Animation",
-                    "searchKey":"Animation",
-                    "props":{"y":355,"x":701,"source":"gamescenes/animations/hero4_skill1.ani"},
-                    "nodeParent":253,
-                    "label":"Animation",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":254,
-                    "child":[
-                        ]
-                }]
         }],
     "animations":[
         {
