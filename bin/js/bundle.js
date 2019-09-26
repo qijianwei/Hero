@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog5.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -846,11 +846,11 @@ var GameControl = function (_PaoYa$Component) {
             var skillType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             //开始cd
-            if (skillType == 1) {
-                this.skillScr1.startT();
-            } else {
-                this.skillScr2.startT();
-            }
+            /*   if(skillType==1){
+                  this.skillScr1.startT()
+              }else{
+                  this.skillScr2.startT()
+              } */
             var dragonBg = new Laya.Sprite();
             dragonBg.size(Laya.Browser.width, Laya.Browser.height);
             this.dragonBg = dragonBg;
@@ -866,10 +866,28 @@ var GameControl = function (_PaoYa$Component) {
             this.dragonAni = dragonAni;
             dragonBg.addChild(dragonAni);
             var maskSP = new Laya.Sprite();
-            maskSP.graphics.drawRect(300, 0, 810, 750, '#ff0000');
+            if (skillType == 1) {
+                maskSP.graphics.drawRect(310, 0, 800, 750, '#ff0000');
+            } else {
+                maskSP.graphics.drawRect(340, 0, 770, 750, '#ff0000');
+            }
 
             dragonBg.mask = maskSP;
             this.dragonCollide = false;
+
+            var launchAni = new Laya.Animation();
+            launchAni.loadAnimation('gamescenes/animations/hero4_launch1.ani', Laya.Handler.create(this, function () {
+                launchAni.play(0, false);
+            }), 'res/atlas/remote/hero_skill/hero4_skill1.atlas');
+            if (skillType == 1) {
+                launchAni.pos(330, 430); //440
+            } else {
+                launchAni.pos(350, 426); //440
+            }
+            launchAni.zOrder = 2001;
+
+            this.launchAni = launchAni;
+            this.owner.addChild(launchAni);
         }
     }, {
         key: 'sportDragon',
@@ -905,14 +923,11 @@ var GameControl = function (_PaoYa$Component) {
                 collideAni.loadAnimation('gamescenes/animations/hero4_injured1.ani', Laya.Handler.create(this, function (ani) {
                     collideAni.play(0, true);
                 }), 'res/atlas/remote/hero_skill/hero4_injured1.atlas');
-                collideAni.pos(1072, 430);
+                collideAni.pos(1080, 420);
                 collideAni.zOrder = 2200;
                 this.owner.addChild(collideAni);
                 this.collideAni = collideAni;
             } else if (skillType == 2) {
-                /*  for(let i=0;i<2;i++){
-                 
-                 } */
                 var collideAni1 = new Laya.Animation();
                 collideAni1.loadAnimation('gamescenes/animations/hero4_injured1.ani', Laya.Handler.create(this, function (ani) {
                     collideAni1.play(0, true);
@@ -926,7 +941,7 @@ var GameControl = function (_PaoYa$Component) {
                 collideAni2.loadAnimation('gamescenes/animations/hero4_injured1.ani', Laya.Handler.create(this, function (ani) {
                     collideAni2.play(0, true);
                 }), 'res/atlas/remote/hero_skill/hero4_injured1.atlas');
-                collideAni2.pos(1052, 470);
+                collideAni2.pos(1060, 480);
                 collideAni2.zOrder = 2200;
                 this.owner.addChild(collideAni2);
                 this.collideAni2 = collideAni2;

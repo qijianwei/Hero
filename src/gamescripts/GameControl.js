@@ -124,11 +124,11 @@ export default class GameControl extends PaoYa.Component {
     }
     dragonLaunch(skillType=1) {
         //开始cd
-        if(skillType==1){
+      /*   if(skillType==1){
             this.skillScr1.startT()
         }else{
             this.skillScr2.startT()
-        }
+        } */
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;
@@ -138,16 +138,34 @@ export default class GameControl extends PaoYa.Component {
         dragonAni.loadAnimation(`gamescenes/animations/hero4_skill${skillType}.ani`, Laya.Handler.create(this, (ani) => {
             console.log(dragonAni.width)
             dragonAni.play(0, true);
-          Laya.timer.frameLoop(1, this, this.sportDragon,[skillType]);
+            Laya.timer.frameLoop(1, this, this.sportDragon,[skillType]);
         }),`res/atlas/remote/hero_skill/hero4_skill1.atlas`)
         dragonAni.pos(-80, 446);
         this.dragonAni = dragonAni
         dragonBg.addChild(dragonAni);
         let maskSP = new Laya.Sprite();
-        maskSP.graphics.drawRect(300, 0, 810, 750, '#ff0000') 
-    
+        if(skillType==1){
+            maskSP.graphics.drawRect(310, 0, 800, 750, '#ff0000')
+        }else{
+            maskSP.graphics.drawRect(340, 0, 770, 750, '#ff0000')
+        }   
         dragonBg.mask = maskSP
         this.dragonCollide=false;
+       
+        //发射龙技能用的 掩盖mask痕迹
+        let launchAni=new Laya.Animation();
+        launchAni.loadAnimation(`gamescenes/animations/hero4_launch1.ani`,Laya.Handler.create(this,()=>{
+            launchAni.play(0,false);
+        }),`res/atlas/remote/hero_skill/hero4_skill1.atlas`)
+        if(skillType==1){
+            launchAni.pos(330,430);//440
+        }else{
+            launchAni.pos(350,426);//440
+        }    
+        launchAni.zOrder=2001;
+      
+        this.launchAni=launchAni;
+        this.owner.addChild(launchAni);
     }
     sportDragon(skillType) {
         this.dragonAni.x += 25;
@@ -180,14 +198,11 @@ export default class GameControl extends PaoYa.Component {
             collideAni.loadAnimation(`gamescenes/animations/hero4_injured1.ani`, Laya.Handler.create(this, (ani) => {
                 collideAni.play(0, true);
             }),`res/atlas/remote/hero_skill/hero4_injured1.atlas`)
-            collideAni.pos(1072,430);
+            collideAni.pos(1080,420);
             collideAni.zOrder=2200;
             this.owner.addChild(collideAni)
             this.collideAni=collideAni;
         }else if(skillType==2){
-           /*  for(let i=0;i<2;i++){
-            
-            } */
             let collideAni1 = new Laya.Animation();
             collideAni1.loadAnimation(`gamescenes/animations/hero4_injured1.ani`, Laya.Handler.create(this, (ani) => {
                 collideAni1.play(0, true);
@@ -201,11 +216,10 @@ export default class GameControl extends PaoYa.Component {
             collideAni2.loadAnimation(`gamescenes/animations/hero4_injured1.ani`, Laya.Handler.create(this, (ani) => {
                 collideAni2.play(0, true);
             }),`res/atlas/remote/hero_skill/hero4_injured1.atlas`)
-            collideAni2.pos(1052,470);
+            collideAni2.pos(1060,480);
             collideAni2.zOrder=2200;
             this.owner.addChild(collideAni2)
-            this.collideAni2=collideAni2;
-          
+            this.collideAni2=collideAni2;     
         }
     } 
     dragonHurt(skillType){
