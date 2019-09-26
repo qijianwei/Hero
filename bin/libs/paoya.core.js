@@ -4443,12 +4443,15 @@ var InterstitialAd = /** @class */ (function (_super) {
         this.interstitialAd = interstitialAd;
     };
     InterstitialAd.prototype.show = function () {
+        var _this_1 = this;
         if (window['BK']) {
             this.interstitialAd.show();
         }
         else {
             if (this.isLoaded) {
-                this.interstitialAd.show();
+                this.interstitialAd.show().then(null, function (res) {
+                    _this_1.event(InterstitialAd.ERROR, res);
+                });
             }
             else {
                 this.interstitialAd.load();

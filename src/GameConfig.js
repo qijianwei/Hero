@@ -2,10 +2,10 @@
 import AdventDialog from "./gamescripts/dialog/AdventDialog"
 import AdventDialog5 from "./gamescripts/dialog/AdventDialog5"
 import AdventResultDialog from "./gamescripts/dialog/AdventResultDialog"
-import WeaponBar from "./gamescripts/prefab/WeaponBar"
 import AdventResultDialog5 from "./gamescripts/dialog/AdventResultDialog5"
 import BattleResultDialog from "./gamescripts/dialog/BattleResultDialog"
 import PassResultDialog from "./gamescripts/dialog/PassResultDialog"
+import WeaponBar from "./gamescripts/prefab/WeaponBar"
 import GameGuide from "./gamescripts/GameGuide/GameGuide"
 import MPBar from "./gamescripts/prefab/MPBar"
 import HPBar from "./gamescripts/prefab/HPBar"
@@ -71,10 +71,10 @@ export default class GameConfig {
 		reg("gamescripts/dialog/AdventDialog.js",AdventDialog);
 		reg("gamescripts/dialog/AdventDialog5.js",AdventDialog5);
 		reg("gamescripts/dialog/AdventResultDialog.js",AdventResultDialog);
-		reg("gamescripts/prefab/WeaponBar.js",WeaponBar);
 		reg("gamescripts/dialog/AdventResultDialog5.js",AdventResultDialog5);
 		reg("gamescripts/dialog/BattleResultDialog.js",BattleResultDialog);
 		reg("gamescripts/dialog/PassResultDialog.js",PassResultDialog);
+		reg("gamescripts/prefab/WeaponBar.js",WeaponBar);
 		reg("gamescripts/GameGuide/GameGuide.js",GameGuide);
 		reg("gamescripts/prefab/MPBar.js",MPBar);
 		reg("gamescripts/prefab/HPBar.js",HPBar);
@@ -140,7 +140,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

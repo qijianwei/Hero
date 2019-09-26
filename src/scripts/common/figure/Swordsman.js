@@ -56,7 +56,9 @@ export default class Swordsman extends PaoYa.View {
             SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
             SwordsmanControl.ins.navigator.pop()
         })
-        this.params.roleList.splice(2, 1)
+        if (this.params.roleList.length > 3) {
+            this.params.roleList.splice(2, 1)
+        }
         this.params.roleList = this.params.roleList
         this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
         this.herolist.array = this.params.roleList

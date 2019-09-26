@@ -21,7 +21,7 @@ export default class BuyWheelTimes extends PaoYa.Dialog {
             SoundManager.ins.btn()
             this.close()
             if (PaoYa.DataCenter.user.diamond >= 500) {
-                WheelControl.ins.addTimesD()
+                WheelControl.ins.addTimesD(0)
             } else {
                 PaoYa.navigator.popup("weapon/DiamondLack", 1);
             }

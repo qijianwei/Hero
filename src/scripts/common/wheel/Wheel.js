@@ -17,7 +17,7 @@ export default class Wheel extends PaoYa.View {
 
         this.num.text = PaoYa.DataCenter.user.wheelTimes
         this.num.font = `recoverHP`
-        this.num.pos(393, 508)
+        this.num.pos(370, 508)
         this.num.scale(1.2, 1.2)
 
         if (PaoYa.DataCenter.user.wheelTimes == 0) {

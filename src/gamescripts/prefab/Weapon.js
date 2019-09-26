@@ -511,6 +511,7 @@ export default class Weapon extends PaoYa.Component {
     GameControl.instance.removeWeapon(this);
     this.isSelf = !this.isSelf;
     GameControl.instance.selfWeapons.push(this);
+    this.owner.pos(280, 450);//重置成初始发射位置
     this.initWeaponInfo();
   }
   //根据抛物线的点求角度和计算矩形四个位置

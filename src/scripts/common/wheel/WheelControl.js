@@ -20,13 +20,13 @@ export default class WheelControl extends PaoYa.Component {
         this.navigator.popup("common/BuyWheelTimes");
     }
 
-    addTimesD() {
-        // if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text)) {
-        //     this.navigator.popup("common/BuyWheelTimes", 1);
-        //     return
-        // }
+    addTimesD(num) {
+        if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text) && !num) {
+            this.navigator.popup("common/BuyWheelTimes", 1);
+            return
+        }
 
-        this.POST("martial_wheel_times_buy", {}, res => {
+        this.POST("martial_wheel_times_buy", { adv: num }, res => {
             if (!res) {
                 return
             }
@@ -42,10 +42,10 @@ export default class WheelControl extends PaoYa.Component {
             // this.navigator.popup("common/BuyWheelTimes");
             Global.dataPoints('增加转盘次数激励广告')
             Tool.showVideoAD(() => {
-                this.addTimesD()
+                this.addTimesD(1)
                 this.owner.video.visible = false
-                this.startWheelTxt.font = `weaponDFont`
-                this.startWheelTxt.scale(0.8, 0.8)
+                this.owner.startWheelTxt.font = `weaponDFont`
+                this.owner.startWheelTxt.scale(0.8, 0.8)
                 this.owner.startWheelTxt.pos(60, 10)
             })
             return

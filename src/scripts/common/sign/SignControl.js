@@ -29,7 +29,8 @@ export default class SignControl extends PaoYa.Component {
     onDisable() {
         if (this.owner.params.isFromSw) {
             this.GET("martial_role_list", {}, res => {
-                Swordsman.ins.params.roleList = res.roleList.slice(0, 2)
+                Swordsman.ins.params.roleList = res.roleList
+                Swordsman.ins.params.roleList.splice(2, 1)
                 Swordsman.ins.herolist.array = Swordsman.ins.params.roleList
             })
         }

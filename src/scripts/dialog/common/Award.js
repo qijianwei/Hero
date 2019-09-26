@@ -55,7 +55,7 @@ export default class Award extends PaoYa.Dialog {
                     })
                 })
 
-                this.noThankTxt.on(Laya.Event.CLICK, this, () => {
+                this.noThank.on(Laya.Event.CLICK, this, () => {
                     SoundManager.ins.btn()
                     this.close()
                 })

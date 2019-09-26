@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":193,
+    "selecteID":192,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/figure/Grading.js","height":750},
     "nodeParent":-1,
@@ -18,58 +18,59 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite",
-            "props":{"y":0,"x":-150,"texture":"local/home/homeNewBg.jpg"},
+            "props":{"y":0,"x":-150,"texture":"local/home/homeNewBg.jpg","scaleY":2,"scaleX":2},
             "nodeParent":2,
             "label":"Sprite",
             "isOpen":true,
-            "isDirectory":true,
+            "isDirectory":false,
             "isAniNode":true,
-            "hasChild":true,
+            "hasChild":false,
             "compId":192,
             "child":[
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"texture":"remote/grading/1.png"},
-                    "nodeParent":192,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":235,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":257,"texture":"remote/grading/1.png"},
-                    "nodeParent":192,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":236,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image",
-                    "props":{"y":514,"skin":"remote/grading/1.png","sizeGrid":"228,56,0,46","height":236},
-                    "nodeParent":192,
-                    "label":"Image",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":237,
-                    "child":[
-                        ]
-                }],
+                ],
             "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite",
+            "props":{"y":0,"x":-150,"texture":"remote/grading/1.png"},
+            "nodeParent":2,
+            "label":"Sprite",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":235,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite",
+            "props":{"y":257,"x":-150,"texture":"remote/grading/1.png"},
+            "nodeParent":2,
+            "label":"Sprite",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":236,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image",
+            "props":{"y":514,"x":-150,"skin":"remote/grading/1.png","sizeGrid":"228,56,0,46","height":236},
+            "nodeParent":2,
+            "label":"Image",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":237,
+            "child":[
+                ]
         },
         {
             "x":15,
@@ -195,14 +196,13 @@
             "props":{"y":24,"x":639,"texture":"remote/grading/3.png"},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":211,
             "child":[
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,heroname",
                     "props":{"y":87,"x":-170,"width":181,"var":"heroname","text":"text","height":48},
@@ -216,7 +216,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv1",
                     "props":{"y":135,"x":-169,"var":"lv1","texture":"remote/figure/level.png"},
@@ -231,7 +230,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv2",
                     "props":{"y":135,"x":-121,"var":"lv2","texture":"remote/figure/level.png"},
@@ -246,7 +244,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv3",
                     "props":{"y":135,"x":-77,"var":"lv3","texture":"remote/figure/level.png"},
@@ -261,7 +258,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv4",
                     "props":{"y":135,"x":-33,"var":"lv4","texture":"remote/figure/level.png"},
@@ -276,7 +272,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lv5",
                     "props":{"y":135,"x":11,"var":"lv5","texture":"remote/figure/level.png"},
@@ -291,7 +286,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,gradingname",
                     "props":{"y":471,"x":246.5,"width":181,"var":"gradingname","text":"text","height":48},
@@ -305,7 +299,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,gameStart",
                     "props":{"y":544,"x":230,"var":"gameStart","stateNum":"1","skin":"local/common/btn_1.png","scaleY":1,"scaleX":1},
@@ -333,7 +326,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"List",
                     "searchKey":"List,starNum",
                     "props":{"y":356,"x":121,"width":448,"var":"starNum","spaceY":-2,"spaceX":10,"height":93},
@@ -362,7 +354,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,gradingNum",
                     "props":{"y":154,"x":233,"var":"gradingNum","skin":"local/common/badge_1.png"},
@@ -376,7 +367,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,starNum2",
                     "props":{"y":389,"x":287.5,"var":"starNum2","texture":"remote/grading/4.png"},
@@ -389,7 +379,6 @@
                     "compId":229,
                     "child":[
                         {
-                            "x":45,
                             "type":"Text",
                             "searchKey":"Text,starNumTxt",
                             "props":{"y":12.5,"x":51,"width":45,"var":"starNumTxt","height":34},

@@ -43,10 +43,6 @@ var _AdventResultDialog = require("./gamescripts/dialog/AdventResultDialog");
 
 var _AdventResultDialog2 = _interopRequireDefault(_AdventResultDialog);
 
-var _WeaponBar = require("./gamescripts/prefab/WeaponBar");
-
-var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
-
 var _AdventResultDialog3 = require("./gamescripts/dialog/AdventResultDialog5");
 
 var _AdventResultDialog4 = _interopRequireDefault(_AdventResultDialog3);
@@ -58,6 +54,10 @@ var _BattleResultDialog2 = _interopRequireDefault(_BattleResultDialog);
 var _PassResultDialog = require("./gamescripts/dialog/PassResultDialog");
 
 var _PassResultDialog2 = _interopRequireDefault(_PassResultDialog);
+
+var _WeaponBar = require("./gamescripts/prefab/WeaponBar");
+
+var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
 
 var _GameGuide = require("./gamescripts/GameGuide/GameGuide");
 
@@ -304,10 +304,10 @@ var GameConfig = function () {
 												reg("gamescripts/dialog/AdventDialog.js", _AdventDialog2.default);
 												reg("gamescripts/dialog/AdventDialog5.js", _AdventDialog4.default);
 												reg("gamescripts/dialog/AdventResultDialog.js", _AdventResultDialog2.default);
-												reg("gamescripts/prefab/WeaponBar.js", _WeaponBar2.default);
 												reg("gamescripts/dialog/AdventResultDialog5.js", _AdventResultDialog4.default);
 												reg("gamescripts/dialog/BattleResultDialog.js", _BattleResultDialog2.default);
 												reg("gamescripts/dialog/PassResultDialog.js", _PassResultDialog2.default);
+												reg("gamescripts/prefab/WeaponBar.js", _WeaponBar2.default);
 												reg("gamescripts/GameGuide/GameGuide.js", _GameGuide2.default);
 												reg("gamescripts/prefab/MPBar.js", _MPBar2.default);
 												reg("gamescripts/prefab/HPBar.js", _HPBar2.default);
@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -761,6 +761,12 @@ var GameControl = function (_PaoYa$Component) {
             this.otherSkillTextComp = this.otherSkillText.getComponent(_PlayerSkill2.default);
             this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能;还有置灰功能
             this.initWeaponsBar();
+
+            /* 画图测试 */
+            /*     this.curvature=0.0008;
+                this.drawParabola()
+                this.curvature=0.0015;
+                this.drawParabola() */
         }
     }, {
         key: 'onEnable',
@@ -824,9 +830,11 @@ var GameControl = function (_PaoYa$Component) {
             if (!this.closeRobot) {
                 var adParams = {
                     onClose: function onClose(res) {
+                        console.log('\u5173\u95ED\u5E7F\u544A');
                         _this.beforeGame();
                     },
                     onError: function onError(res) {
+                        console.log('\u62C9\u53D6\u5E7F\u544A\u5931\u8D25');
                         _this.hasInterstitialAd = false;
                         _this.beforeGame();
                     }
@@ -834,9 +842,6 @@ var GameControl = function (_PaoYa$Component) {
                 this.hasInterstitialAd = true;
                 PaoYa.InterstitialAd.show(adParams);
             }
-
-            //测试
-            //this.addDragon();
         }
     }, {
         key: 'dragonLaunch',
@@ -846,11 +851,11 @@ var GameControl = function (_PaoYa$Component) {
             var skillType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             //开始cd
-            /*   if(skillType==1){
-                  this.skillScr1.startT()
-              }else{
-                  this.skillScr2.startT()
-              } */
+            if (skillType == 1) {
+                this.skillScr1.startT();
+            } else {
+                this.skillScr2.startT();
+            }
             var dragonBg = new Laya.Sprite();
             dragonBg.size(Laya.Browser.width, Laya.Browser.height);
             this.dragonBg = dragonBg;
@@ -871,10 +876,10 @@ var GameControl = function (_PaoYa$Component) {
             } else {
                 maskSP.graphics.drawRect(340, 0, 770, 750, '#ff0000');
             }
-
             dragonBg.mask = maskSP;
             this.dragonCollide = false;
 
+            //发射龙技能用的 掩盖mask痕迹
             var launchAni = new Laya.Animation();
             launchAni.loadAnimation('gamescenes/animations/hero4_launch1.ani', Laya.Handler.create(this, function () {
                 launchAni.play(0, false);
@@ -899,21 +904,26 @@ var GameControl = function (_PaoYa$Component) {
                 this.addDragonCollideAni(skillType);
                 this.dragonHurt(skillType);
             }
-            if (this.dragonAni.x > 1334) {
-                Laya.timer.clear(this, this.sportDragon);
-                this.dragonAni.stop();
-                this.dragonAni.removeSelf();
-                if (skillType == 1) {
-                    this.collideAni.stop();
-                    this.collideAni.removeSelf();
-                } else {
-                    this.collideAni1.stop();
-                    this.collideAni1.removeSelf();
-                    this.collideAni2.stop();
-                    this.collideAni2.removeSelf();
-                }
-                this.owner.removeChild(this.dragonBg);
+            if (this.dragonAni.x > 1334 || this.gameState == 'over') {
+                this.removeDragons(skillType);
             }
+        }
+    }, {
+        key: 'removeDragons',
+        value: function removeDragons(skillType) {
+            Laya.timer.clear(this, this.sportDragon);
+            this.dragonAni.stop();
+            this.dragonAni.removeSelf();
+            if (skillType == 1) {
+                this.collideAni.stop();
+                this.collideAni.removeSelf();
+            } else {
+                this.collideAni1.stop();
+                this.collideAni1.removeSelf();
+                this.collideAni2.stop();
+                this.collideAni2.removeSelf();
+            }
+            this.owner.removeChild(this.dragonBg);
         }
     }, {
         key: 'addDragonCollideAni',
@@ -1036,6 +1046,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'drawParabola',
         value: function drawParabola() {
+
             var space = 5;
             var pathArr = [];
             this.startPos = {
@@ -2956,6 +2967,8 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
     _createClass(AdventResultDialog, [{
         key: "onAwake",
         value: function onAwake() {
+            var _this3 = this;
+
             this.autoDestroyAtClosed = true;
             /*  */
             var params = this.params;
@@ -2969,7 +2982,20 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
             } else if (type == 2) {
                 this.dealType2(result);
             }
-            this.showReward();
+            var weaponBarPromise = new Promise(function (resolve, reject) {
+                Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(_this3, function (json) {
+                    resolve(json);
+                }));
+            });
+            var rewardPromise = new Promise(function (resolve, reject) {
+                Laya.loader.create('gamescenes/prefab/RewardBig.json', Laya.Handler.create(_this3, function (json) {
+                    resolve(json);
+                }));
+            });
+            Promise.all([weaponBarPromise, rewardPromise]).then(function (jsons) {
+                _this3.showReward(jsons);
+            });
+
             this.on(Laya.Event.CLICK, this, this.clickHandler);
         }
     }, {
@@ -2989,12 +3015,16 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
                 case "btnVideo":
                     this.videoHandler();
                     break;
+                case "btnBack":
+                    this.close();
+                    PaoYa.navigator.popToRootScene();
+                    break;
             }
         }
     }, {
         key: "sureHandler",
         value: function sureHandler() {
-            var _this3 = this;
+            var _this4 = this;
 
             console.log("\u786E\u8BA4....");
             PaoYa.Request.POST('martial_encounter_finish', {
@@ -3002,21 +3032,21 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
                 complete: 1
             }, function (res) {
                 PaoYa.NotificationCenter.postNotification("adventComplate");
-                _this3.close();
+                _this4.close();
                 PaoYa.navigator.popToRootScene();
             });
         }
     }, {
         key: "rejectHandler",
         value: function rejectHandler() {
-            var _this4 = this;
+            var _this5 = this;
 
             console.log("\u8D70\u4EBA\u6492");
             PaoYa.Request.POST('martial_encounter_finish', {
                 result: this.params.result,
                 complete: 1
             }, function (res) {
-                _this4.close();
+                _this5.close();
                 PaoYa.navigator.popToRootScene();
                 PaoYa.NotificationCenter.postNotification("adventComplate");
             });
@@ -3104,19 +3134,59 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
         }
     }, {
         key: "showReward",
-        value: function showReward() {
-            var weaponList = this.params.weaponList;
-            var len = weaponList.length;
-            if (len) {
-                var weaponBarsArr = this.boxWeapons._children;
+        value: function showReward(jsons) {
+            /*  if(!this.params.weaponList){return;}
+             let weaponList = this.params.weaponList;
+             let len = weaponList.length;
+             if (len) {
+                 let weaponBarsArr = this.boxWeapons._children;
+                 for (let i = 0; i < len; i++) {
+                     weaponBarsArr[i].visible = true;
+                     let weaponBarsComp = weaponBarsArr[i].getComponent(WeaponBar);
+                     weaponBarsComp.params = weaponList[i];
+                     weaponBarsComp.initView();
+                     weaponBarsArr[i].off(Laya.Event.CLICK, weaponBarsComp)
+                 }
+             } */
+            if (this.params.weaponList) {
+                var weaponList = this.params.weaponList;
+                var len = weaponList.length;
                 for (var i = 0; i < len; i++) {
-                    weaponBarsArr[i].visible = true;
-                    var weaponBarsComp = weaponBarsArr[i].getComponent(_WeaponBar2.default);
+                    var weaponView = new Laya.Prefab();
+                    weaponView.json = jsons[0];
+                    this.weaponView = weaponView;
+                    var view = Laya.Pool.getItemByCreateFun('WeaponView', weaponView.create, weaponView);
+                    var weaponBarsComp = view.getComponent(_WeaponBar2.default);
                     weaponBarsComp.params = weaponList[i];
-                    weaponBarsComp.initView();
-                    weaponBarsArr[i].off(Laya.Event.CLICK, weaponBarsComp);
+                    view.off(Laya.Event.CLICK, weaponBarsComp);
+                    this.boxWeapons.addChild(view);
                 }
             }
+
+            if (this.params.diamond) {
+                var diamondView = this.createRewardBox(jsons[1]);
+                console.log(diamondView.getChildByName("lblNum").text);
+                diamondView.getChildByName("lblNum").scale(0.6, 0.6);
+                diamondView.getChildByName("lblNum").text = "\xD7 " + this.params.diamond;
+                diamondView.getChildByName("lblNum").font = "weaponNFontT";
+                this.boxWeapons.addChild(diamondView);
+            }
+            if (this.params.gold) {
+                var goldView = this.createRewardBox(jsons[1]);
+                goldView.getChildByName('lblNum').scale(0.6, 0.6);
+                goldView.getChildByName('lblNum').text = "\xD7 " + this.params.gold;
+                goldView.getChildByName('lblNum').font = "weaponNFontT";
+                goldView.getChildByName("spReward").texture = "local/common/icon.png";
+                this.boxWeapons.addChild(goldView);
+            }
+        }
+    }, {
+        key: "createRewardBox",
+        value: function createRewardBox(json) {
+            var rewardView = new Laya.Prefab();
+            rewardView.json = json;
+            var view = Laya.Pool.getItemByCreateFun("RewardViewBig", rewardView.create, rewardView);
+            return view;
         }
     }]);
 
@@ -7148,6 +7218,7 @@ var Weapon = function (_PaoYa$Component) {
       _GameControl2.default.instance.removeWeapon(this);
       this.isSelf = !this.isSelf;
       _GameControl2.default.instance.selfWeapons.push(this);
+      this.owner.pos(280, 450); //重置成初始发射位置
       this.initWeaponInfo();
     }
     //根据抛物线的点求角度和计算矩形四个位置
@@ -9090,7 +9161,9 @@ var Swordsman = function (_PaoYa$View) {
                 _SwordsmanControl2.default.ins.postNotification("roleIdChanged", _this2.params.defaultRole);
                 _SwordsmanControl2.default.ins.navigator.pop();
             });
-            this.params.roleList.splice(2, 1);
+            if (this.params.roleList.length > 3) {
+                this.params.roleList.splice(2, 1);
+            }
             this.params.roleList = this.params.roleList;
             this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
             this.herolist.array = this.params.roleList;
@@ -10719,7 +10792,8 @@ var SignControl = function (_PaoYa$Component) {
         value: function onDisable() {
             if (this.owner.params.isFromSw) {
                 this.GET("martial_role_list", {}, function (res) {
-                    _Swordsman2.default.ins.params.roleList = res.roleList.slice(0, 2);
+                    _Swordsman2.default.ins.params.roleList = res.roleList;
+                    _Swordsman2.default.ins.params.roleList.splice(2, 1);
                     _Swordsman2.default.ins.herolist.array = _Swordsman2.default.ins.params.roleList;
                 });
             }
@@ -13415,7 +13489,7 @@ var Wheel = function (_PaoYa$View) {
 
             this.num.text = PaoYa.DataCenter.user.wheelTimes;
             this.num.font = "recoverHP";
-            this.num.pos(393, 508);
+            this.num.pos(370, 508);
             this.num.scale(1.2, 1.2);
 
             if (PaoYa.DataCenter.user.wheelTimes == 0) {
@@ -13611,15 +13685,15 @@ var WheelControl = function (_PaoYa$Component) {
         }
     }, {
         key: "addTimesD",
-        value: function addTimesD() {
+        value: function addTimesD(num) {
             var _this2 = this;
 
-            // if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text)) {
-            //     this.navigator.popup("common/BuyWheelTimes", 1);
-            //     return
-            // }
+            if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text) && !num) {
+                this.navigator.popup("common/BuyWheelTimes", 1);
+                return;
+            }
 
-            this.POST("martial_wheel_times_buy", {}, function (res) {
+            this.POST("martial_wheel_times_buy", { adv: num }, function (res) {
                 if (!res) {
                     return;
                 }
@@ -13638,10 +13712,10 @@ var WheelControl = function (_PaoYa$Component) {
                 // this.navigator.popup("common/BuyWheelTimes");
                 _Global.Global.dataPoints('增加转盘次数激励广告');
                 _Tool2.default.showVideoAD(function () {
-                    _this3.addTimesD();
+                    _this3.addTimesD(1);
                     _this3.owner.video.visible = false;
-                    _this3.startWheelTxt.font = "weaponDFont";
-                    _this3.startWheelTxt.scale(0.8, 0.8);
+                    _this3.owner.startWheelTxt.font = "weaponDFont";
+                    _this3.owner.startWheelTxt.scale(0.8, 0.8);
                     _this3.owner.startWheelTxt.pos(60, 10);
                 });
                 return;
@@ -14295,7 +14369,7 @@ var Award = function (_PaoYa$Dialog) {
                         });
                     });
 
-                    this.noThankTxt.on(Laya.Event.CLICK, this, function () {
+                    this.noThank.on(Laya.Event.CLICK, this, function () {
                         _SoundManager2.default.ins.btn();
                         _this2.close();
                     });
@@ -14443,7 +14517,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
                 _SoundManager2.default.ins.btn();
                 _this2.close();
                 if (PaoYa.DataCenter.user.diamond >= 500) {
-                    _WheelControl2.default.ins.addTimesD();
+                    _WheelControl2.default.ins.addTimesD(0);
                 } else {
                     PaoYa.navigator.popup("weapon/DiamondLack", 1);
                 }

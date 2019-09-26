@@ -21,7 +21,20 @@ export default class AdventResultDialog extends PaoYa.Dialog {
         }else if(type==2){
            this.dealType2(result);
         }
-        this.showReward();
+        let weaponBarPromise = new Promise((resolve, reject) => {
+            Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
+                resolve(json);
+            }))
+        })
+        let rewardPromise = new Promise((resolve, reject) => {
+            Laya.loader.create('gamescenes/prefab/RewardBig.json', Laya.Handler.create(this, (json) => {
+                resolve(json);
+            }))
+        })
+        Promise.all([weaponBarPromise, rewardPromise]).then(jsons => {
+            this.showReward(jsons);
+        })
+        
         this.on(Laya.Event.CLICK,this,this.clickHandler);
     }
     clickHandler(e){
@@ -38,6 +51,10 @@ export default class AdventResultDialog extends PaoYa.Dialog {
                 break;
             case `btnVideo`:
                 this.videoHandler();
+                break;
+            case `btnBack`:
+                this.close();
+                PaoYa.navigator.popToRootScene();
                 break;
         }
     }
@@ -138,7 +155,8 @@ export default class AdventResultDialog extends PaoYa.Dialog {
             this.btnReject.getChildByName(`lbl`).scale(0.86,0.86);
         }
     }
-    showReward() {
+    showReward(jsons) {
+       /*  if(!this.params.weaponList){return;}
         let weaponList = this.params.weaponList;
         let len = weaponList.length;
         if (len) {
@@ -150,7 +168,44 @@ export default class AdventResultDialog extends PaoYa.Dialog {
                 weaponBarsComp.initView();
                 weaponBarsArr[i].off(Laya.Event.CLICK, weaponBarsComp)
             }
+        } */
+        if(this.params.weaponList){
+            let weaponList = this.params.weaponList;
+            let len = weaponList.length;
+            for (let i = 0; i < len; i++) {
+                let weaponView = new Laya.Prefab();
+                weaponView.json = jsons[0];
+                this.weaponView=weaponView;
+                let view = Laya.Pool.getItemByCreateFun('WeaponView', weaponView.create, weaponView);
+                let weaponBarsComp = view.getComponent(WeaponBar);
+                weaponBarsComp.params = weaponList[i];
+                view.off(Laya.Event.CLICK, weaponBarsComp)
+                this.boxWeapons.addChild(view);
+            }
         }
+        
+        if (this.params.diamond) {
+            let diamondView = this.createRewardBox(jsons[1]);
+            console.log(diamondView.getChildByName("lblNum").text)
+            diamondView.getChildByName(`lblNum`).scale(0.6, 0.6);
+            diamondView.getChildByName(`lblNum`).text = `× ${this.params.diamond}`;
+            diamondView.getChildByName(`lblNum`).font = `weaponNFontT`;
+            this.boxWeapons.addChild(diamondView);
+        }
+        if (this.params.gold) {
+            let goldView = this.createRewardBox(jsons[1]);
+            goldView.getChildByName('lblNum').scale(0.6, 0.6);
+            goldView.getChildByName('lblNum').text = `× ${this.params.gold}`;
+            goldView.getChildByName('lblNum').font = `weaponNFontT`;
+            goldView.getChildByName(`spReward`).texture = `local/common/icon.png`;
+            this.boxWeapons.addChild(goldView);
+        }
+    }
+    createRewardBox(json) {
+        let rewardView = new Laya.Prefab();
+        rewardView.json = json;
+        let view = Laya.Pool.getItemByCreateFun(`RewardViewBig`, rewardView.create, rewardView);
+        return view;
     }
     
 }

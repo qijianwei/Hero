@@ -53,7 +53,13 @@ export default class GameControl extends PaoYa.Component {
         this.selfSkillTextComp = this.selfSkillText.getComponent(PlayerSkill);
         this.otherSkillTextComp = this.otherSkillText.getComponent(PlayerSkill);
         this.weaponsBarArr = []; //存放兵器操作Bar;提供全局暂停和恢复CD功能;还有置灰功能
-        this.initWeaponsBar();
+        this.initWeaponsBar(); 
+
+        /* 画图测试 */
+    /*     this.curvature=0.0008;
+        this.drawParabola()
+        this.curvature=0.0015;
+        this.drawParabola() */
     }
     onEnable() {
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
@@ -106,9 +112,11 @@ export default class GameControl extends PaoYa.Component {
         if (!this.closeRobot) {
             var adParams = {
                 onClose: function onClose(res) {
+                    console.log(`关闭广告`)
                     _this.beforeGame()
                 },
                 onError: function onError(res) {
+                    console.log(`拉取广告失败`)
                     _this.hasInterstitialAd = false;
                     _this.beforeGame()
                 }
@@ -117,18 +125,14 @@ export default class GameControl extends PaoYa.Component {
             PaoYa.InterstitialAd.show(adParams);
         }
 
-
-        //测试
-        //this.addDragon();
-
     }
     dragonLaunch(skillType=1) {
         //开始cd
-      /*   if(skillType==1){
+         if(skillType==1){
             this.skillScr1.startT()
         }else{
             this.skillScr2.startT()
-        } */
+        } 
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;
@@ -173,24 +177,26 @@ export default class GameControl extends PaoYa.Component {
             //Laya.timer.clear(this, this.sportDragon);
             this.dragonCollide=true;
             this.addDragonCollideAni(skillType);
-            this.dragonHurt(skillType);
-           
+            this.dragonHurt(skillType);  
         }
-        if (this.dragonAni.x > 1334) {
-            Laya.timer.clear(this, this.sportDragon);
-            this.dragonAni.stop();
-            this.dragonAni.removeSelf();
-            if(skillType==1){
-                this.collideAni.stop();
-                this.collideAni.removeSelf();
-            }else{
-                this.collideAni1.stop();
-                this.collideAni1.removeSelf();
-                this.collideAni2.stop();
-                this.collideAni2.removeSelf();
-            }   
-            this.owner.removeChild(this.dragonBg);
+        if (this.dragonAni.x > 1334||this.gameState==`over`) {
+           this.removeDragons(skillType)
         }
+    }
+    removeDragons(skillType){
+        Laya.timer.clear(this, this.sportDragon);
+        this.dragonAni.stop();
+        this.dragonAni.removeSelf();
+        if(skillType==1){
+            this.collideAni.stop();
+            this.collideAni.removeSelf();
+        }else{
+            this.collideAni1.stop();
+            this.collideAni1.removeSelf();
+            this.collideAni2.stop();
+            this.collideAni2.removeSelf();
+        }   
+        this.owner.removeChild(this.dragonBg);
     }
     addDragonCollideAni(skillType){
         if(skillType==1){
@@ -294,6 +300,7 @@ export default class GameControl extends PaoYa.Component {
     }
 
     drawParabola() {
+       
         let space = 5;
         let pathArr = [];
         this.startPos = {
