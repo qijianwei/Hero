@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/dialog/adventure/ChangeWp.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog5.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -588,8 +588,8 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupGameRes() {
 			var list = [
 			/* 首屏资源和公共资源 */
-			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas', 'res/atlas/remote/hero_skill/hero4_skill1.atlas', //添加promiase
-			'res/atlas/remote/hero_skill/hero4_injured1.atlas',
+			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas',
+
 			/* 场景 */
 			'spine/scene/scene1.png', 'spine/scene/scene1.sk',
 			/* 动效animation资源 */
@@ -846,13 +846,11 @@ var GameControl = function (_PaoYa$Component) {
             var skillType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             //开始cd
-
             if (skillType == 1) {
                 this.skillScr1.startT();
             } else {
                 this.skillScr2.startT();
             }
-
             var dragonBg = new Laya.Sprite();
             dragonBg.size(Laya.Browser.width, Laya.Browser.height);
             this.dragonBg = dragonBg;
@@ -863,7 +861,7 @@ var GameControl = function (_PaoYa$Component) {
                 console.log(dragonAni.width);
                 dragonAni.play(0, true);
                 Laya.timer.frameLoop(1, _this4, _this4.sportDragon, [skillType]);
-            }));
+            }), 'res/atlas/remote/hero_skill/hero4_skill1.atlas');
             dragonAni.pos(-80, 446);
             this.dragonAni = dragonAni;
             dragonBg.addChild(dragonAni);
@@ -877,7 +875,6 @@ var GameControl = function (_PaoYa$Component) {
         key: 'sportDragon',
         value: function sportDragon(skillType) {
             this.dragonAni.x += 25;
-            //    / this.dragonBg.repaint()
             if (!this.dragonCollide && this.dragonAni.x + 423 > 1120) {
                 //Laya.timer.clear(this, this.sportDragon);
                 this.dragonCollide = true;
@@ -1226,14 +1223,14 @@ var GameControl = function (_PaoYa$Component) {
         value: function skillClickHandler(name) {
             if (name == "skill1") {
                 _SoundManager2.default.ins.heroSkill1();
-                if (this.selfPlayer.comp.roleId != 4) {
+                if (this.selfPlayer.comp.attr.roleId != 4) {
                     this.skillWithWeapon(true);
                 } else {
                     this.skillWithDragon(true);
                 }
             } else if (name == "skill2") {
                 _SoundManager2.default.ins.heroSkill2();
-                if (this.selfPlayer.comp.roleId != 4) {
+                if (this.selfPlayer.comp.attr.roleId != 4) {
                     this.skillWithoutWeapon(true);
                 } else {
                     this.skillWithTwoDragon(true);
@@ -3655,11 +3652,12 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                     }
                 },
                 onError: function onError(res) {
-                    var errorDialog = new _AlertDialog3.default({
-                        title: "温馨提示",
-                        message: "\u5E7F\u544A\u62C9\u53D6\u5931\u8D25"
-                    });
-                    errorDialog.popup();
+                    /*  var errorDialog = new AlertDialog({
+                         title: "温馨提示",
+                         message: `广告拉取失败`
+                     });
+                     errorDialog.popup(); */
+                    console.warn("------\u62C9\u53D6\u5E7F\u544A\u5931\u8D25------");
                 }
             };
             PaoYa.InterstitialAd.show(params);
@@ -5717,10 +5715,15 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "labelHandler",
     value: function labelHandler(e) {
+      var _this2 = this;
+
       // this.skeleton.on(Laya.Event.LABEL, this, (e) => {
       switch (e.name) {
         case 'skill1':
-          this.canAction = true;
+          /* 防止技能1和技能2触发太密集 */
+          Laya.timer.once(500, this, function () {
+            _this2.canAction = true;
+          });
           _GameControl2.default.instance.allResume(this.isSelf);
           this.skillCallback();
           break;
@@ -5731,7 +5734,10 @@ var Player = function (_PaoYa$Component) {
 
           break;
         case 'skill2':
-          this.canAction = true;
+          /* 防止技能1和技能2触发太密集 */
+          Laya.timer.once(500, this, function () {
+            _this2.canAction = true;
+          });
           _GameControl2.default.instance.allResume(this.isSelf);
           this.skillCallback();
           if (this['aniSkill2Hero' + this.roleId]) {
@@ -5751,7 +5757,7 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "stopHandler",
     value: function stopHandler() {
-      var _this2 = this;
+      var _this3 = this;
 
       var time = 0;
       //Laya.MouseManager.enabled = true;
@@ -5768,8 +5774,8 @@ var Player = function (_PaoYa$Component) {
           time = 200;
         }
         Laya.timer.once(time, this, function () {
-          _this2.sectionAni += 1;
-          _this2.skeleton.play('dodge3', false);
+          _this3.sectionAni += 1;
+          _this3.skeleton.play('dodge3', false);
         });
         return;
       }

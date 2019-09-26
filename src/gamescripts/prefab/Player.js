@@ -78,7 +78,10 @@ export default class Player extends PaoYa.Component {
     // this.skeleton.on(Laya.Event.LABEL, this, (e) => {
     switch (e.name) {
       case 'skill1':
+       /* 防止技能1和技能2触发太密集 */
+       Laya.timer.once(500,this,()=>{
         this.canAction = true;
+      })
         GameControl.instance.allResume(this.isSelf)
         this.skillCallback();
         break;
@@ -89,7 +92,10 @@ export default class Player extends PaoYa.Component {
 
         break;
       case 'skill2':
-        this.canAction = true;
+         /* 防止技能1和技能2触发太密集 */
+        Laya.timer.once(500,this,()=>{
+          this.canAction = true;
+        })
         GameControl.instance.allResume(this.isSelf);
         this.skillCallback();
         if (this['aniSkill2Hero' + this.roleId]) {

@@ -124,12 +124,11 @@ export default class GameControl extends PaoYa.Component {
     }
     dragonLaunch(skillType=1) {
         //开始cd
-           if(skillType==1){
-                this.skillScr1.startT()
-            }else{
-                this.skillScr2.startT()
-            }
-
+        if(skillType==1){
+            this.skillScr1.startT()
+        }else{
+            this.skillScr2.startT()
+        }
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;
@@ -140,7 +139,7 @@ export default class GameControl extends PaoYa.Component {
             console.log(dragonAni.width)
             dragonAni.play(0, true);
           Laya.timer.frameLoop(1, this, this.sportDragon,[skillType]);
-        }))
+        }),`res/atlas/remote/hero_skill/hero4_skill1.atlas`)
         dragonAni.pos(-80, 446);
         this.dragonAni = dragonAni
         dragonBg.addChild(dragonAni);
@@ -152,7 +151,6 @@ export default class GameControl extends PaoYa.Component {
     }
     sportDragon(skillType) {
         this.dragonAni.x += 25;
-    //    / this.dragonBg.repaint()
         if(!this.dragonCollide&&this.dragonAni.x+423>1120){
             //Laya.timer.clear(this, this.sportDragon);
             this.dragonCollide=true;
@@ -470,7 +468,7 @@ export default class GameControl extends PaoYa.Component {
     skillClickHandler(name) {
         if (name == "skill1") {
             SoundManager.ins.heroSkill1();
-            if(this.selfPlayer.comp.roleId!=4){
+            if(this.selfPlayer.comp.attr.roleId!=4){
                 this.skillWithWeapon(true);
             }else{
                 this.skillWithDragon(true);
@@ -478,7 +476,7 @@ export default class GameControl extends PaoYa.Component {
             
         } else if (name == "skill2") {
             SoundManager.ins.heroSkill2();
-            if(this.selfPlayer.comp.roleId!=4){
+            if(this.selfPlayer.comp.attr.roleId!=4){
                 this.skillWithoutWeapon(true);
             }else{
                 this.skillWithTwoDragon(true);

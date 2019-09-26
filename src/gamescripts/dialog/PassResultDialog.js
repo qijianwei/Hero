@@ -95,11 +95,12 @@ export default class PassResultDialog extends PaoYa.Dialog{
                 }
             },
             onError: function onError(res) {
-                var errorDialog = new AlertDialog({
+               /*  var errorDialog = new AlertDialog({
                     title: "温馨提示",
                     message: `广告拉取失败`
                 });
-                errorDialog.popup();
+                errorDialog.popup(); */
+                console.warn(`------拉取广告失败------`)
             }
         };
         PaoYa.InterstitialAd.show(params);
