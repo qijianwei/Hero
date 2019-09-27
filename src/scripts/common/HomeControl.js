@@ -264,6 +264,9 @@ export default class HomeControl extends PaoYa.Component {
                     })
                     return;
                 }
+                py.showToast({
+                    title: '敬请期待'
+                })
                 console.log("决战")
                 break;
                 //排行榜

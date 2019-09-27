@@ -127,11 +127,11 @@ export default class GameControl extends PaoYa.Component {
     dragonLaunch(skillType=1) {
         console.log(`------召唤神龙1------`)
         //开始cd
-      /*     if(skillType==1){
+         if(skillType==1){
             this.skillScr1.startT()
         }else{
             this.skillScr2.startT()
-        }   */
+        }   
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;

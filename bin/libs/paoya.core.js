@@ -4627,15 +4627,29 @@ Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail)
             method.call(caller, args);
             return;
         }
+        var timer=null;
         var now = Date.now(), time = caller[LAST_CLICK_TIME] || 0, delta = now - time;
-        if (delta > 500) {
+         if(delta<500){
+           fail && fail.call(caller, '操作速度过快');
+           console.warn('操作点击过快');
+           clearTimeout(timer);
+           timer=setTimeout(function(){
+            caller[LAST_CLICK_TIME] = now; 
+            method.call(caller, args); 
+           },500)
+        }else{
+            caller[LAST_CLICK_TIME] = now;
+            method.call(caller, args); 
+        }         
+     /*     if (delta > 500) {
             method.call(caller, args);
         }
         else {
             fail && fail.call(caller, '操作速度过快');
             console.warn('操作点击过快');
-        }
-        caller[LAST_CLICK_TIME] = now;
+        } 
+        caller[LAST_CLICK_TIME] = now; */
+        
     });
 };
 Laya.Node.prototype.dispatchLifeCycleEvent = function (method, p1, p2, p3, p4, p5) {

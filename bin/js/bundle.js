@@ -850,11 +850,11 @@ var GameControl = function (_PaoYa$Component) {
 
             console.log('------\u53EC\u5524\u795E\u9F991------');
             //开始cd
-            /*     if(skillType==1){
-                  this.skillScr1.startT()
-              }else{
-                  this.skillScr2.startT()
-              }   */
+            if (skillType == 1) {
+                this.skillScr1.startT();
+            } else {
+                this.skillScr2.startT();
+            }
             var dragonBg = new Laya.Sprite();
             dragonBg.size(Laya.Browser.width, Laya.Browser.height);
             this.dragonBg = dragonBg;
@@ -8143,6 +8143,9 @@ var HomeControl = function (_PaoYa$Component) {
                         });
                         return;
                     }
+                    py.showToast({
+                        title: '敬请期待'
+                    });
                     console.log("决战");
                     break;
                 //排行榜
