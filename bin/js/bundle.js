@@ -1006,9 +1006,9 @@ var GameControl = function (_PaoYa$Component) {
         value: function showMaskAni() {
             var maskArea = new Laya.Sprite();
             maskArea.alpha = 0.9;
-            console.log(Laya.Browser.width, Laya.Browser.height);
-            console.log(Laya.stage.width, Laya.stage.height);
-            maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#ffff00");
+            /*   console.log(Laya.Browser.width, Laya.Browser.height)
+              console.log(Laya.stage.width,Laya.stage.height)  */
+            maskArea.graphics.drawRect(0, 0, Laya.stage.width, Laya.stage.height, "#000000");
             maskArea.mouseEnabled = true;
             maskArea.zOrder = 2000;
             Laya.stage.addChild(maskArea);
@@ -1865,7 +1865,7 @@ var GameControl = function (_PaoYa$Component) {
             this.initPlayer(false);
             this.battleIndex = this.killNum + 1;
             this.boxGameBanner.getComponent(_GameBanner2.default).changeStyle({
-                gameType: 'pass',
+                gameType: this.gameType,
                 curNum: this.curNum,
                 battleIndex: this.battleIndex,
                 monsterNum: this.monsterNum

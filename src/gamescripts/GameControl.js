@@ -269,7 +269,7 @@ export default class GameControl extends PaoYa.Component {
         maskArea.alpha = 0.9;
       /*   console.log(Laya.Browser.width, Laya.Browser.height)
         console.log(Laya.stage.width,Laya.stage.height)  */
-        maskArea.graphics.drawRect(0, 0,Laya.stage.width,Laya.stage.height, "#ffff00");
+        maskArea.graphics.drawRect(0, 0,Laya.stage.width,Laya.stage.height, "#000000");
         maskArea.mouseEnabled = true;
         maskArea.zOrder = 2000;
         Laya.stage.addChild(maskArea);
@@ -1043,7 +1043,7 @@ export default class GameControl extends PaoYa.Component {
         this.initPlayer(false);
         this.battleIndex = this.killNum + 1;
         this.boxGameBanner.getComponent(GameBanner).changeStyle({
-            gameType: 'pass',
+            gameType: this.gameType,
             curNum: this.curNum,
             battleIndex: this.battleIndex,
             monsterNum: this.monsterNum
