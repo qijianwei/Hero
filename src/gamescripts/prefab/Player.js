@@ -123,8 +123,10 @@ export default class Player extends PaoYa.Component {
       this.skeleton.play('dodge2', true);
       if (this.roleId == 1) {
         time = 800;
-      } else {
+      } else if(this.roleId==2){
         time = 200;
+      }else if(this.roleId==4){
+        time = 1000;
       }
       Laya.timer.once(time, this, () => {
         this.sectionAni += 1;

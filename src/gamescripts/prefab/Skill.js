@@ -35,6 +35,7 @@ export default class Skill extends PaoYa.Component {
 
         this.spMask = new Laya.Sprite();
         this.maskArea.mask = this.spMask;
+        this.spMask.graphics.clear();
 
         this.freezeing = false;
         this.maxAngle = 270;

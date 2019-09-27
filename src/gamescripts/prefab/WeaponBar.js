@@ -67,6 +67,10 @@ export default class WeaponBar extends PaoYa.Component {
 
     }
     clickHandler(e) {
+        if(GameControl.instance.gameState!=`start`){
+            GameControl.instance.showTips("游戏未开始");
+            return;
+        }
         if(!GameControl.instance.selfPlayer.comp.canAction||GameControl.instance.selfPlayer.comp.dodge){
             GameControl.instance.showTips("无法行动");
             return;

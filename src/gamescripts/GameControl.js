@@ -64,7 +64,6 @@ export default class GameControl extends PaoYa.Component {
     onEnable() {
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
         this.onNotification(Skill.CLICK, this, this.skillClickHandler);
-        this.gameState = 'start';
         this.fillPlayerInfo();
         this.initSkill();
     }
@@ -79,7 +78,6 @@ export default class GameControl extends PaoYa.Component {
     restart() {
         let _this = this;
         this.showMaskAni();
-        this.gameState = 'start';
         this.selfMultiMP = 1; //兵器造成的内力消耗倍数
         this.otherMultiMP = 1; //兵器造成的内力消耗倍数
         this.selfWeapons = [];
@@ -93,9 +91,7 @@ export default class GameControl extends PaoYa.Component {
         this.robotRole = JSON.parse(JSON.stringify(this.params.robotRole))
         this.dealParams(this.weaponList);
         this.dealParams(this.robotWeaponList);
-        /*   if(this.gameType==`adventure`){
-              SoundManager.ins.passBg();
-          } */
+    
         if (this.gameType == `pass` || this.gameType == `adventure`) {
             this.initGameBanner();
             SoundManager.ins.passBg();
@@ -112,10 +108,12 @@ export default class GameControl extends PaoYa.Component {
         if (!this.closeRobot) {
             var adParams = {
                 onClose: function onClose(res) {
+                    _this.gameState = 'start';
                     console.log(`关闭广告`)
                     _this.beforeGame()
                 },
                 onError: function onError(res) {
+                    _this.gameState = 'start';
                     console.log(`拉取广告失败`)
                     _this.hasInterstitialAd = false;
                     _this.beforeGame()
@@ -127,12 +125,13 @@ export default class GameControl extends PaoYa.Component {
 
     }
     dragonLaunch(skillType=1) {
+        console.log(`------召唤神龙1------`)
         //开始cd
-         if(skillType==1){
+      /*     if(skillType==1){
             this.skillScr1.startT()
         }else{
             this.skillScr2.startT()
-        } 
+        }   */
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;
@@ -170,6 +169,7 @@ export default class GameControl extends PaoYa.Component {
       
         this.launchAni=launchAni;
         this.owner.addChild(launchAni);
+        console.log(`------召唤神龙2------`)
     }
     sportDragon(skillType) {
         this.dragonAni.x += 25;
@@ -180,6 +180,7 @@ export default class GameControl extends PaoYa.Component {
             this.dragonHurt(skillType);  
         }
         if (this.dragonAni.x > 1334||this.gameState==`over`) {
+            console.log(`【------移除神龙------】`)
            this.removeDragons(skillType)
         }
     }
@@ -188,13 +189,19 @@ export default class GameControl extends PaoYa.Component {
         this.dragonAni.stop();
         this.dragonAni.removeSelf();
         if(skillType==1){
-            this.collideAni.stop();
-            this.collideAni.removeSelf();
+            if(this.collideAni){
+                this.collideAni.stop();
+                this.collideAni.removeSelf();
+            }   
         }else{
-            this.collideAni1.stop();
-            this.collideAni1.removeSelf();
-            this.collideAni2.stop();
-            this.collideAni2.removeSelf();
+            if(this.collideAni1){
+                this.collideAni1.stop();
+                this.collideAni1.removeSelf();
+            }
+            if(this.collideAni2){
+                this.collideAni2.stop();
+                this.collideAni2.removeSelf();
+            }  
         }   
         this.owner.removeChild(this.dragonBg);
     }
@@ -236,7 +243,7 @@ export default class GameControl extends PaoYa.Component {
         }else if(skillType==2){
             attackNum=Math.round(this.selfPlayer.comp.attr.roleStrength*0.5);
         }
-        let dizzyT=800;
+        let dizzyT=400;
         this.otherPlayer.comp.injuredEffect(1, -attackNum, false, () => {
             this.otherPlayer.comp.dragonEffect(dizzyT);
         });
@@ -258,9 +265,11 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     showMaskAni() {
-        let maskArea = new Laya.Sprite();
+         let maskArea = new Laya.Sprite();
         maskArea.alpha = 0.9;
-        maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+      /*   console.log(Laya.Browser.width, Laya.Browser.height)
+        console.log(Laya.stage.width,Laya.stage.height)  */
+        maskArea.graphics.drawRect(0, 0,Laya.stage.width,Laya.stage.height, "#ffff00");
         maskArea.mouseEnabled = true;
         maskArea.zOrder = 2000;
         Laya.stage.addChild(maskArea);
@@ -270,7 +279,7 @@ export default class GameControl extends PaoYa.Component {
         }, 600, null, Laya.Handler.create(this, () => {
             tween.clear();
             Laya.stage.removeChild(maskArea);
-        }))
+        })) 
     }
     fillPlayerInfo() {
         this.initPlayer(true);
@@ -291,7 +300,7 @@ export default class GameControl extends PaoYa.Component {
         this.killNum = 0;
         this.battleIndex = 1;
         this.curNum = this.params.stageId;
-        this.boxGameBanner.getComponent(GameBanner).changeStyle({
+        this.boxGameBanner.getComponent(GameBanner)&&this.boxGameBanner.getComponent(GameBanner).changeStyle({
             gameType: this.gameType,
             curNum: this.curNum,
             battleIndex: this.battleIndex,
@@ -300,7 +309,6 @@ export default class GameControl extends PaoYa.Component {
     }
 
     drawParabola() {
-       
         let space = 5;
         let pathArr = [];
         this.startPos = {
@@ -398,6 +406,7 @@ export default class GameControl extends PaoYa.Component {
             //暂时
             let weaponBar=null;
             if(this.weaponBar.create){
+                console.log(this.weaponBar)
                  weaponBar = this.weaponBar.create.call(this.weaponBar);
             }else{
            
@@ -976,6 +985,7 @@ export default class GameControl extends PaoYa.Component {
         Laya.timer.clear(this, this.startSelect);
         // Laya.timer.clearAll(this);
         this.gameState = 'over';
+        console.log(`------有人死亡------`)
         this.removeAllWeapons();
         this.allCdEnd();
         switch (this.gameType) {
@@ -1052,8 +1062,7 @@ export default class GameControl extends PaoYa.Component {
 
     //关卡结束
     passOver(loserIsSelf) {
-        //  SoundManager.ins.homeBg();
-        Laya.timer.clearAll(this);
+      //  Laya.timer.clearAll(this);
         if (!loserIsSelf) {
             SoundManager.ins.win();
             PaoYa.DataCenter.user.current = this.curNum + 1;
@@ -1063,9 +1072,6 @@ export default class GameControl extends PaoYa.Component {
             PaoYa.DataCenter.user.current = this.curNum;
             this.otherPlayer.comp.skeleton.play('win', true);
         }
-
-        // console.error('闯关');
-
         this.selfPlayer.comp.MPComp.stopIncrease();
         this.otherPlayer.comp.MPComp.stopIncrease();
 

@@ -12,6 +12,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         if(this.params.encounter){
             this.params=this.params.encounter;
         }  
+        console.log(this.params)
         let type = this.params.type;
         this.spRole.texture=`remote/guide/${this.params.dress}.png`;
         if(this.params.dress==`npc_3`){
@@ -37,7 +38,13 @@ export default class AdventDialog extends PaoYa.Dialog {
         this.initFont(advent);
         let weaponBarPromise = new Promise((resolve, reject) => {
             Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
-                resolve(json);
+                console.log(json);
+                if(json instanceof Laya.Prefab){
+                    resolve(json.json)
+                }else{
+                    resolve(json);
+                }
+                
             }))
         })
         let rewardPromise = new Promise((resolve, reject) => {
@@ -72,6 +79,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         }
     }
     initReward(jsons) {
+        console.log(jsons)
         let weaponList = this.params.weaponList;
         let len = weaponList.length;
         for (let i = 0; i < len; i++) {

@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "scenes/HomeView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -773,7 +773,6 @@ var GameControl = function (_PaoYa$Component) {
         value: function onEnable() {
             this.onNotification(_WeaponBar2.default.CLICK, this, this.weaponBarClickHandler);
             this.onNotification(_Skill2.default.CLICK, this, this.skillClickHandler);
-            this.gameState = 'start';
             this.fillPlayerInfo();
             this.initSkill();
         }
@@ -796,7 +795,6 @@ var GameControl = function (_PaoYa$Component) {
 
             var _this = this;
             this.showMaskAni();
-            this.gameState = 'start';
             this.selfMultiMP = 1; //兵器造成的内力消耗倍数
             this.otherMultiMP = 1; //兵器造成的内力消耗倍数
             this.selfWeapons = [];
@@ -810,9 +808,7 @@ var GameControl = function (_PaoYa$Component) {
             this.robotRole = JSON.parse(JSON.stringify(this.params.robotRole));
             this.dealParams(this.weaponList);
             this.dealParams(this.robotWeaponList);
-            /*   if(this.gameType==`adventure`){
-                  SoundManager.ins.passBg();
-              } */
+
             if (this.gameType == 'pass' || this.gameType == 'adventure') {
                 this.initGameBanner();
                 _SoundManager2.default.ins.passBg();
@@ -830,10 +826,12 @@ var GameControl = function (_PaoYa$Component) {
             if (!this.closeRobot) {
                 var adParams = {
                     onClose: function onClose(res) {
+                        _this.gameState = 'start';
                         console.log('\u5173\u95ED\u5E7F\u544A');
                         _this.beforeGame();
                     },
                     onError: function onError(res) {
+                        _this.gameState = 'start';
                         console.log('\u62C9\u53D6\u5E7F\u544A\u5931\u8D25');
                         _this.hasInterstitialAd = false;
                         _this.beforeGame();
@@ -850,12 +848,13 @@ var GameControl = function (_PaoYa$Component) {
 
             var skillType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
+            console.log('------\u53EC\u5524\u795E\u9F991------');
             //开始cd
-            if (skillType == 1) {
-                this.skillScr1.startT();
-            } else {
-                this.skillScr2.startT();
-            }
+            /*     if(skillType==1){
+                  this.skillScr1.startT()
+              }else{
+                  this.skillScr2.startT()
+              }   */
             var dragonBg = new Laya.Sprite();
             dragonBg.size(Laya.Browser.width, Laya.Browser.height);
             this.dragonBg = dragonBg;
@@ -893,6 +892,7 @@ var GameControl = function (_PaoYa$Component) {
 
             this.launchAni = launchAni;
             this.owner.addChild(launchAni);
+            console.log('------\u53EC\u5524\u795E\u9F992------');
         }
     }, {
         key: 'sportDragon',
@@ -905,6 +905,7 @@ var GameControl = function (_PaoYa$Component) {
                 this.dragonHurt(skillType);
             }
             if (this.dragonAni.x > 1334 || this.gameState == 'over') {
+                console.log('\u3010------\u79FB\u9664\u795E\u9F99------\u3011');
                 this.removeDragons(skillType);
             }
         }
@@ -915,13 +916,19 @@ var GameControl = function (_PaoYa$Component) {
             this.dragonAni.stop();
             this.dragonAni.removeSelf();
             if (skillType == 1) {
-                this.collideAni.stop();
-                this.collideAni.removeSelf();
+                if (this.collideAni) {
+                    this.collideAni.stop();
+                    this.collideAni.removeSelf();
+                }
             } else {
-                this.collideAni1.stop();
-                this.collideAni1.removeSelf();
-                this.collideAni2.stop();
-                this.collideAni2.removeSelf();
+                if (this.collideAni1) {
+                    this.collideAni1.stop();
+                    this.collideAni1.removeSelf();
+                }
+                if (this.collideAni2) {
+                    this.collideAni2.stop();
+                    this.collideAni2.removeSelf();
+                }
             }
             this.owner.removeChild(this.dragonBg);
         }
@@ -969,7 +976,7 @@ var GameControl = function (_PaoYa$Component) {
             } else if (skillType == 2) {
                 attackNum = Math.round(this.selfPlayer.comp.attr.roleStrength * 0.5);
             }
-            var dizzyT = 800;
+            var dizzyT = 400;
             this.otherPlayer.comp.injuredEffect(1, -attackNum, false, function () {
                 _this5.otherPlayer.comp.dragonEffect(dizzyT);
             });
@@ -999,7 +1006,9 @@ var GameControl = function (_PaoYa$Component) {
         value: function showMaskAni() {
             var maskArea = new Laya.Sprite();
             maskArea.alpha = 0.9;
-            maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+            console.log(Laya.Browser.width, Laya.Browser.height);
+            console.log(Laya.stage.width, Laya.stage.height);
+            maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#ffff00");
             maskArea.mouseEnabled = true;
             maskArea.zOrder = 2000;
             Laya.stage.addChild(maskArea);
@@ -1036,7 +1045,7 @@ var GameControl = function (_PaoYa$Component) {
             this.killNum = 0;
             this.battleIndex = 1;
             this.curNum = this.params.stageId;
-            this.boxGameBanner.getComponent(_GameBanner2.default).changeStyle({
+            this.boxGameBanner.getComponent(_GameBanner2.default) && this.boxGameBanner.getComponent(_GameBanner2.default).changeStyle({
                 gameType: this.gameType,
                 curNum: this.curNum,
                 battleIndex: this.battleIndex,
@@ -1046,7 +1055,6 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'drawParabola',
         value: function drawParabola() {
-
             var space = 5;
             var pathArr = [];
             this.startPos = {
@@ -1151,6 +1159,7 @@ var GameControl = function (_PaoYa$Component) {
                 //暂时
                 var weaponBar = null;
                 if (this.weaponBar.create) {
+                    console.log(this.weaponBar);
                     weaponBar = this.weaponBar.create.call(this.weaponBar);
                 } else {
 
@@ -1791,6 +1800,7 @@ var GameControl = function (_PaoYa$Component) {
             Laya.timer.clear(this, this.startSelect);
             // Laya.timer.clearAll(this);
             this.gameState = 'over';
+            console.log('------\u6709\u4EBA\u6B7B\u4EA1------');
             this.removeAllWeapons();
             this.allCdEnd();
             switch (this.gameType) {
@@ -1882,8 +1892,7 @@ var GameControl = function (_PaoYa$Component) {
         value: function passOver(loserIsSelf) {
             var _this15 = this;
 
-            //  SoundManager.ins.homeBg();
-            Laya.timer.clearAll(this);
+            //  Laya.timer.clearAll(this);
             if (!loserIsSelf) {
                 _SoundManager2.default.ins.win();
                 PaoYa.DataCenter.user.current = this.curNum + 1;
@@ -1893,9 +1902,6 @@ var GameControl = function (_PaoYa$Component) {
                 PaoYa.DataCenter.user.current = this.curNum;
                 this.otherPlayer.comp.skeleton.play('win', true);
             }
-
-            // console.error('闯关');
-
             this.selfPlayer.comp.MPComp.stopIncrease();
             this.otherPlayer.comp.MPComp.stopIncrease();
 
@@ -2607,6 +2613,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
             if (this.params.encounter) {
                 this.params = this.params.encounter;
             }
+            console.log(this.params);
             var type = this.params.type;
             this.spRole.texture = 'remote/guide/' + this.params.dress + '.png';
             if (this.params.dress == 'npc_3') {
@@ -2632,7 +2639,12 @@ var AdventDialog = function (_PaoYa$Dialog) {
             this.initFont(advent);
             var weaponBarPromise = new Promise(function (resolve, reject) {
                 Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(_this3, function (json) {
-                    resolve(json);
+                    console.log(json);
+                    if (json instanceof Laya.Prefab) {
+                        resolve(json.json);
+                    } else {
+                        resolve(json);
+                    }
                 }));
             });
             var rewardPromise = new Promise(function (resolve, reject) {
@@ -2673,6 +2685,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
     }, {
         key: 'initReward',
         value: function initReward(jsons) {
+            console.log(jsons);
             var weaponList = this.params.weaponList;
             var len = weaponList.length;
             for (var i = 0; i < len; i++) {
@@ -3891,6 +3904,7 @@ var GameGuideControl = function (_GameControl) {
         var _this = _possibleConstructorReturn(this, (GameGuideControl.__proto__ || Object.getPrototypeOf(GameGuideControl)).call(this));
 
         _this.closeRobot = true;
+        _this.gameState = 'start';
         return _this;
     }
     /*    onAwake(){
@@ -5855,8 +5869,10 @@ var Player = function (_PaoYa$Component) {
         this.skeleton.play('dodge2', true);
         if (this.roleId == 1) {
           time = 800;
-        } else {
+        } else if (this.roleId == 2) {
           time = 200;
+        } else if (this.roleId == 4) {
+          time = 1000;
         }
         Laya.timer.once(time, this, function () {
           _this3.sectionAni += 1;
@@ -6538,6 +6554,7 @@ var Skill = function (_PaoYa$Component) {
 
             this.spMask = new Laya.Sprite();
             this.maskArea.mask = this.spMask;
+            this.spMask.graphics.clear();
 
             this.freezeing = false;
             this.maxAngle = 270;
@@ -7016,7 +7033,7 @@ var Weapon = function (_PaoYa$Component) {
           var reboundRate = this.otherPlayerComp.attr.skills[1].skillConfig.reboundRate;
           if (random <= reboundRate) {
             //反弹提示
-            //this.otherPlayerComp.showPlayerState("游龙入水");
+            _GameControl2.default.instance.showSkillText(true, "游龙入水");
             this.goBack();
             return;
           }
@@ -7529,6 +7546,10 @@ var WeaponBar = function (_PaoYa$Component) {
     }, {
         key: "clickHandler",
         value: function clickHandler(e) {
+            if (_GameControl2.default.instance.gameState != "start") {
+                _GameControl2.default.instance.showTips("游戏未开始");
+                return;
+            }
             if (!_GameControl2.default.instance.selfPlayer.comp.canAction || _GameControl2.default.instance.selfPlayer.comp.dodge) {
                 _GameControl2.default.instance.showTips("无法行动");
                 return;
@@ -7928,6 +7949,12 @@ var HomeControl = function (_PaoYa$Component) {
                     _this3.onAppear();
                 }
             });
+            /*  Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
+                 console.log(json)
+                 Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
+                     console.log(json)
+                 }))
+             })) */
         }
     }, {
         key: "onEnable",

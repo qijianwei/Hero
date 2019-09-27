@@ -37,6 +37,7 @@ export default class GameGuideControl extends GameControl{
     constructor(){
         super();
         this.closeRobot=true;
+        this.gameState = 'start';
     }
   /*    onAwake(){
         super();

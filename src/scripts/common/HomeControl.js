@@ -83,6 +83,12 @@ export default class HomeControl extends PaoYa.Component {
                 this.onAppear();
             }
         });
+       /*  Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
+            console.log(json)
+            Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
+                console.log(json)
+            }))
+        })) */
     }
     onEnable() {
         if (PaoYa.DataCenter.user.is_first_game == 1) {

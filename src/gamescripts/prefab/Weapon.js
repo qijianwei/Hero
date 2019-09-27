@@ -324,7 +324,7 @@ export default class Weapon extends PaoYa.Component {
         let reboundRate = this.otherPlayerComp.attr.skills[1].skillConfig.reboundRate;
         if (random <= reboundRate) {
           //反弹提示
-          //this.otherPlayerComp.showPlayerState("游龙入水");
+          GameControl.instance.showSkillText(true,"游龙入水");
           this.goBack();
           return;
         }
