@@ -253,6 +253,11 @@ if (!config.debug) {
 	console.warn = function () { };
 	console.error = function () { };
 } else {
+	if(window[`wx`]){
+		console.log = function () { };
+	console.warn = function () { };
+	console.error = function () { };
+	}
 	//console.log = function () { };
 	Laya.Stat.show();
 }

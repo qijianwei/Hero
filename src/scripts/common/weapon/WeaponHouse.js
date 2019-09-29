@@ -20,7 +20,7 @@ export default class WeaponHouse extends PaoYa.View {
     changeHB(res) {
         this.goldNum.width = null
 
-        if (res.gold) {
+        if (res.gold || res.gold == 0) {
             PaoYa.DataCenter.user.gold = res.gold
             let goldnum = addNumberUnit(PaoYa.DataCenter.user.gold)
             this.goldNum.text = goldnum
@@ -64,55 +64,98 @@ export default class WeaponHouse extends PaoYa.View {
             PaoYa.Request.POST(`martial_change_new_hand`, { type: `weaponNew` })
         }
 
-        this.light.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            this.getWareBtnSkin(`light`)
-            this.lightNew.visible = false
-            WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.lightList)
-        })
+        // this.light.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     this.getWareBtnSkin(`light`)
+        //     this.lightNew.visible = false
+        //     WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.lightList)
+        // })
 
-        this.middle.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            this.getWareBtnSkin(`middle`)
-            this.middleNew.visible = false
-            WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.middleList)
-        })
+        // this.middle.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     this.getWareBtnSkin(`middle`)
+        //     this.middleNew.visible = false
+        //     WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.middleList)
+        // })
 
-        this.large.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            this.getWareBtnSkin(`large`)
-            this.largeNew.visible = false
-            WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.heavyList)
-        })
+        // this.large.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     this.getWareBtnSkin(`large`)
+        //     this.largeNew.visible = false
+        //     WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.heavyList)
+        // })
 
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            if (WeaponHouseControl.ins.isGuide) {
-                return
-            }
-            SoundManager.ins.btn()
-            WeaponHouseControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     if (WeaponHouseControl.ins.isGuide) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     WeaponHouseControl.ins.navigator.pop()
+        // })
 
-        this.equip.on(Laya.Event.CLICK, this, () => {
-            if (WeaponHouseControl.ins.isGuide) {
-                return
-            }
-            SoundManager.ins.btn()
-            WeaponHouseControl.ins.chargeWeapon()
-        })
+        // this.equip.on(Laya.Event.CLICK, this, () => {
+        //     if (WeaponHouseControl.ins.isGuide) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     WeaponHouseControl.ins.chargeWeapon()
+        // })
 
-        this.upGrade.on(Laya.Event.CLICK, this, () => {
-            if (WeaponHouseControl.ins.isGuide) {
-                return
-            }
-            WeaponHouseControl.ins.upgradeWeapon()
-        })
+        // this.upGrade.on(Laya.Event.CLICK, this, () => {
+        //     if (WeaponHouseControl.ins.isGuide) {
+        //         return
+        //     }
+        //     WeaponHouseControl.ins.upgradeWeapon()
+        // })
 
         this.Wp_1.font = `weaponDFont`
         this.Wp_2.font = `weaponDFont`
         this.Wp_3.font = `weaponDFont`
         this.Wp_4.font = `weaponDFont`
         this.Wp_5.font = `weaponDFont`
+    }
+
+    lisenClick(e) {
+        switch (e.target.name) {
+            case `light`:
+                SoundManager.ins.btn()
+                this.getWareBtnSkin(`light`)
+                this.lightNew.visible = false
+                WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.lightList)
+                break;
+            case `middle`:
+                SoundManager.ins.btn()
+                this.getWareBtnSkin(`middle`)
+                this.middleNew.visible = false
+                WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.middleList)
+                break;
+            case `large`:
+                SoundManager.ins.btn()
+                this.getWareBtnSkin(`large`)
+                this.largeNew.visible = false
+                WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.heavyList)
+                break;
+            case `benBack`:
+                if (WeaponHouseControl.ins.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                WeaponHouseControl.ins.navigator.pop()
+                break;
+            case `equip`:
+                if (WeaponHouseControl.ins.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                WeaponHouseControl.ins.chargeWeapon()
+                break;
+            case `upGrade`:
+                if (WeaponHouseControl.ins.isGuide) {
+                    return
+                }
+                WeaponHouseControl.ins.upgradeWeapon()
+                break;
+        }
     }
 
     getWareBtnSkin(name) {

@@ -15,6 +15,10 @@ export default class SignControl extends PaoYa.Component {
 
     }
 
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+    }
+
     getAward() {
         PaoYa.Request.POST(`martial_login_bonus_receive`, { adv: 0 }, res => {
             PaoYa.DataCenter.user.loginBonusStatus = false

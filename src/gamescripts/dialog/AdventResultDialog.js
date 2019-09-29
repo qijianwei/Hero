@@ -180,6 +180,7 @@ export default class AdventResultDialog extends PaoYa.Dialog {
                 let weaponBarsComp = view.getComponent(WeaponBar);
                 weaponBarsComp.params = weaponList[i];
                 view.off(Laya.Event.CLICK, weaponBarsComp)
+                view.onThrottleClick=()=>{};
                 this.boxWeapons.addChild(view);
             }
         }

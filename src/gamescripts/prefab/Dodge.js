@@ -22,10 +22,15 @@ export default class Dodge extends PaoYa.Component{
       this.maxAngle=270;
       this.startAngle=-90;
       this.endAngle=-90;
-      owner.on(Laya.Event.CLICK,this,this.clickHandler);
     }
-
+    onThrottleClick(){
+        this.clickHandler();
+    }
     clickHandler(){
+        if(GameControl.instance.gameState!=`start`){
+            GameControl.instance.showTips("游戏未开始");
+            return;
+        }
         if(!GameControl.instance.selfPlayer.comp.canAction||GameControl.instance.selfPlayer.comp.dodge){
             GameControl.instance.showTips("无法行动");
             return;

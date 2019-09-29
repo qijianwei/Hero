@@ -44,6 +44,11 @@ export default class Tool {
     }
 
     static showVideoAD(callBack, cancel, err, isAdventure, num) {
+        if (typeof wx == 'undefined') {
+            callBack && callBack()
+            return
+        }
+
         // Global.dataPoints(`点击观看视频次数`, { points: "103" })
         var p = {
             onLoad: function () {

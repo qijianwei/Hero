@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -631,6 +631,11 @@ if (!_Config2.default.debug) {
 	console.warn = function () {};
 	console.error = function () {};
 } else {
+	if (window["wx"]) {
+		console.log = function () {};
+		console.warn = function () {};
+		console.error = function () {};
+	}
 	//console.log = function () { };
 	Laya.Stat.show();
 }
@@ -913,8 +918,10 @@ var GameControl = function (_PaoYa$Component) {
         key: 'removeDragons',
         value: function removeDragons(skillType) {
             Laya.timer.clear(this, this.sportDragon);
-            this.dragonAni.stop();
-            this.dragonAni.removeSelf();
+            if (this.dragonAni) {
+                this.dragonAni.stop();
+                this.dragonAni.removeSelf();
+            }
             if (skillType == 1) {
                 if (this.collideAni) {
                     this.collideAni.stop();
@@ -1190,7 +1197,7 @@ var GameControl = function (_PaoYa$Component) {
                 spH = spCollide.height;
 
             var component = player.getComponent(_Player2.default);
-            component.isSelf = isSelf;
+            // component.isSelf = isSelf;
             component.attr = this[role];
             if (isSelf) {
                 this.selfSkills = this[role].skills;
@@ -1317,6 +1324,7 @@ var GameControl = function (_PaoYa$Component) {
             this[name + 'Player'].comp.showSkill1();
             this[name + 'Player'].comp.skillCallback = function () {
                 _this7.weaponLaunch(skillWeapon);
+                _this7[name + 'Player'].comp.skillCallback = function () {};
             };
         }
     }, {
@@ -1631,6 +1639,9 @@ var GameControl = function (_PaoYa$Component) {
         value: function weaponLaunch(params, deltaT) {
             var _this13 = this;
 
+            if (params.isSelf) {
+                console.log('\u3010-------\u6B66\u5668\u53D1\u5C04------\u3011');
+            }
             var name = params.isSelf ? 'self' : 'other';
             var weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
             var weaponComp = weapon.getComponent(_Weapon2.default);
@@ -1796,6 +1807,10 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'deathHandler',
         value: function deathHandler(loserIsSelf) {
+            if (this.selfPlayer.comp.attr.roleId == 4) {
+                this.removeDragons(1);
+                this.removeDragons(2);
+            }
             Laya.MouseManager.enabled = false;
             Laya.timer.clear(this, this.startSelect);
             // Laya.timer.clearAll(this);
@@ -1834,7 +1849,7 @@ var GameControl = function (_PaoYa$Component) {
         value: function dealBattle(loserIsSelf) {
             var _this14 = this;
 
-            Laya.timer.clearAll(this);
+            // Laya.timer.clearAll(this);
             this.gameOver(loserIsSelf);
             var win = loserIsSelf ? 0 : 1;
             Laya.timer.callLater(this, function () {
@@ -1879,6 +1894,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'revive',
         value: function revive() {
+            this.gameState = 'start';
             _SoundManager2.default.ins.passBg();
             this.initPlayer(true);
             this.firstWeaponSelect();
@@ -1922,7 +1938,7 @@ var GameControl = function (_PaoYa$Component) {
                                     _this15.navigator.popup('/dialog/AdventDialog', res);
                                     break;
                                 case 3:
-                                    _this15.navigator.popup('adventure/BuyWp', res);
+                                    _this15.navigator.popup('adventure/ChangeWp', res);
                                     break;
                                 case 4:
                                     _this15.navigator.popup('adventure/GetAward', res);
@@ -1931,7 +1947,7 @@ var GameControl = function (_PaoYa$Component) {
                                     _this15.navigator.popup('/dialog/AdventDialog5', res);
                                     break;
                                 case 6:
-                                    _this15.navigator.popup('adventure/ChangeWp', res);
+                                    _this15.navigator.popup('adventure/BuyWp', res);
                                     break;
                             }
                         }
@@ -3172,6 +3188,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
                     var weaponBarsComp = view.getComponent(_WeaponBar2.default);
                     weaponBarsComp.params = weaponList[i];
                     view.off(Laya.Event.CLICK, weaponBarsComp);
+                    view.onThrottleClick = function () {};
                     this.boxWeapons.addChild(view);
                 }
             }
@@ -5349,11 +5366,19 @@ var Dodge = function (_PaoYa$Component) {
             this.maxAngle = 270;
             this.startAngle = -90;
             this.endAngle = -90;
-            owner.on(Laya.Event.CLICK, this, this.clickHandler);
+        }
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick() {
+            this.clickHandler();
         }
     }, {
         key: "clickHandler",
         value: function clickHandler() {
+            if (_GameControl2.default.instance.gameState != "start") {
+                _GameControl2.default.instance.showTips("游戏未开始");
+                return;
+            }
             if (!_GameControl2.default.instance.selfPlayer.comp.canAction || _GameControl2.default.instance.selfPlayer.comp.dodge) {
                 _GameControl2.default.instance.showTips("无法行动");
                 return;
@@ -5629,7 +5654,7 @@ var MPBar = function (_PaoYa$Component) {
             console.log('初始的体力值:', MPValue);
             this.originMP = this.curMP = MPValue;
             this.imgMask.width = this.owner.width;
-            this.perAddMP = Math.ceil(this.originMP / 360 * 20);
+            this.perAddMP = Math.ceil(this.originMP / 600 * 20);
             this.originPerAddMP = this.perAddMP;
             this.lblMpPct.text = this.curMP + '/' + this.originMP;
             this.startBar();
@@ -5769,7 +5794,7 @@ var Player = function (_PaoYa$Component) {
       //console.error('角色服装:', this.attr.roleDress);
       var dressIcon = this.attr.roleDress;
       this.dressIcon = dressIcon;
-      this.roleId = this.attr.roleId;
+      // this.roleId = this.attr.roleId;
       var skeleton = _HeroConfig2.default.getSkeleton(dressIcon);
       skeleton.play('stand', true);
       skeleton.pos(posX, posY - 10);
@@ -5793,7 +5818,7 @@ var Player = function (_PaoYa$Component) {
     value: function onEnable() {
       this.killed = false;
       this.index += 1;
-
+      this.roleId = this.attr.roleId; //重新获取 对象池复用 roleId也许有变
       if (this.dressIcon != this.attr.roleDress) {
         this.dressIcon = this.attr.roleDress;
         var templet = _HeroConfig2.default.spineMap[this.dressIcon].templet;
@@ -5821,7 +5846,9 @@ var Player = function (_PaoYa$Component) {
         case 'skill1':
           /* 防止技能1和技能2触发太密集 */
           Laya.timer.once(500, this, function () {
-            _this2.canAction = true;
+            if (!_this2.plasyState && !_this2.freezeState && !_this2.dizzyState) {
+              _this2.canAction = true;
+            }
           });
           _GameControl2.default.instance.allResume(this.isSelf);
           this.skillCallback();
@@ -5835,7 +5862,10 @@ var Player = function (_PaoYa$Component) {
         case 'skill2':
           /* 防止技能1和技能2触发太密集 */
           Laya.timer.once(500, this, function () {
-            _this2.canAction = true;
+            console.log("\u51B0\u51BB\u72B6\u6001", _this2.freezeState);
+            if (!_this2.plasyState && !_this2.freezeState && !_this2.dizzyState) {
+              _this2.canAction = true;
+            }
           });
           _GameControl2.default.instance.allResume(this.isSelf);
           this.skillCallback();
@@ -6191,7 +6221,7 @@ var Player = function (_PaoYa$Component) {
       var freezeTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3000;
 
       this.canAction = false;
-      this.freezeState = true;
+      this.freezeStateDragon = true;
       if (this.isSelf) {
         // Laya.MouseManager.enabled = false;
         _GameControl2.default.instance.allBtnsLock();
@@ -6203,19 +6233,21 @@ var Player = function (_PaoYa$Component) {
     key: "removeDragonEffect",
     value: function removeDragonEffect() {
       console.log("------remove freeze-------");
-      this.canAction = true;
-      this.freezeState = false;
+      this.freezeStateDragon = false;
       if (this.isSelf) {
         _GameControl2.default.instance.allBtnsUnlock();
       }
-      this.skeleton.play('stand', true);
+      if (!this.plasyState && !this.freezeState && !this.dizzyState) {
+        this.canAction = true;
+        this.skeleton.play('stand', true);
+      }
     }
     //闪避技能
 
   }, {
     key: "dodgeEffect",
     value: function dodgeEffect() {
-      this.sectionAni = true;
+      this.sectionAni = 1;
       this.dodge = true; //闪避无敌状态
       this.owner.zOrder = 100;
       this.skeleton.play('dodge1', false);
@@ -6529,6 +6561,10 @@ var Skill = function (_PaoYa$Component) {
     }, {
         key: "clickHandler",
         value: function clickHandler() {
+            if (_GameControl2.default.instance.gameState != "start") {
+                _GameControl2.default.instance.showTips("游戏未开始");
+                return;
+            }
             if (!_GameControl2.default.instance.selfPlayer.comp.canAction || _GameControl2.default.instance.selfPlayer.comp.dodge) {
                 _GameControl2.default.instance.showTips("无法行动");
                 return;
@@ -7546,6 +7582,9 @@ var WeaponBar = function (_PaoYa$Component) {
     }, {
         key: "clickHandler",
         value: function clickHandler(e) {
+            if (!_GameControl2.default.instance) {
+                return;
+            }
             if (_GameControl2.default.instance.gameState != "start") {
                 _GameControl2.default.instance.showTips("游戏未开始");
                 return;
@@ -8040,8 +8079,8 @@ var HomeControl = function (_PaoYa$Component) {
             this.adventAni && this.adventAni.stop();
         }
     }, {
-        key: "onClick",
-        value: function onClick(e) {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
             var _this5 = this;
 
             if (e.target instanceof Laya.Button) {
@@ -8694,7 +8733,7 @@ var MatchControl = function (_PaoYa$Component) {
             timerService.start();
             this.timerService = timerService;
             this.owner.startAni();
-            var randomTime = (Math.floor(Math.random() * 3) + 3) * 1000;
+            var randomTime = (Math.floor(Math.random() * 3) + 1) * 1000;
             Laya.timer.once(randomTime, this, this.matchOK);
         }
     }, {
@@ -8716,16 +8755,14 @@ var MatchControl = function (_PaoYa$Component) {
             var _this3 = this;
 
             this.owner.matchOK();
-            this.timerService.stop();
-            Laya.timer.once(500, this, function () {
+            this.timerService && this.timerService.stop();
+            Laya.timer.once(200, this, function () {
                 _this3.navigator.push("GameView", _this3.params);
             });
         }
     }, {
         key: 'onDisappear',
         value: function onDisappear() {
-            this.timerService.stop();
-            this.timerService = null;
             this.owner.stopAni();
         }
     }]);
@@ -8917,15 +8954,16 @@ var Grading = function (_PaoYa$View) {
             var _this2 = this;
 
             _Global.Global.dataPoints('进入华山论剑');
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _GradingControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     GradingControl.ins.navigator.pop()
+            // })
 
-            this.gameStart.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _GradingControl2.default.ins.gameRole(_this2.showDetail.roleId);
-            });
+            // this.gameStart.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     GradingControl.ins.gameRole(this.showDetail.roleId)
+            // })
+
 
             this.gameStartTxt.font = "weaponDFont";
             this.gameStartTxt.scale(0.7, 0.7);
@@ -8977,6 +9015,20 @@ var Grading = function (_PaoYa$View) {
             });
 
             this.initInfo();
+        }
+    }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    _GradingControl2.default.ins.navigator.pop();
+                    break;
+                case "gameStart":
+                    _SoundManager2.default.ins.btn();
+                    _GradingControl2.default.ins.gameRole(this.showDetail.roleId);
+                    break;
+            }
         }
     }, {
         key: "changeGold",
@@ -9082,6 +9134,11 @@ var GradingControl = function (_PaoYa$Component) {
         key: "onEnable",
         value: function onEnable() {}
     }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
+    }, {
         key: "gameRole",
         value: function gameRole(e) {
             var _this2 = this;
@@ -9180,17 +9237,17 @@ var Swordsman = function (_PaoYa$View) {
                 }
             });
 
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                if (_this2.isGuide) {
-                    _Global.Global.dataPoints('用户点击人物升级');
-                }
-                if (_this2.isGuide && !_this2.guideBack) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _SwordsmanControl2.default.ins.postNotification("roleIdChanged", _this2.params.defaultRole);
-                _SwordsmanControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     if (this.isGuide) {
+            //         Global.dataPoints('用户点击人物升级')
+            //     }
+            //     if (this.isGuide && !this.guideBack) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
+            //     SwordsmanControl.ins.navigator.pop()
+            // })
             if (this.params.roleList.length > 3) {
                 this.params.roleList.splice(2, 1);
             }
@@ -9211,55 +9268,115 @@ var Swordsman = function (_PaoYa$View) {
             this.alreadyTxt.scale(0.8, 0.8);
             this.alreadyTxt.pos(35, 10);
 
-            this.lvupbtn.on(Laya.Event.CLICK, this, function () {
-                _SwordsmanControl2.default.ins.roleLevelUp();
-            });
+            // this.lvupbtn.on(Laya.Event.CLICK, this, () => {
+            //     SwordsmanControl.ins.roleLevelUp()
+            // })
 
-            this.equipbtn.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _SwordsmanControl2.default.ins.changeRole();
-            });
+            // this.equipbtn.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     SwordsmanControl.ins.changeRole()
+            // })
 
-            this.buyBtn.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _SwordsmanControl2.default.ins.navigator.popup("figure/BuyHero", _this2.showDetail);
-            });
+            // this.buyBtn.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     SwordsmanControl.ins.navigator.popup("figure/BuyHero", this.showDetail);
+            // })
 
-            this.signGet.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                PaoYa.Request.GET("martial_login_bonus_list", {}, function (res) {
-                    //console.log(res)
-                    res.isFromSw = true;
-                    if (!res) {
+            // this.signGet.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
+            //         //console.log(res)
+            //         res.isFromSw = true
+            //         if (!res) {
+            //             return
+            //         }
+            //         SwordsmanControl.ins.navigator.push("Sign", res);
+            //     })
+            // })
+
+            // this.skill1.on(Laya.Event.CLICK, this, () => {
+            //     if (this.isGuide) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     SwordsmanControl.ins.showSkillDetail(0)
+            // })
+
+            // this.skill2.on(Laya.Event.CLICK, this, () => {
+            //     if (this.isGuide) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     SwordsmanControl.ins.showSkillDetail(1)
+            // })
+
+            // this.skill3.on(Laya.Event.CLICK, this, () => {
+            //     if (this.isGuide) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     SwordsmanControl.ins.showSkillDetail(2)
+            // })
+        }
+    }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "benBack":
+                    if (this.isGuide) {
+                        _Global.Global.dataPoints('用户点击人物升级');
+                    }
+                    if (this.isGuide && !this.guideBack) {
                         return;
                     }
-                    _SwordsmanControl2.default.ins.navigator.push("Sign", res);
-                });
-            });
-
-            this.skill1.on(Laya.Event.CLICK, this, function () {
-                if (_this2.isGuide) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _SwordsmanControl2.default.ins.showSkillDetail(0);
-            });
-
-            this.skill2.on(Laya.Event.CLICK, this, function () {
-                if (_this2.isGuide) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _SwordsmanControl2.default.ins.showSkillDetail(1);
-            });
-
-            this.skill3.on(Laya.Event.CLICK, this, function () {
-                if (_this2.isGuide) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _SwordsmanControl2.default.ins.showSkillDetail(2);
-            });
+                    _SoundManager2.default.ins.btn();
+                    _SwordsmanControl2.default.ins.postNotification("roleIdChanged", this.params.defaultRole);
+                    _SwordsmanControl2.default.ins.navigator.pop();
+                    break;
+                case "lvupbtn":
+                    _SwordsmanControl2.default.ins.roleLevelUp();
+                    break;
+                case "equipbtn":
+                    _SoundManager2.default.ins.btn();
+                    _SwordsmanControl2.default.ins.changeRole();
+                    break;
+                case "buyBtn":
+                    _SoundManager2.default.ins.btn();
+                    _SwordsmanControl2.default.ins.navigator.popup("figure/BuyHero", this.showDetail);
+                    break;
+                case "signGet":
+                    _SoundManager2.default.ins.btn();
+                    PaoYa.Request.GET("martial_login_bonus_list", {}, function (res) {
+                        //console.log(res)
+                        res.isFromSw = true;
+                        if (!res) {
+                            return;
+                        }
+                        _SwordsmanControl2.default.ins.navigator.push("Sign", res);
+                    });
+                    break;
+                case "skill1":
+                    if (this.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    _SwordsmanControl2.default.ins.showSkillDetail(0);
+                    break;
+                case "skill2":
+                    if (this.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    _SwordsmanControl2.default.ins.showSkillDetail(1);
+                    break;
+                case "skill3":
+                    if (this.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    _SwordsmanControl2.default.ins.showSkillDetail(2);
+                    break;
+            }
         }
         //初始化展示信息
 
@@ -9574,6 +9691,11 @@ var SwordsmanControl = function (_PaoYa$Component) {
         key: "onEnable",
         value: function onEnable() {}
     }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
+    }, {
         key: "roleLevelUp",
         value: function roleLevelUp() {
             var _this2 = this;
@@ -9712,26 +9834,26 @@ var Devour = function (_PaoYa$View) {
             if (this.params.isGuide) {
                 _DevourControl2.default.ins.getMask();
             }
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _DevourControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     DevourControl.ins.navigator.pop()
+            // })
 
-            this.eatBtn.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _DevourControl2.default.ins.eatWp();
-            });
+            // this.eatBtn.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     DevourControl.ins.eatWp()
+            // })
 
-            this.choiceBtn.on(Laya.Event.CLICK, this, function () {
-                // this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
-                // this.nextExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
-                _SoundManager2.default.ins.btn();
-                // if (DevourControl.ins.willBeEatList.length > 2) {
-                //     return
-                // }
+            // this.choiceBtn.on(Laya.Event.CLICK, this, () => {
+            //     // this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
+            //     // this.nextExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
+            //     SoundManager.ins.btn()
+            //     // if (DevourControl.ins.willBeEatList.length > 2) {
+            //     //     return
+            //     // }
 
-                _DevourControl2.default.ins.chiocethreeWp();
-            });
+            //     DevourControl.ins.chiocethreeWp()
+            // })
 
             this.warehouseList.vScrollBarSkin = "";
             this.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
@@ -9772,6 +9894,23 @@ var Devour = function (_PaoYa$View) {
             if (!_Refining2.default.ins.isGuide) {
                 this.guide2.visible = false;
                 this.guide3.visible = false;
+            }
+        }
+    }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    _DevourControl2.default.ins.navigator.pop();
+                    break;
+                case "eatBtn":
+                    _SoundManager2.default.ins.btn();
+                    _DevourControl2.default.ins.eatWp();
+                    break;
+                case "choiceBtn":
+                    _SoundManager2.default.ins.btn();
+                    _DevourControl2.default.ins.chiocethreeWp();
             }
         }
     }, {
@@ -9961,6 +10100,11 @@ var DevourControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
     }, {
         key: "getWareList",
         value: function getWareList() {
@@ -10350,67 +10494,97 @@ var Refining = function (_PaoYa$View) {
     }, {
         key: "onEnable",
         value: function onEnable() {
-            var _this2 = this;
-
             _Global.Global.dataPoints('进入炼器页面');
             this.changeData();
             if (this.isGuide) {
                 _RefiningControl2.default.ins.getMask();
                 PaoYa.Request.POST("martial_change_new_hand", { type: "refinerNew" });
             }
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _RefiningControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     RefiningControl.ins.navigator.pop()
+            // })
 
-            this.figure.on(Laya.Event.CLICK, this, function () {
-                if (_this2.figureD.visible) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _this2.figure.skin = "remote/refining/4.png";
-                _this2.weopon.skin = "remote/refining/5.png";
+            // this.figure.on(Laya.Event.CLICK, this, () => {
+            //     if (this.figureD.visible) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     this.figure.skin = `remote/refining/4.png`
+            //     this.weopon.skin = `remote/refining/5.png`
 
-                _this2.figureD.visible = true;
-                _this2.weoponD.visible = false;
-            });
+            //     this.figureD.visible = true
+            //     this.weoponD.visible = false
+            // })
 
-            this.weopon.on(Laya.Event.CLICK, this, function () {
-                if (_this2.weoponD.visible) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _this2.figure.skin = "remote/refining/2.png";
-                _this2.weopon.skin = "remote/refining/3.png";
+            // this.weopon.on(Laya.Event.CLICK, this, () => {
+            //     if (this.weoponD.visible) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     this.figure.skin = `remote/refining/2.png`
+            //     this.weopon.skin = `remote/refining/3.png`
 
-                _this2.figureD.visible = false;
-                _this2.weoponD.visible = true;
-            });
+            //     this.figureD.visible = false
+            //     this.weoponD.visible = true
+            // })
+        }
+    }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    _RefiningControl2.default.ins.navigator.pop();
+                    break;
+                case "figure":
+                    if (this.figureD.visible) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.figure.skin = "remote/refining/4.png";
+                    this.weopon.skin = "remote/refining/5.png";
+
+                    this.figureD.visible = true;
+                    this.weoponD.visible = false;
+                    break;
+                case "weopon":
+                    if (this.weoponD.visible) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.figure.skin = "remote/refining/2.png";
+                    this.weopon.skin = "remote/refining/3.png";
+
+                    this.figureD.visible = false;
+                    this.weoponD.visible = true;
+                    break;
+            }
         }
     }, {
         key: "changeData",
         value: function changeData() {
-            var _this3 = this;
+            var _this2 = this;
 
             if (!this.isGuide) {
                 this.guide1.visible = false;
             }
             this.params.refiner_list.forEach(function (element, index) {
-                _this3[element.id + "Txt"].text = element.refinerName;
-                _this3[element.id + "Txt"].font = "weaponDFont";
-                _this3[element.id + "Txt"].scale(0.60, 0.60);
-                _this3[element.id + "Txt"].pos(35, 12);
+                _this2[element.id + "Txt"].text = element.refinerName;
+                _this2[element.id + "Txt"].font = "weaponDFont";
+                _this2[element.id + "Txt"].scale(0.60, 0.60);
+                _this2[element.id + "Txt"].pos(35, 12);
 
-                _this3[element.id + "Lv"].text = element.refinerLevel ? "LV." + element.refinerLevel : "LV.1";
-                _this3[element.id + "Lv"].font = "weaponNFontT";
-                _this3[element.id + "Lv"].scale(0.5, 0.5);
-                _this3[element.id + "Lv"].pos(26, 93);
+                _this2[element.id + "Lv"].text = element.refinerLevel ? "LV." + element.refinerLevel : "LV.1";
+                _this2[element.id + "Lv"].font = "weaponNFontT";
+                _this2[element.id + "Lv"].scale(0.5, 0.5);
+                _this2[element.id + "Lv"].pos(26, 93);
 
-                _this3["" + element.id].gray = element.status ? false : true;
-                _this3["" + element.id].offAll();
-                _this3["" + element.id].on(Laya.Event.CLICK, _this3, function () {
+                _this2["" + element.id].gray = element.status ? false : true;
+                _this2["" + element.id].offAll();
+                _this2["" + element.id].on(Laya.Event.CLICK, _this2, function () {
                     _SoundManager2.default.ins.btn();
-                    _this3.ReIndex = index;
+                    _this2.ReIndex = index;
                     _RefiningControl2.default.ins.addLv(element);
                 });
             });
@@ -10418,11 +10592,11 @@ var Refining = function (_PaoYa$View) {
     }, {
         key: "guide1f",
         value: function guide1f(e) {
-            var _this4 = this;
+            var _this3 = this;
 
             var n = e == 1 ? -1 : 1;
             Laya.Tween.to(this.guide1, { x: this.guide1.x + 15 * n }, 300, null, Laya.Handler.create(this, function () {
-                _this4.guide1f(n);
+                _this3.guide1f(n);
             }));
         }
     }]);
@@ -10477,6 +10651,11 @@ var RefiningControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
     }, {
         key: "addLv",
         value: function addLv(e) {
@@ -10644,11 +10823,27 @@ var Sign = function (_PaoYa$View) {
         key: "onEnable",
         value: function onEnable() {
             _Global.Global.dataPoints('进入签到页面');
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _SignControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     SignControl.ins.navigator.pop()
+            // })
             this.initInfo();
+        }
+    }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    _SignControl2.default.ins.navigator.pop();
+                    break;
+                case "eatTxt":
+                    _Global.Global.dataPoints('签到激励广告');
+                    _Tool2.default.showVideoAD(function () {
+                        _SignControl2.default.ins.getAward();
+                    });
+                    break;
+            }
         }
     }, {
         key: "initInfo",
@@ -10677,17 +10872,17 @@ var Sign = function (_PaoYa$View) {
                 this.eatTxt.scale(0.6, 0.6);
                 this.eatTxt.pos(35, 13);
 
-                this.eatTxt.on(Laya.Event.CLICK, this, function () {
-                    _SoundManager2.default.ins.btn();
-                    // let title = PaoYa.DataCenter.config.game.share_list.randomItem;
-                    // PaoYa.ShareManager.shareTitle(title, {}, () => {
-                    //     SignControl.ins.getAward()
-                    // })
-                    _Global.Global.dataPoints('签到激励广告');
-                    _Tool2.default.showVideoAD(function () {
-                        _SignControl2.default.ins.getAward();
-                    });
-                });
+                // this.eatTxt.on(Laya.Event.CLICK, this, () => {
+                //     SoundManager.ins.btn()
+                //     // let title = PaoYa.DataCenter.config.game.share_list.randomItem;
+                //     // PaoYa.ShareManager.shareTitle(title, {}, () => {
+                //     //     SignControl.ins.getAward()
+                //     // })
+                //     Global.dataPoints('签到激励广告')
+                //     Tool.showVideoAD(()=>{
+                //         SignControl.ins.getAward()
+                //     })
+                // })
             }
         }
     }, {
@@ -10803,6 +10998,11 @@ var SignControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
     }, {
         key: "getAward",
         value: function getAward() {
@@ -11548,6 +11748,11 @@ var Tool = function () {
     }, {
         key: 'showVideoAD',
         value: function showVideoAD(callBack, cancel, err, isAdventure, num) {
+            if (typeof wx == 'undefined') {
+                callBack && callBack();
+                return;
+            }
+
             // Global.dataPoints(`点击观看视频次数`, { points: "103" })
             var p = {
                 onLoad: function onLoad() {
@@ -11759,7 +11964,7 @@ var WeaponHouse = function (_PaoYa$View) {
         value: function changeHB(res) {
             this.goldNum.width = null;
 
-            if (res.gold) {
+            if (res.gold || res.gold == 0) {
                 PaoYa.DataCenter.user.gold = res.gold;
                 var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
                 this.goldNum.text = goldnum;
@@ -11797,8 +12002,6 @@ var WeaponHouse = function (_PaoYa$View) {
     }, {
         key: "onEnable",
         value: function onEnable() {
-            var _this3 = this;
-
             _Global.Global.dataPoints('进入兵器店页面');
             // this.getComponent()
             if (_WeaponHouseControl2.default.ins.isGuide) {
@@ -11806,49 +12009,49 @@ var WeaponHouse = function (_PaoYa$View) {
                 PaoYa.Request.POST("martial_change_new_hand", { type: "weaponNew" });
             }
 
-            this.light.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this3.getWareBtnSkin("light");
-                _this3.lightNew.visible = false;
-                _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.lightList);
-            });
+            // this.light.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`light`)
+            //     this.lightNew.visible = false
+            //     WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.lightList)
+            // })
 
-            this.middle.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this3.getWareBtnSkin("middle");
-                _this3.middleNew.visible = false;
-                _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.middleList);
-            });
+            // this.middle.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`middle`)
+            //     this.middleNew.visible = false
+            //     WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.middleList)
+            // })
 
-            this.large.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this3.getWareBtnSkin("large");
-                _this3.largeNew.visible = false;
-                _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.heavyList);
-            });
+            // this.large.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`large`)
+            //     this.largeNew.visible = false
+            //     WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.heavyList)
+            // })
 
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                if (_WeaponHouseControl2.default.ins.isGuide) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _WeaponHouseControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     if (WeaponHouseControl.ins.isGuide) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     WeaponHouseControl.ins.navigator.pop()
+            // })
 
-            this.equip.on(Laya.Event.CLICK, this, function () {
-                if (_WeaponHouseControl2.default.ins.isGuide) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _WeaponHouseControl2.default.ins.chargeWeapon();
-            });
+            // this.equip.on(Laya.Event.CLICK, this, () => {
+            //     if (WeaponHouseControl.ins.isGuide) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     WeaponHouseControl.ins.chargeWeapon()
+            // })
 
-            this.upGrade.on(Laya.Event.CLICK, this, function () {
-                if (_WeaponHouseControl2.default.ins.isGuide) {
-                    return;
-                }
-                _WeaponHouseControl2.default.ins.upgradeWeapon();
-            });
+            // this.upGrade.on(Laya.Event.CLICK, this, () => {
+            //     if (WeaponHouseControl.ins.isGuide) {
+            //         return
+            //     }
+            //     WeaponHouseControl.ins.upgradeWeapon()
+            // })
 
             this.Wp_1.font = "weaponDFont";
             this.Wp_2.font = "weaponDFont";
@@ -11857,20 +12060,64 @@ var WeaponHouse = function (_PaoYa$View) {
             this.Wp_5.font = "weaponDFont";
         }
     }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "light":
+                    _SoundManager2.default.ins.btn();
+                    this.getWareBtnSkin("light");
+                    this.lightNew.visible = false;
+                    _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.lightList);
+                    break;
+                case "middle":
+                    _SoundManager2.default.ins.btn();
+                    this.getWareBtnSkin("middle");
+                    this.middleNew.visible = false;
+                    _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.middleList);
+                    break;
+                case "large":
+                    _SoundManager2.default.ins.btn();
+                    this.getWareBtnSkin("large");
+                    this.largeNew.visible = false;
+                    _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.heavyList);
+                    break;
+                case "benBack":
+                    if (_WeaponHouseControl2.default.ins.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    _WeaponHouseControl2.default.ins.navigator.pop();
+                    break;
+                case "equip":
+                    if (_WeaponHouseControl2.default.ins.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    _WeaponHouseControl2.default.ins.chargeWeapon();
+                    break;
+                case "upGrade":
+                    if (_WeaponHouseControl2.default.ins.isGuide) {
+                        return;
+                    }
+                    _WeaponHouseControl2.default.ins.upgradeWeapon();
+                    break;
+            }
+        }
+    }, {
         key: "getWareBtnSkin",
         value: function getWareBtnSkin(name) {
-            var _this4 = this;
+            var _this3 = this;
 
             var arr = ["light", "middle", "large"];
             arr.forEach(function (element) {
-                _this4[element].skin = "remote/weaponhouse/14.png";
+                _this3[element].skin = "remote/weaponhouse/14.png";
             });
             this[name].skin = "remote/weaponhouse/13.png";
         }
     }, {
         key: "startGuide",
         value: function startGuide() {
-            var _this5 = this;
+            var _this4 = this;
 
             var Sprite = Laya.Sprite;
 
@@ -11913,34 +12160,34 @@ var WeaponHouse = function (_PaoYa$View) {
             this.equipTips.zOrder = 20;
             //第一步装备
             this.equip.on(Laya.Event.CLICK, this, function () {
-                _this5.equip.zOrder = 0;
-                _this5.equipTips.visible = false;
+                _this4.equip.zOrder = 0;
+                _this4.equipTips.visible = false;
                 _SoundManager2.default.ins.btn();
                 _WeaponHouseControl2.default.ins.chargeWeapon();
                 _Global.Global.dataPoints('点击装备');
-                _this5.upGrade.visible = true;
-                _this5.upGrade.zOrder = 20;
-                _this5.upGradeTips.x = _this5.upGradeTips.x;
-                _this5.upGradeTips.visible = true;
-                _this5.upGradeTips.zOrder = 20;
+                _this4.upGrade.visible = true;
+                _this4.upGrade.zOrder = 20;
+                _this4.upGradeTips.x = _this4.upGradeTips.x;
+                _this4.upGradeTips.visible = true;
+                _this4.upGradeTips.zOrder = 20;
                 //第二步升级
-                _this5.upGrade.on(Laya.Event.CLICK, _this5, function () {
-                    _this5.upGrade.zOrder = 0;
-                    _this5.upGradeTips.visible = false;
+                _this4.upGrade.on(Laya.Event.CLICK, _this4, function () {
+                    _this4.upGrade.zOrder = 0;
+                    _this4.upGradeTips.visible = false;
                     _WeaponHouseControl2.default.ins.upgradeWeapon();
                     _Global.Global.dataPoints('点击升级');
-                    _this5.benBack.visible = true;
-                    _this5.benBack.zOrder = 20;
-                    _this5.benBackTips.x = _this5.benBackTips.x;
-                    _this5.benBackTips.visible = true;
-                    _this5.benBackTips.zOrder = 20;
+                    _this4.benBack.visible = true;
+                    _this4.benBack.zOrder = 20;
+                    _this4.benBackTips.x = _this4.benBackTips.x;
+                    _this4.benBackTips.visible = true;
+                    _this4.benBackTips.zOrder = 20;
                     //第三步 返回
-                    _this5.benBack.on(Laya.Event.CLICK, _this5, function () {
+                    _this4.benBack.on(Laya.Event.CLICK, _this4, function () {
                         _Global.Global.dataPoints('点击返回');
                         Laya.stage.removeChild(guideContainer);
                         Laya.stage.removeChild(gameContainer);
-                        _this5.benBack.zOrder = 0;
-                        _this5.benBackTips.visible = false;
+                        _this4.benBack.zOrder = 0;
+                        _this4.benBackTips.visible = false;
                         _WeaponHouseControl2.default.ins.isGuide = false;
                         _SoundManager2.default.ins.btn();
                         _WeaponHouseControl2.default.ins.navigator.pop();
@@ -12038,12 +12285,18 @@ var WeaponHouseControl = function (_PaoYa$Component) {
         }
     }, {
         key: "onEnable",
-        value: function onEnable() {}
-        // this.owner.goldNum.text = PaoYa.DataCenter.user.gold
-        // this.owner.goldNum.font = `weaponNFontT`
-        // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
-        // this.owner.diamondNum.font = `weaponNFontT`
+        value: function onEnable() {
+            // this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+            // this.owner.goldNum.font = `weaponNFontT`
+            // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
+            // this.owner.diamondNum.font = `weaponNFontT`
 
+        }
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
         //获取装备武器详情
 
     }, {
@@ -12236,7 +12489,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             this.owner["skillImg_1"].visible = false;
             this.owner["skillImg_2"].visible = false;
             var detail = null;
-            if (this.isEqWp) {
+            if (this.isEqWp && this.isWareChoiceWp) {
                 detail = this.isWareChoiceWp._dataSource;
                 this.isEqWp = false;
             } else {
@@ -12561,7 +12814,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 numNew = 1;
             }
 
-            var detail = this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail;
+            var detail = this.isWareChoiceWp && this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail;
             var isusing = detail.isUsingWp ? 1 : 0;
             this.isRequesting = true;
             Laya.timer.once(500, this, function () {
@@ -12644,7 +12897,9 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     }
 
                     // this.isWareChoiceWp._dataSource = res.weapon
-                    _this9.singleWeapon(_this9.isWareChoiceWp, -1);
+                    if (_this9.isWareChoiceWp) {
+                        _this9.singleWeapon(_this9.isWareChoiceWp, -1);
+                    }
                     _this9.renderCenterData();
                 }
             });
@@ -12744,8 +12999,6 @@ var WeaponStore = function (_PaoYa$View) {
     }, {
         key: "onEnable",
         value: function onEnable() {
-            var _this3 = this;
-
             this.sellText.font = "weaponDFont";
             this.buyText.font = "weaponDFont";
             this.needDiamon.text = 20;
@@ -12761,119 +13014,219 @@ var WeaponStore = function (_PaoYa$View) {
             this.refreshTimeNum.font = "weaponDFont";
             this.refreshTimeNum.scale(0.4, 0.4);
 
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _WeaponStoreControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     WeaponStoreControl.ins.navigator.pop()
+            // })
 
-            this.sellBtn.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _WeaponStoreControl2.default.ins.sellWp();
-            });
+            // this.sellBtn.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     WeaponStoreControl.ins.sellWp()
+            // })
 
-            this.refreshBtn.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                if (WeaponStore.ins.isRefrshing) {
-                    true;
-                }
-                var isHigh = false,
-                    highDeatil = void 0;
-                _WeaponStoreControl2.default.ins.buyList.forEach(function (element) {
-                    if (element.weaponStar == 3) {
-                        isHigh = true;
-                        highDeatil = element;
+            // this.refreshBtn.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     if (WeaponStore.ins.isRefrshing) {
+            //         true
+            //     }
+            //     let isHigh = false, highDeatil
+            //     WeaponStoreControl.ins.buyList.forEach(element => {
+            //         if (element.weaponStar == 3) {
+            //             isHigh = true
+            //             highDeatil = element
+            //         }
+            //     });
+            //     if (isHigh) {
+            //         let obj = {
+            //             detail: highDeatil,
+            //             type: `buy`
+            //         }
+            //         WeaponStoreControl.ins.navigator.popup("weapon/StoreSure", obj);
+            //     } else {
+            //         WeaponStoreControl.ins.refresF()
+            //     }
+            // })
+
+            // this.sell.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     WeaponStoreControl.ins.wpdType = `sell`
+            //     this.sell.skin = `remote/weaponstore/3.png`
+            //     this.buy.skin = `remote/weaponstore/2.png`
+            //     this.sellPage.visible = true
+            //     this.buyPage.visible = false
+            //     this.getWareBtnSkin(`light`)
+            //     this.lightNew.visible = false
+            //     WeaponStoreControl.ins.sellPresentIdx = 0
+            //     WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.lightList)
+            // })
+
+            // this.buy.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     WeaponStoreControl.ins.wpdType = `buy`
+            //     this.sell.skin = `remote/weaponstore/2.png`
+            //     this.buy.skin = `remote/weaponstore/3.png`
+            //     this.sellPage.visible = false
+            //     this.buyPage.visible = true
+            //     WeaponStoreControl.ins.buyPresentIdx = 0
+            //     if (WeaponStoreControl.ins.buyList.length > 0) {
+            //         this.weapon.visible = true
+            //         this.sellBtn.visible = true
+            //         this.buyBtn.visible = true
+            //     } else {
+            //         this.weapon.visible = false
+            //         this.buyBtn.visible = false
+            //         this.sellBtn.visible = false
+            //     }
+            //     this.buyList.array = WeaponStoreControl.ins.buyList
+            // })
+
+            // this.light.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`light`)
+            //     this.lightNew.visible = false
+            //     WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.lightList)
+            // })
+
+            // this.middle.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`middle`)
+            //     this.middleNew.visible = false
+            //     WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.middleList)
+            // })
+
+            // this.large.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`large`)
+            //     this.largeNew.visible = false
+            //     WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.heavyList)
+            // })
+
+            // this.buyBtn.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     let detail = WeaponStoreControl.ins.currentBuyWeapDetail
+            //     if (!detail) {
+            //         return
+            //     }
+            //     if (Number(detail.weaponPrice) > Number(this.goldNum.text)) {
+            //         WeaponStoreControl.ins.navigator.popup("weapon/GoldLack");
+            //         return
+            //     } else {
+            //         // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
+            //         // this.goldNum.text = PaoYa.DataCenter.user.gold
+            //         WeaponStoreControl.ins.buyWp()
+            //     }
+            // })
+        }
+    }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    _WeaponStoreControl2.default.ins.navigator.pop();
+                    break;
+                case "sellBtn":
+                    _SoundManager2.default.ins.btn();
+                    _WeaponStoreControl2.default.ins.sellWp();
+                    break;
+                case "refreshBtn":
+                    _SoundManager2.default.ins.btn();
+                    if (WeaponStore.ins.isRefrshing) {
+                        true;
                     }
-                });
-                if (isHigh) {
-                    var obj = {
-                        detail: highDeatil,
-                        type: "buy"
-                    };
-                    _WeaponStoreControl2.default.ins.navigator.popup("weapon/StoreSure", obj);
-                } else {
-                    _WeaponStoreControl2.default.ins.refresF();
-                }
-            });
-
-            this.sell.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _WeaponStoreControl2.default.ins.wpdType = "sell";
-                _this3.sell.skin = "remote/weaponstore/3.png";
-                _this3.buy.skin = "remote/weaponstore/2.png";
-                _this3.sellPage.visible = true;
-                _this3.buyPage.visible = false;
-                _this3.getWareBtnSkin("light");
-                _this3.lightNew.visible = false;
-                _WeaponStoreControl2.default.ins.sellPresentIdx = 0;
-                _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
-            });
-
-            this.buy.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _WeaponStoreControl2.default.ins.wpdType = "buy";
-                _this3.sell.skin = "remote/weaponstore/2.png";
-                _this3.buy.skin = "remote/weaponstore/3.png";
-                _this3.sellPage.visible = false;
-                _this3.buyPage.visible = true;
-                _WeaponStoreControl2.default.ins.buyPresentIdx = 0;
-                if (_WeaponStoreControl2.default.ins.buyList.length > 0) {
-                    _this3.weapon.visible = true;
-                    _this3.sellBtn.visible = true;
-                    _this3.buyBtn.visible = true;
-                } else {
-                    _this3.weapon.visible = false;
-                    _this3.buyBtn.visible = false;
-                    _this3.sellBtn.visible = false;
-                }
-                _this3.buyList.array = _WeaponStoreControl2.default.ins.buyList;
-            });
-
-            this.light.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this3.getWareBtnSkin("light");
-                _this3.lightNew.visible = false;
-                _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
-            });
-
-            this.middle.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this3.getWareBtnSkin("middle");
-                _this3.middleNew.visible = false;
-                _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.middleList);
-            });
-
-            this.large.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this3.getWareBtnSkin("large");
-                _this3.largeNew.visible = false;
-                _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.heavyList);
-            });
-
-            this.buyBtn.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                var detail = _WeaponStoreControl2.default.ins.currentBuyWeapDetail;
-                if (!detail) {
-                    return;
-                }
-                if (Number(detail.weaponPrice) > Number(_this3.goldNum.text)) {
-                    _WeaponStoreControl2.default.ins.navigator.popup("weapon/GoldLack");
-                    return;
-                } else {
-                    // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
-                    // this.goldNum.text = PaoYa.DataCenter.user.gold
-                    _WeaponStoreControl2.default.ins.buyWp();
-                }
-            });
+                    var isHigh = false,
+                        highDeatil = void 0;
+                    _WeaponStoreControl2.default.ins.buyList.forEach(function (element) {
+                        if (element.weaponStar == 3) {
+                            isHigh = true;
+                            highDeatil = element;
+                        }
+                    });
+                    if (isHigh) {
+                        var obj = {
+                            detail: highDeatil,
+                            type: "buy"
+                        };
+                        _WeaponStoreControl2.default.ins.navigator.popup("weapon/StoreSure", obj);
+                    } else {
+                        _WeaponStoreControl2.default.ins.refresF();
+                    }
+                    break;
+                case "sell":
+                    _SoundManager2.default.ins.btn();
+                    _WeaponStoreControl2.default.ins.wpdType = "sell";
+                    this.sell.skin = "remote/weaponstore/3.png";
+                    this.buy.skin = "remote/weaponstore/2.png";
+                    this.sellPage.visible = true;
+                    this.buyPage.visible = false;
+                    this.getWareBtnSkin("light");
+                    this.lightNew.visible = false;
+                    _WeaponStoreControl2.default.ins.sellPresentIdx = 0;
+                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
+                    break;
+                case "buy":
+                    _SoundManager2.default.ins.btn();
+                    _WeaponStoreControl2.default.ins.wpdType = "buy";
+                    this.sell.skin = "remote/weaponstore/2.png";
+                    this.buy.skin = "remote/weaponstore/3.png";
+                    this.sellPage.visible = false;
+                    this.buyPage.visible = true;
+                    _WeaponStoreControl2.default.ins.buyPresentIdx = 0;
+                    if (_WeaponStoreControl2.default.ins.buyList.length > 0) {
+                        this.weapon.visible = true;
+                        this.sellBtn.visible = true;
+                        this.buyBtn.visible = true;
+                    } else {
+                        this.weapon.visible = false;
+                        this.buyBtn.visible = false;
+                        this.sellBtn.visible = false;
+                    }
+                    this.buyList.array = _WeaponStoreControl2.default.ins.buyList;
+                    break;
+                case "light":
+                    _SoundManager2.default.ins.btn();
+                    this.getWareBtnSkin("light");
+                    this.lightNew.visible = false;
+                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
+                    break;
+                case "middle":
+                    _SoundManager2.default.ins.btn();
+                    this.getWareBtnSkin("middle");
+                    this.middleNew.visible = false;
+                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.middleList);
+                    break;
+                case "large":
+                    _SoundManager2.default.ins.btn();
+                    this.getWareBtnSkin("large");
+                    this.largeNew.visible = false;
+                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.heavyList);
+                    break;
+                case "buyBtn":
+                    _SoundManager2.default.ins.btn();
+                    var detail = _WeaponStoreControl2.default.ins.currentBuyWeapDetail;
+                    if (!detail) {
+                        return;
+                    }
+                    if (Number(detail.weaponPrice) > Number(this.goldNum.text)) {
+                        _WeaponStoreControl2.default.ins.navigator.popup("weapon/GoldLack");
+                        return;
+                    } else {
+                        // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
+                        // this.goldNum.text = PaoYa.DataCenter.user.gold
+                        _WeaponStoreControl2.default.ins.buyWp();
+                    }
+                    break;
+            }
         }
     }, {
         key: "getWareBtnSkin",
         value: function getWareBtnSkin(name) {
-            var _this4 = this;
+            var _this3 = this;
 
             _WeaponStoreControl2.default.ins.sellPresentIdx = 0;
             var arr = ["light", "middle", "large"];
             arr.forEach(function (element) {
-                _this4[element].skin = "remote/weaponhouse/14.png";
+                _this3[element].skin = "remote/weaponhouse/14.png";
             });
             this[name].skin = "remote/weaponhouse/13.png";
         }
@@ -12966,6 +13319,11 @@ var WeaponStoreControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
     }, {
         key: "onDisable",
         value: function onDisable() {}
@@ -13533,37 +13891,65 @@ var Wheel = function (_PaoYa$View) {
                 this.startWheelTxt.pos(60, 10);
             }
 
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                if (_this2.isRunning) {
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _WheelControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     if (this.isRunning) {
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     WheelControl.ins.navigator.pop()
+            // })
 
-            this.addbtn.on(Laya.Event.CLICK, this, function () {
-                if (_this2.isRunning) {
-                    return;
-                }
-                if (PaoYa.DataCenter.user.diamond < 500) {
-                    _SoundManager2.default.ins.btn();
-                    _WheelControl2.default.ins.navigator.popup("weapon/DiamondLack");
-                    return;
-                }
-                _SoundManager2.default.ins.btn();
-                _WheelControl2.default.ins.addTimes();
-            });
+            // this.addbtn.on(Laya.Event.CLICK, this, () => {
+            //     if (this.isRunning) {
+            //         return
+            //     }
+            //     if (PaoYa.DataCenter.user.diamond < 500) {
+            //         SoundManager.ins.btn()
+            //         WheelControl.ins.navigator.popup("weapon/DiamondLack");
+            //         return
+            //     }
+            //     SoundManager.ins.btn()
+            //     WheelControl.ins.addTimes()
+            // })
 
-            this.startWheel.on(Laya.Event.CLICK, this, function () {
-                if (_this2.isRunning) {
-                    return;
-                }
-                _WheelControl2.default.ins.wheelTurn();
-            });
+            // this.startWheel.on(Laya.Event.CLICK, this, () => {
+            //     if (this.isRunning) {
+            //         return
+            //     }
+            //     WheelControl.ins.wheelTurn()
+            // })
 
             PaoYa.DataCenter.user.config_list.hero.wheelList.forEach(function (element, index) {
                 _this2.showList(_this2["award" + (index + 1)], element, index);
             });
+        }
+    }, {
+        key: "lisenClick",
+        value: function lisenClick(e) {
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    _WheelControl2.default.ins.navigator.pop();
+                    break;
+                case "addbtn":
+                    if (this.isRunning) {
+                        return;
+                    }
+                    if (PaoYa.DataCenter.user.diamond < 500) {
+                        _SoundManager2.default.ins.btn();
+                        _WheelControl2.default.ins.navigator.popup("weapon/DiamondLack");
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    _WheelControl2.default.ins.addTimes();
+                    break;
+                case "startWheel":
+                    if (this.isRunning) {
+                        return;
+                    }
+                    _WheelControl2.default.ins.wheelTurn();
+                    break;
+            }
         }
     }, {
         key: "onAppear",
@@ -13578,7 +13964,7 @@ var Wheel = function (_PaoYa$View) {
             PaoYa.Request.GET('update_chips', {}, function (res) {
                 _this3.goldNum.width = null;
 
-                if (res.gold) {
+                if (res.gold || res.gold == 0) {
                     PaoYa.DataCenter.user.gold = res.gold;
                     var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
                     _this3.goldNum.text = goldnum;
@@ -13708,6 +14094,11 @@ var WheelControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            this.owner.lisenClick(e);
+        }
     }, {
         key: "addTimes",
         value: function addTimes() {
@@ -14261,12 +14652,18 @@ var GetAward = function (_PaoYa$Dialog) {
 
             this.closeBtn.on(Laya.Event.CLICK, this, function () {
                 PaoYa.Request.POST("martial_encounter_cancel", {}, function (res) {
+                    if (PaoYa.navigator.scenes.length > 1) {
+                        PaoYa.navigator.popup('/dialog/PassResultDialog', _this2.resultParams);
+                    }
                     PaoYa.NotificationCenter.postNotification("adventCancel");
                     _this2.close();
                 });
             });
 
             this.closeBtn2.on(Laya.Event.CLICK, this, function () {
+                if (PaoYa.navigator.scenes.length > 1) {
+                    PaoYa.navigator.popup('/dialog/PassResultDialog', _this2.resultParams);
+                }
                 _this2.close();
             });
 
@@ -14278,11 +14675,13 @@ var GetAward = function (_PaoYa$Dialog) {
                             PaoYa.DataCenter.gold.value = res.gold;
                             PaoYa.DataCenter.diamond.value = res.diamond;
                         });
-                        PaoYa.NotificationCenter.postNotification("adventComplete");
+
                         _this2.close();
                         var obj = {
                             type: "sign",
-                            detail: { gold: res.gold, isclose: 1 }
+                            detail: { gold: res.gold },
+                            isAdventure: true,
+                            resultParams: _this2.resultParams
                         };
                         PaoYa.navigator.popup("common/Award", obj);
                     });
@@ -14291,11 +14690,7 @@ var GetAward = function (_PaoYa$Dialog) {
         }
     }, {
         key: "onClosed",
-        value: function onClosed() {
-            if (PaoYa.navigator.scenes.length > 1) {
-                PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams);
-            }
-        }
+        value: function onClosed() {}
     }]);
 
     return GetAward;
@@ -14474,11 +14869,13 @@ var Award = function (_PaoYa$Dialog) {
     }, {
         key: "onClosed",
         value: function onClosed() {
+            if (this.params.isAdventure) {
+                PaoYa.NotificationCenter.postNotification("adventComplete");
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.params.resultParams);
+                return;
+            }
             switch (this.params.type) {
                 case "sign":
-                    if (this.params.detail.isclose) {
-                        return;
-                    }
                     _Sign2.default.ins.params.status++;
                     _Sign2.default.ins.params.login_days++;
                     _Sign2.default.ins.initInfo();
@@ -15048,7 +15445,7 @@ var BuyHero = function (_PaoYa$Dialog) {
                             _SwordsmanControl2.default.ins.owner.showDetail = element;
                         }
                     });
-                    wordsmanControl.ins.owner.params.roleList = wordsmanControl.ins.owner.params.roleList.slice(0, 2);
+                    _SwordsmanControl2.default.ins.owner.params.roleList = wordsmanControl.ins.owner.params.roleList.slice(0, 2);
                     _SwordsmanControl2.default.ins.owner.herolist.array = _SwordsmanControl2.default.ins.owner.params.roleList;
 
                     // SwordsmanControl.ins.owner.initInfo()

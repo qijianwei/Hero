@@ -4622,34 +4622,21 @@ var LAST_CLICK_TIME = '_last_click_time';
 Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail) {
     if (throttle === void 0) { throttle = false; }
     caller || (caller = {});
+    var timer = null;
     return this.on(Laya.Event.CLICK, this, function (args) {
         if (!throttle) {
             method.call(caller, args);
             return;
         }
-        var timer=null;
         var now = Date.now(), time = caller[LAST_CLICK_TIME] || 0, delta = now - time;
-         if(delta<500){
-           fail && fail.call(caller, '操作速度过快');
-           console.warn('操作点击过快');
-           clearTimeout(timer);
-           timer=setTimeout(function(){
-            caller[LAST_CLICK_TIME] = now; 
-            method.call(caller, args); 
-           },500)
-        }else{
-            caller[LAST_CLICK_TIME] = now;
-            method.call(caller, args); 
-        }         
-     /*     if (delta > 500) {
-            method.call(caller, args);
-        }
-        else {
+        if (delta < 300) {
             fail && fail.call(caller, '操作速度过快');
             console.warn('操作点击过快');
-        } 
-        caller[LAST_CLICK_TIME] = now; */
-        
+        }
+        else {
+            caller[LAST_CLICK_TIME] = now;
+            method.call(caller, args);
+        }
     });
 };
 Laya.Node.prototype.dispatchLifeCycleEvent = function (method, p1, p2, p3, p4, p5) {

@@ -17,6 +17,10 @@ export default class DevourControl extends PaoYa.Component {
 
     }
 
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+    }
+
     getWareList() {
         this.lightList = this.owner.params.lightList
         this.heavyList = this.owner.params.heavyList

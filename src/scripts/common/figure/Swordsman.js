@@ -45,17 +45,17 @@ export default class Swordsman extends PaoYa.View {
             }
         });
 
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            if (this.isGuide) {
-                Global.dataPoints('用户点击人物升级')
-            }
-            if (this.isGuide && !this.guideBack) {
-                return
-            }
-            SoundManager.ins.btn()
-            SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
-            SwordsmanControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     if (this.isGuide) {
+        //         Global.dataPoints('用户点击人物升级')
+        //     }
+        //     if (this.isGuide && !this.guideBack) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
+        //     SwordsmanControl.ins.navigator.pop()
+        // })
         if (this.params.roleList.length > 3) {
             this.params.roleList.splice(2, 1)
         }
@@ -76,55 +76,114 @@ export default class Swordsman extends PaoYa.View {
         this.alreadyTxt.scale(0.8, 0.8)
         this.alreadyTxt.pos(35, 10)
 
-        this.lvupbtn.on(Laya.Event.CLICK, this, () => {
-            SwordsmanControl.ins.roleLevelUp()
-        })
+        // this.lvupbtn.on(Laya.Event.CLICK, this, () => {
+        //     SwordsmanControl.ins.roleLevelUp()
+        // })
 
-        this.equipbtn.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            SwordsmanControl.ins.changeRole()
-        })
+        // this.equipbtn.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     SwordsmanControl.ins.changeRole()
+        // })
 
-        this.buyBtn.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            SwordsmanControl.ins.navigator.popup("figure/BuyHero", this.showDetail);
-        })
+        // this.buyBtn.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     SwordsmanControl.ins.navigator.popup("figure/BuyHero", this.showDetail);
+        // })
 
-        this.signGet.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
-                //console.log(res)
-                res.isFromSw = true
-                if (!res) {
+        // this.signGet.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
+        //         //console.log(res)
+        //         res.isFromSw = true
+        //         if (!res) {
+        //             return
+        //         }
+        //         SwordsmanControl.ins.navigator.push("Sign", res);
+        //     })
+        // })
+
+        // this.skill1.on(Laya.Event.CLICK, this, () => {
+        //     if (this.isGuide) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     SwordsmanControl.ins.showSkillDetail(0)
+        // })
+
+        // this.skill2.on(Laya.Event.CLICK, this, () => {
+        //     if (this.isGuide) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     SwordsmanControl.ins.showSkillDetail(1)
+        // })
+
+        // this.skill3.on(Laya.Event.CLICK, this, () => {
+        //     if (this.isGuide) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     SwordsmanControl.ins.showSkillDetail(2)
+        // })
+    }
+
+    lisenClick(e) {
+        switch (e.target.name) {
+            case `benBack`:
+                if (this.isGuide) {
+                    Global.dataPoints('用户点击人物升级')
+                }
+                if (this.isGuide && !this.guideBack) {
                     return
                 }
-                SwordsmanControl.ins.navigator.push("Sign", res);
-            })
-        })
-
-        this.skill1.on(Laya.Event.CLICK, this, () => {
-            if (this.isGuide) {
-                return
-            }
-            SoundManager.ins.btn()
-            SwordsmanControl.ins.showSkillDetail(0)
-        })
-
-        this.skill2.on(Laya.Event.CLICK, this, () => {
-            if (this.isGuide) {
-                return
-            }
-            SoundManager.ins.btn()
-            SwordsmanControl.ins.showSkillDetail(1)
-        })
-
-        this.skill3.on(Laya.Event.CLICK, this, () => {
-            if (this.isGuide) {
-                return
-            }
-            SoundManager.ins.btn()
-            SwordsmanControl.ins.showSkillDetail(2)
-        })
+                SoundManager.ins.btn()
+                SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
+                SwordsmanControl.ins.navigator.pop()
+                break;
+            case `lvupbtn`:
+                SwordsmanControl.ins.roleLevelUp()
+                break;
+            case `equipbtn`:
+                SoundManager.ins.btn()
+                SwordsmanControl.ins.changeRole()
+                break;
+            case `buyBtn`:
+                SoundManager.ins.btn()
+                SwordsmanControl.ins.navigator.popup("figure/BuyHero", this.showDetail);
+                break;
+            case `signGet`:
+                SoundManager.ins.btn()
+                PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
+                    //console.log(res)
+                    res.isFromSw = true
+                    if (!res) {
+                        return
+                    }
+                    SwordsmanControl.ins.navigator.push("Sign", res);
+                })
+                break;
+            case `skill1`:
+                if (this.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                SwordsmanControl.ins.showSkillDetail(0)
+                break;
+            case `skill2`:
+                if (this.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                SwordsmanControl.ins.showSkillDetail(1)
+                break;
+            case `skill3`:
+                if (this.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                SwordsmanControl.ins.showSkillDetail(2)
+                break;
+        }
     }
     //初始化展示信息
     initInfo() {

@@ -49,6 +49,10 @@ export default class WeaponHouseControl extends PaoYa.Component {
         // this.owner.diamondNum.font = `weaponNFontT`
 
     }
+
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+    }
     //获取装备武器详情
     getMyUserDetailList() {
         switch (this.params.weaponGridNum) {
@@ -215,7 +219,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         this.owner[`skillImg_1`].visible = false
         this.owner[`skillImg_2`].visible = false
         let detail = null
-        if (this.isEqWp) {
+        if (this.isEqWp && this.isWareChoiceWp) {
             detail = this.isWareChoiceWp._dataSource
             this.isEqWp = false
         } else {
@@ -522,7 +526,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
             numNew = 1
         }
 
-        let detail = this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail
+        let detail = this.isWareChoiceWp && this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail
         let isusing = detail.isUsingWp ? 1 : 0
         this.isRequesting = true
         Laya.timer.once(500, this, () => {
@@ -604,7 +608,9 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 }
 
                 // this.isWareChoiceWp._dataSource = res.weapon
-                this.singleWeapon(this.isWareChoiceWp, -1)
+                if (this.isWareChoiceWp) {
+                    this.singleWeapon(this.isWareChoiceWp, -1)
+                }
                 this.renderCenterData()
             }
         })

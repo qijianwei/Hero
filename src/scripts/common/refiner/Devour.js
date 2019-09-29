@@ -18,26 +18,26 @@ export default class Devour extends PaoYa.View {
         if (this.params.isGuide) {
             DevourControl.ins.getMask()
         }
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            DevourControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     DevourControl.ins.navigator.pop()
+        // })
 
-        this.eatBtn.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            DevourControl.ins.eatWp()
-        })
+        // this.eatBtn.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     DevourControl.ins.eatWp()
+        // })
 
-        this.choiceBtn.on(Laya.Event.CLICK, this, () => {
-            // this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
-            // this.nextExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
-            SoundManager.ins.btn()
-            // if (DevourControl.ins.willBeEatList.length > 2) {
-            //     return
-            // }
+        // this.choiceBtn.on(Laya.Event.CLICK, this, () => {
+        //     // this.curryExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
+        //     // this.nextExp.width = (this.params.refiner.currentExp / this.params.refiner.currentFullExp) * 224
+        //     SoundManager.ins.btn()
+        //     // if (DevourControl.ins.willBeEatList.length > 2) {
+        //     //     return
+        //     // }
 
-            DevourControl.ins.chiocethreeWp()
-        })
+        //     DevourControl.ins.chiocethreeWp()
+        // })
 
         this.warehouseList.vScrollBarSkin = ""
         this.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
@@ -77,6 +77,22 @@ export default class Devour extends PaoYa.View {
         if (!Refining.ins.isGuide) {
             this.guide2.visible = false
             this.guide3.visible = false
+        }
+    }
+
+    lisenClick(e) {
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                DevourControl.ins.navigator.pop()
+                break;
+            case `eatBtn`:
+                SoundManager.ins.btn()
+                DevourControl.ins.eatWp()
+                break;
+            case `choiceBtn`:
+                SoundManager.ins.btn()
+                DevourControl.ins.chiocethreeWp()
         }
     }
 

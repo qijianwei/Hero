@@ -26,12 +26,18 @@ export default class GetAward extends PaoYa.Dialog {
 
         this.closeBtn.on(Laya.Event.CLICK, this, () => {
             PaoYa.Request.POST("martial_encounter_cancel", {}, res => {
+                if (PaoYa.navigator.scenes.length > 1) {
+                    PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
+                }
                 PaoYa.NotificationCenter.postNotification(`adventCancel`)
                 this.close()
             })
         })
 
         this.closeBtn2.on(Laya.Event.CLICK, this, () => {
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
+            }
             this.close()
         })
 
@@ -43,11 +49,13 @@ export default class GetAward extends PaoYa.Dialog {
                         PaoYa.DataCenter.gold.value = res.gold
                         PaoYa.DataCenter.diamond.value = res.diamond
                     })
-                    PaoYa.NotificationCenter.postNotification(`adventComplete`)
+
                     this.close()
                     let obj = {
                         type: `sign`,
-                        detail: { gold: res.gold, isclose: 1 }
+                        detail: { gold: res.gold },
+                        isAdventure: true,
+                        resultParams:this.resultParams
                     }
                     PaoYa.navigator.popup("common/Award", obj);
                 })
@@ -56,8 +64,6 @@ export default class GetAward extends PaoYa.Dialog {
     }
 
     onClosed() {
-        if (PaoYa.navigator.scenes.length > 1) {
-            PaoYa.navigator.popup('/dialog/PassResultDialog', this.resultParams)
-        }
+
     }
 }

@@ -2,7 +2,7 @@
     "x":0,
     "type":"Box",
     "selectedBox":106,
-    "selecteID":137,
+    "selecteID":136,
     "searchKey":"Box",
     "props":{"y":250,"x":105,"width":210,"presetID":1,"preset":"laya/pages/gamescenes/prefab/Player.prefab","isPresetRoot":true,"height":250,"anchorY":1,"anchorX":0.5},
     "nodeParent":-1,

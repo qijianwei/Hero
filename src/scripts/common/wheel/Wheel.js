@@ -31,37 +31,64 @@ export default class Wheel extends PaoYa.View {
             this.startWheelTxt.pos(60, 10)
         }
 
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            if (this.isRunning) {
-                return
-            }
-            SoundManager.ins.btn()
-            WheelControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     if (this.isRunning) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     WheelControl.ins.navigator.pop()
+        // })
 
-        this.addbtn.on(Laya.Event.CLICK, this, () => {
-            if (this.isRunning) {
-                return
-            }
-            if (PaoYa.DataCenter.user.diamond < 500) {
-                SoundManager.ins.btn()
-                WheelControl.ins.navigator.popup("weapon/DiamondLack");
-                return
-            }
-            SoundManager.ins.btn()
-            WheelControl.ins.addTimes()
-        })
+        // this.addbtn.on(Laya.Event.CLICK, this, () => {
+        //     if (this.isRunning) {
+        //         return
+        //     }
+        //     if (PaoYa.DataCenter.user.diamond < 500) {
+        //         SoundManager.ins.btn()
+        //         WheelControl.ins.navigator.popup("weapon/DiamondLack");
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     WheelControl.ins.addTimes()
+        // })
 
-        this.startWheel.on(Laya.Event.CLICK, this, () => {
-            if (this.isRunning) {
-                return
-            }
-            WheelControl.ins.wheelTurn()
-        })
+        // this.startWheel.on(Laya.Event.CLICK, this, () => {
+        //     if (this.isRunning) {
+        //         return
+        //     }
+        //     WheelControl.ins.wheelTurn()
+        // })
 
         PaoYa.DataCenter.user.config_list.hero.wheelList.forEach((element, index) => {
             this.showList(this[`award${index + 1}`], element, index)
         });
+    }
+
+    lisenClick(e) {
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                WheelControl.ins.navigator.pop()
+                break;
+            case `addbtn`:
+                if (this.isRunning) {
+                    return
+                }
+                if (PaoYa.DataCenter.user.diamond < 500) {
+                    SoundManager.ins.btn()
+                    WheelControl.ins.navigator.popup("weapon/DiamondLack");
+                    return
+                }
+                SoundManager.ins.btn()
+                WheelControl.ins.addTimes()
+                break;
+            case `startWheel`:
+                if (this.isRunning) {
+                    return
+                }
+                WheelControl.ins.wheelTurn()
+                break;
+        }
     }
 
     onAppear() {
@@ -72,7 +99,7 @@ export default class Wheel extends PaoYa.View {
         PaoYa.Request.GET('update_chips', {}, res => {
             this.goldNum.width = null
 
-            if (res.gold) {
+            if (res.gold || res.gold == 0) {
                 PaoYa.DataCenter.user.gold = res.gold
                 let goldnum = addNumberUnit(PaoYa.DataCenter.user.gold)
                 this.goldNum.text = goldnum

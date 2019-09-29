@@ -131,7 +131,7 @@ export default class GameControl extends PaoYa.Component {
             this.skillScr1.startT()
         }else{
             this.skillScr2.startT()
-        }   
+        }    
         let dragonBg = new Laya.Sprite();
         dragonBg.size(Laya.Browser.width, Laya.Browser.height);
         this.dragonBg = dragonBg;
@@ -186,8 +186,10 @@ export default class GameControl extends PaoYa.Component {
     }
     removeDragons(skillType){
         Laya.timer.clear(this, this.sportDragon);
-        this.dragonAni.stop();
-        this.dragonAni.removeSelf();
+        if(this.dragonAni){
+            this.dragonAni.stop();
+            this.dragonAni.removeSelf();
+        }
         if(skillType==1){
             if(this.collideAni){
                 this.collideAni.stop();
@@ -435,7 +437,7 @@ export default class GameControl extends PaoYa.Component {
             spH = spCollide.height;
 
         let component = player.getComponent(Player);
-        component.isSelf = isSelf;
+       // component.isSelf = isSelf;
         component.attr = this[role];
         if (isSelf) {
             this.selfSkills = this[role].skills
@@ -553,7 +555,8 @@ export default class GameControl extends PaoYa.Component {
         //先展示技能，再展示攻击，再发射兵器
         this[name + 'Player'].comp.showSkill1();
         this[name + 'Player'].comp.skillCallback = () => {  
-                this.weaponLaunch(skillWeapon);         
+                this.weaponLaunch(skillWeapon); 
+                this[name + 'Player'].comp.skillCallback=()=>{}        
         }
     }
     skillWithDragon(isSelf){
@@ -827,6 +830,9 @@ export default class GameControl extends PaoYa.Component {
 
     }
     weaponLaunch(params, deltaT) {
+        if(params.isSelf){
+            console.log(`【-------武器发射------】`)
+        }    
         let name = params.isSelf ? 'self' : 'other';
         let weapon = Laya.Pool.getItemByCreateFun("weapon", this.weapon.create, this.weapon);
         let weaponComp = weapon.getComponent(Weapon);
@@ -956,9 +962,9 @@ export default class GameControl extends PaoYa.Component {
             }
             return;
         }
-        if (isSelf) {
+         if (isSelf) {
             this.dodgeComp.startT()
-        }
+        } 
         this.showSkillText(isSelf, "闪避")
         this[name + "Player"].comp.MPComp.changeMP(-consumeMP)
         console.log('闪避技能使用')
@@ -981,6 +987,10 @@ export default class GameControl extends PaoYa.Component {
         this.selfPlayer.comp.removeSkill2(); //如果有技能2,直接关掉
     }
     deathHandler(loserIsSelf) {
+        if(this.selfPlayer.comp.attr.roleId==4){
+            this.removeDragons(1);
+            this.removeDragons(2);
+        }
         Laya.MouseManager.enabled = false;
         Laya.timer.clear(this, this.startSelect);
         // Laya.timer.clearAll(this);
@@ -1014,7 +1024,7 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     dealBattle(loserIsSelf) {
-        Laya.timer.clearAll(this);
+       // Laya.timer.clearAll(this);
         this.gameOver(loserIsSelf);
         let win = loserIsSelf ? 0 : 1;
         Laya.timer.callLater(this, () => {
@@ -1054,6 +1064,7 @@ export default class GameControl extends PaoYa.Component {
     }
     //角色复活
     revive() {
+        this.gameState = 'start';
         SoundManager.ins.passBg();
         this.initPlayer(true);
         this.firstWeaponSelect();
@@ -1092,7 +1103,7 @@ export default class GameControl extends PaoYa.Component {
                                 this.navigator.popup(`/dialog/AdventDialog`, res)
                                 break;
                             case 3:
-                                this.navigator.popup(`adventure/BuyWp`, res)
+                                    this.navigator.popup(`adventure/ChangeWp`, res)
                                 break;
                             case 4:
                                 this.navigator.popup(`adventure/GetAward`, res)
@@ -1101,7 +1112,7 @@ export default class GameControl extends PaoYa.Component {
                                 this.navigator.popup(`/dialog/AdventDialog5`, res)
                                 break;
                             case 6:
-                                this.navigator.popup(`adventure/ChangeWp`, res)
+                                this.navigator.popup(`adventure/BuyWp`, res) 
                                 break;
                         }
 

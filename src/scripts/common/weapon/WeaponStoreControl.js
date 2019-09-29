@@ -49,6 +49,10 @@ export default class WeaponStoreControl extends PaoYa.Component {
 
     onEnable() {
     }
+    
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+    }
 
     onDisable() {
     }

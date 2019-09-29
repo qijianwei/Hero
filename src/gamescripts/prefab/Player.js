@@ -36,7 +36,7 @@ export default class Player extends PaoYa.Component {
     //console.error('角色服装:', this.attr.roleDress);
     let dressIcon = this.attr.roleDress;
     this.dressIcon = dressIcon;
-    this.roleId = this.attr.roleId;
+   // this.roleId = this.attr.roleId;
     let skeleton = HeroConfig.getSkeleton(dressIcon);
     skeleton.play('stand', true);
     skeleton.pos(posX, posY - 10);
@@ -57,7 +57,7 @@ export default class Player extends PaoYa.Component {
   onEnable() {
     this.killed = false;
     this.index += 1;
-
+    this.roleId = this.attr.roleId;//重新获取 对象池复用 roleId也许有变
     if (this.dressIcon != this.attr.roleDress) {
       this.dressIcon = this.attr.roleDress
       let templet = HeroConfig.spineMap[this.dressIcon].templet;
@@ -80,7 +80,9 @@ export default class Player extends PaoYa.Component {
       case 'skill1':
        /* 防止技能1和技能2触发太密集 */
        Laya.timer.once(500,this,()=>{
-        this.canAction = true;
+         if(!this.plasyState&&!this.freezeState&&!this.dizzyState){
+           this.canAction = true;
+         }
       })
         GameControl.instance.allResume(this.isSelf)
         this.skillCallback();
@@ -94,7 +96,10 @@ export default class Player extends PaoYa.Component {
       case 'skill2':
          /* 防止技能1和技能2触发太密集 */
         Laya.timer.once(500,this,()=>{
-          this.canAction = true;
+          console.log(`冰冻状态`,this.freezeState)
+          if(!this.plasyState&&!this.freezeState&&!this.dizzyState){
+            this.canAction = true;
+          }
         })
         GameControl.instance.allResume(this.isSelf);
         this.skillCallback();
@@ -128,12 +133,12 @@ export default class Player extends PaoYa.Component {
       }else if(this.roleId==4){
         time = 1000;
       }
-      Laya.timer.once(time, this, () => {
+       Laya.timer.once(time, this, () => {
         this.sectionAni += 1;
         this.skeleton.play('dodge3', false)
-      })
+      }) 
       return;
-    }
+    }   
     if (this.sectionAni == 3) {
       this.removeDodge();
       // return;
@@ -388,7 +393,7 @@ export default class Player extends PaoYa.Component {
   //龙的效果
   dragonEffect(freezeTime = 3000) {
     this.canAction = false;
-    this.freezeState = true;
+    this.freezeStateDragon = true;
     if (this.isSelf) {
       // Laya.MouseManager.enabled = false;
       GameControl.instance.allBtnsLock();
@@ -397,17 +402,19 @@ export default class Player extends PaoYa.Component {
     Laya.timer.once(freezeTime, this, this.removeDragonEffect)
   }
   removeDragonEffect() {
-    console.log(`------remove freeze-------`)
-    this.canAction = true;
-    this.freezeState = false;
+    console.log(`------remove freeze-------`) 
+    this.freezeStateDragon = false;
     if (this.isSelf) {
       GameControl.instance.allBtnsUnlock();
     }
-    this.skeleton.play('stand', true);
+    if(!this.plasyState&&!this.freezeState&&!this.dizzyState){
+      this.canAction = true;
+      this.skeleton.play('stand', true);
+    }  
   }
   //闪避技能
   dodgeEffect() {
-    this.sectionAni = true;
+    this.sectionAni = 1;
     this.dodge = true; //闪避无敌状态
     this.owner.zOrder = 100;
     this.skeleton.play('dodge1', false);

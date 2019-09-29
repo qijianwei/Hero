@@ -14,6 +14,10 @@ export default class SwordsmanControl extends PaoYa.Component {
 
     }
 
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+     }
+
     roleLevelUp() {
         let numNew = 0
         if (this.owner.isGuide) {

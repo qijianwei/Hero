@@ -16,6 +16,10 @@ export default class RefiningControl extends PaoYa.Component {
 
     }
 
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+    }
+
     addLv(e) {
         if (e.status) {
             this.POST("martial_user_weapon_list", { refinerId: e.id }, data => {

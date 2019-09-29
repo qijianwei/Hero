@@ -163,7 +163,7 @@ export default class HomeControl extends PaoYa.Component {
         this.player._templet && this.player.stop();
         this.adventAni && this.adventAni.stop();
     }
-    onClick(e) {
+    onThrottleClick(e) {
         if (e.target instanceof Laya.Button) {
             SoundManager.ins.btn();
         }

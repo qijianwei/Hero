@@ -14,15 +14,15 @@ export default class Grading extends PaoYa.View {
 
     onEnable() {
         Global.dataPoints('进入华山论剑')
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            GradingControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     GradingControl.ins.navigator.pop()
+        // })
 
-        this.gameStart.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            GradingControl.ins.gameRole(this.showDetail.roleId)
-        })
+        // this.gameStart.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     GradingControl.ins.gameRole(this.showDetail.roleId)
+        // })
 
 
         this.gameStartTxt.font = `weaponDFont`
@@ -44,7 +44,7 @@ export default class Grading extends PaoYa.View {
             }
         });
 
-        this.canUseList = this.canUseList.slice(0,2)
+        this.canUseList = this.canUseList.slice(0, 2)
         this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
         this.herolist.array = this.canUseList
 
@@ -76,6 +76,19 @@ export default class Grading extends PaoYa.View {
         });
 
         this.initInfo()
+    }
+
+    lisenClick(e) {
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                GradingControl.ins.navigator.pop()
+                break;
+            case `gameStart`:
+                SoundManager.ins.btn()
+                GradingControl.ins.gameRole(this.showDetail.roleId)
+                break;
+        }
     }
 
     changeGold() {

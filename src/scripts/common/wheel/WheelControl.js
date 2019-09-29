@@ -16,6 +16,10 @@ export default class WheelControl extends PaoYa.Component {
 
     }
 
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+    }
+
     addTimes() {
         this.navigator.popup("common/BuyWheelTimes");
     }

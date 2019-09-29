@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Scene",
-    "selectedBox":28,
-    "selecteID":33,
+    "selectedBox":2,
+    "selecteID":108,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"scripts/common/weapon/WeaponHouse.js","height":750},
     "nodeParent":-1,
@@ -196,14 +196,13 @@
             "props":{"y":191,"x":750,"width":415,"texture":"remote/weaponhouse/2.png","height":498},
             "nodeParent":2,
             "label":"Sprite",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":77,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":-52,"x":43,"texture":"local/common/fontBg.png"},
@@ -218,7 +217,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":-48,"x":167,"texture":"remote/weaponhouse/warehose.png"},
@@ -236,47 +234,18 @@
         },
         {
             "x":15,
-            "type":"Sprite",
-            "searchKey":"Sprite,benBack",
-            "props":{"y":0,"x":-140,"var":"benBack","texture":"local/common/back.png"},
-            "nodeParent":2,
-            "label":"benBack",
-            "isOpen":false,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":26,
-            "child":[
-                {
-                    "type":"Sprite",
-                    "searchKey":"Sprite",
-                    "props":{"y":30.5,"x":248,"texture":"remote/weaponhouse/17.png"},
-                    "nodeParent":26,
-                    "label":"Sprite",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":34,
-                    "child":[
-                        ]
-                }],
-            "$HIDDEN":false
-        },
-        {
-            "x":15,
             "type":"Box",
             "searchKey":"Box,currencyBg",
             "props":{"var":"currencyBg"},
             "nodeParent":2,
             "label":"currencyBg",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":28,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":22,"x":584,"texture":"local/common/currencyBg.png"},
@@ -290,7 +259,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":20.5,"x":345,"texture":"local/common/currencyBg.png"},
@@ -304,7 +272,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":16,"x":324,"texture":"local/common/icon.png"},
@@ -318,7 +285,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":17,"x":563,"texture":"local/common/diamond.png"},
@@ -332,7 +298,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,goldNum",
                     "props":{"y":13,"x":381,"width":139,"var":"goldNum","valign":"middle","height":40,"fontSize":32,"font":"SimSun","color":"#ffffff","bold":false,"align":"left"},
@@ -346,7 +311,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Text",
                     "searchKey":"Text,diamondNum",
                     "props":{"y":14,"x":622,"width":139,"var":"diamondNum","valign":"middle","height":40,"fontSize":32,"font":"SimHei","color":"#ffffff","bold":false,"align":"left"},
@@ -793,19 +757,20 @@
             "x":15,
             "type":"Box",
             "searchKey":"Box,chioce",
-            "props":{"y":35,"x":1192,"width":100,"var":"chioce","height":750},
+            "props":{"y":35,"x":1192,"width":100,"var":"chioce","mouseEnabled":true,"height":750},
             "nodeParent":2,
             "label":"chioce",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":71,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
-                    "searchKey":"Image,light",
-                    "props":{"y":109,"x":-15,"var":"light","skin":"remote/weaponhouse/14.png"},
+                    "searchKey":"Image,light,light",
+                    "props":{"y":109,"x":-15,"width":114,"var":"light","skin":"remote/weaponhouse/14.png","name":"light","mouseEnabled":true,"height":164},
                     "nodeParent":71,
                     "label":"light",
                     "isOpen":false,
@@ -830,9 +795,10 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
-                    "searchKey":"Image,middle",
-                    "props":{"y":286,"x":-15,"var":"middle","skin":"remote/weaponhouse/14.png"},
+                    "searchKey":"Image,middle,middle",
+                    "props":{"y":286,"x":-15,"width":114,"var":"middle","skin":"remote/weaponhouse/14.png","name":"middle","mouseEnabled":true,"height":164},
                     "nodeParent":71,
                     "label":"middle",
                     "isOpen":false,
@@ -856,9 +822,10 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
-                    "searchKey":"Image,large",
-                    "props":{"y":464,"x":-15,"var":"large","skin":"remote/weaponhouse/14.png"},
+                    "searchKey":"Image,large,large",
+                    "props":{"y":464,"x":-15,"width":114,"var":"large","skin":"remote/weaponhouse/14.png","name":"large","mouseEnabled":true,"height":164},
                     "nodeParent":71,
                     "label":"large",
                     "isOpen":false,
@@ -882,6 +849,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":142,"x":16,"texture":"remote/weaponhouse/15.png"},
@@ -1220,8 +1188,8 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image,equip",
-            "props":{"zOrder":9,"y":628,"x":342,"var":"equip","skin":"remote/weaponhouse/10.png"},
+            "searchKey":"Image,equip,equip",
+            "props":{"zOrder":9,"y":628,"x":342,"var":"equip","skin":"remote/weaponhouse/10.png","name":"equip","mouseEnabled":true},
             "nodeParent":2,
             "label":"equip",
             "isDirectory":false,
@@ -1234,8 +1202,8 @@
         {
             "x":15,
             "type":"Button",
-            "searchKey":"Button,upGrade",
-            "props":{"zOrder":9,"y":626,"x":530,"var":"upGrade","stateNum":"1","skin":"remote/weaponhouse/11.png"},
+            "searchKey":"Button,upGrade,upGrade",
+            "props":{"zOrder":9,"y":626,"x":530,"var":"upGrade","stateNum":"1","skin":"remote/weaponhouse/11.png","name":"upGrade"},
             "nodeParent":2,
             "label":"upGrade",
             "isDirectory":false,
@@ -1272,6 +1240,34 @@
                     "child":[
                         ]
                 }]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,benBack,benBack",
+            "props":{"y":0,"x":-140,"width":461,"var":"benBack","texture":"local/common/back.png","name":"benBack","mouseEnabled":true,"height":105},
+            "nodeParent":2,
+            "label":"benBack",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":26,
+            "child":[
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"y":30.5,"x":248,"texture":"remote/weaponhouse/17.png"},
+                    "nodeParent":26,
+                    "label":"Sprite",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":34,
+                    "child":[
+                        ]
+                }],
+            "$HIDDEN":false
         }],
     "animations":[
         {

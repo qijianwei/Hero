@@ -10,12 +10,16 @@ export default class GradingControl extends PaoYa.Component {
 
     onEnable() {
 
-    }
+    } 
 
-    gameRole(e){
-        this.POST("hero_match_game_start",{roleId:e},(res)=>{
-            res.gameType="battle";
-            this.navigator.push('MatchView',res);
+    onThrottleClick(e) {
+        this.owner.lisenClick(e)
+    }
+    
+    gameRole(e) {
+        this.POST("hero_match_game_start", { roleId: e }, (res) => {
+            res.gameType = "battle";
+            this.navigator.push('MatchView', res);
         })
     }
 }

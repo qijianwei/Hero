@@ -22,39 +22,68 @@ export default class Refining extends PaoYa.View {
             RefiningControl.ins.getMask()
             PaoYa.Request.POST(`martial_change_new_hand`, { type: `refinerNew` })
         }
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            RefiningControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     RefiningControl.ins.navigator.pop()
+        // })
 
-        this.figure.on(Laya.Event.CLICK, this, () => {
-            if (this.figureD.visible) {
-                return
-            }
-            SoundManager.ins.btn()
-            this.figure.skin = `remote/refining/4.png`
-            this.weopon.skin = `remote/refining/5.png`
+        // this.figure.on(Laya.Event.CLICK, this, () => {
+        //     if (this.figureD.visible) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     this.figure.skin = `remote/refining/4.png`
+        //     this.weopon.skin = `remote/refining/5.png`
 
-            this.figureD.visible = true
-            this.weoponD.visible = false
-        })
+        //     this.figureD.visible = true
+        //     this.weoponD.visible = false
+        // })
 
-        this.weopon.on(Laya.Event.CLICK, this, () => {
-            if (this.weoponD.visible) {
-                return
-            }
-            SoundManager.ins.btn()
-            this.figure.skin = `remote/refining/2.png`
-            this.weopon.skin = `remote/refining/3.png`
+        // this.weopon.on(Laya.Event.CLICK, this, () => {
+        //     if (this.weoponD.visible) {
+        //         return
+        //     }
+        //     SoundManager.ins.btn()
+        //     this.figure.skin = `remote/refining/2.png`
+        //     this.weopon.skin = `remote/refining/3.png`
 
-            this.figureD.visible = false
-            this.weoponD.visible = true
-        })
-
-
+        //     this.figureD.visible = false
+        //     this.weoponD.visible = true
+        // })
     }
 
-    changeData(){
+    lisenClick(e) {
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                RefiningControl.ins.navigator.pop()
+                break;
+            case `figure`:
+                if (this.figureD.visible) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.figure.skin = `remote/refining/4.png`
+                this.weopon.skin = `remote/refining/5.png`
+
+                this.figureD.visible = true
+                this.weoponD.visible = false
+                break;
+            case `weopon`:
+                if (this.weoponD.visible) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.figure.skin = `remote/refining/2.png`
+                this.weopon.skin = `remote/refining/3.png`
+
+                this.figureD.visible = false
+                this.weoponD.visible = true
+                break;
+        }
+    }
+
+    changeData() {
         if (!this.isGuide) {
             this.guide1.visible = false
         }

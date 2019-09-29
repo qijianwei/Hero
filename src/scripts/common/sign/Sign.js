@@ -15,12 +15,28 @@ export default class Sign extends PaoYa.View {
 
     onEnable() {
         Global.dataPoints('进入签到页面')
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            SignControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     SignControl.ins.navigator.pop()
+        // })
         this.initInfo()
     }
+
+    lisenClick(e) {
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                SignControl.ins.navigator.pop()
+                break;
+            case `eatTxt`:
+                Global.dataPoints('签到激励广告')
+                Tool.showVideoAD(()=>{
+                    SignControl.ins.getAward()
+                })
+                break;
+        }
+    }
+
 
     initInfo() {
         let arr = this.params.list.slice(0, 6)
@@ -47,17 +63,17 @@ export default class Sign extends PaoYa.View {
             this.eatTxt.scale(0.6, 0.6)
             this.eatTxt.pos(35, 13)
 
-            this.eatTxt.on(Laya.Event.CLICK, this, () => {
-                SoundManager.ins.btn()
-                // let title = PaoYa.DataCenter.config.game.share_list.randomItem;
-                // PaoYa.ShareManager.shareTitle(title, {}, () => {
-                //     SignControl.ins.getAward()
-                // })
-                Global.dataPoints('签到激励广告')
-                Tool.showVideoAD(()=>{
-                    SignControl.ins.getAward()
-                })
-            })
+            // this.eatTxt.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     // let title = PaoYa.DataCenter.config.game.share_list.randomItem;
+            //     // PaoYa.ShareManager.shareTitle(title, {}, () => {
+            //     //     SignControl.ins.getAward()
+            //     // })
+            //     Global.dataPoints('签到激励广告')
+            //     Tool.showVideoAD(()=>{
+            //         SignControl.ins.getAward()
+            //     })
+            // })
         }
     }
 
