@@ -8475,7 +8475,7 @@ var HomeControl = function (_PaoYa$Component) {
             guideContainer.removeSelf();
             /*   this.aniFinger.destroy(); */
             _Global.Global.dataPoints('点击开始游戏');
-            this.goPassGame();
+            // this.goPassGame();
             console.error("------\u9996\u9875\u65B0\u624B\u5F15\u5BFC\u5220\u9664------");
         }
     }, {

@@ -488,7 +488,7 @@ export default class HomeControl extends PaoYa.Component {
         guideContainer.removeSelf();
         /*   this.aniFinger.destroy(); */
         Global.dataPoints('点击开始游戏')
-        this.goPassGame();
+       // this.goPassGame();
         console.error(`------首页新手引导删除------`)
     }
     nextTick(e) {
