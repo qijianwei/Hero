@@ -34,6 +34,7 @@ export default class BuyHero extends PaoYa.Dialog {
         this.needNum.pos(755, 167)
 
         this.roleImg.skin = `remote/figure/role_${this.params.roleId}.png`
+        this.nameImg.skin = `remote/figure/name_${this.params.roleId}.png`
 
         this.buy.on(Laya.Event.CLICK, this, () => {
             if (PaoYa.DataCenter.user.diamond < this.params.rolePrice) {
@@ -54,10 +55,10 @@ export default class BuyHero extends PaoYa.Dialog {
                         SwordsmanControl.ins.owner.showDetail = element
                     }
                 });
-                SwordsmanControl.ins.owner.params.roleList=SwordsmanControl.ins.owner.params.roleList.slice(0,2)
+                SwordsmanControl.ins.owner.params.roleList.splice(2, 1)
                 SwordsmanControl.ins.owner.herolist.array = SwordsmanControl.ins.owner.params.roleList
 
-                // SwordsmanControl.ins.owner.initInfo()
+                SwordsmanControl.ins.owner.initInfo()
                 this.close()
             })
         })

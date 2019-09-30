@@ -34,6 +34,11 @@ export default class WheelControl extends PaoYa.Component {
             if (!res) {
                 return
             }
+            this.owner.video.visible = false
+            this.owner.startWheelTxt.font = `weaponDFont`
+            this.owner.startWheelTxt.scale(0.8, 0.8)
+            this.owner.startWheelTxt.pos(60, 10)
+            
             PaoYa.DataCenter.user.wheelTimes = res
             this.owner.num.text = res
             this.owner.changeDG()
@@ -47,10 +52,6 @@ export default class WheelControl extends PaoYa.Component {
             Global.dataPoints('增加转盘次数激励广告')
             Tool.showVideoAD(() => {
                 this.addTimesD(1)
-                this.owner.video.visible = false
-                this.owner.startWheelTxt.font = `weaponDFont`
-                this.owner.startWheelTxt.scale(0.8, 0.8)
-                this.owner.startWheelTxt.pos(60, 10)
             })
             return
         }

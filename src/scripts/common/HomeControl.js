@@ -344,6 +344,10 @@ export default class HomeControl extends PaoYa.Component {
         })
     }
     goPassGame() {
+        if(this.firstGoGame){
+            this.firstGoGame=false;
+            this.step4();
+        }
         let _this = this;
         this.POST("hero_game_start", {}, (res) => {
             res.gameType = 'pass';
@@ -369,6 +373,7 @@ export default class HomeControl extends PaoYa.Component {
         })
     }
     setGuide() {
+        this.firstGoGame=true;
         //引导所在容器
         guideContainer = new Laya.Sprite();
         guideContainer.zOrder = 1000;
@@ -437,7 +442,7 @@ export default class HomeControl extends PaoYa.Component {
                     break;
             }
         })
-        this.spriteBg.on(Laya.Event.CLICK, this, (e) => {
+    /*     this.spriteBg.on(Laya.Event.CLICK, this, (e) => {
             guideStep += 1;
             switch (guideStep) {
                 case 4:
@@ -446,21 +451,24 @@ export default class HomeControl extends PaoYa.Component {
                     break;
             }
             console.log(`接收到点击`)
-        })
+        }) */
         nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
     }
     step1() {
+        console.log(`---第1步----`)
         selfSpeakMan.visible = false;
         otherSpeakMan.visible = true;
         otherSpeakManComp.showWord(`救命！救命啊！`);
     }
     step2() {
+        console.log(`---第2步----`)
         selfSpeakMan.visible = true;
         otherSpeakMan.visible = false;
         selfSpeakManComp.showWord(`大白天的谁在喊救命？去看看再说。`);
 
     }
     step3() {
+        console.log(`---第3步----`)
         nextLabel.visible = false;
         selfSpeakMan.visible = false;
         this.aniFinger.visible = true;
@@ -471,13 +479,17 @@ export default class HomeControl extends PaoYa.Component {
         hitArea.unHit.drawRect(730, 103, 370, 165, '#000');
     }
     step4() {
-        this.aniFinger.visible = false;
-        this.aniFinger.stop();
+        console.log(`---第4步----`)
+        if(this.aniFinger){
+            this.aniFinger.visible = false;
+            this.aniFinger.stop();
+        }  
         interactionArea.graphics.clear();
         guideContainer.removeSelf();
         /*   this.aniFinger.destroy(); */
         Global.dataPoints('点击开始游戏')
         this.goPassGame();
+        console.error(`------首页新手引导删除------`)
     }
     nextTick(e) {
         e.stopPropagation();

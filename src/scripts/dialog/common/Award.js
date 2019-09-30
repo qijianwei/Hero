@@ -98,8 +98,8 @@ export default class Award extends PaoYa.Dialog {
                         case `sign`:
                             break;
                         case `wheel`:
-                            PaoYa.DataCenter.user.gold += this.params.detail.gold
-                            WheelControl.ins.owner.goldNum.text = PaoYa.DataCenter.user.gold
+                            // PaoYa.DataCenter.user.gold += this.params.detail.gold
+                            // WheelControl.ins.owner.goldNum.text = PaoYa.DataCenter.user.gold
                             break;
                     }
                     // this.num.pos(28, 175)
@@ -116,8 +116,8 @@ export default class Award extends PaoYa.Dialog {
                         case `sign`:
                             break;
                         case `wheel`:
-                            PaoYa.DataCenter.user.diamond += this.params.detail.diamond
-                            WheelControl.ins.owner.diamondNum.text = PaoYa.DataCenter.user.gold
+                            // PaoYa.DataCenter.user.diamond += this.params.detail.diamond
+                            // WheelControl.ins.owner.diamondNum.text = PaoYa.DataCenter.user.gold
                             break;
                     }
                     // this.num.pos(28, 175)

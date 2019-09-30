@@ -2,6 +2,7 @@ import WeaponBar from "../prefab/WeaponBar";
 import GameControl from "../GameControl";
 import AlertDialog from "./AlertDialog";
 import { Global } from "../../scripts/common/tool/Global";
+import Tool from "../../scripts/common/tool/Tool";
 
 export default class AdventResultDialog extends PaoYa.Dialog {
     constructor() {
@@ -23,7 +24,11 @@ export default class AdventResultDialog extends PaoYa.Dialog {
         }
         let weaponBarPromise = new Promise((resolve, reject) => {
             Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
-                resolve(json);
+                if(json instanceof Laya.Prefab){
+                    resolve(json.json)
+                }else{
+                    resolve(json);
+                }
             }))
         })
         let rewardPromise = new Promise((resolve, reject) => {
@@ -118,11 +123,15 @@ export default class AdventResultDialog extends PaoYa.Dialog {
                 }
             },
             onError: function onError(res) {
-                var errorDialog = new AlertDialog({
+              /*   var errorDialog = new AlertDialog({
                     title: "温馨提示",
                     message: res.message
                 });
-                errorDialog.popup();
+                errorDialog.popup(); */
+                Tool.noADshare(()=>{
+                    _this.close();
+                    GameControl.instance.revive(); //复活
+                })
             }
         };
         PaoYa.RewardedVideoAd.show(params,true);

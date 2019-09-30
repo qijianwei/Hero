@@ -104,7 +104,7 @@ export default class GameControl extends PaoYa.Component {
             })
         }
         this.resetPlayerInfo();
-
+        this.errorIndex=0;
         if (!this.closeRobot) {
             var adParams = {
                 onClose: function onClose(res) {
@@ -113,10 +113,13 @@ export default class GameControl extends PaoYa.Component {
                     _this.beforeGame()
                 },
                 onError: function onError(res) {
-                    _this.gameState = 'start';
-                    console.log(`拉取广告失败`)
-                    _this.hasInterstitialAd = false;
-                    _this.beforeGame()
+                    if(_this.errorIndex==0){
+                        _this.errorIndex++;
+                        _this.gameState = 'start';
+                        console.log(`拉取广告失败`)
+                        _this.hasInterstitialAd = false;
+                        _this.beforeGame()
+                    }  
                 }
             };
             this.hasInterstitialAd = true;

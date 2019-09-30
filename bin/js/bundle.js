@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: true,
+    debug: false,
     version: '1.0',
     release: 10
 };
@@ -631,11 +631,11 @@ if (!_Config2.default.debug) {
 	console.warn = function () {};
 	console.error = function () {};
 } else {
-	if (window["wx"]) {
-		console.log = function () {};
-		console.warn = function () {};
-		console.error = function () {};
-	}
+	/* 	if(window[`wx`]){
+ 		console.log = function () { };
+ 	console.warn = function () { };
+ 	console.error = function () { };
+ 	} */
 	//console.log = function () { };
 	Laya.Stat.show();
 }
@@ -827,7 +827,7 @@ var GameControl = function (_PaoYa$Component) {
                 });
             }
             this.resetPlayerInfo();
-
+            this.errorIndex = 0;
             if (!this.closeRobot) {
                 var adParams = {
                     onClose: function onClose(res) {
@@ -836,10 +836,13 @@ var GameControl = function (_PaoYa$Component) {
                         _this.beforeGame();
                     },
                     onError: function onError(res) {
-                        _this.gameState = 'start';
-                        console.log('\u62C9\u53D6\u5E7F\u544A\u5931\u8D25');
-                        _this.hasInterstitialAd = false;
-                        _this.beforeGame();
+                        if (_this.errorIndex == 0) {
+                            _this.errorIndex++;
+                            _this.gameState = 'start';
+                            console.log('\u62C9\u53D6\u5E7F\u544A\u5931\u8D25');
+                            _this.hasInterstitialAd = false;
+                            _this.beforeGame();
+                        }
                     }
                 };
                 this.hasInterstitialAd = true;
@@ -2985,6 +2988,10 @@ var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
 
 var _Global = require("../../scripts/common/tool/Global");
 
+var _Tool = require("../../scripts/common/tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3022,7 +3029,11 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
             }
             var weaponBarPromise = new Promise(function (resolve, reject) {
                 Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(_this3, function (json) {
-                    resolve(json);
+                    if (json instanceof Laya.Prefab) {
+                        resolve(json.json);
+                    } else {
+                        resolve(json);
+                    }
                 }));
             });
             var rewardPromise = new Promise(function (resolve, reject) {
@@ -3129,11 +3140,15 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
                     }
                 },
                 onError: function onError(res) {
-                    var errorDialog = new _AlertDialog2.default({
-                        title: "温馨提示",
-                        message: res.message
+                    /*   var errorDialog = new AlertDialog({
+                          title: "温馨提示",
+                          message: res.message
+                      });
+                      errorDialog.popup(); */
+                    _Tool2.default.noADshare(function () {
+                        _this.close();
+                        _GameControl2.default.instance.revive(); //复活
                     });
-                    errorDialog.popup();
                 }
             };
             PaoYa.RewardedVideoAd.show(params, true);
@@ -3234,7 +3249,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog;
 
-},{"../../scripts/common/tool/Global":51,"../GameControl":4,"../prefab/WeaponBar":31,"./AlertDialog":14}],13:[function(require,module,exports){
+},{"../../scripts/common/tool/Global":51,"../../scripts/common/tool/Tool":52,"../GameControl":4,"../prefab/WeaponBar":31,"./AlertDialog":14}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3248,6 +3263,10 @@ var _AlertDialog = require("./AlertDialog");
 var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
 
 var _Global = require("../../scripts/common/tool/Global");
+
+var _Tool = require("../../scripts/common/tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3269,6 +3288,8 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
     _createClass(AdventResultDialog5, [{
         key: "onAwake",
         value: function onAwake() {
+            //Laya.Scene.unDestroyedScenes 可以查看未销毁场景
+            this.autoDestroyAtClosed = true;
             var state = this.params.state;
             var time = this.params.time;
             if (state == "wait") {
@@ -3357,11 +3378,15 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
                     }
                 },
                 onError: function onError(res) {
-                    var errorDialog = new _AlertDialog2.default({
-                        title: "温馨提示",
-                        message: res.message
+                    /*     var errorDialog = new AlertDialog({
+                            title: "温馨提示",
+                            message: res.message
+                        });
+                        errorDialog.popup(); */
+                    _Tool2.default.noADshare(function () {
+                        console.log("\u6CA1\u5E7F\u544A,\u5206\u4EAB\u6210\u529F");
+                        _this.showGetState();
                     });
-                    errorDialog.popup();
                 }
             };
             PaoYa.RewardedVideoAd.show(params, true);
@@ -3435,7 +3460,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog5;
 
-},{"../../scripts/common/tool/Global":51,"./AlertDialog":14}],14:[function(require,module,exports){
+},{"../../scripts/common/tool/Global":51,"../../scripts/common/tool/Tool":52,"./AlertDialog":14}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5299,14 +5324,18 @@ var PreOpenManager = function (_Laya$EventDispatcher) {
   }, {
     key: 'start',
     value: function start(data) {
-      this.view.visible = true;
-      this.view.start(data);
+      if (this.view) {
+        this.view.visible = true;
+        this.view.start(data);
+      }
     }
   }, {
     key: 'endHandler',
     value: function endHandler() {
-      this.view.visible = false;
-      this.event(PreOpenManager.TALKEND);
+      if (this.view) {
+        this.view.visible = false;
+        this.event(PreOpenManager.TALKEND);
+      }
     }
   }]);
 
@@ -8287,6 +8316,10 @@ var HomeControl = function (_PaoYa$Component) {
         value: function goPassGame() {
             var _this9 = this;
 
+            if (this.firstGoGame) {
+                this.firstGoGame = false;
+                this.step4();
+            }
             var _this = this;
             this.POST("hero_game_start", {}, function (res) {
                 res.gameType = 'pass';
@@ -8317,6 +8350,7 @@ var HomeControl = function (_PaoYa$Component) {
         value: function setGuide() {
             var _this10 = this;
 
+            this.firstGoGame = true;
             //引导所在容器
             guideContainer = new Laya.Sprite();
             guideContainer.zOrder = 1000;
@@ -8382,21 +8416,22 @@ var HomeControl = function (_PaoYa$Component) {
                         break;
                 }
             });
-            this.spriteBg.on(Laya.Event.CLICK, this, function (e) {
-                guideStep += 1;
-                switch (guideStep) {
-                    case 4:
-                        e.stopPropagation();
-                        _this10.step4();
-                        break;
-                }
-                console.log("\u63A5\u6536\u5230\u70B9\u51FB");
-            });
+            /*     this.spriteBg.on(Laya.Event.CLICK, this, (e) => {
+                    guideStep += 1;
+                    switch (guideStep) {
+                        case 4:
+                            e.stopPropagation();
+                            this.step4();
+                            break;
+                    }
+                    console.log(`接收到点击`)
+                }) */
             nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
         }
     }, {
         key: "step1",
         value: function step1() {
+            console.log("---\u7B2C1\u6B65----");
             selfSpeakMan.visible = false;
             otherSpeakMan.visible = true;
             otherSpeakManComp.showWord("\u6551\u547D\uFF01\u6551\u547D\u554A\uFF01");
@@ -8404,6 +8439,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "step2",
         value: function step2() {
+            console.log("---\u7B2C2\u6B65----");
             selfSpeakMan.visible = true;
             otherSpeakMan.visible = false;
             selfSpeakManComp.showWord("\u5927\u767D\u5929\u7684\u8C01\u5728\u558A\u6551\u547D\uFF1F\u53BB\u770B\u770B\u518D\u8BF4\u3002");
@@ -8411,6 +8447,7 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "step3",
         value: function step3() {
+            console.log("---\u7B2C3\u6B65----");
             nextLabel.visible = false;
             selfSpeakMan.visible = false;
             this.aniFinger.visible = true;
@@ -8423,13 +8460,17 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "step4",
         value: function step4() {
-            this.aniFinger.visible = false;
-            this.aniFinger.stop();
+            console.log("---\u7B2C4\u6B65----");
+            if (this.aniFinger) {
+                this.aniFinger.visible = false;
+                this.aniFinger.stop();
+            }
             interactionArea.graphics.clear();
             guideContainer.removeSelf();
             /*   this.aniFinger.destroy(); */
             _Global.Global.dataPoints('点击开始游戏');
             this.goPassGame();
+            console.error("------\u9996\u9875\u65B0\u624B\u5F15\u5BFC\u5220\u9664------");
         }
     }, {
         key: "nextTick",
@@ -11771,9 +11812,7 @@ var Tool = function () {
                     // PaoYa.Request.POST(`manage_data`, { code: num })
                 },
                 onError: function onError() {
-                    // PaoYa.Request.GET("change_advertising", {}, () => {
-                    //     PaoYa.DataCenter.loginData.advertising = 1
-                    // })
+                    Tool.noADshare(callBack);
                     err && err();
                 },
                 onClose: function onClose(res) {
@@ -11800,7 +11839,7 @@ var Tool = function () {
     }, {
         key: 'inviteFriend',
         value: function inviteFriend(e, num) {
-            if (PaoYa.DataCenter.loginData.is_review || typeof wx == 'undefined') {
+            if (typeof wx == 'undefined') {
                 return;
             }
             // PaoYa.Request.POST(`manage_data`, { code: num })
@@ -11810,8 +11849,8 @@ var Tool = function () {
         }
     }, {
         key: 'noADshare',
-        value: function noADshare(suc, fail) {
-            if (PaoYa.DataCenter.loginData.is_review || typeof wx == 'undefined') {
+        value: function noADshare(suc) {
+            if (typeof wx == 'undefined') {
                 suc && suc();
                 return;
             }
@@ -11831,7 +11870,11 @@ var Tool = function () {
 
                 if (_Global.Global.shareNum < 1) {
                     _Global.Global.shareNumFail++;
-                    fail && fail();
+                    py.showToast({
+                        title: '分享失败',
+                        icon: 'fail',
+                        duration: 2000
+                    });
                 }
 
                 if (_Global.Global.shareNum >= 1 && _Global.Global.shareNum <= 4) {
@@ -11841,7 +11884,11 @@ var Tool = function () {
                         suc && suc();
                     } else {
                         _Global.Global.shareNumFail++;
-                        fail && fail();
+                        py.showToast({
+                            title: '分享失败',
+                            icon: 'fail',
+                            duration: 2000
+                        });
                     }
                 }
 
@@ -11852,7 +11899,11 @@ var Tool = function () {
                         suc && suc();
                     } else {
                         _Global.Global.shareNumFail++;
-                        fail && fail();
+                        py.showToast({
+                            title: '分享失败',
+                            icon: 'fail',
+                            duration: 2000
+                        });
                     }
                 }
                 _Global.Global.shareNum++;
@@ -14129,6 +14180,11 @@ var WheelControl = function (_PaoYa$Component) {
                 if (!res) {
                     return;
                 }
+                _this2.owner.video.visible = false;
+                _this2.owner.startWheelTxt.font = "weaponDFont";
+                _this2.owner.startWheelTxt.scale(0.8, 0.8);
+                _this2.owner.startWheelTxt.pos(60, 10);
+
                 PaoYa.DataCenter.user.wheelTimes = res;
                 _this2.owner.num.text = res;
                 _this2.owner.changeDG();
@@ -14145,10 +14201,6 @@ var WheelControl = function (_PaoYa$Component) {
                 _Global.Global.dataPoints('增加转盘次数激励广告');
                 _Tool2.default.showVideoAD(function () {
                     _this3.addTimesD(1);
-                    _this3.owner.video.visible = false;
-                    _this3.owner.startWheelTxt.font = "weaponDFont";
-                    _this3.owner.startWheelTxt.scale(0.8, 0.8);
-                    _this3.owner.startWheelTxt.pos(60, 10);
                 });
                 return;
             }
@@ -14847,8 +14899,8 @@ var Award = function (_PaoYa$Dialog) {
                             case "sign":
                                 break;
                             case "wheel":
-                                PaoYa.DataCenter.user.gold += this.params.detail.gold;
-                                _WheelControl2.default.ins.owner.goldNum.text = PaoYa.DataCenter.user.gold;
+                                // PaoYa.DataCenter.user.gold += this.params.detail.gold
+                                // WheelControl.ins.owner.goldNum.text = PaoYa.DataCenter.user.gold
                                 break;
                         }
                         // this.num.pos(28, 175)
@@ -14865,8 +14917,8 @@ var Award = function (_PaoYa$Dialog) {
                             case "sign":
                                 break;
                             case "wheel":
-                                PaoYa.DataCenter.user.diamond += this.params.detail.diamond;
-                                _WheelControl2.default.ins.owner.diamondNum.text = PaoYa.DataCenter.user.gold;
+                                // PaoYa.DataCenter.user.diamond += this.params.detail.diamond
+                                // WheelControl.ins.owner.diamondNum.text = PaoYa.DataCenter.user.gold
                                 break;
                         }
                         // this.num.pos(28, 175)
@@ -15178,7 +15230,18 @@ var Task = function (_PaoYa$Dialog) {
 
             this.taskList.vScrollBarSkin = "";
             this.taskList.renderHandler = new Laya.Handler(this, this.taskListItem);
-            this.taskList.array = this.params;
+            this.taskList.array = this.getNewList(this.params);
+        }
+    }, {
+        key: "getNewList",
+        value: function getNewList(arr) {
+            var arr2 = [];
+            arr.forEach(function (element) {
+                if (element.status != 2) {
+                    arr2.push(element);
+                }
+            });
+            return arr2;
         }
     }, {
         key: "taskListItem",
@@ -15260,7 +15323,7 @@ var Task = function (_PaoYa$Dialog) {
                                 PaoYa.DataCenter.user.dailyTaskStatus = statuss;
                                 _HomeControl2.default.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
 
-                                _this3.taskList.array = _this3.params;
+                                _this3.taskList.array = _this3.getNewList(_this3.params);
                             });
                         });
                     });
@@ -15438,6 +15501,7 @@ var BuyHero = function (_PaoYa$Dialog) {
             this.needNum.pos(755, 167);
 
             this.roleImg.skin = "remote/figure/role_" + this.params.roleId + ".png";
+            this.nameImg.skin = "remote/figure/name_" + this.params.roleId + ".png";
 
             this.buy.on(Laya.Event.CLICK, this, function () {
                 if (PaoYa.DataCenter.user.diamond < _this2.params.rolePrice) {
@@ -15458,10 +15522,10 @@ var BuyHero = function (_PaoYa$Dialog) {
                             _SwordsmanControl2.default.ins.owner.showDetail = element;
                         }
                     });
-                    _SwordsmanControl2.default.ins.owner.params.roleList = _SwordsmanControl2.default.ins.owner.params.roleList.slice(0, 2);
+                    _SwordsmanControl2.default.ins.owner.params.roleList.splice(2, 1);
                     _SwordsmanControl2.default.ins.owner.herolist.array = _SwordsmanControl2.default.ins.owner.params.roleList;
 
-                    // SwordsmanControl.ins.owner.initInfo()
+                    _SwordsmanControl2.default.ins.owner.initInfo();
                     _this2.close();
                 });
             });

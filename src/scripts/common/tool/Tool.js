@@ -56,9 +56,7 @@ export default class Tool {
                 // PaoYa.Request.POST(`manage_data`, { code: num })
             },
             onError() {
-                // PaoYa.Request.GET("change_advertising", {}, () => {
-                //     PaoYa.DataCenter.loginData.advertising = 1
-                // })
+                Tool.noADshare(callBack)
                 err && err()
             },
             onClose(res) {
@@ -81,7 +79,7 @@ export default class Tool {
     }
 
     static inviteFriend(e, num) {
-        if (PaoYa.DataCenter.loginData.is_review || typeof wx == 'undefined') {
+        if (typeof wx == 'undefined') {
             return
         }
         // PaoYa.Request.POST(`manage_data`, { code: num })
@@ -92,8 +90,8 @@ export default class Tool {
         })
     }
 
-    static noADshare(suc, fail) {
-        if (PaoYa.DataCenter.loginData.is_review || typeof wx == 'undefined') {
+    static noADshare(suc) {
+        if (typeof wx == 'undefined') {
             suc && suc()
             return
         }
@@ -113,7 +111,11 @@ export default class Tool {
 
             if (Global.shareNum < 1) {
                 Global.shareNumFail++
-                fail && fail()
+                py.showToast({
+                    title: '分享失败',
+                    icon: 'fail',
+                    duration: 2000
+                })
             }
 
             if (Global.shareNum >= 1 && Global.shareNum <= 4) {
@@ -123,7 +125,11 @@ export default class Tool {
                     suc && suc()
                 } else {
                     Global.shareNumFail++
-                    fail && fail()
+                    py.showToast({
+                        title: '分享失败',
+                        icon: 'fail',
+                        duration: 2000
+                    })
                 }
             }
 
@@ -134,7 +140,11 @@ export default class Tool {
                     suc && suc()
                 } else {
                     Global.shareNumFail++
-                    fail && fail()
+                    py.showToast({
+                        title: '分享失败',
+                        icon: 'fail',
+                        duration: 2000
+                    })
                 }
             }
             Global.shareNum++

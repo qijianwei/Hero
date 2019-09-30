@@ -58,7 +58,17 @@ export default class Task extends PaoYa.Dialog {
 
         this.taskList.vScrollBarSkin = ""
         this.taskList.renderHandler = new Laya.Handler(this, this.taskListItem);
-        this.taskList.array = this.params
+        this.taskList.array = this.getNewList(this.params)
+    }
+
+    getNewList(arr) {
+        let arr2 = []
+        arr.forEach(element => {
+            if (element.status != 2) {
+                arr2.push(element)
+            }
+        });
+        return arr2
     }
 
     taskListItem(cell, index) {
@@ -137,7 +147,7 @@ export default class Task extends PaoYa.Dialog {
                             PaoYa.DataCenter.user.dailyTaskStatus = statuss
                             HomeControl.ins.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
 
-                            this.taskList.array = this.params
+                            this.taskList.array = this.getNewList(this.params)
                         })
                     })
                 })

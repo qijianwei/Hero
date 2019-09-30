@@ -30,12 +30,16 @@ export default class PreOpenManager extends Laya.EventDispatcher {
 
   }
   start(data){
-    this.view.visible=true;
-    this.view.start(data);
+    if(this.view){
+      this.view.visible=true;
+      this.view.start(data);   
+    } 
   }
   endHandler(){
+    if(this.view){
       this.view.visible=false;
       this.event(PreOpenManager.TALKEND)
+    }   
   }
 }
 PreOpenManager.TALKEND=`talkend`;

@@ -249,15 +249,15 @@ new Main();
 Laya.UIConfig.closeDialogOnSide = false;
 
 if (!config.debug) {
-	console.log = function () { };
+ 	console.log = function () { };
 	console.warn = function () { };
-	console.error = function () { };
+	 console.error = function () { };  
 } else {
-	if(window[`wx`]){
+/* 	if(window[`wx`]){
 		console.log = function () { };
 	console.warn = function () { };
 	console.error = function () { };
-	}
+	} */
 	//console.log = function () { };
 	Laya.Stat.show();
 }

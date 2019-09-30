@@ -1,11 +1,14 @@
 import AlertDialog from "./AlertDialog";
 import { Global } from "../../scripts/common/tool/Global";
+import Tool from "../../scripts/common/tool/Tool";
 
 export default class AdventResultDialog5 extends PaoYa.Dialog {
     constructor() {
         super();
     }
     onAwake() {
+        //Laya.Scene.unDestroyedScenes 可以查看未销毁场景
+        this.autoDestroyAtClosed = true;
         let state = this.params.state;
         let time = this.params.time;
         if (state == `wait`) {
@@ -85,11 +88,15 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
                 }
             },
             onError: function onError(res) {
-                var errorDialog = new AlertDialog({
+            /*     var errorDialog = new AlertDialog({
                     title: "温馨提示",
                     message: res.message
                 });
-                errorDialog.popup();
+                errorDialog.popup(); */
+                Tool.noADshare(()=>{
+                    console.log(`没广告,分享成功`)
+                    _this.showGetState();
+                })
             }
         };
         PaoYa.RewardedVideoAd.show(params,true);
