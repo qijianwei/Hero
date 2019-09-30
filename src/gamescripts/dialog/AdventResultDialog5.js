@@ -42,12 +42,14 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
 
     sureHandler() {
         //分情况，在游戏结果促发后展示结果界面
+        this.timerService.stop();
         this.close();
         if (PaoYa.navigator.scenes.length > 1) {
             PaoYa.navigator.popup('/dialog/PassResultDialog', this.params)
         }
     }
     getHandler(){
+        this.timerService.stop()
         PaoYa.Request.POST(`martial_encounter_finish`, {
             result: 1,
             complete: 1
@@ -152,5 +154,9 @@ export default class AdventResultDialog5 extends PaoYa.Dialog {
         rewardView.json = json;
         let view = Laya.Pool.getItemByCreateFun(`RewardViewBig`, rewardView.create, rewardView);
         return view;
+    }
+    onDestroy(){
+        this.timerService&&this.timerService.stop();
+        this.timerService=null;
     }
 }

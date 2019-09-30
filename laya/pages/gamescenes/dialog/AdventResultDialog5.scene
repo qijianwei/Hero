@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"Dialog",
-    "selectedBox":2,
-    "selecteID":125,
+    "selectedBox":121,
+    "selecteID":113,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/dialog/AdventResultDialog5.js","height":750},
     "nodeParent":-1,
@@ -216,7 +216,8 @@
                             "compId":115,
                             "child":[
                                 ]
-                        }]
+                        }],
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,

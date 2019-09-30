@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventResultDialog5.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -3122,13 +3122,11 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
     }, {
         key: "videoHandler",
         value: function videoHandler() {
-            console.log("\u770B\u5E7F\u544A\u590D\u6D3B");
             _Global.Global.dataPoints('奇遇a激励广告');
             var _this = this;
             var params = {
                 onClose: function onClose(res) {
                     if (res.isEnded) {
-                        console.log("\u770B\u5B8C\u5E7F\u544A");
                         _this.close();
                         _GameControl2.default.instance.revive(); //复活
                     } else {
@@ -3326,6 +3324,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
         key: "sureHandler",
         value: function sureHandler() {
             //分情况，在游戏结果促发后展示结果界面
+            this.timerService.stop();
             this.close();
             if (PaoYa.navigator.scenes.length > 1) {
                 PaoYa.navigator.popup('/dialog/PassResultDialog', this.params);
@@ -3336,6 +3335,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
         value: function getHandler() {
             var _this3 = this;
 
+            this.timerService.stop();
             PaoYa.Request.POST("martial_encounter_finish", {
                 result: 1,
                 complete: 1
@@ -3452,6 +3452,12 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
             rewardView.json = json;
             var view = Laya.Pool.getItemByCreateFun("RewardViewBig", rewardView.create, rewardView);
             return view;
+        }
+    }, {
+        key: "onDestroy",
+        value: function onDestroy() {
+            this.timerService && this.timerService.stop();
+            this.timerService = null;
         }
     }]);
 

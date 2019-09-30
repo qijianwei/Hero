@@ -105,13 +105,11 @@ export default class AdventResultDialog extends PaoYa.Dialog {
         }  
     }
     videoHandler(){
-        console.log(`看广告复活`);
         Global.dataPoints('奇遇a激励广告')
         let _this=this;
         var params = {
             onClose: function onClose(res) {
                 if (res.isEnded) {
-                    console.log(`看完广告`)
                     _this.close();
                     GameControl.instance.revive(); //复活
                 } else {
