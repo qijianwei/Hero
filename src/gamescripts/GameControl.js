@@ -262,7 +262,11 @@ export default class GameControl extends PaoYa.Component {
         } else {
             //要加机器人定时器
             if (!this.closeRobot) {
-                Laya.timer.once(2000, this, this.firstWeaponSelect);
+                if(this.gameType==`battle`){
+                    Laya.timer.once(250, this, this.firstWeaponSelect);
+                }else{
+                    Laya.timer.once(1000, this, this.firstWeaponSelect);
+                }    
             }
         }
     }
@@ -719,7 +723,12 @@ export default class GameControl extends PaoYa.Component {
         this.weaponManager = null;
         this.weaponManager = new WeaponManager(this.robotWeaponList);
         this.sWeapon = this.weaponManager.seletedWeapon();
-        Laya.timer.once(1000, this, this.startSelect);
+      
+        if(this.gameType==`battle`){
+            this.startSelect();
+        }else{
+            Laya.timer.once(1000, this, this.startSelect);
+        }
     }
     startSelect() {
         /*  if(!this.sWeapon||this.gameState=='over'){
@@ -748,7 +757,7 @@ export default class GameControl extends PaoYa.Component {
             if (this.gameType == `pass` || this.gameType==`adventure`) {
                 Laya.timer.once(800, this, this.startSelect);
             } else {
-                Laya.timer.once(500, this, this.startSelect);
+                Laya.timer.once(300, this, this.startSelect);
             }
 
         } else {

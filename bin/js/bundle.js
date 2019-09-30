@@ -1004,7 +1004,11 @@ var GameControl = function (_PaoYa$Component) {
             } else {
                 //要加机器人定时器
                 if (!this.closeRobot) {
-                    Laya.timer.once(2000, this, this.firstWeaponSelect);
+                    if (this.gameType == 'battle') {
+                        Laya.timer.once(250, this, this.firstWeaponSelect);
+                    } else {
+                        Laya.timer.once(1000, this, this.firstWeaponSelect);
+                    }
                 }
             }
         }
@@ -1514,7 +1518,12 @@ var GameControl = function (_PaoYa$Component) {
             this.weaponManager = null;
             this.weaponManager = new _WeaponManager2.default(this.robotWeaponList);
             this.sWeapon = this.weaponManager.seletedWeapon();
-            Laya.timer.once(1000, this, this.startSelect);
+
+            if (this.gameType == 'battle') {
+                this.startSelect();
+            } else {
+                Laya.timer.once(1000, this, this.startSelect);
+            }
         }
     }, {
         key: 'startSelect',
@@ -1546,7 +1555,7 @@ var GameControl = function (_PaoYa$Component) {
                 if (this.gameType == 'pass' || this.gameType == 'adventure') {
                     Laya.timer.once(800, this, this.startSelect);
                 } else {
-                    Laya.timer.once(500, this, this.startSelect);
+                    Laya.timer.once(300, this, this.startSelect);
                 }
             } else {
                 this.seletedLaunch = false;
@@ -8812,7 +8821,7 @@ var MatchView = function (_PaoYa$View) {
             var params = this.params;
             this.selfLadderId = params.ladder;
             this.otherLadderId = params.robotLadder;
-            this.selfName.text = params.nickName;
+            this.selfName.text = PaoYa.Utils.formatName(params.nickName);
             this.selfAvstar.texture = 'local/common/hero_' + params.roleId + '.png';
             this.selfLadderInfo = this.findLadderById(this.selfLadderId);
             this.otherLadderInfo = this.findLadderById(this.otherLadderId);
@@ -8883,7 +8892,7 @@ var MatchView = function (_PaoYa$View) {
             this.otherStars.visible = true;
             this.otherName.text = this.params.robotNickName;
             this.otherLadderInfo.texture = 'local/common/badge_' + this.otherLadderInfo.ladderId + '.png';
-            this.otherLadderName.text = this.otherLadderInfo.ladderName;
+            this.otherLadderName.text = PaoYa.Utils.formatName(this.otherLadderInfo.ladderName);
         }
     }, {
         key: 'stopAni',
@@ -8983,8 +8992,10 @@ var Grading = function (_PaoYa$View) {
                     _this2.showDetail = element;
                 }
             });
-
-            this.canUseList = this.canUseList.slice(0, 2);
+            if (this.canUseList.length > 3) {
+                this.canUseList.splice(2, 1);
+            }
+            // this.canUseList = this.canUseList.slice(0, 2)
             this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
             this.herolist.array = this.canUseList;
 
@@ -14871,7 +14882,9 @@ var Award = function (_PaoYa$Dialog) {
         value: function onClosed() {
             if (this.params.isAdventure) {
                 PaoYa.NotificationCenter.postNotification("adventComplete");
-                PaoYa.navigator.popup('/dialog/PassResultDialog', this.params.resultParams);
+                if (PaoYa.navigator.scenes.length > 1) {
+                    PaoYa.navigator.popup('/dialog/PassResultDialog', this.params.resultParams);
+                }
                 return;
             }
             switch (this.params.type) {
@@ -15445,7 +15458,7 @@ var BuyHero = function (_PaoYa$Dialog) {
                             _SwordsmanControl2.default.ins.owner.showDetail = element;
                         }
                     });
-                    _SwordsmanControl2.default.ins.owner.params.roleList = wordsmanControl.ins.owner.params.roleList.slice(0, 2);
+                    _SwordsmanControl2.default.ins.owner.params.roleList = _SwordsmanControl2.default.ins.owner.params.roleList.slice(0, 2);
                     _SwordsmanControl2.default.ins.owner.herolist.array = _SwordsmanControl2.default.ins.owner.params.roleList;
 
                     // SwordsmanControl.ins.owner.initInfo()

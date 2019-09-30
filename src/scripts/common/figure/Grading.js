@@ -43,8 +43,10 @@ export default class Grading extends PaoYa.View {
                 this.showDetail = element
             }
         });
-
-        this.canUseList = this.canUseList.slice(0, 2)
+        if (this.canUseList.length > 3) {
+            this.canUseList.splice(2, 1)
+        }
+        // this.canUseList = this.canUseList.slice(0, 2)
         this.herolist.renderHandler = new Laya.Handler(this, this.figureRender);
         this.herolist.array = this.canUseList
 

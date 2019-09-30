@@ -16,7 +16,7 @@ export default class MatchView extends PaoYa.View{
         let params=this.params;
         this.selfLadderId=params.ladder;
         this.otherLadderId=params.robotLadder;
-        this.selfName.text=params.nickName;
+        this.selfName.text=PaoYa.Utils.formatName(params.nickName);
         this.selfAvstar.texture=`local/common/hero_${params.roleId}.png`
         this.selfLadderInfo=this.findLadderById(this.selfLadderId);
         this.otherLadderInfo=this.findLadderById(this.otherLadderId);
@@ -80,7 +80,7 @@ export default class MatchView extends PaoYa.View{
         this.otherStars.visible=true;
         this.otherName.text=this.params.robotNickName;
         this.otherLadderInfo.texture=`local/common/badge_${this.otherLadderInfo.ladderId}.png`;
-        this.otherLadderName.text=this.otherLadderInfo.ladderName;  
+        this.otherLadderName.text=PaoYa.Utils.formatName(this.otherLadderInfo.ladderName);  
     }
     stopAni(){
         Laya.timer.clearAll(this);

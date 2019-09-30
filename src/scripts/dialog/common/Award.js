@@ -130,9 +130,11 @@ export default class Award extends PaoYa.Dialog {
     }
 
     onClosed() {
-        if(this.params.isAdventure){
+        if (this.params.isAdventure) {
             PaoYa.NotificationCenter.postNotification(`adventComplete`)
-            PaoYa.navigator.popup('/dialog/PassResultDialog', this.params.resultParams)
+            if (PaoYa.navigator.scenes.length > 1) {
+                PaoYa.navigator.popup('/dialog/PassResultDialog', this.params.resultParams)
+            }
             return
         }
         switch (this.params.type) {
