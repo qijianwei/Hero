@@ -43,6 +43,7 @@ export default class MPBar extends PaoYa.Component{
         }else if(this.curMP>this.originMP){
             this.curMP=this.originMP;
         }
+        this.curMP=Math.round(this.curMP);
         this.imgMask.width=Math.floor(this.curMP/this.originMP*this.originW);
         this.lblMpPct.text=`${this.curMP}/${this.originMP}`;
     }

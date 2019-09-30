@@ -109,7 +109,7 @@ export default class HomeControl extends PaoYa.Component {
         this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
             this.GET(`martial_encounter_detail`, {}, (res) => {
                 this.adventParams = res;
-                if (JSON.stringify(res)!='{}') {
+               if (JSON.stringify(res)!='{}') {
                     this.adventBox.visible = true;
                     if (this.originAdventType != res.type) {
                         this.originAdventType = res.type;
@@ -122,7 +122,7 @@ export default class HomeControl extends PaoYa.Component {
                     }
                 } else {
                     this.adventBox.visible = false;
-                }
+                } 
             })
     }
     adventIconClick() {

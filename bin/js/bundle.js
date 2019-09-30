@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventResultDialog5.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -3324,7 +3324,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
         key: "sureHandler",
         value: function sureHandler() {
             //分情况，在游戏结果促发后展示结果界面
-            this.timerService.stop();
+            this.timerService && this.timerService.stop();
             this.close();
             if (PaoYa.navigator.scenes.length > 1) {
                 PaoYa.navigator.popup('/dialog/PassResultDialog', this.params);
@@ -3335,7 +3335,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
         value: function getHandler() {
             var _this3 = this;
 
-            this.timerService.stop();
+            this.timerService && this.timerService.stop();
             PaoYa.Request.POST("martial_encounter_finish", {
                 result: 1,
                 complete: 1
@@ -5729,6 +5729,7 @@ var MPBar = function (_PaoYa$Component) {
             } else if (this.curMP > this.originMP) {
                 this.curMP = this.originMP;
             }
+            this.curMP = Math.round(this.curMP);
             this.imgMask.width = Math.floor(this.curMP / this.originMP * this.originW);
             this.lblMpPct.text = this.curMP + '/' + this.originMP;
         }
