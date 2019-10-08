@@ -66,12 +66,7 @@ export default class HomeControl extends PaoYa.Component {
         this.adventBox.addChild(this.adventAni);
         this.originAdventType = 0;
         this.adventAni.blendMode = `lighter`;
-        //奇遇入口和结果弹框测试
-        /* Laya.timer.once(2000,this,()=>{
-            this.GET(`martial_encounter_detail`,{},(res)=>{
-             this.navigator.popup('/dialog/AdventDialog5',res);
-            }) 
-        })  */
+    
         this.adventBox.on(Laya.Event.CLICK, this, this.adventIconClick);
         this.onNotification('adventCancel', this, () => {
             if(PaoYa.navigator.scenes.length==1){
