@@ -8343,7 +8343,7 @@ var HomeControl = function (_PaoYa$Component) {
             }
             var _this = this;
             this.POST("hero_game_start", {}, function (res) {
-                res.gameType = 'pass';
+                _Global.Global.dataPoints("\u7B2C" + res.stageId + "\u5173");
                 _this9.navigator.push("GameView", res);
             }, function (msg, code) {
                 var errorDialog = void 0;
