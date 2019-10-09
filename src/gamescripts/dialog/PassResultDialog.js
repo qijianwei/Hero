@@ -87,7 +87,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
                     console.log(`看完广告`)
                   
                 } else {
-                    var errorDialog = new _AlertDialog2.default({
+                    var errorDialog = new AlertDialog({
                         title: `温馨提示`,
                         message: '看完广告才可拥有哦~'
                     });

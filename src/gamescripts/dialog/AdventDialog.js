@@ -1,4 +1,6 @@
 import WeaponBar from "../prefab/WeaponBar";
+import HomeControl from "../../scripts/common/HomeControl";
+import AlertDialog from "./AlertDialog";
 
 export default class AdventDialog extends PaoYa.Dialog {
     constructor() {
@@ -38,7 +40,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         this.initFont(advent);
         let weaponBarPromise = new Promise((resolve, reject) => {
             Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
-                console.log(json);
+               // console.log(json);
                 if(json instanceof Laya.Prefab){
                     resolve(json.json)
                 }else{
@@ -79,7 +81,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         }
     }
     initReward(jsons) {
-        console.log(jsons)
+      //  console.log(jsons)
         let weaponList = this.params.weaponList;
         let len = weaponList.length;
         for (let i = 0; i < len; i++) {
@@ -164,6 +166,17 @@ export default class AdventDialog extends PaoYa.Dialog {
                 PaoYa.navigator.push("GameView", res);
             }
           
+        },(msg)=>{
+            var errorDialog = new AlertDialog({
+                title: `温馨提示`,
+                message: msg,
+                confirmHandler:()=>{
+                     _this.close();
+                     PaoYa.navigator.popToRootScene();
+                     PaoYa.navigator.visibleScene.getComponent(HomeControl).goRefiner();
+                 }
+            });
+            errorDialog.popup(); 
         })
     }
     rejectHandler() {

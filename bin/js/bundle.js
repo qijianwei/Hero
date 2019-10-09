@@ -2601,7 +2601,7 @@ var HeroConfig = {
 };exports.default = HeroConfig;
 
 },{}],10:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -2609,9 +2609,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _WeaponBar = require('../prefab/WeaponBar');
+var _WeaponBar = require("../prefab/WeaponBar");
 
 var _WeaponBar2 = _interopRequireDefault(_WeaponBar);
+
+var _HomeControl = require("../../scripts/common/HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+var _AlertDialog = require("./AlertDialog");
+
+var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2631,7 +2639,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
     }
 
     _createClass(AdventDialog, [{
-        key: 'onAwake',
+        key: "onAwake",
         value: function onAwake() {
             var _this3 = this;
 
@@ -2643,22 +2651,22 @@ var AdventDialog = function (_PaoYa$Dialog) {
             }
             console.log(this.params);
             var type = this.params.type;
-            this.spRole.texture = 'remote/guide/' + this.params.dress + '.png';
-            if (this.params.dress == 'npc_3') {
+            this.spRole.texture = "remote/guide/" + this.params.dress + ".png";
+            if (this.params.dress == "npc_3") {
                 this.spRole.y = 177;
             }
             this.adventType = [{
                 type: 1,
-                target: '\u51FB\u6740' + this.params.num + '\u4E2A\u532A\u5F92',
-                detail: '\u8FDC\u5904\u4E00\u843D\u9B44\u5973\u5B50\u62B1\u7740\u5305\u88B1\u8DCC\u8DCC\u649E\u649E\u5730\u51B2\u4F60\u8DD1\u6765\uFF0C\u540E\u9762\u8DDF\u7740\u4E00\u7FA4\u62FF\u5230\u7684\u97E9\u975E\uFF0C\u90A3\u5973\u5B50\u5411\u4F60\u558A\u5230:"\u6551\u547D\u554A\uFF01\u8DEF\u4E0A\u5076\u9047\u72C2\u5F92\uFF0C\u4E0D\u80DC\u5176\u6270\uFF0C\u6073\u8BF7\u5927\u4FA0\u6551\u6551\u5C0F\u5973\u5B50"',
-                agreeText: '\u653E\u5F00\u90A3\u4E2A\u5973\u5B69',
-                rejectText: '\u591A\u4E00\u4E8B\u4E0D\u5982\u5C11\u4E00\u4E8B'
+                target: "\u51FB\u6740" + this.params.num + "\u4E2A\u532A\u5F92",
+                detail: "\u8FDC\u5904\u4E00\u843D\u9B44\u5973\u5B50\u62B1\u7740\u5305\u88B1\u8DCC\u8DCC\u649E\u649E\u5730\u51B2\u4F60\u8DD1\u6765\uFF0C\u540E\u9762\u8DDF\u7740\u4E00\u7FA4\u62FF\u5230\u7684\u97E9\u975E\uFF0C\u90A3\u5973\u5B50\u5411\u4F60\u558A\u5230:\"\u6551\u547D\u554A\uFF01\u8DEF\u4E0A\u5076\u9047\u72C2\u5F92\uFF0C\u4E0D\u80DC\u5176\u6270\uFF0C\u6073\u8BF7\u5927\u4FA0\u6551\u6551\u5C0F\u5973\u5B50\"",
+                agreeText: "\u653E\u5F00\u90A3\u4E2A\u5973\u5B69",
+                rejectText: "\u591A\u4E00\u4E8B\u4E0D\u5982\u5C11\u4E00\u4E8B"
             }, {
                 type: 2,
-                target: '\u5C3D\u53EF\u80FD\u5730\u6253\u8D25\u5B88\u64C2\u4EBA',
-                detail: '\u57CE\u5916\u64C2\u53F0\u8FB9\u4EBA\u5934\u6512\u52A8\uFF0C\u539F\u662F\u544A\u793A\u724C\u4E0A\u65B0\u5F20\u8D34\u4E86\u4E00\u5F20\u82F1\u96C4\u699C\u3002\u56E0\u8FD9\u6B21\u5B88\u64C2\u4E4B\u4EBA\u8749\u8054\u4E86\u56DB\u6B21\u64C2\u4E3B\u4E4B\u4F4D\uFF0C\u5956\u52B1\u53F2\u65E0\u524D\u4F8B\u7684\u4E30\u539A\u3002\u5F88\u591A\u4E60\u6B66\u4E4B\u4EBA\u90FD\u8DC3\u8DC3\u6B32\u8BD5\uFF0C\u8981\u4E0D\u53BB\u770B\u770B\uFF1F',
-                agreeText: '\u72ED\u8DEF\u76F8\u9022\u52C7\u8005\u80DC',
-                rejectText: '\u5C0F\u547D\u8981\u7D27\u6E9C\u4E86\u6E9C\u4E86'
+                target: "\u5C3D\u53EF\u80FD\u5730\u6253\u8D25\u5B88\u64C2\u4EBA",
+                detail: "\u57CE\u5916\u64C2\u53F0\u8FB9\u4EBA\u5934\u6512\u52A8\uFF0C\u539F\u662F\u544A\u793A\u724C\u4E0A\u65B0\u5F20\u8D34\u4E86\u4E00\u5F20\u82F1\u96C4\u699C\u3002\u56E0\u8FD9\u6B21\u5B88\u64C2\u4E4B\u4EBA\u8749\u8054\u4E86\u56DB\u6B21\u64C2\u4E3B\u4E4B\u4F4D\uFF0C\u5956\u52B1\u53F2\u65E0\u524D\u4F8B\u7684\u4E30\u539A\u3002\u5F88\u591A\u4E60\u6B66\u4E4B\u4EBA\u90FD\u8DC3\u8DC3\u6B32\u8BD5\uFF0C\u8981\u4E0D\u53BB\u770B\u770B\uFF1F",
+                agreeText: "\u72ED\u8DEF\u76F8\u9022\u52C7\u8005\u80DC",
+                rejectText: "\u5C0F\u547D\u8981\u7D27\u6E9C\u4E86\u6E9C\u4E86"
             }];
             var advent = this.findAdventByType(type);
             var lbls = this.boxDetail._children;
@@ -2667,7 +2675,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
             this.initFont(advent);
             var weaponBarPromise = new Promise(function (resolve, reject) {
                 Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(_this3, function (json) {
-                    console.log(json);
+                    // console.log(json);
                     if (json instanceof Laya.Prefab) {
                         resolve(json.json);
                     } else {
@@ -2688,22 +2696,22 @@ var AdventDialog = function (_PaoYa$Dialog) {
              this.btnReject.on(Laya.Event.CLICK,this,rejectHandler); */
         }
     }, {
-        key: 'clickHandler',
+        key: "clickHandler",
         value: function clickHandler(e) {
             switch (e.target.name) {
-                case 'btnAgree':
+                case "btnAgree":
                     this.agreeHandler();
                     break;
-                case 'btnReject':
+                case "btnReject":
                     this.rejectHandler();
                     break;
-                case 'closeT':
+                case "closeT":
                     this.hangUp();
                     break;
             }
         }
     }, {
-        key: 'hangUp',
+        key: "hangUp",
         value: function hangUp() {
             this.close();
             if (PaoYa.navigator.scenes.length > 1) {
@@ -2711,9 +2719,9 @@ var AdventDialog = function (_PaoYa$Dialog) {
             }
         }
     }, {
-        key: 'initReward',
+        key: "initReward",
         value: function initReward(jsons) {
-            console.log(jsons);
+            //  console.log(jsons)
             var weaponList = this.params.weaponList;
             var len = weaponList.length;
             for (var i = 0; i < len; i++) {
@@ -2730,54 +2738,54 @@ var AdventDialog = function (_PaoYa$Dialog) {
             if (this.params.diamond) {
                 var diamondView = this.createRewardBox(jsons[1]);
                 console.log(diamondView.getChildByName("lblNum").text);
-                diamondView.getChildByName('lblNum').scale(0.4, 0.4);
-                diamondView.getChildByName('lblNum').text = '\xD7 ' + this.params.diamond;
-                diamondView.getChildByName('lblNum').font = 'weaponNFontT';
+                diamondView.getChildByName("lblNum").scale(0.4, 0.4);
+                diamondView.getChildByName("lblNum").text = "\xD7 " + this.params.diamond;
+                diamondView.getChildByName("lblNum").font = "weaponNFontT";
                 this.hboxReward.addChild(diamondView);
             }
             if (this.params.gold) {
                 var goldView = this.createRewardBox(jsons[1]);
                 goldView.getChildByName('lblNum').scale(0.4, 0.4);
-                goldView.getChildByName('lblNum').text = '\xD7 ' + this.params.gold;
-                goldView.getChildByName('lblNum').font = 'weaponNFontT';
-                goldView.getChildByName('spReward').texture = 'local/common/icon.png';
+                goldView.getChildByName('lblNum').text = "\xD7 " + this.params.gold;
+                goldView.getChildByName('lblNum').font = "weaponNFontT";
+                goldView.getChildByName("spReward").texture = "local/common/icon.png";
                 this.hboxReward.addChild(goldView);
             }
         }
     }, {
-        key: 'createRewardBox',
+        key: "createRewardBox",
         value: function createRewardBox(json) {
             var rewardView = new Laya.Prefab();
             rewardView.json = json;
-            var view = Laya.Pool.getItemByCreateFun('RewardView', rewardView.create, rewardView);
+            var view = Laya.Pool.getItemByCreateFun("RewardView", rewardView.create, rewardView);
             return view;
         }
     }, {
-        key: 'initFont',
+        key: "initFont",
         value: function initFont(advent) {
             var len = this.boxLbls._children.length;
             for (var i = 0; i < len; i++) {
-                this.boxLbls._children[i].font = 'adventure';
+                this.boxLbls._children[i].font = "adventure";
             }
             this.lblAgree.text = advent.agreeText;
             this.lblReject.text = advent.rejectText;
-            this.lblAgree.font = 'adventure';
-            this.lblReject.font = 'adventure';
+            this.lblAgree.font = "adventure";
+            this.lblReject.font = "adventure";
         }
     }, {
-        key: 'findAdventByType',
+        key: "findAdventByType",
         value: function findAdventByType(type) {
             return this.adventType.filter(function (item) {
                 return item.type == type;
             })[0];
         }
     }, {
-        key: 'agreeHandler',
+        key: "agreeHandler",
         value: function agreeHandler() {
             var _this4 = this;
 
             var _this = this;
-            console.log('\u8FDB\u5165\u5947\u9047');
+            console.log("\u8FDB\u5165\u5947\u9047");
             PaoYa.Request.POST("hero_game_start", {
                 stageId: this.params.id
             }, function (res) {
@@ -2807,17 +2815,28 @@ var AdventDialog = function (_PaoYa$Dialog) {
                     res.gameType = 'adventure';
                     PaoYa.navigator.push("GameView", res);
                 }
+            }, function (msg) {
+                var errorDialog = new _AlertDialog2.default({
+                    title: "\u6E29\u99A8\u63D0\u793A",
+                    message: msg,
+                    confirmHandler: function confirmHandler() {
+                        _this.close();
+                        PaoYa.navigator.popToRootScene();
+                        PaoYa.navigator.visibleScene.getComponent(_HomeControl2.default).goRefiner();
+                    }
+                });
+                errorDialog.popup();
             });
         }
     }, {
-        key: 'rejectHandler',
+        key: "rejectHandler",
         value: function rejectHandler() {
             var _this5 = this;
 
-            console.log('\u653E\u5F03\u5947\u9047');
-            PaoYa.Request.POST('martial_encounter_cancel', {}, function () {
+            console.log("\u653E\u5F03\u5947\u9047");
+            PaoYa.Request.POST("martial_encounter_cancel", {}, function () {
                 _this5.close();
-                PaoYa.NotificationCenter.postNotification('adventCancel');
+                PaoYa.NotificationCenter.postNotification("adventCancel");
                 if (PaoYa.navigator.scenes.length > 1) {
                     PaoYa.navigator.popup('/dialog/PassResultDialog', _this5.resultParams);
                 }
@@ -2830,7 +2849,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventDialog;
 
-},{"../prefab/WeaponBar":31}],11:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":34,"../prefab/WeaponBar":31,"./AlertDialog":14}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3695,7 +3714,7 @@ var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 var _AlertDialog = require("./AlertDialog");
 
-var _AlertDialog3 = _interopRequireDefault(_AlertDialog);
+var _AlertDialog2 = _interopRequireDefault(_AlertDialog);
 
 var _HomeControl = require("../../scripts/common/HomeControl");
 
@@ -3755,7 +3774,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
             this.btnBack.on(Laya.Event.CLICK, this, this.backHandler);
             var warnDialog = void 0;
             if (this.params.refinerNew == 1) {
-                warnDialog = new _AlertDialog3.default({
+                warnDialog = new _AlertDialog2.default({
                     message: '提高武器属性，去炼器室试试',
                     confirmText: '前往',
                     confirmHandler: function confirmHandler() {
@@ -3766,7 +3785,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 });
                 warnDialog.popup();
             } else if (this.params.roleNew == 1) {
-                warnDialog = new _AlertDialog3.default({
+                warnDialog = new _AlertDialog2.default({
                     message: '胜不骄败不馁，尝试升级英雄！',
                     confirmText: '前往',
                     confirmHandler: function confirmHandler() {
@@ -3777,7 +3796,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 });
                 warnDialog.popup();
             } else if (this.params.weaponNew == 1) {
-                warnDialog = new _AlertDialog3.default({
+                warnDialog = new _AlertDialog2.default({
                     message: '想要神兵相助，去兵器库逛逛！',
                     confirmText: '前往',
                     confirmHandler: function confirmHandler() {
@@ -3855,12 +3874,12 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 }, function (msg, code) {
                     var errorDialog = void 0;
                     if (code == 3018) {
-                        errorDialog = new _AlertDialog3.default({
+                        errorDialog = new _AlertDialog2.default({
                             title: "",
                             message: msg
                         });
                     } else {
-                        errorDialog = new _AlertDialog3.default({
+                        errorDialog = new _AlertDialog2.default({
                             title: "",
                             message: msg,
                             confirmText: '前往',

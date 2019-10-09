@@ -4622,7 +4622,6 @@ var LAST_CLICK_TIME = '_last_click_time';
 Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail) {
     if (throttle === void 0) { throttle = false; }
     caller || (caller = {});
-    var timer = null;
     return this.on(Laya.Event.CLICK, this, function (args) {
         if (!throttle) {
             method.call(caller, args);
