@@ -51,7 +51,49 @@ export default class WeaponHouseControl extends PaoYa.Component {
     }
 
     onThrottleClick(e) {
-        this.owner.lisenClick(e)
+        if (!this.owner) {
+            return
+        }
+        switch (e.target.name) {
+            case `light`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`light`)
+                this.owner.lightNew.visible = false
+                this.showWareList(this.lightList)
+                break;
+            case `middle`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`middle`)
+                this.owner.middleNew.visible = false
+                this.showWareList(this.middleList)
+                break;
+            case `large`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`large`)
+                this.owner.largeNew.visible = false
+                this.showWareList(this.heavyList)
+                break;
+            case `benBack`:
+                if (this.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.navigator.pop()
+                break;
+            case `equip`:
+                if (this.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.chargeWeapon()
+                break;
+            case `upGrade`:
+                if (this.isGuide) {
+                    return
+                }
+                this.upgradeWeapon()
+                break;
+        }
     }
     //获取装备武器详情
     getMyUserDetailList() {

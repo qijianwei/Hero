@@ -49,9 +49,107 @@ export default class WeaponStoreControl extends PaoYa.Component {
 
     onEnable() {
     }
-    
+
     onThrottleClick(e) {
-        this.owner.lisenClick(e)
+        if (!this.owner) {
+            return
+        }
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                this.navigator.pop()
+                break;
+            case `sellBtn`:
+                SoundManager.ins.btn()
+                this.sellWp()
+                break;
+            case `refreshBtn`:
+                SoundManager.ins.btn()
+                if (WeaponStore.ins.isRefrshing) {
+                    true
+                }
+                let isHigh = false, highDeatil
+                this.buyList.forEach(element => {
+                    if (element.weaponStar == 3) {
+                        isHigh = true
+                        highDeatil = element
+                    }
+                });
+                if (isHigh) {
+                    let obj = {
+                        detail: highDeatil,
+                        type: `buy`
+                    }
+                    this.navigator.popup("weapon/StoreSure", obj);
+                } else {
+                    this.refresF()
+                }
+                break;
+            case `sell`:
+                SoundManager.ins.btn()
+                this.wpdType = `sell`
+                this.owner.sell.skin = `remote/weaponstore/3.png`
+                this.owner.buy.skin = `remote/weaponstore/2.png`
+                this.owner.sellPage.visible = true
+                this.owner.buyPage.visible = false
+                this.owner.getWareBtnSkin(`light`)
+                this.owner.lightNew.visible = false
+                this.sellPresentIdx = 0
+                this.showWareList(this.lightList)
+                break;
+            case `buy`:
+                SoundManager.ins.btn()
+                this.wpdType = `buy`
+                this.owner.sell.skin = `remote/weaponstore/2.png`
+                this.owner.buy.skin = `remote/weaponstore/3.png`
+                this.owner.sellPage.visible = false
+                this.owner.buyPage.visible = true
+                this.buyPresentIdx = 0
+                if (this.buyList.length > 0) {
+                    this.owner.weapon.visible = true
+                    this.owner.sellBtn.visible = true
+                    this.owner.buyBtn.visible = true
+                } else {
+                    this.owner.weapon.visible = false
+                    this.owner.buyBtn.visible = false
+                    this.owner.sellBtn.visible = false
+                }
+                this.owner.buyList.array = this.buyList
+                break;
+            case `light`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`light`)
+                this.owner.lightNew.visible = false
+                this.showWareList(this.lightList)
+                break;
+            case `middle`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`middle`)
+                this.owner.middleNew.visible = false
+                this.showWareList(this.middleList)
+                break;
+            case `large`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`large`)
+                this.owner.largeNew.visible = false
+                this.showWareList(this.heavyList)
+                break;
+            case `buyBtn`:
+                SoundManager.ins.btn()
+                let detail = this.currentBuyWeapDetail
+                if (!detail) {
+                    return
+                }
+                if (Number(detail.weaponPrice) > Number(this.owner.goldNum.text)) {
+                    this.navigator.popup("weapon/GoldLack");
+                    return
+                } else {
+                    // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
+                    // this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+                    this.buyWp()
+                }
+                break;
+        }
     }
 
     onDisable() {

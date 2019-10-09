@@ -145,10 +145,10 @@ class Platform {
     }
     /**分享 */
     onShareAppMessage(listener) {
-        wx.onShareAppMessage(listener);
+        wx.aldOnShareAppMessage(listener);
     }
     shareAppMessage(params) {
-        wx.shareAppMessage(params);
+        wx.aldShareAppMessage(params);
     }
     getShareInfo(params) {
         wx.getShareInfo(params);

@@ -18,7 +18,19 @@ export default class DevourControl extends PaoYa.Component {
     }
 
     onThrottleClick(e) {
-        this.owner.lisenClick(e)
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                this.navigator.pop()
+                break;
+            case `eatBtn`:
+                SoundManager.ins.btn()
+                this.eatWp()
+                break;
+            case `choiceBtn`:
+                SoundManager.ins.btn()
+                this.chiocethreeWp()
+        }
     }
 
     getWareList() {

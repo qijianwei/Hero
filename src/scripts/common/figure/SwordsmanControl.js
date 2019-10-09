@@ -1,4 +1,5 @@
 import SoundManager from "../../../gamescripts/SoundManager";
+import { Global } from "../tool/Global";
 
 export default class SwordsmanControl extends PaoYa.Component {
     constructor() {
@@ -15,8 +16,66 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     onThrottleClick(e) {
-        this.owner.lisenClick(e)
-     }
+        if(!this.owner){
+            return
+        }
+        switch (e.target.name) {
+            case `benBack`:
+                if (this.owner.isGuide) {
+                    Global.dataPoints('用户点击人物升级')
+                }
+                if (this.owner.isGuide && !this.owner.guideBack) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.postNotification(`roleIdChanged`, this.owner.params.defaultRole);
+                this.navigator.pop()
+                break;
+            case `lvupbtn`:
+                this.roleLevelUp()
+                break;
+            case `equipbtn`:
+                SoundManager.ins.btn()
+                this.changeRole()
+                break;
+            case `buyBtn`:
+                SoundManager.ins.btn()
+                this.navigator.popup("figure/BuyHero", this.owner.showDetail);
+                break;
+            case `signGet`:
+                SoundManager.ins.btn()
+                PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
+                    //console.log(res)
+                    res.isFromSw = true
+                    if (!res) {
+                        return
+                    }
+                    this.navigator.push("Sign", res);
+                })
+                break;
+            case `skill1`:
+                if (this.owner.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.showSkillDetail(0)
+                break;
+            case `skill2`:
+                if (this.owner.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.showSkillDetail(1)
+                break;
+            case `skill3`:
+                if (this.owner.isGuide) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.showSkillDetail(2)
+                break;
+        }
+    }
 
     roleLevelUp() {
         let numNew = 0
@@ -83,6 +142,6 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     openGetD() {
-       this.navigator.popup("weapon/DiamondLack");
+        this.navigator.popup("weapon/DiamondLack");
     }
 }

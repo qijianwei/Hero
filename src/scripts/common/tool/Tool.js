@@ -99,7 +99,6 @@ export default class Tool {
         // let probability = GameDataCenter.gameData.shareNum ? 100 : 70
         let startTime = new Date().getTime()
         let title = PaoYa.DataCenter.config.game.share_list.randomItem;
-        Laya.SoundManager.stopMusic()
         PaoYa.ShareManager.shareTitle(title, {}, () => {
 
             if (Global.shareNumFail > 1 && Global.shareNum < 5) {

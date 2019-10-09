@@ -1,6 +1,3 @@
-import SignControl from "./SignControl";
-import SoundManager from "../../../gamescripts/SoundManager";
-import Tool from "../tool/Tool";
 import { Global } from "../tool/Global";
 
 export default class Sign extends PaoYa.View {
@@ -23,18 +20,7 @@ export default class Sign extends PaoYa.View {
     }
 
     lisenClick(e) {
-        switch (e.target.name) {
-            case `benBack`:
-                SoundManager.ins.btn()
-                SignControl.ins.navigator.pop()
-                break;
-            case `eatTxt`:
-                Global.dataPoints('签到激励广告')
-                Tool.showVideoAD(()=>{
-                    SignControl.ins.getAward()
-                })
-                break;
-        }
+       
     }
 
 

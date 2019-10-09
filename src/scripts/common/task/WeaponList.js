@@ -50,28 +50,28 @@ export default class WeaponList extends PaoYa.View {
         this.getWareBtnSkin(`light`)
         WeaponListControl.ins.showWareList(this.params.lightList)
         
-        this.benBack.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            WeaponListControl.ins.navigator.pop()
-        })
+        // this.benBack.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     WeaponListControl.ins.navigator.pop()
+        // })
 
-        this.light.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            this.getWareBtnSkin(`light`)
-            WeaponListControl.ins.showWareList(this.params.lightList)
-        })
+        // this.light.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     this.getWareBtnSkin(`light`)
+        //     WeaponListControl.ins.showWareList(this.params.lightList)
+        // })
 
-        this.middle.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            this.getWareBtnSkin(`middle`)
-            WeaponListControl.ins.showWareList(this.params.middleList)
-        })
+        // this.middle.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     this.getWareBtnSkin(`middle`)
+        //     WeaponListControl.ins.showWareList(this.params.middleList)
+        // })
 
-        this.large.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            this.getWareBtnSkin(`large`)
-            WeaponListControl.ins.showWareList(this.params.heavyList)
-        })
+        // this.large.on(Laya.Event.CLICK, this, () => {
+        //     SoundManager.ins.btn()
+        //     this.getWareBtnSkin(`large`)
+        //     WeaponListControl.ins.showWareList(this.params.heavyList)
+        // })
     }
 
     getWareBtnSkin(name) {

@@ -1,8 +1,6 @@
 import DevourControl from "./DevourControl";
 import SoundManager from "../../../gamescripts/SoundManager";
 import Refining from "./Refining";
-import { Global } from "../tool/Global";
-import RefiningControl from "./RefiningControl";
 
 export default class Devour extends PaoYa.View {
     constructor() {
@@ -81,19 +79,7 @@ export default class Devour extends PaoYa.View {
     }
 
     lisenClick(e) {
-        switch (e.target.name) {
-            case `benBack`:
-                SoundManager.ins.btn()
-                DevourControl.ins.navigator.pop()
-                break;
-            case `eatBtn`:
-                SoundManager.ins.btn()
-                DevourControl.ins.eatWp()
-                break;
-            case `choiceBtn`:
-                SoundManager.ins.btn()
-                DevourControl.ins.chiocethreeWp()
-        }
+      
     }
 
     initInfo() {

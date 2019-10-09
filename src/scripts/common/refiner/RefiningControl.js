@@ -17,7 +17,37 @@ export default class RefiningControl extends PaoYa.Component {
     }
 
     onThrottleClick(e) {
-        this.owner.lisenClick(e)
+        if (!this.owner) {
+            return
+        }
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                this.navigator.pop()
+                break;
+            case `figure`:
+                if (this.owner.figureD.visible) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.owner.figure.skin = `remote/refining/4.png`
+                this.owner.weopon.skin = `remote/refining/5.png`
+
+                this.owner.figureD.visible = true
+                this.owner.weoponD.visible = false
+                break;
+            case `weopon`:
+                if (this.owner.weoponD.visible) {
+                    return
+                }
+                SoundManager.ins.btn()
+                this.owner.figure.skin = `remote/refining/2.png`
+                this.owner.weopon.skin = `remote/refining/3.png`
+
+                this.owner.figureD.visible = false
+                this.owner.weoponD.visible = true
+                break;
+        }
     }
 
     addLv(e) {
@@ -48,7 +78,7 @@ export default class RefiningControl extends PaoYa.Component {
         this.gameContainer.on(Laya.Event.CLICK, this, () => {
             switch (this.guideStep) {
                 case 0:
-                    RefiningControl.ins.addLv(this.owner.params.refiner_list[0])
+                    this.addLv(this.owner.params.refiner_list[0])
                     Global.dataPoints('点击淬体')
                     break;
                 case 1:

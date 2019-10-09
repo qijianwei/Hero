@@ -1,4 +1,3 @@
-import GradingControl from "./GradingControl";
 import HeroConfig from "../../../gamescripts/config/HeroConfig";
 import SoundManager from "../../../gamescripts/SoundManager";
 import { Global } from "../tool/Global";
@@ -81,16 +80,7 @@ export default class Grading extends PaoYa.View {
     }
 
     lisenClick(e) {
-        switch (e.target.name) {
-            case `benBack`:
-                SoundManager.ins.btn()
-                GradingControl.ins.navigator.pop()
-                break;
-            case `gameStart`:
-                SoundManager.ins.btn()
-                GradingControl.ins.gameRole(this.showDetail.roleId)
-                break;
-        }
+     
     }
 
     changeGold() {

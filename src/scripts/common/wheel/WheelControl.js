@@ -17,7 +17,33 @@ export default class WheelControl extends PaoYa.Component {
     }
 
     onThrottleClick(e) {
-        this.owner.lisenClick(e)
+        if (!this.owner) {
+            return
+        }
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                this.navigator.pop()
+                break;
+            case `addbtn`:
+                if (this.owner.isRunning) {
+                    return
+                }
+                if (PaoYa.DataCenter.user.diamond < 500) {
+                    SoundManager.ins.btn()
+                    this.navigator.popup("weapon/DiamondLack");
+                    return
+                }
+                SoundManager.ins.btn()
+                this.addTimes()
+                break;
+            case `startWheel`:
+                if (this.owner.isRunning) {
+                    return
+                }
+                this.wheelTurn()
+                break;
+        }
     }
 
     addTimes() {
@@ -38,7 +64,7 @@ export default class WheelControl extends PaoYa.Component {
             this.owner.startWheelTxt.font = `weaponDFont`
             this.owner.startWheelTxt.scale(0.8, 0.8)
             this.owner.startWheelTxt.pos(60, 10)
-            
+
             PaoYa.DataCenter.user.wheelTimes = res
             this.owner.num.text = res
             this.owner.changeDG()

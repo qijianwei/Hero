@@ -116,46 +116,7 @@ export default class WeaponHouse extends PaoYa.View {
     }
 
     lisenClick(e) {
-        switch (e.target.name) {
-            case `light`:
-                SoundManager.ins.btn()
-                this.getWareBtnSkin(`light`)
-                this.lightNew.visible = false
-                WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.lightList)
-                break;
-            case `middle`:
-                SoundManager.ins.btn()
-                this.getWareBtnSkin(`middle`)
-                this.middleNew.visible = false
-                WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.middleList)
-                break;
-            case `large`:
-                SoundManager.ins.btn()
-                this.getWareBtnSkin(`large`)
-                this.largeNew.visible = false
-                WeaponHouseControl.ins.showWareList(WeaponHouseControl.ins.heavyList)
-                break;
-            case `benBack`:
-                if (WeaponHouseControl.ins.isGuide) {
-                    return
-                }
-                SoundManager.ins.btn()
-                WeaponHouseControl.ins.navigator.pop()
-                break;
-            case `equip`:
-                if (WeaponHouseControl.ins.isGuide) {
-                    return
-                }
-                SoundManager.ins.btn()
-                WeaponHouseControl.ins.chargeWeapon()
-                break;
-            case `upGrade`:
-                if (WeaponHouseControl.ins.isGuide) {
-                    return
-                }
-                WeaponHouseControl.ins.upgradeWeapon()
-                break;
-        }
+      
     }
 
     getWareBtnSkin(name) {

@@ -15,6 +15,33 @@ export default class WeaponListControl extends PaoYa.Component {
 
     }
 
+    onThrottleClick(e) {
+        if(!this.owner){
+            return
+        }
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                this.navigator.pop()
+                break;
+            case `light`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`light`)
+                this.showWareList(this.owner.params.lightList)
+                break;
+            case `middle`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`middle`)
+                this.showWareList(this.owner.params.middleList)
+                break;
+            case `large`:
+                SoundManager.ins.btn()
+                this.owner.getWareBtnSkin(`large`)
+                this.showWareList(this.owner.params.heavyList)
+                break;
+        }
+    }
+
     showWareList(list) {
         let showList = JSON.parse(JSON.stringify(list))
         let arr = []

@@ -1,5 +1,9 @@
 import Swordsman from "../figure/Swordsman";
 import HomeControl from "../HomeControl";
+import SoundManager from "../../../gamescripts/SoundManager";
+
+import Tool from "../tool/Tool";
+import { Global } from "../tool/Global";
 
 export default class SignControl extends PaoYa.Component {
     constructor() {
@@ -16,7 +20,18 @@ export default class SignControl extends PaoYa.Component {
     }
 
     onThrottleClick(e) {
-        this.owner.lisenClick(e)
+        switch (e.target.name) {
+            case `benBack`:
+                SoundManager.ins.btn()
+                this.navigator.pop()
+                break;
+            case `eatTxt`:
+                Global.dataPoints('签到激励广告')
+                Tool.showVideoAD(() => {
+                    this.getAward()
+                })
+                break;
+        }
     }
 
     getAward() {

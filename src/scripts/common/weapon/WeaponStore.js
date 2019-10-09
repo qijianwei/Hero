@@ -1,5 +1,4 @@
 import WeaponStoreControl from "./WeaponStoreControl";
-import SoundManager from "../../../gamescripts/SoundManager";
 
 export default class WeaponStore extends PaoYa.View {
 
@@ -173,102 +172,7 @@ export default class WeaponStore extends PaoYa.View {
     }
 
     lisenClick(e) {
-        switch (e.target.name) {
-            case `benBack`:
-                SoundManager.ins.btn()
-                WeaponStoreControl.ins.navigator.pop()
-                break;
-            case `sellBtn`:
-                SoundManager.ins.btn()
-                WeaponStoreControl.ins.sellWp()
-                break;
-            case `refreshBtn`:
-                SoundManager.ins.btn()
-                if (WeaponStore.ins.isRefrshing) {
-                    true
-                }
-                let isHigh = false, highDeatil
-                WeaponStoreControl.ins.buyList.forEach(element => {
-                    if (element.weaponStar == 3) {
-                        isHigh = true
-                        highDeatil = element
-                    }
-                });
-                if (isHigh) {
-                    let obj = {
-                        detail: highDeatil,
-                        type: `buy`
-                    }
-                    WeaponStoreControl.ins.navigator.popup("weapon/StoreSure", obj);
-                } else {
-                    WeaponStoreControl.ins.refresF()
-                }
-                break;
-            case `sell`:
-                SoundManager.ins.btn()
-                WeaponStoreControl.ins.wpdType = `sell`
-                this.sell.skin = `remote/weaponstore/3.png`
-                this.buy.skin = `remote/weaponstore/2.png`
-                this.sellPage.visible = true
-                this.buyPage.visible = false
-                this.getWareBtnSkin(`light`)
-                this.lightNew.visible = false
-                WeaponStoreControl.ins.sellPresentIdx = 0
-                WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.lightList)
-                break;
-            case `buy`:
-                SoundManager.ins.btn()
-                WeaponStoreControl.ins.wpdType = `buy`
-                this.sell.skin = `remote/weaponstore/2.png`
-                this.buy.skin = `remote/weaponstore/3.png`
-                this.sellPage.visible = false
-                this.buyPage.visible = true
-                WeaponStoreControl.ins.buyPresentIdx = 0
-                if (WeaponStoreControl.ins.buyList.length > 0) {
-                    this.weapon.visible = true
-                    this.sellBtn.visible = true
-                    this.buyBtn.visible = true
-                } else {
-                    this.weapon.visible = false
-                    this.buyBtn.visible = false
-                    this.sellBtn.visible = false
-                }
-                this.buyList.array = WeaponStoreControl.ins.buyList
-                break;
-            case `light`:
-                SoundManager.ins.btn()
-                this.getWareBtnSkin(`light`)
-                this.lightNew.visible = false
-                WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.lightList)
-                break;
-            case `middle`:
-                SoundManager.ins.btn()
-                this.getWareBtnSkin(`middle`)
-                this.middleNew.visible = false
-                WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.middleList)
-                break;
-            case `large`:
-                SoundManager.ins.btn()
-                this.getWareBtnSkin(`large`)
-                this.largeNew.visible = false
-                WeaponStoreControl.ins.showWareList(WeaponStoreControl.ins.heavyList)
-                break;
-            case `buyBtn`:
-                SoundManager.ins.btn()
-                let detail = WeaponStoreControl.ins.currentBuyWeapDetail
-                if (!detail) {
-                    return
-                }
-                if (Number(detail.weaponPrice) > Number(this.goldNum.text)) {
-                    WeaponStoreControl.ins.navigator.popup("weapon/GoldLack");
-                    return
-                } else {
-                    // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
-                    // this.goldNum.text = PaoYa.DataCenter.user.gold
-                    WeaponStoreControl.ins.buyWp()
-                }
-                break;
-        }
+        
     }
 
     getWareBtnSkin(name) {

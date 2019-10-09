@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -8343,6 +8343,7 @@ var HomeControl = function (_PaoYa$Component) {
             }
             var _this = this;
             this.POST("hero_game_start", {}, function (res) {
+                res.gameType = "pass";
                 _Global.Global.dataPoints("\u7B2C" + res.stageId + "\u5173");
                 _this9.navigator.push("GameView", res);
             }, function (msg, code) {
@@ -8985,10 +8986,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _GradingControl = require("./GradingControl");
-
-var _GradingControl2 = _interopRequireDefault(_GradingControl);
-
 var _HeroConfig = require("../../../gamescripts/config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
@@ -9091,18 +9088,7 @@ var Grading = function (_PaoYa$View) {
         }
     }, {
         key: "lisenClick",
-        value: function lisenClick(e) {
-            switch (e.target.name) {
-                case "benBack":
-                    _SoundManager2.default.ins.btn();
-                    _GradingControl2.default.ins.navigator.pop();
-                    break;
-                case "gameStart":
-                    _SoundManager2.default.ins.btn();
-                    _GradingControl2.default.ins.gameRole(this.showDetail.roleId);
-                    break;
-            }
-        }
+        value: function lisenClick(e) {}
     }, {
         key: "changeGold",
         value: function changeGold() {}
@@ -9173,7 +9159,7 @@ var Grading = function (_PaoYa$View) {
 
 exports.default = Grading;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51,"./GradingControl":40}],40:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9181,6 +9167,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9209,7 +9201,19 @@ var GradingControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            if (!this.owner) {
+                return;
+            }
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "gameStart":
+                    _SoundManager2.default.ins.btn();
+                    this.gameRole(this.owner.showDetail.roleId);
+                    break;
+            }
         }
     }, {
         key: "gameRole",
@@ -9228,7 +9232,7 @@ var GradingControl = function (_PaoYa$Component) {
 
 exports.default = GradingControl;
 
-},{}],41:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9236,10 +9240,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _SwordsmanControl = require("./SwordsmanControl");
-
-var _SwordsmanControl2 = _interopRequireDefault(_SwordsmanControl);
 
 var _HeroConfig = require("../../../gamescripts/config/HeroConfig");
 
@@ -9393,64 +9393,7 @@ var Swordsman = function (_PaoYa$View) {
         }
     }, {
         key: "lisenClick",
-        value: function lisenClick(e) {
-            switch (e.target.name) {
-                case "benBack":
-                    if (this.isGuide) {
-                        _Global.Global.dataPoints('用户点击人物升级');
-                    }
-                    if (this.isGuide && !this.guideBack) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    _SwordsmanControl2.default.ins.postNotification("roleIdChanged", this.params.defaultRole);
-                    _SwordsmanControl2.default.ins.navigator.pop();
-                    break;
-                case "lvupbtn":
-                    _SwordsmanControl2.default.ins.roleLevelUp();
-                    break;
-                case "equipbtn":
-                    _SoundManager2.default.ins.btn();
-                    _SwordsmanControl2.default.ins.changeRole();
-                    break;
-                case "buyBtn":
-                    _SoundManager2.default.ins.btn();
-                    _SwordsmanControl2.default.ins.navigator.popup("figure/BuyHero", this.showDetail);
-                    break;
-                case "signGet":
-                    _SoundManager2.default.ins.btn();
-                    PaoYa.Request.GET("martial_login_bonus_list", {}, function (res) {
-                        //console.log(res)
-                        res.isFromSw = true;
-                        if (!res) {
-                            return;
-                        }
-                        _SwordsmanControl2.default.ins.navigator.push("Sign", res);
-                    });
-                    break;
-                case "skill1":
-                    if (this.isGuide) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    _SwordsmanControl2.default.ins.showSkillDetail(0);
-                    break;
-                case "skill2":
-                    if (this.isGuide) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    _SwordsmanControl2.default.ins.showSkillDetail(1);
-                    break;
-                case "skill3":
-                    if (this.isGuide) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    _SwordsmanControl2.default.ins.showSkillDetail(2);
-                    break;
-            }
-        }
+        value: function lisenClick(e) {}
         //初始化展示信息
 
     }, {
@@ -9724,7 +9667,7 @@ var Swordsman = function (_PaoYa$View) {
 
 exports.default = Swordsman;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51,"./SwordsmanControl":42}],42:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9736,6 +9679,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+var _Global = require("../tool/Global");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9766,12 +9711,72 @@ var SwordsmanControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            var _this2 = this;
+
+            if (!this.owner) {
+                return;
+            }
+            switch (e.target.name) {
+                case "benBack":
+                    if (this.owner.isGuide) {
+                        _Global.Global.dataPoints('用户点击人物升级');
+                    }
+                    if (this.owner.isGuide && !this.owner.guideBack) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.postNotification("roleIdChanged", this.owner.params.defaultRole);
+                    this.navigator.pop();
+                    break;
+                case "lvupbtn":
+                    this.roleLevelUp();
+                    break;
+                case "equipbtn":
+                    _SoundManager2.default.ins.btn();
+                    this.changeRole();
+                    break;
+                case "buyBtn":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.popup("figure/BuyHero", this.owner.showDetail);
+                    break;
+                case "signGet":
+                    _SoundManager2.default.ins.btn();
+                    PaoYa.Request.GET("martial_login_bonus_list", {}, function (res) {
+                        //console.log(res)
+                        res.isFromSw = true;
+                        if (!res) {
+                            return;
+                        }
+                        _this2.navigator.push("Sign", res);
+                    });
+                    break;
+                case "skill1":
+                    if (this.owner.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.showSkillDetail(0);
+                    break;
+                case "skill2":
+                    if (this.owner.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.showSkillDetail(1);
+                    break;
+                case "skill3":
+                    if (this.owner.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.showSkillDetail(2);
+                    break;
+            }
         }
     }, {
         key: "roleLevelUp",
         value: function roleLevelUp() {
-            var _this2 = this;
+            var _this3 = this;
 
             var numNew = 0;
             if (this.owner.isGuide) {
@@ -9792,38 +9797,38 @@ var SwordsmanControl = function (_PaoYa$Component) {
             }
             PaoYa.Request.POST("martial_update_role", { roleId: this.owner.showDetail.roleId, newHand: numNew }, function (res) {
                 _SoundManager2.default.ins.upgrade();
-                _this2.owner.heroLvup.visible = true;
-                _this2.owner.heroLvup.play(0, false);
-                _this2.owner.params.roleList.forEach(function (element) {
+                _this3.owner.heroLvup.visible = true;
+                _this3.owner.heroLvup.play(0, false);
+                _this3.owner.params.roleList.forEach(function (element) {
                     if (element.roleId == res.role.roleId) {
                         for (var key in element) {
                             element[key] = res.role[key];
                         }
-                        _this2.owner.showDetail = element;
+                        _this3.owner.showDetail = element;
                     }
                 });
-                _this2.owner.initInfo();
+                _this3.owner.initInfo();
 
                 if (res.unlock) {
                     var detail = null;
-                    _this2.owner.showDetail.skills.forEach(function (element) {
+                    _this3.owner.showDetail.skills.forEach(function (element) {
                         if (element.status) {
                             detail = element;
                         }
                     });
 
-                    _this2.navigator.popup("figure/GetNewSkill", detail);
+                    _this3.navigator.popup("figure/GetNewSkill", detail);
                 }
             });
         }
     }, {
         key: "changeRole",
         value: function changeRole() {
-            var _this3 = this;
+            var _this4 = this;
 
             PaoYa.Request.POST("martial_change_role", { roleId: this.owner.showDetail.roleId }, function (res) {
-                _this3.owner.params.defaultRole = res.roleId;
-                _this3.owner.initInfo();
+                _this4.owner.params.defaultRole = res.roleId;
+                _this4.owner.initInfo();
             });
         }
     }, {
@@ -9851,7 +9856,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
 
 exports.default = SwordsmanControl;
 
-},{"../../../gamescripts/SoundManager":7}],43:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9871,12 +9876,6 @@ var _SoundManager2 = _interopRequireDefault(_SoundManager);
 var _Refining = require("./Refining");
 
 var _Refining2 = _interopRequireDefault(_Refining);
-
-var _Global = require("../tool/Global");
-
-var _RefiningControl = require("./RefiningControl");
-
-var _RefiningControl2 = _interopRequireDefault(_RefiningControl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9971,21 +9970,7 @@ var Devour = function (_PaoYa$View) {
         }
     }, {
         key: "lisenClick",
-        value: function lisenClick(e) {
-            switch (e.target.name) {
-                case "benBack":
-                    _SoundManager2.default.ins.btn();
-                    _DevourControl2.default.ins.navigator.pop();
-                    break;
-                case "eatBtn":
-                    _SoundManager2.default.ins.btn();
-                    _DevourControl2.default.ins.eatWp();
-                    break;
-                case "choiceBtn":
-                    _SoundManager2.default.ins.btn();
-                    _DevourControl2.default.ins.chiocethreeWp();
-            }
-        }
+        value: function lisenClick(e) {}
     }, {
         key: "initInfo",
         value: function initInfo() {
@@ -10125,7 +10110,7 @@ var Devour = function (_PaoYa$View) {
 
 exports.default = Devour;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./DevourControl":44,"./Refining":45,"./RefiningControl":46}],44:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"./DevourControl":44,"./Refining":45}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10176,7 +10161,19 @@ var DevourControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "eatBtn":
+                    _SoundManager2.default.ins.btn();
+                    this.eatWp();
+                    break;
+                case "choiceBtn":
+                    _SoundManager2.default.ins.btn();
+                    this.chiocethreeWp();
+            }
         }
     }, {
         key: "getWareList",
@@ -10528,14 +10525,6 @@ var _SoundManager = require("../../../gamescripts/SoundManager");
 
 var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
-var _Devour = require("./Devour");
-
-var _Devour2 = _interopRequireDefault(_Devour);
-
-var _DevourControl = require("./DevourControl");
-
-var _DevourControl2 = _interopRequireDefault(_DevourControl);
-
 var _Global = require("../tool/Global");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -10604,36 +10593,7 @@ var Refining = function (_PaoYa$View) {
         }
     }, {
         key: "lisenClick",
-        value: function lisenClick(e) {
-            switch (e.target.name) {
-                case "benBack":
-                    _SoundManager2.default.ins.btn();
-                    _RefiningControl2.default.ins.navigator.pop();
-                    break;
-                case "figure":
-                    if (this.figureD.visible) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    this.figure.skin = "remote/refining/4.png";
-                    this.weopon.skin = "remote/refining/5.png";
-
-                    this.figureD.visible = true;
-                    this.weoponD.visible = false;
-                    break;
-                case "weopon":
-                    if (this.weoponD.visible) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    this.figure.skin = "remote/refining/2.png";
-                    this.weopon.skin = "remote/refining/3.png";
-
-                    this.figureD.visible = false;
-                    this.weoponD.visible = true;
-                    break;
-            }
-        }
+        value: function lisenClick(e) {}
     }, {
         key: "changeData",
         value: function changeData() {
@@ -10679,7 +10639,7 @@ var Refining = function (_PaoYa$View) {
 
 exports.default = Refining;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./Devour":43,"./DevourControl":44,"./RefiningControl":46}],46:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./RefiningControl":46}],46:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10727,7 +10687,37 @@ var RefiningControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            if (!this.owner) {
+                return;
+            }
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "figure":
+                    if (this.owner.figureD.visible) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.owner.figure.skin = "remote/refining/4.png";
+                    this.owner.weopon.skin = "remote/refining/5.png";
+
+                    this.owner.figureD.visible = true;
+                    this.owner.weoponD.visible = false;
+                    break;
+                case "weopon":
+                    if (this.owner.weoponD.visible) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.owner.figure.skin = "remote/refining/2.png";
+                    this.owner.weopon.skin = "remote/refining/3.png";
+
+                    this.owner.figureD.visible = false;
+                    this.owner.weoponD.visible = true;
+                    break;
+            }
         }
     }, {
         key: "addLv",
@@ -10764,7 +10754,7 @@ var RefiningControl = function (_PaoYa$Component) {
             this.gameContainer.on(Laya.Event.CLICK, this, function () {
                 switch (_this3.guideStep) {
                     case 0:
-                        RefiningControl.ins.addLv(_this3.owner.params.refiner_list[0]);
+                        _this3.addLv(_this3.owner.params.refiner_list[0]);
                         _Global.Global.dataPoints('点击淬体');
                         break;
                     case 1:
@@ -10855,21 +10845,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _SignControl = require("./SignControl");
-
-var _SignControl2 = _interopRequireDefault(_SignControl);
-
-var _SoundManager = require("../../../gamescripts/SoundManager");
-
-var _SoundManager2 = _interopRequireDefault(_SoundManager);
-
-var _Tool = require("../tool/Tool");
-
-var _Tool2 = _interopRequireDefault(_Tool);
-
 var _Global = require("../tool/Global");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10904,20 +10880,7 @@ var Sign = function (_PaoYa$View) {
         }
     }, {
         key: "lisenClick",
-        value: function lisenClick(e) {
-            switch (e.target.name) {
-                case "benBack":
-                    _SoundManager2.default.ins.btn();
-                    _SignControl2.default.ins.navigator.pop();
-                    break;
-                case "eatTxt":
-                    _Global.Global.dataPoints('签到激励广告');
-                    _Tool2.default.showVideoAD(function () {
-                        _SignControl2.default.ins.getAward();
-                    });
-                    break;
-            }
-        }
+        value: function lisenClick(e) {}
     }, {
         key: "initInfo",
         value: function initInfo() {
@@ -11028,7 +10991,7 @@ var Sign = function (_PaoYa$View) {
 
 exports.default = Sign;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"../tool/Tool":52,"./SignControl":48}],48:[function(require,module,exports){
+},{"../tool/Global":51}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11044,6 +11007,16 @@ var _Swordsman2 = _interopRequireDefault(_Swordsman);
 var _HomeControl = require("../HomeControl");
 
 var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
+var _SoundManager = require("../../../gamescripts/SoundManager");
+
+var _SoundManager2 = _interopRequireDefault(_SoundManager);
+
+var _Tool = require("../tool/Tool");
+
+var _Tool2 = _interopRequireDefault(_Tool);
+
+var _Global = require("../tool/Global");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11074,12 +11047,25 @@ var SignControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            var _this2 = this;
+
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "eatTxt":
+                    _Global.Global.dataPoints('签到激励广告');
+                    _Tool2.default.showVideoAD(function () {
+                        _this2.getAward();
+                    });
+                    break;
+            }
         }
     }, {
         key: "getAward",
         value: function getAward() {
-            var _this2 = this;
+            var _this3 = this;
 
             PaoYa.Request.POST("martial_login_bonus_receive", { adv: 0 }, function (res) {
                 PaoYa.DataCenter.user.loginBonusStatus = false;
@@ -11087,7 +11073,7 @@ var SignControl = function (_PaoYa$Component) {
                     type: "sign",
                     detail: res
                 };
-                _this2.navigator.popup("common/Award", obj);
+                _this3.navigator.popup("common/Award", obj);
             });
         }
     }, {
@@ -11108,7 +11094,7 @@ var SignControl = function (_PaoYa$Component) {
 
 exports.default = SignControl;
 
-},{"../HomeControl":34,"../figure/Swordsman":41}],49:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../HomeControl":34,"../figure/Swordsman":41,"../tool/Global":51,"../tool/Tool":52}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11189,28 +11175,28 @@ var WeaponList = function (_PaoYa$View) {
             this.getWareBtnSkin("light");
             _WeaponListControl2.default.ins.showWareList(this.params.lightList);
 
-            this.benBack.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _WeaponListControl2.default.ins.navigator.pop();
-            });
+            // this.benBack.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     WeaponListControl.ins.navigator.pop()
+            // })
 
-            this.light.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("light");
-                _WeaponListControl2.default.ins.showWareList(_this2.params.lightList);
-            });
+            // this.light.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`light`)
+            //     WeaponListControl.ins.showWareList(this.params.lightList)
+            // })
 
-            this.middle.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("middle");
-                _WeaponListControl2.default.ins.showWareList(_this2.params.middleList);
-            });
+            // this.middle.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`middle`)
+            //     WeaponListControl.ins.showWareList(this.params.middleList)
+            // })
 
-            this.large.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                _this2.getWareBtnSkin("large");
-                _WeaponListControl2.default.ins.showWareList(_this2.params.heavyList);
-            });
+            // this.large.on(Laya.Event.CLICK, this, () => {
+            //     SoundManager.ins.btn()
+            //     this.getWareBtnSkin(`large`)
+            //     WeaponListControl.ins.showWareList(this.params.heavyList)
+            // })
         }
     }, {
         key: "getWareBtnSkin",
@@ -11277,6 +11263,34 @@ var WeaponListControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick(e) {
+            if (!this.owner) {
+                return;
+            }
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "light":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("light");
+                    this.showWareList(this.owner.params.lightList);
+                    break;
+                case "middle":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("middle");
+                    this.showWareList(this.owner.params.middleList);
+                    break;
+                case "large":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("large");
+                    this.showWareList(this.owner.params.heavyList);
+                    break;
+            }
+        }
     }, {
         key: "showWareList",
         value: function showWareList(list) {
@@ -11879,7 +11893,6 @@ var Tool = function () {
             // let probability = GameDataCenter.gameData.shareNum ? 100 : 70
             var startTime = new Date().getTime();
             var title = PaoYa.DataCenter.config.game.share_list.randomItem;
-            Laya.SoundManager.stopMusic();
             PaoYa.ShareManager.shareTitle(title, {}, function () {
 
                 if (_Global.Global.shareNumFail > 1 && _Global.Global.shareNum < 5) {
@@ -12144,48 +12157,7 @@ var WeaponHouse = function (_PaoYa$View) {
         }
     }, {
         key: "lisenClick",
-        value: function lisenClick(e) {
-            switch (e.target.name) {
-                case "light":
-                    _SoundManager2.default.ins.btn();
-                    this.getWareBtnSkin("light");
-                    this.lightNew.visible = false;
-                    _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.lightList);
-                    break;
-                case "middle":
-                    _SoundManager2.default.ins.btn();
-                    this.getWareBtnSkin("middle");
-                    this.middleNew.visible = false;
-                    _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.middleList);
-                    break;
-                case "large":
-                    _SoundManager2.default.ins.btn();
-                    this.getWareBtnSkin("large");
-                    this.largeNew.visible = false;
-                    _WeaponHouseControl2.default.ins.showWareList(_WeaponHouseControl2.default.ins.heavyList);
-                    break;
-                case "benBack":
-                    if (_WeaponHouseControl2.default.ins.isGuide) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    _WeaponHouseControl2.default.ins.navigator.pop();
-                    break;
-                case "equip":
-                    if (_WeaponHouseControl2.default.ins.isGuide) {
-                        return;
-                    }
-                    _SoundManager2.default.ins.btn();
-                    _WeaponHouseControl2.default.ins.chargeWeapon();
-                    break;
-                case "upGrade":
-                    if (_WeaponHouseControl2.default.ins.isGuide) {
-                        return;
-                    }
-                    _WeaponHouseControl2.default.ins.upgradeWeapon();
-                    break;
-            }
-        }
+        value: function lisenClick(e) {}
     }, {
         key: "getWareBtnSkin",
         value: function getWareBtnSkin(name) {
@@ -12378,7 +12350,49 @@ var WeaponHouseControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            if (!this.owner) {
+                return;
+            }
+            switch (e.target.name) {
+                case "light":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("light");
+                    this.owner.lightNew.visible = false;
+                    this.showWareList(this.lightList);
+                    break;
+                case "middle":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("middle");
+                    this.owner.middleNew.visible = false;
+                    this.showWareList(this.middleList);
+                    break;
+                case "large":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("large");
+                    this.owner.largeNew.visible = false;
+                    this.showWareList(this.heavyList);
+                    break;
+                case "benBack":
+                    if (this.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "equip":
+                    if (this.isGuide) {
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.chargeWeapon();
+                    break;
+                case "upGrade":
+                    if (this.isGuide) {
+                        return;
+                    }
+                    this.upgradeWeapon();
+                    break;
+            }
         }
         //获取装备武器详情
 
@@ -12995,7 +13009,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 exports.default = WeaponHouseControl;
 
 },{"../../../gamescripts/SoundManager":7}],55:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -13003,13 +13017,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _WeaponStoreControl = require("./WeaponStoreControl");
+var _WeaponStoreControl = require('./WeaponStoreControl');
 
 var _WeaponStoreControl2 = _interopRequireDefault(_WeaponStoreControl);
-
-var _SoundManager = require("../../../gamescripts/SoundManager");
-
-var _SoundManager2 = _interopRequireDefault(_SoundManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13032,7 +13042,7 @@ var WeaponStore = function (_PaoYa$View) {
     }
 
     _createClass(WeaponStore, [{
-        key: "onAppear",
+        key: 'onAppear',
         value: function onAppear() {
             var _this2 = this;
 
@@ -13041,7 +13051,7 @@ var WeaponStore = function (_PaoYa$View) {
             });
         }
     }, {
-        key: "changeHB",
+        key: 'changeHB',
         value: function changeHB(res) {
             this.goldNum.width = null;
 
@@ -13049,7 +13059,7 @@ var WeaponStore = function (_PaoYa$View) {
                 PaoYa.DataCenter.user.gold = res.gold;
                 var goldnum = addNumberUnit(PaoYa.DataCenter.user.gold);
                 this.goldNum.text = goldnum;
-                this.goldNum.font = "weaponNFontT";
+                this.goldNum.font = 'weaponNFontT';
                 this.goldNum.scale(0.6, 0.6);
                 this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25);
             }
@@ -13058,7 +13068,7 @@ var WeaponStore = function (_PaoYa$View) {
                 PaoYa.DataCenter.user.diamond = res.diamond;
                 var diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond);
                 this.diamondNum.text = diamondnum;
-                this.diamondNum.font = "weaponNFontT";
+                this.diamondNum.font = 'weaponNFontT';
                 this.diamondNum.scale(0.6, 0.6);
                 this.diamondNum.pos(600 + (149 - this.diamondNum.width * 0.6) / 2, 25);
             }
@@ -13080,21 +13090,21 @@ var WeaponStore = function (_PaoYa$View) {
             };
         }
     }, {
-        key: "onEnable",
+        key: 'onEnable',
         value: function onEnable() {
-            this.sellText.font = "weaponDFont";
-            this.buyText.font = "weaponDFont";
+            this.sellText.font = 'weaponDFont';
+            this.buyText.font = 'weaponDFont';
             this.needDiamon.text = 20;
-            this.needDiamon.font = "weaponNFontT";
+            this.needDiamon.font = 'weaponNFontT';
             this.needDiamon.scale(0.5, 0.5);
-            this.refreshTxt.font = "weaponDFont";
+            this.refreshTxt.font = 'weaponDFont';
             this.refreshTxt.scale(0.7, 0.7);
-            this.buyBtnTxt.font = "weaponDFont";
+            this.buyBtnTxt.font = 'weaponDFont';
             this.buyBtnTxt.scale(0.7, 0.7);
-            this.sellBtnTxt.font = "weaponDFont";
+            this.sellBtnTxt.font = 'weaponDFont';
             this.sellBtnTxt.scale(0.7, 0.7);
 
-            this.refreshTimeNum.font = "weaponDFont";
+            this.refreshTimeNum.font = 'weaponDFont';
             this.refreshTimeNum.scale(0.4, 0.4);
 
             // this.benBack.on(Laya.Event.CLICK, this, () => {
@@ -13201,120 +13211,22 @@ var WeaponStore = function (_PaoYa$View) {
             // })
         }
     }, {
-        key: "lisenClick",
-        value: function lisenClick(e) {
-            switch (e.target.name) {
-                case "benBack":
-                    _SoundManager2.default.ins.btn();
-                    _WeaponStoreControl2.default.ins.navigator.pop();
-                    break;
-                case "sellBtn":
-                    _SoundManager2.default.ins.btn();
-                    _WeaponStoreControl2.default.ins.sellWp();
-                    break;
-                case "refreshBtn":
-                    _SoundManager2.default.ins.btn();
-                    if (WeaponStore.ins.isRefrshing) {
-                        true;
-                    }
-                    var isHigh = false,
-                        highDeatil = void 0;
-                    _WeaponStoreControl2.default.ins.buyList.forEach(function (element) {
-                        if (element.weaponStar == 3) {
-                            isHigh = true;
-                            highDeatil = element;
-                        }
-                    });
-                    if (isHigh) {
-                        var obj = {
-                            detail: highDeatil,
-                            type: "buy"
-                        };
-                        _WeaponStoreControl2.default.ins.navigator.popup("weapon/StoreSure", obj);
-                    } else {
-                        _WeaponStoreControl2.default.ins.refresF();
-                    }
-                    break;
-                case "sell":
-                    _SoundManager2.default.ins.btn();
-                    _WeaponStoreControl2.default.ins.wpdType = "sell";
-                    this.sell.skin = "remote/weaponstore/3.png";
-                    this.buy.skin = "remote/weaponstore/2.png";
-                    this.sellPage.visible = true;
-                    this.buyPage.visible = false;
-                    this.getWareBtnSkin("light");
-                    this.lightNew.visible = false;
-                    _WeaponStoreControl2.default.ins.sellPresentIdx = 0;
-                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
-                    break;
-                case "buy":
-                    _SoundManager2.default.ins.btn();
-                    _WeaponStoreControl2.default.ins.wpdType = "buy";
-                    this.sell.skin = "remote/weaponstore/2.png";
-                    this.buy.skin = "remote/weaponstore/3.png";
-                    this.sellPage.visible = false;
-                    this.buyPage.visible = true;
-                    _WeaponStoreControl2.default.ins.buyPresentIdx = 0;
-                    if (_WeaponStoreControl2.default.ins.buyList.length > 0) {
-                        this.weapon.visible = true;
-                        this.sellBtn.visible = true;
-                        this.buyBtn.visible = true;
-                    } else {
-                        this.weapon.visible = false;
-                        this.buyBtn.visible = false;
-                        this.sellBtn.visible = false;
-                    }
-                    this.buyList.array = _WeaponStoreControl2.default.ins.buyList;
-                    break;
-                case "light":
-                    _SoundManager2.default.ins.btn();
-                    this.getWareBtnSkin("light");
-                    this.lightNew.visible = false;
-                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.lightList);
-                    break;
-                case "middle":
-                    _SoundManager2.default.ins.btn();
-                    this.getWareBtnSkin("middle");
-                    this.middleNew.visible = false;
-                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.middleList);
-                    break;
-                case "large":
-                    _SoundManager2.default.ins.btn();
-                    this.getWareBtnSkin("large");
-                    this.largeNew.visible = false;
-                    _WeaponStoreControl2.default.ins.showWareList(_WeaponStoreControl2.default.ins.heavyList);
-                    break;
-                case "buyBtn":
-                    _SoundManager2.default.ins.btn();
-                    var detail = _WeaponStoreControl2.default.ins.currentBuyWeapDetail;
-                    if (!detail) {
-                        return;
-                    }
-                    if (Number(detail.weaponPrice) > Number(this.goldNum.text)) {
-                        _WeaponStoreControl2.default.ins.navigator.popup("weapon/GoldLack");
-                        return;
-                    } else {
-                        // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
-                        // this.goldNum.text = PaoYa.DataCenter.user.gold
-                        _WeaponStoreControl2.default.ins.buyWp();
-                    }
-                    break;
-            }
-        }
+        key: 'lisenClick',
+        value: function lisenClick(e) {}
     }, {
-        key: "getWareBtnSkin",
+        key: 'getWareBtnSkin',
         value: function getWareBtnSkin(name) {
             var _this3 = this;
 
             _WeaponStoreControl2.default.ins.sellPresentIdx = 0;
-            var arr = ["light", "middle", "large"];
+            var arr = ['light', 'middle', 'large'];
             arr.forEach(function (element) {
-                _this3[element].skin = "remote/weaponhouse/14.png";
+                _this3[element].skin = 'remote/weaponhouse/14.png';
             });
-            this[name].skin = "remote/weaponhouse/13.png";
+            this[name].skin = 'remote/weaponhouse/13.png';
         }
     }, {
-        key: "onDisable",
+        key: 'onDisable',
         value: function onDisable() {}
     }]);
 
@@ -13323,7 +13235,7 @@ var WeaponStore = function (_PaoYa$View) {
 
 exports.default = WeaponStore;
 
-},{"../../../gamescripts/SoundManager":7,"./WeaponStoreControl":56}],56:[function(require,module,exports){
+},{"./WeaponStoreControl":56}],56:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13405,7 +13317,106 @@ var WeaponStoreControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            if (!this.owner) {
+                return;
+            }
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "sellBtn":
+                    _SoundManager2.default.ins.btn();
+                    this.sellWp();
+                    break;
+                case "refreshBtn":
+                    _SoundManager2.default.ins.btn();
+                    if (WeaponStore.ins.isRefrshing) {
+                        true;
+                    }
+                    var isHigh = false,
+                        highDeatil = void 0;
+                    this.buyList.forEach(function (element) {
+                        if (element.weaponStar == 3) {
+                            isHigh = true;
+                            highDeatil = element;
+                        }
+                    });
+                    if (isHigh) {
+                        var obj = {
+                            detail: highDeatil,
+                            type: "buy"
+                        };
+                        this.navigator.popup("weapon/StoreSure", obj);
+                    } else {
+                        this.refresF();
+                    }
+                    break;
+                case "sell":
+                    _SoundManager2.default.ins.btn();
+                    this.wpdType = "sell";
+                    this.owner.sell.skin = "remote/weaponstore/3.png";
+                    this.owner.buy.skin = "remote/weaponstore/2.png";
+                    this.owner.sellPage.visible = true;
+                    this.owner.buyPage.visible = false;
+                    this.owner.getWareBtnSkin("light");
+                    this.owner.lightNew.visible = false;
+                    this.sellPresentIdx = 0;
+                    this.showWareList(this.lightList);
+                    break;
+                case "buy":
+                    _SoundManager2.default.ins.btn();
+                    this.wpdType = "buy";
+                    this.owner.sell.skin = "remote/weaponstore/2.png";
+                    this.owner.buy.skin = "remote/weaponstore/3.png";
+                    this.owner.sellPage.visible = false;
+                    this.owner.buyPage.visible = true;
+                    this.buyPresentIdx = 0;
+                    if (this.buyList.length > 0) {
+                        this.owner.weapon.visible = true;
+                        this.owner.sellBtn.visible = true;
+                        this.owner.buyBtn.visible = true;
+                    } else {
+                        this.owner.weapon.visible = false;
+                        this.owner.buyBtn.visible = false;
+                        this.owner.sellBtn.visible = false;
+                    }
+                    this.owner.buyList.array = this.buyList;
+                    break;
+                case "light":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("light");
+                    this.owner.lightNew.visible = false;
+                    this.showWareList(this.lightList);
+                    break;
+                case "middle":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("middle");
+                    this.owner.middleNew.visible = false;
+                    this.showWareList(this.middleList);
+                    break;
+                case "large":
+                    _SoundManager2.default.ins.btn();
+                    this.owner.getWareBtnSkin("large");
+                    this.owner.largeNew.visible = false;
+                    this.showWareList(this.heavyList);
+                    break;
+                case "buyBtn":
+                    _SoundManager2.default.ins.btn();
+                    var detail = this.currentBuyWeapDetail;
+                    if (!detail) {
+                        return;
+                    }
+                    if (Number(detail.weaponPrice) > Number(this.owner.goldNum.text)) {
+                        this.navigator.popup("weapon/GoldLack");
+                        return;
+                    } else {
+                        // PaoYa.DataCenter.user.gold -= Number(detail.weaponPrice)
+                        // this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+                        this.buyWp();
+                    }
+                    break;
+            }
         }
     }, {
         key: "onDisable",
@@ -14180,7 +14191,33 @@ var WheelControl = function (_PaoYa$Component) {
     }, {
         key: "onThrottleClick",
         value: function onThrottleClick(e) {
-            this.owner.lisenClick(e);
+            if (!this.owner) {
+                return;
+            }
+            switch (e.target.name) {
+                case "benBack":
+                    _SoundManager2.default.ins.btn();
+                    this.navigator.pop();
+                    break;
+                case "addbtn":
+                    if (this.owner.isRunning) {
+                        return;
+                    }
+                    if (PaoYa.DataCenter.user.diamond < 500) {
+                        _SoundManager2.default.ins.btn();
+                        this.navigator.popup("weapon/DiamondLack");
+                        return;
+                    }
+                    _SoundManager2.default.ins.btn();
+                    this.addTimes();
+                    break;
+                case "startWheel":
+                    if (this.owner.isRunning) {
+                        return;
+                    }
+                    this.wheelTurn();
+                    break;
+            }
         }
     }, {
         key: "addTimes",

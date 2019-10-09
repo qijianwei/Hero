@@ -345,6 +345,7 @@ export default class HomeControl extends PaoYa.Component {
         }
         let _this = this;
         this.POST("hero_game_start", {}, (res) => {
+            res.gameType=`pass`;
             Global.dataPoints(`第${res.stageId}关`)
             this.navigator.push("GameView", res);
         }, (msg, code) => {

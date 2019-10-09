@@ -1,4 +1,3 @@
-import SwordsmanControl from "./SwordsmanControl";
 import HeroConfig from "../../../gamescripts/config/HeroConfig";
 import SoundManager from "../../../gamescripts/SoundManager";
 import { Global } from "../tool/Global";
@@ -128,62 +127,7 @@ export default class Swordsman extends PaoYa.View {
     }
 
     lisenClick(e) {
-        switch (e.target.name) {
-            case `benBack`:
-                if (this.isGuide) {
-                    Global.dataPoints('用户点击人物升级')
-                }
-                if (this.isGuide && !this.guideBack) {
-                    return
-                }
-                SoundManager.ins.btn()
-                SwordsmanControl.ins.postNotification(`roleIdChanged`, this.params.defaultRole);
-                SwordsmanControl.ins.navigator.pop()
-                break;
-            case `lvupbtn`:
-                SwordsmanControl.ins.roleLevelUp()
-                break;
-            case `equipbtn`:
-                SoundManager.ins.btn()
-                SwordsmanControl.ins.changeRole()
-                break;
-            case `buyBtn`:
-                SoundManager.ins.btn()
-                SwordsmanControl.ins.navigator.popup("figure/BuyHero", this.showDetail);
-                break;
-            case `signGet`:
-                SoundManager.ins.btn()
-                PaoYa.Request.GET("martial_login_bonus_list", {}, res => {
-                    //console.log(res)
-                    res.isFromSw = true
-                    if (!res) {
-                        return
-                    }
-                    SwordsmanControl.ins.navigator.push("Sign", res);
-                })
-                break;
-            case `skill1`:
-                if (this.isGuide) {
-                    return
-                }
-                SoundManager.ins.btn()
-                SwordsmanControl.ins.showSkillDetail(0)
-                break;
-            case `skill2`:
-                if (this.isGuide) {
-                    return
-                }
-                SoundManager.ins.btn()
-                SwordsmanControl.ins.showSkillDetail(1)
-                break;
-            case `skill3`:
-                if (this.isGuide) {
-                    return
-                }
-                SoundManager.ins.btn()
-                SwordsmanControl.ins.showSkillDetail(2)
-                break;
-        }
+   
     }
     //初始化展示信息
     initInfo() {

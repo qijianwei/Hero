@@ -1,7 +1,5 @@
 import RefiningControl from "./RefiningControl";
 import SoundManager from "../../../gamescripts/SoundManager";
-import Devour from "./Devour";
-import DevourControl from "./DevourControl";
 import { Global } from "../tool/Global";
 
 export default class Refining extends PaoYa.View {
@@ -53,34 +51,7 @@ export default class Refining extends PaoYa.View {
     }
 
     lisenClick(e) {
-        switch (e.target.name) {
-            case `benBack`:
-                SoundManager.ins.btn()
-                RefiningControl.ins.navigator.pop()
-                break;
-            case `figure`:
-                if (this.figureD.visible) {
-                    return
-                }
-                SoundManager.ins.btn()
-                this.figure.skin = `remote/refining/4.png`
-                this.weopon.skin = `remote/refining/5.png`
-
-                this.figureD.visible = true
-                this.weoponD.visible = false
-                break;
-            case `weopon`:
-                if (this.weoponD.visible) {
-                    return
-                }
-                SoundManager.ins.btn()
-                this.figure.skin = `remote/refining/2.png`
-                this.weopon.skin = `remote/refining/3.png`
-
-                this.figureD.visible = false
-                this.weoponD.visible = true
-                break;
-        }
+  
     }
 
     changeData() {
