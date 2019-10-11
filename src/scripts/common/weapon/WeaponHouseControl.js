@@ -555,7 +555,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
             if (this.isRequesting) {
                 return
             }
-            if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
+            if (Number(this.owner.needGoldNum.text) > Number(PaoYa.DataCenter.user.gold)) {
                 this.navigator.popup("weapon/GoldLack");
                 return
             } else {

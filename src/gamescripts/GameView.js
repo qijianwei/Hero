@@ -16,8 +16,15 @@ export default class GameView extends PaoYa.View{
       this.otherHPBarScr=this.boxOtherInfo.getChildByName('boxHPBar').getComponent(HPBar);
 
       let sceneSK=new Laya.Skeleton();
-      sceneSK.load(`spine/scene/scene1.sk`,Laya.Handler.create(this,(res)=>{
-        
+      let sceneURL='';
+      if(this.params.gameType==`pass`||this.params.gameType==`adventure`){
+        sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk`;
+        this.sceneBg.texture=`remote/game/scene1.jpg`;
+      }else if(this.params.gameType==`battle`){
+        sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene2.sk`;
+        this.sceneBg.texture=`remote/game/scene2.jpg`;
+      }
+      sceneSK.load(sceneURL,Laya.Handler.create(this,(res)=>{
         sceneSK.play('stand', true);
       //  console.log(sceneSK._templet) 
       }))

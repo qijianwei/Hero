@@ -24,8 +24,17 @@ export default class GradingControl extends PaoYa.Component {
                 this.navigator.pop()
                 break;
             case `gameStart`:
+                let _this=this;
                 SoundManager.ins.btn()
-                this.gameRole(this.owner.showDetail.roleId)
+                PaoYa.AuthManager.auth({
+                    scope: PaoYa.AuthManager.scope.userInfo,
+                    isNecessary:false, //是否强制授权
+                    next() {
+                      console.log(`授权成功`)
+                      _this.gameRole(_this.owner.showDetail.roleId)
+                    },
+                  });
+                
                 break;
         }
     }

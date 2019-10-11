@@ -63,7 +63,7 @@ export default class RefiningControl extends PaoYa.Component {
 
     getMask() {
         this.owner.guide1.visible = true
-
+        Global.dataPoints('进入炼器引导')
         this.guideStep = 0
         this.guideSteps = [{ x: 120, y: 3, radius: 53 }]
 
@@ -151,5 +151,11 @@ export default class RefiningControl extends PaoYa.Component {
 
         this.interactionArea.graphics.clear();
         this.interactionArea.graphics.drawCircle(obj.x + step.x, obj.y + step.y, step.radius, "#000000");
+    }
+
+    onDisable() {
+        if (Global.isShowGrading) {
+            Global.isShowGrading = false
+        }
     }
 }

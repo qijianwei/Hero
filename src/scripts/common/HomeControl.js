@@ -26,6 +26,7 @@ export default class HomeControl extends PaoYa.Component {
     /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
     onAwake() {
         HomeControl.ins = this
+        this.rolesName=['','小虾米','龙女','过儿','乔帮主'];
         let name = PaoYa.DataCenter.user.defaultRoleId;
         let ladder = PaoYa.DataCenter.user.ladder;
 
@@ -50,8 +51,16 @@ export default class HomeControl extends PaoYa.Component {
                 PaoYa.DataCenter.user.defaultRoleId = roleId;
                 let templet = HeroConfig.spineMap[`hero_` + name].templet;
                 this.player.init(templet, 0);
+                if(!PaoYa.DataCenter.userInfoAuth){ //未授权换装 修改名字和默认头像
+                    this.owner.imgAvstar.skin =`local/common/avstar${roleId}.png`;
+                    this.lblName.text = this.rolesName[roleId];
+                }
             }
         });
+        this.onNotification('AuthOK',this,()=>{
+            this.lblName.text = PaoYa.DataCenter.user.nickname;
+            this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
+        })
         this.adventBox = new Laya.Box();
         this.adventBox.size(152, 145);
         this.adventBox.pos(500, 500)
@@ -346,7 +355,7 @@ export default class HomeControl extends PaoYa.Component {
         let _this = this;
         this.POST("hero_game_start", {}, (res) => {
             res.gameType=`pass`;
-            Global.dataPoints(`第${res.stageId}关`)
+            Global.gameStartStat(res.stageId)
             this.navigator.push("GameView", res);
         }, (msg, code) => {
             let errorDialog;

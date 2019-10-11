@@ -84,7 +84,7 @@ export default class Grading extends PaoYa.View {
     }
 
     changeGold() {
-
+        
     }
     //人物列表渲染
     figureRender(cell, idx) {

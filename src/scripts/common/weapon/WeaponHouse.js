@@ -57,7 +57,6 @@ export default class WeaponHouse extends PaoYa.View {
     }
 
     onEnable() {
-        Global.dataPoints('进入兵器店页面')
         // this.getComponent()
         if (WeaponHouseControl.ins.isGuide) {
             this.startGuide()
@@ -128,6 +127,7 @@ export default class WeaponHouse extends PaoYa.View {
     }
 
     startGuide() {
+        Global.dataPoints('进入兵器引导')
         const Sprite = Laya.Sprite;
 
         // 绘制底图

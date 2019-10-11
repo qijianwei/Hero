@@ -88,7 +88,7 @@ var HeroConfig = {
       templet: null
     },
     scene1: {
-      path: "spine/scene/scene1.sk",
+      path:  baseUrl+"spine/scene/scene1.sk",
       templet: null,
     }
   },

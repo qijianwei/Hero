@@ -7,6 +7,7 @@ var Global = {
     shareNumFail: 0,
     AdaptiveWidth: 0,
     gameHeight: null,
+    isShowGrading: false,
     wpGuide: {
         userWeapons: `d001_1-1,z001_1-1,g001_1-1`,
         lightList: [{
@@ -242,6 +243,7 @@ var Global = {
         wx.aldSendEvent(data)
     },
 
+    //关卡开始
     gameStartStat(num) {
         if (typeof wx == 'undefined') {
             return;
@@ -252,6 +254,15 @@ var Global = {
         })
     },
 
+
+    /**
+     * 
+     * @param {*} num  Number  关卡数  必传
+     * @param {*} obj  Object               
+     * 键 static 值1 "complete"胜利  值2"fail"失败  必传
+     *      键zhstatic  值 "中文提示"  选传
+     */
+    //关卡结束
     gameEndStat(num, obj) {
         if (typeof wx == 'undefined') {
             return;

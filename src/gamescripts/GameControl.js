@@ -12,6 +12,7 @@ import WeaponSkill from './prefab/WeaponSkill';
 import GameBanner from './prefab/GameBanner';
 import SoundManager from './SoundManager';
 import PreOpenManager from './preOpen/preOpenManager';
+import { Global } from '../scripts/common/tool/Global';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -106,24 +107,29 @@ export default class GameControl extends PaoYa.Component {
         this.resetPlayerInfo();
         this.errorIndex=0;
         if (!this.closeRobot) {
-            var adParams = {
-                onClose: function onClose(res) {
-                    _this.gameState = 'start';
-                    console.log(`关闭广告`)
-                    _this.beforeGame()
-                },
-                onError: function onError(res) {
-                    if(_this.errorIndex==0){
-                        _this.errorIndex++;
+            if(this.params.stageId<3||this.params.stageId>7){
+                var adParams = {
+                    onClose: function onClose(res) {
                         _this.gameState = 'start';
-                        console.log(`拉取广告失败`)
-                        _this.hasInterstitialAd = false;
+                        console.log(`关闭广告`)
                         _this.beforeGame()
-                    }  
-                }
-            };
-            this.hasInterstitialAd = true;
-            PaoYa.InterstitialAd.show(adParams);
+                    },
+                    onError: function onError(res) {
+                        if(_this.errorIndex==0){
+                            _this.errorIndex++;
+                            _this.gameState = 'start';
+                            console.log(`拉取广告失败`)
+                            _this.hasInterstitialAd = false;
+                            _this.beforeGame()
+                        }  
+                    }
+                };
+                this.hasInterstitialAd = true;
+                PaoYa.InterstitialAd.show(adParams);
+            }else{
+                this.gameState = 'start';
+                this.beforeGame()
+            }    
         }
 
     }
@@ -1086,6 +1092,11 @@ export default class GameControl extends PaoYa.Component {
     //关卡结束
     passOver(loserIsSelf) {
       //  Laya.timer.clearAll(this);
+        if(this.gameType == `pass`){
+            Global.gameEndStat(this.params.stageId,{
+                static:loserIsSelf ? 'fail':'complete'
+            })
+        }
         if (!loserIsSelf) {
             SoundManager.ins.win();
             PaoYa.DataCenter.user.current = this.curNum + 1;
@@ -1105,6 +1116,7 @@ export default class GameControl extends PaoYa.Component {
                 }, (res) => {
                     Laya.MouseManager.enabled = true;
                     res.result = loserIsSelf ? -1 : 1;
+                    res.stageId=this.params.stageId;
                     if (JSON.stringify(res.encounter)=='{}') {
                         PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                         this.navigator.popup('/dialog/PassResultDialog', res);

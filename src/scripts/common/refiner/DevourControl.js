@@ -1,6 +1,7 @@
 import Refining from "./Refining";
 import RefiningControl from "./RefiningControl";
 import SoundManager from "../../../gamescripts/SoundManager";
+import { Global } from "../tool/Global";
 
 export default class DevourControl extends PaoYa.Component {
     constructor() {
@@ -263,6 +264,7 @@ export default class DevourControl extends PaoYa.Component {
         this.gameContainer.on(Laya.Event.CLICK, this, () => {
             switch (this.guideStep) {
                 case 0:
+                    Global.dataPoints('点击淬体')
                     RefiningControl.ins.addLv(this.owner.params.refiner_list[0])
                     break;
                 case 1:
@@ -271,6 +273,7 @@ export default class DevourControl extends PaoYa.Component {
                     this.guideStep = 2
                     this.chiocethreeWp()
                     this.nextStep(this.owner.guide3);
+                    Global.dataPoints('点击一键选中')
                     break;
                 case 2:
                     SoundManager.ins.btn()
@@ -279,6 +282,8 @@ export default class DevourControl extends PaoYa.Component {
                     this.isGuide = false
                     this.nextStep();
                     this.owner.guide3.visible = false
+                    Global.dataPoints('点击吞噬升级')
+                    Global.isShowGrading = true
                     break;
             }
         })
@@ -323,6 +328,7 @@ export default class DevourControl extends PaoYa.Component {
             this.owner.removeChild(this.gameContainer);
             this.owner.guide2.visible = false
             this.owner.guide3.visible = false
+            Refining.ins.isGuide = false
             return;
         }
         let step = this.guideSteps[this.guideStep];

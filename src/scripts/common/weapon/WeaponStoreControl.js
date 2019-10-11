@@ -1,4 +1,5 @@
 import SoundManager from "../../../gamescripts/SoundManager";
+import WeaponStore from "./WeaponStore";
 
 export default class WeaponStoreControl extends PaoYa.Component {
 
@@ -140,7 +141,7 @@ export default class WeaponStoreControl extends PaoYa.Component {
                 if (!detail) {
                     return
                 }
-                if (Number(detail.weaponPrice) > Number(this.owner.goldNum.text)) {
+                if (Number(detail.weaponPrice) > PaoYa.DataCenter.user.gold) {
                     this.navigator.popup("weapon/GoldLack");
                     return
                 } else {

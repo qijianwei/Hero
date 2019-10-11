@@ -194,9 +194,7 @@ export class Main extends GameMain {
 
 
 			
-			/* 场景 */
-			'spine/scene/scene1.png',
-			'spine/scene/scene1.sk',
+		
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas',
 			'res/atlas/remote/debuff_palsy.atlas',
@@ -253,11 +251,11 @@ if (!config.debug) {
 	console.warn = function () { };
 	 console.error = function () { };  
 } else {
-/* 	if(window[`wx`]){
+ 	if(window[`wx`]){
 		console.log = function () { };
 	console.warn = function () { };
 	console.error = function () { };
-	} */
+	} 
 	//console.log = function () { };
 	Laya.Stat.show();
 }

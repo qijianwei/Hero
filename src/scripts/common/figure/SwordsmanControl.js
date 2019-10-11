@@ -16,14 +16,11 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     onThrottleClick(e) {
-        if(!this.owner){
+        if (!this.owner) {
             return
         }
         switch (e.target.name) {
             case `benBack`:
-                if (this.owner.isGuide) {
-                    Global.dataPoints('用户点击人物升级')
-                }
                 if (this.owner.isGuide && !this.owner.guideBack) {
                     return
                 }
@@ -83,12 +80,13 @@ export default class SwordsmanControl extends PaoYa.Component {
             this.owner.guideBack = true
             this.owner.isGuide = false
             this.owner.removeChild(this.owner.guideContainer)
+            Global.dataPoints('用户点击人物升级')
             numNew = 1
         } else {
             if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
                 return
             }
-            if (Number(this.owner.needGoldNum.text) > Number(this.owner.goldNum.text)) {
+            if (Number(this.owner.needGoldNum.text) > PaoYa.DataCenter.user.gold) {
                 this.navigator.popup("weapon/GoldLack");
                 return
             } else {

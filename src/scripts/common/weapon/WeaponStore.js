@@ -1,4 +1,5 @@
 import WeaponStoreControl from "./WeaponStoreControl";
+import { Global } from "../tool/Global";
 
 export default class WeaponStore extends PaoYa.View {
 
@@ -24,7 +25,6 @@ export default class WeaponStore extends PaoYa.View {
             this.goldNum.scale(0.6, 0.6)
             this.goldNum.pos(365 + (149 - this.goldNum.width * 0.6) / 2, 25)
         }
-
         if (res.diamond || res.diamond == 0) {
             PaoYa.DataCenter.user.diamond = res.diamond
             let diamondnum = addNumberUnit(PaoYa.DataCenter.user.diamond)
@@ -52,6 +52,7 @@ export default class WeaponStore extends PaoYa.View {
     }
 
     onEnable() {
+        Global.dataPoints('进入兵器店页面')
         this.sellText.font = `weaponDFont`
         this.buyText.font = `weaponDFont`
         this.needDiamon.text = 20

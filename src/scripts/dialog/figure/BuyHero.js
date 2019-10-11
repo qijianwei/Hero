@@ -55,7 +55,7 @@ export default class BuyHero extends PaoYa.Dialog {
                         SwordsmanControl.ins.owner.showDetail = element
                     }
                 });
-                SwordsmanControl.ins.owner.params.roleList.splice(2, 1)
+                // SwordsmanControl.ins.owner.params.roleList.splice(2, 1)
                 SwordsmanControl.ins.owner.herolist.array = SwordsmanControl.ins.owner.params.roleList
 
                 SwordsmanControl.ins.owner.initInfo()

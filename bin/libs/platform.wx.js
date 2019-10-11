@@ -437,8 +437,14 @@ class LoginManager {
         //获取微信code，这是必须操作
         this.getCode(res => {
             let code = res.code;
+            cb({
+                type: 5,
+                platform: 5,
+                js_code: code,
+                device_info: wx.getSystemInfoSync(),
+            });
             //获取授权信息，必须经过用户授权才可以获取到用户个人信息
-            this.auth({
+       /*      this.auth({
                 success() {
                     //获取用户信息，用于显示头像和昵称
                     if (params.requestUserInfo) {
@@ -454,21 +460,14 @@ class LoginManager {
                         });
                     }
                     else {
-                        cb({
-                            type: 5,
-                            platform: 5,
-                            js_code: code,
-                            device_info: wx.getSystemInfoSync(),
-                        });
+                      
                     }
                 },
                 fail() {
                     Laya.Dialog.manager = null;
                     UIConfig.closeDialogOnSide = false;
-                    UIConfig.popupBgAlpha = 0; 
                     let alert = new _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_1__["default"]();
                     alert.onReceiveUserInfo = function (userInfo) {
-                    UIConfig.popupBgAlpha = 0.5; 
                         cb({
                             type: 5,
                             platform: 5,
@@ -480,7 +479,7 @@ class LoginManager {
                     };
                     alert.popup(true, false);
                 }
-            });
+            }); */
         });
     }
     /**
@@ -578,15 +577,15 @@ class AuthUserInfoDialog extends Laya.Dialog {
     constructor() {
         super();
         this.size(636, 508);
-       /*  let image = new Laya.Image('local/auth/bg.png');
-        this.addChild(image); */
+        let image = new Laya.Image('local/auth/bg.png');
+        this.addChild(image);
     }
     onOpened() {
         let frame = {
-            x: 145,
-            y: 460,
-            width: 345,
-            height: 130
+            x: 26,
+            y: 400,
+            width: 588,
+            height: 85
         };
         let pos = this.localToGlobal(new Laya.Point(frame.x, frame.y));
         this.showUserInfoButton({
@@ -605,9 +604,7 @@ class AuthUserInfoDialog extends Laya.Dialog {
         var screenHeight = Laya.Browser.height;
         var width = stage.designWidth;
         var height = stage.designHeight;
-        /* 这是竖版 */
-       /*  var scaleX = screenWidth / width; */
-        var scaleX = screenHeight / height;
+        var scaleX = screenWidth / width;
         let scale = scaleX / Laya.Browser.pixelRatio;
         let style = {
             top: rect.y * scale,
