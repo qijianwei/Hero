@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: true,
+    debug: false,
     version: '1.0',
     release: 10
 };
@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/HomeView.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -588,8 +588,7 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupGameRes() {
 			var list = [
 			/* 首屏资源和公共资源 */
-			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas',
-
+			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas', 'remote/game/scene1.jpg',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
 			'res/atlas/remote/collision.atlas',
@@ -1048,12 +1047,21 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'resetPlayerInfo',
         value: function resetPlayerInfo() {
+            var myRoleName = '';
+            var otherRoleName = '';
+            if (this.gameType == 'battle') {
+                myRoleName = this.params.nickName;
+                otherRoleName = this.params.robotNickName;
+            } else {
+                myRoleName = this.role.roleName;
+                otherRoleName = this.robotRole.roleName;
+            }
             this.owner.setInfo({
-                name: this.role.roleName,
+                name: myRoleName,
                 icon: 'local/common/' + this.role.roleDress + '.png'
             }, true);
             this.owner.setInfo({
-                name: this.robotRole.roleName,
+                name: otherRoleName,
                 icon: 'local/common/' + this.robotRole.roleDress + '.png'
             }, false);
         }
@@ -1178,7 +1186,7 @@ var GameControl = function (_PaoYa$Component) {
                 //暂时
                 var weaponBar = null;
                 if (this.weaponBar.create) {
-                    console.log(this.weaponBar);
+                    //console.log(this.weaponBar)
                     weaponBar = this.weaponBar.create.call(this.weaponBar);
                 } else {
 
@@ -2095,6 +2103,10 @@ var _HeroConfig = require("./config/HeroConfig");
 
 var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
 
+var _GameControl = require("./GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2123,9 +2135,21 @@ var GameView = function (_PaoYa$View) {
 
       var sceneSK = new Laya.Skeleton();
       var sceneURL = '';
-      if (this.params.gameType == "pass" || this.params.gameType == "adventure") {
+      if (_GameControl2.default.instance.closeRobot) {
         sceneURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk";
         this.sceneBg.texture = "remote/game/scene1.jpg";
+      }
+      if (this.params.gameType == "pass" || this.params.gameType == "adventure") {
+        if (this.params.stageId < 15) {
+          sceneURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk";
+          this.sceneBg.texture = "remote/game/scene1.jpg";
+        } else if (this.params.stageId >= 15 && this.params.stageId <= 29) {
+          sceneURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene3.sk";
+          this.sceneBg.texture = "remote/game/scene3.jpg";
+        } else {
+          sceneURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk";
+          this.sceneBg.texture = "remote/game/scene1.jpg";
+        }
       } else if (this.params.gameType == "battle") {
         sceneURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene2.sk";
         this.sceneBg.texture = "remote/game/scene2.jpg";
@@ -2177,7 +2201,7 @@ var GameView = function (_PaoYa$View) {
 
 exports.default = GameView;
 
-},{"./config/HeroConfig":9,"./prefab/GameBanner":23,"./prefab/HPBar":24,"./prefab/MPBar":25}],7:[function(require,module,exports){
+},{"./GameControl":4,"./config/HeroConfig":9,"./prefab/GameBanner":23,"./prefab/HPBar":24,"./prefab/MPBar":25}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2561,6 +2585,14 @@ var HeroConfig = {
     scene1: {
       path: baseUrl + "spine/scene/scene1.sk",
       templet: null
+    },
+    scene2: {
+      path: baseUrl + "spine/scene/scene2.sk",
+      templet: null
+    },
+    scene3: {
+      path: baseUrl + "spine/scene/scene3.sk",
+      templet: null
     }
   },
 
@@ -2667,7 +2699,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
             if (this.params.encounter) {
                 this.params = this.params.encounter;
             }
-            console.log(this.params);
+            console.log('hahhahahhh');
             var type = this.params.type;
             this.spRole.texture = "remote/guide/" + this.params.dress + ".png";
             if (this.params.dress == "npc_3") {
@@ -8087,10 +8119,17 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "onEnable",
         value: function onEnable() {
+            this.getLock(179, 72, "lock2");
+
+            this.owner.lock.visible = PaoYa.DataCenter.user.current > 5 ? false : true;
+            if (this.owner.lock.visible) {
+                this.getLock(179, 72, "lock");
+            }
+
             if (PaoYa.DataCenter.user.is_first_game == 1) {
                 this.navigator.push('GameGuide', _GameGuideData2.default);
             }
-            // this.guideF(`btn1`)
+            // this.guideF(`btn3`)
             this.showRankList();
         }
     }, {
@@ -8099,6 +8138,7 @@ var HomeControl = function (_PaoYa$Component) {
             var _this4 = this;
 
             // SoundManager.ins.homeBg();
+
             if (this.first) {
                 this.player.play('stand', true);
             } else {
@@ -8128,6 +8168,9 @@ var HomeControl = function (_PaoYa$Component) {
     }, {
         key: "adventIconClick",
         value: function adventIconClick() {
+            if (_Global.Global.isShowGrading) {
+                return;
+            }
             var res = this.adventParams;
             switch (this.originAdventType) {
                 case 1:
@@ -8278,16 +8321,24 @@ var HomeControl = function (_PaoYa$Component) {
                     break;
                 //排行榜
                 case "rank":
-                    this.GET("ranking_list", {
-                        type: 1
-                    }, function (res) {
-                        //console.log(res)
-                        if (!res) {
-                            return;
+                    var _this = this;
+                    _SoundManager2.default.ins.btn();
+                    PaoYa.AuthManager.auth({
+                        scope: PaoYa.AuthManager.scope.userInfo,
+                        isNecessary: true, //是否强制授权
+                        next: function next() {
+                            _this.GET("ranking_list", {
+                                type: 1
+                            }, function (res) {
+                                //console.log(res)
+                                if (!res) {
+                                    return;
+                                }
+                                _this.navigator.popup("common/Rank", res);
+                            });
+                            console.log("进入排行榜");
                         }
-                        _this5.navigator.popup("common/Rank", res);
                     });
-                    console.log("进入排行榜");
                     break;
                 //玩法
                 case "btnPlayRule":
@@ -8634,6 +8685,31 @@ var HomeControl = function (_PaoYa$Component) {
 
             interactionArea.graphics.clear();
             interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
+        }
+    }, {
+        key: "lockBattle",
+        value: function lockBattle() {
+            var _this12 = this;
+
+            this.owner.tips.visible = true;
+
+            Laya.Tween.to(this.owner.tips, { y: this.owner.tips.y - 100, alpha: 0 }, 1500, Laya.Ease.quadInOut, Laya.Handler.create(this, function () {
+                _this12.lockAni.play(0, false);
+                _this12.owner.tips.visible = false;
+                _Global.Global.isShowGrading = false;
+            }));
+        }
+    }, {
+        key: "getLock",
+        value: function getLock(x, y, name) {
+            var _this13 = this;
+
+            var dragonAni = new Laya.Animation();
+            this.owner[name].addChild(dragonAni);
+            dragonAni.pos(x, y);
+            dragonAni.loadAnimation("gamescenes/animations/lock.ani", Laya.Handler.create(this, function (ani) {
+                _this13[name + "Ani"] = dragonAni;
+            }), "res/atlas/remote/lock.atlas");
         }
     }, {
         key: "onDisappear",
@@ -10729,6 +10805,10 @@ var _Devour2 = _interopRequireDefault(_Devour);
 
 var _Global = require("../tool/Global");
 
+var _HomeControl = require("../HomeControl");
+
+var _HomeControl2 = _interopRequireDefault(_HomeControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10844,6 +10924,7 @@ var RefiningControl = function (_PaoYa$Component) {
                         _this3.isGuide = false;
                         _this3.nextStep();
                         _Devour2.default.ins.guide3.visible = false;
+                        _Global.Global.isShowGrading = true;
                         break;
                 }
             });
@@ -10904,7 +10985,7 @@ var RefiningControl = function (_PaoYa$Component) {
         key: "onDisable",
         value: function onDisable() {
             if (_Global.Global.isShowGrading) {
-                _Global.Global.isShowGrading = false;
+                _HomeControl2.default.ins.lockBattle();
             }
         }
     }]);
@@ -10914,7 +10995,7 @@ var RefiningControl = function (_PaoYa$Component) {
 
 exports.default = RefiningControl;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./Devour":43}],47:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":7,"../HomeControl":34,"../tool/Global":51,"./Devour":43}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11564,6 +11645,14 @@ exports.default = WeaponListControl;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.Global = undefined;
+
+var _Config = require("../../../Config");
+
+var _Config2 = _interopRequireDefault(_Config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var Global = {
     baseUrl: "https://xgamejuedixiaomie.goxiaochengxu.cn/1005/",
     remoteUrl: '',
@@ -11789,6 +11878,9 @@ var Global = {
     //data汉字说明比如  点击数
     //obj  比如  { points: "39,40" }
     {
+        if (_Config2.default.debug) {
+            return;
+        }
         if (obj) {
             PaoYa.Request.POST("game_point", obj);
         }
@@ -11803,6 +11895,9 @@ var Global = {
 
     //关卡开始
     gameStartStat: function gameStartStat(num) {
+        if (_Config2.default.debug) {
+            return;
+        }
         if (typeof wx == 'undefined') {
             return;
         }
@@ -11822,6 +11917,9 @@ var Global = {
      */
     //关卡结束
     gameEndStat: function gameEndStat(num, obj) {
+        if (_Config2.default.debug) {
+            return;
+        }
         if (typeof wx == 'undefined') {
             return;
         }
@@ -11835,6 +11933,9 @@ var Global = {
         });
     },
     gameUsePropStat: function gameUsePropStat(num) {
+        if (_Config2.default.debug) {
+            return;
+        }
         if (typeof wx == 'undefined') {
             return;
         }
@@ -11851,7 +11952,7 @@ var Global = {
 
 exports.Global = Global;
 
-},{}],52:[function(require,module,exports){
+},{"../../../Config":1}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

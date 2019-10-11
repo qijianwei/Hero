@@ -33,11 +33,13 @@
         "!$basePath/{version.json,game.js,game.json,project.config.json,weapp-adapter.js,project.swan.json,swan-game-adapter.js,main.js,gameConfig.json}",
         "!$basePath/layaforqq/**/*.*",
         "!$basePath/**/{*.js,*.json,*.ani}",
-        "!$basePath/local/**/*.*",
+        "!$basePath/local/auth/**/*.*",
         "!$basePath/res/atlas/local/**/*.*",
-        "!$basePath/spine/**/*.*"
+        "!$basePath/spine/**/*.*",
+        "!$basePath/local/loading/**/*.*"
     ],
     "versionNoteList": [
+        "",
         "",
         "",
         "",
@@ -74,5 +76,5 @@
     "forceCompile": false,
     "onlyIndexJS": true,
     "projectType": "js",
-    "pubTime": 1570764068739
+    "pubTime": 1570784718940
 }

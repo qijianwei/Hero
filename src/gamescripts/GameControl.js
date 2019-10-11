@@ -301,12 +301,21 @@ export default class GameControl extends PaoYa.Component {
         this.initPlayer(false);
     }
     resetPlayerInfo() {
+        let myRoleName='';
+        let otherRoleName='';
+        if(this.gameType==`battle`){
+            myRoleName=this.params.nickName;
+            otherRoleName=this.params.robotNickName;
+        }else{
+            myRoleName=this.role.roleName;
+            otherRoleName=this.robotRole.roleName;
+        }
         this.owner.setInfo({
-            name: this.role.roleName,
+            name: myRoleName,
             icon: `local/common/${this.role.roleDress}.png`
         }, true);
         this.owner.setInfo({
-            name: this.robotRole.roleName,
+            name: otherRoleName,
             icon: `local/common/${this.robotRole.roleDress}.png`
         }, false);
     }
@@ -421,7 +430,7 @@ export default class GameControl extends PaoYa.Component {
             //暂时
             let weaponBar=null;
             if(this.weaponBar.create){
-                console.log(this.weaponBar)
+                //console.log(this.weaponBar)
                  weaponBar = this.weaponBar.create.call(this.weaponBar);
             }else{
            

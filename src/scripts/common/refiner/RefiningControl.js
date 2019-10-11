@@ -1,6 +1,7 @@
 import SoundManager from "../../../gamescripts/SoundManager";
 import Devour from "./Devour";
 import { Global } from "../tool/Global";
+import HomeControl from "../HomeControl";
 
 export default class RefiningControl extends PaoYa.Component {
     constructor() {
@@ -97,6 +98,7 @@ export default class RefiningControl extends PaoYa.Component {
                     this.isGuide = false
                     this.nextStep();
                     Devour.ins.guide3.visible = false
+                    Global.isShowGrading = true
                     break;
             }
         })
@@ -155,7 +157,7 @@ export default class RefiningControl extends PaoYa.Component {
 
     onDisable() {
         if (Global.isShowGrading) {
-            Global.isShowGrading = false
+            HomeControl.ins.lockBattle()
         }
     }
 }

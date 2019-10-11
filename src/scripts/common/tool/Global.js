@@ -1,3 +1,5 @@
+import config from "../../../Config";
+
 var Global = {
     baseUrl: "https://xgamejuedixiaomie.goxiaochengxu.cn/1005/",
     remoteUrl: '',
@@ -232,6 +234,9 @@ var Global = {
     //data汉字说明比如  点击数
     //obj  比如  { points: "39,40" }
     {
+        if (config.debug) {
+            return
+        }
         if (obj) {
             PaoYa.Request.POST("game_point", obj)
         }
@@ -245,6 +250,9 @@ var Global = {
 
     //关卡开始
     gameStartStat(num) {
+        if (config.debug) {
+            return
+        }
         if (typeof wx == 'undefined') {
             return;
         }
@@ -264,6 +272,9 @@ var Global = {
      */
     //关卡结束
     gameEndStat(num, obj) {
+        if (config.debug) {
+            return
+        }
         if (typeof wx == 'undefined') {
             return;
         }
@@ -278,6 +289,9 @@ var Global = {
     },
 
     gameUsePropStat(num) {
+        if (config.debug) {
+            return
+        }
         if (typeof wx == 'undefined') {
             return;
         }

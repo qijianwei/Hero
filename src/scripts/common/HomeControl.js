@@ -26,7 +26,7 @@ export default class HomeControl extends PaoYa.Component {
     /** @prop {name:spriteBg,tips:"游戏底图",type:node}*/
     onAwake() {
         HomeControl.ins = this
-        this.rolesName=['','小虾米','龙女','过儿','乔帮主'];
+        this.rolesName = ['', '小虾米', '龙女', '过儿', '乔帮主'];
         let name = PaoYa.DataCenter.user.defaultRoleId;
         let ladder = PaoYa.DataCenter.user.ladder;
 
@@ -51,13 +51,13 @@ export default class HomeControl extends PaoYa.Component {
                 PaoYa.DataCenter.user.defaultRoleId = roleId;
                 let templet = HeroConfig.spineMap[`hero_` + name].templet;
                 this.player.init(templet, 0);
-                if(!PaoYa.DataCenter.userInfoAuth){ //未授权换装 修改名字和默认头像
-                    this.owner.imgAvstar.skin =`local/common/avstar${roleId}.png`;
+                if (!PaoYa.DataCenter.userInfoAuth) { //未授权换装 修改名字和默认头像
+                    this.owner.imgAvstar.skin = `local/common/avstar${roleId}.png`;
                     this.lblName.text = this.rolesName[roleId];
                 }
             }
         });
-        this.onNotification('AuthOK',this,()=>{
+        this.onNotification('AuthOK', this, () => {
             this.lblName.text = PaoYa.DataCenter.user.nickname;
             this.owner.imgAvstar.skin = PaoYa.DataCenter.user.avstar;
         })
@@ -75,34 +75,42 @@ export default class HomeControl extends PaoYa.Component {
         this.adventBox.addChild(this.adventAni);
         this.originAdventType = 0;
         this.adventAni.blendMode = `lighter`;
-    
+
         this.adventBox.on(Laya.Event.CLICK, this, this.adventIconClick);
         this.onNotification('adventCancel', this, () => {
-            if(PaoYa.navigator.scenes.length==1){
+            if (PaoYa.navigator.scenes.length == 1) {
                 this.onAppear();
             }
         });
         this.onNotification('adventComplete', this, () => {
-            if(PaoYa.navigator.scenes.length==1){
+            if (PaoYa.navigator.scenes.length == 1) {
                 this.onAppear();
             }
         });
-       /*  Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
-            console.log(json)
-            Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
-                console.log(json)
-            }))
-        })) */
+        /*  Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
+             console.log(json)
+             Laya.loader.create('gamescenes/prefab/WeaponBar.json', Laya.Handler.create(this, (json) => {
+                 console.log(json)
+             }))
+         })) */
     }
     onEnable() {
+        this.getLock(179, 72, `lock2`)
+
+        this.owner.lock.visible = PaoYa.DataCenter.user.current > 5 ? false : true
+        if (this.owner.lock.visible) {
+            this.getLock(179, 72, `lock`)
+        }
+
         if (PaoYa.DataCenter.user.is_first_game == 1) {
             this.navigator.push('GameGuide', GameGuideData);
         }
-        // this.guideF(`btn1`)
+        // this.guideF(`btn3`)
         this.showRankList();
     }
     onAppear() {
         // SoundManager.ins.homeBg();
+
         if (this.first) {
             this.player.play('stand', true);
         } else {
@@ -111,25 +119,28 @@ export default class HomeControl extends PaoYa.Component {
         this.lblLadder.text = PaoYa.DataCenter.user.ladderName;
         this.owner.taskDot.visible = PaoYa.DataCenter.user.dailyTaskStatus ? true : false;
         this.owner.signDot.visible = PaoYa.DataCenter.user.loginBonusStatus ? true : false;
-            this.GET(`martial_encounter_detail`, {}, (res) => {
-                this.adventParams = res;
-               if (JSON.stringify(res)!='{}') {
-                    this.adventBox.visible = true;
-                    if (this.originAdventType != res.type) {
-                        this.originAdventType = res.type;
-                        this.spIcon.texture = `remote/adventure/advent${res.type}.png`
-                        this.adventAni.loadAnimation(`gamescenes/animations/advent_effect${res.type}.ani`, Laya.Handler.create(this, () => {
-                            this.adventAni.play(0, true);
-                        }))
-                    } else {
+        this.GET(`martial_encounter_detail`, {}, (res) => {
+            this.adventParams = res;
+            if (JSON.stringify(res) != '{}') {
+                this.adventBox.visible = true;
+                if (this.originAdventType != res.type) {
+                    this.originAdventType = res.type;
+                    this.spIcon.texture = `remote/adventure/advent${res.type}.png`
+                    this.adventAni.loadAnimation(`gamescenes/animations/advent_effect${res.type}.ani`, Laya.Handler.create(this, () => {
                         this.adventAni.play(0, true);
-                    }
+                    }))
                 } else {
-                    this.adventBox.visible = false;
-                } 
-            })
+                    this.adventAni.play(0, true);
+                }
+            } else {
+                this.adventBox.visible = false;
+            }
+        })
     }
     adventIconClick() {
+        if (Global.isShowGrading) {
+            return
+        }
         let res = this.adventParams;
         switch (this.originAdventType) {
             case 1:
@@ -137,28 +148,28 @@ export default class HomeControl extends PaoYa.Component {
                 this.navigator.popup(`/dialog/AdventDialog`, res)
                 break;
             case 3:
-                    this.navigator.popup(`adventure/ChangeWp`, res)
+                this.navigator.popup(`adventure/ChangeWp`, res)
                 break;
             case 4:
                 this.navigator.popup(`adventure/GetAward`, res)
                 break;
             case 5:
-                if( res.time * 1000>0){
-                    if(res.time*1000- new Date().valueOf()<0){
-                        res.state=`get`;
-                        this.navigator.popup(`/dialog/AdventResultDialog5`, res)         
-                    }else{
-                        res.state=`wait`
-                        this.navigator.popup(`/dialog/AdventResultDialog5`, res) 
-                    }             
-                }else{
+                if (res.time * 1000 > 0) {
+                    if (res.time * 1000 - new Date().valueOf() < 0) {
+                        res.state = `get`;
+                        this.navigator.popup(`/dialog/AdventResultDialog5`, res)
+                    } else {
+                        res.state = `wait`
+                        this.navigator.popup(`/dialog/AdventResultDialog5`, res)
+                    }
+                } else {
                     this.navigator.popup(`/dialog/AdventDialog5`, res)
                 }
-               
+
                 break;
             case 6:
-                    this.navigator.popup(`adventure/BuyWp`, res)
-                
+                this.navigator.popup(`adventure/BuyWp`, res)
+
                 break;
         }
         res = null;
@@ -177,7 +188,7 @@ export default class HomeControl extends PaoYa.Component {
                 console.log("进入兵器库")
                 this.goWeaponHouse()
                 break;
-                //兵器商店
+            //兵器商店
             case "btnWeaponStore":
                 console.log("进入兵器商店")
                 this.POST("martial_shop_list", {
@@ -200,12 +211,12 @@ export default class HomeControl extends PaoYa.Component {
 
                 })
                 break;
-                //炼器
+            //炼器
             case "btnRefiner":
                 console.log("进入炼器")
                 this.goRefiner();
                 break;
-                //兵器谱
+            //兵器谱
             case "btnWeaponSpectrum":
                 this.GET("martial_weapon_list", {}, res => {
                     //console.log(res)
@@ -216,13 +227,13 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("进入兵器谱")
                 break;
-                //英雄库
+            //英雄库
             case "btnHerosHouse":
                 console.log("进入英雄库")
                 this.goHerosHouse();
                 break;
 
-                //签到
+            //签到
             case "btnRegister":
                 this.GET("martial_login_bonus_list", {}, res => {
                     //console.log(res)
@@ -233,17 +244,17 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("打开签到")
                 break;
-                //抽奖转盘
+            //抽奖转盘
             case "btnRoulette":
                 this.navigator.push("Wheel");
                 console.log("去抽奖")
                 break;
-                //开始游戏：
+            //开始游戏：
             case "btnStartGame":
                 console.log("开始游戏请求的数据......")
                 this.goPassGame();
                 break;
-                //华山论剑
+            //华山论剑
             case "btnBattle":
                 console.log("华山论剑")
                 if (PaoYa.DataCenter.user.current <= 5) {
@@ -260,7 +271,7 @@ export default class HomeControl extends PaoYa.Component {
                     this.navigator.push("Grading", res);
                 })
                 break;
-                //决战紫禁城之巅
+            //决战紫禁城之巅
             case "btnBoss":
                 if (PaoYa.DataCenter.user.current <= 10) {
                     py.showToast({
@@ -273,24 +284,32 @@ export default class HomeControl extends PaoYa.Component {
                 })
                 console.log("决战")
                 break;
-                //排行榜
+            //排行榜
             case "rank":
-                this.GET("ranking_list", {
-                    type: 1
-                }, res => {
-                    //console.log(res)
-                    if (!res) {
-                        return
-                    }
-                    this.navigator.popup("common/Rank", res);
-                })
-                console.log("进入排行榜")
+                let _this = this;
+                SoundManager.ins.btn()
+                PaoYa.AuthManager.auth({
+                    scope: PaoYa.AuthManager.scope.userInfo,
+                    isNecessary: true, //是否强制授权
+                    next() {
+                        _this.GET("ranking_list", {
+                            type: 1
+                        }, res => {
+                            //console.log(res)
+                            if (!res) {
+                                return
+                            }
+                            _this.navigator.popup("common/Rank", res);
+                        })
+                        console.log("进入排行榜")
+                    },
+                });
                 break;
-                //玩法
+            //玩法
             case "btnPlayRule":
                 console.log("玩法介绍")
                 break;
-                //设置
+            //设置
             case "btnTask":
                 this.GET("martial_task_list", {}, res => {
                     //console.log(res)
@@ -348,13 +367,13 @@ export default class HomeControl extends PaoYa.Component {
         })
     }
     goPassGame() {
-        if(this.firstGoGame){
-            this.firstGoGame=false;
+        if (this.firstGoGame) {
+            this.firstGoGame = false;
             this.step4();
         }
         let _this = this;
         this.POST("hero_game_start", {}, (res) => {
-            res.gameType=`pass`;
+            res.gameType = `pass`;
             Global.gameStartStat(res.stageId)
             this.navigator.push("GameView", res);
         }, (msg, code) => {
@@ -378,7 +397,7 @@ export default class HomeControl extends PaoYa.Component {
         })
     }
     setGuide() {
-        this.firstGoGame=true;
+        this.firstGoGame = true;
         //引导所在容器
         guideContainer = new Laya.Sprite();
         guideContainer.zOrder = 1000;
@@ -447,16 +466,16 @@ export default class HomeControl extends PaoYa.Component {
                     break;
             }
         })
-    /*     this.spriteBg.on(Laya.Event.CLICK, this, (e) => {
-            guideStep += 1;
-            switch (guideStep) {
-                case 4:
-                    e.stopPropagation();
-                    this.step4();
-                    break;
-            }
-            console.log(`接收到点击`)
-        }) */
+        /*     this.spriteBg.on(Laya.Event.CLICK, this, (e) => {
+                guideStep += 1;
+                switch (guideStep) {
+                    case 4:
+                        e.stopPropagation();
+                        this.step4();
+                        break;
+                }
+                console.log(`接收到点击`)
+            }) */
         nextLabel.on(Laya.Event.CLICK, this, this.nextTick);
     }
     step1() {
@@ -485,15 +504,15 @@ export default class HomeControl extends PaoYa.Component {
     }
     step4() {
         console.log(`---第4步----`)
-        if(this.aniFinger){
+        if (this.aniFinger) {
             this.aniFinger.visible = false;
             this.aniFinger.stop();
-        }  
+        }
         interactionArea.graphics.clear();
         guideContainer.removeSelf();
         /*   this.aniFinger.destroy(); */
         Global.dataPoints('点击开始游戏')
-       // this.goPassGame();
+        // this.goPassGame();
         console.error(`------首页新手引导删除------`)
     }
     nextTick(e) {
@@ -602,8 +621,27 @@ export default class HomeControl extends PaoYa.Component {
         interactionArea.graphics.drawCircle(step.width / 2 + step.x - 150, step.height / 2 + step.y, 65, "#000000");
     }
 
-    onDisappear() {}
+    lockBattle() {
+        this.owner.tips.visible = true
 
-    onDisable() {}
-    onDestroy() {}
+        Laya.Tween.to(this.owner.tips, { y: this.owner.tips.y - 100, alpha: 0 }, 1500, Laya.Ease.quadInOut, Laya.Handler.create(this, () => {
+            this.lockAni.play(0, false)
+            this.owner.tips.visible = false
+            Global.isShowGrading = false
+        }))
+    }
+
+    getLock(x, y, name) {
+        let dragonAni = new Laya.Animation();
+        this.owner[name].addChild(dragonAni)
+        dragonAni.pos(x, y)
+        dragonAni.loadAnimation(`gamescenes/animations/lock.ani`, Laya.Handler.create(this, (ani) => {
+            this[`${name}Ani`] = dragonAni
+        }), `res/atlas/remote/lock.atlas`)
+    }
+
+    onDisappear() { }
+
+    onDisable() { }
+    onDestroy() { }
 }

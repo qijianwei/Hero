@@ -2,6 +2,7 @@ import MPBar from "./prefab/MPBar";
 import HPBar from "./prefab/HPBar";
 import GameBanner from "./prefab/GameBanner";
 import HeroConfig from "./config/HeroConfig";
+import GameControl from "./GameControl";
 
 
 export default class GameView extends PaoYa.View{
@@ -17,9 +18,22 @@ export default class GameView extends PaoYa.View{
 
       let sceneSK=new Laya.Skeleton();
       let sceneURL='';
-      if(this.params.gameType==`pass`||this.params.gameType==`adventure`){
+      if(GameControl.instance.closeRobot){
         sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk`;
         this.sceneBg.texture=`remote/game/scene1.jpg`;
+      }
+      if(this.params.gameType==`pass`||this.params.gameType==`adventure`){
+        if(this.params.stageId<15){
+          sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk`;
+          this.sceneBg.texture=`remote/game/scene1.jpg`;
+        }else if(this.params.stageId>=15&&this.params.stageId<=29){
+          sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene3.sk`;
+          this.sceneBg.texture=`remote/game/scene3.jpg`;
+        }else{
+          sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk`;
+          this.sceneBg.texture=`remote/game/scene1.jpg`;
+        }
+      
       }else if(this.params.gameType==`battle`){
         sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene2.sk`;
         this.sceneBg.texture=`remote/game/scene2.jpg`;

@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":165,
+    "selecteID":168,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","height":750},
     "nodeParent":-1,
-    "maxID":294,
+    "maxID":305,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -36,7 +36,7 @@
             "props":{"y":0,"x":-150,"width":1634,"name":"spriteBg","mouseEnabled":true,"height":750},
             "nodeParent":2,
             "label":"spriteBg",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
@@ -310,6 +310,36 @@
                 {
                     "x":30,
                     "type":"Sprite",
+                    "searchKey":"Sprite,lock",
+                    "props":{"y":305,"x":885.5,"var":"lock"},
+                    "nodeParent":168,
+                    "label":"lock",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":294,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
+                    "searchKey":"Sprite,lock2",
+                    "props":{"y":502,"x":889.5,"var":"lock2"},
+                    "nodeParent":168,
+                    "label":"lock2",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":304,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":0,"x":813,"texture":"local/home/12.png"},
                     "nodeParent":168,
@@ -320,7 +350,7 @@
                     "compId":16,
                     "child":[
                         ],
-                    "$HIDDEN":true
+                    "$HIDDEN":false
                 },
                 {
                     "x":30,
@@ -640,6 +670,20 @@
             "child":[
                 ],
             "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,tips",
+            "props":{"zOrder":999,"y":320,"x":276,"visible":false,"var":"tips","texture":"local/home/tips.png"},
+            "nodeParent":2,
+            "label":"tips",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":300,
+            "child":[
+                ]
         },
         {
             "x":15,

@@ -4378,13 +4378,14 @@ var AuthManager = /** @class */ (function () {
      * @param alert 当需要打开用户设置界面时，用于可以修改弹窗内容，方便用户确认操作
      */
     AuthManager.auth = function (params) {
+        var _this_1 = this;
         var _this = this;
         if (!window['wx']) {
             params.next && params.next();
             return;
         }
         params.alert = function (alertCb) {
-            _this.showModal('提示', '需要您的授权才能正常使用', '去设置', function () {
+            _this_1.showModal('提示', '需要您的授权才能正常使用', '去设置', function () {
                 alertCb();
             });
         };
@@ -4413,8 +4414,20 @@ var AuthManager = /** @class */ (function () {
                 success: function (res) {
                     var result = res.authSetting[params.scope];
                     //params.next && params.next();
-                    if (result || !params.isNecessary) {
+                    if (!params.isNecessary && !result) {
                         params.next && params.next();
+                        return;
+                    }
+                    if (result) {
+                        _this.getUserInfo(function (res) {
+                            _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].userInfoAuth = true;
+                            _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.avstar = res.userInfo.avatarUrl;
+                            _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.nickname = res.userInfo.nickName;
+                            _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification("AuthOK");
+                            PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, function () {
+                                params.next && params.next();
+                            });
+                        });
                     }
                     else {
                         params.alert && params.alert(okHandler);

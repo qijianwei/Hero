@@ -192,9 +192,7 @@ export class Main extends GameMain {
 			'res/atlas/remote/grading.atlas',
 			'res/atlas/remote/adventure.atlas',
 
-
-			
-		
+            'remote/game/scene1.jpg',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas',
 			'res/atlas/remote/debuff_palsy.atlas',

@@ -14,7 +14,7 @@ export default class AdventDialog extends PaoYa.Dialog {
         if(this.params.encounter){
             this.params=this.params.encounter;
         }  
-        console.log(this.params)
+        console.log('hahhahahhh')
         let type = this.params.type;
         this.spRole.texture=`remote/guide/${this.params.dress}.png`;
         if(this.params.dress==`npc_3`){

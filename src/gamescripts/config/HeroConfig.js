@@ -90,6 +90,14 @@ var HeroConfig = {
     scene1: {
       path:  baseUrl+"spine/scene/scene1.sk",
       templet: null,
+    },
+    scene2: {
+      path:  baseUrl+"spine/scene/scene2.sk",
+      templet: null,
+    },
+    scene3: {
+      path:  baseUrl+"spine/scene/scene3.sk",
+      templet: null,
     }
   },
 
