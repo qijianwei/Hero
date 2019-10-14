@@ -570,7 +570,7 @@ export default class GameControl extends PaoYa.Component {
                 //铸铁剑法 造成臂力*0.32倍伤害
             case 90:
                 break;
-                //打出一条小金龙，是否写在这里待定 不能写在这里，不走兵器路线
+                //打出一条小金龙， 不能写在这里，不走兵器路线
             case 91:
                 break;
         }
@@ -632,8 +632,10 @@ export default class GameControl extends PaoYa.Component {
                 /* this[name+'Player'].comp.changePerMp(); */
                 this[name + 'MultiMP'] = skillInfo.skillConfig.consumeMp;
                 console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp)
+                this.heroSkill2=true;
                 Laya.timer.once(skillInfo.skillConfig.time * 1000, this, () => {
                     console.error('内力消耗倍数恢复:')
+                    this.heroSkill2=false;
                     this[name + 'MultiMP'] = 1;
                     this[name + 'Player'].comp.removeSkill2();
                 })

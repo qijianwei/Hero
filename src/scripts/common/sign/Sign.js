@@ -20,11 +20,12 @@ export default class Sign extends PaoYa.View {
     }
 
     lisenClick(e) {
-       
+
     }
 
 
     initInfo() {
+        this.params.login_days = this.params.login_days % 7
         let arr = this.params.list.slice(0, 6)
         let arr1 = this.params.list.slice(6, 7)
         this.signList.vScrollBarSkin = ""
@@ -97,7 +98,7 @@ export default class Sign extends PaoYa.View {
                 break;
             case `2`:
                 icon.visible = true
-                icon.getChildByName(`iconnum`).skin=`local/common/hero_${arr[1]}.png`
+                icon.getChildByName(`iconnum`).skin = `local/common/hero_${arr[1]}.png`
                 console.log(icon)
                 break;
             case `3`:

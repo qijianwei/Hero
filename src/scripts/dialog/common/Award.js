@@ -48,7 +48,7 @@ export default class Award extends PaoYa.Dialog {
                     SoundManager.ins.btn()
                     Global.dataPoints('转盘倍数领取激励广告')
                     Tool.showVideoAD(() => {
-                        PaoYa.Request.POST('martial_adv_receive', { exchangeId: this.params.detail.wheel.id }, () => {
+                        PaoYa.Request.POST('martial_adv_receive', { exchangeId: this.params.detail.wheel.id, adv: 1 }, () => {
                             Wheel.ins.changeDG()
                             this.close()
                         })

@@ -36,7 +36,7 @@ var HeroConfig = {
       templet: null
     },
     hero_3: {
-      path: 'spine/hero/hero_1.sk',
+      path: 'spine/hero/hero_3.sk',
       name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
       templet: null
     },

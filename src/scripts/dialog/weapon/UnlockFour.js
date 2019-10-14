@@ -20,24 +20,38 @@ export default class UnlockFour extends PaoYa.Dialog {
 
     onEnable() {
         this.autoDestroyAtClosed = true;
-        this.maskBg.on(Laya.Event.CLICK, this, ()=>{
+        this.maskBg.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
             this.close()
         })
         this.btn.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
-            PaoYa.Request.POST(`martial_buy_grid`,{},res=>{
-                WeaponHouseControl.ins.owner.diamondNum.text = res.diamond
+            PaoYa.Request.POST(`martial_buy_grid`, {}, res => {
+                WeaponHouseControl.ins.owner.diamondNum.text = addNumberUnit(res.diamond)
                 WeaponHouseControl.ins.params.weaponGridNum += 1
                 WeaponHouseControl.ins.getMyUserDetailList()
                 WeaponHouseControl.ins.owner.userWeaponList.array = WeaponHouseControl.ins.myUserDetailList
                 this.close()
-            },()=>{
+
+                function addNumberUnit(num) {
+                    switch (true) {
+                        case num >= 10000 && num < 100000000:
+                            let integ = num / 10000
+                            return Math.floor(integ * 100) / 100 + '万'
+                            break
+                        case num >= 100000000:
+                            let integ1 = num / 100000000
+                            return Math.floor(integ1 * 100) / 100 + '亿'
+                            break
+                        default:
+                            return num + ''
+                            break
+                    }
+                };
+            }, () => {
                 this.close()
                 HomeControl.ins.navigator.popup("weapon/DiamondLack");
             })
-           
-          
         })
     }
 

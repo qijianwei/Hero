@@ -138,9 +138,6 @@ export default class HomeControl extends PaoYa.Component {
         })
     }
     adventIconClick() {
-        if (Global.isShowGrading) {
-            return
-        }
         let res = this.adventParams;
         switch (this.originAdventType) {
             case 1:
@@ -179,6 +176,9 @@ export default class HomeControl extends PaoYa.Component {
         this.adventAni && this.adventAni.stop();
     }
     onThrottleClick(e) {
+        if (Global.isShowGrading) {
+            return
+        }
         if (e.target instanceof Laya.Button) {
             SoundManager.ins.btn();
         }

@@ -345,6 +345,7 @@ export default class Weapon extends PaoYa.Component {
         attackNum,
         isCrit
       } = this.calcAttackNum(skillEffect);
+      
       this.effectRefiner(this.selfPlayerComp.attr);//计算炼器效果
       if (skillEffect) {
         let skillConfig = skill.skillConfig,
@@ -444,6 +445,10 @@ export default class Weapon extends PaoYa.Component {
       skillHurtMulti = (this.params.activeSkill.skillConfig.hurt) ? this.params.activeSkill.skillConfig.hurt : 1;
     }
     let attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
+    if(this.selfPlayerComp.attr.roleId==3&&GameControl.instance.heroSkill2){ //杨过 九圣真经触发
+      console.log(`-----伤害加30%---------`)
+      attackNum=attackNum*1.3;
+    }
     return {
       attackNum: attackNum,
       isCrit: randomNum < roleCritHarm

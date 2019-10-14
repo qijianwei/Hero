@@ -7,9 +7,10 @@ export default class WeaponHouseControl extends PaoYa.Component {
     }
 
     onAwake() {
-        this.isGuide = this.owner.params.isGuide
-        this.owner.params = this.owner.params.detail
-        this.params = this.owner.params
+        let onwer = this.owner
+        this.isGuide = onwer.params.isGuide
+        onwer.params = onwer.params.detail
+        this.params = onwer.params
         //武器数据
         this.lightList = this.params.lightList
         this.heavyList = this.params.heavyList
@@ -32,14 +33,14 @@ export default class WeaponHouseControl extends PaoYa.Component {
             this.myUserList.push(obj)
         });
         this.getMyUserDetailList()
-        // this.owner.userWeaponList.selectHandler = new Laya.Handler(this, this.userWeaponSelect);
-        this.owner.userWeaponList.renderHandler = new Laya.Handler(this, this.userWeaponUpdateItem);
-        this.owner.userWeaponList.array = this.myUserDetailList
+        // onwer.userWeaponList.selectHandler = new Laya.Handler(this, this.userWeaponSelect);
+        onwer.userWeaponList.renderHandler = new Laya.Handler(this, this.userWeaponUpdateItem);
+        onwer.userWeaponList.array = this.myUserDetailList
         //仓库武器数据
-        // this.owner.warehouseList.selectHandler = new Laya.Handler(this, this.wareWeaponSelect);
-        this.owner.warehouseList.vScrollBarSkin = ""
+        // onwer.warehouseList.selectHandler = new Laya.Handler(this, this.wareWeaponSelect);
+        onwer.warehouseList.vScrollBarSkin = ""
         this.isWareChoiceWp = null
-        this.owner.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
+        onwer.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
     }
 
     onEnable() {
@@ -54,23 +55,24 @@ export default class WeaponHouseControl extends PaoYa.Component {
         if (!this.owner) {
             return
         }
+        let owner = this.owner
         switch (e.target.name) {
             case `light`:
                 SoundManager.ins.btn()
-                this.owner.getWareBtnSkin(`light`)
-                this.owner.lightNew.visible = false
+                owner.getWareBtnSkin(`light`)
+                owner.lightNew.visible = false
                 this.showWareList(this.lightList)
                 break;
             case `middle`:
                 SoundManager.ins.btn()
-                this.owner.getWareBtnSkin(`middle`)
-                this.owner.middleNew.visible = false
+                owner.getWareBtnSkin(`middle`)
+                owner.middleNew.visible = false
                 this.showWareList(this.middleList)
                 break;
             case `large`:
                 SoundManager.ins.btn()
-                this.owner.getWareBtnSkin(`large`)
-                this.owner.largeNew.visible = false
+                owner.getWareBtnSkin(`large`)
+                owner.largeNew.visible = false
                 this.showWareList(this.heavyList)
                 break;
             case `benBack`:
@@ -130,10 +132,11 @@ export default class WeaponHouseControl extends PaoYa.Component {
     }
     //新武器属性赋予
     chioceNewWp() {
+        let owner = this.owner
         this.newWpList = []
-        this.owner.lightNew.visible = this.params.newWeapon.indexOf(`d`) != -1 ? true : false
-        this.owner.middleNew.visible = this.params.newWeapon.indexOf(`z`) != -1 ? true : false
-        this.owner.largeNew.visible = this.params.newWeapon.indexOf(`g`) != -1 ? true : false
+        owner.lightNew.visible = this.params.newWeapon.indexOf(`d`) != -1 ? true : false
+        owner.middleNew.visible = this.params.newWeapon.indexOf(`z`) != -1 ? true : false
+        owner.largeNew.visible = this.params.newWeapon.indexOf(`g`) != -1 ? true : false
         if (this.params.newWeapon) {
             let newaparr = this.params.newWeapon.split(`,`)
             newaparr.forEach(element => {
@@ -153,7 +156,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         // console.log(cell, idx)
         //点击重新渲染
         cell.offAll()
-
+        let owner = this.owner
         if (!cell._dataSource.weaponId) {
             cell.getChildByName(`bgwrap`).visible = false
             cell.getChildByName(`mark`).visible = false
@@ -168,16 +171,16 @@ export default class WeaponHouseControl extends PaoYa.Component {
                     cell.on(Laya.Event.CLICK, this, () => {
                         SoundManager.ins.btn()
                         for (let i = 0; i < 5; i++) {
-                            this.owner[`wpBg_${i + 1}`].skin = `remote/weaponhouse/25.png`
+                            owner[`wpBg_${i + 1}`].skin = `remote/weaponhouse/25.png`
                         }
                         // let newIndx = this.currentMyUserIdx
                         this.currentMyUserIdx = idx
                         cell.getChildByName(`beChioce`).visible = true
-                        this.owner[`wpBg_${this.currentMyUserIdx + 1}`].skin = `remote/weaponhouse/26.png`
+                        owner[`wpBg_${this.currentMyUserIdx + 1}`].skin = `remote/weaponhouse/26.png`
                         // this.myUserList[this.currentMyUserIdx] = this.myUserList[newIndx]
                         this.getMyUserDetailList()
                         this.addWpList = []
-                        this.owner.userWeaponList.array = this.myUserDetailList
+                        owner.userWeaponList.array = this.myUserDetailList
                     })
                     break;
                 case 4:
@@ -211,13 +214,13 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 element.getChildByName(`beChioce`).visible = false
             });
             for (let i = 0; i < 5; i++) {
-                this.owner[`wpBg_${i + 1}`].skin = `remote/weaponhouse/25.png`
+                owner[`wpBg_${i + 1}`].skin = `remote/weaponhouse/25.png`
             }
             this.currentMyUserIdx = idx
-            this.owner[`wpBg_${this.currentMyUserIdx + 1}`].skin = `remote/weaponhouse/26.png`
+            owner[`wpBg_${this.currentMyUserIdx + 1}`].skin = `remote/weaponhouse/26.png`
             this.getMyUserDetailList()
             this.addWpList = []
-            this.owner.userWeaponList.array = this.myUserDetailList
+            owner.userWeaponList.array = this.myUserDetailList
         })
 
         this.singleWeapon(cell, idx, 1)
@@ -258,8 +261,9 @@ export default class WeaponHouseControl extends PaoYa.Component {
     }
     //渲染详情部分
     renderCenterData(isUser) {
-        this.owner[`skillImg_1`].visible = false
-        this.owner[`skillImg_2`].visible = false
+        let owner = this.owner
+        owner[`skillImg_1`].visible = false
+        owner[`skillImg_2`].visible = false
         let detail = null
         if (this.isEqWp && this.isWareChoiceWp) {
             detail = this.isWareChoiceWp._dataSource
@@ -268,14 +272,14 @@ export default class WeaponHouseControl extends PaoYa.Component {
             detail = this.currentMyUserWeapDetail
         }
 
-        this.owner.showWeapon.skin = `remote/small_weapons/s_${detail.weaponId}.png`
-        // this.owner.currtWeaponLevel.text = `LV.${detail.weaponLevel}`
-        // this.owner.currtWeaponLevel.font = `weaponNFontT`
-        // this.owner.currtWeaponLevel.scale(0.7, 0.7)
+        owner.showWeapon.skin = `remote/small_weapons/s_${detail.weaponId}.png`
+        // owner.currtWeaponLevel.text = `LV.${detail.weaponLevel}`
+        // owner.currtWeaponLevel.font = `weaponNFontT`
+        // owner.currtWeaponLevel.scale(0.7, 0.7)
         //选择重置
         let arr = [`light`, `middle`, `large`]
         arr.forEach(element => {
-            this.owner[element].skin = `remote/weaponhouse/14.png`
+            owner[element].skin = `remote/weaponhouse/14.png`
         });
         //兵器展示
         let skinq = ``
@@ -296,73 +300,73 @@ export default class WeaponHouseControl extends PaoYa.Component {
             case 3:
                 skint = `local/common/type_1.png`
                 wareList = JSON.parse(JSON.stringify(this.heavyList))
-                this.owner.large.skin = `remote/weaponhouse/13.png`
+                owner.large.skin = `remote/weaponhouse/13.png`
                 break
             case 2:
                 skint = `local/common/type_2.png`
                 wareList = JSON.parse(JSON.stringify(this.middleList))
-                this.owner.middle.skin = `remote/weaponhouse/13.png`
+                owner.middle.skin = `remote/weaponhouse/13.png`
                 break
             case 1:
                 skint = `local/common/type_3.png`
                 wareList = JSON.parse(JSON.stringify(this.lightList))
-                this.owner.light.skin = `remote/weaponhouse/13.png`
+                owner.light.skin = `remote/weaponhouse/13.png`
                 break
         }
-        this.owner.showWrap.skin = skinq
-        this.owner.showMark.skin = skint
+        owner.showWrap.skin = skinq
+        owner.showMark.skin = skint
         //兵器属性
-        this.owner.currutWeapon.text = detail.weaponName
-        this.owner.currutWeapon.font = `weaponDFont`
-        this.owner.currutWeapon.scale(0.8, 0.8)
+        owner.currutWeapon.text = detail.weaponName
+        owner.currutWeapon.font = `weaponDFont`
+        owner.currutWeapon.scale(0.8, 0.8)
 
-        this.owner.CDTime.text = `LV.${detail.weaponLevel}/${detail.weaponTopLevel}`
-        this.owner.CDTime.font = `weaponNFontT`
-        this.owner.CDTime.scale(0.7, 0.7)
+        owner.CDTime.text = `LV.${detail.weaponLevel}/${detail.weaponTopLevel}`
+        owner.CDTime.font = `weaponNFontT`
+        owner.CDTime.scale(0.7, 0.7)
 
-        this.owner.attackNum.text = `攻击： ${detail.weaponAttack}`
-        this.owner.addattackNum.visible = detail.weaponUpAttack ? true : false
-        this.owner.addattackNum.text = `+${detail.weaponUpAttack}`
-        this.owner.enduranceNum.text = `耐久： ${detail.weaponDurable}`
-        this.owner.addenduranceNum.visible = detail.weaponUpDurable ? true : false
-        this.owner.addenduranceNum.text = `+${detail.weaponUpDurable}`
-        this.owner.consumeNum.text = `消耗： ${detail.weaponConsume}`
-        this.owner.addconsumeNum.visible = detail.weaponDownConsume ? true : false
-        this.owner.addconsumeNum.text = `-${detail.weaponDownConsume}`
-        this.owner.wpcdNum.text = `冷却： ${detail.weaponCd}秒`
+        owner.attackNum.text = `攻击： ${detail.weaponAttack}`
+        owner.addattackNum.visible = detail.weaponUpAttack ? true : false
+        owner.addattackNum.text = `+${detail.weaponUpAttack}`
+        owner.enduranceNum.text = `耐久： ${detail.weaponDurable}`
+        owner.addenduranceNum.visible = detail.weaponUpDurable ? true : false
+        owner.addenduranceNum.text = `+${detail.weaponUpDurable}`
+        owner.consumeNum.text = `消耗： ${detail.weaponConsume}`
+        owner.addconsumeNum.visible = detail.weaponDownConsume ? true : false
+        owner.addconsumeNum.text = `-${detail.weaponDownConsume}`
+        owner.wpcdNum.text = `冷却： ${detail.weaponCd}秒`
 
         //兵器技能
-        this.owner[`skillName_1`].text = ``
-        this.owner[`skillGl_1`].text = ``
-        this.owner[`skillDetail_1`].text = ``
-        this.owner[`skillImg_1`].visible = false
-        this.owner[`skillName_2`].text = ``
-        this.owner[`skillGl_2`].text = ``
-        this.owner[`skillDetail_2`].text = ``
-        this.owner[`skillImg_2`].visible = false
+        owner[`skillName_1`].text = ``
+        owner[`skillGl_1`].text = ``
+        owner[`skillDetail_1`].text = ``
+        owner[`skillImg_1`].visible = false
+        owner[`skillName_2`].text = ``
+        owner[`skillGl_2`].text = ``
+        owner[`skillDetail_2`].text = ``
+        owner[`skillImg_2`].visible = false
         if (detail.skills.length > 0) {
             detail.skills.forEach((element, index) => {
-                this.owner[`skillName_${index + 1}`].color = `#4a4948`
-                this.owner[`skillGl_${index + 1}`].color = `#4a4948`
-                this.owner[`skillDetail_${index + 1}`].color = `#4a4948`
-                this.owner[`skillName_${index + 1}`].text = element.skillName
-                this.owner[`skillGl_${index + 1}`].text = `几率${element.skillProb}%`
-                this.owner[`skillDetail_${index + 1}`].text = element.skillDesc
-                this.owner[`skillImg_${index + 1}`].visible = true
+                owner[`skillName_${index + 1}`].color = `#4a4948`
+                owner[`skillGl_${index + 1}`].color = `#4a4948`
+                owner[`skillDetail_${index + 1}`].color = `#4a4948`
+                owner[`skillName_${index + 1}`].text = element.skillName
+                owner[`skillGl_${index + 1}`].text = `几率${element.skillProb}%`
+                owner[`skillDetail_${index + 1}`].text = element.skillDesc
+                owner[`skillImg_${index + 1}`].visible = true
                 if (element.status) {
-                    this.owner[`skillName_${index + 1}`].color = `#004418`
-                    this.owner[`skillGl_${index + 1}`].color = `#004418`
-                    this.owner[`skillDetail_${index + 1}`].color = `#004418`
+                    owner[`skillName_${index + 1}`].color = `#004418`
+                    owner[`skillGl_${index + 1}`].color = `#004418`
+                    owner[`skillDetail_${index + 1}`].color = `#004418`
                 }
             });
         }
 
-        this.owner.needGoldNum.text = detail.upgradeCost
-        this.owner.needGoldNum.font = `weaponNFontT`
-        this.owner.needGoldNum.scale(0.7, 0.7)
+        owner.needGoldNum.text = detail.upgradeCost
+        owner.needGoldNum.font = `weaponNFontT`
+        owner.needGoldNum.scale(0.7, 0.7)
 
-        this.owner.upGrade.disabled = detail.weaponLevel >= detail.weaponTopLevel ? true : false
-        this.owner.equip.skin = detail.isUsingWp ? `remote/weaponhouse/20.png` : `remote/weaponhouse/10.png`
+        owner.upGrade.disabled = detail.weaponLevel >= detail.weaponTopLevel ? true : false
+        owner.equip.skin = detail.isUsingWp ? `remote/weaponhouse/20.png` : `remote/weaponhouse/10.png`
 
         //否是为已装备武器
         if (isUser) {
@@ -550,19 +554,20 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
     //升级武器
     upgradeWeapon() {
+        let owner = this.owner
         let numNew = 0
         if (!this.isGuide) {
             if (this.isRequesting) {
                 return
             }
-            if (Number(this.owner.needGoldNum.text) > Number(PaoYa.DataCenter.user.gold)) {
+            if (Number(owner.needGoldNum.text) > Number(PaoYa.DataCenter.user.gold)) {
                 this.navigator.popup("weapon/GoldLack");
                 return
             } else {
                 // let obj = {
-                //     gold: PaoYa.DataCenter.user.gold -= Number(this.owner.needGoldNum.text),
+                //     gold: PaoYa.DataCenter.user.gold -= Number(owner.needGoldNum.text),
                 // }
-                // this.owner.changeHB(obj)
+                // owner.changeHB(obj)
             }
         } else {
             numNew = 1
@@ -577,12 +582,16 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
         PaoYa.Request.POST(`martial_update_weapon`, { weaponId: `${detail.weaponId}-${detail.weaponLevel}`, newHand: numNew, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, res => {
             SoundManager.ins.upgrade()
-            PaoYa.Request.GET('update_chips', {}, res => {
-                this.owner.changeHB(res)
-            })
+
+            let obj = {
+                gold: PaoYa.DataCenter.user.gold - Number(owner.needGoldNum.text),
+                diamond: PaoYa.DataCenter.user.diamond
+            }
+            owner.changeHB(obj)
+
             let newDetail = null
-            this.owner.upeffects.visible = true
-            this.owner.upeffects.play(0, false)
+            owner.upeffects.visible = true
+            owner.upeffects.play(0, false)
             switch (detail.weaponType) {
                 case 3:
                     // this.heavyList[detail.originalIndex].num--
@@ -641,7 +650,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 });
                 this.getMyUserDetailList()
                 this.addWpList = []
-                this.owner.userWeaponList.array = this.myUserDetailList
+                owner.userWeaponList.array = this.myUserDetailList
             } else {
                 for (const key in res.weapon) {
                     if (this.isWareChoiceWp && this.isWareChoiceWp._dataSource) {

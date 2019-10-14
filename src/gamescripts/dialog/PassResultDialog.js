@@ -10,7 +10,6 @@ export default class PassResultDialog extends PaoYa.Dialog{
         super();
     }
     onAwake(){
-        console.log(this.params);
         this.autoDestroyAtClosed=true;
         let result=this.params.result;
         this.result=result;
