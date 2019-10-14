@@ -18,24 +18,25 @@ export default class GameView extends PaoYa.View{
 
       let sceneSK=new Laya.Skeleton();
       let sceneURL='';
+      let baseUrl='https://xgamejuedixiaomie.goxiaochengxu.cn/1006/';
       if(GameControl.instance.closeRobot){
-        sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk`;
-        this.sceneBg.texture=`remote/game/scene1.jpg`;
+        sceneURL=`spine/scene/scene1.sk`;
+        this.sceneBg.texture=baseUrl+`remote/game/scene1.jpg`;
       }
       if(this.params.gameType==`pass`||this.params.gameType==`adventure`){
         if(this.params.stageId<15){
-          sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk`;
+          sceneURL=baseUrl+`spine/scene/scene1.sk`;
           this.sceneBg.texture=`remote/game/scene1.jpg`;
         }else if(this.params.stageId>=15&&this.params.stageId<=29){
-          sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene3.sk`;
+          sceneURL=baseUrl+`spine/scene/scene3.sk`;
           this.sceneBg.texture=`remote/game/scene3.jpg`;
         }else{
-          sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene1.sk`;
+          sceneURL=baseUrl+`spine/scene/scene1.sk`;
           this.sceneBg.texture=`remote/game/scene1.jpg`;
         }
       
       }else if(this.params.gameType==`battle`){
-        sceneURL=`https://xgamejuedixiaomie.goxiaochengxu.cn/1006/spine/scene/scene2.sk`;
+        sceneURL=baseUrl+`spine/scene/scene2.sk`;
         this.sceneBg.texture=`remote/game/scene2.jpg`;
       }
       sceneSK.load(sceneURL,Laya.Handler.create(this,(res)=>{
