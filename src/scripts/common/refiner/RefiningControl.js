@@ -21,32 +21,33 @@ export default class RefiningControl extends PaoYa.Component {
         if (!this.owner) {
             return
         }
+        let owner = this.owner
         switch (e.target.name) {
             case `benBack`:
                 SoundManager.ins.btn()
                 this.navigator.pop()
                 break;
             case `figure`:
-                if (this.owner.figureD.visible) {
+                if (owner.figureD.visible) {
                     return
                 }
                 SoundManager.ins.btn()
-                this.owner.figure.skin = `remote/refining/4.png`
-                this.owner.weopon.skin = `remote/refining/5.png`
+                owner.figure.skin = `remote/refining/4.png`
+                owner.weopon.skin = `remote/refining/5.png`
 
-                this.owner.figureD.visible = true
-                this.owner.weoponD.visible = false
+                owner.figureD.visible = true
+                owner.weoponD.visible = false
                 break;
             case `weopon`:
-                if (this.owner.weoponD.visible) {
+                if (owner.weoponD.visible) {
                     return
                 }
                 SoundManager.ins.btn()
-                this.owner.figure.skin = `remote/refining/2.png`
-                this.owner.weopon.skin = `remote/refining/3.png`
+                owner.figure.skin = `remote/refining/2.png`
+                owner.weopon.skin = `remote/refining/3.png`
 
-                this.owner.figureD.visible = false
-                this.owner.weoponD.visible = true
+                owner.figureD.visible = false
+                owner.weoponD.visible = true
                 break;
         }
     }
@@ -63,7 +64,8 @@ export default class RefiningControl extends PaoYa.Component {
     }
 
     getMask() {
-        this.owner.guide1.visible = true
+        let owner = this.owner
+        owner.guide1.visible = true
         Global.dataPoints('进入炼器引导')
         this.guideStep = 0
         this.guideSteps = [{ x: 120, y: 3, radius: 53 }]
@@ -75,11 +77,11 @@ export default class RefiningControl extends PaoYa.Component {
         this.gameContainer.size(1634, 750)
         this.gameContainer.pos(-150, 0)
         this.gameContainer.mouseEnabled = true;
-        this.owner.addChild(this.gameContainer);
+        owner.addChild(this.gameContainer);
         this.gameContainer.on(Laya.Event.CLICK, this, () => {
             switch (this.guideStep) {
                 case 0:
-                    this.addLv(this.owner.params.refiner_list[0])
+                    this.addLv(owner.params.refiner_list[0])
                     Global.dataPoints('点击淬体')
                     break;
                 case 1:
@@ -105,11 +107,11 @@ export default class RefiningControl extends PaoYa.Component {
 
         // 引导所在容器
         this.guideContainer = new Sprite();
-        this.owner.addChild(this.guideContainer);
+        owner.addChild(this.guideContainer);
         this.guideContainer.cacheAs = "bitmap";
 
-        this.owner.guide1.zOrder = 2
-        this.owner.guide1f(1)
+        owner.guide1.zOrder = 2
+        owner.guide1f(1)
 
         // 绘制遮罩区，含透明度，可见游戏背景
         this.maskArea = new Sprite();
@@ -130,7 +132,7 @@ export default class RefiningControl extends PaoYa.Component {
         this.guideContainer.mouseEnabled = true;
 
 
-        this.nextStep(this.owner.guide1);
+        this.nextStep(owner.guide1);
     }
 
     sceondStep() {
@@ -140,10 +142,11 @@ export default class RefiningControl extends PaoYa.Component {
     }
 
     nextStep(obj) {
+        let owner = this.owner
         if (this.guideStep === this.guideSteps.length) {
-            this.owner.removeChild(this.guideContainer);
-            this.owner.removeChild(this.gameContainer);
-            this.owner.guide1.visible = false
+            owner.removeChild(this.guideContainer);
+            owner.removeChild(this.gameContainer);
+            owner.guide1.visible = false
             return;
         }
         let step = this.guideSteps[this.guideStep];

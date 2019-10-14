@@ -19,13 +19,14 @@ export default class SwordsmanControl extends PaoYa.Component {
         if (!this.owner) {
             return
         }
+        let owner = this.owner
         switch (e.target.name) {
             case `benBack`:
-                if (this.owner.isGuide && !this.owner.guideBack) {
+                if (owner.isGuide && !owner.guideBack) {
                     return
                 }
                 SoundManager.ins.btn()
-                this.postNotification(`roleIdChanged`, this.owner.params.defaultRole);
+                this.postNotification(`roleIdChanged`, owner.params.defaultRole);
                 this.navigator.pop()
                 break;
             case `lvupbtn`:
@@ -37,7 +38,7 @@ export default class SwordsmanControl extends PaoYa.Component {
                 break;
             case `buyBtn`:
                 SoundManager.ins.btn()
-                this.navigator.popup("figure/BuyHero", this.owner.showDetail);
+                this.navigator.popup("figure/BuyHero", owner.showDetail);
                 break;
             case `signGet`:
                 SoundManager.ins.btn()
@@ -51,21 +52,21 @@ export default class SwordsmanControl extends PaoYa.Component {
                 })
                 break;
             case `skill1`:
-                if (this.owner.isGuide) {
+                if (owner.isGuide) {
                     return
                 }
                 SoundManager.ins.btn()
                 this.showSkillDetail(0)
                 break;
             case `skill2`:
-                if (this.owner.isGuide) {
+                if (owner.isGuide) {
                     return
                 }
                 SoundManager.ins.btn()
                 this.showSkillDetail(1)
                 break;
             case `skill3`:
-                if (this.owner.isGuide) {
+                if (owner.isGuide) {
                     return
                 }
                 SoundManager.ins.btn()
@@ -75,45 +76,46 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     roleLevelUp() {
+        let owner = this.owner
         let numNew = 0
-        if (this.owner.isGuide) {
-            this.owner.guideBack = true
-            this.owner.isGuide = false
-            this.owner.removeChild(this.owner.guideContainer)
+        if (owner.isGuide) {
+            owner.guideBack = true
+            owner.isGuide = false
+            owner.removeChild(owner.guideContainer)
             Global.dataPoints('用户点击人物升级')
             numNew = 1
         } else {
-            if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
+            if (owner.showDetail.roleLevel >= owner.showDetail.roleTopLevel) {
                 return
             }
-            if (Number(this.owner.needGoldNum.text) > PaoYa.DataCenter.user.gold) {
+            if (Number(owner.needGoldNum.text) > PaoYa.DataCenter.user.gold) {
                 this.navigator.popup("weapon/GoldLack");
                 return
             } else {
                 let obj = {
-                    gold: PaoYa.DataCenter.user.gold - Number(this.owner.needGoldNum.text),
+                    gold: PaoYa.DataCenter.user.gold - Number(owner.needGoldNum.text),
                     diamond: PaoYa.DataCenter.user.diamond
                 }
-                this.owner.changeHB(obj)
+                owner.changeHB(obj)
             }
         }
-        PaoYa.Request.POST(`martial_update_role`, { roleId: this.owner.showDetail.roleId, newHand: numNew }, res => {
+        PaoYa.Request.POST(`martial_update_role`, { roleId: owner.showDetail.roleId, newHand: numNew }, res => {
             SoundManager.ins.upgrade()
-            this.owner.heroLvup.visible = true
-            this.owner.heroLvup.play(0, false)
-            this.owner.params.roleList.forEach(element => {
+            owner.heroLvup.visible = true
+            owner.heroLvup.play(0, false)
+            owner.params.roleList.forEach(element => {
                 if (element.roleId == res.role.roleId) {
                     for (const key in element) {
                         element[key] = res.role[key]
                     }
-                    this.owner.showDetail = element
+                    owner.showDetail = element
                 }
             });
-            this.owner.initInfo()
+            owner.initInfo()
 
             if (res.unlock) {
                 let detail = null
-                this.owner.showDetail.skills.forEach(element => {
+                owner.showDetail.skills.forEach(element => {
                     if (element.status) {
                         detail = element
                     }
@@ -125,9 +127,10 @@ export default class SwordsmanControl extends PaoYa.Component {
     }
 
     changeRole() {
-        PaoYa.Request.POST(`martial_change_role`, { roleId: this.owner.showDetail.roleId }, res => {
-            this.owner.params.defaultRole = res.roleId
-            this.owner.initInfo()
+        let owner = this.owner
+        PaoYa.Request.POST(`martial_change_role`, { roleId: owner.showDetail.roleId }, res => {
+            owner.params.defaultRole = res.roleId
+            owner.initInfo()
         })
     }
 

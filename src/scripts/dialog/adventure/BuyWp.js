@@ -141,6 +141,9 @@ export default class BuyWp extends PaoYa.Dialog {
         });
 
         if (moveArr.length == 0) {
+            py.showToast({
+                title: '请先选择相应兵器'
+            })
             return
         }
 

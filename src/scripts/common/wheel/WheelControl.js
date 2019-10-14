@@ -31,13 +31,14 @@ export default class WheelControl extends PaoYa.Component {
         if (!this.owner) {
             return
         }
+        let owner = this.owner
         switch (e.target.name) {
             case `benBack`:
                 SoundManager.ins.btn()
                 this.navigator.pop()
                 break;
             case `addbtn`:
-                if (this.owner.isRunning) {
+                if (owner.isRunning) {
                     return
                 }
                 if (PaoYa.DataCenter.user.diamond < 500) {
@@ -49,7 +50,7 @@ export default class WheelControl extends PaoYa.Component {
                 this.addTimes()
                 break;
             case `startWheel`:
-                if (this.owner.isRunning) {
+                if (owner.isRunning) {
                     return
                 }
                 this.wheelTurn()
@@ -62,7 +63,8 @@ export default class WheelControl extends PaoYa.Component {
     }
 
     addTimesD(num) {
-        if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text) && !num) {
+        let owner = this.owner
+        if (PaoYa.DataCenter.user.diamond < Number(owner.num.text) && !num) {
             this.navigator.popup("common/BuyWheelTimes", 1);
             return
         }
@@ -71,19 +73,20 @@ export default class WheelControl extends PaoYa.Component {
             if (!res) {
                 return
             }
-            this.owner.video.visible = false
-            this.owner.startWheelTxt.font = `weaponDFont`
-            this.owner.startWheelTxt.scale(0.8, 0.8)
-            this.owner.startWheelTxt.pos(60, 10)
+            owner.video.visible = false
+            owner.startWheelTxt.font = `weaponDFont`
+            owner.startWheelTxt.scale(0.8, 0.8)
+            owner.startWheelTxt.pos(60, 10)
 
             PaoYa.DataCenter.user.wheelTimes = res
-            this.owner.num.text = res
-            this.owner.changeDG()
+            owner.num.text = res
+            owner.changeDG()
         })
     }
 
     wheelTurn() {
-        if (this.owner.num.text < 1) {
+        let owner = this.owner
+        if (owner.num.text < 1) {
             SoundManager.ins.btn()
             // this.navigator.popup("common/BuyWheelTimes");
             Global.dataPoints('增加转盘次数激励广告')
@@ -168,6 +171,7 @@ export default class WheelControl extends PaoYa.Component {
     }
 
     whellRun(res) {
+        let owner = this.owner
         this.getWheelAwardHttp(res)
         let rat = 0
         PaoYa.DataCenter.user.config_list.hero.wheelList.forEach((element, index) => {
@@ -181,9 +185,9 @@ export default class WheelControl extends PaoYa.Component {
                 }
             }
         });
-        this.owner.isRunning = true
+        owner.isRunning = true
         SoundManager.ins.round()
-        Laya.Tween.to(this.owner.pointer, { rotation: rat }, 4000, Laya.Ease.circOut, Laya.Handler.create(this, () => {
+        Laya.Tween.to(owner.pointer, { rotation: rat }, 4000, Laya.Ease.circOut, Laya.Handler.create(this, () => {
             this.isRunFinish = true
             if (this.awardDetail) {
                 this.dialogPopup(this.awardDetail)
@@ -193,13 +197,14 @@ export default class WheelControl extends PaoYa.Component {
     }
 
     getWheelAwardHttp(obj) {
+        let owner = this.owner
         PaoYa.Request.POST('martial_adv_receive', { exchangeId: obj.id, adv: 0 }, res => {
-            this.owner.num.text = res.wheelTimes
+            owner.num.text = res.wheelTimes
             if (res.wheelTimes == 0) {
-                this.owner.video.visible = true
-                this.owner.startWheelTxt.font = `weaponDFont`
-                this.owner.startWheelTxt.scale(0.8, 0.8)
-                this.owner.startWheelTxt.pos(90, 10)
+                owner.video.visible = true
+                owner.startWheelTxt.font = `weaponDFont`
+                owner.startWheelTxt.scale(0.8, 0.8)
+                owner.startWheelTxt.pos(90, 10)
             }
             PaoYa.DataCenter.user.wheelTimes = res.wheelTimes
 
@@ -213,6 +218,7 @@ export default class WheelControl extends PaoYa.Component {
     }
 
     dialogPopup(res) {
+        let owner = this.owner
         let obj = {
             type: `wheel`,
             detail: res
@@ -220,8 +226,8 @@ export default class WheelControl extends PaoYa.Component {
         this.navigator.popup("common/Award", obj, Laya.Handler.create(this, () => {
             this.awardDetail = null
             this.isRunFinish = null
-            this.owner.pointer.rotation = 0
-            this.owner.isRunning = false
+            owner.pointer.rotation = 0
+            owner.isRunning = false
         }));
     }
 }

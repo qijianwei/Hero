@@ -35,13 +35,14 @@ export default class DevourControl extends PaoYa.Component {
     }
 
     getWareList() {
-        this.lightList = this.owner.params.lightList
-        this.heavyList = this.owner.params.heavyList
-        this.middleList = this.owner.params.middleList
+        let owner = this.owner
+        this.lightList = owner.params.lightList
+        this.heavyList = owner.params.heavyList
+        this.middleList = owner.params.middleList
         this.allList = this.lightList.concat(this.heavyList, this.middleList)
 
         this.myUserList = []
-        let arr = this.owner.params.userWeapons.split(`,`)
+        let arr = owner.params.userWeapons.split(`,`)
         arr.forEach(element => {
             let obj = {
                 name: element.split(`-`)[0],
@@ -142,6 +143,7 @@ export default class DevourControl extends PaoYa.Component {
     }
     //是否选中操作
     chioceWp(cell, index) {
+        let owner = this.owner
         if (cell._dataSource.willBeEat) {
             let num = null
             this.newAllArr[index].ischiocedd = false
@@ -175,10 +177,11 @@ export default class DevourControl extends PaoYa.Component {
             }
         });
 
-        this.owner.curryExp.width = this.owner.nextExp.width + (num / this.owner.params.refiner.currentFullExp) * 224 > 224 ? 224 : this.owner.nextExp.width + (num / this.owner.params.refiner.currentFullExp) * 224
+        owner.curryExp.width = owner.nextExp.width + (num / owner.params.refiner.currentFullExp) * 224 > 224 ? 224 : owner.nextExp.width + (num / owner.params.refiner.currentFullExp) * 224
     }
     //吞噬
     eatWp(e) {
+        let owner = this.owner
         if (this.willBeEatList.length < 1) {
             return
         }
@@ -204,15 +207,15 @@ export default class DevourControl extends PaoYa.Component {
             return
         }
 
-        PaoYa.Request.POST(`martial_update_refiner`, { weaponId: idlist, refinerId: this.owner.params.refiner.id, addExp: addexp }, res => {
+        PaoYa.Request.POST(`martial_update_refiner`, { weaponId: idlist, refinerId: owner.params.refiner.id, addExp: addexp }, res => {
             if (res.refiner) {
-                this.owner.params.refiner = res.refiner
-                this.owner.params.nextRefiner = res.nextRefiner
-                Refining.ins.params.refiner_list[Refining.ins.ReIndex] = this.owner.params.refiner
+                owner.params.refiner = res.refiner
+                owner.params.nextRefiner = res.nextRefiner
+                Refining.ins.params.refiner_list[Refining.ins.ReIndex] = owner.params.refiner
             } else {
-                this.owner.params.refiner.currentExp = res.totalExp
+                owner.params.refiner.currentExp = res.totalExp
             }
-            this.owner.initInfo()
+            owner.initInfo()
             let arr2 = []
             this.newAllArr.forEach((element, idx) => {
                 if (!element.ischiocedd) {
@@ -222,18 +225,19 @@ export default class DevourControl extends PaoYa.Component {
             this.willBeEatList = []
             this.childList = []
             this.newAllArr = arr2
-            this.owner.warehouseList.array = arr2
+            owner.warehouseList.array = arr2
         })
     }
     //一键选中
     chiocethreeWp() {
+        let owner = this.owner
         this.childList.forEach((element, index) => {
             if (element.ischiocedd) {
                 this.chioceWp(element, index)
             }
         });
 
-        this.owner.warehouseList.tweenTo(0, 200, Laya.Handler.create(this, () => {
+        owner.warehouseList.tweenTo(0, 200, Laya.Handler.create(this, () => {
             for (let i = 0; i < 3; i++) {
                 if (this.childList[i]) {
                     this.chioceWp(this.childList[i], i)
@@ -243,6 +247,7 @@ export default class DevourControl extends PaoYa.Component {
     }
 
     getMask() {
+        let owner = this.owner
         this.guideStep = 1
         this.guideSteps = [{ x: 120, y: 3, radius: 53 },
         { x: 143, y: 0, radius: 90 },
@@ -250,9 +255,9 @@ export default class DevourControl extends PaoYa.Component {
 
         const Sprite = Laya.Sprite;
 
-        this.owner.guide2.zOrder = 2
-        this.owner.guide2.visible = true
-        this.owner.guide2f(1)
+        owner.guide2.zOrder = 2
+        owner.guide2.visible = true
+        owner.guide2f(1)
 
         RefiningControl.ins.sceondStep()
         // 绘制底图
@@ -260,19 +265,19 @@ export default class DevourControl extends PaoYa.Component {
         this.gameContainer.size(1634, 750)
         this.gameContainer.pos(-150, 0)
         this.gameContainer.mouseEnabled = true;
-        this.owner.addChild(this.gameContainer);
+        owner.addChild(this.gameContainer);
         this.gameContainer.on(Laya.Event.CLICK, this, () => {
             switch (this.guideStep) {
                 case 0:
                     Global.dataPoints('点击淬体')
-                    RefiningControl.ins.addLv(this.owner.params.refiner_list[0])
+                    RefiningControl.ins.addLv(owner.params.refiner_list[0])
                     break;
                 case 1:
-                    this.owner.nextP()
+                    owner.nextP()
                     SoundManager.ins.btn()
                     this.guideStep = 2
                     this.chiocethreeWp()
-                    this.nextStep(this.owner.guide3);
+                    this.nextStep(owner.guide3);
                     Global.dataPoints('点击一键选中')
                     break;
                 case 2:
@@ -281,7 +286,7 @@ export default class DevourControl extends PaoYa.Component {
                     this.guideStep = 3
                     this.isGuide = false
                     this.nextStep();
-                    this.owner.guide3.visible = false
+                    owner.guide3.visible = false
                     Global.dataPoints('点击吞噬升级')
                     Global.isShowGrading = true
                     break;
@@ -290,7 +295,7 @@ export default class DevourControl extends PaoYa.Component {
 
         // 引导所在容器
         this.guideContainer = new Sprite();
-        this.owner.addChild(this.guideContainer);
+        owner.addChild(this.guideContainer);
         this.guideContainer.cacheAs = "bitmap";
 
         // 绘制遮罩区，含透明度，可见游戏背景
@@ -312,7 +317,7 @@ export default class DevourControl extends PaoYa.Component {
         this.guideContainer.mouseEnabled = true;
 
 
-        this.nextStep(this.owner.guide2);
+        this.nextStep(owner.guide2);
     }
 
     sceondStep() {
@@ -323,11 +328,12 @@ export default class DevourControl extends PaoYa.Component {
     }
 
     nextStep(obj) {
+        let owner = this.owner
         if (this.guideStep === this.guideSteps.length) {
-            this.owner.removeChild(this.guideContainer);
-            this.owner.removeChild(this.gameContainer);
-            this.owner.guide2.visible = false
-            this.owner.guide3.visible = false
+            owner.removeChild(this.guideContainer);
+            owner.removeChild(this.gameContainer);
+            owner.guide2.visible = false
+            owner.guide3.visible = false
             Refining.ins.isGuide = false
             return;
         }

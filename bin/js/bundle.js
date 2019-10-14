@@ -1336,7 +1336,7 @@ var GameControl = function (_PaoYa$Component) {
                 //铸铁剑法 造成臂力*0.32倍伤害
                 case 90:
                     break;
-                //打出一条小金龙，是否写在这里待定 不能写在这里，不走兵器路线
+                //打出一条小金龙， 不能写在这里，不走兵器路线
                 case 91:
                     break;
             }
@@ -1410,8 +1410,10 @@ var GameControl = function (_PaoYa$Component) {
                     /* this[name+'Player'].comp.changePerMp(); */
                     this[name + 'MultiMP'] = skillInfo.skillConfig.consumeMp;
                     console.error('内力消耗倍数:', skillInfo.skillConfig.consumeMp);
+                    this.heroSkill2 = true;
                     Laya.timer.once(skillInfo.skillConfig.time * 1000, this, function () {
                         console.error('内力消耗倍数恢复:');
+                        _this10.heroSkill2 = false;
                         _this10[name + 'MultiMP'] = 1;
                         _this10[name + 'Player'].comp.removeSkill2();
                     });
@@ -6019,6 +6021,8 @@ var Player = function (_PaoYa$Component) {
           time = 200;
         } else if (this.roleId == 4) {
           time = 1000;
+        } else if (this.roleId == 3) {
+          time = 1000;
         }
         Laya.timer.once(time, this, function () {
           _this3.sectionAni += 1;
@@ -6246,13 +6250,15 @@ var Player = function (_PaoYa$Component) {
     key: "removeDizzy",
     value: function removeDizzy() {
       console.log("------remove dizzy-------");
-      this.canAction = true;
+      if (!this.freezeState && !this.plasyState) {
+        this.canAction = true;
+        this.skeleton.play('stand', true);
+      }
       this.dizzyState = false;
       if (this.isSelf) {
         //  Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
       }
-      this.skeleton.play('stand', true);
       this.boxAniDizzy.visible = false;
       this.aniDizzy.stop();
     }
@@ -6282,13 +6288,15 @@ var Player = function (_PaoYa$Component) {
     key: "removePalsy",
     value: function removePalsy() {
       console.log("------remove palsy-------");
-      this.canAction = true;
+      if (!this.freezeState && !this.dizzyState) {
+        this.canAction = true;
+        this.skeleton.play('stand', true);
+      }
       this.plasyState = false;
       if (this.isSelf) {
         //  Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
       }
-      this.skeleton.play('stand', true);
       this.boxAniPalsy.visible = false;
       this.aniPalsy.stop();
     }
@@ -6320,14 +6328,16 @@ var Player = function (_PaoYa$Component) {
     key: "removeFreeze",
     value: function removeFreeze() {
       console.log("------remove freeze-------");
-      this.canAction = true;
+      if (!this.plasyState && !this.dizzyState) {
+        this.canAction = true;
+        this.skeleton.play('stand', true);
+      }
       this.freezeState = false;
       if (this.isSelf) {
         // Laya.MouseManager.enabled = true;
         _GameControl2.default.instance.allBtnsUnlock();
       }
       this.freeze.visible = false;
-      this.skeleton.play('stand', true);
     }
     //龙的效果
 
@@ -7311,6 +7321,11 @@ var Weapon = function (_PaoYa$Component) {
         skillHurtMulti = this.params.activeSkill.skillConfig.hurt ? this.params.activeSkill.skillConfig.hurt : 1;
       }
       var attackNum = Math.floor(this.weaponAttack * hurtPer * selfCritHarm * refinerHurt * (1 - otherReduceHurt) * skillHurtMulti);
+      if (this.selfPlayerComp.attr.roleId == 3 && _GameControl2.default.instance.heroSkill2) {
+        //杨过 九圣真经触发
+        console.log("-----\u4F24\u5BB3\u52A030%---------");
+        attackNum = attackNum * 1.3;
+      }
       return {
         attackNum: attackNum,
         isCrit: randomNum < roleCritHarm
@@ -9835,13 +9850,14 @@ var SwordsmanControl = function (_PaoYa$Component) {
             if (!this.owner) {
                 return;
             }
+            var owner = this.owner;
             switch (e.target.name) {
                 case "benBack":
-                    if (this.owner.isGuide && !this.owner.guideBack) {
+                    if (owner.isGuide && !owner.guideBack) {
                         return;
                     }
                     _SoundManager2.default.ins.btn();
-                    this.postNotification("roleIdChanged", this.owner.params.defaultRole);
+                    this.postNotification("roleIdChanged", owner.params.defaultRole);
                     this.navigator.pop();
                     break;
                 case "lvupbtn":
@@ -9853,7 +9869,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
                     break;
                 case "buyBtn":
                     _SoundManager2.default.ins.btn();
-                    this.navigator.popup("figure/BuyHero", this.owner.showDetail);
+                    this.navigator.popup("figure/BuyHero", owner.showDetail);
                     break;
                 case "signGet":
                     _SoundManager2.default.ins.btn();
@@ -9867,21 +9883,21 @@ var SwordsmanControl = function (_PaoYa$Component) {
                     });
                     break;
                 case "skill1":
-                    if (this.owner.isGuide) {
+                    if (owner.isGuide) {
                         return;
                     }
                     _SoundManager2.default.ins.btn();
                     this.showSkillDetail(0);
                     break;
                 case "skill2":
-                    if (this.owner.isGuide) {
+                    if (owner.isGuide) {
                         return;
                     }
                     _SoundManager2.default.ins.btn();
                     this.showSkillDetail(1);
                     break;
                 case "skill3":
-                    if (this.owner.isGuide) {
+                    if (owner.isGuide) {
                         return;
                     }
                     _SoundManager2.default.ins.btn();
@@ -9894,45 +9910,46 @@ var SwordsmanControl = function (_PaoYa$Component) {
         value: function roleLevelUp() {
             var _this3 = this;
 
+            var owner = this.owner;
             var numNew = 0;
-            if (this.owner.isGuide) {
-                this.owner.guideBack = true;
-                this.owner.isGuide = false;
-                this.owner.removeChild(this.owner.guideContainer);
+            if (owner.isGuide) {
+                owner.guideBack = true;
+                owner.isGuide = false;
+                owner.removeChild(owner.guideContainer);
                 _Global.Global.dataPoints('用户点击人物升级');
                 numNew = 1;
             } else {
-                if (this.owner.showDetail.roleLevel >= this.owner.showDetail.roleTopLevel) {
+                if (owner.showDetail.roleLevel >= owner.showDetail.roleTopLevel) {
                     return;
                 }
-                if (Number(this.owner.needGoldNum.text) > PaoYa.DataCenter.user.gold) {
+                if (Number(owner.needGoldNum.text) > PaoYa.DataCenter.user.gold) {
                     this.navigator.popup("weapon/GoldLack");
                     return;
                 } else {
                     var obj = {
-                        gold: PaoYa.DataCenter.user.gold - Number(this.owner.needGoldNum.text),
+                        gold: PaoYa.DataCenter.user.gold - Number(owner.needGoldNum.text),
                         diamond: PaoYa.DataCenter.user.diamond
                     };
-                    this.owner.changeHB(obj);
+                    owner.changeHB(obj);
                 }
             }
-            PaoYa.Request.POST("martial_update_role", { roleId: this.owner.showDetail.roleId, newHand: numNew }, function (res) {
+            PaoYa.Request.POST("martial_update_role", { roleId: owner.showDetail.roleId, newHand: numNew }, function (res) {
                 _SoundManager2.default.ins.upgrade();
-                _this3.owner.heroLvup.visible = true;
-                _this3.owner.heroLvup.play(0, false);
-                _this3.owner.params.roleList.forEach(function (element) {
+                owner.heroLvup.visible = true;
+                owner.heroLvup.play(0, false);
+                owner.params.roleList.forEach(function (element) {
                     if (element.roleId == res.role.roleId) {
                         for (var key in element) {
                             element[key] = res.role[key];
                         }
-                        _this3.owner.showDetail = element;
+                        owner.showDetail = element;
                     }
                 });
-                _this3.owner.initInfo();
+                owner.initInfo();
 
                 if (res.unlock) {
                     var detail = null;
-                    _this3.owner.showDetail.skills.forEach(function (element) {
+                    owner.showDetail.skills.forEach(function (element) {
                         if (element.status) {
                             detail = element;
                         }
@@ -9945,11 +9962,10 @@ var SwordsmanControl = function (_PaoYa$Component) {
     }, {
         key: "changeRole",
         value: function changeRole() {
-            var _this4 = this;
-
-            PaoYa.Request.POST("martial_change_role", { roleId: this.owner.showDetail.roleId }, function (res) {
-                _this4.owner.params.defaultRole = res.roleId;
-                _this4.owner.initInfo();
+            var owner = this.owner;
+            PaoYa.Request.POST("martial_change_role", { roleId: owner.showDetail.roleId }, function (res) {
+                owner.params.defaultRole = res.roleId;
+                owner.initInfo();
             });
         }
     }, {
@@ -10330,13 +10346,14 @@ var DevourControl = function (_PaoYa$Component) {
         value: function getWareList() {
             var _this2 = this;
 
-            this.lightList = this.owner.params.lightList;
-            this.heavyList = this.owner.params.heavyList;
-            this.middleList = this.owner.params.middleList;
+            var owner = this.owner;
+            this.lightList = owner.params.lightList;
+            this.heavyList = owner.params.heavyList;
+            this.middleList = owner.params.middleList;
             this.allList = this.lightList.concat(this.heavyList, this.middleList);
 
             this.myUserList = [];
-            var arr = this.owner.params.userWeapons.split(",");
+            var arr = owner.params.userWeapons.split(",");
             arr.forEach(function (element) {
                 var obj = {
                     name: element.split("-")[0],
@@ -10446,6 +10463,7 @@ var DevourControl = function (_PaoYa$Component) {
     }, {
         key: "chioceWp",
         value: function chioceWp(cell, index) {
+            var owner = this.owner;
             if (cell._dataSource.willBeEat) {
                 var _num = null;
                 this.newAllArr[index].ischiocedd = false;
@@ -10479,7 +10497,7 @@ var DevourControl = function (_PaoYa$Component) {
                 }
             });
 
-            this.owner.curryExp.width = this.owner.nextExp.width + num / this.owner.params.refiner.currentFullExp * 224 > 224 ? 224 : this.owner.nextExp.width + num / this.owner.params.refiner.currentFullExp * 224;
+            owner.curryExp.width = owner.nextExp.width + num / owner.params.refiner.currentFullExp * 224 > 224 ? 224 : owner.nextExp.width + num / owner.params.refiner.currentFullExp * 224;
         }
         //吞噬
 
@@ -10488,6 +10506,7 @@ var DevourControl = function (_PaoYa$Component) {
         value: function eatWp(e) {
             var _this3 = this;
 
+            var owner = this.owner;
             if (this.willBeEatList.length < 1) {
                 return;
             }
@@ -10514,15 +10533,15 @@ var DevourControl = function (_PaoYa$Component) {
                 return;
             }
 
-            PaoYa.Request.POST("martial_update_refiner", { weaponId: idlist, refinerId: this.owner.params.refiner.id, addExp: addexp }, function (res) {
+            PaoYa.Request.POST("martial_update_refiner", { weaponId: idlist, refinerId: owner.params.refiner.id, addExp: addexp }, function (res) {
                 if (res.refiner) {
-                    _this3.owner.params.refiner = res.refiner;
-                    _this3.owner.params.nextRefiner = res.nextRefiner;
-                    _Refining2.default.ins.params.refiner_list[_Refining2.default.ins.ReIndex] = _this3.owner.params.refiner;
+                    owner.params.refiner = res.refiner;
+                    owner.params.nextRefiner = res.nextRefiner;
+                    _Refining2.default.ins.params.refiner_list[_Refining2.default.ins.ReIndex] = owner.params.refiner;
                 } else {
-                    _this3.owner.params.refiner.currentExp = res.totalExp;
+                    owner.params.refiner.currentExp = res.totalExp;
                 }
-                _this3.owner.initInfo();
+                owner.initInfo();
                 var arr2 = [];
                 _this3.newAllArr.forEach(function (element, idx) {
                     if (!element.ischiocedd) {
@@ -10532,7 +10551,7 @@ var DevourControl = function (_PaoYa$Component) {
                 _this3.willBeEatList = [];
                 _this3.childList = [];
                 _this3.newAllArr = arr2;
-                _this3.owner.warehouseList.array = arr2;
+                owner.warehouseList.array = arr2;
             });
         }
         //一键选中
@@ -10542,13 +10561,14 @@ var DevourControl = function (_PaoYa$Component) {
         value: function chiocethreeWp() {
             var _this4 = this;
 
+            var owner = this.owner;
             this.childList.forEach(function (element, index) {
                 if (element.ischiocedd) {
                     _this4.chioceWp(element, index);
                 }
             });
 
-            this.owner.warehouseList.tweenTo(0, 200, Laya.Handler.create(this, function () {
+            owner.warehouseList.tweenTo(0, 200, Laya.Handler.create(this, function () {
                 for (var i = 0; i < 3; i++) {
                     if (_this4.childList[i]) {
                         _this4.chioceWp(_this4.childList[i], i);
@@ -10561,14 +10581,15 @@ var DevourControl = function (_PaoYa$Component) {
         value: function getMask() {
             var _this5 = this;
 
+            var owner = this.owner;
             this.guideStep = 1;
             this.guideSteps = [{ x: 120, y: 3, radius: 53 }, { x: 143, y: 0, radius: 90 }, { x: 143, y: 0, radius: 90 }];
 
             var Sprite = Laya.Sprite;
 
-            this.owner.guide2.zOrder = 2;
-            this.owner.guide2.visible = true;
-            this.owner.guide2f(1);
+            owner.guide2.zOrder = 2;
+            owner.guide2.visible = true;
+            owner.guide2f(1);
 
             _RefiningControl2.default.ins.sceondStep();
             // 绘制底图
@@ -10576,19 +10597,19 @@ var DevourControl = function (_PaoYa$Component) {
             this.gameContainer.size(1634, 750);
             this.gameContainer.pos(-150, 0);
             this.gameContainer.mouseEnabled = true;
-            this.owner.addChild(this.gameContainer);
+            owner.addChild(this.gameContainer);
             this.gameContainer.on(Laya.Event.CLICK, this, function () {
                 switch (_this5.guideStep) {
                     case 0:
                         _Global.Global.dataPoints('点击淬体');
-                        _RefiningControl2.default.ins.addLv(_this5.owner.params.refiner_list[0]);
+                        _RefiningControl2.default.ins.addLv(owner.params.refiner_list[0]);
                         break;
                     case 1:
-                        _this5.owner.nextP();
+                        owner.nextP();
                         _SoundManager2.default.ins.btn();
                         _this5.guideStep = 2;
                         _this5.chiocethreeWp();
-                        _this5.nextStep(_this5.owner.guide3);
+                        _this5.nextStep(owner.guide3);
                         _Global.Global.dataPoints('点击一键选中');
                         break;
                     case 2:
@@ -10597,7 +10618,7 @@ var DevourControl = function (_PaoYa$Component) {
                         _this5.guideStep = 3;
                         _this5.isGuide = false;
                         _this5.nextStep();
-                        _this5.owner.guide3.visible = false;
+                        owner.guide3.visible = false;
                         _Global.Global.dataPoints('点击吞噬升级');
                         _Global.Global.isShowGrading = true;
                         break;
@@ -10606,7 +10627,7 @@ var DevourControl = function (_PaoYa$Component) {
 
             // 引导所在容器
             this.guideContainer = new Sprite();
-            this.owner.addChild(this.guideContainer);
+            owner.addChild(this.guideContainer);
             this.guideContainer.cacheAs = "bitmap";
 
             // 绘制遮罩区，含透明度，可见游戏背景
@@ -10627,7 +10648,7 @@ var DevourControl = function (_PaoYa$Component) {
             this.guideContainer.hitArea = this.hitArea;
             this.guideContainer.mouseEnabled = true;
 
-            this.nextStep(this.owner.guide2);
+            this.nextStep(owner.guide2);
         }
     }, {
         key: "sceondStep",
@@ -10640,11 +10661,12 @@ var DevourControl = function (_PaoYa$Component) {
     }, {
         key: "nextStep",
         value: function nextStep(obj) {
+            var owner = this.owner;
             if (this.guideStep === this.guideSteps.length) {
-                this.owner.removeChild(this.guideContainer);
-                this.owner.removeChild(this.gameContainer);
-                this.owner.guide2.visible = false;
-                this.owner.guide3.visible = false;
+                owner.removeChild(this.guideContainer);
+                owner.removeChild(this.gameContainer);
+                owner.guide2.visible = false;
+                owner.guide3.visible = false;
                 _Refining2.default.ins.isGuide = false;
                 return;
             }
@@ -10849,32 +10871,33 @@ var RefiningControl = function (_PaoYa$Component) {
             if (!this.owner) {
                 return;
             }
+            var owner = this.owner;
             switch (e.target.name) {
                 case "benBack":
                     _SoundManager2.default.ins.btn();
                     this.navigator.pop();
                     break;
                 case "figure":
-                    if (this.owner.figureD.visible) {
+                    if (owner.figureD.visible) {
                         return;
                     }
                     _SoundManager2.default.ins.btn();
-                    this.owner.figure.skin = "remote/refining/4.png";
-                    this.owner.weopon.skin = "remote/refining/5.png";
+                    owner.figure.skin = "remote/refining/4.png";
+                    owner.weopon.skin = "remote/refining/5.png";
 
-                    this.owner.figureD.visible = true;
-                    this.owner.weoponD.visible = false;
+                    owner.figureD.visible = true;
+                    owner.weoponD.visible = false;
                     break;
                 case "weopon":
-                    if (this.owner.weoponD.visible) {
+                    if (owner.weoponD.visible) {
                         return;
                     }
                     _SoundManager2.default.ins.btn();
-                    this.owner.figure.skin = "remote/refining/2.png";
-                    this.owner.weopon.skin = "remote/refining/3.png";
+                    owner.figure.skin = "remote/refining/2.png";
+                    owner.weopon.skin = "remote/refining/3.png";
 
-                    this.owner.figureD.visible = false;
-                    this.owner.weoponD.visible = true;
+                    owner.figureD.visible = false;
+                    owner.weoponD.visible = true;
                     break;
             }
         }
@@ -10897,7 +10920,8 @@ var RefiningControl = function (_PaoYa$Component) {
         value: function getMask() {
             var _this3 = this;
 
-            this.owner.guide1.visible = true;
+            var owner = this.owner;
+            owner.guide1.visible = true;
             _Global.Global.dataPoints('进入炼器引导');
             this.guideStep = 0;
             this.guideSteps = [{ x: 120, y: 3, radius: 53 }];
@@ -10909,11 +10933,11 @@ var RefiningControl = function (_PaoYa$Component) {
             this.gameContainer.size(1634, 750);
             this.gameContainer.pos(-150, 0);
             this.gameContainer.mouseEnabled = true;
-            this.owner.addChild(this.gameContainer);
+            owner.addChild(this.gameContainer);
             this.gameContainer.on(Laya.Event.CLICK, this, function () {
                 switch (_this3.guideStep) {
                     case 0:
-                        _this3.addLv(_this3.owner.params.refiner_list[0]);
+                        _this3.addLv(owner.params.refiner_list[0]);
                         _Global.Global.dataPoints('点击淬体');
                         break;
                     case 1:
@@ -10939,11 +10963,11 @@ var RefiningControl = function (_PaoYa$Component) {
 
             // 引导所在容器
             this.guideContainer = new Sprite();
-            this.owner.addChild(this.guideContainer);
+            owner.addChild(this.guideContainer);
             this.guideContainer.cacheAs = "bitmap";
 
-            this.owner.guide1.zOrder = 2;
-            this.owner.guide1f(1);
+            owner.guide1.zOrder = 2;
+            owner.guide1f(1);
 
             // 绘制遮罩区，含透明度，可见游戏背景
             this.maskArea = new Sprite();
@@ -10963,7 +10987,7 @@ var RefiningControl = function (_PaoYa$Component) {
             this.guideContainer.hitArea = this.hitArea;
             this.guideContainer.mouseEnabled = true;
 
-            this.nextStep(this.owner.guide1);
+            this.nextStep(owner.guide1);
         }
     }, {
         key: "sceondStep",
@@ -10975,10 +10999,11 @@ var RefiningControl = function (_PaoYa$Component) {
     }, {
         key: "nextStep",
         value: function nextStep(obj) {
+            var owner = this.owner;
             if (this.guideStep === this.guideSteps.length) {
-                this.owner.removeChild(this.guideContainer);
-                this.owner.removeChild(this.gameContainer);
-                this.owner.guide1.visible = false;
+                owner.removeChild(this.guideContainer);
+                owner.removeChild(this.gameContainer);
+                owner.guide1.visible = false;
                 return;
             }
             var step = this.guideSteps[this.guideStep];
@@ -11250,7 +11275,7 @@ var SignControl = function (_PaoYa$Component) {
             if (this.owner.params.isFromSw) {
                 this.GET("martial_role_list", {}, function (res) {
                     _Swordsman2.default.ins.params.roleList = res.roleList;
-                    _Swordsman2.default.ins.params.roleList.splice(2, 1);
+                    // Swordsman.ins.params.roleList.splice(2, 1)
                     _Swordsman2.default.ins.herolist.array = _Swordsman2.default.ins.params.roleList;
                 });
             }
@@ -14418,13 +14443,14 @@ var WheelControl = function (_PaoYa$Component) {
             if (!this.owner) {
                 return;
             }
+            var owner = this.owner;
             switch (e.target.name) {
                 case "benBack":
                     _SoundManager2.default.ins.btn();
                     this.navigator.pop();
                     break;
                 case "addbtn":
-                    if (this.owner.isRunning) {
+                    if (owner.isRunning) {
                         return;
                     }
                     if (PaoYa.DataCenter.user.diamond < 500) {
@@ -14436,7 +14462,7 @@ var WheelControl = function (_PaoYa$Component) {
                     this.addTimes();
                     break;
                 case "startWheel":
-                    if (this.owner.isRunning) {
+                    if (owner.isRunning) {
                         return;
                     }
                     this.wheelTurn();
@@ -14451,9 +14477,8 @@ var WheelControl = function (_PaoYa$Component) {
     }, {
         key: "addTimesD",
         value: function addTimesD(num) {
-            var _this2 = this;
-
-            if (PaoYa.DataCenter.user.diamond < Number(this.owner.num.text) && !num) {
+            var owner = this.owner;
+            if (PaoYa.DataCenter.user.diamond < Number(owner.num.text) && !num) {
                 this.navigator.popup("common/BuyWheelTimes", 1);
                 return;
             }
@@ -14462,27 +14487,28 @@ var WheelControl = function (_PaoYa$Component) {
                 if (!res) {
                     return;
                 }
-                _this2.owner.video.visible = false;
-                _this2.owner.startWheelTxt.font = "weaponDFont";
-                _this2.owner.startWheelTxt.scale(0.8, 0.8);
-                _this2.owner.startWheelTxt.pos(60, 10);
+                owner.video.visible = false;
+                owner.startWheelTxt.font = "weaponDFont";
+                owner.startWheelTxt.scale(0.8, 0.8);
+                owner.startWheelTxt.pos(60, 10);
 
                 PaoYa.DataCenter.user.wheelTimes = res;
-                _this2.owner.num.text = res;
-                _this2.owner.changeDG();
+                owner.num.text = res;
+                owner.changeDG();
             });
         }
     }, {
         key: "wheelTurn",
         value: function wheelTurn() {
-            var _this3 = this;
+            var _this2 = this;
 
-            if (this.owner.num.text < 1) {
+            var owner = this.owner;
+            if (owner.num.text < 1) {
                 _SoundManager2.default.ins.btn();
                 // this.navigator.popup("common/BuyWheelTimes");
                 _Global.Global.dataPoints('增加转盘次数激励广告');
                 _Tool2.default.showVideoAD(function () {
-                    _this3.addTimesD(1);
+                    _this2.addTimesD(1);
                 });
                 return;
             }
@@ -14527,13 +14553,13 @@ var WheelControl = function (_PaoYa$Component) {
     }, {
         key: "getWheelAward",
         value: function getWheelAward() {
-            var _this4 = this;
+            var _this3 = this;
 
             var arrNum = 0;
             this.awardArr.forEach(function (element) {
                 var weightNum = element.weight;
                 if (element.id == 24 || element.id == 25) {
-                    weightNum += 2 * _this4.notGetLegendWp;
+                    weightNum += 2 * _this3.notGetLegendWp;
                 }
                 arrNum += weightNum;
             });
@@ -14545,7 +14571,7 @@ var WheelControl = function (_PaoYa$Component) {
             this.awardArr.forEach(function (element) {
                 var countWeightNum = element.weight;
                 if (element.id == 24 || element.id == 25) {
-                    countWeightNum += 2 * _this4.notGetLegendWp;
+                    countWeightNum += 2 * _this3.notGetLegendWp;
                 }
                 countNum += countWeightNum;
                 if (isFisrt && randomNum - countNum < 0) {
@@ -14556,7 +14582,7 @@ var WheelControl = function (_PaoYa$Component) {
                     } else {
                         localStorage.setItem("wheelTime", Number(localStorage.getItem("wheelTime")) + 1);
                     }
-                    _this4.notGetLegendWp = Number(localStorage.getItem("wheelTime"));
+                    _this3.notGetLegendWp = Number(localStorage.getItem("wheelTime"));
                 }
             });
 
@@ -14565,8 +14591,9 @@ var WheelControl = function (_PaoYa$Component) {
     }, {
         key: "whellRun",
         value: function whellRun(res) {
-            var _this5 = this;
+            var _this4 = this;
 
+            var owner = this.owner;
             this.getWheelAwardHttp(res);
             var rat = 0;
             PaoYa.DataCenter.user.config_list.hero.wheelList.forEach(function (element, index) {
@@ -14580,53 +14607,55 @@ var WheelControl = function (_PaoYa$Component) {
                     }
                 }
             });
-            this.owner.isRunning = true;
+            owner.isRunning = true;
             _SoundManager2.default.ins.round();
-            Laya.Tween.to(this.owner.pointer, { rotation: rat }, 4000, Laya.Ease.circOut, Laya.Handler.create(this, function () {
-                _this5.isRunFinish = true;
-                if (_this5.awardDetail) {
-                    _this5.dialogPopup(_this5.awardDetail);
-                    _this5.awardDetail = null;
+            Laya.Tween.to(owner.pointer, { rotation: rat }, 4000, Laya.Ease.circOut, Laya.Handler.create(this, function () {
+                _this4.isRunFinish = true;
+                if (_this4.awardDetail) {
+                    _this4.dialogPopup(_this4.awardDetail);
+                    _this4.awardDetail = null;
                 }
             }));
         }
     }, {
         key: "getWheelAwardHttp",
         value: function getWheelAwardHttp(obj) {
-            var _this6 = this;
+            var _this5 = this;
 
+            var owner = this.owner;
             PaoYa.Request.POST('martial_adv_receive', { exchangeId: obj.id, adv: 0 }, function (res) {
-                _this6.owner.num.text = res.wheelTimes;
+                owner.num.text = res.wheelTimes;
                 if (res.wheelTimes == 0) {
-                    _this6.owner.video.visible = true;
-                    _this6.owner.startWheelTxt.font = "weaponDFont";
-                    _this6.owner.startWheelTxt.scale(0.8, 0.8);
-                    _this6.owner.startWheelTxt.pos(90, 10);
+                    owner.video.visible = true;
+                    owner.startWheelTxt.font = "weaponDFont";
+                    owner.startWheelTxt.scale(0.8, 0.8);
+                    owner.startWheelTxt.pos(90, 10);
                 }
                 PaoYa.DataCenter.user.wheelTimes = res.wheelTimes;
 
-                _this6.awardDetail = res;
+                _this5.awardDetail = res;
                 res.wheel = res.wheel ? res.wheel : obj;
-                if (_this6.isRunFinish) {
-                    _this6.isRunFinish = null;
-                    _this6.dialogPopup(res);
+                if (_this5.isRunFinish) {
+                    _this5.isRunFinish = null;
+                    _this5.dialogPopup(res);
                 }
             });
         }
     }, {
         key: "dialogPopup",
         value: function dialogPopup(res) {
-            var _this7 = this;
+            var _this6 = this;
 
+            var owner = this.owner;
             var obj = {
                 type: "wheel",
                 detail: res
             };
             this.navigator.popup("common/Award", obj, Laya.Handler.create(this, function () {
-                _this7.awardDetail = null;
-                _this7.isRunFinish = null;
-                _this7.owner.pointer.rotation = 0;
-                _this7.owner.isRunning = false;
+                _this6.awardDetail = null;
+                _this6.isRunFinish = null;
+                owner.pointer.rotation = 0;
+                owner.isRunning = false;
             }));
         }
     }]);
@@ -14813,6 +14842,9 @@ var BuyWp = function (_PaoYa$Dialog) {
             });
 
             if (moveArr.length == 0) {
+                py.showToast({
+                    title: '请先选择相应兵器'
+                });
                 return;
             }
 

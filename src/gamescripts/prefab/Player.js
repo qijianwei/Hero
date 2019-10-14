@@ -132,6 +132,8 @@ export default class Player extends PaoYa.Component {
         time = 200;
       }else if(this.roleId==4){
         time = 1000;
+      }else if(this.roleId==3){
+        time=1000;
       }
        Laya.timer.once(time, this, () => {
         this.sectionAni += 1;
@@ -319,13 +321,15 @@ export default class Player extends PaoYa.Component {
   }
   removeDizzy() {
     console.log(`------remove dizzy-------`)
-    this.canAction = true;
+    if(!this.freezeState&&!this.plasyState){
+      this.canAction = true;
+      this.skeleton.play('stand', true);
+    }
     this.dizzyState = false;
     if (this.isSelf) {
       //  Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
-    this.skeleton.play('stand', true);
     this.boxAniDizzy.visible = false;
     this.aniDizzy.stop();
   }
@@ -350,13 +354,15 @@ export default class Player extends PaoYa.Component {
   }
   removePalsy() {
     console.log(`------remove palsy-------`)
-    this.canAction = true;
+    if(!this.freezeState&&!this.dizzyState){
+      this.canAction = true;
+      this.skeleton.play('stand', true);
+    }
     this.plasyState = false;
     if (this.isSelf) {
       //  Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
-    this.skeleton.play('stand', true);
     this.boxAniPalsy.visible = false;
     this.aniPalsy.stop();
   }
@@ -381,14 +387,17 @@ export default class Player extends PaoYa.Component {
   }
   removeFreeze() {
     console.log(`------remove freeze-------`)
-    this.canAction = true;
+    if(!this.plasyState&&!this.dizzyState){
+      this.canAction = true;
+      this.skeleton.play('stand', true);
+    }
     this.freezeState = false;
     if (this.isSelf) {
       // Laya.MouseManager.enabled = true;
       GameControl.instance.allBtnsUnlock();
     }
     this.freeze.visible = false;
-    this.skeleton.play('stand', true);
+    
   }
   //龙的效果
   dragonEffect(freezeTime = 3000) {
