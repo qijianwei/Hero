@@ -36,7 +36,7 @@ var HeroConfig = {
       templet: null
     },
     hero_3: {
-      path: 'spine/hero/hero_3.sk',
+      path: 'remote/spine/hero/hero_3.sk',
       name: ['dodge1', 'dodge2', 'dodge3', 'stand', "attack", "injured", "dizzy", "freeze"],
       templet: null
     },
@@ -46,57 +46,57 @@ var HeroConfig = {
       templet: null
     },
     npc_1: {
-      path: baseUrl+"spine/npc/npc_1.sk",
+      path: "remote/spine/npc/npc_1.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_2: {
-      path: baseUrl+"spine/npc/npc_2.sk",
+      path: "remote/spine/npc/npc_2.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_3: {
-      path: baseUrl+"spine/npc/npc_3.sk",
+      path: "remote/spine/npc/npc_3.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_4: {
-      path: baseUrl+"spine/npc/npc_4.sk",
+      path: "remote/spine/npc/npc_4.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_5: {
-      path: baseUrl+"spine/npc/npc_5.sk",
+      path: "remote/spine/npc/npc_5.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_6: {
-      path: baseUrl+"spine/npc/npc_6.sk",
+      path: "remote/spine/npc/npc_6.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     npc_7: {
-      path: baseUrl+"spine/npc/npc_7.sk",
+      path:"remote/spine/npc/npc_7.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
     },
     scene1: {
-      path:  baseUrl+"spine/scene/scene1.sk",
+      path: "remote/spine/scene/scene1.sk",
       templet: null,
     },
     scene2: {
-      path:  baseUrl+"spine/scene/scene2.sk",
+      path:  "remote/spine/scene/scene2.sk",
       templet: null,
     },
     scene3: {
-      path:  baseUrl+"spine/scene/scene3.sk",
+      path: "remote/spine/scene/scene3.sk",
       templet: null,
     }
   },

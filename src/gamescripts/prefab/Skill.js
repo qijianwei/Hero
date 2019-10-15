@@ -31,10 +31,14 @@ export default class Skill extends PaoYa.Component {
         this.ownW = owner.width;
         this.ownH = owner.height;
         this.centerX = Math.floor(this.ownW / 2);
-        this.centerY = Math.floor(this.ownH / 2);
-        this.spSkill.texture = `local/common/${params.skillId}.png`;
+        this.centerY = Math.floor(this.ownH / 2);   
         this.maskArea = new Laya.Sprite();
-        this.maskArea.texture = `local/common/${params.skillId}.png`;
+        this.spSkill.texture=``;
+        this.maskArea.texture=``;
+        Laya.loader.load(`local/common/${params.skillId}.png`,Laya.Handler.create(this,()=>{ 
+            this.spSkill.texture = `local/common/${params.skillId}.png`;
+            this.maskArea.texture = `local/common/${params.skillId}.png`;
+        }))
         owner.addChild(this.maskArea);
 
         this.spMask = new Laya.Sprite();
@@ -102,6 +106,7 @@ export default class Skill extends PaoYa.Component {
         this.freezeing && Laya.timer.frameLoop(1, this, this.startCd, [this.cdTime]);
     }
     endCD() {
+        this.spMask.graphics.clear();
         Laya.timer.clearAll(this);
         this.maskArea.visible = false;
         this.spShadow.visible = false;

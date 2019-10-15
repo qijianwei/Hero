@@ -17,10 +17,10 @@
     "compressImageNoteList": [
         ""
     ],
-    "compressJs": false,
+    "compressJs": true,
     "compressJsFilter": [
         "$basePath/**/*.js",
-        "!$basePath/libs/**/*.*"
+        "$basePath/libs/**/*.*"
     ],
     "compressJsNoteList": [
         "",
@@ -35,10 +35,12 @@
         "!$basePath/**/{*.js,*.json,*.ani}",
         "!$basePath/local/auth/**/*.*",
         "!$basePath/res/atlas/local/**/*.*",
-        "!$basePath/spine/**/*.*",
-        "!$basePath/local/loading/**/*.*"
+        "!$basePath/local/loading/**/*.*",
+        "!$basePath/spine/freeze/**/*.*",
+        "!$basePath/spine/hunt/**/*.*"
     ],
     "versionNoteList": [
+        "",
         "",
         "",
         "",
@@ -72,9 +74,9 @@
         ""
     ],
     "clearReleaseDir": true,
-    "compile": true,
+    "compile": false,
     "forceCompile": false,
     "onlyIndexJS": true,
     "projectType": "js",
-    "pubTime": 1570784718940
+    "pubTime": 1571129539136
 }

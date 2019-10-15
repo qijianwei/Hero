@@ -11,7 +11,7 @@ import PlayerSkill from './prefab/PlayerSkill';
 import WeaponSkill from './prefab/WeaponSkill';
 import GameBanner from './prefab/GameBanner';
 import SoundManager from './SoundManager';
-import PreOpenManager from './preOpen/preOpenManager';
+import PreOpenManager from './preOpen/PreOpenManager';
 import { Global } from '../scripts/common/tool/Global';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/

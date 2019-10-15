@@ -18,4 +18,22 @@
    <item name="local/auth/button.png" type="Button" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/adventure/inputBg.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=13,13,13,13" picType="0" scale="0"/>
    <item name="remote/adventure/winText1.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_1.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_2.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_3.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_4.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_5.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_6.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_7.png" type="Sprite" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_7.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_6.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_5.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_4.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_3.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_2.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/npc/npc_1.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/hero/hero_3.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/scene/scene1.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/scene/scene2.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/spine/scene/scene3.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
 </res>

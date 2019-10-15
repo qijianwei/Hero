@@ -93,6 +93,4 @@ function throttle(fn, delay) {
   const better_scroll = throttle(() => console.log('触发了滚动事件'), 1000)
   
   document.addEventListener('scroll', better_scroll)
-
-
   

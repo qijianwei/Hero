@@ -95,7 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function inject() {
-    for (var key in _export__WEBPACK_IMPORTED_MODULE_1__) {
+    for (const key in _export__WEBPACK_IMPORTED_MODULE_1__) {
         _paoya__WEBPACK_IMPORTED_MODULE_0__["default"][key] = _export__WEBPACK_IMPORTED_MODULE_1__[key];
     }
 }
@@ -109,12 +109,9 @@ window['PaoYa'] = window['PaoYa'] || _paoya__WEBPACK_IMPORTED_MODULE_0__["defaul
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var PaoYa = /** @class */ (function () {
-    function PaoYa() {
-    }
-    return PaoYa;
-}());
-var paoya = new PaoYa();
+class PaoYa {
+}
+const paoya = new PaoYa();
 /* harmony default export */ __webpack_exports__["default"] = (paoya);
 
 
@@ -273,6 +270,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Component; });
 /* harmony import */ var _network_Request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
 /* harmony import */ var _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 /* harmony import */ var _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
@@ -280,19 +278,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wx_ad_rewardedVideoAd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
 /* harmony import */ var _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(16);
 /* harmony import */ var _game_DataCenter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
 
@@ -300,22 +285,20 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
-var Component = /** @class */ (function (_super) {
-    __extends(Component, _super);
-    function Component() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._requests = [];
-        _this.socket = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].socket;
-        _this.dialogs = [];
-        _this.bannerAds = [];
-        _this.navigator = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator;
-        return _this;
+class Component extends Laya.Script {
+    constructor() {
+        super(...arguments);
+        this._requests = [];
+        this.socket = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].socket;
+        this.dialogs = [];
+        this.bannerAds = [];
+        this.navigator = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator;
     }
-    Component.prototype._onEnable = function () {
-        _super.prototype._onEnable.call(this);
+    _onEnable() {
+        super._onEnable();
         this.owner.addClickListener(this, this.onThrottleClick, true);
-    };
-    Component.prototype._onViewClick = function (e) {
+    }
+    _onViewClick(e) {
         switch (e.target.name) {
             case 'pop':
                 this.navigator.pop();
@@ -325,83 +308,82 @@ var Component = /** @class */ (function (_super) {
                 break;
         }
         this.onThrottleClick(e);
-    };
+    }
     /**有节制的点击，防止用户点击频率过快，默认间隔500ms */
-    Component.prototype.onThrottleClick = function (e) {
-    };
-    Component.prototype._onLoad = function () {
+    onThrottleClick(e) {
+    }
+    _onLoad() {
         this.onLoad();
-    };
-    Component.prototype.onLoad = function () {
-    };
-    Component.prototype._onAppear = function () {
+    }
+    onLoad() {
+    }
+    _onAppear() {
         this.showAllBannerAd();
         this.onAppear();
-    };
-    Component.prototype.onAppear = function () {
-    };
-    Component.prototype._onDisappear = function () {
+    }
+    onAppear() {
+    }
+    _onDisappear() {
         this.hideAllBannerAd();
         this.onDisappear();
-    };
-    Component.prototype.onDisappear = function () {
-    };
-    Component.prototype._destroy = function () {
+    }
+    onDisappear() {
+    }
+    _destroy() {
         this.offMessageListener();
         this.offNotificationListener();
         this.destroyXMR();
         this.destroyBannerAd();
-        _super.prototype._destroy.call(this);
-    };
-    Component.prototype._onReceiveMessage = function (cmd, value) {
+        super._destroy();
+    }
+    _onReceiveMessage(cmd, value) {
         if (!this.enabled)
             return;
         this.onReceiveMessage(cmd, value);
-    };
-    Component.prototype._onReceiveSocketError = function (cmd, code, message) {
+    }
+    _onReceiveSocketError(cmd, code, message) {
         this.onReceiveSocketError(cmd, code, message);
-    };
+    }
     /**当前 scene 收到服务器 socket 命令时触发，虚方法 */
-    Component.prototype.onReceiveMessage = function (cmd, value) {
-    };
+    onReceiveMessage(cmd, value) {
+    }
     /**当前 scene 收到服务器socket命令错误时触发，虚方法 */
-    Component.prototype.onReceiveSocketError = function (cmd, code, message) {
-    };
+    onReceiveSocketError(cmd, code, message) {
+    }
     /**添加socket事件监听 */
-    Component.prototype.onMessage = function (name, caller, listener, args) {
+    onMessage(name, caller, listener, args) {
         this.socket.on(name, caller, listener, args);
-    };
+    }
     /**移除socket的事件监听 */
-    Component.prototype.offMessageListener = function () {
+    offMessageListener() {
         this.socket && this.socket.offAllCaller(this);
-    };
+    }
     /**向socket发送消息 */
-    Component.prototype.sendMessage = function (cmd, params) {
+    sendMessage(cmd, params) {
         this.socket.sendMessage(cmd, params);
-    };
+    }
     /**向通知中心注册消息，以便接收回调 */
-    Component.prototype.onNotification = function (name, caller, listener, args) {
+    onNotification(name, caller, listener, args) {
         _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].on(name, caller, listener, args);
-    };
+    }
     /**移除通知中心的当前对象监听 */
-    Component.prototype.offNotificationListener = function () {
+    offNotificationListener() {
         _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].offAllCaller(this);
-    };
+    }
     /**向通知中心发送消息，以便触发相关通知 */
-    Component.prototype.postNotification = function (name, params) {
+    postNotification(name, params) {
         _NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification(name, params);
-    };
+    }
     /**接收通知中心发送过来的消息，以便处理相关逻辑，虚方法 */
-    Component.prototype.onReceiveNotification = function (name, params) {
-    };
-    Component.prototype._onReceiveNotification = function (name, params) {
+    onReceiveNotification(name, params) {
+    }
+    _onReceiveNotification(name, params) {
         if (!this.enabled)
             return;
         this.onReceiveNotification(name, params);
-    };
+    }
     /** ================ Request ================ **/
-    Component.prototype.GET = function (path, params, success, fail) {
-        var _this = this;
+    GET(path, params, success, fail) {
         //TODO:
         //1、支持动态参数
         if (params instanceof Function) {
@@ -409,40 +391,38 @@ var Component = /** @class */ (function (_super) {
             params = {};
             fail = success;
         }
-        var xmr = _network_Request__WEBPACK_IMPORTED_MODULE_0__["default"].GET(path, params, function (value) {
-            success.call(_this, value);
-        }, function (msg, code) {
-            fail.call(_this, msg, code);
+        let xmr = _network_Request__WEBPACK_IMPORTED_MODULE_0__["default"].GET(path, params, (value) => {
+            success.call(this, value);
+        }, (msg, code) => {
+            fail.call(this, msg, code);
         });
         this._requests.push(xmr);
-    };
-    Component.prototype.POST = function (path, params, success, fail) {
-        var _this = this;
+    }
+    POST(path, params, success, fail) {
         //1、支持动态参数
         if (params instanceof Function) {
             success = params;
             params = {};
             fail = success;
         }
-        var xmr = _network_Request__WEBPACK_IMPORTED_MODULE_0__["default"].POST(path, params, function (res) {
-            success.call(_this, res);
-        }, function (msg, code) {
-            fail.call(_this, msg, code);
+        let xmr = _network_Request__WEBPACK_IMPORTED_MODULE_0__["default"].POST(path, params, (res) => {
+            success.call(this, res);
+        }, (msg, code) => {
+            fail.call(this, msg, code);
         });
         this._requests.push(xmr);
-    };
-    Component.prototype.destroyXMR = function () {
-        for (var i = this._requests.length - 1; i >= 0; i--) {
-            var xmr = this._requests.pop();
+    }
+    destroyXMR() {
+        for (let i = this._requests.length - 1; i >= 0; i--) {
+            let xmr = this._requests.pop();
             if (xmr.http.readyState != XMLHttpRequest.DONE) {
                 xmr.http.abort && xmr.http.abort();
             }
         }
-    };
+    }
     /** ================ Share ================ **/
     /**分享主要方法，需要传入所有参数 */
-    Component.prototype.share = function (title, image, query, success, fail) {
-        var _this = this;
+    share(title, image, query, success, fail) {
         if (query instanceof Function) {
             fail = success;
             success = query;
@@ -451,66 +431,65 @@ var Component = /** @class */ (function (_super) {
         //TODO: 
         //1、支持动态参数
         //2、支持新版本回掉
-        _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_1__["default"].share(title, image, query, function (res) {
-            success && success.call(_this, res);
+        _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_1__["default"].share(title, image, query, (res) => {
+            success && success.call(this, res);
         }, fail && fail.bind(this));
-    };
+    }
     /**分享方法，可以不用传入图片，图片将从 ShareManager.imageURL 获取 */
-    Component.prototype.shareTitle = function (title, query, success, fail) {
+    shareTitle(title, query, success, fail) {
         _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_1__["default"].shareTitle(title, query, success, fail);
-    };
-    Component.prototype.shareDefault = function (query, success, fail) {
-        if (query === void 0) { query = {}; }
+    }
+    shareDefault(query = {}, success, fail) {
         if (typeof query == 'function') {
             success = query;
             fail = success;
             query = {};
         }
-        var title = _game_DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].config.game.share_list.randomItem;
+        let title = _game_DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].config.game.share_list.randomItem;
         this.shareTitle(title, query, success, fail);
-    };
-    Component.prototype.showRewardedVideoAd = function (params) {
+    }
+    showRewardedVideoAd(params) {
         _wx_ad_rewardedVideoAd__WEBPACK_IMPORTED_MODULE_4__["default"].show(params);
-    };
-    Component.prototype.showBannerAd = function (params) {
-        var ad = _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_5__["default"].show(params);
+    }
+    showBannerAd(params) {
+        let ad = _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_5__["default"].show(params);
         this.bannerAds.push(ad);
         return ad;
-    };
+    }
     /**显示当前Component中所有的banner广告 */
-    Component.prototype.showAllBannerAd = function () {
-        for (var i = 0, length_1 = this.bannerAds.length; i < length_1; i++) {
-            var ad = this.bannerAds[i];
+    showAllBannerAd() {
+        for (let i = 0, length = this.bannerAds.length; i < length; i++) {
+            let ad = this.bannerAds[i];
             ad.show();
         }
-    };
-    Component.prototype.hideAllBannerAd = function () {
-        for (var i = 0, length_2 = this.bannerAds.length; i < length_2; i++) {
-            var ad = this.bannerAds[i];
+    }
+    hideAllBannerAd() {
+        for (let i = 0, length = this.bannerAds.length; i < length; i++) {
+            let ad = this.bannerAds[i];
             ad.hide();
         }
-    };
-    Component.prototype.destroyBannerAd = function () {
-        for (var i = 0, length_3 = this.bannerAds.length; i < length_3; i++) {
-            var ad = this.bannerAds[i];
+    }
+    destroyBannerAd() {
+        for (let i = 0, length = this.bannerAds.length; i < length; i++) {
+            let ad = this.bannerAds[i];
             ad.hide();
             ad.destroy();
         }
-    };
+    }
     /** ================ 微信方法分发 ================ **/
-    Component.prototype._onShow = function (res) {
+    _onShow(res) {
         this.onShow(res);
-    };
+    }
     /**进入前台时执行，由游戏事件分发主动调用 */
-    Component.prototype.onShow = function (res) {
-    };
-    Component.prototype._onHide = function (res) {
+    onShow(res) {
+    }
+    _onHide(res) {
         this.onHide(res);
-    };
+    }
     /**进入后台时执行，由游戏事件分发主动调用 */
-    Component.prototype.onHide = function (res) {
-    };
-    Component.prototype.popup = function (dialog) {
+    onHide(res) {
+    }
+    popup(dialog) {
         if (dialog instanceof Laya.Dialog) {
             dialog.popup();
             this.dialogs.push(dialog);
@@ -518,26 +497,24 @@ var Component = /** @class */ (function (_super) {
         else {
             console.error('当前popup的不是Dialog实例');
         }
-    };
-    Component.prototype.closeDialogs = function () {
-        for (var i = 0, length_4 = this.dialogs.length; i < length_4; i++) {
-            var dialog = this.dialogs[i];
+    }
+    closeDialogs() {
+        for (let i = 0, length = this.dialogs.length; i < length; i++) {
+            let dialog = this.dialogs[i];
             dialog.destroy();
         }
-    };
+    }
     /**点击右上角转发时触发 */
-    Component.prototype.onShareAppMessage = function () {
+    onShareAppMessage() {
         return null;
-    };
+    }
     /**当网络变化时调用 */
-    Component.prototype.onNetworkChange = function (e) {
-    };
+    onNetworkChange(e) {
+    }
     /**当socket断开时调用 */
-    Component.prototype.onSocketClose = function () {
-    };
-    return Component;
-}(Laya.Script));
-/* harmony default export */ __webpack_exports__["default"] = (Component);
+    onSocketClose() {
+    }
+}
 
 
 /***/ }),
@@ -547,43 +524,25 @@ var Component = /** @class */ (function (_super) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestConfig", function() { return RequestConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Request; });
 /* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
-var RequestConfig = /** @class */ (function () {
-    function RequestConfig() {
-    }
-    RequestConfig.baseURL = "";
-    RequestConfig.token = "";
-    RequestConfig.headers = ["Content-Type", "application/x-www-form-urlencoded"];
-    RequestConfig.maxRetryTimes = 3;
-    return RequestConfig;
-}());
-
-var Request = /** @class */ (function (_super) {
-    __extends(Request, _super);
-    function Request() {
-        var _this_1 = _super.call(this) || this;
-        _this_1._retryTimes = 0;
-        var _this = _this_1;
-        _this_1.http.ontimeout = function (e) {
+class RequestConfig {
+}
+RequestConfig.baseURL = "";
+RequestConfig.token = "";
+RequestConfig.headers = ["Content-Type", "application/x-www-form-urlencoded"];
+RequestConfig.maxRetryTimes = 3;
+class Request extends Laya.HttpRequest {
+    constructor() {
+        super();
+        this._retryTimes = 0;
+        let _this = this;
+        this.http.ontimeout = function (e) {
             _this.timeout(e);
         };
-        return _this_1;
     }
-    Request.prototype.sendRequest = function (path, params, method) {
+    sendRequest(path, params, method) {
         if (!RequestConfig.baseURL) {
             console.error("请指定baseURL");
             return;
@@ -592,13 +551,13 @@ var Request = /** @class */ (function (_super) {
         if (RequestConfig.makeParamsHandler) {
             params = RequestConfig.makeParamsHandler(params);
         }
-        console.log("R >>> | " + path + " | " + (params['wxparams'] || JSON.stringify(params)));
-        var items = [];
+        console.log(`R >>> | ${path} | ${params['wxparams'] || JSON.stringify(params)}`);
+        let items = [];
         for (var key in params) {
             items.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
         }
-        var result = items.join("&");
-        var url = RequestConfig.baseURL + path;
+        let result = items.join("&");
+        let url = RequestConfig.baseURL + path;
         if (method == 'get') {
             url += "?" + result;
             result = null;
@@ -607,23 +566,23 @@ var Request = /** @class */ (function (_super) {
         this.$query = result;
         this.$method = method;
         this.send(url, result, method, null, RequestConfig.headers);
-    };
+    }
     /**发送GET请求 */
-    Request.prototype.GET = function (path, params) {
+    GET(path, params) {
         this.sendRequest(path, params, 'get');
-    };
+    }
     /**发送POST请求 */
-    Request.prototype.POST = function (path, params) {
+    POST(path, params) {
         this.sendRequest(path, params, 'post');
-    };
+    }
     /**重写父类的complete方法 */
-    Request.prototype.complete = function () {
-        console.log("R <<< | " + this._path + " | " + this.http.responseText);
-        _super.prototype.complete.call(this);
-    };
+    complete() {
+        console.log(`R <<< | ${this._path} | ${this.http.responseText}`);
+        super.complete();
+    }
     /**重写父类的complete方法 */
-    Request.prototype.error = function (message) {
-        _super.prototype.error.call(this, message);
+    error(message) {
+        super.error(message);
         // let status = this.http.status
         // if (this._retryTimes < RequestConfig.maxRetryTimes) {
         //     this._retryTimes++
@@ -634,8 +593,8 @@ var Request = /** @class */ (function (_super) {
         // } else {
         //     super.error(message)
         // }
-    };
-    Request.prototype.timeout = function (message) {
+    }
+    timeout(message) {
         if (this._retryTimes < RequestConfig.maxRetryTimes) {
             this._retryTimes++;
             _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__["default"].track(_dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__["DataTrackType"].HTTPRetry, { c: this.$url, t: this._retryTimes });
@@ -646,36 +605,32 @@ var Request = /** @class */ (function (_super) {
         else {
             this.error(message);
         }
-    };
+    }
     /**类方法进行GET请求 */
-    Request.GET = function (path, params, suc, fail) {
-        var _this_1 = this;
-        if (fail === void 0) { fail = null; }
+    static GET(path, params, suc, fail = null) {
         var xmr = new Request();
-        xmr.on(Laya.Event.COMPLETE, this, function (data) {
-            _this_1.handleError(data, suc, fail);
+        xmr.on(Laya.Event.COMPLETE, this, (data) => {
+            this.handleError(data, suc, fail);
         });
-        xmr.on(Laya.Event.ERROR, this, function (res) {
-            fail && fail.call(_this_1, res || "连接服务器失败");
+        xmr.on(Laya.Event.ERROR, this, (res) => {
+            fail && fail.call(this, res || "连接服务器失败");
         });
         xmr.GET(path, params);
         return xmr;
-    };
+    }
     /**类方法进行POST请求 */
-    Request.POST = function (path, params, suc, fail) {
-        var _this_1 = this;
-        if (fail === void 0) { fail = null; }
+    static POST(path, params, suc, fail = null) {
         var xmr = new Request();
-        xmr.on(Laya.Event.COMPLETE, this, function (data) {
-            _this_1.handleError(data, suc, fail);
+        xmr.on(Laya.Event.COMPLETE, this, (data) => {
+            this.handleError(data, suc, fail);
         });
-        xmr.on(Laya.Event.ERROR, this, function (res) {
-            fail && fail.call(_this_1, res || "连接服务器失败");
+        xmr.on(Laya.Event.ERROR, this, (res) => {
+            fail && fail.call(this, res || "连接服务器失败");
         });
         xmr.POST(path, params);
         return xmr;
-    };
-    Request.handleError = function (data, suc, fail) {
+    }
+    static handleError(data, suc, fail) {
         data = JSON.parse(data);
         var code = data.code;
         if (code == 200) {
@@ -684,10 +639,8 @@ var Request = /** @class */ (function (_super) {
         else {
             fail && fail.call(this, data.message || "请求出现错误", (data.errorcode ? data.errorcode : code));
         }
-    };
-    return Request;
-}(Laya.HttpRequest));
-/* harmony default export */ __webpack_exports__["default"] = (Request);
+    }
+}
 
 
 /***/ }),
@@ -696,6 +649,7 @@ var Request = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataTrack; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataTrackType", function() { return DataTrackType; });
 /* harmony import */ var _mta_analysis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 /* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
@@ -703,76 +657,70 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var DataTrack = /** @class */ (function () {
-    function DataTrack() {
-    }
-    DataTrack.setup = function (appID, eventID, options) {
-        if (appID === void 0) { appID = "500624773"; }
-        if (eventID === void 0) { eventID = "500624774"; }
+class DataTrack {
+    static setup(appID = "500624773", eventID = "500624774", options) {
         _mta_analysis__WEBPACK_IMPORTED_MODULE_0__["default"].App.init({
             "appID": appID,
             "eventID": eventID,
             "lauchOpts": options
         });
-    };
-    DataTrack.track = function (type, params) {
+    }
+    static track(type, params) {
         if (!params.gameId && _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].game.gameId) {
             params.gameId = _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].game.gameId;
         }
         if (params.data) {
-            var value = JSON.parse(params.data);
+            let value = JSON.parse(params.data);
             value.T = _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].networkMonitor.type;
             params.data = JSON.stringify(value);
         }
-        console.log("T | upload | " + JSON.stringify(params));
+        console.log(`T | upload | ${JSON.stringify(params)}`);
         _mta_analysis__WEBPACK_IMPORTED_MODULE_0__["default"].Event.stat(type + '', params);
-    };
-    DataTrack.trackType = function (type) {
+    }
+    static trackType(type) {
         _core_network_Request__WEBPACK_IMPORTED_MODULE_1__["default"].POST('userStatistics', { type: type }, null);
-    };
-    DataTrack.now = function () {
+    }
+    static now() {
         return new Date().valueOf();
-    };
-    DataTrack.startTrackTime = function (id) {
+    }
+    static startTrackTime(id) {
         this.loginCostTime[id] = DataTrack.now();
-    };
-    DataTrack.stopTrackTime = function (id) {
-        var time = this.loginCostTime[id];
-        var delta = DataTrack.now() - time;
+    }
+    static stopTrackTime(id) {
+        let time = this.loginCostTime[id];
+        let delta = DataTrack.now() - time;
         this.loginCostTime[id] = delta;
-        console.warn("T | " + id + " | cost | " + delta + " ms");
-    };
-    DataTrack.startSocketTime = function () {
+        console.warn(`T | ${id} | cost | ${delta} ms`);
+    }
+    static startSocketTime() {
         this.socketCostTime = DataTrack.now();
-    };
-    DataTrack.stopSocketTime = function () {
-        var time = DataTrack.now() - this.socketCostTime;
-        console.warn("T | Socket | cost | " + time + "ms");
+    }
+    static stopSocketTime() {
+        let time = DataTrack.now() - this.socketCostTime;
+        console.warn(`T | Socket | cost | ${time}ms`);
         this.track(DataTrackType.SocketTimeCost, {
             data: JSON.stringify({
                 t: time
             })
         });
-    };
-    DataTrack.startSocketLogin = function () {
+    }
+    static startSocketLogin() {
         this.socketLoginTime = DataTrack.now();
-    };
-    DataTrack.stopSocketLogin = function () {
-        var time = DataTrack.now() - this.socketLoginTime;
-        console.warn("T | Socket login | cost | " + time + "ms");
+    }
+    static stopSocketLogin() {
+        let time = DataTrack.now() - this.socketLoginTime;
+        console.warn(`T | Socket login | cost | ${time}ms`);
         this.track(DataTrackType.SocketLoginTimeCost, { data: JSON.stringify({ t: time }) });
-    };
-    DataTrack.uploadLoginCostTime = function () {
-        var upload = JSON.stringify(this.loginCostTime);
-        console.log("T | login | upload | " + upload);
+    }
+    static uploadLoginCostTime() {
+        let upload = JSON.stringify(this.loginCostTime);
+        console.log(`T | login | upload | ${upload}`);
         this.track(DataTrackType.LoginTimeCost, { data: upload });
-    };
-    DataTrack.loginCostTime = {};
-    DataTrack.socketCostTime = 0;
-    DataTrack.socketLoginTime = 0;
-    return DataTrack;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (DataTrack);
+    }
+}
+DataTrack.loginCostTime = {};
+DataTrack.socketCostTime = 0;
+DataTrack.socketLoginTime = 0;
 var DataTrackType;
 (function (DataTrackType) {
     DataTrackType[DataTrackType["LoginTimeCost"] = 3001] = "LoginTimeCost";
@@ -1041,17 +989,18 @@ var MTA = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ShareManager; });
 /* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 
-var ShareService = /** @class */ (function () {
-    function ShareService() {
+class ShareService {
+    constructor() {
         this.successHandler = null;
         this.failHandler = null;
         this.inShare = false;
         this.shareTime = 0;
         _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].ApplicationShow, this, this.onShow);
     }
-    ShareService.prototype.onShow = function (res) {
+    onShow(res) {
         if (!this.successHandler)
             return;
         if (Date.now() - this.shareTime < 3000) {
@@ -1062,7 +1011,7 @@ var ShareService = /** @class */ (function () {
                 return;
             }
         }
-        var random = Math.floor(Math.random() * 3);
+        let random = Math.floor(Math.random() * 3);
         random = 0;
         if (random == 0) {
             this.successHandler(res);
@@ -1075,43 +1024,37 @@ var ShareService = /** @class */ (function () {
             }
         }
         this.stopObserve();
-    };
-    ShareService.prototype.startObserve = function (suc, fail) {
+    }
+    startObserve(suc, fail) {
         this.shareTime = Date.now();
         this.successHandler = suc;
         this.failHandler = fail;
-    };
-    ShareService.prototype.stopObserve = function () {
+    }
+    stopObserve() {
         this.successHandler = null;
         this.failHandler = null;
-    };
-    return ShareService;
-}());
-var ShareManager = /** @class */ (function () {
-    function ShareManager() {
     }
+}
+class ShareManager {
     /**组织分享 */
-    ShareManager.makeShareInfo = function (title, image, query, success, fail) {
-        if (image === void 0) { image = this.imageURL; }
-        if (fail === void 0) { fail = null; }
+    static makeShareInfo(title, image = this.imageURL, query, success, fail = null) {
         if (this.makeQueryHandler) {
             query = this.makeQueryHandler(query);
         }
-        console.warn("\u5206\u4EAB\u51FA\u53BB\u7684\u53C2\u6570\u4E3A" + JSON.stringify(query));
+        console.warn(`分享出去的参数为${JSON.stringify(query)}`);
         return {
             title: title,
             imageUrl: image,
             query: toQueryString(query),
             success: success,
-            fail: function () {
+            fail() {
                 fail && fail();
             }
         };
-    };
+    }
     /**分享主要方法，需要传入所有参数 */
-    ShareManager.share = function (title, image, query, success, fail) {
-        if (fail === void 0) { fail = null; }
-        var imageURL = image;
+    static share(title, image, query, success, fail = null) {
+        let imageURL = image;
         if (!imageURL) {
             imageURL = this.getShareImageURL();
         }
@@ -1121,11 +1064,11 @@ var ShareManager = /** @class */ (function () {
         }
         this.isShare = true;
         this._shareService || (this._shareService = new ShareService());
-        var shareService = this._shareService;
+        let shareService = this._shareService;
         if (window['wx']) { //只有在没有回调的平台中，才会去伪造分享成功返回
             shareService.startObserve(success, fail);
         }
-        py.shareAppMessage(this.makeShareInfo(title, image, query, function (res) {
+        py.shareAppMessage(this.makeShareInfo(title, image, query, (res) => {
             shareService.stopObserve();
             console.warn("SHARE | " + JSON.stringify(res));
             success && success(res);
@@ -1140,35 +1083,34 @@ var ShareManager = /** @class */ (function () {
             // } else {
             //     success && success(isGroup)
             // }
-        }, function (res) {
+        }, (res) => {
             shareService.stopObserve();
             fail && fail(res);
         }));
-    };
+    }
     /**分享方法，可以不用传入图片，图片将从 ShareManager.imageURL 获取 */
-    ShareManager.shareTitle = function (title, query, success, fail) {
-        if (fail === void 0) { fail = null; }
-        var imageURL = this.getShareImageURL();
+    static shareTitle(title, query, success, fail = null) {
+        let imageURL = this.getShareImageURL();
         if (!imageURL) {
             console.error("必须指定 ShareManager.imageURL 才可执行此方法");
             return;
         }
         this.share(title, imageURL, query, success, fail);
-    };
+    }
     /**获取分享内容 */
-    ShareManager.getShareInfo = function (shareTicket, suc, fail) {
+    static getShareInfo(shareTicket, suc, fail) {
         py.getShareInfo({
             shareTicket: shareTicket,
             timeout: 60000,
-            success: function (res) {
+            success(res) {
                 console.log("SHARE | getShareInfo | " + JSON.stringify(res));
                 suc && suc(res);
             },
             fail: fail
         });
-    };
-    ShareManager.getShareImageURL = function () {
-        var imageURL = null;
+    }
+    static getShareImageURL() {
+        let imageURL = null;
         if (this.makeShareImageURLHandler) {
             imageURL = this.makeShareImageURLHandler();
         }
@@ -1177,15 +1119,13 @@ var ShareManager = /** @class */ (function () {
             console.warn('ShareManager.makeShareImageURLHandler 必须返回 string 类型的图片地址');
         }
         return imageURL;
-    };
-    /**是否验证群ID */
-    ShareManager.checkGroup = false;
-    /**记录分享状态 */
-    ShareManager.isShare = false;
-    ShareManager._shareService = null;
-    return ShareManager;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (ShareManager);
+    }
+}
+/**是否验证群ID */
+ShareManager.checkGroup = false;
+/**记录分享状态 */
+ShareManager.isShare = false;
+ShareManager._shareService = null;
 function toQueryString(params) {
     var items = [], queryStr = "";
     for (var key in params) {
@@ -1204,67 +1144,60 @@ function toQueryString(params) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NotificationCenter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationName", function() { return NotificationName; });
 /* harmony import */ var _game_service_LoginService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 
-var NotificationCenter = /** @class */ (function () {
-    function NotificationCenter() {
-    }
+class NotificationCenter {
     /**监听通知中心的消息 */
-    NotificationCenter.on = function (type, caller, listener, args) {
+    static on(type, caller, listener, args) {
         return this.defaultCenter.on(type, caller, listener, args);
-    };
-    NotificationCenter.addLoginNotification = function (caller, listener) {
+    }
+    static addLoginNotification(caller, listener) {
         if (_game_service_LoginService__WEBPACK_IMPORTED_MODULE_0__["default"].isLogined) {
             listener.call(caller);
         }
         else {
             NotificationCenter.once(NotificationName.LoginSuccess, caller, listener);
         }
-    };
-    /**监听通知中心的消息，只监听一次 */
-    NotificationCenter.once = function (type, caller, listener, args) {
-        return this.defaultCenter.once(type, caller, listener, args);
-    };
-    /**向通知中心发送Notification */
-    NotificationCenter.event = function (type, data) {
-        return this.defaultCenter.event(type, data);
-    };
-    /**取消监听通知中心消息 */
-    NotificationCenter.off = function (type, caller, listener, onceOnly) {
-        return this.defaultCenter.off(type, caller, listener, onceOnly);
-    };
-    /**取消通知中心某种类型的消息 */
-    NotificationCenter.offAll = function (type) {
-        return this.defaultCenter.offAll(type);
-    };
-    /**取消通知中心所有类型的消息 */
-    NotificationCenter.offAllCaller = function (caller) {
-        return this.defaultCenter.offAllCaller(caller);
-    };
-    /**向通知中心发送Notification */
-    NotificationCenter.postNotification = function (type, data) {
-        return this.defaultCenter.event(type, data);
-    };
-    NotificationCenter.defaultCenter = new Laya.EventDispatcher();
-    return NotificationCenter;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (NotificationCenter);
-//要扩展NotificationName，请在const.js 中重点标明
-var NotificationName = /** @class */ (function () {
-    function NotificationName() {
     }
-    NotificationName.ApplicationShow = 'app-show';
-    NotificationName.ApplicationHide = 'app-hide';
-    NotificationName.GameShow = 'game-show';
-    NotificationName.NetworkChanged = 'network-changed';
-    NotificationName.LoginSuccess = 'login-success';
-    NotificationName.GOLD_CHANGE = 'CHANGE_GOLD';
-    NotificationName.RMB_CHANGE = 'rmb-change';
-    NotificationName.START_GAME = 'start-game';
-    return NotificationName;
-}());
-
+    /**监听通知中心的消息，只监听一次 */
+    static once(type, caller, listener, args) {
+        return this.defaultCenter.once(type, caller, listener, args);
+    }
+    /**向通知中心发送Notification */
+    static event(type, data) {
+        return this.defaultCenter.event(type, data);
+    }
+    /**取消监听通知中心消息 */
+    static off(type, caller, listener, onceOnly) {
+        return this.defaultCenter.off(type, caller, listener, onceOnly);
+    }
+    /**取消通知中心某种类型的消息 */
+    static offAll(type) {
+        return this.defaultCenter.offAll(type);
+    }
+    /**取消通知中心所有类型的消息 */
+    static offAllCaller(caller) {
+        return this.defaultCenter.offAllCaller(caller);
+    }
+    /**向通知中心发送Notification */
+    static postNotification(type, data) {
+        return this.defaultCenter.event(type, data);
+    }
+}
+NotificationCenter.defaultCenter = new Laya.EventDispatcher();
+//要扩展NotificationName，请在const.js 中重点标明
+class NotificationName {
+}
+NotificationName.ApplicationShow = 'app-show';
+NotificationName.ApplicationHide = 'app-hide';
+NotificationName.GameShow = 'game-show';
+NotificationName.NetworkChanged = 'network-changed';
+NotificationName.LoginSuccess = 'login-success';
+NotificationName.GOLD_CHANGE = 'CHANGE_GOLD';
+NotificationName.RMB_CHANGE = 'rmb-change';
+NotificationName.START_GAME = 'start-game';
 
 
 /***/ }),
@@ -1274,6 +1207,7 @@ var NotificationName = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginConfig", function() { return LoginConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LoginService; });
 /* harmony import */ var _DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 /* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
@@ -1284,40 +1218,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var LAST_GET_USERINFO_TIME_KEY = 'lastGetUserInfoTime';
-var USER_TOKEN_KEY = 'userTokenKey';
-var LoginConfig = /** @class */ (function () {
-    function LoginConfig() {
-    }
-    //用于浏览器端登录
-    LoginConfig.userId = 123456;
-    LoginConfig.gameId = 1004;
-    LoginConfig.version = '1.0';
-    LoginConfig.release = 1;
-    LoginConfig.requestConfig = 1;
-    return LoginConfig;
-}());
-
-var LoginService = /** @class */ (function () {
-    function LoginService() {
-    }
-    LoginService.login = function (suc, fail) {
-        var _this = this;
+const LAST_GET_USERINFO_TIME_KEY = 'lastGetUserInfoTime';
+const USER_TOKEN_KEY = 'userTokenKey';
+class LoginConfig {
+}
+//用于浏览器端登录
+LoginConfig.userId = 123456;
+LoginConfig.gameId = 1004;
+LoginConfig.version = '1.0';
+LoginConfig.release = 1;
+LoginConfig.requestConfig = 1;
+class LoginService {
+    static login(suc, fail) {
         if (!this.token) {
             this.lastGetUserInfoTime = 0;
         }
-        var beginTime = Date.now();
-        var day7 = 7 * 24 * 60 * 60 * 1000;
-        var params = {
+        let beginTime = Date.now();
+        let day7 = 7 * 24 * 60 * 60 * 1000;
+        let params = {
             requestUserInfo: ((beginTime - this.lastGetUserInfoTime) > day7)
         };
-        py.login(params, function (res) {
+        py.login(params, (res) => {
             if (!window['wx'] && !window['BK'] && !res['js_code']) {
-                res['js_code'] = "app," + LoginConfig.userId;
+                res['js_code'] = `app,${LoginConfig.userId}`;
             }
-            _this.loginWith(res, suc, fail);
+            this.loginWith(res, suc, fail);
         });
-    };
+    }
     /**
      *
      * @param params 登录我们服务器需要传的参数
@@ -1326,24 +1253,23 @@ var LoginService = /** @class */ (function () {
      * @param deviceInfo 通过wx.getSystemInfo获取到的信息，如果是网页登录，则为null
      * @param launchInfo 通过wx.getLaunchOption获取到的信息，如果是网页登录，则为null
      */
-    LoginService.loginWith = function (res, success, fail) {
-        var _this = this;
-        var params = {
+    static loginWith(res, success, fail) {
+        let params = {
             game_id: LoginConfig.gameId,
             game_app_id: LoginConfig.gameId,
             version: LoginConfig.version,
             release: LoginConfig.release,
             is_config: LoginConfig.requestConfig
         };
-        for (var key in res) {
+        for (let key in res) {
             params[key] = res[key];
         }
         params['user_token'] = this.token || '';
         params = LoginConfig.makeLoginParamsHandler(params);
         _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].startTrackTime('l');
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);
-        _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["default"].POST('user_login', params, function (res) {
-            _this.isLogined = true;
+        _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["default"].POST('user_login', params, (res) => {
+            this.isLogined = true;
             _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].stopTrackTime('l');
             _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].uploadLoginCostTime();
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].loginData = res;
@@ -1352,36 +1278,34 @@ var LoginService = /** @class */ (function () {
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].gold.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.gold = res.member_gold;
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].rmb.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.rmb = res.member_rmb;
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].integral.value = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].user.integral = res.member_integral;
-            var token = res.token;
-            _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["RequestConfig"].token = _this.token = token;
+            let token = res.token;
+            _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["RequestConfig"].token = this.token = token;
             localStorage.setItem(USER_TOKEN_KEY, token);
             localStorage.setItem(LAST_GET_USERINFO_TIME_KEY, Date.now() + '');
             _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
             _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
             _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_4__["default"].postNotification(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_4__["NotificationName"].LoginSuccess);
             success && success(res);
-        }, function (msg, code) {
+        }, (msg, code) => {
             /**
              * {"code":401,"time":1525849533,"message":"您的账号在另一个设备上登录了, 需要重新登录","errorcode":2004}
              */
             if (code == 2004) { //token不对
                 _core_network_Request__WEBPACK_IMPORTED_MODULE_3__["RequestConfig"].token = "";
-                _this.token = '';
-                _this.loginWith(res, success, fail);
+                this.token = '';
+                this.loginWith(res, success, fail);
             }
             else {
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
                 _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showModal('登录失败', msg);
             }
         });
-    };
-    LoginService.isAuthed = false;
-    LoginService.isLogined = false;
-    LoginService.lastGetUserInfoTime = Number(localStorage.getItem(LAST_GET_USERINFO_TIME_KEY) || ''); //上一次获取用户信息时间
-    LoginService.token = localStorage.getItem(USER_TOKEN_KEY) || '';
-    return LoginService;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (LoginService);
+    }
+}
+LoginService.isAuthed = false;
+LoginService.isLogined = false;
+LoginService.lastGetUserInfoTime = Number(localStorage.getItem(LAST_GET_USERINFO_TIME_KEY) || ''); //上一次获取用户信息时间
+LoginService.token = localStorage.getItem(USER_TOKEN_KEY) || '';
 
 
 /***/ }),
@@ -1390,6 +1314,7 @@ var LoginService = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataCenter; });
 /* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
 /* harmony import */ var _core_Observer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
 /* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
@@ -1398,33 +1323,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var DataCenter = /** @class */ (function () {
-    function DataCenter() {
-    }
+class DataCenter {
     /**通过天梯ID获取天梯 */
-    DataCenter.findLadderById = function (id) {
-        var result = this.loginData.config_list.game.ladder_config.filter(function (item) {
+    static findLadderById(id) {
+        let result = this.loginData.config_list.game.ladder_config.filter((item) => {
             return item.id == id;
         });
         return result[0];
-    };
+    }
     /**获取天梯的段位icon */
-    DataCenter.makeLadderIconById = function (id) {
-        var ladder = "";
-        var ladderItem = this.findLadderById(id);
+    static makeLadderIconById(id) {
+        let ladder = "";
+        let ladderItem = this.findLadderById(id);
         if (ladderItem) {
             ladder = _utils_utils__WEBPACK_IMPORTED_MODULE_0__["default"].makeIcon(ladderItem.icon);
         }
         return ladder;
-    };
-    DataCenter.formatPrize = function (prize) {
-        var allPrize = prize.split(",");
+    }
+    static formatPrize(prize) {
+        let allPrize = prize.split(",");
         if (allPrize.length == 0) {
             return;
         }
-        var prizes = [];
-        allPrize.forEach(function (item, index) {
-            var prizeInfo = item.split("-");
+        let prizes = [];
+        allPrize.forEach((item, index) => {
+            let prizeInfo = item.split("-");
             if (prizeInfo && prizeInfo.length == 2) {
                 prizes.push({
                     type: prizeInfo[0],
@@ -1433,52 +1356,49 @@ var DataCenter = /** @class */ (function () {
             }
         });
         return prizes;
-    };
+    }
     /**更新用户信息，包括豆子、红包等 */
-    DataCenter.refreshUserInfo = function () {
-        var _this = this;
+    static refreshUserInfo() {
         if (!_paoya__WEBPACK_IMPORTED_MODULE_3__["default"].lifeCircleMonitor.inForeground)
             return;
-        _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["default"].GET('update_chips', {}, function (res) {
+        _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["default"].GET('update_chips', {}, (res) => {
             if (res.pao_gold != undefined) {
-                _this.gold.value = res.pao_gold;
-                _this.user.gold = res.pao_gold;
+                this.gold.value = res.pao_gold;
+                this.user.gold = res.pao_gold;
             }
             if (res.rmb != undefined) {
-                _this.rmb.value = res.rmb;
-                _this.user.rmb = res.rmb;
+                this.rmb.value = res.rmb;
+                this.user.rmb = res.rmb;
             }
             if (res.integral != undefined) {
-                _this.integral.value = res.integral;
-                _this.user.integral = res.integral;
+                this.integral.value = res.integral;
+                this.user.integral = res.integral;
             }
             if (res.gold != undefined) {
-                _this.gold.value = res.gold;
-                _this.user.gold = res.gold;
+                this.gold.value = res.gold;
+                this.user.gold = res.gold;
             }
             if (res.diamond != undefined) {
-                _this.diamond.value = res.diamond;
-                _this.user.diamond = res.diamond;
+                this.diamond.value = res.diamond;
+                this.user.diamond = res.diamond;
             }
-        }, function (res) {
+        }, (res) => {
             console.warn('更新用户信息失败');
         });
-    };
-    /**CDN资源地址 */
-    DataCenter.CDNURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
-    DataCenter.RESURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
-    DataCenter.showBannerAdWhenDialogPopup = true;
-    /**用户金币数变更监听 */
-    DataCenter.gold = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    /**用户提现变更监听 */
-    DataCenter.rmb = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    /**用户积分变更监听 */
-    DataCenter.integral = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    /**用户钻石变更监听 */
-    DataCenter.diamond = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    return DataCenter;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (DataCenter);
+    }
+}
+/**CDN资源地址 */
+DataCenter.CDNURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
+DataCenter.RESURL = 'https://xgamejuedixiaomie.goxiaochengxu.cn/';
+DataCenter.showBannerAdWhenDialogPopup = true;
+/**用户金币数变更监听 */
+DataCenter.gold = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+/**用户提现变更监听 */
+DataCenter.rmb = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+/**用户积分变更监听 */
+DataCenter.integral = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+/**用户钻石变更监听 */
+DataCenter.diamond = new _core_Observer__WEBPACK_IMPORTED_MODULE_1__["default"]();
 /**
 {
     "code": 200,
@@ -1688,28 +1608,27 @@ var DataCenter = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Utils; });
 /* harmony import */ var _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _game_enums__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
 
 
-var Utils = /** @class */ (function () {
-    function Utils() {
-    }
+class Utils {
     /**
     * 便捷生成图片数组，主要用于名称连续的图片
     * @param {用来组织图片的格式,用%i占位} format
     * @param {开始索引} start
     * @param {结束索引} end
     */
-    Utils.makeImagesWithFormat = function (format, start, end) {
+    static makeImagesWithFormat(format, start, end) {
         var images = [];
         for (var i = start; i < end; i++) {
             images.push(format.replace("%i", String(i)));
         }
         return images;
-    };
-    Utils.toQueryString = function (params) {
-        var items = [], queryStr = "";
+    }
+    static toQueryString(params) {
+        let items = [], queryStr = "";
         for (var key in params) {
             items.push(key + "=" + params[key]);
         }
@@ -1717,9 +1636,9 @@ var Utils = /** @class */ (function () {
             queryStr = items.join("&");
         }
         return queryStr;
-    };
-    Utils.makeGenderIcon = function (gender) {
-        var icon = "local/common/gay-white.png";
+    }
+    static makeGenderIcon(gender) {
+        let icon = "local/common/gay-white.png";
         if (gender == "男") {
             icon = "local/common/boy-white.png";
         }
@@ -1738,9 +1657,9 @@ var Utils = /** @class */ (function () {
         //         break
         // }
         return icon;
-    };
-    Utils.findUserByID = function (users, id) {
-        var result = users.filter(function (user, index) {
+    }
+    static findUserByID(users, id) {
+        let result = users.filter((user, index) => {
             return user.user_id && (user.user_id == id);
         });
         if (result.length) {
@@ -1748,10 +1667,10 @@ var Utils = /** @class */ (function () {
         }
         console.error('');
         return null;
-    };
+    }
     //圆角矩形
-    Utils.makeRoundRectPath = function (width, height, r, corner) {
-        var path = [];
+    static makeRoundRectPath(width, height, r, corner) {
+        let path = [];
         if (corner & _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerTopLeft) {
             path.push(["moveTo", r, 0]);
         }
@@ -1788,28 +1707,26 @@ var Utils = /** @class */ (function () {
         }
         path.push(["closePath"]);
         return path;
-    };
-    Utils.makeAllCornerRoundRectPath = function (w, h, r) {
+    }
+    static makeAllCornerRoundRectPath(w, h, r) {
         return this.makeRoundRectPath(w, h, r, _game_enums__WEBPACK_IMPORTED_MODULE_1__["RectCorner"].RectCornerAllCorners);
-    };
+    }
     /**用于保留指定长度的字符串，其余用...表示 */
-    Utils.formatName = function (name, length) {
-        if (length === void 0) { length = 10; }
-        var r = /[^\x00-\xff]/g;
+    static formatName(name, length = 10) {
+        let r = /[^\x00-\xff]/g;
         if (name.replace(r, "mm").length <= length) {
             return name + "";
         }
-        var m = Math.floor(length / 2);
-        for (var i = m; i < name.length; i++) {
+        let m = Math.floor(length / 2);
+        for (let i = m; i < name.length; i++) {
             if (name.substring(0, i).replace(r, "mm").length >= length) {
                 return name.substring(0, i) + "...";
             }
         }
         return name + "";
-    };
+    }
     /**只用于显示用户头像 */
-    Utils.makeIcon = function (icon, width) {
-        if (width === void 0) { width = 96; }
+    static makeIcon(icon, width = 96) {
         if (icon == "") {
             return "local/common/avstar.png";
         }
@@ -1839,9 +1756,9 @@ var Utils = /** @class */ (function () {
             }
             return _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].CDNURL + icon + "?imageView2/0/w/" + width;
         }
-    };
+    }
     /**用于完全拼接用户的头像地址 */
-    Utils.makeResourceURL = function (url) {
+    static makeResourceURL(url) {
         if (url == "") {
             return "local/common/avstar.png";
         }
@@ -1855,15 +1772,13 @@ var Utils = /** @class */ (function () {
             }
             return _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].CDNURL + url;
         }
-    };
+    }
     /** 计算文字宽度 */
-    Utils.measureWidth = function (text) {
-        var measureResult = Laya.Utils.measureText(text, 'Arial');
+    static measureWidth(text) {
+        let measureResult = Laya.Utils.measureText(text, 'Arial');
         return measureResult.width;
-    };
-    return Utils;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (Utils);
+    }
+}
 
 
 /***/ }),
@@ -1932,45 +1847,23 @@ var RankingType;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var Observer = /** @class */ (function (_super) {
-    __extends(Observer, _super);
-    function Observer() {
-        return _super !== null && _super.apply(this, arguments) || this;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Observer; });
+class Observer extends Laya.EventDispatcher {
+    set value(newValue) {
+        this._value = newValue;
+        this.event(Laya.Event.CHANGED, newValue);
     }
-    Object.defineProperty(Observer.prototype, "value", {
-        get: function () {
-            return this._value;
-        },
-        set: function (newValue) {
-            this._value = newValue;
-            this.event(Laya.Event.CHANGED, newValue);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Observer.prototype.addObserver = function (caller, method) {
+    get value() {
+        return this._value;
+    }
+    addObserver(caller, method) {
         method.call(caller, this._value);
         this.on(Laya.Event.CHANGED, caller, method);
-    };
-    Observer.prototype.removeObserver = function (caller, method) {
+    }
+    removeObserver(caller, method) {
         this.off(Laya.Event.CHANGED, caller, method);
-    };
-    return Observer;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (Observer);
+    }
+}
 
 
 /***/ }),
@@ -1979,9 +1872,8 @@ var Observer = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var Toast = /** @class */ (function () {
-    function Toast() {
-    }
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Toast; });
+class Toast {
     /**
     * 1. icon默认是"success"
     * 2. icon 和 image 同时存在只会有一个生效，image的优先级高于icon，不管什么情况下都会有图片的，这个是取消不了的
@@ -1989,64 +1881,50 @@ var Toast = /** @class */ (function () {
     * 4. duration是毫秒级
     * 5. 多次重复调用，只有最新调用的生效
     */
-    Toast.show = function (title, icon, image, duration) {
-        if (image === void 0) { image = null; }
-        if (duration === void 0) { duration = 1500; }
+    static show(title, icon, image = null, duration = 1500) {
         var params = {
             title: title,
             icon: icon,
             image: image,
             duration: duration,
             mask: false,
-            success: function () { },
-            fail: function () { },
+            success() { },
+            fail() { },
         };
         py.showToast(params);
-    };
-    Toast.hide = function () {
+    }
+    static hide() {
         py.hideToast();
-    };
-    Toast.showSuccess = function (title, duration) {
-        if (duration === void 0) { duration = 1500; }
+    }
+    static showSuccess(title, duration = 1500) {
         this.show(title, null, 'https://res.xingqiu123.com/wxgame/common/success.png', duration);
-    };
-    Toast.showError = function (title, duration) {
-        if (duration === void 0) { duration = 1500; }
+    }
+    static showError(title, duration = 1500) {
         this.show(title, null, 'https://res.xingqiu123.com/wxgame/common/error.png', duration);
-    };
-    Toast.showWarn = function (title, duration) {
-        if (duration === void 0) { duration = 1500; }
+    }
+    static showWarn(title, duration = 1500) {
         this.show(title, null, 'https://res.xingqiu123.com/wxgame/common/warning.png', duration);
-    };
-    Toast.showImage = function (image, duration) {
-        if (duration === void 0) { duration = 1500; }
+    }
+    static showImage(image, duration = 1500) {
         this.show(null, null, image, duration);
-    };
+    }
     /**
      * 显示loading提示层
      * @param  title
      * @param  mask 是否显示透明蒙层，也就是避免用户点击
      */
-    Toast.showLoading = function (title, mask) {
-        if (title === void 0) { title = ''; }
-        if (mask === void 0) { mask = true; }
+    static showLoading(title = '', mask = true) {
         py.showLoading({
             title: title,
             mask: mask,
-            success: function () { },
-            fail: function () { }
+            success() { },
+            fail() { }
         });
-    };
-    Toast.hideLoading = function () {
+    }
+    static hideLoading() {
         py.hideLoading();
-    };
-    Toast.showModal = function (title, content, confirmText, confirmCallback, cancelText, cancelCallback) {
-        if (title === void 0) { title = '提示'; }
-        if (content === void 0) { content = ''; }
-        if (confirmText === void 0) { confirmText = '知道了'; }
-        if (confirmCallback === void 0) { confirmCallback = null; }
-        if (cancelText === void 0) { cancelText = ""; }
-        if (cancelCallback === void 0) { cancelCallback = null; }
+    }
+    static showModal(title = '提示', content = '', confirmText = '知道了', confirmCallback = null, cancelText = "", cancelCallback = null) {
         var params = {
             title: title,
             content: content,
@@ -2063,13 +1941,11 @@ var Toast = /** @class */ (function () {
                     cancelCallback && cancelCallback();
                 }
             },
-            fail: function () { }
+            fail() { }
         };
         py.showModal(params);
-    };
-    return Toast;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (Toast);
+    }
+}
 
 
 /***/ }),
@@ -2078,32 +1954,18 @@ var Toast = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RewardedVideoAd; });
 /* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
-var RewardedVideoAd = /** @class */ (function (_super) {
-    __extends(RewardedVideoAd, _super);
-    function RewardedVideoAd(params) {
-        var _this_1 = _super.call(this) || this;
-        _this_1.isLoaded = false;
-        _this_1.createAd(params);
-        return _this_1;
+class RewardedVideoAd extends Laya.EventDispatcher {
+    constructor(params) {
+        super();
+        this.isLoaded = false;
+        this.createAd(params);
     }
-    RewardedVideoAd.prototype.createAd = function (params) {
-        var _this = this;
-        var videoAd = py.createRewardedVideoAd({ adUnitId: params.adUnitId });
+    createAd(params) {
+        let _this = this;
+        let videoAd = py.createRewardedVideoAd({ adUnitId: params.adUnitId });
         videoAd.onLoad(function (res) {
             _this.isLoaded = true;
             _this.event(RewardedVideoAd.LOAD, res);
@@ -2128,8 +1990,8 @@ var RewardedVideoAd = /** @class */ (function (_super) {
             _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionEnd();
         });
         this.videoAd = videoAd;
-    };
-    RewardedVideoAd.prototype.show = function () {
+    }
+    show() {
         if (window['BK']) {
             this.videoAd.show();
         }
@@ -2144,8 +2006,8 @@ var RewardedVideoAd = /** @class */ (function (_super) {
                 });
             }
         }
-    };
-    RewardedVideoAd.show = function (params, isLong) {
+    }
+    static show(params, isLong) {
         if (window['wx'] && !_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId) {
             console.error('请在Main中设置adUnitId之后再观看广告');
             return;
@@ -2160,21 +2022,19 @@ var RewardedVideoAd = /** @class */ (function (_super) {
                 this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitIdLong });
             }
         }
-        var ad = this.ad;
+        let ad = this.ad;
         ad.offAllCaller(this);
         ad.on(this.LOAD, this, params.onLoad);
         ad.on(this.ERROR, this, params.onError);
         ad.on(this.CLOSE, this, params.onClose);
         _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionBegin();
         ad.show();
-    };
-    RewardedVideoAd.LOAD = 'load_ad';
-    RewardedVideoAd.ERROR = 'error_ad';
-    RewardedVideoAd.CLOSE = 'close_ad';
-    RewardedVideoAd.ad = null;
-    return RewardedVideoAd;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (RewardedVideoAd);
+    }
+}
+RewardedVideoAd.LOAD = 'load_ad';
+RewardedVideoAd.ERROR = 'error_ad';
+RewardedVideoAd.CLOSE = 'close_ad';
+RewardedVideoAd.ad = null;
 
 
 /***/ }),
@@ -2183,30 +2043,16 @@ var RewardedVideoAd = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BannerAd; });
 /* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
-var BannerAd = /** @class */ (function (_super) {
-    __extends(BannerAd, _super);
-    function BannerAd(params) {
-        if (params === void 0) { params = {}; }
-        var _this_1 = _super.call(this) || this;
+class BannerAd extends Laya.EventDispatcher {
+    constructor(params = {}) {
+        super();
         params.adUnitId = params.adUnitId || _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].bannerUnitId;
         params.viewId = params.qqViewId || _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].qqViewId;
         if (!params.style) {
-            var style = {};
+            let style = {};
             if (window['wx']) {
                 style.top = style.left = 0;
                 style.width = Laya.Browser.clientWidth || 300;
@@ -2217,7 +2063,7 @@ var BannerAd = /** @class */ (function (_super) {
             }
             params.style = style;
         }
-        var ad = py.createBannerAd(params), _this = _this_1;
+        let ad = py.createBannerAd(params), _this = this;
         ad.onLoad(function (res) {
             _this.event(BannerAd.LOAD, res);
         });
@@ -2225,49 +2071,46 @@ var BannerAd = /** @class */ (function (_super) {
             _this.event(BannerAd.ERROR, res);
         });
         if (window['wx']) {
-            var screenWidth_1 = Laya.Browser.clientWidth, screenHeight_1 = Laya.Browser.clientHeight;
-            ad.onResize(function (res) {
-                var bannerAd = ad['bannerAd'];
-                bannerAd.style.left = (screenWidth_1 - res.width) / 2;
+            let screenWidth = Laya.Browser.clientWidth, screenHeight = Laya.Browser.clientHeight;
+            ad.onResize((res) => {
+                let bannerAd = ad['bannerAd'];
+                bannerAd.style.left = (screenWidth - res.width) / 2;
                 if (!params.style.top) {
-                    bannerAd.style.top = screenHeight_1 - res.height;
+                    bannerAd.style.top = screenHeight - res.height;
                 }
-                _this.event(BannerAd.RESIZE, [bannerAd, res, screenWidth_1, screenHeight_1]);
+                _this.event(BannerAd.RESIZE, [bannerAd, res, screenWidth, screenHeight]);
             });
         }
-        _this_1.ad = ad;
-        return _this_1;
+        this.ad = ad;
     }
-    BannerAd.prototype.show = function () {
+    show() {
         this.ad.show();
-    };
-    BannerAd.prototype.hide = function () {
+    }
+    hide() {
         this.ad.hide();
-    };
-    BannerAd.prototype.destroy = function () {
+    }
+    destroy() {
         this.ad.destroy();
         this.offAllCaller(BannerAd);
-    };
-    BannerAd.show = function (params) {
-        var ad = new BannerAd(params);
+    }
+    static show(params) {
+        let ad = new BannerAd(params);
         ad.on(BannerAd.LOAD, this, params.onLoad);
         ad.on(BannerAd.ERROR, this, params.onError);
         ad.on(BannerAd.RESIZE, this, params.onResize);
         ad.show();
         return ad;
-    };
-    BannerAd.hide = function (bannerAd) {
+    }
+    static hide(bannerAd) {
         bannerAd.hide();
-    };
-    BannerAd.destroy = function (bannerAd) {
+    }
+    static destroy(bannerAd) {
         bannerAd.destroy();
-    };
-    BannerAd.LOAD = 'load_ad';
-    BannerAd.ERROR = 'error_ad';
-    BannerAd.RESIZE = 're-size';
-    return BannerAd;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (BannerAd);
+    }
+}
+BannerAd.LOAD = 'load_ad';
+BannerAd.ERROR = 'error_ad';
+BannerAd.RESIZE = 're-size';
 
 
 /***/ }),
@@ -2276,82 +2119,65 @@ var BannerAd = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return View; });
 /**为View添加了JSONView变量，用于记录该View的创建JSON，方便从JSON创建view */
-var View = /** @class */ (function (_super) {
-    __extends(View, _super);
-    function View() {
-        var _this = _super.call(this) || this;
+class View extends Laya.View {
+    constructor() {
+        super();
         /**用于记录打开当前scene时，从外部传进来的数据 */
-        _this.params = null;
-        _this.sceneName = '';
-        _this.setupJSONView();
-        _this.createJSONView();
-        _this._addClickListener();
-        return _this;
+        this.params = null;
+        this.sceneName = '';
+        this.setupJSONView();
+        this.createJSONView();
+        this._addClickListener();
     }
     /**为当前View的子View设置JSONView，方便统一进行处理，虚方法 */
-    View.prototype.setupJSONView = function () {
-    };
-    View.prototype.createJSONView = function () {
-        var json = this.constructor['JSONView'];
+    setupJSONView() {
+    }
+    createJSONView() {
+        let json = this.constructor['JSONView'];
         json && this.createView(json);
-    };
+    }
     /**添加点击事件监听，以便进行简单处理 */
-    View.prototype._addClickListener = function () {
-        var prototype = View.prototype;
+    _addClickListener() {
+        let prototype = View.prototype;
         if (this.onClick !== prototype.onClick) {
             this.on(Laya.Event.CLICK, this, this._onClick);
         }
-    };
-    View.prototype._onClick = function (e) {
+    }
+    _onClick(e) {
         this.onClick(e);
-    };
+    }
     /**当前Scene被点击时调用，虚方法 */
-    View.prototype.onClick = function (e) {
-    };
-    View.prototype._onAppear = function () {
+    onClick(e) {
+    }
+    _onAppear() {
         this.onAppear();
-    };
-    View.prototype.onAppear = function () {
-    };
-    View.prototype._onDisappear = function () {
+    }
+    onAppear() {
+    }
+    _onDisappear() {
         this.onDisappear();
-    };
-    View.prototype.onDisappear = function () {
-    };
-    View.prototype._onAdded = function () {
-        _super.prototype._onAdded.call(this);
+    }
+    onDisappear() {
+    }
+    _onAdded() {
+        super._onAdded();
         this.onAdded();
-    };
-    View.prototype._onRemoved = function () {
-        _super.prototype._onRemoved.call(this);
+    }
+    _onRemoved() {
+        super._onRemoved();
         this.onRemoved();
-    };
-    View.prototype.onAdded = function () {
-    };
-    View.prototype.onRemoved = function () {
-    };
-    View.prototype.open = function (closeOther, param) {
-        if (closeOther === void 0) { closeOther = false; }
+    }
+    onAdded() {
+    }
+    onRemoved() {
+    }
+    open(closeOther = false, param) {
         this.params = param;
-        _super.prototype.open.call(this, closeOther, param);
-    };
-    return View;
-}(Laya.View));
-/* harmony default export */ __webpack_exports__["default"] = (View);
+        super.open(closeOther, param);
+    }
+}
 
 
 /***/ }),
@@ -2360,64 +2186,48 @@ var View = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Dialog; });
 /* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
-var Dialog = /** @class */ (function (_super) {
-    __extends(Dialog, _super);
-    function Dialog() {
-        var _this = _super.call(this) || this;
-        _this.showBannerAdWhenDialogPopup = true;
-        _this.createJSONView();
-        return _this;
+class Dialog extends Laya.Dialog {
+    constructor() {
+        super();
+        this.showBannerAdWhenDialogPopup = true;
+        this.createJSONView();
     }
-    Dialog.prototype.createJSONView = function () {
-        var json = this.constructor['JSONView'];
+    createJSONView() {
+        let json = this.constructor['JSONView'];
         json && this.createView(json);
-    };
-    Dialog.prototype._onAdded = function () {
-        _super.prototype._onAdded.call(this);
+    }
+    _onAdded() {
+        super._onAdded();
         this.onAdded();
         this._showBannerAd();
-    };
-    Dialog.prototype.onAdded = function () {
-    };
-    Dialog.prototype._onRemoved = function () {
-        _super.prototype._onRemoved.call(this);
+    }
+    onAdded() {
+    }
+    _onRemoved() {
+        super._onRemoved();
         this.onRemoved();
         this._hideBannerAd();
-    };
-    Dialog.prototype.onRemoved = function () {
-    };
-    Dialog.prototype._showBannerAd = function () {
+    }
+    onRemoved() {
+    }
+    _showBannerAd() {
         if (this.showBannerAdWhenDialogPopup && _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].showBannerAdWhenDialogPopup) {
             this['bannerAd'] = _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].show({});
         }
-    };
-    Dialog.prototype._hideBannerAd = function () {
+    }
+    _hideBannerAd() {
         if (this['bannerAd']) {
-            var bannerAd = this['bannerAd'];
+            let bannerAd = this['bannerAd'];
             _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].hide(bannerAd);
             _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].destroy(bannerAd);
         }
-    };
-    return Dialog;
-}(Laya.Dialog));
-/* harmony default export */ __webpack_exports__["default"] = (Dialog);
+    }
+}
 
 
 /***/ }),
@@ -2426,22 +2236,10 @@ var Dialog = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Navigator; });
 /* harmony import */ var _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
-var commonScenes = {
+const commonScenes = {
     TurnTableView: "common/GameResult/TurnTableView",
     GameResultView: 'common/GameResult/GameResultView',
     IFHostView: 'common/InviteFriend/IFHostView',
@@ -2455,15 +2253,12 @@ var commonScenes = {
     HomeView: 'HomeView',
     FBView: 'common/InviteFriend/FBView'
 };
-var Navigator = /** @class */ (function (_super) {
-    __extends(Navigator, _super);
-    function Navigator() {
-        var _this = _super.call(this) || this;
-        _this.scenes = [];
-        return _this;
+class Navigator extends Laya.EventDispatcher {
+    constructor() {
+        super();
+        this.scenes = [];
     }
-    Navigator.prototype.popup = function (sceneName, params, complete, progress, closeOther) {
-        if (closeOther === void 0) { closeOther = true; }
+    popup(sceneName, params, complete, progress, closeOther = true) {
         Laya.Scene.load(this.makeDialogName(sceneName), Laya.Handler.create(null, function (dialog) {
             dialog.isModal = true;
             dialog.isShowEffect = false;
@@ -2471,33 +2266,33 @@ var Navigator = /** @class */ (function (_super) {
             dialog.open(closeOther, params);
             complete && complete.runWith(dialog);
         }), progress);
-    };
-    Navigator.prototype.push = function (sceneName, params, resURL, complete, progress, prepare) {
+    }
+    push(sceneName, params, resURL, complete, progress, prepare) {
         this._open(sceneName, params, resURL, complete, progress, prepare, true);
-    };
-    Navigator.prototype.pop = function () {
+    }
+    pop() {
         _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
         this.scenes.pop().close('pop');
-        var scene = this.scenes[this.scenes.length - 1];
+        let scene = this.scenes[this.scenes.length - 1];
         this.activeScene(scene);
-    };
-    Navigator.prototype.popToLastScene = function (sceneName) {
-    };
-    Navigator.prototype.findSceneByName = function (sceneName) {
-        var desScene = null;
-        for (var i = this.scenes.length - 1; i >= 0; i--) {
-            var scene = this.scenes[i];
+    }
+    popToLastScene(sceneName) {
+    }
+    findSceneByName(sceneName) {
+        let desScene = null;
+        for (let i = this.scenes.length - 1; i >= 0; i--) {
+            let scene = this.scenes[i];
             if (scene.sceneName.indexOf(sceneName) != -1) {
                 desScene = scene;
                 break;
             }
         }
         return desScene;
-    };
-    Navigator.prototype.popToScene = function (sceneName) {
+    }
+    popToScene(sceneName) {
         _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
-        for (var i = this.scenes.length; i--; i >= 0) {
-            var scene = this.scenes[i];
+        for (let i = this.scenes.length; i--; i >= 0) {
+            let scene = this.scenes[i];
             if (scene.sceneName === sceneName) {
                 this.activeScene(scene);
                 break;
@@ -2506,29 +2301,29 @@ var Navigator = /** @class */ (function (_super) {
                 this.scenes.pop().close('pop');
             }
         }
-    };
-    Navigator.prototype.activeScene = function (scene) {
+    }
+    activeScene(scene) {
         !scene.visible && (scene.visible = true);
         this.visibleScene = scene;
         this._onAppear();
-    };
-    Navigator.prototype.popToRootScene = function () {
+    }
+    popToRootScene() {
         _game_DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].refreshUserInfo();
         if (this.scenes.length == 1)
             return;
         while (this.scenes.length > 1) {
             this.scenes.pop().close('pop');
         }
-        var scene = this.scenes[this.scenes.length - 1];
+        let scene = this.scenes[this.scenes.length - 1];
         this.activeScene(scene);
-    };
-    Navigator.prototype.present = function (sceneName, params, resURL, complete, progress, prepare) {
+    }
+    present(sceneName, params, resURL, complete, progress, prepare) {
         this._open(sceneName, params, resURL, complete, progress, prepare, false);
-    };
-    Navigator.prototype.dismiss = function () {
+    }
+    dismiss() {
         this.pop();
-    };
-    Navigator.prototype.replace = function (sceneName, params) {
+    }
+    replace(sceneName, params) {
         var scene;
         for (var i = this.scenes.length - 1; i >= 0; i--) {
             scene = this.scenes[i];
@@ -2541,13 +2336,13 @@ var Navigator = /** @class */ (function (_super) {
             }
         }
         console.error('错误的:' + sceneName);
-    };
+    }
     /**在视图栈中动态替换指定的scene，实现逻辑为
      * 1、找到指定的oldScene所在的位置，并pop到她所在的位置
      * 2、用newScene替换掉它
      *
      */
-    Navigator.prototype.replaceSceneWith = function (oldScene, newSceneName, params) {
+    replaceSceneWith(oldScene, newSceneName, params) {
         var scene;
         var index = this.scenes.indexOf(oldScene);
         if (index < 0) {
@@ -2561,28 +2356,27 @@ var Navigator = /** @class */ (function (_super) {
         }
         this.visibleScene = null;
         this.push(newSceneName, params);
-    };
-    Navigator.prototype.visibleSceneIs = function (sceneName) {
+    }
+    visibleSceneIs(sceneName) {
         return this.visibleScene.sceneName.indexOf(sceneName) > -1;
-    };
-    Navigator.prototype.makeSceneName = function (name) {
+    }
+    makeSceneName(name) {
         if (commonScenes[name]) {
-            return "scenes/" + commonScenes[name] + ".scene";
+            return `scenes/${commonScenes[name]}.scene`;
         }
         if (Navigator.scenesMap[name]) {
-            return Navigator.scenesMap[name] + ".scene";
+            return `${Navigator.scenesMap[name]}.scene`;
         }
-        return "gamescenes/" + name + ".scene";
-    };
-    Navigator.prototype.makeDialogName = function (name) {
+        return `gamescenes/${name}.scene`;
+    }
+    makeDialogName(name) {
         if (name.indexOf('/') == 0) {
-            return "gamescenes" + name + ".scene";
+            return `gamescenes${name}.scene`;
         }
-        return "scenes/dialog/" + name + ".scene";
-    };
-    Navigator.prototype._open = function (sceneName, params, resURL, complete, progress, prepare, hidePre) {
-        if (hidePre === void 0) { hidePre = true; }
-        var urls = [];
+        return `scenes/dialog/${name}.scene`;
+    }
+    _open(sceneName, params, resURL, complete, progress, prepare, hidePre = true) {
+        let urls = [];
         if (resURL instanceof Array) {
             urls = urls.concat(resURL);
         }
@@ -2599,7 +2393,7 @@ var Navigator = /** @class */ (function (_super) {
         Laya.Scene.open(urls, false, params, Laya.Handler.create(this, function (scene) {
             //handle pre scene
             if (this.scenes.length > 0) {
-                var preScene = this.scenes[this.scenes.length - 1];
+                let preScene = this.scenes[this.scenes.length - 1];
                 preScene.visible = !hidePre;
                 this._onDisappear();
             }
@@ -2611,10 +2405,10 @@ var Navigator = /** @class */ (function (_super) {
             this._onAppear();
             complete && complete.runWith(scene);
         }), progress);
-    };
-    Navigator.setupLoadingPage = function (isFirstScene, cb) {
-        var url = isFirstScene ? 'scenes/common/Loading/LoadingView.scene' : 'scenes/common/Loading/LoadWaitingView.scene';
-        var page = Laya.Scene['_loadPage'];
+    }
+    static setupLoadingPage(isFirstScene, cb) {
+        let url = isFirstScene ? 'scenes/common/Loading/LoadingView.scene' : 'scenes/common/Loading/LoadWaitingView.scene';
+        let page = Laya.Scene['_loadPage'];
         if (page && page.url == url)
             return;
         Laya.Scene.load(url, Laya.Handler.create(this, function (scene) {
@@ -2629,8 +2423,8 @@ var Navigator = /** @class */ (function (_super) {
             Laya.Scene.setLoadingPage(scene);
             cb && cb();
         }));
-    };
-    Navigator.adjustViewPosition = function (view, portrait) {
+    }
+    static adjustViewPosition(view, portrait) {
         var stage = Laya.stage;
         var screenWidth = Laya.Browser.width;
         var screenHeight = Laya.Browser.height;
@@ -2646,66 +2440,64 @@ var Navigator = /** @class */ (function (_super) {
             var x = (screenWidth - width * scaleY >> 1) / scaleY;
             view.x = Math.floor(x);
         }
-    };
+    }
     /**================= dispatch system event =================**/
-    Navigator.prototype._onReceiveMessage = function (cmd, value, code, message) {
+    _onReceiveMessage(cmd, value, code, message) {
         this._dispatchEvent('_onReceiveMessage', cmd, value);
-    };
-    Navigator.prototype._onReceiveSocketError = function (cmd, code, message) {
+    }
+    _onReceiveSocketError(cmd, code, message) {
         this._dispatchEvent('_onReceiveMessage', cmd, code, message);
-    };
-    Navigator.prototype._onReceiveNotification = function (name, params) {
+    }
+    _onReceiveNotification(name, params) {
         this._dispatchEvent('_onReceiveNotification', name, params);
-    };
-    Navigator.prototype._onReceiveSocketClose = function () {
+    }
+    _onReceiveSocketClose() {
         if (!this.visibleScene)
             return;
-        var components = this.visibleScene['_components'] || [], shareMsg = null;
-        components.forEach(function (item) {
+        let components = this.visibleScene['_components'] || [], shareMsg = null;
+        components.forEach((item) => {
             if (item.onSocketClose) {
                 item.onSocketClose();
             }
         });
-    };
-    Navigator.prototype._onReceiveNetworkChange = function (res) {
+    }
+    _onReceiveNetworkChange(res) {
         this._dispatchEvent('onNetworkChange', res);
-    };
-    Navigator.prototype.onShareAppMessage = function () {
+    }
+    onShareAppMessage() {
         if (!this.visibleScene)
             return;
-        var components = this.visibleScene['_components'] || [], shareMsg = null;
-        components.forEach(function (item) {
+        let components = this.visibleScene['_components'] || [], shareMsg = null;
+        components.forEach((item) => {
             if (item.onShareAppMessage) {
                 shareMsg = item.onShareAppMessage();
             }
         });
         return shareMsg;
-    };
-    Navigator.prototype._onShow = function (res) {
+    }
+    _onShow(res) {
         this._dispatchEvent('_onShow', res);
-    };
-    Navigator.prototype._onHide = function (res) {
+    }
+    _onHide(res) {
         this._dispatchEvent('_onHide', res);
-    };
-    Navigator.prototype._onLoad = function () {
+    }
+    _onLoad() {
         this._dispatchEvent('_onLoad');
-    };
-    Navigator.prototype._onAppear = function () {
+    }
+    _onAppear() {
         this._dispatchEvent('_onAppear');
-    };
-    Navigator.prototype._onDisappear = function () {
+    }
+    _onDisappear() {
         this._dispatchEvent('_onDisappear');
-    };
-    Navigator.prototype._dispatchEvent = function (method, p1, p2, p3, p4, p5) {
+    }
+    _dispatchEvent(method, p1, p2, p3, p4, p5) {
         if (!this.visibleScene)
             return;
         this.visibleScene.dispatchLifeCycleEvent(method, p1, p2, p3, p4, p5);
-    };
-    /**所有场景的map数据 */
-    Navigator.scenesMap = {};
-    return Navigator;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (Navigator);
+    }
+}
+/**所有场景的map数据 */
+Navigator.scenesMap = {};
 
 
 /***/ }),
@@ -2715,52 +2507,33 @@ var Navigator = /** @class */ (function (_super) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClientConfig", function() { return ClientConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Client; });
 /* harmony import */ var _Socket__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
 /* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 /* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
 /* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
 
 
-var ClientConfig = /** @class */ (function () {
-    function ClientConfig() {
-    }
-    ClientConfig.watchDogTime = 5;
-    ClientConfig.maxRetryTime = 3;
-    return ClientConfig;
-}());
-
-var Client = /** @class */ (function (_super) {
-    __extends(Client, _super);
-    function Client(url) {
-        if (url === void 0) { url = null; }
-        var _this = _super.call(this, url) || this;
-        _this.msgsSending = [];
-        _this.msgsSent = [];
-        _this.map = {};
-        return _this;
+class ClientConfig {
+}
+ClientConfig.watchDogTime = 5;
+ClientConfig.maxRetryTime = 3;
+class Client extends _Socket__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(url = null) {
+        super(url);
+        this.msgsSending = [];
+        this.msgsSent = [];
+        this.map = {};
     }
     /**发送socket消息 */
-    Client.prototype.sendMessage = function (cmd, params) {
+    sendMessage(cmd, params) {
         if (!params.game_id && _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].game) {
             params.game_id = _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].game.gameId;
         }
         params.command = cmd;
-        var time = (new Date()).valueOf();
+        let time = (new Date()).valueOf();
         params.m_id = time;
         if (this.map[time] == undefined) {
             this.map[time] = 0;
@@ -2771,21 +2544,21 @@ var Client = /** @class */ (function (_super) {
         var msg = JSON.stringify(params);
         if (this.connected) {
             if (cmd !== 'heartbeat') {
-                console.log("S >>> | " + cmd + " | " + JSON.stringify(params));
+                console.log(`S >>> | ${cmd} | ${JSON.stringify(params)}`);
             }
             this.send(msg);
-            var shouldCheck = true;
-            var cmds = Client.ignoreCmds;
-            for (var i = 0; i < cmds.length; i++) {
-                var command = cmds[i];
+            let shouldCheck = true;
+            let cmds = Client.ignoreCmds;
+            for (let i = 0; i < cmds.length; i++) {
+                let command = cmds[i];
                 if (cmd === command) {
                     shouldCheck = false;
                     break;
                 }
             }
             cmds = Client._ignoreCmds;
-            for (var i = 0; i < cmds.length; i++) {
-                var command = cmds[i];
+            for (let i = 0; i < cmds.length; i++) {
+                let command = cmds[i];
                 if (cmd === command) {
                     shouldCheck = false;
                     break;
@@ -2802,17 +2575,17 @@ var Client = /** @class */ (function (_super) {
             }
             console.warn("缓存socket命令，等待连接成功后再次发送");
         }
-    };
+    }
     /**处理socket消息 */
-    Client.prototype.handleMessage = function (msg) {
-        _super.prototype.handleMessage.call(this, msg);
+    handleMessage(msg) {
+        super.handleMessage(msg);
         var obj = JSON.parse(msg);
         var cmd = obj.command;
         var value = obj.value;
         var code = obj.code;
         var message = obj.message || "请求出错";
         if (cmd !== 'heartbeat') {
-            console.log("S <<< | " + cmd + " | " + JSON.stringify(value));
+            console.log(`S <<< | ${cmd} | ${JSON.stringify(value)}`);
         }
         if (cmd == Client.LOGIN) {
             this.onLogin();
@@ -2821,150 +2594,146 @@ var Client = /** @class */ (function (_super) {
         this.dispatchResultToNavigator(cmd, value, code, message, obj.errorcode);
         //remove item
         this.removeMsg(obj);
-    };
-    Client.prototype.dispatchResultToNavigator = function (cmd, value, code, message, errorcode) {
+    }
+    dispatchResultToNavigator(cmd, value, code, message, errorcode) {
         if (code != 200) {
             _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator._onReceiveSocketError(cmd, errorcode, message);
-            console.error("S <<< | " + cmd + " | " + errorcode + " | " + message);
+            console.error(`S <<< | ${cmd} | ${errorcode} | ${message}`);
         }
         else {
             if (Client.ignorePathThroughCmds.indexOf(cmd) < 0) {
                 _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator._onReceiveMessage(cmd, value);
             }
         }
-    };
-    Client.prototype.onLogin = function () {
-        var _this = this;
+    }
+    onLogin() {
         console.log('WebSocket登录成功');
-        console.log("S: | sending | msgs: " + this.msgsSending.length + "\u4E2A");
-        this.msgsSending.forEach(function (msg) {
-            _this.sendMessage(msg.cmd, msg.params);
+        console.log(`S: | sending | msgs: ${this.msgsSending.length}个`);
+        this.msgsSending.forEach(msg => {
+            this.sendMessage(msg.cmd, msg.params);
         });
         // let msg = this.msgsSending.shift()
         // msg && this.send(msg)
         this.msgsSending.length = 0;
         this.startWatchDog();
         this.startHeartBeat();
-    };
-    Client.prototype.startWatchDog = function () {
+    }
+    startWatchDog() {
         Laya.timer.loop(ClientConfig.watchDogTime, this, this.checkCmd);
-    };
-    Client.prototype.stopWatchDog = function () {
+    }
+    stopWatchDog() {
         //测试是否需要清空历史命令
         this.msgsSent.length = 0;
         Laya.timer.clear(this, this.checkCmd);
-    };
-    Client.prototype.checkCmd = function () {
-        var _this = this;
-        var currentTimestamp = (new Date()).valueOf();
-        this.msgsSent.forEach(function (item, index) {
-            var msg = JSON.parse(item);
+    }
+    checkCmd() {
+        let currentTimestamp = (new Date()).valueOf();
+        this.msgsSent.forEach((item, index) => {
+            let msg = JSON.parse(item);
             if (msg.m_id && (currentTimestamp - msg.m_id > 5 * 1000)) {
                 if (msg.retryTime < ClientConfig.maxRetryTime) {
                     //resend msg
                     _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["default"].track(_dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_2__["DataTrackType"].SocketRetry, { c: msg.command, t: msg.retryTime });
-                    _this.sendMessage(msg.command, msg);
+                    this.sendMessage(msg.command, msg);
                 }
                 else {
-                    _this.event(msg.command, [{}, -1, '请求超时']);
-                    console.error("\u547D\u4EE4 " + msg.command + " \u8BF7\u6C42\u8D85\u65F6\uFF0C\u5982\u6709\u8BEF\u62A5\uFF0C\u8BF7\u5728Main\u4E2D\u6DFB\u52A0ignoreCmds\u53C2\u6570");
+                    this.event(msg.command, [{}, -1, '请求超时']);
+                    console.error(`命令 ${msg.command} 请求超时，如有误报，请在Main中添加ignoreCmds参数`);
                 }
                 //remove item
-                _this.removeMsg(msg);
+                this.removeMsg(msg);
             }
         });
-    };
-    Client.prototype.removeMsg = function (msg) {
-        for (var i = 0; i < this.msgsSent.length; i++) {
-            var item = JSON.parse(this.msgsSent[i]);
+    }
+    removeMsg(msg) {
+        for (let i = 0; i < this.msgsSent.length; i++) {
+            let item = JSON.parse(this.msgsSent[i]);
             if (item.m_id == msg.m_id) {
                 this.msgsSent.splice(i, 1);
                 delete this.map[item.m_id];
             }
         }
-    };
-    Client.prototype._onClose = function (e) {
-        _super.prototype._onClose.call(this, e);
+    }
+    _onClose(e) {
+        super._onClose(e);
         _paoya__WEBPACK_IMPORTED_MODULE_3__["default"].navigator._onReceiveSocketClose();
         this.stopHeartBeat();
         this.stopWatchDog();
-    };
-    Client.prototype.startHeartBeat = function () {
+    }
+    startHeartBeat() {
         Laya.timer.loop(15000, this, this.handleHeartBeat);
-    };
-    Client.prototype.stopHeartBeat = function () {
+    }
+    stopHeartBeat() {
         Laya.timer.clear(this, this.handleHeartBeat);
-    };
-    Client.prototype.handleHeartBeat = function () {
+    }
+    handleHeartBeat() {
         this.sendMessage(Client.HEART_BEAT, {});
-    };
+    }
     /**子类重写 */
-    Client.prototype.onReconnecting = function (cur, total) {
-        _super.prototype.onReconnecting.call(this, cur, total);
-        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading("\u8FDE\u63A5\u4E2D(" + cur + "/" + total + ")", true);
-    };
-    Client.prototype.onReconnectStart = function () {
-        _super.prototype.onReconnectStart.call(this);
+    onReconnecting(cur, total) {
+        super.onReconnecting(cur, total);
+        _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading(`连接中(${cur}/${total})`, true);
+    }
+    onReconnectStart() {
+        super.onReconnectStart();
         this.stopHeartBeat();
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading("正在连接...");
-    };
-    Client.prototype.onReconnectEnd = function () {
-        _super.prototype.onReconnectEnd.call(this);
+    }
+    onReconnectEnd() {
+        super.onReconnectEnd();
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showSuccess("连接成功", 1500);
-    };
-    Client.prototype.onReconnectFail = function () {
-        _super.prototype.onReconnectFail.call(this);
+    }
+    onReconnectFail() {
+        super.onReconnectFail();
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].hideLoading();
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showSuccess("连接失败", 1500);
-    };
-    Client.ignoreCmds = [];
-    Client._ignoreCmds = [
-        'betpk', 'startmatch', 'joinmatch', 'cancelmatch', 'matchagain',
-        'cancelagain', 'promotionenroll', 'cancelenroll', 'laddermatch', 'cancelladdermatch',
-        'demandpk', 'matchreject', 'sharestartgame', 'wheel_index', 'qq_join_room', 'receive_invite'
-    ];
-    Client.ignorePathThroughCmds = ['heartbeat'];
-    //通用命令
-    Client.HEART_BEAT = "heartbeat";
-    Client.DISCONNECT = "disconnect";
-    Client.LEAVE_ROOM = 'leave_room';
-    Client.LOGIN = 'login';
-    //匹配
-    Client.MATCH_SUCCESS = "matchsuccess";
-    Client.MATCH_FAIL = "matchfail";
-    Client.MATCH_JOIN = "joinmatch";
-    Client.MATCH_CANCEL = "cancelmatch";
-    //天梯
-    Client.LADDER_MATCH_JOIN = "laddermatch";
-    Client.LADDER_MATCH_CANCEL = "cancelladdermatch";
-    //游戏阶段
-    Client.GAME_START_MATCH = 'startmatch';
-    Client.GAME_START_GAME = 'startpkgame';
-    Client.GAME_START_PK = 'startpk';
-    Client.GAME_BET = 'betpk';
-    Client.GAME_END_PK = 'endpk';
-    Client.GAME_END_PKGAME = 'endpkgame';
-    //再来一局
-    Client.AGIAN_SEND = 'matchagain';
-    Client.AGAIN_REJECT = 'matchreject';
-    Client.AGAIN_CANCAL = 'cancelagain';
-    //赛事
-    Client.CHAMPIONSHIP_JION = 'promotionenroll';
-    Client.CHAMPIONSHIP_CANCEL = 'cancelenroll';
-    Client.CHAMPIONSHIP_UPDATE_ROOM_COUNT = 'updateCount';
-    Client.CHAMPIONSHIP_UPDATE_TOTAL_COUNT = 'updatecurUserCount';
-    //分享
-    Client.SHARE_START_GAME = "sharestartgame";
-    Client.SHARE_INVITE_FRIEND = "invite_friend";
-    Client.SHARE_RECEIVE_INVITE = "receive_invite";
-    // static SHARE_LEAVE_ROOM = "shareleaveroom"
-    //群约战pk
-    Client.GROUP_JOIN_ROOM = "groupjoinroom";
-    Client.GROUP_ROOM_STATUS = "grouproomStatus";
-    return Client;
-}(_Socket__WEBPACK_IMPORTED_MODULE_0__["default"]));
-/* harmony default export */ __webpack_exports__["default"] = (Client);
+    }
+}
+Client.ignoreCmds = [];
+Client._ignoreCmds = [
+    'betpk', 'startmatch', 'joinmatch', 'cancelmatch', 'matchagain',
+    'cancelagain', 'promotionenroll', 'cancelenroll', 'laddermatch', 'cancelladdermatch',
+    'demandpk', 'matchreject', 'sharestartgame', 'wheel_index', 'qq_join_room', 'receive_invite'
+];
+Client.ignorePathThroughCmds = ['heartbeat'];
+//通用命令
+Client.HEART_BEAT = "heartbeat";
+Client.DISCONNECT = "disconnect";
+Client.LEAVE_ROOM = 'leave_room';
+Client.LOGIN = 'login';
+//匹配
+Client.MATCH_SUCCESS = "matchsuccess";
+Client.MATCH_FAIL = "matchfail";
+Client.MATCH_JOIN = "joinmatch";
+Client.MATCH_CANCEL = "cancelmatch";
+//天梯
+Client.LADDER_MATCH_JOIN = "laddermatch";
+Client.LADDER_MATCH_CANCEL = "cancelladdermatch";
+//游戏阶段
+Client.GAME_START_MATCH = 'startmatch';
+Client.GAME_START_GAME = 'startpkgame';
+Client.GAME_START_PK = 'startpk';
+Client.GAME_BET = 'betpk';
+Client.GAME_END_PK = 'endpk';
+Client.GAME_END_PKGAME = 'endpkgame';
+//再来一局
+Client.AGIAN_SEND = 'matchagain';
+Client.AGAIN_REJECT = 'matchreject';
+Client.AGAIN_CANCAL = 'cancelagain';
+//赛事
+Client.CHAMPIONSHIP_JION = 'promotionenroll';
+Client.CHAMPIONSHIP_CANCEL = 'cancelenroll';
+Client.CHAMPIONSHIP_UPDATE_ROOM_COUNT = 'updateCount';
+Client.CHAMPIONSHIP_UPDATE_TOTAL_COUNT = 'updatecurUserCount';
+//分享
+Client.SHARE_START_GAME = "sharestartgame";
+Client.SHARE_INVITE_FRIEND = "invite_friend";
+Client.SHARE_RECEIVE_INVITE = "receive_invite";
+// static SHARE_LEAVE_ROOM = "shareleaveroom"
+//群约战pk
+Client.GROUP_JOIN_ROOM = "groupjoinroom";
+Client.GROUP_ROOM_STATUS = "grouproomStatus";
 
 
 /***/ }),
@@ -2974,61 +2743,38 @@ var Client = /** @class */ (function (_super) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SocketConfig", function() { return SocketConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Socket; });
 /* harmony import */ var _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
-var SocketConfig = /** @class */ (function () {
-    function SocketConfig() {
-    }
-    SocketConfig.zone = "";
-    return SocketConfig;
-}());
-
-var Socket = /** @class */ (function (_super) {
-    __extends(Socket, _super);
-    function Socket(url) {
-        var _this = _super.call(this) || this;
-        _this.url = url;
+class SocketConfig {
+}
+SocketConfig.zone = "";
+class Socket extends Laya.Socket {
+    constructor(url) {
+        super();
+        this.url = url;
         /**当前是否在重连 */
-        _this.isReconnecting = false;
+        this.isReconnecting = false;
         /**当前重连次数 */
-        _this.reconnectTimes = 0;
-        return _this;
+        this.reconnectTimes = 0;
         // this.addObserver()
     }
-    Object.defineProperty(Socket.prototype, "canReconnect", {
-        get: function () {
-            var networkMonitor = _paoya__WEBPACK_IMPORTED_MODULE_1__["default"].networkMonitor;
-            var lifeCircleMonitor = _paoya__WEBPACK_IMPORTED_MODULE_1__["default"].lifeCircleMonitor;
-            console.log("SOCKET\u662F\u5426\u8FDE\u63A5:    " + (this.connected ? "是" : "否"));
-            console.log("\u662F\u5426\u5728\u524D\u53F0:        " + (lifeCircleMonitor.inForeground ? "是" : "否"));
-            console.log("\u7F51\u7EDC\u662F\u5426\u8FDE\u63A5:      " + (networkMonitor.isConnected ? "是" : "否"));
-            console.log("\u662F\u5426\u6B63\u5728\u91CD\u8FDE:      " + (this.isReconnecting ? "是" : "否"));
-            return !this.connected && lifeCircleMonitor.inForeground && networkMonitor.isConnected && !this.isReconnecting;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Socket.prototype.addObserver = function () {
+    get canReconnect() {
+        let networkMonitor = _paoya__WEBPACK_IMPORTED_MODULE_1__["default"].networkMonitor;
+        let lifeCircleMonitor = _paoya__WEBPACK_IMPORTED_MODULE_1__["default"].lifeCircleMonitor;
+        console.log(`SOCKET是否连接:    ${this.connected ? "是" : "否"}`);
+        console.log(`是否在前台:        ${lifeCircleMonitor.inForeground ? "是" : "否"}`);
+        console.log(`网络是否连接:      ${networkMonitor.isConnected ? "是" : "否"}`);
+        console.log(`是否正在重连:      ${this.isReconnecting ? "是" : "否"}`);
+        return !this.connected && lifeCircleMonitor.inForeground && networkMonitor.isConnected && !this.isReconnecting;
+    }
+    addObserver() {
         // NotificationCenter.on(NotificationName.NetworkChanged, this, this._startReconnect)
-    };
+    }
     /**切换服务器 */
-    Socket.prototype.changeUrl = function (url) {
-        var _this = this;
+    changeUrl(url) {
         if (url != this.url) {
             this.url = url;
             if (this.isReconnecting) {
@@ -3038,25 +2784,25 @@ var Socket = /** @class */ (function (_super) {
                 this['_connected'] = false;
                 this.close();
             }
-            Laya.timer.once(500, this, function () {
-                _this.connect();
+            Laya.timer.once(500, this, () => {
+                this.connect();
             });
         }
-    };
+    }
     /**重写父类方法 */
-    Socket.prototype._onOpen = function (e) {
-        _super.prototype._onOpen.call(this, e);
-        console.log("S | OPEN: | " + JSON.stringify(e));
+    _onOpen(e) {
+        super._onOpen(e);
+        console.log(`S | OPEN: | ${JSON.stringify(e)}`);
         if (this.isReconnecting) {
             this._stopReconnect();
             this.onReconnectEnd();
         }
-    };
+    }
     //{code:1006,reason:"abnormal closure"}服务器主动断开连接
     //{code:1000} 用户主动断开连接
-    Socket.prototype._onClose = function (e) {
-        _super.prototype._onClose.call(this, e);
-        console.log("S | CLOSE: | " + JSON.stringify(e));
+    _onClose(e) {
+        super._onClose(e);
+        console.log(`S | CLOSE: | ${JSON.stringify(e)}`);
         // if (e.code == 1000) {
         //     return
         // }
@@ -3065,51 +2811,50 @@ var Socket = /** @class */ (function (_super) {
         // } else {
         //     this._startReconnect(Socket.reconnectConfig.interval);
         // }
-    };
+    }
     /**重写父类方法 */
-    Socket.prototype._onMessage = function (msg) {
-        _super.prototype._onMessage.call(this, msg);
+    _onMessage(msg) {
+        super._onMessage(msg);
         if (!msg || !msg.data)
             return;
-        var data = msg.data;
+        let data = msg.data;
         this.handleMessage(data);
-    };
+    }
     /**重写父类方法 */
-    Socket.prototype._onError = function (e) {
-        _super.prototype._onError.call(this, e);
-        console.log("S | Error: | " + JSON.stringify(e));
-    };
+    _onError(e) {
+        super._onError(e);
+        console.log(`S | Error: | ${JSON.stringify(e)}`);
+    }
     /**处理消息返回内容，子类需重写 */
-    Socket.prototype.handleMessage = function (msg) { };
+    handleMessage(msg) { }
     /**自定义方法，便于快速执行 */
-    Socket.prototype.connect = function () {
+    connect() {
         if (this.isReconnecting || this.connected)
             return;
         this.connectByUrl(this.url);
-    };
+    }
     /**重写父类方法 */
-    Socket.prototype.connectByUrl = function (url) {
+    connectByUrl(url) {
         _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_0__["default"].startSocketTime();
         this.url = url;
-        _super.prototype.connectByUrl.call(this, url);
-    };
-    Socket.prototype.startWatchDog = function () {
+        super.connectByUrl(url);
+    }
+    startWatchDog() {
         Laya.timer.loop(5000, this, this.handleWatchDog);
-    };
-    Socket.prototype.handleWatchDog = function () {
+    }
+    handleWatchDog() {
         if (this.connected) {
             this.stopWatchDog();
         }
         else {
             this._startReconnect();
         }
-    };
-    Socket.prototype.stopWatchDog = function () {
+    }
+    stopWatchDog() {
         Laya.timer.clear(this, this.handleWatchDog);
-    };
+    }
     /**开始重连 */
-    Socket.prototype._startReconnect = function (interval) {
-        if (interval === void 0) { interval = Socket.reconnectConfig.interval; }
+    _startReconnect(interval = Socket.reconnectConfig.interval) {
         if (!this.canReconnect)
             return;
         this.reconnectTimes = 0;
@@ -3117,23 +2862,23 @@ var Socket = /** @class */ (function (_super) {
         this.onReconnectStart();
         this.isReconnecting = true;
         Laya.timer.loop(interval * 1000, this, this._reconnect);
-    };
+    }
     /**停止重连 */
-    Socket.prototype._stopReconnect = function () {
+    _stopReconnect() {
         if (!this.isReconnecting)
             return;
         this.isReconnecting = false;
         this.reconnectTimes = 0;
         Laya.timer.clear(this, this._reconnect);
-    };
+    }
     /**执行重连方法 */
-    Socket.prototype._reconnect = function () {
+    _reconnect() {
         if (this.connected) {
             this._stopReconnect();
             this.onReconnectEnd();
             return;
         }
-        var config = Socket.reconnectConfig;
+        let config = Socket.reconnectConfig;
         if (this.reconnectTimes < config.total) {
             this.connect();
             this.reconnectTimes++;
@@ -3147,33 +2892,31 @@ var Socket = /** @class */ (function (_super) {
             this._stopReconnect();
             this.onReconnectFail();
         }
-    };
+    }
     /**子类重写 */
-    Socket.prototype.onReconnecting = function (times, total) {
+    onReconnecting(times, total) {
         this.event(Socket.RECONNECT_PROGRESS, [times, total]);
-    };
-    Socket.prototype.onReconnectStart = function () {
+    }
+    onReconnectStart() {
         this.event(Socket.RECONNECT_START, [this.reconnectTimes, Socket.reconnectConfig.total]);
-    };
-    Socket.prototype.onReconnectEnd = function () {
+    }
+    onReconnectEnd() {
         this.event(Socket.RECONNECT_END);
-    };
-    Socket.prototype.onReconnectFail = function () {
+    }
+    onReconnectFail() {
         this.event(Socket.RECONNECT_FAIL);
-    };
-    /**重连配置 */
-    Socket.reconnectConfig = {
-        total: 3,
-        interval: 3,
-        duration: 8 //后续重连间隔
-    };
-    Socket.RECONNECT_START = "socket.reconnect.start";
-    Socket.RECONNECT_END = 'socket.reconnect.end';
-    Socket.RECONNECT_FAIL = 'socket.reconnect.fail';
-    Socket.RECONNECT_PROGRESS = 'socket.reconnect.progress';
-    return Socket;
-}(Laya.Socket));
-/* harmony default export */ __webpack_exports__["default"] = (Socket);
+    }
+}
+/**重连配置 */
+Socket.reconnectConfig = {
+    total: 3,
+    interval: 3,
+    duration: 8 //后续重连间隔
+};
+Socket.RECONNECT_START = "socket.reconnect.start";
+Socket.RECONNECT_END = 'socket.reconnect.end';
+Socket.RECONNECT_FAIL = 'socket.reconnect.fail';
+Socket.RECONNECT_PROGRESS = 'socket.reconnect.progress';
 
 
 /***/ }),
@@ -3182,6 +2925,7 @@ var Socket = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Main; });
 /* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
 /* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 /* harmony import */ var _core_network_Request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
@@ -3200,19 +2944,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _laya_sound__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(29);
 /* harmony import */ var _service_Loader__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(30);
 /* harmony import */ var _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(25);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
 
@@ -3231,11 +2962,10 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
-var Main = /** @class */ (function (_super) {
-    __extends(Main, _super);
-    function Main(params) {
-        var _this_1 = _super.call(this, params) || this;
-        _this_1.params = params;
+class Main extends _game__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(params) {
+        super(params);
+        this.params = params;
         if (!params.gameId) {
             console.error("初始化时必须传入gameId");
         }
@@ -3248,19 +2978,18 @@ var Main = /** @class */ (function (_super) {
         if (params.useSocket == undefined) {
             params.useSocket = false;
         }
-        _this_1.gameId = params.gameId;
-        _this_1.params.rankingType = _this_1.params.rankingType || _enums__WEBPACK_IMPORTED_MODULE_11__["RankingType"].Score;
-        if (_this_1.params.showBannerAdWhenDialogPopup != undefined) {
-            _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].showBannerAdWhenDialogPopup = _this_1.params.showBannerAdWhenDialogPopup;
+        this.gameId = params.gameId;
+        this.params.rankingType = this.params.rankingType || _enums__WEBPACK_IMPORTED_MODULE_11__["RankingType"].Score;
+        if (this.params.showBannerAdWhenDialogPopup != undefined) {
+            _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].showBannerAdWhenDialogPopup = this.params.showBannerAdWhenDialogPopup;
         }
         //对全局单例进行赋值
-        _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].game = _this_1;
+        _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].game = this;
         _core_network_Socket__WEBPACK_IMPORTED_MODULE_5__["SocketConfig"].zone = params.zone;
         _wx_manager_PayManager__WEBPACK_IMPORTED_MODULE_8__["default"].offerId = params.offerId;
-        _this_1.init();
-        return _this_1;
+        this.init();
     }
-    Main.prototype.init = function () {
+    init() {
         _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].networkMonitor = this.networkMonitor = new _wx_monitor_NetworkMonitor__WEBPACK_IMPORTED_MODULE_3__["default"]();
         _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].lifeCircleMonitor = this.lifeCircleMonitor = new _wx_monitor_LifeCircleMonitor__WEBPACK_IMPORTED_MODULE_4__["default"]();
         this._addNotificationCenterListener();
@@ -3273,13 +3002,13 @@ var Main = /** @class */ (function (_super) {
             _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_7__["default"].setup(this.params.mtaID, this.params.mtaEventID, this.launchOption);
         }
         this.setupOthers();
-    };
-    Main.prototype.loadRes = function () {
-        var _this = this, connectWebsocket = null;
+    }
+    loadRes() {
+        let _this = this, connectWebsocket = null;
         if (!this.params.useSocket) {
             connectWebsocket = function () {
                 _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
-                _this.setupLoadingView(function () {
+                _this.setupLoadingView(() => {
                     _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
                     _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
                 });
@@ -3290,7 +3019,7 @@ var Main = /** @class */ (function (_super) {
                 _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在连接...');
                 _this._initClient(function () {
                     _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('准备就绪');
-                    _this.setupLoadingView(function () {
+                    _this.setupLoadingView(() => {
                         _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
                         _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hide();
                     });
@@ -3301,7 +3030,7 @@ var Main = /** @class */ (function (_super) {
                 });
             };
         }
-        var login = function (suc) {
+        let login = function (suc) {
             _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setTips('正在登录...');
             _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].hideProgress();
             _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].login(suc, function () {
@@ -3310,14 +3039,14 @@ var Main = /** @class */ (function (_super) {
                 });
             });
         };
-        var complete = function () {
+        let complete = function () {
             login(function () {
                 connectWebsocket();
             });
         };
-        _service_Loader__WEBPACK_IMPORTED_MODULE_16__["default"].preload(Laya.Handler.create(this, function () {
+        _service_Loader__WEBPACK_IMPORTED_MODULE_16__["default"].preload(Laya.Handler.create(this, () => {
             if (_DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].GAMEPREPARE) {
-                var prepare = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].GAMEPREPARE;
+                let prepare = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].GAMEPREPARE;
                 if (typeof prepare == 'function') {
                     prepare();
                     complete();
@@ -3337,23 +3066,23 @@ var Main = /** @class */ (function (_super) {
             else {
                 complete();
             }
-        }), Laya.Handler.create(this, function (progress) {
+        }), Laya.Handler.create(this, (progress) => {
             _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_17__["default"].setProgress(progress);
         }, null, false));
-    };
-    Main.prototype._addNotificationCenterListener = function () {
+    }
+    _addNotificationCenterListener() {
         _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["NotificationName"].ApplicationShow, this, this._onShow);
         _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["NotificationName"].ApplicationHide, this, this._onHide);
         _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["default"].on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_9__["NotificationName"].NetworkChanged, this, this._handleNetworkChange);
-    };
-    Main.prototype._configHTTP = function () {
+    }
+    _configHTTP() {
         _core_network_Client__WEBPACK_IMPORTED_MODULE_10__["default"].ignoreCmds = this.params.ignoreCmds || [];
         _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].baseURL = this.params.baseURL;
         if (this.launchOption && this.launchOption.referrerInfo && this.launchOption.referrerInfo.extraData) {
-            var referrerInfo = this.launchOption.referrerInfo, extraData = referrerInfo.extraData, token = extraData.token, baseURL = extraData.baseURL;
+            let referrerInfo = this.launchOption.referrerInfo, extraData = referrerInfo.extraData, token = extraData.token, baseURL = extraData.baseURL;
             baseURL && (_core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].baseURL = baseURL);
         }
-        var _this = this;
+        let _this = this;
         _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].makeParamsHandler = function (params) {
             if (!params['user_token'] && _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].token) {
                 params['user_token'] = _core_network_Request__WEBPACK_IMPORTED_MODULE_2__["RequestConfig"].token;
@@ -3363,15 +3092,15 @@ var Main = /** @class */ (function (_super) {
             }
             return { wxparams: JSON.stringify(params) };
         };
-    };
-    Main.prototype._configLogin = function () {
-        var params = this.params;
+    }
+    _configLogin() {
+        let params = this.params;
         _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].userId = params.userId;
         _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].gameId = params.gameId;
         _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].version = params.version;
         _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].release = params.release;
         // LoginConfig.requestConfig = 
-        var _this = this;
+        let _this = this;
         _service_LoginService__WEBPACK_IMPORTED_MODULE_13__["LoginConfig"].makeLoginParamsHandler = function (params) {
             if (_this.launchOption && _this.launchOption['query']) {
                 params['share_id'] = _this.launchOption['query']['id'] || 0;
@@ -3379,54 +3108,53 @@ var Main = /** @class */ (function (_super) {
                 params['launch_info'] = _this.launchOption || '';
             }
             if (_this.launchOption && _this.launchOption.referrerInfo && _this.launchOption.referrerInfo.extraData) {
-                var extraData = _this.launchOption.referrerInfo.extraData;
+                let extraData = _this.launchOption.referrerInfo.extraData;
                 params['from_game_id'] = extraData.fid || 0;
                 params['from_game_id_type'] = extraData.jType || '';
             }
             return params;
         };
         if (this.launchOption && this.launchOption.referrerInfo && this.launchOption.referrerInfo.extraData) {
-            var referrerInfo = this.launchOption.referrerInfo, extraData = referrerInfo.extraData, token = extraData.token;
+            let referrerInfo = this.launchOption.referrerInfo, extraData = referrerInfo.extraData, token = extraData.token;
             token && (_service_LoginService__WEBPACK_IMPORTED_MODULE_13__["default"].token = token);
         }
-    };
-    Main.prototype._configShareManager = function () {
+    }
+    _configShareManager() {
         _wx_manager_ShareManager__WEBPACK_IMPORTED_MODULE_14__["default"].makeQueryHandler = function (query) {
             query.id = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].user.id;
             return query;
         };
-    };
-    Main.prototype._configSoundManager = function () {
-        var _this_1 = this;
-        py.onAudioInterruptionBegin(function () {
-            console.log("Audio | interrupt | begin");
+    }
+    _configSoundManager() {
+        py.onAudioInterruptionBegin(() => {
+            console.log(`Audio | interrupt | begin`);
             if (window['wx']) {
-                _this_1.lifeCircleMonitor.inForeground = false;
+                this.lifeCircleMonitor.inForeground = false;
             }
             _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onAudioInterruptionBegin();
         });
-        py.onAudioInterruptionEnd(function () {
-            console.log("Audio | interrupt | end");
+        py.onAudioInterruptionEnd(() => {
+            console.log(`Audio | interrupt | end`);
             if (window['wx']) {
-                _this_1.lifeCircleMonitor.inForeground = true;
+                this.lifeCircleMonitor.inForeground = true;
             }
             _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onAudioInterruptionEnd();
         });
-    };
+    }
     /**初始化websocket */
-    Main.prototype._initClient = function (suc, fail) {
+    _initClient(suc, fail) {
         console.warn('初始化WebSocket');
-        var url = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData.game_url;
+        let url = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData.game_url;
         if (!url) {
             console.error("请验证game_url是否正确");
         }
         if (Laya.Render.isConchApp) {
             url = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData['app_game_url'];
         }
-        var socket = _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].socket = this.socket = new _core_network_Client__WEBPACK_IMPORTED_MODULE_10__["default"](url + this.params.zone);
-        socket.on(Laya.Event.OPEN, this, function () {
+        let socket = _paoya__WEBPACK_IMPORTED_MODULE_12__["default"].socket = this.socket = new _core_network_Client__WEBPACK_IMPORTED_MODULE_10__["default"](url + this.params.zone);
+        socket.on(Laya.Event.OPEN, this, () => {
             _dataTrack_dataTrack__WEBPACK_IMPORTED_MODULE_7__["default"].stopSocketTime();
-            var userId = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].user.id;
+            let userId = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].user.id;
             if (!userId) {
                 console.error("user_id不存在，请检查错误");
             }
@@ -3442,36 +3170,35 @@ var Main = /** @class */ (function (_super) {
         });
         _wx_Toast__WEBPACK_IMPORTED_MODULE_1__["default"].showLoading('', false);
         socket.connect();
-        var timerHandler = function () {
+        let timerHandler = function () {
             socket.close();
             fail && fail();
         };
         /**20s后自动超时 */
         Laya.timer.once(15000, this, timerHandler);
-    };
-    Main.prototype._changeClientURL = function (type) {
-        if (type === void 0) { type = _enums__WEBPACK_IMPORTED_MODULE_11__["SocketURLType"].GAME; }
-        var baseURL = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData[type];
+    }
+    _changeClientURL(type = _enums__WEBPACK_IMPORTED_MODULE_11__["SocketURLType"].GAME) {
+        let baseURL = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData[type];
         if (Laya.Render.isConchApp) {
-            baseURL = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData["app_" + type];
+            baseURL = _DataCenter__WEBPACK_IMPORTED_MODULE_6__["default"].loginData[`app_${type}`];
         }
-        var url = baseURL + this.params.zone;
+        let url = baseURL + this.params.zone;
         if (url != this.socket.url) {
-            console.warn("\u5F00\u59CB\u5207\u6362\u670D\u52A1\u5668\u5730\u5740\uFF0C\u65E7\u5730\u5740\u4E3A" + this.socket.url + " | \u65B0\u5730\u5740\u4E3A" + url);
+            console.warn(`开始切换服务器地址，旧地址为${this.socket.url} | 新地址为${url}`);
             this.socket.changeUrl(url);
         }
-    };
-    Main.prototype._onShow = function (res) {
+    }
+    _onShow(res) {
         _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onShow();
         if (!this.socket)
             return;
         this.isFirstLaunch = false;
         this.launchOption = res;
         //当通过好友邀请进入游戏时，需要再次调用登录，以获取好友所在的服务器
-        var query = res.query;
-        var type = query.type;
-        var _this = this;
-        var onShowHandler = function () {
+        let query = res.query;
+        let type = query.type;
+        let _this = this;
+        let onShowHandler = function () {
             _this.initRootScene(_this.launchOption, _this.isFirstLaunch);
         };
         if (type == _enums__WEBPACK_IMPORTED_MODULE_11__["ShareType"].InviteFriend || type == _enums__WEBPACK_IMPORTED_MODULE_11__["ShareType"].GroupPK) {
@@ -3486,36 +3213,34 @@ var Main = /** @class */ (function (_super) {
         }
         this.navigator._onShow(res);
         this.onShow(res);
-    };
-    Main.prototype._onHide = function (res) {
+    }
+    _onHide(res) {
         _laya_sound__WEBPACK_IMPORTED_MODULE_15__["default"].onHide();
         this.navigator._onHide(res);
         if (!this.socket)
             return;
         this.onHide(res);
-    };
+    }
     /**当游戏进入前台时触发 */
-    Main.prototype.onShow = function (res) {
-    };
+    onShow(res) {
+    }
     /**当游戏进入后台时触发 */
-    Main.prototype.onHide = function (res) {
-    };
+    onHide(res) {
+    }
     /**设置界面加载时的Loading界面 */
-    Main.prototype.setupLoadingView = function (cb) {
+    setupLoadingView(cb) {
         cb();
-    };
-    Main.prototype.setupOthers = function () {
-    };
-    Main.prototype._handleNetworkChange = function (res) {
+    }
+    setupOthers() {
+    }
+    _handleNetworkChange(res) {
         this.navigator._onReceiveNetworkChange(res);
         this.handleNetworkChange(res);
-    };
+    }
     /**监听网络状态变化 */
-    Main.prototype.handleNetworkChange = function (res) {
-    };
-    return Main;
-}(_game__WEBPACK_IMPORTED_MODULE_0__["default"]));
-/* harmony default export */ __webpack_exports__["default"] = (Main);
+    handleNetworkChange(res) {
+    }
+}
 
 
 /***/ }),
@@ -3524,76 +3249,58 @@ var Main = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Game; });
 /* harmony import */ var _DataCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
 /* harmony import */ var _paoya__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 /* harmony import */ var _wx_Toast__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
 /* harmony import */ var _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
 /* harmony import */ var _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(25);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
 
 
 
 
-var Game = /** @class */ (function (_super) {
-    __extends(Game, _super);
-    function Game(params) {
-        var _this = _super.call(this) || this;
-        _this.params = params;
+class Game extends Laya.EventDispatcher {
+    constructor(params) {
+        super();
+        this.params = params;
         /**当前游戏的ID */
-        _this.gameId = 1001;
+        this.gameId = 1001;
         /**是否已登录 */
-        _this.isLogined = false;
+        this.isLogined = false;
         /**已经授权访问用户信息，只在登录之前有用，登录之后该值不再起作用 */
-        _this.isAuthed = false;
-        _this.loadNetworkRes = false;
+        this.isAuthed = false;
+        this.loadNetworkRes = false;
         /**是否是第一次启动 */
-        _this.isFirstLaunch = true;
-        _this.params.debug = _this.params.debug || false;
-        _this.gameId = params.gameId;
+        this.isFirstLaunch = true;
+        this.params.debug = this.params.debug || false;
+        this.gameId = params.gameId;
         //只在限制游戏包体的runtime中才去网上下载资源
-        if (_this.isMiniGame) {
-            _this.loadNetworkRes = _this.params.loadNetworkRes == undefined ? true : _this.params.loadNetworkRes;
+        if (this.isMiniGame) {
+            this.loadNetworkRes = this.params.loadNetworkRes == undefined ? true : this.params.loadNetworkRes;
         }
-        _this.initLaya();
+        this.initLaya();
         //初始化导航控制器
-        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = "https://xgamejuedixiaomie.goxiaochengxu.cn/" + _this.gameId + "/";
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL = `https://xgamejuedixiaomie.goxiaochengxu.cn/${this.gameId}/`;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitId = params.adUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].bannerUnitId = params.bannerUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].interstitialUnitId = params.interstitialUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitIdLong = params.adUnitIdLong;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].qqViewId = params.qqViewId || 1003;
-        _this.configNavigator();
-        _this.setupConfig();
-        _this.initLaunchOption();
-        _this.checkUpdate();
-        Laya.timer.callLater(_this, _this.initPlatform);
-        return _this;
+        this.configNavigator();
+        this.setupConfig();
+        this.initLaunchOption();
+        this.checkUpdate();
+        Laya.timer.callLater(this, this.initPlatform);
     }
-    Object.defineProperty(Game.prototype, "isMiniGame", {
-        get: function () {
-            return py.isMiniGame() && !Laya.Render.isConchApp;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    get isMiniGame() {
+        return py.isMiniGame() && !Laya.Render.isConchApp;
+    }
     /**初始化Laya引擎，子类可重写此方法，实现自己的界面展示 */
-    Game.prototype.initLaya = function () {
-        var width = 0, height = 0;
+    initLaya() {
+        let width = 0, height = 0;
         if (this.params.portrait == undefined || this.params.portrait) {
             width = this.params.width || 750;
             height = this.params.height || 1334;
@@ -3602,7 +3309,7 @@ var Game = /** @class */ (function (_super) {
             width = this.params.width || 1334;
             height = this.params.height || 750;
         }
-        var config = this.params;
+        let config = this.params;
         if (window['Laya3D']) {
             Laya3D.init(width, height);
         }
@@ -3618,8 +3325,8 @@ var Game = /** @class */ (function (_super) {
             // Laya.alertGlobalError = true
         }
         //屏幕适配相关
-        var stage = Laya.stage;
-        var Stage = Laya.Stage;
+        let stage = Laya.stage;
+        let Stage = Laya.Stage;
         stage.alignH = config.alignH || Stage.ALIGN_CENTER;
         stage.alignV = config.alignV || Stage.ALIGN_MIDDLE;
         if (config.portrait == undefined || config.portrait) {
@@ -3631,8 +3338,8 @@ var Game = /** @class */ (function (_super) {
             stage.scaleMode = config.scaleMode || Stage.SCALE_FIXED_HEIGHT;
         }
         // stage.frameRate = Stage.FRAME_MOUSE;
-        var sprite = new Laya.Sprite();
-        var Browser = Laya.Browser;
+        let sprite = new Laya.Sprite();
+        let Browser = Laya.Browser;
         sprite.graphics.drawRect(0, 0, Browser.width, Browser.height, "#000000");
         stage.addChild(sprite);
         this._setupResLoadConfig();
@@ -3641,17 +3348,17 @@ var Game = /** @class */ (function (_super) {
             _view_LaunchScreenView__WEBPACK_IMPORTED_MODULE_5__["default"].show(this.params.portrait);
             Laya.AtlasInfoManager.enable('fileconfig.json', Laya.Handler.create(this, this.loadRes));
         }), Laya.ResourceVersion.FILENAME_VERSION);
-    };
-    Game.prototype.initLaunchOption = function () {
-        var launchOption = py.getLaunchOptionsSync();
+    }
+    initLaunchOption() {
+        let launchOption = py.getLaunchOptionsSync();
         launchOption.referrerInfo = launchOption.referrerInfo || { extraData: {} };
         launchOption.referrerInfo.extraData = launchOption.referrerInfo.extraData || {};
-        console.warn("LAUNCH | " + JSON.stringify(launchOption));
+        console.warn(`LAUNCH | ${JSON.stringify(launchOption)}`);
         this.launchOption = launchOption;
-    };
-    Game.prototype.configNavigator = function () {
+    }
+    configNavigator() {
         _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].navigator = this.navigator = new _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__["default"]();
-        var view = Laya.Scene.root, portrait = true;
+        let view = Laya.Scene.root, portrait = true;
         if (this.params.portrait == undefined || this.params.portrait) {
             portrait = true;
         }
@@ -3659,31 +3366,30 @@ var Game = /** @class */ (function (_super) {
             portrait = false;
         }
         if (view) {
-            var resize = function () {
+            let resize = function () {
                 _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_4__["default"].adjustViewPosition(this, portrait);
             };
             view.on(Laya.Event.RESIZE, view, resize);
             resize.call(view);
         }
-    };
-    Game.prototype._setupResLoadConfig = function () {
-        var _this = this;
+    }
+    _setupResLoadConfig() {
         Laya.loader.retryNum = 3;
         Laya.loader.retryDelay = 2000;
         Laya.loader.maxLoader = 5;
         if (Laya["MiniAdpter"]) {
-            var files = Laya.MiniAdpter.nativefiles || [];
+            let files = Laya.MiniAdpter.nativefiles || [];
             files.push('local');
             Laya.MiniAdpter.nativefiles = files;
         }
         if (Laya.URL.formatURL) {
             Laya.URL['formatURLCopy'] = Laya.URL.formatURL;
         }
-        Laya.URL.formatURL = function (url) {
+        Laya.URL.formatURL = (url) => {
             if (Laya.URL['formatURLCopy']) {
                 url = Laya.URL['formatURLCopy'](url);
             }
-            if (_this.loadNetworkRes && (url.indexOf('remote/') >= 0 || url.indexOf('font/') >= 0) && url.indexOf('http') < 0) {
+            if (this.loadNetworkRes && (url.indexOf('remote/') >= 0 || url.indexOf('font/') >= 0) && url.indexOf('http') < 0) {
                 url = _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].RESURL + url;
             }
             return url;
@@ -3709,23 +3415,22 @@ var Game = /** @class */ (function (_super) {
         };
         //兼容微信不支持加载scene后缀场景
         Laya.URL.exportSceneToJson = true;
-    };
-    Game.prototype.initPlatform = function () {
-        var _this = this;
+    }
+    initPlatform() {
         py.init();
         /**转发 */
-        py.onShareAppMessage(function () {
-            var msg = _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].navigator.onShareAppMessage();
+        py.onShareAppMessage(() => {
+            let msg = _paoya__WEBPACK_IMPORTED_MODULE_2__["default"].navigator.onShareAppMessage();
             if (msg) {
                 return msg;
             }
             else {
-                return _this.onShareAppMessage();
+                return this.onShareAppMessage();
             }
         });
-    };
-    Game.prototype.checkUpdate = function () {
-        var manager = new _wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    }
+    checkUpdate() {
+        let manager = new _wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"]();
         manager.on(_wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"].HAS_UPDATE, this, function () {
         });
         manager.on(_wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"].UPDATE_READY, this, function (cb) {
@@ -3735,24 +3440,22 @@ var Game = /** @class */ (function (_super) {
         });
         manager.on(_wx_manager_UpdateManager__WEBPACK_IMPORTED_MODULE_1__["default"].UPDATE_FAIL, this, function () {
         });
-    };
+    }
     /**返回用户【转发】消息 */
-    Game.prototype.onShareAppMessage = function () {
+    onShareAppMessage() {
         return null;
-    };
+    }
     /**退出当前小游戏 */
-    Game.prototype.exit = function () {
+    exit() {
         py.exit();
-    };
+    }
     /**初始化首屏界面 */
-    Game.prototype.initRootScene = function (launchOption, isFirstLaunch) {
-    };
+    initRootScene(launchOption, isFirstLaunch) {
+    }
     /**必要的初始化操作放在该方法中 */
-    Game.prototype.setupConfig = function () {
-    };
-    return Game;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (Game);
+    setupConfig() {
+    }
+}
 
 
 /***/ }),
@@ -3761,50 +3464,34 @@ var Game = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var UpdateManager = /** @class */ (function (_super) {
-    __extends(UpdateManager, _super);
-    function UpdateManager() {
-        var _this = _super.call(this) || this;
-        var updateManager = py.getUpdateManager();
-        updateManager.onCheckForUpdate(function (res) {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UpdateManager; });
+class UpdateManager extends Laya.EventDispatcher {
+    constructor() {
+        super();
+        let updateManager = py.getUpdateManager();
+        updateManager.onCheckForUpdate((res) => {
             // 请求完新版本信息的回调
-            console.warn("\u5F53\u524D | " + (res.hasUpdate ? "有" : "无") + " | \u65B0\u7248\u672C");
+            console.warn(`当前 | ${res.hasUpdate ? "有" : "无"} | 新版本`);
             if (res.hasUpdate) {
-                _this.event(UpdateManager.HAS_UPDATE);
+                this.event(UpdateManager.HAS_UPDATE);
             }
         });
-        updateManager.onUpdateReady(function () {
+        updateManager.onUpdateReady(() => {
             // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
             function cb() {
                 updateManager.applyUpdate();
             }
-            _this.event(UpdateManager.UPDATE_READY, cb);
+            this.event(UpdateManager.UPDATE_READY, cb);
         });
-        updateManager.onUpdateFailed(function () {
+        updateManager.onUpdateFailed(() => {
             // 新的版本下载失败
-            _this.event(UpdateManager.UPDATE_FAIL);
+            this.event(UpdateManager.UPDATE_FAIL);
         });
-        return _this;
     }
-    UpdateManager.HAS_UPDATE = "HAS_UPDATE";
-    UpdateManager.UPDATE_READY = "UPDATE_READY";
-    UpdateManager.UPDATE_FAIL = "UPDATE_FAIL";
-    return UpdateManager;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (UpdateManager);
+}
+UpdateManager.HAS_UPDATE = "HAS_UPDATE";
+UpdateManager.UPDATE_READY = "UPDATE_READY";
+UpdateManager.UPDATE_FAIL = "UPDATE_FAIL";
 
 
 /***/ }),
@@ -3813,33 +3500,19 @@ var UpdateManager = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LaunchScreenView; });
 /* harmony import */ var _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 /**
  * 游戏启动时的加载页面
  */
-var LaunchScreenView = /** @class */ (function (_super) {
-    __extends(LaunchScreenView, _super);
-    function LaunchScreenView() {
-        var _this = _super.call(this) || this;
-        _this.setup();
-        return _this;
+class LaunchScreenView extends Laya.View {
+    constructor() {
+        super();
+        this.setup();
     }
-    LaunchScreenView.prototype.setup = function () {
-        var box = new Laya.Box();
+    setup() {
+        let box = new Laya.Box();
         if (this._portrait) {
             this.size(750, 1334);
             box.size(750, 1334);
@@ -3850,14 +3523,14 @@ var LaunchScreenView = /** @class */ (function (_super) {
         }
         box.cacheAs = 'normal';
         this.addChild(box);
-        var imgBg = new Laya.Image('local/loading/bg.jpg');
+        let imgBg = new Laya.Image('local/loading/bg.jpg');
         imgBg.x = -150;
         box.addChild(imgBg);
-        var imgLogo = new Laya.Image('local/loading/logo.png');
+        let imgLogo = new Laya.Image('local/loading/logo.png');
         imgLogo.centerX = 0;
         imgLogo.top = 100;
         box.addChild(imgLogo);
-        var imgProgressBg = new Laya.Image('local/loading/progress-bg.png');
+        let imgProgressBg = new Laya.Image('local/loading/progress-bg.png');
         imgProgressBg.centerX = 0;
         imgProgressBg.bottom = 60;
         box.addChild(imgProgressBg);
@@ -3868,48 +3541,44 @@ var LaunchScreenView = /** @class */ (function (_super) {
           lblTips.centerX = 0
           lblTips.bottom = 70
           box.addChild(lblTips) */
-        var imgProgress = new Laya.Image('local/loading/progress-bar.png');
+        let imgProgress = new Laya.Image('local/loading/progress-bar.png');
         imgProgress.centerX = 0;
         imgProgress.bottom = 80;
         this.addChild(imgProgress);
         this._imgProgress = imgProgress;
-        var mask = new Laya.Sprite();
+        let mask = new Laya.Sprite();
         mask.graphics.drawRect(0, 0, 0, 77, '#ff0000');
         imgProgress.mask = mask;
         this._imgProgressMask = mask;
-        var lblProgress = new Laya.Label('0%');
+        let lblProgress = new Laya.Label('0%');
         lblProgress.color = '#ffffff';
         lblProgress.fontSize = 30;
         lblProgress.centerX = 0;
         lblProgress.bottom = 76;
         this.addChild(lblProgress);
         this._lblProgress = lblProgress;
-    };
-    Object.defineProperty(LaunchScreenView.prototype, "progress", {
-        get: function () {
-            return this._progress;
-        },
-        set: function (newValue) {
-            if (newValue != this._progress) {
-                this._progress = newValue;
-                this._imgProgressMask.graphics.clear();
-                this._imgProgressMask.graphics.drawRect(0, 0, newValue * this._imgProgress.width, this._imgProgress.height, '#ff0000');
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    LaunchScreenView.setProgress = function (progress) {
+    }
+    set progress(newValue) {
+        if (newValue != this._progress) {
+            this._progress = newValue;
+            this._imgProgressMask.graphics.clear();
+            this._imgProgressMask.graphics.drawRect(0, 0, newValue * this._imgProgress.width, this._imgProgress.height, '#ff0000');
+        }
+    }
+    get progress() {
+        return this._progress;
+    }
+    static setProgress(progress) {
         if (!this.ins)
             return;
         this.ins.progress = progress;
-        this.setTips(Math.ceil(progress * 100) + "%");
-    };
-    LaunchScreenView.setTips = function (tip) {
+        this.setTips(`${Math.ceil(progress * 100)}%`);
+    }
+    static setTips(tip) {
         this.ins._lblProgress.text = tip;
-    };
-    LaunchScreenView.show = function (portrait) {
-        var view = new LaunchScreenView();
+    }
+    static show(portrait) {
+        let view = new LaunchScreenView();
         _core_navigator_Navigator__WEBPACK_IMPORTED_MODULE_0__["default"].adjustViewPosition(view, portrait);
         view.zOrder = 999;
         Laya.stage.addChild(view);
@@ -3920,22 +3589,20 @@ var LaunchScreenView = /** @class */ (function (_super) {
         else {
             this.ins._portrait = false;
         }
-    };
-    LaunchScreenView.hide = function () {
+    }
+    static hide() {
         if (this.ins) {
             this.ins.destroy();
         }
-    };
-    LaunchScreenView.hideProgress = function () {
+    }
+    static hideProgress() {
         if (this.ins) {
             this.ins._imgProgressBg.visible = false;
             this.ins._imgProgress.visible = false;
             this.ins._lblProgress.visible = false;
         }
-    };
-    return LaunchScreenView;
-}(Laya.View));
-/* harmony default export */ __webpack_exports__["default"] = (LaunchScreenView);
+    }
+}
 
 
 /***/ }),
@@ -3944,56 +3611,53 @@ var LaunchScreenView = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NetworkMonitor; });
 /* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 
-var NetworkMonitor = /** @class */ (function () {
-    function NetworkMonitor() {
-        var _this = this;
+class NetworkMonitor {
+    constructor() {
         /**当前网络是否连接 */
         this.isConnected = true;
         this.isWIFI = true;
         this.type = '';
-        this.getCurrentType(function (type) {
-            _this.isConnected = (type != 'unknown' || type != 'none');
-            _this.isWIFI = type === 'wifi';
-            _this.type = type;
+        this.getCurrentType((type) => {
+            this.isConnected = (type != 'unknown' || type != 'none');
+            this.isWIFI = type === 'wifi';
+            this.type = type;
         });
         this.startMonitor();
     }
     /**启用网络监听 */
-    NetworkMonitor.prototype.startMonitor = function () {
-        var _this = this;
-        py.onNetworkStatusChange(function (res) {
-            _this.handleNetworkChange(res);
+    startMonitor() {
+        py.onNetworkStatusChange((res) => {
+            this.handleNetworkChange(res);
         });
-    };
-    NetworkMonitor.prototype.handleNetworkChange = function (res) {
+    }
+    handleNetworkChange(res) {
         this.isWIFI = res.networkType === 'wifi';
         this.type = res.networkType;
         this.isConnected = res.isConnected;
-        console.log("NETWORK | change :\n");
+        console.log(`NETWORK | change :\n`);
         console.log(JSON.stringify(res));
         _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.event(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].NetworkChanged, res);
-    };
+    }
     /**停止网络监听 */
-    NetworkMonitor.prototype.stopMonitor = function () {
+    stopMonitor() {
         py.offNetworkStatusChange(this.handleNetworkChange);
-    };
+    }
     /**获取当前网络状态 */
-    NetworkMonitor.prototype.getCurrentType = function (cb) {
+    getCurrentType(cb) {
         py.getNetworkType({
             success: function (res) {
-                console.log("NETWORK | type :\n");
+                console.log(`NETWORK | type :\n`);
                 console.log(JSON.stringify(res));
                 cb && cb(res.networkType);
             },
-            fail: function () { }
+            fail() { }
         });
-    };
-    NetworkMonitor.NETWORK_CHANGE = 'NetworkMonitor.network.change';
-    return NetworkMonitor;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (NetworkMonitor);
+    }
+}
+NetworkMonitor.NETWORK_CHANGE = 'NetworkMonitor.network.change';
 
 
 /***/ }),
@@ -4002,48 +3666,46 @@ var NetworkMonitor = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LifeCircleMonitor; });
 /* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 
-var LifeCircleMonitor = /** @class */ (function () {
-    function LifeCircleMonitor() {
+class LifeCircleMonitor {
+    constructor() {
         /**是否在前台 */
         this.inForeground = true;
         this.ignoreFirstTime = window['wx'] ? true : false;
         this.startMonitor();
     }
     /**生命周期监听开始 */
-    LifeCircleMonitor.prototype.startMonitor = function () {
-        var _this = this;
-        py.onShow(function (res) {
-            if (_this.ignoreFirstTime) {
-                _this.ignoreFirstTime = false;
+    startMonitor() {
+        py.onShow((res) => {
+            if (this.ignoreFirstTime) {
+                this.ignoreFirstTime = false;
                 return;
             }
             console.warn('SHOW :\n');
             console.warn(JSON.stringify(res));
-            _this.inForeground = true;
+            this.inForeground = true;
             _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.event(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].ApplicationShow, res);
         });
-        py.onHide(function (res) {
+        py.onHide((res) => {
             //{mode:back}  {mode:close}
             console.warn("HIDE :\n");
             console.warn(JSON.stringify(res));
-            _this.inForeground = false;
+            this.inForeground = false;
             _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.event(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].ApplicationHide, res);
         });
-    };
+    }
     /**生命周期监听结束 */
-    LifeCircleMonitor.prototype.stopMonitor = function () {
+    stopMonitor() {
         py.offShow({});
         py.offHide({});
-    };
-    LifeCircleMonitor.SHOW = 'app.on.show';
-    LifeCircleMonitor.HIDE = 'app.on.hide';
-    LifeCircleMonitor.OFF_SHOW = 'app.off.show';
-    LifeCircleMonitor.OFF_HIDE = 'app.off.hide';
-    return LifeCircleMonitor;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (LifeCircleMonitor);
+    }
+}
+LifeCircleMonitor.SHOW = 'app.on.show';
+LifeCircleMonitor.HIDE = 'app.on.hide';
+LifeCircleMonitor.OFF_SHOW = 'app.off.show';
+LifeCircleMonitor.OFF_HIDE = 'app.off.hide';
 
 
 /***/ }),
@@ -4052,32 +3714,29 @@ var LifeCircleMonitor = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var PayManager = /** @class */ (function () {
-    function PayManager() {
-    }
-    PayManager.pay = function (buyQuantity, success, fail) {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PayManager; });
+class PayManager {
+    static pay(buyQuantity, success, fail) {
         py.requestPayment({
             env: this.env,
             offerId: this.offerId,
             currencyType: "CNY",
             buyQuantity: buyQuantity,
-            success: function (res) {
-                console.log("PAY | suc | " + JSON.stringify(res));
+            success(res) {
+                console.log(`PAY | suc | ${JSON.stringify(res)}`);
                 success && success();
             },
-            fail: function (res) {
-                console.log("PAY | fail | " + JSON.stringify(res));
+            fail(res) {
+                console.log(`PAY | fail | ${JSON.stringify(res)}`);
                 var msg = res.errMsg;
                 var code = res.errCode;
                 fail && fail(code);
             }
         });
-    };
-    PayManager.env = 0; // 0 正式版，1 沙箱环境
-    PayManager.platform = 'android';
-    return PayManager;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (PayManager);
+    }
+}
+PayManager.env = 0; // 0 正式版，1 沙箱环境
+PayManager.platform = 'android';
 
 
 /***/ }),
@@ -4086,53 +3745,35 @@ var PayManager = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var SoundManager = /** @class */ (function (_super) {
-    __extends(SoundManager, _super);
-    function SoundManager() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    SoundManager.onShow = function () {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SoundManager; });
+class SoundManager extends Laya.SoundManager {
+    static onShow() {
         // this._windowFocus()
         this.onShowHandler && this.onShowHandler();
-    };
-    SoundManager.onHide = function () {
+    }
+    static onHide() {
         // this._windowBlur()
         this.onHideHandler && this.onHideHandler();
-    };
-    SoundManager.onAudioInterruptionBegin = function () {
+    }
+    static onAudioInterruptionBegin() {
         // this._windowBlur()
         this.onAudioInterruptionBeginHandler && this.onAudioInterruptionBeginHandler();
-    };
-    SoundManager.onAudioInterruptionEnd = function () {
+    }
+    static onAudioInterruptionEnd() {
         // this._windowFocus()
         this.onAudioInterruptionEndHandler && this.onAudioInterruptionEndHandler();
-    };
-    SoundManager._windowFocus = function () {
+    }
+    static _windowFocus() {
         Laya.stage['_isFocused'] = true;
         Laya.stage.event(/*laya.events.Event.FOCUS*/ "focus");
         Laya.stage.event(/*laya.events.Event.FOCUS_CHANGE*/ "focuschange");
-    };
-    SoundManager._windowBlur = function () {
+    }
+    static _windowBlur() {
         Laya.stage['_isFocused'] = false;
         Laya.stage.event(/*laya.events.Event.BLUR*/ "blur");
         Laya.stage.event(/*laya.events.Event.FOCUS_CHANGE*/ "focuschange");
-    };
-    return SoundManager;
-}(Laya.SoundManager));
-/* harmony default export */ __webpack_exports__["default"] = (SoundManager);
+    }
+}
 
 
 /***/ }),
@@ -4141,31 +3782,28 @@ var SoundManager = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Loader; });
 /* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
-var Loader = /** @class */ (function () {
-    function Loader() {
-    }
-    Loader.load = function (url, caller, completion, p) {
-        if (p === void 0) { p = null; }
-        var completeHandler = Laya.Handler.create(this, function () {
+class Loader {
+    constructor() { }
+    static load(url, caller, completion, p = null) {
+        let completeHandler = Laya.Handler.create(this, function () {
             completion && completion.call(caller);
         });
-        var progressHandler = Laya.Handler.create(this, function (progress) {
+        let progressHandler = Laya.Handler.create(this, function (progress) {
             console.log("loading progress" + progress);
             p && p.call(caller, progress);
         }, null, false);
         Laya.loader.load(url, completeHandler, progressHandler);
-    };
+    }
     /**
      * 预加载资源
      */
-    Loader.preload = function (complete, progress) {
+    static preload(complete, progress) {
         Laya.loader.load(_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].GAMERES, complete, progress);
-    };
-    return Loader;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (Loader);
+    }
+}
 
 
 /***/ }),
@@ -4174,49 +3812,33 @@ var Loader = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var TimerService = /** @class */ (function (_super) {
-    __extends(TimerService, _super);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TimerService; });
+class TimerService extends Laya.EventDispatcher {
     /**
      *
      * @param duration 如果为倒计时，则为最大可倒计时；如果为正计时，则为最大可正计时
      * @param interval 步进时间
      * @param up 是否为正计时，默认为倒计时
      */
-    function TimerService(duration, interval, up) {
-        if (interval === void 0) { interval = 1; }
-        if (up === void 0) { up = false; }
-        var _this = _super.call(this) || this;
-        _this.duration = duration;
-        _this.interval = interval;
-        _this.up = up;
-        _this.curTime = 0;
-        return _this;
+    constructor(duration, interval = 1, up = false) {
+        super();
+        this.duration = duration;
+        this.interval = interval;
+        this.up = up;
+        this.curTime = 0;
     }
-    TimerService.prototype.start = function () {
+    start() {
         this.curTime = this.up ? 0 : this.duration;
         this.update();
         Laya.timer.loop(this.interval * 1000, this, this.update);
         this.event(TimerService.START, "");
-    };
-    TimerService.prototype.stop = function () {
+    }
+    stop() {
         this.curTime = 0;
         Laya.timer.clear(this, this.update);
         this.event(TimerService.STOP, "");
-    };
-    TimerService.prototype.update = function () {
+    }
+    update() {
         if (this.up) {
             this.curTime++;
             if (this.curTime >= this.duration) {
@@ -4235,14 +3857,12 @@ var TimerService = /** @class */ (function (_super) {
                 this.stop();
             }
         }
-    };
-    TimerService.START = "start_";
-    TimerService.STOP = "stop_";
-    TimerService.TIMEOUT = "timeout_";
-    TimerService.PROGRESS = "progress_";
-    return TimerService;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (TimerService);
+    }
+}
+TimerService.START = "start_";
+TimerService.STOP = "stop_";
+TimerService.TIMEOUT = "timeout_";
+TimerService.PROGRESS = "progress_";
 
 
 /***/ }),
@@ -4251,30 +3871,17 @@ var TimerService = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LoginMaskView; });
 /* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 /* harmony import */ var _service_LoginService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
-var LoginMaskView = /** @class */ (function (_super) {
-    __extends(LoginMaskView, _super);
-    function LoginMaskView() {
-        var _this = _super.call(this) || this;
-        _this.size(750, 1334);
-        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].LoginSuccess, _this, _this.destroy);
-        _this.on(Laya.Event.CLICK, _this, function () {
+class LoginMaskView extends Laya.View {
+    constructor() {
+        super();
+        this.size(750, 1334);
+        _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.on(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].LoginSuccess, this, this.destroy);
+        this.on(Laya.Event.CLICK, this, function () {
             if (!PaoYa.game.isAuthed) {
                 console.warn('此时用户还没有完成授权');
                 return;
@@ -4285,27 +3892,24 @@ var LoginMaskView = /** @class */ (function (_super) {
             }
             this.destroy();
         });
-        return _this;
     }
-    LoginMaskView.showInView = function (view) {
+    static showInView(view) {
         if (_service_LoginService__WEBPACK_IMPORTED_MODULE_1__["default"].isLogined) {
             return;
         }
-        var maskView = new LoginMaskView();
+        let maskView = new LoginMaskView();
         this.view = maskView;
         view.addChild(maskView);
-    };
-    LoginMaskView.hide = function () {
+    }
+    static hide() {
         this.view.destroy();
-    };
-    LoginMaskView.prototype.destroy = function () {
+    }
+    destroy() {
         _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["default"].defaultCenter.off(_core_NotificationCenter__WEBPACK_IMPORTED_MODULE_0__["NotificationName"].LoginSuccess, this, this.destroy);
         this.removeSelf();
-        _super.prototype.destroy.call(this, true);
-    };
-    return LoginMaskView;
-}(Laya.View));
-/* harmony default export */ __webpack_exports__["default"] = (LoginMaskView);
+        super.destroy(true);
+    }
+}
 
 
 /***/ }),
@@ -4314,44 +3918,27 @@ var LoginMaskView = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RoundImageView; });
 /**专门用于设定圆形头像，有个前提条件是必须给该图片指定width及height */
-var RoundImageView = /** @class */ (function (_super) {
-    __extends(RoundImageView, _super);
-    function RoundImageView(skin) {
-        var _this = _super.call(this, skin) || this;
-        _this.__init_$();
-        return _this;
+class RoundImageView extends Laya.Image {
+    constructor(skin) {
+        super(skin);
+        this.__init_$();
     }
-    RoundImageView.prototype.__init_$ = function () {
-        var _this = this;
-        var mask = new Laya.Sprite();
+    __init_$() {
+        let mask = new Laya.Sprite();
         this.mask = mask;
-        this.on(Laya.Event.RESIZE, this, function () {
-            if (!_this.mask) {
+        this.on(Laya.Event.RESIZE, this, () => {
+            if (!this.mask) {
                 return;
             }
-            _this.mask.graphics.clear();
-            var width = _this.width, height = _this.height;
-            var r = Math.ceil(Math.min(width, height) / 2);
-            _this.mask.graphics.drawCircle(r, r, r, '#ff0000');
+            this.mask.graphics.clear();
+            let width = this.width, height = this.height;
+            let r = Math.ceil(Math.min(width, height) / 2);
+            this.mask.graphics.drawCircle(r, r, r, '#ff0000');
         });
-    };
-    return RoundImageView;
-}(Laya.Image));
-/* harmony default export */ __webpack_exports__["default"] = (RoundImageView);
+    }
+}
 Laya.ClassUtils.regClass('PaoYa.RoundImageView', RoundImageView);
 
 
@@ -4361,15 +3948,14 @@ Laya.ClassUtils.regClass('PaoYa.RoundImageView', RoundImageView);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthManager; });
 /* harmony import */ var _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
 /* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
 
 
 
-var AuthManager = /** @class */ (function () {
-    function AuthManager() {
-    }
+class AuthManager {
     /**
      *
      * @param scope 想要获取授权的标识，可以使用上面已经列举出来的权限
@@ -4377,29 +3963,28 @@ var AuthManager = /** @class */ (function () {
      * @param fail  授权失败回调
      * @param alert 当需要打开用户设置界面时，用于可以修改弹窗内容，方便用户确认操作
      */
-    AuthManager.auth = function (params) {
-        var _this_1 = this;
-        var _this = this;
+    static auth(params) {
+        let _this = this;
         if (!window['wx']) {
             params.next && params.next();
             return;
         }
-        params.alert = function (alertCb) {
-            _this_1.showModal('提示', '需要您的授权才能正常使用', '去设置', function () {
+        params.alert = (alertCb) => {
+            this.showModal('提示', '需要您的授权才能正常使用', '去设置', () => {
                 alertCb();
             });
         };
-        params.fail = function () {
+        params.fail = () => {
             Laya.Dialog.manager = null;
             UIConfig.closeDialogOnSide = false;
-            var alert = new _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_0__["default"](params.isNecessary);
+            let alert = new _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_0__["default"](params.isNecessary);
             alert.onReceiveUserInfo = function (res) {
                 if (res.userInfo) {
                     _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].userInfoAuth = true;
                     _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.avstar = res.userInfo.avatarUrl;
                     _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.nickname = res.userInfo.nickName;
-                    _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification("AuthOK");
-                    PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, function () {
+                    _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification(`AuthOK`);
+                    PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, () => {
                         params.next && params.next();
                     });
                 }
@@ -4409,22 +3994,22 @@ var AuthManager = /** @class */ (function () {
             };
             alert.popup(true, false);
         };
-        var okHandler = function () {
+        let okHandler = function () {
             wx.openSetting({
-                success: function (res) {
-                    var result = res.authSetting[params.scope];
+                success(res) {
+                    let result = res.authSetting[params.scope];
                     //params.next && params.next();
                     if (!params.isNecessary && !result) {
                         params.next && params.next();
                         return;
                     }
                     if (result) {
-                        _this.getUserInfo(function (res) {
+                        _this.getUserInfo((res) => {
                             _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].userInfoAuth = true;
                             _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.avstar = res.userInfo.avatarUrl;
                             _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.nickname = res.userInfo.nickName;
-                            _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification("AuthOK");
-                            PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, function () {
+                            _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification(`AuthOK`);
+                            PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, () => {
                                 params.next && params.next();
                             });
                         });
@@ -4433,14 +4018,14 @@ var AuthManager = /** @class */ (function () {
                         params.alert && params.alert(okHandler);
                     }
                 },
-                fail: function () {
+                fail() {
                     params.fail && params.fail();
                 }
             });
         };
         wx.getSetting({
-            success: function (res) {
-                var result = res.authSetting[params.scope];
+            success(res) {
+                let result = res.authSetting[params.scope];
                 if (result == undefined) { //没有获取过权限
                     /**如果请求用户权限失败，则直接return */
                     if (params.scope == AuthManager.scope.userInfo) {
@@ -4449,13 +4034,13 @@ var AuthManager = /** @class */ (function () {
                     }
                     wx.authorize({
                         scope: params.scope,
-                        success: function (res) {
+                        success(res) {
                             params.next && params.next();
                         },
-                        fail: function () {
+                        fail() {
                             params.alert && params.alert(okHandler);
                         },
-                        complete: function () { }
+                        complete() { }
                     });
                 }
                 else if (!result) { //当前权限为否
@@ -4466,35 +4051,29 @@ var AuthManager = /** @class */ (function () {
                 }
             }
         });
-    };
+    }
     /**调用微信获取用户信息接口 */
-    AuthManager.getUserInfo = function (cb) {
+    static getUserInfo(cb) {
         wx.getUserInfo({
             withCredentials: true,
             lang: "zh_CN",
-            success: function (res) {
+            success(res) {
                 cb && cb(res);
             },
-            fail: function () { }
+            fail() { }
         });
-    };
-    AuthManager.getUserInfoWithoutCredentials = function (cb) {
+    }
+    static getUserInfoWithoutCredentials(cb) {
         wx.getUserInfo({
             lang: "zh_CN",
             withCredentials: false,
-            success: function (res) {
+            success(res) {
                 cb && cb(res);
             },
-            fail: function () { }
+            fail() { }
         });
-    };
-    AuthManager.showModal = function (title, content, confirmText, confirmCallback, cancelText, cancelCallback) {
-        if (title === void 0) { title = '提示'; }
-        if (content === void 0) { content = ''; }
-        if (confirmText === void 0) { confirmText = '知道了'; }
-        if (confirmCallback === void 0) { confirmCallback = null; }
-        if (cancelText === void 0) { cancelText = ""; }
-        if (cancelCallback === void 0) { cancelCallback = null; }
+    }
+    static showModal(title = '提示', content = '', confirmText = '知道了', confirmCallback = null, cancelText = "", cancelCallback = null) {
         var params = {
             title: title,
             content: content,
@@ -4511,23 +4090,21 @@ var AuthManager = /** @class */ (function () {
                     cancelCallback && cancelCallback();
                 }
             },
-            fail: function () { }
+            fail() { }
         };
         wx.showModal(params);
-    };
-    AuthManager.scope = {
-        userInfo: "scope.userInfo",
-        userLocation: "scope.userLocation",
-        address: "scope.address",
-        invoiceTitle: "scope.invoiceTitle",
-        werun: "scope.werun",
-        record: "scope.record",
-        writePhotosAlbum: "scope.writePhotosAlbum",
-        camera: "scope.camera"
-    };
-    return AuthManager;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (AuthManager);
+    }
+}
+AuthManager.scope = {
+    userInfo: "scope.userInfo",
+    userLocation: "scope.userLocation",
+    address: "scope.address",
+    invoiceTitle: "scope.invoiceTitle",
+    werun: "scope.werun",
+    record: "scope.record",
+    writePhotosAlbum: "scope.writePhotosAlbum",
+    camera: "scope.camera"
+};
 
 
 /***/ }),
@@ -4536,51 +4113,36 @@ var AuthManager = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var AuthUserInfoDialog = /** @class */ (function (_super) {
-    __extends(AuthUserInfoDialog, _super);
-    function AuthUserInfoDialog(isNecessary) {
-        var _this = _super.call(this) || this;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthUserInfoDialog; });
+class AuthUserInfoDialog extends Laya.Dialog {
+    constructor(isNecessary) {
+        super();
         if (isNecessary != undefined) {
-            _this.isNecessary = isNecessary;
+            this.isNecessary = isNecessary;
         }
         else {
-            _this.isNecessary = false;
+            this.isNecessary = false;
         }
-        _this.size(636, 508);
-        var image = new Laya.Image('local/auth/bg.png');
-        _this.addChild(image);
-        return _this;
+        this.size(636, 508);
+        let image = new Laya.Image('local/auth/bg.png');
+        this.addChild(image);
     }
-    AuthUserInfoDialog.prototype.onOpened = function () {
-        var frame = {
+    onOpened() {
+        let frame = {
             x: 26,
             y: 400,
             width: 588,
             height: 85
         };
-        var pos = this.localToGlobal(new Laya.Point(frame.x, frame.y));
+        let pos = this.localToGlobal(new Laya.Point(frame.x, frame.y));
         this.showUserInfoButton({
             x: pos.x,
             y: pos.y,
             width: frame.width,
             height: frame.height
         });
-    };
-    AuthUserInfoDialog.prototype.showUserInfoButton = function (rect) {
-        var _this = this;
+    }
+    showUserInfoButton(rect) {
         var stage = Laya.stage;
         var screenWidth = Laya.Browser.width;
         var screenHeight = Laya.Browser.height;
@@ -4589,8 +4151,8 @@ var AuthUserInfoDialog = /** @class */ (function (_super) {
         /* 这是竖版 */
         /*  var scaleX = screenWidth / width; */
         var scaleX = screenHeight / height;
-        var scale = scaleX / Laya.Browser.pixelRatio;
-        var style = {
+        let scale = scaleX / Laya.Browser.pixelRatio;
+        let style = {
             top: rect.y * scale,
             left: rect.x * scale,
             width: rect.width * scale,
@@ -4603,24 +4165,22 @@ var AuthUserInfoDialog = /** @class */ (function (_super) {
             fontSize: 24,
             lineHeight: 10
         };
-        var button = wx.createUserInfoButton({
+        let button = wx.createUserInfoButton({
             type: 'image',
             image: 'local/auth/button.png',
             style: style,
             withCredentials: true,
             lang: 'zh_CN'
         });
-        button.onTap(function (res) {
-            if (res.userInfo || !_this.isNecessary) {
-                _this.onReceiveUserInfo && _this.onReceiveUserInfo(res);
+        button.onTap((res) => {
+            if (res.userInfo || !this.isNecessary) {
+                this.onReceiveUserInfo && this.onReceiveUserInfo(res);
             }
-            _this.close();
+            this.close();
             button.destroy();
         });
-    };
-    return AuthUserInfoDialog;
-}(Laya.Dialog));
-/* harmony default export */ __webpack_exports__["default"] = (AuthUserInfoDialog);
+    }
+}
 
 
 /***/ }),
@@ -4629,32 +4189,18 @@ var AuthUserInfoDialog = /** @class */ (function (_super) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return InterstitialAd; });
 /* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
-var InterstitialAd = /** @class */ (function (_super) {
-    __extends(InterstitialAd, _super);
-    function InterstitialAd(params) {
-        var _this_1 = _super.call(this) || this;
-        _this_1.isLoaded = false;
-        _this_1.createAd(params);
-        return _this_1;
+class InterstitialAd extends Laya.EventDispatcher {
+    constructor(params) {
+        super();
+        this.isLoaded = false;
+        this.createAd(params);
     }
-    InterstitialAd.prototype.createAd = function (params) {
-        var _this = this;
-        var interstitialAd = wx.createInterstitialAd({ adUnitId: params.adUnitId });
+    createAd(params) {
+        let _this = this;
+        let interstitialAd = wx.createInterstitialAd({ adUnitId: params.adUnitId });
         interstitialAd.onLoad(function (res) {
             _this.isLoaded = true;
             _this.event(InterstitialAd.LOAD, res);
@@ -4679,30 +4225,28 @@ var InterstitialAd = /** @class */ (function (_super) {
             _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionEnd();
         });
         this.interstitialAd = interstitialAd;
-    };
-    InterstitialAd.prototype.show = function () {
-        var _this_1 = this;
+    }
+    show() {
         if (window['BK']) {
             this.interstitialAd.show();
         }
         else {
             if (this.isLoaded) {
-                this.interstitialAd.show().then(null, function (res) {
-                    _this_1.event(InterstitialAd.ERROR, res);
+                this.interstitialAd.show().then(null, res => {
+                    this.event(InterstitialAd.ERROR, res);
                 });
             }
             else {
                 this.interstitialAd.load();
                 this.once(InterstitialAd.LOAD, this, function () {
-                    var _this_1 = this;
-                    this.interstitialAd.show().then(null, function (res) {
-                        _this_1.event(InterstitialAd.ERROR, res);
+                    this.interstitialAd.show().then(null, res => {
+                        this.event(InterstitialAd.ERROR, res);
                     });
                 });
             }
         }
-    };
-    InterstitialAd.show = function (params) {
+    }
+    static show(params) {
         if (!window['wx']) {
             params.onError && params.onError();
             return;
@@ -4714,21 +4258,19 @@ var InterstitialAd = /** @class */ (function (_super) {
         if (!this.ad) {
             this.ad = new InterstitialAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].interstitialUnitId });
         }
-        var ad = this.ad;
+        let ad = this.ad;
         ad.offAllCaller(this);
         ad.on(this.LOAD, this, params.onLoad);
         ad.on(this.ERROR, this, params.onError);
         ad.on(this.CLOSE, this, params.onClose);
         _export__WEBPACK_IMPORTED_MODULE_0__["SoundManager"].onAudioInterruptionBegin();
         ad.show();
-    };
-    InterstitialAd.LOAD = 'load_ad';
-    InterstitialAd.ERROR = 'error_ad';
-    InterstitialAd.CLOSE = 'close_ad';
-    InterstitialAd.ad = null;
-    return InterstitialAd;
-}(Laya.EventDispatcher));
-/* harmony default export */ __webpack_exports__["default"] = (InterstitialAd);
+    }
+}
+InterstitialAd.LOAD = 'load_ad';
+InterstitialAd.ERROR = 'error_ad';
+InterstitialAd.CLOSE = 'close_ad';
+InterstitialAd.ad = null;
 
 
 /***/ }),
@@ -4769,15 +4311,15 @@ Object.defineProperty(Array.prototype, "randomItem", {
  * @param {时间格式，如“yyyy-mm-dd hh:mm:ss”} format
  */
 Date.prototype.formatWithStyle = function (format) {
-    var y = this.getFullYear();
-    var m = this.getMonth() + 1;
+    let y = this.getFullYear();
+    let m = this.getMonth() + 1;
     m = m < 10 ? ('0' + m) : m;
-    var d = this.getDate();
+    let d = this.getDate();
     d = d < 10 ? ('0' + d) : d;
-    var h = this.getHours();
+    let h = this.getHours();
     h = h < 10 ? ('0' + h) : h;
-    var minute = this.getMinutes();
-    var second = this.getSeconds();
+    let minute = this.getMinutes();
+    let second = this.getSeconds();
     minute = minute < 10 ? ('0' + minute) : minute;
     second = second < 10 ? ('0' + second) : second;
     format = format.replace("yyyy", y + "");
@@ -4797,17 +4339,16 @@ Date.prototype.formatWithStyle = function (format) {
 /**
  * 格式化秒数，如 1000s = 00:16:40
  */
-Number.prototype.formatTime = function (format) {
-    if (format === void 0) { format = 'H:M:S'; }
-    var seconds = this;
+Number.prototype.formatTime = function (format = 'H:M:S') {
+    let seconds = this;
     seconds = Math.floor(seconds);
-    var hour = Math.floor(seconds / 3600);
-    var hourStr = hour < 10 ? ("0" + hour) : hour + '';
+    let hour = Math.floor(seconds / 3600);
+    let hourStr = hour < 10 ? ("0" + hour) : hour + '';
     var balance = seconds % 3600;
-    var minute = Math.floor(balance / 60);
-    var minuteStr = minute < 10 ? ("0" + minute) : minute + '';
-    var second = balance % 60;
-    var secondStr = second < 10 ? ("0" + second) : second + '';
+    let minute = Math.floor(balance / 60);
+    let minuteStr = minute < 10 ? ("0" + minute) : minute + '';
+    let second = balance % 60;
+    let secondStr = second < 10 ? ("0" + second) : second + '';
     if (format.indexOf('H') != -1) {
         format = format.replace(/H/, hourStr);
     }
@@ -4830,42 +4371,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
 
 Laya.View.prototype.createViewFromJSON = function (url, complete) {
-    var _this = this;
     if (!url)
         return;
-    var type = Laya.Utils.getFileExtension(url);
+    let type = Laya.Utils.getFileExtension(url);
     type || (url += '.json');
     Laya.loader.resetProgress();
-    var loader = new Laya.SceneLoader();
-    loader.on(Laya.Event.COMPLETE, null, function () {
-        var obj = Laya.Loader.getRes(url);
+    let loader = new Laya.SceneLoader();
+    loader.on(Laya.Event.COMPLETE, null, () => {
+        let obj = Laya.Loader.getRes(url);
         if (!obj)
             throw "Can not find scene:" + url;
-        if (!_this._getBit(/*laya.Const.NOT_READY*/ 0x08)) {
+        if (!this._getBit(/*laya.Const.NOT_READY*/ 0x08)) {
             console.warn('Scene has been Ready!!!');
-            _this.event(Laya.Event.READY, _this);
+            this.event(Laya.Event.READY, this);
             complete && complete.runWith(null);
         }
         else {
-            _this.on('onViewCreated', null, function () {
-                _this.event(Laya.Event.READY, _this);
+            this.on('onViewCreated', null, () => {
+                this.event(Laya.Event.READY, this);
                 complete && complete.runWith(null);
             });
-            _this.createView(obj);
+            this.createView(obj);
         }
     });
     loader.load(url);
 };
-var LAST_CLICK_TIME = '_last_click_time';
-Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail) {
-    if (throttle === void 0) { throttle = false; }
+const LAST_CLICK_TIME = '_last_click_time';
+Laya.Node.prototype.addClickListener = function (caller, method, throttle = false, fail) {
     caller || (caller = {});
     return this.on(Laya.Event.CLICK, this, function (args) {
         if (!throttle) {
             method.call(caller, args);
             return;
         }
-        var now = Date.now(), time = caller[LAST_CLICK_TIME] || 0, delta = now - time;
+        let now = Date.now(), time = caller[LAST_CLICK_TIME] || 0, delta = now - time;
         if (delta < 300) {
             fail && fail.call(caller, '操作速度过快');
             console.warn('操作点击过快');
@@ -4879,8 +4418,8 @@ Laya.Node.prototype.addClickListener = function (caller, method, throttle, fail)
 Laya.Node.prototype.dispatchLifeCycleEvent = function (method, p1, p2, p3, p4, p5) {
     this.dispatchComponentEvent(method, p1, p2, p3, p4, p5);
     if (!this.destroyed) {
-        for (var i = 0, length_1 = this.numChildren; i < length_1; i++) {
-            var child = this.getChildAt(i);
+        for (let i = 0, length = this.numChildren; i < length; i++) {
+            let child = this.getChildAt(i);
             child.dispatchComponentEvent(method, p1, p2, p3, p4, p5);
         }
     }
@@ -4889,8 +4428,8 @@ Laya.Node.prototype.dispatchLifeCycleEvent = function (method, p1, p2, p3, p4, p
     }
 };
 Laya.Node.prototype.dispatchComponentEvent = function (method, p1, p2, p3, p4, p5) {
-    var components = this['_components'] || [];
-    components.forEach(function (item) {
+    let components = this['_components'] || [];
+    components.forEach((item) => {
         if (item[method] && item.enabled) {
             item[method](p1, p2, p3, p4, p5);
         }
@@ -4915,7 +4454,7 @@ Laya.Scene.load = function (url, complete, progress) {
     }
     function done() {
         if (Laya.Scene['_prepareHandler']) {
-            var prepare = Laya.Scene['_prepareHandler'];
+            let prepare = Laya.Scene['_prepareHandler'];
             if (typeof prepare == 'function') {
                 prepare();
                 create();
@@ -4939,7 +4478,7 @@ Laya.Scene.load = function (url, complete, progress) {
     function create() {
         Laya.Scene['_prepareHandler'] = null;
         loader.off(/*laya.events.Event.PROGRESS*/ "progress", null, onProgress);
-        var p = url;
+        let p = url;
         if (p instanceof Array) {
             url = p[p.length - 1];
         }
@@ -4956,7 +4495,7 @@ Laya.Scene.load = function (url, complete, progress) {
         else {
             scene = new clas();
         }
-        if (scene && (scene instanceof laya.display.Node)) {
+        if (scene && (scene instanceof Laya.Node)) {
             scene.url = url;
             if (!scene._getBit(/*laya.Const.NOT_READY*/ 0x08)) {
                 complete && complete.runWith(scene);

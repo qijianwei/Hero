@@ -2,7 +2,7 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":3,
+    "selecteID":234,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/GameView.js","height":750},
     "nodeParent":-1,
@@ -634,13 +634,14 @@
             "nodeParent":2,
             "maxID":185,
             "label":"dodge",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":185,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":0,"x":0,"presetID":7,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
@@ -654,18 +655,20 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"presetID":3,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
                     "nodeParent":185,
                     "label":"Sprite(Dodge)",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":183,
                     "child":[
                         {
+                            "x":45,
                             "type":"Rect",
                             "searchKey":"Rect",
                             "props":{"presetID":6,"preset":"laya/pages/gamescenes/prefab/Dodge.prefab"},
@@ -677,9 +680,11 @@
                             "compId":197,
                             "child":[
                                 ]
-                        }]
+                        }],
+                    "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/gamescripts/prefab/Dodge.js",

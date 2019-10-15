@@ -31,7 +31,7 @@ export default class HomeControl extends PaoYa.Component {
         let ladder = PaoYa.DataCenter.user.ladder;
 
         let player = new Laya.Skeleton();
-        player.load(`spine/hero/hero_${name}.sk`, Laya.Handler.create(this, (res) => {
+        player.load(HeroConfig.spineMap[`hero_${name}`].path, Laya.Handler.create(this, (res) => {
             player.play('stand', true);
         }))
         player.pos(371, 590);

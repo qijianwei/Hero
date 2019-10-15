@@ -21,6 +21,7 @@ export default class Player extends PaoYa.Component {
   /** @prop {name:aniSkillCommon,tips:"兵器技能动效节点",type:Node} */
   /** @prop {name:aniSkill2Hero1,tips:"1号英雄技能2动效节点",type:Node} */
   /** @prop {name:aniSkill2Hero2,tips:"2号英雄技能2动效节点",type:Node} */
+   /** @prop {name:aniSkill2Hero3,tips:"3号英雄技能2动效节点",type:Node} */
   constructor() {
     super();
   }
