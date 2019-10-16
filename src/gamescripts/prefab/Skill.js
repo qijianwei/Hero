@@ -33,8 +33,8 @@ export default class Skill extends PaoYa.Component {
         this.centerX = Math.floor(this.ownW / 2);
         this.centerY = Math.floor(this.ownH / 2);   
         this.maskArea = new Laya.Sprite();
-        this.spSkill.texture=``;
-        this.maskArea.texture=``;
+       // this.spSkill.texture=``;
+      //  this.maskArea.texture=``;
         Laya.loader.load(`local/common/${params.skillId}.png`,Laya.Handler.create(this,()=>{ 
             this.spSkill.texture = `local/common/${params.skillId}.png`;
             this.maskArea.texture = `local/common/${params.skillId}.png`;
@@ -42,14 +42,14 @@ export default class Skill extends PaoYa.Component {
         owner.addChild(this.maskArea);
 
         this.spMask = new Laya.Sprite();
-        this.maskArea.mask = this.spMask;
-        this.spMask.graphics.clear();
+      //  this.maskArea.mask = this.spMask;
+      //  this.spMask.graphics.clear();
 
         this.freezeing = false;
         this.maxAngle = 270;
         this.startAngle = -90;
         this.endAngle = -90;
-      //  owner.on(Laya.Event.CLICK, this, this.clickHandler);
+    
 
         this.cdTime = params.skillCd * 1000;
         if (!params.status) {
@@ -58,6 +58,7 @@ export default class Skill extends PaoYa.Component {
             this.lblLockTips.text = `LV.${params.skillUnlock}解锁`;
             this.spShadow.visible = true;
             this.lblLockTips.scale(0.5, 0.5)
+            this.lblLockTips.zOrder=1000;
             this.owner.disabled = true;
         } else {
             this.spShadow.visible = false;
@@ -73,15 +74,16 @@ export default class Skill extends PaoYa.Component {
         this.cdTime = cdTime;
     }
     startT(time) {
-
-        this.spShadow.visible = true;
-        this.maskArea.visible = true;
         this.freezeing = true;
-
         this.beiginTime = new Date().getTime();
-
         this.spMask.graphics.clear();
+        //很关键，每次点击先滞空
+        this.maskArea.mask=null;
+        this.maskArea.mask = this.spMask;
         this.spMask.graphics.drawPie(this.centerX, this.centerY, this.ownW, this.startAngle, this.endAngle, "#000000");
+        this.spShadow.visible = true; //要在重新画好遮罩后显示
+        this.maskArea.visible = true;
+        
         let cdT = (time == undefined) ? this.cdTime : time;
         Laya.timer.frameLoop(1, this, this.startCd, [cdT]);
     }
@@ -106,12 +108,11 @@ export default class Skill extends PaoYa.Component {
         this.freezeing && Laya.timer.frameLoop(1, this, this.startCd, [this.cdTime]);
     }
     endCD() {
-        this.spMask.graphics.clear();
         Laya.timer.clearAll(this);
         this.maskArea.visible = false;
         this.spShadow.visible = false;
         this.freezeing = false;
-        this.endAngle = -90;
+        this.endAngle=-90;
     }
 
 }

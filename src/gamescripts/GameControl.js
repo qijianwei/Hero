@@ -66,6 +66,20 @@ export default class GameControl extends PaoYa.Component {
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
         this.onNotification(Skill.CLICK, this, this.skillClickHandler);
         this.fillPlayerInfo();
+       /*  let skillPromise = new Promise((resolve, reject) => {
+            Laya.loader.create('gamescenes/prefab/Skill.json', Laya.Handler.create(this, (json) => {
+               // console.log(json);
+                if(json instanceof Laya.Prefab){
+                    resolve(json.json)
+                }else{
+                    resolve(json);
+                }
+                
+            }))
+        })
+        skillPromise.then((json)=>{
+            this.initSkill(json);
+        }) */
         this.initSkill();
     }
     //切后台退出游戏，要加些处理，技能2要在下一个怪出现时关掉
@@ -402,7 +416,7 @@ export default class GameControl extends PaoYa.Component {
         } else {
             this.dodgeOwner.gray = false;
         }
-        if (!this.skillOwner1.disabled) {
+        if (this.skillOwner1&&!this.skillOwner1.disabled) {
             if (curMP < this.selfSkills[0].skillConsume * originMP) {
                 if (!this.skillScr1.freezeing) {
                     this.skillOwner1.gray = true;
@@ -411,7 +425,7 @@ export default class GameControl extends PaoYa.Component {
                 this.skillOwner1.gray = false;
             }
         }
-        if (!this.skillOwner2.disabled) {
+        if (this.skillOwner2&&!this.skillOwner2.disabled) {
             if (curMP < this.selfSkills[2].skillConsume * originMP) {
                 if (!this.skillScr1.freezeing) {
                     this.skillOwner2.gray = true;
@@ -509,7 +523,27 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     /* 人物技能 */
-    initSkill() {
+  /*   initSkill(json) {
+        let owner = this.owner;
+        let activeSkills = this.selfPlayer.comp.activeSkills;
+        for (let i = 1; i < 3; i++) {
+            let skillView=new Laya.Prefab();
+            skillView.json=json;
+            let view = Laya.Pool.getItemByCreateFun('SkillView', skillView.create, skillView);
+            view.name=`skill${i}`
+            this['skillScr' + i] = view.getComponent(Skill);
+            this['skillScr' + i].params = activeSkills[i - 1];
+            this['skillScr' + i].init(activeSkills[i - 1]);
+            this['skillOwner' + i] = view;
+            if(i==1){
+                view.pos(1032,619)
+            }else{
+                view.pos(1189,467)
+            }
+            owner.addChild(view)
+        }
+    } */
+     initSkill() {
         let owner = this.owner;
         let activeSkills = this.selfPlayer.comp.activeSkills;
         for (let i = 1; i < 3; i++) {
@@ -518,7 +552,7 @@ export default class GameControl extends PaoYa.Component {
             this['skillScr' + i].init(activeSkills[i - 1]);
             this['skillOwner' + i] = this['skillScr' + i].owner;
         }
-    }
+    } 
     skillClickHandler(name) {
         if (name == "skill1") {
             SoundManager.ins.heroSkill1();
@@ -646,18 +680,21 @@ export default class GameControl extends PaoYa.Component {
 
     }
     allWeaponsUnfreeze(name, skillInfo) {
+        Laya.timer.clear(this,this.resetAllWeaponsCd);
         let time = skillInfo.skillConfig.time * 1000;
         this.weaponsBarArr.forEach((weaponBarComp) => {
             weaponBarComp.endCD(); //探讨要不要
             weaponBarComp.setCdTime(0)
         })
 
-        Laya.timer.once(time, this, () => {
-            this.weaponsBarArr.forEach((weaponBarComp) => {
-                weaponBarComp.setCdTime(weaponBarComp.originCdTime)
-            })
-            this[name + 'Player'].comp.removeSkill2();
+        Laya.timer.once(time, this,this.resetAllWeaponsCd,[name]);
+    }
+    //对方换人的时候 ,可以选择关闭上一次定时器
+    resetAllWeaponsCd(name){
+        this.weaponsBarArr.forEach((weaponBarComp) => {
+            weaponBarComp.setCdTime(weaponBarComp.originCdTime)
         })
+        this[name + 'Player'].comp.removeSkill2();
     }
     //所有兵器选择框和技能框置灰
     allBtnsLock() {
@@ -828,7 +865,7 @@ export default class GameControl extends PaoYa.Component {
             if (skillType == 1 && status == 1) {
                 let random = Math.floor(Math.random() * 100 + 1);
                 // if(skillId==50){prob=100;} 测试用
-                if (random <= prob) {
+                if (random <= 100) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     params.skillEffect = true;
                     this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
@@ -1016,23 +1053,21 @@ export default class GameControl extends PaoYa.Component {
         this.selfPlayer.comp.removeSkill2(); //如果有技能2,直接关掉
     }
     deathHandler(loserIsSelf) {
-        if(this.selfPlayer.comp.attr.roleId==4){
-            this.removeDragons(1);
-            this.removeDragons(2);
-        }
+       
         Laya.MouseManager.enabled = false;
         Laya.timer.clear(this, this.startSelect);
         // Laya.timer.clearAll(this);
-        this.gameState = 'over';
+       
         console.log(`------有人死亡------`)
         this.removeAllWeapons();
-        this.allCdEnd();
+        
         switch (this.gameType) {
             case `adventure`:
             case `pass`:
                 this.dealPass(loserIsSelf);
                 break;
             case 'battle':
+                  
                 //  SoundManager.ins.homeBg();
                 this.dealBattle(loserIsSelf);
                 break;
@@ -1041,11 +1076,13 @@ export default class GameControl extends PaoYa.Component {
     }
     dealPass(loserIsSelf) {
         if (loserIsSelf) {
+            
             this.passOver(loserIsSelf);
         } else {
             this.killNum += 1;
+            console.error(`死亡个数：`, this.killNum)
             if (this.killNum == this.monsterNum) {
-                console.error(`死亡个数：`, this.killNum)
+                
                 this.passOver(loserIsSelf);
             } else {
                 Laya.timer.once(1500, this, this.replacePlayer)
@@ -1053,6 +1090,12 @@ export default class GameControl extends PaoYa.Component {
         }
     }
     dealBattle(loserIsSelf) {
+        this.gameState = 'over';
+        if(this.selfPlayer.comp.attr.roleId==4){
+            this.removeDragons(1);
+            this.removeDragons(2);
+        }
+        this.allCdEnd();
        // Laya.timer.clearAll(this);
         this.gameOver(loserIsSelf);
         let win = loserIsSelf ? 0 : 1;
@@ -1102,6 +1145,12 @@ export default class GameControl extends PaoYa.Component {
 
     //关卡结束
     passOver(loserIsSelf) {
+        this.gameState = 'over';
+        if(this.selfPlayer.comp.attr.roleId==4){
+            this.removeDragons(1);
+            this.removeDragons(2);
+        }
+        this.allCdEnd();
       //  Laya.timer.clearAll(this);
         if(this.gameType == `pass`){
             Global.gameEndStat(this.params.stageId,{

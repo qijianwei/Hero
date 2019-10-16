@@ -16,7 +16,7 @@ export default class SignControl extends PaoYa.Component {
     }
 
     onEnable() {
-
+        console.log(this.owner.params)
     }
 
     onThrottleClick(e) {
@@ -50,6 +50,7 @@ export default class SignControl extends PaoYa.Component {
             this.GET("martial_role_list", {}, res => {
                 Swordsman.ins.params.roleList = res.roleList
                 // Swordsman.ins.params.roleList.splice(2, 1)
+                Swordsman.ins.showDetail = res.roleList[1]
                 Swordsman.ins.herolist.array = Swordsman.ins.params.roleList
             })
         }

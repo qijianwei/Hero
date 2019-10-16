@@ -208,10 +208,14 @@ export default class Player extends PaoYa.Component {
   }
   //受击打,所有武器碰到都有这效果
   injuredEffect(posType, value, isCrit, cb) {
+    if(this.killed){
+      return;
+   }
     //机器人用 以防机器人选兵器打断受伤从而打断其他效果,比如中毒回调不执行
     if (!this.isSelf) {
       this.canAction = false;
     } 
+    value=Math.round(value);
     this.HPComp.changeHP(value);
     if (isCrit) {
       this.showFontEffect("暴击" + value, "crit")
@@ -253,6 +257,7 @@ export default class Player extends PaoYa.Component {
   }
   //恢复生命
   hpRecoverEffect(value) {
+    value=Math.round(value);
     this.boxAniHp.visible = true;
     this.aniHp.play(0, false);
     this.HPComp.changeHP(value);
@@ -260,6 +265,7 @@ export default class Player extends PaoYa.Component {
   }
   //恢复内力
   mpRecoverEffect(value) {
+    value=Math.round(value);
     this.boxAniMp.visible = true;
     this.aniMp.play(0, false);
     this.MPComp.changeMP(value);
@@ -287,7 +293,7 @@ export default class Player extends PaoYa.Component {
     let showText = hpValue > 0 ? "中毒+" + hpValue : "中毒" + hpValue;
     this.showFontEffect(showText, "poision")
     this.HPComp.changeHP(hpValue);
-    if (this.HPComp.curHP <= 0) {
+    if (this.HPComp.curHP <= 0&&!this.killed) {
       console.error('--------中毒死亡结束--------')
       //关掉所有定时器，比如中毒
       this.removePoison();
@@ -417,7 +423,7 @@ export default class Player extends PaoYa.Component {
     if (this.isSelf) {
       GameControl.instance.allBtnsUnlock();
     }
-    if(!this.plasyState&&!this.freezeState&&!this.dizzyState){
+    if(!this.plasyState&&!this.freezeState&&!this.dizzyState&&!this.killed){
       this.canAction = true;
       this.skeleton.play('stand', true);
     }  
@@ -481,6 +487,7 @@ export default class Player extends PaoYa.Component {
       Laya.Pool.recover('effectLabel', item);
     }, [lblState]));
   }
+  /* value 有可能是文字或者數字 注意*/
   showFontEffect(value, type) {
     let hurt = Laya.Pool.getItemByClass('effectLabel', Laya.Label);
     this.hurt = hurt;

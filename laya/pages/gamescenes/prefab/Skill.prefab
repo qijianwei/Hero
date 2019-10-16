@@ -18,7 +18,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,spSkill",
-            "props":{"texture":"remote/game/skill.png","presetID":2,"preset":"laya/pages/gamescenes/prefab/Skill.prefab","name":"spSkill"},
+            "props":{"presetID":2,"preset":"laya/pages/gamescenes/prefab/Skill.prefab","name":"spSkill"},
             "nodeParent":200,
             "label":"spSkill",
             "isDirectory":false,
@@ -36,13 +36,14 @@
             "props":{"width":108,"presetID":3,"preset":"laya/pages/gamescenes/prefab/Skill.prefab","height":102,"alpha":0.6},
             "nodeParent":200,
             "label":"Sprite(Skill)",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":201,
             "child":[
                 {
+                    "x":30,
                     "type":"Circle",
                     "searchKey":"Circle",
                     "props":{"y":51,"x":54,"radius":50,"presetID":4,"preset":"laya/pages/gamescenes/prefab/Skill.prefab","lineWidth":1,"fillColor":"#000000"},
@@ -55,7 +56,7 @@
                     "child":[
                         ]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
             "x":15,

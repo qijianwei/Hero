@@ -1,14 +1,10 @@
 // v1.0.0
 //是否使用IDE自带的node环境和插件，设置false后，则使用自己环境(使用命令行方式执行)
-let useIDENode = process.argv[0].indexOf("LayaAir") > -1 ? true : false;
-console.log(process.argv);
-console.log(process.argv[1]);
-//console.log(global.publish)
+let useIDENode = false;
 //获取Node插件和工作路径
 let ideModuleDir = useIDENode ? process.argv[1].replace("gulp\\bin\\gulp.js", "").replace("gulp/bin/gulp.js", "") : "";
 let workSpaceDir = useIDENode ? process.argv[2].replace("--gulpfile=", "").replace("\\.laya\\compile.js", "").replace("/.laya/compile.js", "") : "./../";
-console.log(ideModuleDir);
-console.log(workSpaceDir);
+
 //引用插件模块
 let gulp = require(ideModuleDir + "gulp");
 let browserify = require(ideModuleDir + "browserify");
