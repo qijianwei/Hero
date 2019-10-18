@@ -75,7 +75,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
             })
             warnDialog.popup();
         }else{
-            if(this.params.stageId<3||this.params.stageId>7){
+            if(this.params.stageId>=4){
                 this.showAD();//插片广告
             }     
         }

@@ -4,10 +4,6 @@ export default class WeaponHouseControl extends PaoYa.Component {
     constructor() {
         super();
         WeaponHouseControl.ins = this
-        this.myUserList = []
-        this.isUsingWeapon = {}
-        this.currentMyUserIdx = 0
-        this.currentMyUserWeapDetail = ``
     }
 
     onAwake() {
@@ -16,14 +12,18 @@ export default class WeaponHouseControl extends PaoYa.Component {
         onwer.params = onwer.params.detail
         this.params = onwer.params
         //武器数据
-        this.lightList = this.getNewListF(this.params.lightList, 1)
-        this.heavyList = this.getNewListF(this.params.heavyList, 2)
-        this.middleList = this.getNewListF(this.params.middleList, 3)
+        this.lightList = this.params.lightList
+        this.heavyList = this.params.heavyList
+        this.middleList = this.params.middleList
         this.allList = this.lightList.concat(this.heavyList, this.middleList)
         this.addWpList = []
         //新武器处理
         this.params.newWeapon && this.chioceNewWp()
-        // //我的武器数据
+        //我的武器数据
+        this.myUserList = []
+        this.isUsingWeapon = {}
+        this.currentMyUserIdx = 0
+        this.currentMyUserWeapDetail = ``
         let arr = this.params.userWeapons.split(`,`)
         arr.forEach(element => {
             let obj = {
@@ -32,12 +32,23 @@ export default class WeaponHouseControl extends PaoYa.Component {
             }
             this.myUserList.push(obj)
         });
-        this.getMyUserDetailList(0)
+        this.getMyUserDetailList()
+        // onwer.userWeaponList.selectHandler = new Laya.Handler(this, this.userWeaponSelect);
         onwer.userWeaponList.renderHandler = new Laya.Handler(this, this.userWeaponUpdateItem);
         onwer.userWeaponList.array = this.myUserDetailList
+        //仓库武器数据
+        // onwer.warehouseList.selectHandler = new Laya.Handler(this, this.wareWeaponSelect);
         onwer.warehouseList.vScrollBarSkin = ""
         this.isWareChoiceWp = null
         onwer.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
+    }
+
+    onEnable() {
+        // this.owner.goldNum.text = PaoYa.DataCenter.user.gold
+        // this.owner.goldNum.font = `weaponNFontT`
+        // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
+        // this.owner.diamondNum.font = `weaponNFontT`
+
     }
 
     onThrottleClick(e) {
@@ -50,22 +61,19 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 SoundManager.ins.btn()
                 owner.getWareBtnSkin(`light`)
                 owner.lightNew.visible = false
-                owner.warehouseList.array = this.lightList
-                // this.showWareList(this.lightList)
+                this.showWareList(this.lightList)
                 break;
             case `middle`:
                 SoundManager.ins.btn()
                 owner.getWareBtnSkin(`middle`)
                 owner.middleNew.visible = false
-                // this.showWareList(this.middleList)
-                owner.warehouseList.array = this.middleList
+                this.showWareList(this.middleList)
                 break;
             case `large`:
                 SoundManager.ins.btn()
                 owner.getWareBtnSkin(`large`)
                 owner.largeNew.visible = false
-                // this.showWareList(this.heavyList)
-                owner.warehouseList.array = this.heavyList
+                this.showWareList(this.heavyList)
                 break;
             case `benBack`:
                 if (this.isGuide) {
@@ -89,38 +97,63 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 break;
         }
     }
-
-    //仓库武器渲染
-    wareWeaponUpdateItem(cell, idx) {
-        cell.offAll()
-        cell.on(Laya.Event.CLICK, this, () => {
-            SoundManager.ins.btn()
-            if (this.isWareChoiceWp) {
-                this.isWareChoiceWp.getChildByName(`beChioce`).visible = false
-                this.isWareChoiceWp.isUseringWeapon = false
-                this.isWareChoiceWp.skin = `local/common/frameBg.png`
-                // this.isWareChoiceWp._dataSource.isShowing = false
-                this.isWareChoiceWp = cell
-                this.isWareChoiceWp._dataSource.isShowing = true
-            } else {
-                this.isWareChoiceWp = cell
+    //获取装备武器详情
+    getMyUserDetailList() {
+        switch (this.params.weaponGridNum) {
+            case 3:
+                this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }, { type: 5 }]
+                break;
+            case 4:
+                if (this.params.shareGrid > 0) {
+                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }]
+                } else {
+                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 5 }]
+                }
+                break;
+            case 5:
+                this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }]
+                break;
+        }
+        let al = this.allList.length
+        let ml = this.myUserList.length
+        let num = 0
+        getNowWare: for (let j = 0; j < ml; j++) {
+            if (!this.myUserList[j]) {
+                return
             }
-            cell.getChildByName(`beChioce`).visible = true
-            cell.skin = `local/common/currutFrameBg.png`
-            cell._dataSource.isUseringWeapon = true
-            this.currentMyUserWeapDetail = cell._dataSource
-            this.renderCenterData()
-            if (cell._dataSource.isNew) {
-                cell._dataSource.isNew = false
-                cell.getChildByName(`new`).visible = false
-                this.newWpList[cell._dataSource.idIdx].isOdd = true
-                // let arr = newWpList
+            for (let i = 0; i < al; i++) {
+                if (this.allList[i].weaponId == this.myUserList[j].name && this.allList[i].weaponLevel == this.myUserList[j].lv && this.allList[i].num > 0) {
+                    this.myUserDetailList[num] = this.allList[i]
+                    num++
+                    continue getNowWare;
+                }
             }
-        })
-        this.singleWeapon(cell, idx)
+        }
+    }
+    //新武器属性赋予
+    chioceNewWp() {
+        let owner = this.owner
+        this.newWpList = []
+        owner.lightNew.visible = this.params.newWeapon.indexOf(`d`) != -1 ? true : false
+        owner.middleNew.visible = this.params.newWeapon.indexOf(`z`) != -1 ? true : false
+        owner.largeNew.visible = this.params.newWeapon.indexOf(`g`) != -1 ? true : false
+        if (this.params.newWeapon) {
+            let newaparr = this.params.newWeapon.split(`,`)
+            newaparr.forEach(element => {
+                let obj = {
+                    name: element.split(`-`)[0],
+                    lv: element.split(`-`)[1]
+                }
+                this.newWpList.push(obj)
+            });
+        }
+    }
+    userWeaponSelect(cell, idx) {
+        console.log(cell, idx)
     }
     //正在使用武器渲染
     userWeaponUpdateItem(cell, idx) {
+        // console.log(cell, idx)
         //点击重新渲染
         cell.offAll()
         let owner = this.owner
@@ -145,7 +178,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                         cell.getChildByName(`beChioce`).visible = true
                         owner[`wpBg_${this.currentMyUserIdx + 1}`].skin = `remote/weaponhouse/26.png`
                         // this.myUserList[this.currentMyUserIdx] = this.myUserList[newIndx]
-                        this.getMyUserDetailList(this.currentMyUserIdx)
+                        this.getMyUserDetailList()
                         this.addWpList = []
                         owner.userWeaponList.array = this.myUserDetailList
                     })
@@ -174,7 +207,6 @@ export default class WeaponHouseControl extends PaoYa.Component {
         cell.getChildByName(`lv`).visible = true
         cell.getChildByName(`add`).visible = false
         cell.getChildByName(`invite`).visible = false
-        cell.getChildByName(`beChioce`).visible = false
 
         cell.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
@@ -186,7 +218,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
             }
             this.currentMyUserIdx = idx
             owner[`wpBg_${this.currentMyUserIdx + 1}`].skin = `remote/weaponhouse/26.png`
-            this.getMyUserDetailList(this.currentMyUserIdx)
+            this.getMyUserDetailList()
             this.addWpList = []
             owner.userWeaponList.array = this.myUserDetailList
         })
@@ -194,208 +226,51 @@ export default class WeaponHouseControl extends PaoYa.Component {
         this.singleWeapon(cell, idx, 1)
     }
 
-    //新武器属性赋予
-    chioceNewWp() {
-        let owner = this.owner
-        this.newWpList = []
-        owner.lightNew.visible = this.params.newWeapon.indexOf(`d`) != -1 ? true : false
-        owner.middleNew.visible = this.params.newWeapon.indexOf(`z`) != -1 ? true : false
-        owner.largeNew.visible = this.params.newWeapon.indexOf(`g`) != -1 ? true : false
-        if (this.params.newWeapon) {
-            let newaparr = this.params.newWeapon.split(`,`)
-            newaparr.forEach(element => {
-                let obj = {
-                    name: element.split(`-`)[0],
-                    lv: element.split(`-`)[1]
-                }
-                this.newWpList.push(obj)
-            });
-        }
-
-        let al = this.allList.length
-        let ml = this.newWpList.length
-        getNewList: for (let j = 0; j < ml; j++) {
-            for (let i = 0; i < al; i++) {
-                if (this.allList[i].weaponId == this.newWpList[j].name && this.allList[i].weaponLevel == this.newWpList[j].lv && !this.allList[i].isUserWeapon && !this.newWpList[j].isOdd) {
-                    this.allList[i].isNew = true
-                    this.allList[i].idIdx = j
-                    continue getNewList;
-                }
-            }
-        }
+    wareWeaponSelect(cell, idx) {
+        console.log(cell, idx)
     }
-
-    //获取装备武器详情
-    getMyUserDetailList(number) {
-        this.allList.forEach(element => {
-            element.isUseringWeapon = false
-            element.isUserWeapon = false
-        });
-        switch (this.params.weaponGridNum) {
-            case 3:
-                this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }, { type: 5 }]
-                break;
-            case 4:
-                if (this.params.shareGrid > 0) {
-                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }]
-                } else {
-                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 5 }]
-                }
-                break;
-            case 5:
-                this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }]
-                break;
-        }
-        let al = this.allList.length
-        let ml = this.myUserList.length
-        let num = 0
-        getNowWare: for (let j = 0; j < ml; j++) {
-            if (!this.myUserList[j]) {
-                return
-            }
-            for (let i = 0; i < al; i++) {
-                if (this.allList[i].weaponId == this.myUserList[j].name && this.allList[i].weaponLevel == this.myUserList[j].lv && !this.allList[i].isUseringWeapon && !this.allList[i].isUserWeapon) {
-                    if (num == number) {
-                        this.allList[i].isUseringWeapon = true
-                    }
-                    this.allList[i].isUserWeapon = true
-
-                    this.myUserDetailList[num] = JSON.parse(JSON.stringify(this.allList[i]))
-                    num++
-                    continue getNowWare;
-                }
-            }
-        }
-    }
-
-    getNewListF(list, num) {
-        let showList = JSON.parse(JSON.stringify(list))
-        let arr = []
-        //筛选仓库武器
-        showList.forEach((element, index) => {
-            for (let i = 0; i < element.num; i++) {
-                element.WpGrade = element.weaponStar * 100 + element.weaponLevel
-                element.wpId = `${num}${index}${i}`
-                arr.push(JSON.parse(JSON.stringify(element)))
-            }
-        });
-
-        if (this.newWpList) {
-            let al = arr.length
-            let ml = this.newWpList.length
-            getNewList: for (let j = 0; j < ml; j++) {
-                for (let i = 0; i < al; i++) {
-                    if (arr[i].weaponId == this.newWpList[j].name && arr[i].weaponLevel == this.newWpList[j].lv && !arr[i].isUserWeapon && !this.newWpList[j].isOdd) {
-                        arr[i].isNew = true
-                        arr[i].idIdx = j
-                        continue getNewList;
-                    }
-                }
-            }
-        }
-
-        arr.sort(function (a, b) {
-            return b.WpGrade - a.WpGrade
-        })
-
-        return arr
-    }
-
-    //单个兵器图签
-    singleWeapon(cell, idx, isUser) {
-       // console.log(cell, idx, isUser)
-        cell.skin = `local/common/frameBg.png`
-        cell.getChildByName(`beChioce`).visible = false
-        if (!isUser) {
-            if (this.isGuide) {
-                if (cell._dataSource.willBeUse) {
-                    cell.getChildByName(`beChioce`).visible = true
-                    this.isWareChoiceWp = cell
-                    cell.skin = `local/common/currutFrameBg.png`
-                    this.currentMyUserWeapDetail = cell._dataSource
-                    this.renderCenterData(isUser)
-                }
-            } else {
-                cell.getChildByName(`using`).visible = false
-                cell.getChildByName(`new`).visible = false
-                if (cell._dataSource.isUserWeapon) {
-                    cell.getChildByName(`using`).visible = true
-                }
-
-                if (cell._dataSource.isNew) {
-                    cell.getChildByName(`new`).visible = true
-                }
-                if (cell._dataSource.isUseringWeapon) {
-                    if (cell._dataSource.isUserWeapon) {
-                        cell.getChildByName(`using`).visible = true
-                    }
-                    cell.skin = `local/common/currutFrameBg.png`
-                    cell.getChildByName(`beChioce`).visible = true
-                    this.isWareChoiceWp = cell
-                    this.currentMyUserWeapDetail = cell._dataSource
-                    this.renderCenterData(isUser)
-                }
-            }
-        } else {
-            if (cell._dataSource.isUseringWeapon) {
-                cell.getChildByName(`beChioce`).visible = true
+    //仓库武器渲染
+    wareWeaponUpdateItem(cell, idx) {
+        // console.log(cell, idx)
+        cell.offAll()
+        cell.on(Laya.Event.CLICK, this, () => {
+            SoundManager.ins.btn()
+            if (this.isWareChoiceWp) {
+                this.isWareChoiceWp.getChildByName(`beChioce`).visible = false
+                this.isWareChoiceWp.skin = `local/common/frameBg.png`
+                this.isWareChoiceWp._dataSource.isShowing = false
                 this.isWareChoiceWp = cell
-                this.currentMyUserWeapDetail = cell._dataSource
-                this.renderCenterData(isUser)
+                this.isWareChoiceWp._dataSource.isShowing = true
+            } else {
+                this.isWareChoiceWp = cell
             }
-        }
-        //选定渲染
-
-        // if (!this.isGuide) {
-        // } else {
-
-        // }
-
-        cell.getChildByName(`wp`).skin = `remote/small_weapons/s_${cell._dataSource.weaponId}.png`
-        cell.getChildByName(`lv`).text = `LV.${cell._dataSource.weaponLevel}`
-        cell.getChildByName(`lv`).font = `weaponNFontT`
-        cell.getChildByName(`lv`).scale(0.7, 0.7)
-
-        let skinq = ``
-        let skint = ``
-        switch (cell._dataSource.weaponStar) {
-            case 1:
-                skinq = `local/common/quality_1.png`
-                break
-            case 2:
-                skinq = `local/common/quality_2.png`
-                break
-            case 3:
-                skinq = `local/common/quality_3.png`
-                break
-        }
-        switch (cell._dataSource.weaponType) {
-            case 3:
-                skint = `local/common/type_1.png`
-                break
-            case 2:
-                skint = `local/common/type_2.png`
-                break
-            case 1:
-                skint = `local/common/type_3.png`
-                break
-        }
-        cell.getChildByName(`bgwrap`).skin = skinq
-        cell.getChildByName(`mark`).skin = skint
+            cell.getChildByName(`beChioce`).visible = true
+            // console.log(cell.getChildByName(`beChioce`),123)
+            cell.skin = `local/common/currutFrameBg.png`
+            this.currentMyUserWeapDetail = cell._dataSource
+            this.renderCenterData()
+            if (cell._dataSource.isNew) {
+                cell._dataSource.isNew = false
+                cell.getChildByName(`new`).visible = false
+                this.newWpList[cell._dataSource.idIdx].isOdd = true
+                // let arr = newWpList
+                // console.log(arr)
+            }
+        })
+        this.singleWeapon(cell, idx)
     }
-
     //渲染详情部分
     renderCenterData(isUser) {
         let owner = this.owner
         owner[`skillImg_1`].visible = false
         owner[`skillImg_2`].visible = false
         let detail = null
-        if (this.isWareChoiceWp) {
+        if (this.isEqWp && this.isWareChoiceWp) {
             detail = this.isWareChoiceWp._dataSource
+            this.isEqWp = false
         } else {
             detail = this.currentMyUserWeapDetail
         }
-
 
         owner.showWeapon.skin = `remote/small_weapons/s_${detail.weaponId}.png`
         // owner.currtWeaponLevel.text = `LV.${detail.weaponLevel}`
@@ -421,7 +296,6 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 skinq = `local/common/quality_3.png`
                 break
         }
-
         switch (detail.weaponType) {
             case 3:
                 skint = `local/common/type_1.png`
@@ -492,7 +366,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
         owner.needGoldNum.scale(0.7, 0.7)
 
         owner.upGrade.disabled = detail.weaponLevel >= detail.weaponTopLevel ? true : false
-        owner.equip.skin = detail.isUserWeapon ? `remote/weaponhouse/20.png` : `remote/weaponhouse/10.png`
+        owner.equip.skin = detail.isUsingWp ? `remote/weaponhouse/20.png` : `remote/weaponhouse/10.png`
 
         //否是为已装备武器
         if (isUser) {
@@ -500,9 +374,182 @@ export default class WeaponHouseControl extends PaoYa.Component {
         }
     }
 
+    //仓库展示列表
+    showWareList(list) {
+        let detail = this.currentMyUserWeapDetail
+        let showList = JSON.parse(JSON.stringify(list))
+        let arr = []
+        let unShowWeap = JSON.parse(JSON.stringify(this.myUserList))
+        unShowWeap.splice(this.currentMyUserIdx, 1)
+        //筛选仓库武器
+        let isChoice = false
+        showList.forEach((element, index) => {
+            for (let i = 0; i < unShowWeap.length; i++) {
+                if (element.weaponId == unShowWeap[i].name && element.weaponLevel == unShowWeap[i].lv) {
+                    element.num -= 1
+                    element.isUsing = true
+                    // unShowWeap.splice(i, 1)
+                }
+            }
+            //选出已装备武器
+            for (let i = 0; i < element.num; i++) {
+                let obj = JSON.parse(JSON.stringify(element))
+                obj.originalIndex = index
+                obj.isUsingWp = false
+                if (this.myUserList[this.currentMyUserIdx] && obj.weaponId == this.myUserList[this.currentMyUserIdx].name && obj.weaponLevel == this.myUserList[this.currentMyUserIdx].lv && !isChoice) {
+                    obj.isUsingWp = true
+                    obj.isShowing = true
+                    isChoice = true
+                }
+                obj.WpGrade = obj.weaponStar * 100 + obj.weaponLevel
+                arr.push(obj)
+            }
+        });
 
-    showWareList(wareList) {
-        this.owner.warehouseList.array = wareList
+        if (this.newWpList) {
+            let al = arr.length
+            let ml = this.newWpList.length
+            getNewList: for (let j = 0; j < ml; j++) {
+                for (let i = 0; i < al; i++) {
+                    if (arr[i].weaponId == this.newWpList[j].name && arr[i].weaponLevel == this.newWpList[j].lv && !arr[i].isUsingWp && !this.newWpList[j].isOdd) {
+                        arr[i].isNew = true
+                        arr[i].idIdx = j
+                        continue getNewList;
+                    }
+                }
+            }
+        }
+
+        arr.sort(function (a, b) {
+            return b.WpGrade - a.WpGrade
+        })
+        this.isWareChoiceWp = null
+        this.owner.warehouseList.array = arr
+    }
+
+    //单个兵器图签
+    singleWeapon(cell, idx, isUser) {
+        cell.skin = `local/common/frameBg.png`
+        cell.getChildByName(`beChioce`).visible = false
+        if (!isUser) {
+            cell.getChildByName(`using`).visible = false
+            cell.getChildByName(`new`).visible = false
+            if (cell._dataSource.isNew) {
+                cell.getChildByName(`new`).visible = true
+            }
+        } else {
+            if (idx == this.currentMyUserIdx) {
+                cell.getChildByName(`beChioce`).visible = true
+                cell.skin = `local/common/currutFrameBg.png`
+                // this.currentMyUserWeapDetail = cell._dataSource
+                // this.isUsingWeapon = cell
+                // this.renderCenterData(isUser)
+            }
+        }
+        //选定渲染
+        if (this.myUserList[this.currentMyUserIdx] && this.myUserList[this.currentMyUserIdx].name == cell._dataSource.weaponId && this.myUserList[this.currentMyUserIdx].lv == cell._dataSource.weaponLevel) {
+            if (isUser) {
+                this.currentMyUserWeapDetail = cell._dataSource
+                this.renderCenterData(isUser)
+            } else if (cell._dataSource.isUsingWp) {
+                cell.getChildByName(`using`).visible = true
+                if (cell._dataSource.isUsingWp) {
+                    this.currentMyUserWeapDetail = cell._dataSource
+                    this.renderCenterData(isUser)
+                }
+            }
+        }
+
+        if (!this.isGuide) {
+            if (cell._dataSource.isShowing && (!this.isWareChoiceWp || idx == -1)) {
+                cell.getChildByName(`beChioce`).visible = true
+                // console.log(cell.getChildByName(`beChioce`),123)
+                this.isWareChoiceWp = cell
+                cell.skin = `local/common/currutFrameBg.png`
+
+                if (cell._dataSource.isUsingWp) {
+                    this.currentMyUserWeapDetail = cell._dataSource
+                    this.renderCenterData(isUser)
+                }
+            }
+        } else {
+            if (cell._dataSource.willBeUse) {
+                cell.getChildByName(`beChioce`).visible = true
+                // console.log(cell.getChildByName(`beChioce`),123)
+                this.isWareChoiceWp = cell
+                cell.skin = `local/common/currutFrameBg.png`
+                this.currentMyUserWeapDetail = cell._dataSource
+                this.renderCenterData(isUser)
+            }
+        }
+
+        cell.getChildByName(`wp`).skin = `remote/small_weapons/s_${cell._dataSource.weaponId}.png`
+        cell.getChildByName(`lv`).text = `LV.${cell._dataSource.weaponLevel}`
+        cell.getChildByName(`lv`).font = `weaponNFontT`
+        cell.getChildByName(`lv`).scale(0.7, 0.7)
+
+        let skinq = ``
+        let skint = ``
+        switch (cell._dataSource.weaponStar) {
+            case 1:
+                skinq = `local/common/quality_1.png`
+                break
+            case 2:
+                skinq = `local/common/quality_2.png`
+                break
+            case 3:
+                skinq = `local/common/quality_3.png`
+                break
+        }
+        switch (cell._dataSource.weaponType) {
+            case 3:
+                skint = `local/common/type_1.png`
+                break
+            case 2:
+                skint = `local/common/type_2.png`
+                break
+            case 1:
+                skint = `local/common/type_3.png`
+                break
+        }
+        cell.getChildByName(`bgwrap`).skin = skinq
+        cell.getChildByName(`mark`).skin = skint
+    }
+
+    //更换武器
+    chargeWeapon() {
+        if (this.isRequesting) {
+            return
+        }
+        let detail = this.currentMyUserWeapDetail
+        let oldDetail = this.myUserDetailList[this.currentMyUserIdx]
+        if (detail.isUsingWp) {
+            return
+        }
+        let wpType = 0
+        if (!this.myUserList[this.currentMyUserIdx]) {
+            wpType = 1
+        }
+        this.isRequesting = true
+        Laya.timer.once(500, this, () => {
+            this.isRequesting = false
+        })
+        PaoYa.Request.POST(`martial_change_weapon`, { oldWeaponId: `${oldDetail.weaponId}-${oldDetail.weaponLevel}`, newWeaponId: `${detail.weaponId}-${detail.weaponLevel}`, type: wpType, index: this.currentMyUserIdx }, res => {
+            this.myUserList = []
+            this.isEqWp = true
+            let arr = res.userWeapons.split(`,`)
+            // this.currentMyUserWeapDetail.isUsingWp = true
+            arr.forEach(element => {
+                let obj = {
+                    name: element.split(`-`)[0],
+                    lv: element.split(`-`)[1]
+                }
+                this.myUserList.push(obj)
+            });
+            this.getMyUserDetailList()
+            this.addWpList = []
+            this.owner.userWeaponList.array = this.myUserDetailList
+        })
     }
 
     //升级武器
@@ -516,13 +563,18 @@ export default class WeaponHouseControl extends PaoYa.Component {
             if (Number(owner.needGoldNum.text) > Number(PaoYa.DataCenter.user.gold)) {
                 this.navigator.popup("weapon/GoldLack");
                 return
+            } else {
+                // let obj = {
+                //     gold: PaoYa.DataCenter.user.gold -= Number(owner.needGoldNum.text),
+                // }
+                // owner.changeHB(obj)
             }
         } else {
             numNew = 1
         }
 
         let detail = this.isWareChoiceWp && this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail
-        let isusing = detail.isUserWeapon ? 1 : 0
+        let isusing = detail.isUsingWp ? 1 : 0
         this.isRequesting = true
         Laya.timer.once(500, this, () => {
             this.isRequesting = false
@@ -540,7 +592,6 @@ export default class WeaponHouseControl extends PaoYa.Component {
             let newDetail = null
             owner.upeffects.visible = true
             owner.upeffects.play(0, false)
-            //修改原數組
             switch (detail.weaponType) {
                 case 3:
                     // this.heavyList[detail.originalIndex].num--
@@ -566,15 +617,24 @@ export default class WeaponHouseControl extends PaoYa.Component {
             let isNew = true
             res.weapon.num = 1
             let oldNum = 1, newNum = 1
-            this[newDetail].forEach(element => {
-                if (detail.wpId == element.wpId) {
-                    for (const key in res.weapon) {
-                        element[key] = res.weapon[key]
-                    }
-                    element.isUseringWeapon = true
-                    this.isWareChoiceWp._dataSource = element
+            for (let i = 0; i < al; i++) {
+                let element = this[newDetail][i]
+                if (element.weaponId == detail.weaponId && element.weaponLevel == detail.weaponLevel && element.num > 0 && oldNum) {
+                    element.num -= 1
+                    oldNum = 0
                 }
-            });
+                // if (element.weaponId == res.weapon.weaponId && element.weaponLevel == res.weapon.weaponLevel && newNum) {
+                //     isNew = false
+                //     for (const key in res.weapon) {
+                //         element[key] = res.weapon[key]
+                //     }
+                //     element.num += 1
+                //     newNum = 0
+                // }
+            }
+            // if (isNew) {
+            this[newDetail].push(res.weapon)
+            // }
 
             this.allList = []
             this.allList = this.lightList.concat(this.heavyList, this.middleList)
@@ -588,51 +648,22 @@ export default class WeaponHouseControl extends PaoYa.Component {
                     }
                     this.myUserList.push(obj)
                 });
-                this.getMyUserDetailList(this.currentMyUserIdx)
+                this.getMyUserDetailList()
                 this.addWpList = []
                 owner.userWeaponList.array = this.myUserDetailList
             } else {
+                for (const key in res.weapon) {
+                    if (this.isWareChoiceWp && this.isWareChoiceWp._dataSource) {
+                        this.isWareChoiceWp._dataSource[key] = res.weapon[key]
+                    }
+                }
+
+                // this.isWareChoiceWp._dataSource = res.weapon
                 if (this.isWareChoiceWp) {
                     this.singleWeapon(this.isWareChoiceWp, -1)
                 }
                 this.renderCenterData()
             }
-        })
-    }
-
-    //更换武器
-    chargeWeapon() {
-        if (this.isRequesting) {
-            return
-        }
-        let detail = this.currentMyUserWeapDetail
-        let oldDetail = this.myUserDetailList[this.currentMyUserIdx]
-        if (detail.isUserWeapon) {
-            return
-        }
-        let wpType = 0
-        if (!this.myUserList[this.currentMyUserIdx]) {
-            wpType = 1
-        }
-        this.isRequesting = true
-        Laya.timer.once(500, this, () => {
-            this.isRequesting = false
-        })
-        PaoYa.Request.POST(`martial_change_weapon`, { oldWeaponId: `${oldDetail.weaponId}-${oldDetail.weaponLevel}`, newWeaponId: `${detail.weaponId}-${detail.weaponLevel}`, type: wpType, index: this.currentMyUserIdx }, res => {
-            this.myUserList = []
-            this.isEqWp = true
-            let arr = res.userWeapons.split(`,`)
-            // this.currentMyUserWeapDetail.isUsingWp = true
-            arr.forEach(element => {
-                let obj = {
-                    name: element.split(`-`)[0],
-                    lv: element.split(`-`)[1]
-                }
-                this.myUserList.push(obj)
-            });
-            this.getMyUserDetailList(this.currentMyUserIdx)
-            this.addWpList = []
-            this.owner.userWeaponList.array = this.myUserDetailList
         })
     }
 }

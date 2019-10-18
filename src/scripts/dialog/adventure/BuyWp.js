@@ -148,8 +148,9 @@ export default class BuyWp extends PaoYa.Dialog {
         }
 
         if (num > PaoYa.DataCenter.user.diamond) {
-            this.close()
-            PaoYa.navigator.popup("weapon/DiamondLack", 1);
+            py.showToast({
+                title: '钻石不足'
+            })
             return
         }
 

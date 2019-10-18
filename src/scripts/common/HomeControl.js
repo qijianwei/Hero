@@ -375,7 +375,13 @@ export default class HomeControl extends PaoYa.Component {
         this.POST("hero_game_start", {}, (res) => {
             res.gameType = `pass`;
             Global.gameStartStat(res.stageId)
-            this.navigator.push("GameView", res);
+            let resUrl=[];
+            if(res.stageId>=15&&res.stageId<=29){
+                resUrl=[`remote/spine/scene/scene3.sk`,`remote/game/scene3.jpg`];
+            }else{
+                resUrl=[`remote/spine/scene/scene1.sk`,`remote/game/scene1.jpg`]
+            }
+            this.navigator.push("GameView", res,resUrl);
         }, (msg, code) => {
             let errorDialog;
             if (code == 3018) { //通关

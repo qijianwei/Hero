@@ -91,6 +91,4 @@ function throttle(fn, delay) {
   
   // 用新的throttle包装scroll的回调
   const better_scroll = throttle(() => console.log('触发了滚动事件'), 1000)
-  
   document.addEventListener('scroll', better_scroll)
-  

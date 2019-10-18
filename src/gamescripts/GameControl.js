@@ -121,7 +121,7 @@ export default class GameControl extends PaoYa.Component {
         this.resetPlayerInfo();
         this.errorIndex=0;
         if (!this.closeRobot) {
-            if(this.params.stageId<3||this.params.stageId>7){
+            if(this.params.stageId>=4){
                 var adParams = {
                     onClose: function onClose(res) {
                         _this.gameState = 'start';
@@ -837,7 +837,7 @@ export default class GameControl extends PaoYa.Component {
         if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
 
             if (targetComp.isSelf) {
-                console.warn(name + 'Player' + "__体力不足");
+               // console.warn(name + 'Player' + "__体力不足");
                 this.playerStateComp.setStateText("内力不足")
             }
             return;
@@ -865,7 +865,7 @@ export default class GameControl extends PaoYa.Component {
             if (skillType == 1 && status == 1) {
                 let random = Math.floor(Math.random() * 100 + 1);
                 // if(skillId==50){prob=100;} 测试用
-                if (random <= 100) {
+                if (random <= prob) {
                     /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                     params.skillEffect = true;
                     this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
@@ -1081,10 +1081,10 @@ export default class GameControl extends PaoYa.Component {
         } else {
             this.killNum += 1;
             console.error(`死亡个数：`, this.killNum)
-            if (this.killNum == this.monsterNum) {
-                
+            if (this.killNum == this.monsterNum) {    
                 this.passOver(loserIsSelf);
             } else {
+                this.gameState=`nextPlayer`;//游戏状态是等下一个出场;
                 Laya.timer.once(1500, this, this.replacePlayer)
             }
         }

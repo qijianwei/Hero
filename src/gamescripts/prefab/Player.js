@@ -286,7 +286,7 @@ export default class Player extends PaoYa.Component {
 
   }
   minusHp(endTime, hpValue) {
-    if (new Date().getTime() > endTime) {
+    if (new Date().getTime() > endTime||GameControl.instance.gameState==`over`) {//游戏结束时候去除毒
       this.removePoison();
       return;
     }
@@ -525,9 +525,10 @@ export default class Player extends PaoYa.Component {
     }, [hurt]));
   }
   onDisable() {
-    /*  this.skeleton.off(Laya.Event.STOPPED, this, this.stopHandler);
-     this.skeleton.off(Laya.Event.LABEL,this,this.labelHandler);
-     this.skeleton.removeSelf(); */
+     //对象回收的时候把冰冻效果去除
+     if(this.freezeState){
+       this.removeFreeze();
+     }
     Laya.Pool.recover("player", this.owner);
   }
   onDestroy() {

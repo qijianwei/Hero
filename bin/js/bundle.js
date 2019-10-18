@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/GameView.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -520,6 +520,9 @@ var Main = exports.Main = function (_GameMain) {
 				fontUrl: "font/weapon/lvfont.fnt",
 				fontAni: "weaponNFontT"
 			}, {
+				fontUrl: "font/figure/msz.fnt",
+				fontAni: "figureDetail"
+			}, {
 				fontUrl: "font/recMP.fnt",
 				fontAni: "recoverMP"
 			}, {
@@ -546,9 +549,6 @@ var Main = exports.Main = function (_GameMain) {
 			}, {
 				fontUrl: "font/weapon/detailfont.fnt",
 				fontAni: "weaponDFont"
-			}, {
-				fontUrl: "font/figure/msz.fnt",
-				fontAni: "figureDetail"
 			}, {
 				fontUrl: "font/adventure.fnt",
 				fontAni: "adventure"
@@ -588,7 +588,7 @@ var Main = exports.Main = function (_GameMain) {
 		value: function setupGameRes() {
 			var list = [
 			/* 首屏资源和公共资源 */
-			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas', 'remote/game/scene1.jpg',
+			'scenes/HomeView.scene', 'local/home/homeNewBg.jpg', 'local/home/homeBg.jpg', 'res/atlas/local/common.atlas', 'res/atlas/local/home.atlas', 'res/atlas/remote/guide.atlas', 'res/atlas/remote/grading.atlas', 'res/atlas/remote/adventure.atlas', 'remote/game/scene1.jpg', 'remote/guide/textBg.png',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas', 'res/atlas/remote/debuff_palsy.atlas', 'res/atlas/remote/debuff_poison.atlas', 'res/atlas/remote/injured.atlas', 'res/atlas/remote/recover_blood.atlas', 'res/atlas/remote/recover_power.atlas', 'res/atlas/remote/trigger_skill.atlas', 'res/atlas/remote/warn_arms.atlas', //cd发光效果
 			'res/atlas/remote/collision.atlas',
@@ -842,7 +842,7 @@ var GameControl = function (_PaoYa$Component) {
             this.resetPlayerInfo();
             this.errorIndex = 0;
             if (!this.closeRobot) {
-                if (this.params.stageId < 3 || this.params.stageId > 7) {
+                if (this.params.stageId >= 4) {
                     var adParams = {
                         onClose: function onClose(res) {
                             _this.gameState = 'start';
@@ -1642,7 +1642,7 @@ var GameControl = function (_PaoYa$Component) {
             if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
 
                 if (targetComp.isSelf) {
-                    console.warn(name + 'Player' + "__体力不足");
+                    // console.warn(name + 'Player' + "__体力不足");
                     this.playerStateComp.setStateText("内力不足");
                 }
                 return;
@@ -1902,9 +1902,9 @@ var GameControl = function (_PaoYa$Component) {
                 this.killNum += 1;
                 console.error('\u6B7B\u4EA1\u4E2A\u6570\uFF1A', this.killNum);
                 if (this.killNum == this.monsterNum) {
-
                     this.passOver(loserIsSelf);
                 } else {
+                    this.gameState = 'nextPlayer'; //游戏状态是等下一个出场;
                     Laya.timer.once(1500, this, this.replacePlayer);
                 }
             }
@@ -3909,7 +3909,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                 });
                 warnDialog.popup();
             } else {
-                if (this.params.stageId < 3 || this.params.stageId > 7) {
+                if (this.params.stageId >= 4) {
                     this.showAD(); //插片广告
                 }
             }
@@ -6258,7 +6258,8 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "minusHp",
     value: function minusHp(endTime, hpValue) {
-      if (new Date().getTime() > endTime) {
+      if (new Date().getTime() > endTime || _GameControl2.default.instance.gameState == "over") {
+        //游戏结束时候去除毒
         this.removePoison();
         return;
       }
@@ -6538,9 +6539,10 @@ var Player = function (_PaoYa$Component) {
   }, {
     key: "onDisable",
     value: function onDisable() {
-      /*  this.skeleton.off(Laya.Event.STOPPED, this, this.stopHandler);
-       this.skeleton.off(Laya.Event.LABEL,this,this.labelHandler);
-       this.skeleton.removeSelf(); */
+      //对象回收的时候把冰冻效果去除
+      if (this.freezeState) {
+        this.removeFreeze();
+      }
       Laya.Pool.recover("player", this.owner);
     }
   }, {
@@ -8510,7 +8512,13 @@ var HomeControl = function (_PaoYa$Component) {
             this.POST("hero_game_start", {}, function (res) {
                 res.gameType = "pass";
                 _Global.Global.gameStartStat(res.stageId);
-                _this9.navigator.push("GameView", res);
+                var resUrl = [];
+                if (res.stageId >= 15 && res.stageId <= 29) {
+                    resUrl = ["remote/spine/scene/scene3.sk", "remote/game/scene3.jpg"];
+                } else {
+                    resUrl = ["remote/spine/scene/scene1.sk", "remote/game/scene1.jpg"];
+                }
+                _this9.navigator.push("GameView", res, resUrl);
             }, function (msg, code) {
                 var errorDialog = void 0;
                 if (code == 3018) {
@@ -12595,6 +12603,10 @@ var WeaponHouseControl = function (_PaoYa$Component) {
         var _this = _possibleConstructorReturn(this, (WeaponHouseControl.__proto__ || Object.getPrototypeOf(WeaponHouseControl)).call(this));
 
         WeaponHouseControl.ins = _this;
+        _this.myUserList = [];
+        _this.isUsingWeapon = {};
+        _this.currentMyUserIdx = 0;
+        _this.currentMyUserWeapDetail = "";
         return _this;
     }
 
@@ -12608,18 +12620,14 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             onwer.params = onwer.params.detail;
             this.params = onwer.params;
             //武器数据
-            this.lightList = this.params.lightList;
-            this.heavyList = this.params.heavyList;
-            this.middleList = this.params.middleList;
+            this.lightList = this.getNewListF(this.params.lightList, 1);
+            this.heavyList = this.getNewListF(this.params.heavyList, 2);
+            this.middleList = this.getNewListF(this.params.middleList, 3);
             this.allList = this.lightList.concat(this.heavyList, this.middleList);
             this.addWpList = [];
             //新武器处理
             this.params.newWeapon && this.chioceNewWp();
-            //我的武器数据
-            this.myUserList = [];
-            this.isUsingWeapon = {};
-            this.currentMyUserIdx = 0;
-            this.currentMyUserWeapDetail = "";
+            // //我的武器数据
             var arr = this.params.userWeapons.split(",");
             arr.forEach(function (element) {
                 var obj = {
@@ -12628,24 +12636,12 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 };
                 _this2.myUserList.push(obj);
             });
-            this.getMyUserDetailList();
-            // onwer.userWeaponList.selectHandler = new Laya.Handler(this, this.userWeaponSelect);
+            this.getMyUserDetailList(0);
             onwer.userWeaponList.renderHandler = new Laya.Handler(this, this.userWeaponUpdateItem);
             onwer.userWeaponList.array = this.myUserDetailList;
-            //仓库武器数据
-            // onwer.warehouseList.selectHandler = new Laya.Handler(this, this.wareWeaponSelect);
             onwer.warehouseList.vScrollBarSkin = "";
             this.isWareChoiceWp = null;
             onwer.warehouseList.renderHandler = new Laya.Handler(this, this.wareWeaponUpdateItem);
-        }
-    }, {
-        key: "onEnable",
-        value: function onEnable() {
-            // this.owner.goldNum.text = PaoYa.DataCenter.user.gold
-            // this.owner.goldNum.font = `weaponNFontT`
-            // this.owner.diamondNum.text = PaoYa.DataCenter.user.diamond
-            // this.owner.diamondNum.font = `weaponNFontT`
-
         }
     }, {
         key: "onThrottleClick",
@@ -12659,19 +12655,22 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     _SoundManager2.default.ins.btn();
                     owner.getWareBtnSkin("light");
                     owner.lightNew.visible = false;
-                    this.showWareList(this.lightList);
+                    owner.warehouseList.array = this.lightList;
+                    // this.showWareList(this.lightList)
                     break;
                 case "middle":
                     _SoundManager2.default.ins.btn();
                     owner.getWareBtnSkin("middle");
                     owner.middleNew.visible = false;
-                    this.showWareList(this.middleList);
+                    // this.showWareList(this.middleList)
+                    owner.warehouseList.array = this.middleList;
                     break;
                 case "large":
                     _SoundManager2.default.ins.btn();
                     owner.getWareBtnSkin("large");
                     owner.largeNew.visible = false;
-                    this.showWareList(this.heavyList);
+                    // this.showWareList(this.heavyList)
+                    owner.warehouseList.array = this.heavyList;
                     break;
                 case "benBack":
                     if (this.isGuide) {
@@ -12695,69 +12694,40 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     break;
             }
         }
-        //获取装备武器详情
+
+        //仓库武器渲染
 
     }, {
-        key: "getMyUserDetailList",
-        value: function getMyUserDetailList() {
-            switch (this.params.weaponGridNum) {
-                case 3:
-                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }, { type: 5 }];
-                    break;
-                case 4:
-                    if (this.params.shareGrid > 0) {
-                        this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }];
-                    } else {
-                        this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 5 }];
-                    }
-                    break;
-                case 5:
-                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }];
-                    break;
-            }
-            var al = this.allList.length;
-            var ml = this.myUserList.length;
-            var num = 0;
-            getNowWare: for (var j = 0; j < ml; j++) {
-                if (!this.myUserList[j]) {
-                    return;
-                }
-                for (var i = 0; i < al; i++) {
-                    if (this.allList[i].weaponId == this.myUserList[j].name && this.allList[i].weaponLevel == this.myUserList[j].lv && this.allList[i].num > 0) {
-                        this.myUserDetailList[num] = this.allList[i];
-                        num++;
-                        continue getNowWare;
-                    }
-                }
-            }
-        }
-        //新武器属性赋予
-
-    }, {
-        key: "chioceNewWp",
-        value: function chioceNewWp() {
+        key: "wareWeaponUpdateItem",
+        value: function wareWeaponUpdateItem(cell, idx) {
             var _this3 = this;
 
-            var owner = this.owner;
-            this.newWpList = [];
-            owner.lightNew.visible = this.params.newWeapon.indexOf("d") != -1 ? true : false;
-            owner.middleNew.visible = this.params.newWeapon.indexOf("z") != -1 ? true : false;
-            owner.largeNew.visible = this.params.newWeapon.indexOf("g") != -1 ? true : false;
-            if (this.params.newWeapon) {
-                var newaparr = this.params.newWeapon.split(",");
-                newaparr.forEach(function (element) {
-                    var obj = {
-                        name: element.split("-")[0],
-                        lv: element.split("-")[1]
-                    };
-                    _this3.newWpList.push(obj);
-                });
-            }
-        }
-    }, {
-        key: "userWeaponSelect",
-        value: function userWeaponSelect(cell, idx) {
-            console.log(cell, idx);
+            cell.offAll();
+            cell.on(Laya.Event.CLICK, this, function () {
+                _SoundManager2.default.ins.btn();
+                if (_this3.isWareChoiceWp) {
+                    _this3.isWareChoiceWp.getChildByName("beChioce").visible = false;
+                    _this3.isWareChoiceWp.isUseringWeapon = false;
+                    _this3.isWareChoiceWp.skin = "local/common/frameBg.png";
+                    // this.isWareChoiceWp._dataSource.isShowing = false
+                    _this3.isWareChoiceWp = cell;
+                    _this3.isWareChoiceWp._dataSource.isShowing = true;
+                } else {
+                    _this3.isWareChoiceWp = cell;
+                }
+                cell.getChildByName("beChioce").visible = true;
+                cell.skin = "local/common/currutFrameBg.png";
+                cell._dataSource.isUseringWeapon = true;
+                _this3.currentMyUserWeapDetail = cell._dataSource;
+                _this3.renderCenterData();
+                if (cell._dataSource.isNew) {
+                    cell._dataSource.isNew = false;
+                    cell.getChildByName("new").visible = false;
+                    _this3.newWpList[cell._dataSource.idIdx].isOdd = true;
+                    // let arr = newWpList
+                }
+            });
+            this.singleWeapon(cell, idx);
         }
         //正在使用武器渲染
 
@@ -12766,7 +12736,6 @@ var WeaponHouseControl = function (_PaoYa$Component) {
         value: function userWeaponUpdateItem(cell, idx) {
             var _this4 = this;
 
-            // console.log(cell, idx)
             //点击重新渲染
             cell.offAll();
             var owner = this.owner;
@@ -12791,7 +12760,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                             cell.getChildByName("beChioce").visible = true;
                             owner["wpBg_" + (_this4.currentMyUserIdx + 1)].skin = "remote/weaponhouse/26.png";
                             // this.myUserList[this.currentMyUserIdx] = this.myUserList[newIndx]
-                            _this4.getMyUserDetailList();
+                            _this4.getMyUserDetailList(_this4.currentMyUserIdx);
                             _this4.addWpList = [];
                             owner.userWeaponList.array = _this4.myUserDetailList;
                         });
@@ -12820,6 +12789,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             cell.getChildByName("lv").visible = true;
             cell.getChildByName("add").visible = false;
             cell.getChildByName("invite").visible = false;
+            cell.getChildByName("beChioce").visible = false;
 
             cell.on(Laya.Event.CLICK, this, function () {
                 _SoundManager2.default.ins.btn();
@@ -12831,53 +12801,216 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                 }
                 _this4.currentMyUserIdx = idx;
                 owner["wpBg_" + (_this4.currentMyUserIdx + 1)].skin = "remote/weaponhouse/26.png";
-                _this4.getMyUserDetailList();
+                _this4.getMyUserDetailList(_this4.currentMyUserIdx);
                 _this4.addWpList = [];
                 owner.userWeaponList.array = _this4.myUserDetailList;
             });
 
             this.singleWeapon(cell, idx, 1);
         }
-    }, {
-        key: "wareWeaponSelect",
-        value: function wareWeaponSelect(cell, idx) {
-            console.log(cell, idx);
-        }
-        //仓库武器渲染
+
+        //新武器属性赋予
 
     }, {
-        key: "wareWeaponUpdateItem",
-        value: function wareWeaponUpdateItem(cell, idx) {
+        key: "chioceNewWp",
+        value: function chioceNewWp() {
             var _this5 = this;
 
-            // console.log(cell, idx)
-            cell.offAll();
-            cell.on(Laya.Event.CLICK, this, function () {
-                _SoundManager2.default.ins.btn();
-                if (_this5.isWareChoiceWp) {
-                    _this5.isWareChoiceWp.getChildByName("beChioce").visible = false;
-                    _this5.isWareChoiceWp.skin = "local/common/frameBg.png";
-                    _this5.isWareChoiceWp._dataSource.isShowing = false;
-                    _this5.isWareChoiceWp = cell;
-                    _this5.isWareChoiceWp._dataSource.isShowing = true;
-                } else {
-                    _this5.isWareChoiceWp = cell;
+            var owner = this.owner;
+            this.newWpList = [];
+            owner.lightNew.visible = this.params.newWeapon.indexOf("d") != -1 ? true : false;
+            owner.middleNew.visible = this.params.newWeapon.indexOf("z") != -1 ? true : false;
+            owner.largeNew.visible = this.params.newWeapon.indexOf("g") != -1 ? true : false;
+            if (this.params.newWeapon) {
+                var newaparr = this.params.newWeapon.split(",");
+                newaparr.forEach(function (element) {
+                    var obj = {
+                        name: element.split("-")[0],
+                        lv: element.split("-")[1]
+                    };
+                    _this5.newWpList.push(obj);
+                });
+            }
+
+            var al = this.allList.length;
+            var ml = this.newWpList.length;
+            getNewList: for (var j = 0; j < ml; j++) {
+                for (var i = 0; i < al; i++) {
+                    if (this.allList[i].weaponId == this.newWpList[j].name && this.allList[i].weaponLevel == this.newWpList[j].lv && !this.allList[i].isUserWeapon && !this.newWpList[j].isOdd) {
+                        this.allList[i].isNew = true;
+                        this.allList[i].idIdx = j;
+                        continue getNewList;
+                    }
                 }
-                cell.getChildByName("beChioce").visible = true;
-                // console.log(cell.getChildByName(`beChioce`),123)
-                cell.skin = "local/common/currutFrameBg.png";
-                _this5.currentMyUserWeapDetail = cell._dataSource;
-                _this5.renderCenterData();
-                if (cell._dataSource.isNew) {
-                    cell._dataSource.isNew = false;
-                    cell.getChildByName("new").visible = false;
-                    _this5.newWpList[cell._dataSource.idIdx].isOdd = true;
-                    // let arr = newWpList
-                    // console.log(arr)
+            }
+        }
+
+        //获取装备武器详情
+
+    }, {
+        key: "getMyUserDetailList",
+        value: function getMyUserDetailList(number) {
+            this.allList.forEach(function (element) {
+                element.isUseringWeapon = false;
+                element.isUserWeapon = false;
+            });
+            switch (this.params.weaponGridNum) {
+                case 3:
+                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }, { type: 5 }];
+                    break;
+                case 4:
+                    if (this.params.shareGrid > 0) {
+                        this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 4 }];
+                    } else {
+                        this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 5 }];
+                    }
+                    break;
+                case 5:
+                    this.myUserDetailList = [{ type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }, { type: 3 }];
+                    break;
+            }
+            var al = this.allList.length;
+            var ml = this.myUserList.length;
+            var num = 0;
+            getNowWare: for (var j = 0; j < ml; j++) {
+                if (!this.myUserList[j]) {
+                    return;
+                }
+                for (var i = 0; i < al; i++) {
+                    if (this.allList[i].weaponId == this.myUserList[j].name && this.allList[i].weaponLevel == this.myUserList[j].lv && !this.allList[i].isUseringWeapon && !this.allList[i].isUserWeapon) {
+                        if (num == number) {
+                            this.allList[i].isUseringWeapon = true;
+                        }
+                        this.allList[i].isUserWeapon = true;
+
+                        this.myUserDetailList[num] = JSON.parse(JSON.stringify(this.allList[i]));
+                        num++;
+                        continue getNowWare;
+                    }
+                }
+            }
+        }
+    }, {
+        key: "getNewListF",
+        value: function getNewListF(list, num) {
+            var showList = JSON.parse(JSON.stringify(list));
+            var arr = [];
+            //筛选仓库武器
+            showList.forEach(function (element, index) {
+                for (var i = 0; i < element.num; i++) {
+                    element.WpGrade = element.weaponStar * 100 + element.weaponLevel;
+                    element.wpId = "" + num + index + i;
+                    arr.push(JSON.parse(JSON.stringify(element)));
                 }
             });
-            this.singleWeapon(cell, idx);
+
+            if (this.newWpList) {
+                var al = arr.length;
+                var ml = this.newWpList.length;
+                getNewList: for (var j = 0; j < ml; j++) {
+                    for (var i = 0; i < al; i++) {
+                        if (arr[i].weaponId == this.newWpList[j].name && arr[i].weaponLevel == this.newWpList[j].lv && !arr[i].isUserWeapon && !this.newWpList[j].isOdd) {
+                            arr[i].isNew = true;
+                            arr[i].idIdx = j;
+                            continue getNewList;
+                        }
+                    }
+                }
+            }
+
+            arr.sort(function (a, b) {
+                return b.WpGrade - a.WpGrade;
+            });
+
+            return arr;
         }
+
+        //单个兵器图签
+
+    }, {
+        key: "singleWeapon",
+        value: function singleWeapon(cell, idx, isUser) {
+            // console.log(cell, idx, isUser)
+            cell.skin = "local/common/frameBg.png";
+            cell.getChildByName("beChioce").visible = false;
+            if (!isUser) {
+                if (this.isGuide) {
+                    if (cell._dataSource.willBeUse) {
+                        cell.getChildByName("beChioce").visible = true;
+                        this.isWareChoiceWp = cell;
+                        cell.skin = "local/common/currutFrameBg.png";
+                        this.currentMyUserWeapDetail = cell._dataSource;
+                        this.renderCenterData(isUser);
+                    }
+                } else {
+                    cell.getChildByName("using").visible = false;
+                    cell.getChildByName("new").visible = false;
+                    if (cell._dataSource.isUserWeapon) {
+                        cell.getChildByName("using").visible = true;
+                    }
+
+                    if (cell._dataSource.isNew) {
+                        cell.getChildByName("new").visible = true;
+                    }
+                    if (cell._dataSource.isUseringWeapon) {
+                        if (cell._dataSource.isUserWeapon) {
+                            cell.getChildByName("using").visible = true;
+                        }
+                        cell.skin = "local/common/currutFrameBg.png";
+                        cell.getChildByName("beChioce").visible = true;
+                        this.isWareChoiceWp = cell;
+                        this.currentMyUserWeapDetail = cell._dataSource;
+                        this.renderCenterData(isUser);
+                    }
+                }
+            } else {
+                if (cell._dataSource.isUseringWeapon) {
+                    cell.getChildByName("beChioce").visible = true;
+                    this.isWareChoiceWp = cell;
+                    this.currentMyUserWeapDetail = cell._dataSource;
+                    this.renderCenterData(isUser);
+                }
+            }
+            //选定渲染
+
+            // if (!this.isGuide) {
+            // } else {
+
+            // }
+
+            cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
+            cell.getChildByName("lv").text = "LV." + cell._dataSource.weaponLevel;
+            cell.getChildByName("lv").font = "weaponNFontT";
+            cell.getChildByName("lv").scale(0.7, 0.7);
+
+            var skinq = "";
+            var skint = "";
+            switch (cell._dataSource.weaponStar) {
+                case 1:
+                    skinq = "local/common/quality_1.png";
+                    break;
+                case 2:
+                    skinq = "local/common/quality_2.png";
+                    break;
+                case 3:
+                    skinq = "local/common/quality_3.png";
+                    break;
+            }
+            switch (cell._dataSource.weaponType) {
+                case 3:
+                    skint = "local/common/type_1.png";
+                    break;
+                case 2:
+                    skint = "local/common/type_2.png";
+                    break;
+                case 1:
+                    skint = "local/common/type_3.png";
+                    break;
+            }
+            cell.getChildByName("bgwrap").skin = skinq;
+            cell.getChildByName("mark").skin = skint;
+        }
+
         //渲染详情部分
 
     }, {
@@ -12887,9 +13020,8 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             owner["skillImg_1"].visible = false;
             owner["skillImg_2"].visible = false;
             var detail = null;
-            if (this.isEqWp && this.isWareChoiceWp) {
+            if (this.isWareChoiceWp) {
                 detail = this.isWareChoiceWp._dataSource;
-                this.isEqWp = false;
             } else {
                 detail = this.currentMyUserWeapDetail;
             }
@@ -12918,6 +13050,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     skinq = "local/common/quality_3.png";
                     break;
             }
+
             switch (detail.weaponType) {
                 case 3:
                     skint = "local/common/type_1.png";
@@ -12988,162 +13121,118 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             owner.needGoldNum.scale(0.7, 0.7);
 
             owner.upGrade.disabled = detail.weaponLevel >= detail.weaponTopLevel ? true : false;
-            owner.equip.skin = detail.isUsingWp ? "remote/weaponhouse/20.png" : "remote/weaponhouse/10.png";
+            owner.equip.skin = detail.isUserWeapon ? "remote/weaponhouse/20.png" : "remote/weaponhouse/10.png";
 
             //否是为已装备武器
             if (isUser) {
                 this.showWareList(wareList);
             }
         }
-
-        //仓库展示列表
-
     }, {
         key: "showWareList",
-        value: function showWareList(list) {
-            var _this6 = this;
-
-            var detail = this.currentMyUserWeapDetail;
-            var showList = JSON.parse(JSON.stringify(list));
-            var arr = [];
-            var unShowWeap = JSON.parse(JSON.stringify(this.myUserList));
-            unShowWeap.splice(this.currentMyUserIdx, 1);
-            //筛选仓库武器
-            var isChoice = false;
-            showList.forEach(function (element, index) {
-                for (var i = 0; i < unShowWeap.length; i++) {
-                    if (element.weaponId == unShowWeap[i].name && element.weaponLevel == unShowWeap[i].lv) {
-                        element.num -= 1;
-                        element.isUsing = true;
-                        // unShowWeap.splice(i, 1)
-                    }
-                }
-                //选出已装备武器
-                for (var _i = 0; _i < element.num; _i++) {
-                    var obj = JSON.parse(JSON.stringify(element));
-                    obj.originalIndex = index;
-                    obj.isUsingWp = false;
-                    if (_this6.myUserList[_this6.currentMyUserIdx] && obj.weaponId == _this6.myUserList[_this6.currentMyUserIdx].name && obj.weaponLevel == _this6.myUserList[_this6.currentMyUserIdx].lv && !isChoice) {
-                        obj.isUsingWp = true;
-                        obj.isShowing = true;
-                        isChoice = true;
-                    }
-                    obj.WpGrade = obj.weaponStar * 100 + obj.weaponLevel;
-                    arr.push(obj);
-                }
-            });
-
-            if (this.newWpList) {
-                var al = arr.length;
-                var ml = this.newWpList.length;
-                getNewList: for (var j = 0; j < ml; j++) {
-                    for (var i = 0; i < al; i++) {
-                        if (arr[i].weaponId == this.newWpList[j].name && arr[i].weaponLevel == this.newWpList[j].lv && !arr[i].isUsingWp && !this.newWpList[j].isOdd) {
-                            arr[i].isNew = true;
-                            arr[i].idIdx = j;
-                            continue getNewList;
-                        }
-                    }
-                }
-            }
-
-            arr.sort(function (a, b) {
-                return b.WpGrade - a.WpGrade;
-            });
-            this.isWareChoiceWp = null;
-            this.owner.warehouseList.array = arr;
+        value: function showWareList(wareList) {
+            this.owner.warehouseList.array = wareList;
         }
 
-        //单个兵器图签
+        //升级武器
 
     }, {
-        key: "singleWeapon",
-        value: function singleWeapon(cell, idx, isUser) {
-            cell.skin = "local/common/frameBg.png";
-            cell.getChildByName("beChioce").visible = false;
-            if (!isUser) {
-                cell.getChildByName("using").visible = false;
-                cell.getChildByName("new").visible = false;
-                if (cell._dataSource.isNew) {
-                    cell.getChildByName("new").visible = true;
-                }
-            } else {
-                if (idx == this.currentMyUserIdx) {
-                    cell.getChildByName("beChioce").visible = true;
-                    cell.skin = "local/common/currutFrameBg.png";
-                    // this.currentMyUserWeapDetail = cell._dataSource
-                    // this.isUsingWeapon = cell
-                    // this.renderCenterData(isUser)
-                }
-            }
-            //选定渲染
-            if (this.myUserList[this.currentMyUserIdx] && this.myUserList[this.currentMyUserIdx].name == cell._dataSource.weaponId && this.myUserList[this.currentMyUserIdx].lv == cell._dataSource.weaponLevel) {
-                if (isUser) {
-                    this.currentMyUserWeapDetail = cell._dataSource;
-                    this.renderCenterData(isUser);
-                } else if (cell._dataSource.isUsingWp) {
-                    cell.getChildByName("using").visible = true;
-                    if (cell._dataSource.isUsingWp) {
-                        this.currentMyUserWeapDetail = cell._dataSource;
-                        this.renderCenterData(isUser);
-                    }
-                }
-            }
+        key: "upgradeWeapon",
+        value: function upgradeWeapon() {
+            var _this6 = this;
 
+            var owner = this.owner;
+            var numNew = 0;
             if (!this.isGuide) {
-                if (cell._dataSource.isShowing && (!this.isWareChoiceWp || idx == -1)) {
-                    cell.getChildByName("beChioce").visible = true;
-                    // console.log(cell.getChildByName(`beChioce`),123)
-                    this.isWareChoiceWp = cell;
-                    cell.skin = "local/common/currutFrameBg.png";
-
-                    if (cell._dataSource.isUsingWp) {
-                        this.currentMyUserWeapDetail = cell._dataSource;
-                        this.renderCenterData(isUser);
-                    }
+                if (this.isRequesting) {
+                    return;
+                }
+                if (Number(owner.needGoldNum.text) > Number(PaoYa.DataCenter.user.gold)) {
+                    this.navigator.popup("weapon/GoldLack");
+                    return;
                 }
             } else {
-                if (cell._dataSource.willBeUse) {
-                    cell.getChildByName("beChioce").visible = true;
-                    // console.log(cell.getChildByName(`beChioce`),123)
-                    this.isWareChoiceWp = cell;
-                    cell.skin = "local/common/currutFrameBg.png";
-                    this.currentMyUserWeapDetail = cell._dataSource;
-                    this.renderCenterData(isUser);
+                numNew = 1;
+            }
+
+            var detail = this.isWareChoiceWp && this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail;
+            var isusing = detail.isUserWeapon ? 1 : 0;
+            this.isRequesting = true;
+            Laya.timer.once(500, this, function () {
+                _this6.isRequesting = false;
+            });
+
+            PaoYa.Request.POST("martial_update_weapon", { weaponId: detail.weaponId + "-" + detail.weaponLevel, newHand: numNew, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, function (res) {
+                _SoundManager2.default.ins.upgrade();
+
+                var obj = {
+                    gold: PaoYa.DataCenter.user.gold - Number(owner.needGoldNum.text),
+                    diamond: PaoYa.DataCenter.user.diamond
+                };
+                owner.changeHB(obj);
+
+                var newDetail = null;
+                owner.upeffects.visible = true;
+                owner.upeffects.play(0, false);
+                //修改原數組
+                switch (detail.weaponType) {
+                    case 3:
+                        // this.heavyList[detail.originalIndex].num--
+                        // res.weapon.num = 1
+                        // this.heavyList.push(res.weapon)
+                        newDetail = "heavyList";
+                        break;
+                    case 2:
+                        // this.middleList[detail.originalIndex].num--
+                        // res.weapon.num = 1
+                        // this.middleList.push(res.weapon)
+                        newDetail = "middleList";
+                        break;
+                    case 1:
+                        // this.lightList[detail.originalIndex].num--
+                        // res.weapon.num = 1
+                        // this.lightList.push(res.weapon)
+                        newDetail = "lightList";
+                        break;
                 }
-            }
 
-            cell.getChildByName("wp").skin = "remote/small_weapons/s_" + cell._dataSource.weaponId + ".png";
-            cell.getChildByName("lv").text = "LV." + cell._dataSource.weaponLevel;
-            cell.getChildByName("lv").font = "weaponNFontT";
-            cell.getChildByName("lv").scale(0.7, 0.7);
+                var al = _this6[newDetail].length;
+                var isNew = true;
+                res.weapon.num = 1;
+                var oldNum = 1,
+                    newNum = 1;
+                _this6[newDetail].forEach(function (element) {
+                    if (detail.wpId == element.wpId) {
+                        for (var key in res.weapon) {
+                            element[key] = res.weapon[key];
+                        }
+                        element.isUseringWeapon = true;
+                        _this6.isWareChoiceWp._dataSource = element;
+                    }
+                });
 
-            var skinq = "";
-            var skint = "";
-            switch (cell._dataSource.weaponStar) {
-                case 1:
-                    skinq = "local/common/quality_1.png";
-                    break;
-                case 2:
-                    skinq = "local/common/quality_2.png";
-                    break;
-                case 3:
-                    skinq = "local/common/quality_3.png";
-                    break;
-            }
-            switch (cell._dataSource.weaponType) {
-                case 3:
-                    skint = "local/common/type_1.png";
-                    break;
-                case 2:
-                    skint = "local/common/type_2.png";
-                    break;
-                case 1:
-                    skint = "local/common/type_3.png";
-                    break;
-            }
-            cell.getChildByName("bgwrap").skin = skinq;
-            cell.getChildByName("mark").skin = skint;
+                _this6.allList = [];
+                _this6.allList = _this6.lightList.concat(_this6.heavyList, _this6.middleList);
+                if (res.userWeapons) {
+                    _this6.myUserList = [];
+                    var arr = res.userWeapons.split(",");
+                    arr.forEach(function (element) {
+                        var obj = {
+                            name: element.split("-")[0],
+                            lv: element.split("-")[1]
+                        };
+                        _this6.myUserList.push(obj);
+                    });
+                    _this6.getMyUserDetailList(_this6.currentMyUserIdx);
+                    _this6.addWpList = [];
+                    owner.userWeaponList.array = _this6.myUserDetailList;
+                } else {
+                    if (_this6.isWareChoiceWp) {
+                        _this6.singleWeapon(_this6.isWareChoiceWp, -1);
+                    }
+                    _this6.renderCenterData();
+                }
+            });
         }
 
         //更换武器
@@ -13158,7 +13247,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
             }
             var detail = this.currentMyUserWeapDetail;
             var oldDetail = this.myUserDetailList[this.currentMyUserIdx];
-            if (detail.isUsingWp) {
+            if (detail.isUserWeapon) {
                 return;
             }
             var wpType = 0;
@@ -13181,130 +13270,9 @@ var WeaponHouseControl = function (_PaoYa$Component) {
                     };
                     _this7.myUserList.push(obj);
                 });
-                _this7.getMyUserDetailList();
+                _this7.getMyUserDetailList(_this7.currentMyUserIdx);
                 _this7.addWpList = [];
                 _this7.owner.userWeaponList.array = _this7.myUserDetailList;
-            });
-        }
-
-        //升级武器
-
-    }, {
-        key: "upgradeWeapon",
-        value: function upgradeWeapon() {
-            var _this8 = this;
-
-            var owner = this.owner;
-            var numNew = 0;
-            if (!this.isGuide) {
-                if (this.isRequesting) {
-                    return;
-                }
-                if (Number(owner.needGoldNum.text) > Number(PaoYa.DataCenter.user.gold)) {
-                    this.navigator.popup("weapon/GoldLack");
-                    return;
-                } else {
-                    // let obj = {
-                    //     gold: PaoYa.DataCenter.user.gold -= Number(owner.needGoldNum.text),
-                    // }
-                    // owner.changeHB(obj)
-                }
-            } else {
-                numNew = 1;
-            }
-
-            var detail = this.isWareChoiceWp && this.isWareChoiceWp._dataSource ? this.isWareChoiceWp._dataSource : this.currentMyUserWeapDetail;
-            var isusing = detail.isUsingWp ? 1 : 0;
-            this.isRequesting = true;
-            Laya.timer.once(500, this, function () {
-                _this8.isRequesting = false;
-            });
-
-            PaoYa.Request.POST("martial_update_weapon", { weaponId: detail.weaponId + "-" + detail.weaponLevel, newHand: numNew, default: isusing, index: this.currentMyUserIdx, time: new Date().getTime() }, function (res) {
-                _SoundManager2.default.ins.upgrade();
-
-                var obj = {
-                    gold: PaoYa.DataCenter.user.gold - Number(owner.needGoldNum.text),
-                    diamond: PaoYa.DataCenter.user.diamond
-                };
-                owner.changeHB(obj);
-
-                var newDetail = null;
-                owner.upeffects.visible = true;
-                owner.upeffects.play(0, false);
-                switch (detail.weaponType) {
-                    case 3:
-                        // this.heavyList[detail.originalIndex].num--
-                        // res.weapon.num = 1
-                        // this.heavyList.push(res.weapon)
-                        newDetail = "heavyList";
-                        break;
-                    case 2:
-                        // this.middleList[detail.originalIndex].num--
-                        // res.weapon.num = 1
-                        // this.middleList.push(res.weapon)
-                        newDetail = "middleList";
-                        break;
-                    case 1:
-                        // this.lightList[detail.originalIndex].num--
-                        // res.weapon.num = 1
-                        // this.lightList.push(res.weapon)
-                        newDetail = "lightList";
-                        break;
-                }
-
-                var al = _this8[newDetail].length;
-                var isNew = true;
-                res.weapon.num = 1;
-                var oldNum = 1,
-                    newNum = 1;
-                for (var i = 0; i < al; i++) {
-                    var element = _this8[newDetail][i];
-                    if (element.weaponId == detail.weaponId && element.weaponLevel == detail.weaponLevel && element.num > 0 && oldNum) {
-                        element.num -= 1;
-                        oldNum = 0;
-                    }
-                    // if (element.weaponId == res.weapon.weaponId && element.weaponLevel == res.weapon.weaponLevel && newNum) {
-                    //     isNew = false
-                    //     for (const key in res.weapon) {
-                    //         element[key] = res.weapon[key]
-                    //     }
-                    //     element.num += 1
-                    //     newNum = 0
-                    // }
-                }
-                // if (isNew) {
-                _this8[newDetail].push(res.weapon);
-                // }
-
-                _this8.allList = [];
-                _this8.allList = _this8.lightList.concat(_this8.heavyList, _this8.middleList);
-                if (res.userWeapons) {
-                    _this8.myUserList = [];
-                    var arr = res.userWeapons.split(",");
-                    arr.forEach(function (element) {
-                        var obj = {
-                            name: element.split("-")[0],
-                            lv: element.split("-")[1]
-                        };
-                        _this8.myUserList.push(obj);
-                    });
-                    _this8.getMyUserDetailList();
-                    _this8.addWpList = [];
-                    owner.userWeaponList.array = _this8.myUserDetailList;
-                } else {
-                    for (var key in res.weapon) {
-                        if (_this8.isWareChoiceWp && _this8.isWareChoiceWp._dataSource) {
-                            _this8.isWareChoiceWp._dataSource[key] = res.weapon[key];
-                        }
-                    }
-
-                    // this.isWareChoiceWp._dataSource = res.weapon
-                    if (_this8.isWareChoiceWp) {
-                        _this8.singleWeapon(_this8.isWareChoiceWp, -1);
-                    }
-                    _this8.renderCenterData();
-                }
             });
         }
     }]);
@@ -14921,8 +14889,9 @@ var BuyWp = function (_PaoYa$Dialog) {
             }
 
             if (num > PaoYa.DataCenter.user.diamond) {
-                this.close();
-                PaoYa.navigator.popup("weapon/DiamondLack", 1);
+                py.showToast({
+                    title: '钻石不足'
+                });
                 return;
             }
 

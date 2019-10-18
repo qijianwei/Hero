@@ -271,7 +271,7 @@
             "compId":137,
             "child":[
                 ],
-            "$HIDDEN":false
+            "$HIDDEN":true
         },
         {
             "x":15,
@@ -286,13 +286,13 @@
             "compId":142,
             "child":[
                 ],
-            "$HIDDEN":false
+            "$HIDDEN":true
         },
         {
             "x":15,
             "type":"Animation",
             "searchKey":"Animation,aniSkill2Hero2",
-            "props":{"y":245,"x":105,"visible":false,"source":"gamescenes/animations/hero2_skill2.ani","presetID":27,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"aniSkill2Hero2"},
+            "props":{"y":243,"x":105,"visible":false,"source":"gamescenes/animations/hero2_skill2.ani","presetID":27,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"aniSkill2Hero2"},
             "nodeParent":106,
             "label":"aniSkill2Hero2",
             "isDirectory":false,
@@ -301,15 +301,16 @@
             "compId":145,
             "child":[
                 ],
-            "$HIDDEN":false
+            "$HIDDEN":true
         },
         {
             "x":15,
             "type":"Animation",
             "searchKey":"Animation,aniSkill2Hero3",
-            "props":{"y":245,"x":110,"visible":false,"source":"gamescenes/animations/hero3_skill2.ani","presetID":29,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"aniSkill2Hero3"},
+            "props":{"y":235,"x":101,"visible":false,"source":"gamescenes/animations/hero3_skill2.ani","presetID":29,"preset":"laya/pages/gamescenes/prefab/Player.prefab","name":"aniSkill2Hero3"},
             "nodeParent":106,
             "label":"aniSkill2Hero3",
+            "isOpen":false,
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,

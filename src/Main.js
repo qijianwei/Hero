@@ -93,7 +93,11 @@ export class Main extends GameMain {
 			{
 				fontUrl: "font/weapon/lvfont.fnt",
 				fontAni: "weaponNFontT"
-			}, {
+			}, 
+			{
+				fontUrl: "font/figure/msz.fnt",
+				fontAni: "figureDetail"
+			},{
 				fontUrl: "font/recMP.fnt",
 				fontAni: "recoverMP"
 			},
@@ -128,10 +132,6 @@ export class Main extends GameMain {
 			{
 				fontUrl: "font/weapon/detailfont.fnt",
 				fontAni: "weaponDFont"
-			},
-			{
-				fontUrl: "font/figure/msz.fnt",
-				fontAni: "figureDetail"
 			},
 			{
 				fontUrl: "font/adventure.fnt",
@@ -192,7 +192,8 @@ export class Main extends GameMain {
 			'res/atlas/remote/grading.atlas',
 			'res/atlas/remote/adventure.atlas',
 
-            'remote/game/scene1.jpg',
+			'remote/game/scene1.jpg',
+			'remote/guide/textBg.png',
 			/* 动效animation资源 */
 			'res/atlas/remote/debuff_dizzy.atlas',
 			'res/atlas/remote/debuff_palsy.atlas',
