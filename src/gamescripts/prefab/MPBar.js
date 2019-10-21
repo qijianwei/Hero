@@ -31,7 +31,7 @@ export default class MPBar extends PaoYa.Component{
            // console.warn("内力已经满了")
            return 
         }
-        let addedValue=Number((this.curMP+this.perAddMP).toFixed(1));
+        let addedValue=Math.round(this.curMP+this.perAddMP);
         this.curMP=addedValue>this.originMP?this.originMP:addedValue;
         this.lblMpPct.text=`${this.curMP}/${this.originMP}`;
         this.imgMask.width=Math.floor(this.curMP/this.originMP*this.originW);

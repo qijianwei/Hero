@@ -1670,7 +1670,7 @@ var GameControl = function (_PaoYa$Component) {
                 if (skillType == 1 && status == 1) {
                     var random = Math.floor(Math.random() * 100 + 1);
                     // if(skillId==50){prob=100;} 测试用
-                    if (random <= 100) {
+                    if (random <= prob) {
                         /* 区分哪些是影响自身表现的，哪些是影响对手伤害的 */
                         params.skillEffect = true;
                         this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
@@ -3960,7 +3960,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
                     // 绘制遮罩区，含透明度，
                     var maskArea = new Laya.Sprite();
                     maskArea.alpha = 0.5;
-                    maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+                    maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000000");
                     // maskArea.pos(-150,0);
                     maskArea.mouseEnabled = true;
                     maskArea.zOrder = 2000;
@@ -5838,7 +5838,7 @@ var MPBar = function (_PaoYa$Component) {
                 // console.warn("内力已经满了")
                 return;
             }
-            var addedValue = Number((this.curMP + this.perAddMP).toFixed(1));
+            var addedValue = Math.round(this.curMP + this.perAddMP);
             this.curMP = addedValue > this.originMP ? this.originMP : addedValue;
             this.lblMpPct.text = this.curMP + '/' + this.originMP;
             this.imgMask.width = Math.floor(this.curMP / this.originMP * this.originW);
@@ -6228,7 +6228,7 @@ var Player = function (_PaoYa$Component) {
       this.HPComp.changeHP(value);
       this.showFontEffect("+" + value, "recoverHP");
     }
-    //恢复内力
+    //恢复或燃烧内力
 
   }, {
     key: "mpRecoverEffect",
@@ -6237,7 +6237,11 @@ var Player = function (_PaoYa$Component) {
       this.boxAniMp.visible = true;
       this.aniMp.play(0, false);
       this.MPComp.changeMP(value);
-      this.showFontEffect("+" + value, "recoverMP");
+      if (value > 0) {
+        this.showFontEffect("+" + value, "recoverMP");
+      } else {
+        this.showFontEffect(value, "recoverMP");
+      }
     }
     //中毒
 
@@ -6526,12 +6530,17 @@ var Player = function (_PaoYa$Component) {
       hurt.x = this.centerX;
       this.owner.addChild(hurt);
 
+      var duration = 600;
+      if (type == "recoverMP") {
+        duration = 1000;
+        endPos.y = -100;
+      }
       var tween = new Laya.Tween();
       tween.to(hurt, {
         y: endPos.y,
         scaleX: targetScaleX,
         scaleY: 1
-      }, 600, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
+      }, duration, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
         item.removeSelf();
         Laya.Pool.recover('effectLabel', item);
       }, [hurt]));

@@ -263,13 +263,17 @@ export default class Player extends PaoYa.Component {
     this.HPComp.changeHP(value);
     this.showFontEffect("+" + value, "recoverHP")
   }
-  //恢复内力
+  //恢复或燃烧内力
   mpRecoverEffect(value) {
     value=Math.round(value);
     this.boxAniMp.visible = true;
     this.aniMp.play(0, false);
     this.MPComp.changeMP(value);
-    this.showFontEffect("+" + value, "recoverMP")
+    if(value>0){
+      this.showFontEffect("+" + value, "recoverMP")
+    }else{
+      this.showFontEffect(value, "recoverMP")
+    }  
   }
   //中毒
   poisonEffect(poisonTime, hpValue) {
@@ -513,13 +517,18 @@ export default class Player extends PaoYa.Component {
     hurt.pivot(hurt.width / 2, hurt.height / 2);
     hurt.x = this.centerX;
     this.owner.addChild(hurt);
-
+    
+    let duration=600;
+    if(type==`recoverMP`){
+      duration=1000;
+      endPos.y=-100;
+    }
     var tween = new Laya.Tween();
     tween.to(hurt, {
       y: endPos.y,
       scaleX: targetScaleX,
       scaleY: 1
-    }, 600, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
+    }, duration, Laya.Ease.linearIn, Laya.Handler.create(this, function (item) {
       item.removeSelf();
       Laya.Pool.recover('effectLabel', item);
     }, [hurt]));

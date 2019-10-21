@@ -122,7 +122,7 @@ export default class PassResultDialog extends PaoYa.Dialog{
              // 绘制遮罩区，含透明度，
            let  maskArea = new Laya.Sprite();
 		        maskArea.alpha = 0.5;
-                maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000");
+                maskArea.graphics.drawRect(0, 0, Laya.Browser.width, Laya.Browser.height, "#000000");
                // maskArea.pos(-150,0);
                 maskArea.mouseEnabled=true;
                 maskArea.zOrder=2000;
