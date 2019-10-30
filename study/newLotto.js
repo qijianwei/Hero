@@ -74,3 +74,5 @@ if(behindDeleteNum==0){
     finallyArr.push(behindArr[random].splice(randomIndex(behindArr[random].length),1)[0])
 }
 console.log('最终结果:',finallyArr)
+/* 不以物喜，不以己悲 
+                --范仲淹 */

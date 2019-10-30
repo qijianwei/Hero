@@ -1,7 +1,5 @@
 import MPBar from "./prefab/MPBar";
 import HPBar from "./prefab/HPBar";
-import GameBanner from "./prefab/GameBanner";
-import HeroConfig from "./config/HeroConfig";
 import GameControl from "./GameControl";
 
 
@@ -18,7 +16,7 @@ export default class GameView extends PaoYa.View{
 
       let sceneSK=new Laya.Skeleton();
       let sceneURL='';
-      let baseUrl='https://xgamejuedixiaomie.goxiaochengxu.cn/1006/';
+ 
       if(GameControl.instance.closeRobot){
         sceneURL=`remote/spine/scene/scene1.sk`;
         this.sceneBg.texture=`remote/game/scene1.jpg`;
@@ -41,7 +39,6 @@ export default class GameView extends PaoYa.View{
       }
       sceneSK.load(sceneURL,Laya.Handler.create(this,(res)=>{
         sceneSK.play('stand', true);
-      //  console.log(sceneSK._templet) 
       }))
       this.sceneSK=sceneSK;
       this.scenePoint.addChild(sceneSK);  

@@ -11,6 +11,9 @@ export default class Skill extends PaoYa.Component {
 
 
     }
+    onThrottleClick(){
+        this.clickHandler();
+    }
     clickHandler() {
         if(GameControl.instance.gameState!=`start`){
             GameControl.instance.showTips("游戏未开始");
@@ -65,9 +68,7 @@ export default class Skill extends PaoYa.Component {
             this.lblLockTips.visible = false;
         }
     }
-    onThrottleClick(){
-        this.clickHandler();
-    }
+   
     setCdTime(cdTime) {
         console.warn('修改cd时间:', cdTime);
         //cd 时间

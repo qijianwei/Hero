@@ -20,13 +20,24 @@ export default class WeaponManager extends Laya.Script{
     //  console.error('选中兵器:......:',weapons[random].params.weaponName)
       return weapons[random];
    }
-
+   closeCd(){
+      this.weaponList.forEach((weapon)=>{
+         weapon.clearCd();
+      })
+   }
+   openCd(){
+     this.weaponList.forEach((weapon)=>{
+        weapon.openCd();
+     }) 
+   }
 }
 class PrivateWeapon{
     constructor(weaponParams){
       this.params=deepMerge(weaponParams);
       this.freezeing=false;
       this.isSelf=false;
+      this.cdTime=this.params.weaponCd;
+      this.originCdTime=this.params.weaponCd;
       this.weaponConsume=this.params.weaponConsume;
     }
     
@@ -39,12 +50,24 @@ class PrivateWeapon{
     }
     startT(){
         console.error('机器人兵器进行冷却');
+        if(this.cdTime==0){
+          return;
+        }
         this.freezeing=true;
-        Laya.timer.once(this.params.weaponCd*1000,this,this.changeStatus);
+        Laya.timer.once(this.cdTime*1000,this,this.changeStatus);
     }
     changeStatus(){
         this.freezeing=false;
     }
+    clearCd() {
+      //console.warn('修改cd时间:',cdTime);
+      //cd 时间
+      console.error('-----机器人无cd时间------');
+      this.cdTime = 0;   
+  }
+   recoverCd(){
+     this.cdTime=this.originCdTime;
+   }
 }
 function deepMerge(...objs) {
     const result = Object.create(null);

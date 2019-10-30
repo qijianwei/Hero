@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
+GameConfig.startScene = "gamescenes/GameView.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -388,7 +388,7 @@ GameConfig.exportSceneToJson = true;
 
 GameConfig.init();
 
-},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/AdventDialog":10,"./gamescripts/dialog/AdventDialog5":11,"./gamescripts/dialog/AdventResultDialog":12,"./gamescripts/dialog/AdventResultDialog5":13,"./gamescripts/dialog/BattleResultDialog":15,"./gamescripts/dialog/PassResultDialog":16,"./gamescripts/gameGuide/GameGuideControl":17,"./gamescripts/gameGuide/SpeakMan":19,"./gamescripts/preOpen/PreOpenView":21,"./gamescripts/prefab/Dodge":22,"./gamescripts/prefab/GameBanner":23,"./gamescripts/prefab/HPBar":24,"./gamescripts/prefab/MPBar":25,"./gamescripts/prefab/Player":26,"./gamescripts/prefab/PlayerSkill":27,"./gamescripts/prefab/PlayerState":28,"./gamescripts/prefab/Skill":29,"./gamescripts/prefab/Weapon":30,"./gamescripts/prefab/WeaponBar":31,"./gamescripts/prefab/WeaponSkill":32,"./scripts/common/HomeControl":34,"./scripts/common/Loading/LoadingControl":35,"./scripts/common/Loading/LoadingView":36,"./scripts/common/Match/MatchControl":37,"./scripts/common/Match/MatchView":38,"./scripts/common/figure/Grading":39,"./scripts/common/figure/GradingControl":40,"./scripts/common/figure/Swordsman":41,"./scripts/common/figure/SwordsmanControl":42,"./scripts/common/refiner/Devour":43,"./scripts/common/refiner/DevourControl":44,"./scripts/common/refiner/Refining":45,"./scripts/common/refiner/RefiningControl":46,"./scripts/common/sign/Sign":47,"./scripts/common/sign/SignControl":48,"./scripts/common/task/WeaponList":49,"./scripts/common/task/WeaponListControl":50,"./scripts/common/weapon/WeaponHouse":53,"./scripts/common/weapon/WeaponHouseControl":54,"./scripts/common/weapon/WeaponStore":55,"./scripts/common/weapon/WeaponStoreControl":56,"./scripts/common/wheel/Wheel":57,"./scripts/common/wheel/WheelControl":58,"./scripts/dialog/adventure/BuyWp":59,"./scripts/dialog/adventure/ChangeWp":60,"./scripts/dialog/adventure/GetAward":61,"./scripts/dialog/common/Award":62,"./scripts/dialog/common/BuyWheelTimes":63,"./scripts/dialog/common/Rank":64,"./scripts/dialog/common/Task":65,"./scripts/dialog/figure/BuyHero":66,"./scripts/dialog/figure/GetNewSkill":67,"./scripts/dialog/figure/SkillDetail":68,"./scripts/dialog/refiner/Canlock":69,"./scripts/dialog/weapon/DiamondLack":70,"./scripts/dialog/weapon/GoldLack":71,"./scripts/dialog/weapon/StoreSure":72,"./scripts/dialog/weapon/UnlockFifth":73,"./scripts/dialog/weapon/UnlockFour":74,"./scripts/dialog/weapon/UnlockTips":75,"./scripts/prefab/BeanBox":76}],3:[function(require,module,exports){
+},{"./gamescripts/GameControl":4,"./gamescripts/GameGuide/GameGuide":5,"./gamescripts/GameView":6,"./gamescripts/dialog/AdventDialog":11,"./gamescripts/dialog/AdventDialog5":12,"./gamescripts/dialog/AdventResultDialog":13,"./gamescripts/dialog/AdventResultDialog5":14,"./gamescripts/dialog/BattleResultDialog":16,"./gamescripts/dialog/PassResultDialog":17,"./gamescripts/gameGuide/GameGuideControl":18,"./gamescripts/gameGuide/SpeakMan":20,"./gamescripts/preOpen/PreOpenView":22,"./gamescripts/prefab/Dodge":23,"./gamescripts/prefab/GameBanner":24,"./gamescripts/prefab/HPBar":25,"./gamescripts/prefab/MPBar":26,"./gamescripts/prefab/Player":27,"./gamescripts/prefab/PlayerSkill":28,"./gamescripts/prefab/PlayerState":29,"./gamescripts/prefab/Skill":31,"./gamescripts/prefab/Weapon":32,"./gamescripts/prefab/WeaponBar":33,"./gamescripts/prefab/WeaponSkill":34,"./scripts/common/HomeControl":36,"./scripts/common/Loading/LoadingControl":37,"./scripts/common/Loading/LoadingView":38,"./scripts/common/Match/MatchControl":39,"./scripts/common/Match/MatchView":40,"./scripts/common/figure/Grading":41,"./scripts/common/figure/GradingControl":42,"./scripts/common/figure/Swordsman":43,"./scripts/common/figure/SwordsmanControl":44,"./scripts/common/refiner/Devour":45,"./scripts/common/refiner/DevourControl":46,"./scripts/common/refiner/Refining":47,"./scripts/common/refiner/RefiningControl":48,"./scripts/common/sign/Sign":49,"./scripts/common/sign/SignControl":50,"./scripts/common/task/WeaponList":51,"./scripts/common/task/WeaponListControl":52,"./scripts/common/weapon/WeaponHouse":55,"./scripts/common/weapon/WeaponHouseControl":56,"./scripts/common/weapon/WeaponStore":57,"./scripts/common/weapon/WeaponStoreControl":58,"./scripts/common/wheel/Wheel":59,"./scripts/common/wheel/WheelControl":60,"./scripts/dialog/adventure/BuyWp":61,"./scripts/dialog/adventure/ChangeWp":62,"./scripts/dialog/adventure/GetAward":63,"./scripts/dialog/common/Award":64,"./scripts/dialog/common/BuyWheelTimes":65,"./scripts/dialog/common/Rank":66,"./scripts/dialog/common/Task":67,"./scripts/dialog/figure/BuyHero":68,"./scripts/dialog/figure/GetNewSkill":69,"./scripts/dialog/figure/SkillDetail":70,"./scripts/dialog/refiner/Canlock":71,"./scripts/dialog/weapon/DiamondLack":72,"./scripts/dialog/weapon/GoldLack":73,"./scripts/dialog/weapon/StoreSure":74,"./scripts/dialog/weapon/UnlockFifth":75,"./scripts/dialog/weapon/UnlockFour":76,"./scripts/dialog/weapon/UnlockTips":77,"./scripts/prefab/BeanBox":78}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -637,7 +637,7 @@ if (!_Config2.default.debug) {
 	Laya.Stat.show();
 }
 
-},{"./Config":1,"./GameConfig":2,"./gamescripts/SoundManager":7,"./gamescripts/config/HeroConfig":9,"./scripts/common/GameMain":33,"./scripts/common/tool/Global":51}],4:[function(require,module,exports){
+},{"./Config":1,"./GameConfig":2,"./gamescripts/SoundManager":8,"./gamescripts/config/HeroConfig":10,"./scripts/common/GameMain":35,"./scripts/common/tool/Global":53}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -704,6 +704,10 @@ var _PreOpenManager2 = _interopRequireDefault(_PreOpenManager);
 
 var _Global = require('../scripts/common/tool/Global');
 
+var _SkillManager = require('./SkillManager');
+
+var _SkillManager2 = _interopRequireDefault(_SkillManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -741,6 +745,7 @@ var GameControl = function (_PaoYa$Component) {
         key: 'onDisappear',
         value: function onDisappear() {
             Laya.MouseManager.enabled = true;
+            Laya.timer.clearAll(this);
         }
     }, {
         key: 'onAwake',
@@ -771,6 +776,13 @@ var GameControl = function (_PaoYa$Component) {
                 this.drawParabola()
                 this.curvature=0.0015;
                 this.drawParabola() */
+            /*   Laya.timer.once(1000,this,()=>{
+                  this.otherPlayer.comp.attackEffect(false);
+                  this.otherPlayer.comp.attackCallback=()=>{
+                     this.robotSkillLaunch(97);
+                  }
+                  this.showRobotSkill({skillId:94})
+              }) */
         }
     }, {
         key: 'onEnable',
@@ -778,20 +790,6 @@ var GameControl = function (_PaoYa$Component) {
             this.onNotification(_WeaponBar2.default.CLICK, this, this.weaponBarClickHandler);
             this.onNotification(_Skill2.default.CLICK, this, this.skillClickHandler);
             this.fillPlayerInfo();
-            /*  let skillPromise = new Promise((resolve, reject) => {
-                 Laya.loader.create('gamescenes/prefab/Skill.json', Laya.Handler.create(this, (json) => {
-                    // console.log(json);
-                     if(json instanceof Laya.Prefab){
-                         resolve(json.json)
-                     }else{
-                         resolve(json);
-                     }
-                     
-                 }))
-             })
-             skillPromise.then((json)=>{
-                 this.initSkill(json);
-             }) */
             this.initSkill();
         }
         //切后台退出游戏，要加些处理，技能2要在下一个怪出现时关掉
@@ -1038,8 +1036,6 @@ var GameControl = function (_PaoYa$Component) {
         value: function showMaskAni() {
             var maskArea = new Laya.Sprite();
             maskArea.alpha = 0.9;
-            /*   console.log(Laya.Browser.width, Laya.Browser.height)
-              console.log(Laya.stage.width,Laya.stage.height)  */
             maskArea.graphics.drawRect(0, 0, Laya.stage.width, Laya.stage.height, "#000000");
             maskArea.mouseEnabled = true;
             maskArea.zOrder = 2000;
@@ -1240,6 +1236,7 @@ var GameControl = function (_PaoYa$Component) {
             //把人物主动技能挑选出来
             for (var i = 0, len = this[role].skills.length; i < len; i++) {
                 if (this[role].skills[i].skillType == 1) {
+                    this[role].skills[i].skillConfig.roleHp = this[role].roleHp;
                     component.activeSkills.push(this[role].skills[i]);
                 }
             }
@@ -1280,28 +1277,6 @@ var GameControl = function (_PaoYa$Component) {
                 comp: component
             };
         }
-        /* 人物技能 */
-        /*   initSkill(json) {
-              let owner = this.owner;
-              let activeSkills = this.selfPlayer.comp.activeSkills;
-              for (let i = 1; i < 3; i++) {
-                  let skillView=new Laya.Prefab();
-                  skillView.json=json;
-                  let view = Laya.Pool.getItemByCreateFun('SkillView', skillView.create, skillView);
-                  view.name=`skill${i}`
-                  this['skillScr' + i] = view.getComponent(Skill);
-                  this['skillScr' + i].params = activeSkills[i - 1];
-                  this['skillScr' + i].init(activeSkills[i - 1]);
-                  this['skillOwner' + i] = view;
-                  if(i==1){
-                      view.pos(1032,619)
-                  }else{
-                      view.pos(1189,467)
-                  }
-                  owner.addChild(view)
-              }
-          } */
-
     }, {
         key: 'initSkill',
         value: function initSkill() {
@@ -1575,6 +1550,13 @@ var GameControl = function (_PaoYa$Component) {
             this.weaponManager = new _WeaponManager2.default(this.robotWeaponList);
             this.sWeapon = this.weaponManager.seletedWeapon();
 
+            console.log('机器人技能清单:', this.otherPlayer.comp.activeSkills);
+            /* let len=this.otherPlayer.comp.activeSkills.length;
+            */
+            var skills = this.otherPlayer.comp.activeSkills;
+            //机器人技能
+            this.skillManager = new _SkillManager2.default(skills);
+
             if (this.gameType == 'battle') {
                 this.startSelect();
             } else {
@@ -1587,6 +1569,15 @@ var GameControl = function (_PaoYa$Component) {
             /*  if(!this.sWeapon||this.gameState=='over'){
                  return;
              } */
+            var robotSkills = null;
+            robotSkills = this.skillManager.seletedSkill();
+            if (robotSkills) {
+                console.error('----\u89E6\u53D1\u673A\u5668\u4EBA\u6280\u80FD----');
+                this.showRobotSkill(robotSkills);
+                Laya.timer.once(300, this, this.startSelect);
+                return;
+            }
+            /* 每次做选择的时候先看看技能是否可用，两个技能均可用的话，随机一个 */
             //如果选中的已经发射了，才可以重新选
             if (this.seletedLaunch) {
                 this.sWeapon = this.weaponManager.seletedWeapon();
@@ -1619,9 +1610,230 @@ var GameControl = function (_PaoYa$Component) {
             }
         }
     }, {
+        key: 'showRobotSkill',
+        value: function showRobotSkill(skillConfig) {
+            var _this11 = this;
+
+            this.robotSkill = true;
+            switch (skillConfig.skillId) {
+                case 91:
+                    var originRoleBone = this.robotRole.roleBone;
+                    this.robotRole.roleBone = this.robotRole.roleBone * 3;
+                    console.error('-----\u65E7\u7684\u6839\u9AA8-----:', originRoleBone);
+                    console.error('-----\u65B0\u7684\u6839\u9AA8-----:', this.robotRole.roleBone);
+                    this.showSkillText(false, '金钟罩');
+                    Laya.timer.once(10000, this, this.recoverOriginBone, [originRoleBone]);
+                    break;
+                case 92:
+                    this.otherPlayer.comp.halfHP();
+                    console.error('-----\u65E7\u7684\u8840\u91CF-----:');
+                    console.error('-----\u65B0\u7684\u8840\u91CF-----:', this.robotRole.roleHp / 2);
+                    this.showSkillText(false, '回光返照');
+                    this.robotSkill = false;
+                    break;
+                case 93:
+                    var originRoleStrength = this.robotRole.roleStrength;
+                    this.robotRole.roleStrength = this.robotRole.roleStrength * 2;
+                    this.showSkillText(false, '\u65E0\u6781\u5251\u6CD5');
+                    Laya.timer.once(60000, this, this.recoverOriginStrength, [originRoleStrength]);
+                    break;
+                case 94:
+                    this.otherPlayer.comp.changePerMp(60000, 2);
+                    this.showRobotCommonSkill(skillConfig.skillId);
+                    Laya.timer.once(60000, this, this.removeRobotCommonSkill);
+                    this.showSkillText(false, '\u65E0\u6839\u751F');
+                    break;
+                case 95:
+                    /* 反弹200%伤害，持续10秒。 */
+                    this.otherPlayer.comp.bounceSkill = true;
+                    this.showSkillText(false, '\u94C1\u5E03\u886B');
+                    Laya.timer.once(10000, this, this.removeBounceSkill);
+                    break;
+                case 96:
+                    /* 受到的伤害200%转化成生命，持续10秒。 */
+                    this.otherPlayer.comp.stealHPSkill = true;
+                    this.showSkillText(false, '\u5438\u661F\u5927\u6CD5');
+                    Laya.timer.once(10000, this, this.removeStealHPSkill);
+                    break;
+                case 97:
+                    /* 发射火球，造成80点伤害。 */
+                    this.showSkillText(false, '\u7EA2\u83B2\u706B');
+                    this.otherPlayer.comp.attackEffect(false);
+                    this.otherPlayer.comp.attackCallback = function () {
+                        _this11.robotSkillLaunch(skillConfig.skillId);
+                        _this11.robotSkill = false;
+                    };
+                    break;
+                case 98:
+                    /* 发射玄冰，造成100点伤害 */
+                    this.showSkillText(false, '\u7384\u51B0\u638C');
+                    this.otherPlayer.comp.attackEffect(false);
+                    this.otherPlayer.comp.attackCallback = function () {
+                        _this11.robotSkillLaunch(skillConfig.skillId);
+                        _this11.robotSkill = false;
+                    };
+                    break;
+                case 99:
+                    /* 发射毒蛇，造成120点伤害。 */
+                    this.showSkillText(false, '\u767D\u86C7\u51FA\u4E16');
+                    break;
+                case 100:
+                    /* 每秒损失100点生命，兵器无CD，持续30秒。 */
+                    var endTime = 30000 + new Date().getTime();
+                    this.weaponManager.closeCd();
+                    Laya.timer.loop(1000, this, this.robotBecomeDevil, [endTime]);
+                    this.showSkillText(false, '\u8D70\u706B\u5165\u9B54');
+                    break;
+            }
+        }
+        /* ------关闭技能start------- */
+
+    }, {
+        key: 'recoverOriginBone',
+        value: function recoverOriginBone(originRoleStrength) {
+            this.robotRole.roleStrength = originRoleStrength;
+            this.robotSkill = false;
+        }
+    }, {
+        key: 'recoverOriginStrength',
+        value: function recoverOriginStrength(originRoleStrength) {
+            this.robotRole.roleStrength = originRoleStrength;
+            this.robotSkill = false;
+        }
+    }, {
+        key: 'removeRobotCommonSkill',
+        value: function removeRobotCommonSkill() {
+            if (this.commonAni) {
+                this.commonAni.stop();
+                this.commonAni.removeSelf();
+                this.robotSkill = false;
+            }
+        }
+    }, {
+        key: 'removeBounceSkill',
+        value: function removeBounceSkill() {
+            this.otherPlayer.comp.bounceSkill = false;
+            this.robotSkill = false;
+        }
+    }, {
+        key: 'removeStealHPSkill',
+        value: function removeStealHPSkill() {
+            this.otherPlayer.comp.stealHPSkill = false;
+            this.robotSkill = false;
+        }
+        /* ------关闭技能end------- */
+
+    }, {
+        key: 'closeAllRobotTimer',
+        value: function closeAllRobotTimer() {
+            this.robotSkill = false;
+            Laya.timer.clear(this, this.recoverOriginBone);
+            Laya.timer.clear(this, this.recoverOriginStrength);
+            Laya.timer.clear(this, this.removeRobotCommonSkill);
+            Laya.timer.clear(this, this.removeBounceSkill);
+            Laya.timer.clear(this, this.removeStealHPSkill);
+        }
+    }, {
+        key: 'robotSkillLaunch',
+        value: function robotSkillLaunch(skillId) {
+            var _this12 = this;
+
+            var skillAni = new Laya.Animation();
+            skillAni.loadAnimation('gamescenes/animations/robot_skill_' + skillId + '.ani', Laya.Handler.create(this, function (ani) {
+
+                skillAni.play(0, true, 'fly');
+                Laya.timer.frameLoop(1, _this12, _this12.sportAni, [skillId]);
+            }), 'res/atlas/remote/robot_skill/skill_' + skillId + '.atlas');
+            skillAni.pos(1030, 440);
+            skillAni.scaleX = -1;
+            skillAni.zOrder = 1000;
+            this.owner.addChild(skillAni);
+            this.skillAni = skillAni;
+        }
+    }, {
+        key: 'sportAni',
+        value: function sportAni(skillId) {
+            this.skillAni.x -= 10;
+            if (!this.skillAniCollide && this.skillAni.x < 220 && !this.selfPlayer.comp.dodge) {
+                //Laya.timer.clear(this, this.sportDragon);
+                Laya.timer.clear(this, this.sportAni);
+                this.skillAniCollide = true;
+                this.skillAni.play(0, false, 'hit');
+                this.skillAni.on(Laya.Event.COMPLETE, this, this.removeSkillAni);
+                this.skillHurt(skillId);
+            }
+            if (this.skillAni.x < 0 || this.gameState == 'over') {
+                console.log('\u3010------\u79FB\u9664\u673A\u5668\u4EBA\u6280\u80FD\u7279\u6548------\u3011');
+                this.removeSkillAni();
+            }
+        }
+    }, {
+        key: 'skillHurt',
+        value: function skillHurt(skillId) {
+            var attackNum = 0;
+            switch (skillId) {
+                case 97:
+                    attackNum = 80;
+                    break;
+                case 98:
+                    attackNum = 100;
+                    break;
+                case 99:
+                    attackNum = 120;
+                    break;
+            }
+            this.selfPlayer.comp.injuredEffect(1, -attackNum, false, function () {
+                //this.otherPlayer.comp.dragonEffect(dizzyT);
+            });
+        }
+    }, {
+        key: 'removeSkillAni',
+        value: function removeSkillAni() {
+            Laya.timer.clear(this, this.sportAni);
+            if (this.skillAni) {
+                this.skillAni.stop();
+                this.skillAni.removeSelf();
+            }
+        }
+    }, {
+        key: 'showRobotCommonSkill',
+        value: function showRobotCommonSkill(skillId) {
+            var _this13 = this;
+
+            var commonAni = new Laya.Animation();
+            commonAni.loadAnimation('gamescenes/animations/robot_skill_' + skillId + '.ani', Laya.Handler.create(this, function (ani) {
+                if (skillId != 92) {
+                    commonAni.play(0, true);
+                } else {
+                    commonAni.play(0, false);
+                    commonAni.on(Laya.Event.COMPLETE, _this13, _this13.removeRobotCommonSkill);
+                }
+            }), 'res/atlas/remote/robot_skill/skill_' + skillId + '.atlas');
+            switch (skillId) {
+                case 94:
+                    commonAni.pos(1120, 300);
+                    break;
+            }
+
+            commonAni.scaleX = -1;
+            this.owner.addChild(commonAni);
+            this.commonAni = commonAni;
+        }
+    }, {
+        key: 'robotBecomeDevil',
+        value: function robotBecomeDevil(endTime) {
+            if (new Date().getTime() > endTime || this.gameState == 'over' || this.gameState == 'nextPlayer') {
+                this.robotSkill = false;
+                this.weaponManager.openCd();
+                Laya.timer.clear(this, this.robotBecomeDevil);
+                return;
+            }
+            this.otherPlayer.comp.becomeDevil(-100);
+        }
+    }, {
         key: 'showTips',
         value: function showTips(value) {
-            this.playerStateComp.setStateText(value);
+            this.playerStateComp && this.playerStateComp.setStateText(value);
         }
     }, {
         key: 'showSkillText',
@@ -1634,7 +1846,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'weaponBarClickHandler',
         value: function weaponBarClickHandler(targetComp) {
-            var _this11 = this;
+            var _this14 = this;
 
             //体力不够
             var name = targetComp.isSelf ? 'self' : 'other';
@@ -1643,7 +1855,7 @@ var GameControl = function (_PaoYa$Component) {
 
                 if (targetComp.isSelf) {
                     // console.warn(name + 'Player' + "__体力不足");
-                    this.playerStateComp.setStateText("内力不足");
+                    this.playerStateComp && this.playerStateComp.setStateText("内力不足");
                 }
                 return;
             }
@@ -1676,8 +1888,8 @@ var GameControl = function (_PaoYa$Component) {
                         this[name + 'Player'].comp.attackEffect(params.skillEffect); //兵器技能是否触发
                         this[name + 'Player'].comp.attackCallback = function () {
                             _SoundManager2.default.ins.weaponSkill();
-                            _this11.weaponWithSkills(params, skillId);
-                            _this11[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this11[name + 'MultiMP']);
+                            _this14.weaponWithSkills(params, skillId);
+                            _this14[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this14[name + 'MultiMP']);
                             if (skillId == 58) {
                                 targetComp.startT(200); //快速冷却     
                             } else {
@@ -1694,15 +1906,15 @@ var GameControl = function (_PaoYa$Component) {
             this[name + 'Player'].comp.attackEffect(false);
             this[name + 'Player'].comp.attackCallback = function () {
                 _SoundManager2.default.ins.weaponLaunch();
-                _this11.weaponLaunch(params);
+                _this14.weaponLaunch(params);
                 targetComp.startT();
-                _this11[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this11[name + 'MultiMP']);
+                _this14[name + 'Player'].comp.MPComp.changeMP(-consumeMP * _this14[name + 'MultiMP']);
             };
         }
     }, {
         key: 'weaponLaunch',
         value: function weaponLaunch(params, deltaT) {
-            var _this12 = this;
+            var _this15 = this;
 
             if (params.isSelf) {
                 console.log('\u3010-------\u6B66\u5668\u53D1\u5C04------\u3011');
@@ -1722,8 +1934,8 @@ var GameControl = function (_PaoYa$Component) {
             //暂定
             if (deltaT) {
                 Laya.timer.once(deltaT, this, function () {
-                    _this12.owner.addChild(weapon);
-                    _this12[name + 'Weapons'].push(weaponComp);
+                    _this15.owner.addChild(weapon);
+                    _this15[name + 'Weapons'].push(weaponComp);
                 });
             } else {
                 this.owner.addChild(weapon);
@@ -1838,7 +2050,7 @@ var GameControl = function (_PaoYa$Component) {
             var consumeMP = 0 * originMP;
             if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
                 if (isSelf) {
-                    this.playerStateComp.setStateText("内力不足");
+                    this.playerStateComp && this.playerStateComp.setStateText("内力不足");
                 }
                 return;
             }
@@ -1872,10 +2084,10 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'deathHandler',
         value: function deathHandler(loserIsSelf) {
-
+            this.removeRobotCommonSkill();
+            this.closeAllRobotTimer();
             Laya.MouseManager.enabled = false;
             Laya.timer.clear(this, this.startSelect);
-            // Laya.timer.clearAll(this);
 
             console.log('------\u6709\u4EBA\u6B7B\u4EA1------');
             this.removeAllWeapons();
@@ -1912,7 +2124,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'dealBattle',
         value: function dealBattle(loserIsSelf) {
-            var _this13 = this;
+            var _this16 = this;
 
             this.gameState = 'over';
             if (this.selfPlayer.comp.attr.roleId == 4) {
@@ -1920,20 +2132,19 @@ var GameControl = function (_PaoYa$Component) {
                 this.removeDragons(2);
             }
             this.allCdEnd();
-            // Laya.timer.clearAll(this);
             this.gameOver(loserIsSelf);
             var win = loserIsSelf ? 0 : 1;
             Laya.timer.callLater(this, function () {
-                _this13.POST('martial_match_end', {
+                _this16.POST('martial_match_end', {
                     win: win
                 }, function (res) {
                     PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                     Laya.MouseManager.enabled = true;
                     res.result = loserIsSelf ? -1 : 1;
-                    res.roleId = _this13.params.roleId, res.robotRoleId = _this13.params.robotRoleId;
-                    res.nickName = _this13.params.nickName;
-                    res.robotNickName = _this13.params.robotNickName;
-                    _this13.navigator.popup('/dialog/BattleResultDialog', res);
+                    res.roleId = _this16.params.roleId, res.robotRoleId = _this16.params.robotRoleId;
+                    res.nickName = _this16.params.nickName;
+                    res.robotNickName = _this16.params.robotNickName;
+                    _this16.navigator.popup('/dialog/BattleResultDialog', res);
                 });
             });
         }
@@ -1977,7 +2188,7 @@ var GameControl = function (_PaoYa$Component) {
     }, {
         key: 'passOver',
         value: function passOver(loserIsSelf) {
-            var _this14 = this;
+            var _this17 = this;
 
             this.gameState = 'over';
             if (this.selfPlayer.comp.attr.roleId == 4) {
@@ -1985,7 +2196,6 @@ var GameControl = function (_PaoYa$Component) {
                 this.removeDragons(2);
             }
             this.allCdEnd();
-            //  Laya.timer.clearAll(this);
             if (this.gameType == 'pass') {
                 _Global.Global.gameEndStat(this.params.stageId, {
                     static: loserIsSelf ? 'fail' : 'complete'
@@ -2004,47 +2214,47 @@ var GameControl = function (_PaoYa$Component) {
             this.otherPlayer.comp.MPComp.stopIncrease();
 
             Laya.timer.once(1000, this, function () {
-                if (_this14.gameType == 'pass') {
-                    _this14.POST('martial_game_end', {
-                        killNum: _this14.killNum
+                if (_this17.gameType == 'pass') {
+                    _this17.POST('martial_game_end', {
+                        killNum: _this17.killNum
                     }, function (res) {
                         Laya.MouseManager.enabled = true;
                         res.result = loserIsSelf ? -1 : 1;
-                        res.stageId = _this14.params.stageId;
+                        res.stageId = _this17.params.stageId;
                         if (JSON.stringify(res.encounter) == '{}') {
                             PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
-                            _this14.navigator.popup('/dialog/PassResultDialog', res);
+                            _this17.navigator.popup('/dialog/PassResultDialog', res);
                         } else {
                             switch (res.encounter.type) {
                                 case 1:
                                 case 2:
-                                    _this14.navigator.popup('/dialog/AdventDialog', res);
+                                    _this17.navigator.popup('/dialog/AdventDialog', res);
                                     break;
                                 case 3:
-                                    _this14.navigator.popup('adventure/ChangeWp', res);
+                                    _this17.navigator.popup('adventure/ChangeWp', res);
                                     break;
                                 case 4:
-                                    _this14.navigator.popup('adventure/GetAward', res);
+                                    _this17.navigator.popup('adventure/GetAward', res);
                                     break;
                                 case 5:
-                                    _this14.navigator.popup('/dialog/AdventDialog5', res);
+                                    _this17.navigator.popup('/dialog/AdventDialog5', res);
                                     break;
                                 case 6:
-                                    _this14.navigator.popup('adventure/BuyWp', res);
+                                    _this17.navigator.popup('adventure/BuyWp', res);
                                     break;
                             }
                         }
                     });
-                } else if (_this14.gameType == 'adventure') {
+                } else if (_this17.gameType == 'adventure') {
 
-                    _this14.POST('martial_encounter_finish', {
+                    _this17.POST('martial_encounter_finish', {
                         result: loserIsSelf ? -1 : 1,
                         complete: loserIsSelf ? -1 : 1
                     }, function (res) {
                         PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
                         Laya.MouseManager.enabled = true;
                         res.result = loserIsSelf ? -1 : 1;
-                        _this14.navigator.popup('/dialog/AdventResultDialog', res);
+                        _this17.navigator.popup('/dialog/AdventResultDialog', res);
                     });
                 }
             });
@@ -2097,7 +2307,7 @@ var GameControl = function (_PaoYa$Component) {
 
 exports.default = GameControl;
 
-},{"../scripts/common/tool/Global":51,"./SoundManager":7,"./WeaponManager":8,"./preOpen/PreOpenManager":20,"./prefab/Dodge":22,"./prefab/GameBanner":23,"./prefab/HPBar":24,"./prefab/MPBar":25,"./prefab/Player":26,"./prefab/PlayerSkill":27,"./prefab/PlayerState":28,"./prefab/Skill":29,"./prefab/Weapon":30,"./prefab/WeaponBar":31,"./prefab/WeaponSkill":32}],5:[function(require,module,exports){
+},{"../scripts/common/tool/Global":53,"./SkillManager":7,"./SoundManager":8,"./WeaponManager":9,"./preOpen/PreOpenManager":21,"./prefab/Dodge":23,"./prefab/GameBanner":24,"./prefab/HPBar":25,"./prefab/MPBar":26,"./prefab/Player":27,"./prefab/PlayerSkill":28,"./prefab/PlayerState":29,"./prefab/Skill":31,"./prefab/Weapon":32,"./prefab/WeaponBar":33,"./prefab/WeaponSkill":34}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2147,14 +2357,6 @@ var _HPBar = require("./prefab/HPBar");
 
 var _HPBar2 = _interopRequireDefault(_HPBar);
 
-var _GameBanner = require("./prefab/GameBanner");
-
-var _GameBanner2 = _interopRequireDefault(_GameBanner);
-
-var _HeroConfig = require("./config/HeroConfig");
-
-var _HeroConfig2 = _interopRequireDefault(_HeroConfig);
-
 var _GameControl = require("./GameControl");
 
 var _GameControl2 = _interopRequireDefault(_GameControl);
@@ -2187,7 +2389,7 @@ var GameView = function (_PaoYa$View) {
 
       var sceneSK = new Laya.Skeleton();
       var sceneURL = '';
-      var baseUrl = 'https://xgamejuedixiaomie.goxiaochengxu.cn/1006/';
+
       if (_GameControl2.default.instance.closeRobot) {
         sceneURL = "remote/spine/scene/scene1.sk";
         this.sceneBg.texture = "remote/game/scene1.jpg";
@@ -2209,7 +2411,6 @@ var GameView = function (_PaoYa$View) {
       }
       sceneSK.load(sceneURL, Laya.Handler.create(this, function (res) {
         sceneSK.play('stand', true);
-        //  console.log(sceneSK._templet) 
       }));
       this.sceneSK = sceneSK;
       this.scenePoint.addChild(sceneSK);
@@ -2254,7 +2455,80 @@ var GameView = function (_PaoYa$View) {
 
 exports.default = GameView;
 
-},{"./GameControl":4,"./config/HeroConfig":9,"./prefab/GameBanner":23,"./prefab/HPBar":24,"./prefab/MPBar":25}],7:[function(require,module,exports){
+},{"./GameControl":4,"./prefab/HPBar":25,"./prefab/MPBar":26}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _RobotSkill = require("./prefab/RobotSkill");
+
+var _RobotSkill2 = _interopRequireDefault(_RobotSkill);
+
+var _GameControl = require("./GameControl");
+
+var _GameControl2 = _interopRequireDefault(_GameControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SkillManager = function (_Laya$Script) {
+  _inherits(SkillManager, _Laya$Script);
+
+  function SkillManager(skillList) {
+    _classCallCheck(this, SkillManager);
+
+    var _this = _possibleConstructorReturn(this, (SkillManager.__proto__ || Object.getPrototypeOf(SkillManager)).call(this));
+
+    _this.skillList = [];
+    for (var i = 0, len = skillList.length; i < len; i++) {
+      var skill = _RobotSkill2.default.create(skillList[i].skillConfig);
+      _this.skillList.push(skill);
+    }
+    return _this;
+  }
+
+  _createClass(SkillManager, [{
+    key: "seletedSkill",
+    value: function seletedSkill() {
+      var skills = [];
+      var curHp = 0;
+      for (var i = 0, len = this.skillList.length; i < len; i++) {
+        if (!this.skillList[i].freezeing && this.skillList[i].limit) {
+          if (this.skillList[i].lifeValue) {
+            curHp = _GameControl2.default.instance.otherPlayer.comp.HPComp.curHP;
+            if (curHp <= this.skillList[i].lifeValue && this.skillList[i].perTimeOK && this.skillList[i].timeOK && !_GameControl2.default.instance.robotSkill) {
+              skills.push(this.skillList[i]);
+            }
+          } else if (this.skillList[i].perTimeOK && this.skillList[i].timeOK && !_GameControl2.default.instance.robotSkill) {
+            skills.push(this.skillList[i]);
+          }
+        }
+      }
+      var random = Math.floor(Math.random() * skills.length);
+      if (skills[random]) {
+        skills[random].startCd();
+        skills[random].limit -= 1;
+        return skills[random];
+      }
+      return null;
+    }
+  }]);
+
+  return SkillManager;
+}(Laya.Script);
+
+exports.default = SkillManager;
+
+},{"./GameControl":4,"./prefab/RobotSkill":30}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2424,7 +2698,7 @@ exports.default = SoundManager;
 SoundManager._ins;
 SoundManager.curBg = "homeBg";
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2472,6 +2746,20 @@ var WeaponManager = function (_Laya$Script) {
       //  console.error('选中兵器:......:',weapons[random].params.weaponName)
       return weapons[random];
     }
+  }, {
+    key: 'closeCd',
+    value: function closeCd() {
+      this.weaponList.forEach(function (weapon) {
+        weapon.clearCd();
+      });
+    }
+  }, {
+    key: 'openCd',
+    value: function openCd() {
+      this.weaponList.forEach(function (weapon) {
+        weapon.openCd();
+      });
+    }
   }]);
 
   return WeaponManager;
@@ -2486,6 +2774,8 @@ var PrivateWeapon = function () {
     this.params = deepMerge(weaponParams);
     this.freezeing = false;
     this.isSelf = false;
+    this.cdTime = this.params.weaponCd;
+    this.originCdTime = this.params.weaponCd;
     this.weaponConsume = this.params.weaponConsume;
   }
 
@@ -2502,13 +2792,29 @@ var PrivateWeapon = function () {
     key: 'startT',
     value: function startT() {
       console.error('机器人兵器进行冷却');
+      if (this.cdTime == 0) {
+        return;
+      }
       this.freezeing = true;
-      Laya.timer.once(this.params.weaponCd * 1000, this, this.changeStatus);
+      Laya.timer.once(this.cdTime * 1000, this, this.changeStatus);
     }
   }, {
     key: 'changeStatus',
     value: function changeStatus() {
       this.freezeing = false;
+    }
+  }, {
+    key: 'clearCd',
+    value: function clearCd() {
+      //console.warn('修改cd时间:',cdTime);
+      //cd 时间
+      console.error('-----机器人无cd时间------');
+      this.cdTime = 0;
+    }
+  }, {
+    key: 'recoverCd',
+    value: function recoverCd() {
+      this.cdTime = this.originCdTime;
     }
   }]);
 
@@ -2544,7 +2850,7 @@ function isPlainObject(val) {
   return Object.prototype.toString.call(val) === '[object Object]';
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2703,7 +3009,7 @@ var HeroConfig = {
   //每个英雄对应的技能，和技能对应的动画效果
 };exports.default = HeroConfig;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2952,7 +3258,7 @@ var AdventDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventDialog;
 
-},{"../../scripts/common/HomeControl":34,"../prefab/WeaponBar":31,"./AlertDialog":14}],11:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":36,"../prefab/WeaponBar":33,"./AlertDialog":15}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3087,7 +3393,7 @@ var AdventureDialog5 = function (_PaoYa$Dialog) {
 
 exports.default = AdventureDialog5;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3369,7 +3675,7 @@ var AdventResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog;
 
-},{"../../scripts/common/tool/Global":51,"../../scripts/common/tool/Tool":52,"../GameControl":4,"../prefab/WeaponBar":31,"./AlertDialog":14}],13:[function(require,module,exports){
+},{"../../scripts/common/tool/Global":53,"../../scripts/common/tool/Tool":54,"../GameControl":4,"../prefab/WeaponBar":33,"./AlertDialog":15}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3588,7 +3894,7 @@ var AdventResultDialog5 = function (_PaoYa$Dialog) {
 
 exports.default = AdventResultDialog5;
 
-},{"../../scripts/common/tool/Global":51,"../../scripts/common/tool/Tool":52,"./AlertDialog":14}],14:[function(require,module,exports){
+},{"../../scripts/common/tool/Global":53,"../../scripts/common/tool/Tool":54,"./AlertDialog":15}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3690,7 +3996,7 @@ var AlertDialog = function (_PaoYa$Dialog) {
 
 exports.default = AlertDialog;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3794,7 +4100,7 @@ var BattleResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = BattleResultDialog;
 
-},{"../../scripts/common/HomeControl":34,"../SoundManager":7,"../config/HeroConfig":9}],16:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":36,"../SoundManager":8,"../config/HeroConfig":10}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4012,7 +4318,7 @@ var PassResultDialog = function (_PaoYa$Dialog) {
 
 exports.default = PassResultDialog;
 
-},{"../../scripts/common/HomeControl":34,"../GameControl":4,"../SoundManager":7,"../prefab/WeaponBar":31,"./AlertDialog":14}],17:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":36,"../GameControl":4,"../SoundManager":8,"../prefab/WeaponBar":33,"./AlertDialog":15}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4505,7 +4811,7 @@ var GameGuideControl = function (_GameControl) {
 
 exports.default = GameGuideControl;
 
-},{"../../scripts/common/HomeControl":34,"../../scripts/common/tool/Global":51,"../GameControl":4,"../WeaponManager":8,"./SpeakMan":19}],18:[function(require,module,exports){
+},{"../../scripts/common/HomeControl":36,"../../scripts/common/tool/Global":53,"../GameControl":4,"../WeaponManager":9,"./SpeakMan":20}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5198,7 +5504,7 @@ exports.default = {
 	}
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5301,7 +5607,7 @@ var SpeakMan = function (_PaoYa$Component) {
 
 exports.default = SpeakMan;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5392,7 +5698,7 @@ private function onComplete(obj:Object):Void{
   一个sprite = Pool.getItemByCreateFun("自己起一个名字", this.一个预设变量.create, this.一个预设变量);
 } */
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5483,7 +5789,7 @@ exports.default = PreOpenView;
 
 PreOpenView.END = 'end';
 
-},{"../gameGuide/SpeakMan":19}],22:[function(require,module,exports){
+},{"../gameGuide/SpeakMan":20}],23:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5614,7 +5920,7 @@ var Dodge = function (_PaoYa$Component) {
 
 exports.default = Dodge;
 
-},{"../GameControl":4}],23:[function(require,module,exports){
+},{"../GameControl":4}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5705,7 +6011,7 @@ var GameBanner = function (_PaoYa$Component) {
 
 exports.default = GameBanner;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5765,6 +6071,14 @@ var HPBar = function (_PaoYa$Component) {
       this.imgMask.width = w;
     }
   }, {
+    key: 'halfHP',
+    value: function halfHP() {
+      this.curHP = Math.round(this.originHP / 2);
+      this.lblHpPct.text = this.curHP + '/' + this.originHP;
+      var w = Math.floor(this.curHP / this.originHP * this.originW);
+      this.imgMask.width = w;
+    }
+  }, {
     key: 'onDisable',
     value: function onDisable() {}
   }, {
@@ -5777,7 +6091,7 @@ var HPBar = function (_PaoYa$Component) {
 
 exports.default = HPBar;
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5895,7 +6209,7 @@ var MPBar = function (_PaoYa$Component) {
 
 exports.default = MPBar;
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5997,6 +6311,8 @@ var Player = function (_PaoYa$Component) {
         this.skeleton.play('stand', true);
       }
       this.canAction = true;
+      this.bounceSkill = false;
+      this.stealHPSkill = false;
       this.sectionAni = 0; //分段动画
       //状态清零 以免影响下一个
       this.plasyState = false;
@@ -6279,6 +6595,24 @@ var Player = function (_PaoYa$Component) {
         _GameControl2.default.instance.deathHandler(this.isSelf);
         return;
       }
+    }
+    /*  */
+
+  }, {
+    key: "becomeDevil",
+    value: function becomeDevil(hpValue) {
+      this.HPComp.changeHP(hpValue);
+      if (this.HPComp.curHP <= 0 && !this.killed) {
+        console.error('--------走火入魔结束--------');
+        this.killed = true;
+        this.skeleton.play("death", false);
+        _GameControl2.default.instance.deathHandler(this.isSelf);
+      }
+    }
+  }, {
+    key: "halfHP",
+    value: function halfHP() {
+      this.HPComp.halfHP();
     }
   }, {
     key: "removePoison",
@@ -6567,7 +6901,7 @@ var Player = function (_PaoYa$Component) {
 
 exports.default = Player;
 
-},{"../GameControl":4,"../config/HeroConfig":9}],27:[function(require,module,exports){
+},{"../GameControl":4,"../config/HeroConfig":10}],28:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6653,7 +6987,7 @@ var PlayerSkill = function (_PaoYa$Component) {
 
 exports.default = PlayerSkill;
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6718,7 +7052,131 @@ var PlayerState = function (_PaoYa$Component) {
 
 exports.default = PlayerState;
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var RobotSkill = function () {
+    function RobotSkill(skillConfig) {
+        _classCallCheck(this, RobotSkill);
+
+        console.log('机器人技能1111:', skillConfig);
+        this._id = 0;
+        this.limit = 0;
+        this.lifeValue = 0;
+        this.cdTime = 0;
+
+        // this.perTime=0;
+
+        this.timeOK = true;
+        this.perTimeOK = true;
+        /* this.lefeOK=true;  */
+
+        this.initSkill(skillConfig);
+    }
+
+    _createClass(RobotSkill, [{
+        key: 'initSkill',
+        value: function initSkill(skillConfig) {
+            console.log('\u521D\u59CB\u5316\u673A\u5668\u4EBA\u6280\u80FD');
+            this.freezeing = false;
+            this.skillId = skillConfig.skillId;
+            if (skillConfig.life != undefined) {
+                this.lifeValue = skillConfig.life * skillConfig.roleHp;
+            }
+            if (skillConfig.limit != undefined) {
+                this.limit = skillConfig.limit;
+            }
+            if (skillConfig.cd != undefined) {
+                this.cdTime = skillConfig.cd * 1000;
+            }
+            if (skillConfig.time != undefined) {
+                this.timeOK = false;
+                Laya.timer.once(skillConfig.time * 1000, this, this.changeTimeStatus);
+            }
+            if (skillConfig.perTime != undefined) {
+                //this.perTime=skillConfig.perTime  
+                this.perTimeOK = false;
+                Laya.timer.loop(skillConfig.perTime * 1000, this, this.changePerTimeStatus);
+            }
+            //  this.lifeValue=null;/* 生命限制条件 */
+            return this;
+        }
+    }, {
+        key: 'getSkill',
+        value: function getSkill() {
+            if (this.freezeing) {
+                return false;
+            }
+            return true;
+        }
+    }, {
+        key: 'setCdTime',
+        value: function setCdTime(cdTime) {
+            if (cdTime == 0) {
+                console.log('\u6280\u80FD\u65E0cd\u72B6\u6001');
+            } else {
+                console.warn('修改机器人cd时间:', cdTime);
+            } //cd 时间
+            this.cdTime = cdTime;
+        }
+    }, {
+        key: 'startCd',
+        value: function startCd() {
+            if (this.cdTime != 0) {
+                this.freezeing = true;
+            }
+            Laya.timer.once(this.cdTime, this, this.changeSkillStatus);
+        }
+    }, {
+        key: 'changeSkillStatus',
+        value: function changeSkillStatus() {
+            this.freezeing = true;
+        }
+    }, {
+        key: 'changeTimeStatus',
+        value: function changeTimeStatus() {
+            this.timeOK = true;
+        }
+    }, {
+        key: 'changePerTimeStatus',
+        value: function changePerTimeStatus() {
+            var _this = this;
+
+            this.perTimeOK = true;
+            Laya.timer.once(1000, this, function () {
+                _this.perTimeOK = false;
+            });
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {}
+    }], [{
+        key: 'create',
+        value: function create(skillConfig) {
+            if (RobotSkill._pool.length) return RobotSkill._pool.pop().initSkill(skillConfig);
+            return new RobotSkill(skillConfig);
+        }
+    }]);
+
+    return RobotSkill;
+}();
+
+exports.default = RobotSkill;
+
+RobotSkill._pool = [];
+RobotSkill._gid = 1;
+
+/*  */
+
+},{}],31:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6754,6 +7212,11 @@ var Skill = function (_PaoYa$Component) {
     _createClass(Skill, [{
         key: "onEnable",
         value: function onEnable() {}
+    }, {
+        key: "onThrottleClick",
+        value: function onThrottleClick() {
+            this.clickHandler();
+        }
     }, {
         key: "clickHandler",
         value: function clickHandler() {
@@ -6812,11 +7275,6 @@ var Skill = function (_PaoYa$Component) {
                 this.spShadow.visible = false;
                 this.lblLockTips.visible = false;
             }
-        }
-    }, {
-        key: "onThrottleClick",
-        value: function onThrottleClick() {
-            this.clickHandler();
         }
     }, {
         key: "setCdTime",
@@ -6885,7 +7343,7 @@ exports.default = Skill;
 
 Skill.CLICK = "skillClick";
 
-},{"../GameControl":4}],30:[function(require,module,exports){
+},{"../GameControl":4}],32:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7253,15 +7711,6 @@ var Weapon = function (_PaoYa$Component) {
         return;
       }
       if (this.doPolygonsIntersect(this.weaponPoint, this.otherPlayerComp.collidePoint)) {
-        /*     let sprite=new Laya.Sprite();
-            GameControl.instance.owner.addChild(sprite);
-            sprite.pos(this.weaponPoint[0].x,this.weaponPoint[0].y)
-            sprite.size(this.collideW,this.collideH)
-            sprite.graphics.clear();
-            sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
-            sprite.zOrder=10000;
-            sprite.rotation=this.imgWeapon.rotation */
-
         this.postNotification('collide');
         //如果对方闪避状态，无敌
         if (this.otherPlayerComp.dodge) {
@@ -7364,6 +7813,14 @@ var Weapon = function (_PaoYa$Component) {
         } else {
           this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
         }
+        if (this.otherPlayerComp.stealHPSkill) {
+          console.error("-----\u5438\u661F\u5927\u6CD5\u52A0\u8840----", attackNum * 2);
+          this.otherPlayerComp.hpRecoverEffect(attackNum * 2);
+        }
+        if (this.otherPlayerComp.bounceSkill && !this.otherPlayerComp.killed) {
+          console.error("-----\u94C1\u5E03\u886B\u53CD\u5F39\u4F24\u5BB3----", attackNum * 2);
+          this.selfPlayerComp.injuredEffect(this.params.weaponType, -attackNum * 2, isCrit);
+        }
       }
 
       if (this.isSelf) {
@@ -7396,6 +7853,7 @@ var Weapon = function (_PaoYa$Component) {
       otherReduceHurt = this.calcReduceHurt(otherAttr),
           hurtPer = selfStrength - otherBone < 0 ? 1 : (selfStrength - otherBone) / selfStrength,
           skillHurtMulti = 1;
+      console.log("---roleBone\u6839\u9AA8---", otherBone, selfAttr.roleBone);
       if (skillEffect) {
         console.warn('--------触发技能伤害，有莫有伤害倍数不知道--------'); //技能伤害百分比
         skillHurtMulti = this.params.activeSkill.skillConfig.hurt ? this.params.activeSkill.skillConfig.hurt : 1;
@@ -7690,7 +8148,7 @@ var Weapon = function (_PaoYa$Component) {
 
 exports.default = Weapon;
 
-},{"../GameControl":4,"../SoundManager":7}],31:[function(require,module,exports){
+},{"../GameControl":4,"../SoundManager":8}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7894,7 +8352,7 @@ exports.default = WeaponBar;
 
 WeaponBar.CLICK = "weanponBarClick";
 
-},{"../GameControl":4}],32:[function(require,module,exports){
+},{"../GameControl":4}],34:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7968,7 +8426,7 @@ var WeaponSkill = function (_PaoYa$Component) {
 
 exports.default = WeaponSkill;
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8070,7 +8528,7 @@ var GameMain = function (_PaoYa$Main) {
 
 exports.default = GameMain;
 
-},{"./Loading/LoadingView":36}],34:[function(require,module,exports){
+},{"./Loading/LoadingView":38}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8828,7 +9286,7 @@ var HomeControl = function (_PaoYa$Component) {
 
 exports.default = HomeControl;
 
-},{"../../gamescripts/SoundManager":7,"../../gamescripts/config/HeroConfig":9,"../../gamescripts/dialog/AlertDialog":14,"../../gamescripts/gameGuide/GameGuideData":18,"../../gamescripts/gameGuide/SpeakMan":19,"./tool/Global":51}],35:[function(require,module,exports){
+},{"../../gamescripts/SoundManager":8,"../../gamescripts/config/HeroConfig":10,"../../gamescripts/dialog/AlertDialog":15,"../../gamescripts/gameGuide/GameGuideData":19,"../../gamescripts/gameGuide/SpeakMan":20,"./tool/Global":53}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8894,7 +9352,7 @@ var LoadingControl = function (_PaoYa$Component) {
 
 exports.default = LoadingControl;
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8957,7 +9415,7 @@ var LoadingView = function (_PaoYa$View) {
 
 exports.default = LoadingView;
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9051,7 +9509,7 @@ var MatchControl = function (_PaoYa$Component) {
 
 exports.default = MatchControl;
 
-},{"../../../gamescripts/prefab/GameBanner":23}],38:[function(require,module,exports){
+},{"../../../gamescripts/prefab/GameBanner":24}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9184,7 +9642,7 @@ var MatchView = function (_PaoYa$View) {
 
 exports.default = MatchView;
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9366,7 +9824,7 @@ var Grading = function (_PaoYa$View) {
 
 exports.default = Grading;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51}],40:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../../gamescripts/config/HeroConfig":10,"../tool/Global":53}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9448,7 +9906,7 @@ var GradingControl = function (_PaoYa$Component) {
 
 exports.default = GradingControl;
 
-},{"../../../gamescripts/SoundManager":7}],41:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9887,7 +10345,7 @@ var Swordsman = function (_PaoYa$View) {
 
 exports.default = Swordsman;
 
-},{"../../../gamescripts/SoundManager":7,"../../../gamescripts/config/HeroConfig":9,"../tool/Global":51}],42:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../../gamescripts/config/HeroConfig":10,"../tool/Global":53}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10079,7 +10537,7 @@ var SwordsmanControl = function (_PaoYa$Component) {
 
 exports.default = SwordsmanControl;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51}],43:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../tool/Global":53}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10360,7 +10818,7 @@ var Devour = function (_PaoYa$View) {
 
 exports.default = Devour;
 
-},{"../../../gamescripts/SoundManager":7,"./DevourControl":44,"./Refining":45}],44:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"./DevourControl":46,"./Refining":47}],46:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10771,7 +11229,7 @@ var DevourControl = function (_PaoYa$Component) {
 
 exports.default = DevourControl;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./Refining":45,"./RefiningControl":46}],45:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../tool/Global":53,"./Refining":47,"./RefiningControl":48}],47:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10902,7 +11360,7 @@ var Refining = function (_PaoYa$View) {
 
 exports.default = Refining;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./RefiningControl":46}],46:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../tool/Global":53,"./RefiningControl":48}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11114,7 +11572,7 @@ var RefiningControl = function (_PaoYa$Component) {
 
 exports.default = RefiningControl;
 
-},{"../../../gamescripts/SoundManager":7,"../HomeControl":34,"../tool/Global":51,"./Devour":43}],47:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../HomeControl":36,"../tool/Global":53,"./Devour":45}],49:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11270,7 +11728,7 @@ var Sign = function (_PaoYa$View) {
 
 exports.default = Sign;
 
-},{"../tool/Global":51}],48:[function(require,module,exports){
+},{"../tool/Global":53}],50:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11376,7 +11834,7 @@ var SignControl = function (_PaoYa$Component) {
 
 exports.default = SignControl;
 
-},{"../../../gamescripts/SoundManager":7,"../HomeControl":34,"../figure/Swordsman":41,"../tool/Global":51,"../tool/Tool":52}],49:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../HomeControl":36,"../figure/Swordsman":43,"../tool/Global":53,"../tool/Tool":54}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11503,7 +11961,7 @@ var WeaponList = function (_PaoYa$View) {
 
 exports.default = WeaponList;
 
-},{"../../../gamescripts/SoundManager":7,"./WeaponListControl":50}],50:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"./WeaponListControl":52}],52:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11762,7 +12220,7 @@ var WeaponListControl = function (_PaoYa$Component) {
 
 exports.default = WeaponListControl;
 
-},{"../../../gamescripts/SoundManager":7}],51:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],53:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12075,7 +12533,7 @@ var Global = {
 
 exports.Global = Global;
 
-},{"../../../Config":1}],52:[function(require,module,exports){
+},{"../../../Config":1}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12323,7 +12781,7 @@ var Tool = function () {
 
 exports.default = Tool;
 
-},{"./Global":51}],53:[function(require,module,exports){
+},{"./Global":53}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12582,7 +13040,7 @@ var WeaponHouse = function (_PaoYa$View) {
 
 exports.default = WeaponHouse;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"./WeaponHouseControl":54}],54:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../tool/Global":53,"./WeaponHouseControl":56}],56:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13291,7 +13749,7 @@ var WeaponHouseControl = function (_PaoYa$Component) {
 
 exports.default = WeaponHouseControl;
 
-},{"../../../gamescripts/SoundManager":7}],55:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13520,7 +13978,7 @@ var WeaponStore = function (_PaoYa$View) {
 
 exports.default = WeaponStore;
 
-},{"../tool/Global":51,"./WeaponStoreControl":56}],56:[function(require,module,exports){
+},{"../tool/Global":53,"./WeaponStoreControl":58}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14215,7 +14673,7 @@ var WeaponStoreControl = function (_PaoYa$Component) {
 
 exports.default = WeaponStoreControl;
 
-},{"../../../gamescripts/SoundManager":7,"./WeaponStore":55}],57:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"./WeaponStore":57}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14437,7 +14895,7 @@ var Wheel = function (_PaoYa$View) {
 
 exports.default = Wheel;
 
-},{"../../../gamescripts/SoundManager":7,"./WheelControl":58}],58:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"./WheelControl":60}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14714,7 +15172,7 @@ var WheelControl = function (_PaoYa$Component) {
 
 exports.default = WheelControl;
 
-},{"../../../gamescripts/SoundManager":7,"../tool/Global":51,"../tool/Tool":52}],59:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../tool/Global":53,"../tool/Tool":54}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14994,7 +15452,7 @@ var BuyWp = function (_PaoYa$Dialog) {
 
 exports.default = BuyWp;
 
-},{"../../common/tool/Global":51}],60:[function(require,module,exports){
+},{"../../common/tool/Global":53}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15128,7 +15586,7 @@ var ChangeWp = function (_PaoYa$Dialog) {
 
 exports.default = ChangeWp;
 
-},{"../../common/tool/Global":51,"../../common/tool/Tool":52}],61:[function(require,module,exports){
+},{"../../common/tool/Global":53,"../../common/tool/Tool":54}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15231,7 +15689,7 @@ var GetAward = function (_PaoYa$Dialog) {
 
 exports.default = GetAward;
 
-},{"../../common/tool/Global":51,"../../common/tool/Tool":52}],62:[function(require,module,exports){
+},{"../../common/tool/Global":53,"../../common/tool/Tool":54}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15427,7 +15885,7 @@ var Award = function (_PaoYa$Dialog) {
 
 exports.default = Award;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/sign/Sign":47,"../../common/tool/Global":51,"../../common/tool/Tool":52,"../../common/wheel/Wheel":57,"../../common/wheel/WheelControl":58}],63:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/sign/Sign":49,"../../common/tool/Global":53,"../../common/tool/Tool":54,"../../common/wheel/Wheel":59,"../../common/wheel/WheelControl":60}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15497,7 +15955,7 @@ var BuyWheelTimes = function (_PaoYa$Dialog) {
 
 exports.default = BuyWheelTimes;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/wheel/WheelControl":58}],64:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/wheel/WheelControl":60}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15604,7 +16062,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7}],65:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15902,7 +16360,7 @@ var Task = function (_PaoYa$Dialog) {
 
 exports.default = Task;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/tool/Global":51,"../../common/tool/Tool":52,"../../common/wheel/Wheel":57}],66:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/HomeControl":36,"../../common/tool/Global":53,"../../common/tool/Tool":54,"../../common/wheel/Wheel":59}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16010,7 +16468,7 @@ var BuyHero = function (_PaoYa$Dialog) {
 
 exports.default = BuyHero;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/figure/Swordsman":41,"../../common/figure/SwordsmanControl":42}],67:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/figure/Swordsman":43,"../../common/figure/SwordsmanControl":44}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16084,7 +16542,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{"../../../gamescripts/SoundManager":7}],68:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16156,7 +16614,7 @@ var SkillDetail = function (_PaoYa$Dialog) {
 
 exports.default = SkillDetail;
 
-},{"../../../gamescripts/SoundManager":7}],69:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16260,7 +16718,7 @@ var Canlock = function (_PaoYa$Dialog) {
 
 exports.default = Canlock;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/refiner/RefiningControl":46}],70:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/refiner/RefiningControl":48}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16329,7 +16787,7 @@ var DiamondLack = function (_PaoYa$Dialog) {
 
 exports.default = DiamondLack;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34}],71:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/HomeControl":36}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16399,7 +16857,7 @@ var GoldLack = function (_PaoYa$Dialog) {
 
 exports.default = GoldLack;
 
-},{"../../../gamescripts/SoundManager":7}],72:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16543,7 +17001,7 @@ var StoreSure = function (_PaoYa$Dialog) {
 
 exports.default = StoreSure;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/refiner/DevourControl":44,"../../common/weapon/WeaponStoreControl":56}],73:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/refiner/DevourControl":46,"../../common/weapon/WeaponStoreControl":58}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16616,7 +17074,7 @@ var UnlockFifth = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFifth;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/tool/Global":51,"../../common/tool/Tool":52}],74:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/tool/Global":53,"../../common/tool/Tool":54}],76:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16715,7 +17173,7 @@ var UnlockFour = function (_PaoYa$Dialog) {
 
 exports.default = UnlockFour;
 
-},{"../../../gamescripts/SoundManager":7,"../../common/HomeControl":34,"../../common/weapon/WeaponHouseControl":54}],75:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8,"../../common/HomeControl":36,"../../common/weapon/WeaponHouseControl":56}],77:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16777,7 +17235,7 @@ var UnlockTips = function (_PaoYa$Dialog) {
 
 exports.default = UnlockTips;
 
-},{"../../../gamescripts/SoundManager":7}],76:[function(require,module,exports){
+},{"../../../gamescripts/SoundManager":8}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

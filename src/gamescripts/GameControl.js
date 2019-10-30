@@ -13,6 +13,7 @@ import GameBanner from './prefab/GameBanner';
 import SoundManager from './SoundManager';
 import PreOpenManager from './preOpen/PreOpenManager';
 import { Global } from '../scripts/common/tool/Global';
+import SkillManager from './SkillManager';
 export default class GameControl extends PaoYa.Component {
     /** @prop {name:weapon,tips:"武器预制体对象",type:Prefab}*/
     /** @prop {name:weaponBar,tips:"武器预制体对象",type:Prefab}*/
@@ -33,6 +34,7 @@ export default class GameControl extends PaoYa.Component {
     }
     onDisappear() {
         Laya.MouseManager.enabled = true;
+        Laya.timer.clearAll(this);
     }
     onAwake() {
         Laya.Pool.clearBySign('weapon');
@@ -61,25 +63,18 @@ export default class GameControl extends PaoYa.Component {
         this.drawParabola()
         this.curvature=0.0015;
         this.drawParabola() */
+      /*   Laya.timer.once(1000,this,()=>{
+            this.otherPlayer.comp.attackEffect(false);
+            this.otherPlayer.comp.attackCallback=()=>{
+               this.robotSkillLaunch(97);
+            }
+            this.showRobotSkill({skillId:94})
+        }) */
     }
     onEnable() {
         this.onNotification(WeaponBar.CLICK, this, this.weaponBarClickHandler)
         this.onNotification(Skill.CLICK, this, this.skillClickHandler);
         this.fillPlayerInfo();
-       /*  let skillPromise = new Promise((resolve, reject) => {
-            Laya.loader.create('gamescenes/prefab/Skill.json', Laya.Handler.create(this, (json) => {
-               // console.log(json);
-                if(json instanceof Laya.Prefab){
-                    resolve(json.json)
-                }else{
-                    resolve(json);
-                }
-                
-            }))
-        })
-        skillPromise.then((json)=>{
-            this.initSkill(json);
-        }) */
         this.initSkill();
     }
     //切后台退出游戏，要加些处理，技能2要在下一个怪出现时关掉
@@ -296,8 +291,6 @@ export default class GameControl extends PaoYa.Component {
     showMaskAni() {
          let maskArea = new Laya.Sprite();
         maskArea.alpha = 0.9;
-      /*   console.log(Laya.Browser.width, Laya.Browser.height)
-        console.log(Laya.stage.width,Laya.stage.height)  */
         maskArea.graphics.drawRect(0, 0,Laya.stage.width,Laya.stage.height, "#000000");
         maskArea.mouseEnabled = true;
         maskArea.zOrder = 2000;
@@ -482,6 +475,7 @@ export default class GameControl extends PaoYa.Component {
         //把人物主动技能挑选出来
         for (let i = 0, len = this[role].skills.length; i < len; i++) {
             if (this[role].skills[i].skillType == 1) {
+                this[role].skills[i].skillConfig.roleHp=this[role].roleHp;
                 component.activeSkills.push(this[role].skills[i]);
             }
         }
@@ -522,27 +516,6 @@ export default class GameControl extends PaoYa.Component {
             comp: component
         }
     }
-    /* 人物技能 */
-  /*   initSkill(json) {
-        let owner = this.owner;
-        let activeSkills = this.selfPlayer.comp.activeSkills;
-        for (let i = 1; i < 3; i++) {
-            let skillView=new Laya.Prefab();
-            skillView.json=json;
-            let view = Laya.Pool.getItemByCreateFun('SkillView', skillView.create, skillView);
-            view.name=`skill${i}`
-            this['skillScr' + i] = view.getComponent(Skill);
-            this['skillScr' + i].params = activeSkills[i - 1];
-            this['skillScr' + i].init(activeSkills[i - 1]);
-            this['skillOwner' + i] = view;
-            if(i==1){
-                view.pos(1032,619)
-            }else{
-                view.pos(1189,467)
-            }
-            owner.addChild(view)
-        }
-    } */
      initSkill() {
         let owner = this.owner;
         let activeSkills = this.selfPlayer.comp.activeSkills;
@@ -781,6 +754,14 @@ export default class GameControl extends PaoYa.Component {
         this.weaponManager = new WeaponManager(this.robotWeaponList);
         this.sWeapon = this.weaponManager.seletedWeapon();
       
+
+        console.log('机器人技能清单:',this.otherPlayer.comp.activeSkills)
+        /* let len=this.otherPlayer.comp.activeSkills.length;
+        */
+        let skills=this.otherPlayer.comp.activeSkills
+        //机器人技能
+        this.skillManager=new SkillManager(skills);
+      
         if(this.gameType==`battle`){
             this.startSelect();
         }else{
@@ -791,6 +772,15 @@ export default class GameControl extends PaoYa.Component {
         /*  if(!this.sWeapon||this.gameState=='over'){
              return;
          } */
+         let robotSkills=null;
+         robotSkills=this.skillManager.seletedSkill();
+         if(robotSkills){
+            console.error(`----触发机器人技能----`) ;
+            this.showRobotSkill(robotSkills);
+            Laya.timer.once(300, this, this.startSelect);
+            return; 
+         }
+         /* 每次做选择的时候先看看技能是否可用，两个技能均可用的话，随机一个 */
         //如果选中的已经发射了，才可以重新选
         if (this.seletedLaunch) {
             this.sWeapon = this.weaponManager.seletedWeapon();
@@ -822,8 +812,190 @@ export default class GameControl extends PaoYa.Component {
             Laya.timer.once(500, this, this.startSelect);
         }
     }
+    showRobotSkill(skillConfig){
+       this.robotSkill=true;
+       switch(skillConfig.skillId){
+           case 91:
+               let originRoleBone=this.robotRole.roleBone;
+               this.robotRole.roleBone=this.robotRole.roleBone*3;
+               console.error(`-----旧的根骨-----:`,originRoleBone)
+               console.error(`-----新的根骨-----:`,this.robotRole.roleBone)
+               this.showSkillText(false,'金钟罩')
+               Laya.timer.once(10000,this,this.recoverOriginBone,[originRoleBone])
+               break;
+           case 92:
+                 this.otherPlayer.comp.halfHP();
+                 console.error(`-----旧的血量-----:`)
+                 console.error(`-----新的血量-----:`,this.robotRole.roleHp/2)
+                 this.showSkillText(false,'回光返照');
+                 this.robotSkill=false;    
+               break;
+           case 93:
+               let originRoleStrength=this.robotRole.roleStrength;
+               this.robotRole.roleStrength=this.robotRole.roleStrength*2;
+               this.showSkillText(false,`无极剑法`);
+               Laya.timer.once(60000,this,this.recoverOriginStrength,[originRoleStrength])
+               break;
+           case 94:
+               this.otherPlayer.comp.changePerMp(60000,2)
+               this.showRobotCommonSkill(skillConfig.skillId);
+               Laya.timer.once(60000,this,this.removeRobotCommonSkill);
+               this.showSkillText(false,`无根生`);
+               break;
+           case 95: /* 反弹200%伤害，持续10秒。 */
+               this.otherPlayer.comp.bounceSkill=true;
+               this.showSkillText(false,`铁布衫`);
+               Laya.timer.once(10000,this,this.removeBounceSkill)
+               break;
+           case 96:/* 受到的伤害200%转化成生命，持续10秒。 */
+               this.otherPlayer.comp.stealHPSkill=true;
+               this.showSkillText(false,`吸星大法`);
+               Laya.timer.once(10000,this,this.removeStealHPSkill);
+               break;
+           case 97:/* 发射火球，造成80点伤害。 */
+               this.showSkillText(false,`红莲火`);
+               this.otherPlayer.comp.attackEffect(false);
+               this.otherPlayer.comp.attackCallback=()=>{
+                  this.robotSkillLaunch(skillConfig.skillId);
+                  this.robotSkill=false;
+               }
+               break;
+           case 98:/* 发射玄冰，造成100点伤害 */
+               this.showSkillText(false,`玄冰掌`);
+               this.otherPlayer.comp.attackEffect(false);
+               this.otherPlayer.comp.attackCallback=()=>{
+                  this.robotSkillLaunch(skillConfig.skillId);
+                  this.robotSkill=false;
+               }
+               break;   
+           case 99:/* 发射毒蛇，造成120点伤害。 */
+               this.showSkillText(false,`白蛇出世`);
+               break;
+           case 100: /* 每秒损失100点生命，兵器无CD，持续30秒。 */
+               let endTime=30000+new Date().getTime();
+               this.weaponManager.closeCd();
+               Laya.timer.loop(1000,this,this.robotBecomeDevil, [endTime])
+               this.showSkillText(false,`走火入魔`)
+               break;
+       }
+    }
+    /* ------关闭技能start------- */
+    recoverOriginBone(originRoleStrength){
+        this.robotRole.roleStrength=originRoleStrength;
+        this.robotSkill=false;
+    }
+    recoverOriginStrength(originRoleStrength){
+        this.robotRole.roleStrength=originRoleStrength;
+        this.robotSkill=false;
+    }
+    removeRobotCommonSkill(){
+        if(this.commonAni){
+            this.commonAni.stop();
+            this.commonAni.removeSelf();
+            this.robotSkill=false;
+        }
+     }
+     removeBounceSkill(){
+        this.otherPlayer.comp.bounceSkill=false;
+        this.robotSkill=false;
+     }
+     removeStealHPSkill(){
+        this.otherPlayer.comp.stealHPSkill=false;
+        this.robotSkill=false;
+     }
+     /* ------关闭技能end------- */
+     closeAllRobotTimer(){
+         this.robotSkill=false;
+         Laya.timer.clear(this,this.recoverOriginBone);
+         Laya.timer.clear(this,this.recoverOriginStrength);
+         Laya.timer.clear(this,this.removeRobotCommonSkill);
+         Laya.timer.clear(this,this.removeBounceSkill);
+         Laya.timer.clear(this,this.removeStealHPSkill)
+     }
+    robotSkillLaunch(skillId){
+        let skillAni = new Laya.Animation();
+        skillAni.loadAnimation(`gamescenes/animations/robot_skill_${skillId}.ani`, Laya.Handler.create(this, (ani) => {
+           
+            skillAni.play(0, true,'fly');
+            Laya.timer.frameLoop(1, this, this.sportAni,[skillId]);
+        }),`res/atlas/remote/robot_skill/skill_${skillId}.atlas`);
+        skillAni.pos(1030,440);
+        skillAni.scaleX=-1;
+        skillAni.zOrder=1000;
+        this.owner.addChild(skillAni);
+        this.skillAni=skillAni;
+    }
+    sportAni(skillId){
+        this.skillAni.x -= 10;
+        if(!this.skillAniCollide&&this.skillAni.x<220&&!this.selfPlayer.comp.dodge){
+            //Laya.timer.clear(this, this.sportDragon);
+            Laya.timer.clear(this,this.sportAni);
+            this.skillAniCollide=true;
+            this.skillAni.play(0,false,'hit');
+            this.skillAni.on(Laya.Event.COMPLETE,this,this.removeSkillAni); 
+            this.skillHurt(skillId);
+        }
+        if (this.skillAni.x <0||this.gameState==`over`) {
+            console.log(`【------移除机器人技能特效------】`)
+           this.removeSkillAni()
+        }
+    }
+    skillHurt(skillId){
+        let attackNum=0;
+        switch(skillId){
+           case 97:
+               attackNum=80;
+               break;
+           case 98:
+                attackNum=100;
+               break;
+           case 99:
+                attackNum=120;
+               break;
+        }
+        this.selfPlayer.comp.injuredEffect(1, -attackNum, false, () => {
+            //this.otherPlayer.comp.dragonEffect(dizzyT);
+        });
+    }
+    removeSkillAni(){
+        Laya.timer.clear(this,this.sportAni);
+        if(this.skillAni){
+            this.skillAni.stop();
+            this.skillAni.removeSelf();
+        }
+    }
+    showRobotCommonSkill(skillId){
+       let commonAni=new Laya.Animation();
+       commonAni.loadAnimation(`gamescenes/animations/robot_skill_${skillId}.ani`, Laya.Handler.create(this, (ani) => {   
+           if(skillId!=92){
+              commonAni.play(0, true);
+           } else{
+              commonAni.play(0, false);
+              commonAni.on(Laya.Event.COMPLETE,this,this.removeRobotCommonSkill);
+           }
+       }),`res/atlas/remote/robot_skill/skill_${skillId}.atlas`);
+       switch(skillId){
+           case 94:
+                commonAni.pos(1120,300);
+               break;
+       }
+      
+       commonAni.scaleX=-1;
+       this.owner.addChild(commonAni);
+       this.commonAni=commonAni;
+    }
+   
+    robotBecomeDevil(endTime){
+        if(new Date().getTime() > endTime||this.gameState==`over`||this.gameState==`nextPlayer`){
+            this.robotSkill=false;
+            this.weaponManager.openCd();
+            Laya.timer.clear(this,this.robotBecomeDevil);
+            return;
+        }
+       this.otherPlayer.comp.becomeDevil(-100);
+    }
     showTips(value) {
-        this.playerStateComp.setStateText(value);
+        this.playerStateComp&&this.playerStateComp.setStateText(value);
     }
     showSkillText(isSelf, value) {
         let name = isSelf ? 'self' : 'other';
@@ -838,7 +1010,7 @@ export default class GameControl extends PaoYa.Component {
 
             if (targetComp.isSelf) {
                // console.warn(name + 'Player' + "__体力不足");
-                this.playerStateComp.setStateText("内力不足")
+               this.playerStateComp&&this.playerStateComp.setStateText("内力不足")
             }
             return;
         }
@@ -1024,7 +1196,7 @@ export default class GameControl extends PaoYa.Component {
         let consumeMP = 0 * originMP;
         if (this[name + 'Player'].comp.MPComp.curMP < consumeMP) {
             if (isSelf) {
-                this.playerStateComp.setStateText("内力不足")
+                this.playerStateComp&&this.playerStateComp.setStateText("内力不足")
             }
             return;
         }
@@ -1053,10 +1225,10 @@ export default class GameControl extends PaoYa.Component {
         this.selfPlayer.comp.removeSkill2(); //如果有技能2,直接关掉
     }
     deathHandler(loserIsSelf) {
-       
+        this.removeRobotCommonSkill();
+        this.closeAllRobotTimer();
         Laya.MouseManager.enabled = false;
         Laya.timer.clear(this, this.startSelect);
-        // Laya.timer.clearAll(this);
        
         console.log(`------有人死亡------`)
         this.removeAllWeapons();
@@ -1096,7 +1268,6 @@ export default class GameControl extends PaoYa.Component {
             this.removeDragons(2);
         }
         this.allCdEnd();
-       // Laya.timer.clearAll(this);
         this.gameOver(loserIsSelf);
         let win = loserIsSelf ? 0 : 1;
         Laya.timer.callLater(this, () => {
@@ -1151,7 +1322,6 @@ export default class GameControl extends PaoYa.Component {
             this.removeDragons(2);
         }
         this.allCdEnd();
-      //  Laya.timer.clearAll(this);
         if(this.gameType == `pass`){
             Global.gameEndStat(this.params.stageId,{
                 static:loserIsSelf ? 'fail':'complete'

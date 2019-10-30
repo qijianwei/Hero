@@ -68,6 +68,8 @@ export default class Player extends PaoYa.Component {
       this.skeleton.play('stand',true);
     }
     this.canAction = true;
+    this.bounceSkill=false;
+    this.stealHPSkill=false;
     this.sectionAni = 0; //分段动画
     //状态清零 以免影响下一个
     this.plasyState=false;
@@ -307,6 +309,20 @@ export default class Player extends PaoYa.Component {
       return;
     }
   }
+  /*  */
+  becomeDevil(hpValue){
+    this.HPComp.changeHP(hpValue);
+    if (this.HPComp.curHP <= 0&&!this.killed) {
+      console.error('--------走火入魔结束--------');   
+      this.killed = true;
+      this.skeleton.play("death", false);
+      GameControl.instance.deathHandler(this.isSelf);
+    }
+  }
+  halfHP(){
+    this.HPComp.halfHP();
+  }
+  
   removePoison() {
     Laya.timer.clear(this, this.minusHp);
     this.boxAniPoison.visible = false;

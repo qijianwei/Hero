@@ -305,118 +305,117 @@ export default class Weapon extends PaoYa.Component {
       return;
     }
     if (this.doPolygonsIntersect(this.weaponPoint, this.otherPlayerComp.collidePoint)) {
-      /*     let sprite=new Laya.Sprite();
-          GameControl.instance.owner.addChild(sprite);
-          sprite.pos(this.weaponPoint[0].x,this.weaponPoint[0].y)
-          sprite.size(this.collideW,this.collideH)
-          sprite.graphics.clear();
-          sprite.graphics.drawRect(0,0,this.collideW,this.collideH,"yellow")
-          sprite.zOrder=10000;
-          sprite.rotation=this.imgWeapon.rotation */
+            this.postNotification('collide');
+            //如果对方闪避状态，无敌
+            if (this.otherPlayerComp.dodge) {
+              console.log('------无敌状态或者一方已经死亡------')
+              return;
+            }
+            //如果roleId=4,会20%反弹兵器。不会受到暴击。
+            //let targetName=this.isSelf?'other':'self';
+            if (this.otherPlayerComp.attr.roleId == 4) {
+              let random = Math.ceil(Math.random() * 100);
+              let reboundRate = this.otherPlayerComp.attr.skills[1].skillConfig.reboundRate;
+              if (random <= reboundRate) {
+                //反弹提示
+                GameControl.instance.showSkillText(true,"游龙入水");
+                this.goBack();
+                return;
+              }
+            }
+            //如果是roleId是2
+            if (this.selfPlayerComp.attr.roleId == 2) {
+              console.warn('------我是龙儿------')
+              if (this.selfPlayerComp.attr.skills[1].skillType == 1) {
+                let addHitRecoverMp = this.selfPlayerComp.attr.skills[1].skillConfig.addHitRecoverMp;
+                this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
+              }
+            }
+            SoundManager.ins.injured();
+            this.endMove();
+            let skill = this.params.activeSkill;
+            let skillEffect = this.params.skillEffect;
+            let {
+              attackNum,
+              isCrit
+            } = this.calcAttackNum(skillEffect);
+            
+            this.effectRefiner(this.selfPlayerComp.attr);//计算炼器效果
+            if (skillEffect) {
+              let skillConfig = skill.skillConfig,
+                skillId = skill.skillId;
+              //this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
+              switch (skillId) {
+                case 45:
+                case 46:
+                  let arr = skillConfig.poison.split('-').map(Number);
+                  let time = arr[0];
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+                    this.otherPlayerComp.poisonEffect(time * 1000, -arr[1] / time)
+                  });
 
-      this.postNotification('collide');
-      //如果对方闪避状态，无敌
-      if (this.otherPlayerComp.dodge) {
-        console.log('------无敌状态或者一方已经死亡------')
-        return;
-      }
-      //如果roleId=4,会20%反弹兵器。不会受到暴击。
-      //let targetName=this.isSelf?'other':'self';
-      if (this.otherPlayerComp.attr.roleId == 4) {
-        let random = Math.ceil(Math.random() * 100);
-        let reboundRate = this.otherPlayerComp.attr.skills[1].skillConfig.reboundRate;
-        if (random <= reboundRate) {
-          //反弹提示
-          GameControl.instance.showSkillText(true,"游龙入水");
-          this.goBack();
-          return;
-        }
-      }
-      //如果是roleId是2
-      if (this.selfPlayerComp.attr.roleId == 2) {
-        console.warn('------我是龙儿------')
-        if (this.selfPlayerComp.attr.skills[1].skillType == 1) {
-          let addHitRecoverMp = this.selfPlayerComp.attr.skills[1].skillConfig.addHitRecoverMp;
-          this.selfPlayerComp.MPComp.changeMP(addHitRecoverMp)
-        }
-      }
-      SoundManager.ins.injured();
-      this.endMove();
-      let skill = this.params.activeSkill;
-      let skillEffect = this.params.skillEffect;
-      let {
-        attackNum,
-        isCrit
-      } = this.calcAttackNum(skillEffect);
-      
-      this.effectRefiner(this.selfPlayerComp.attr);//计算炼器效果
-      if (skillEffect) {
-        let skillConfig = skill.skillConfig,
-          skillId = skill.skillId;
-        //this.otherPlayerComp.injuredEffect(this.params.weaponType,-attackNum);
-        switch (skillId) {
-          case 45:
-          case 46:
-            let arr = skillConfig.poison.split('-').map(Number);
-            let time = arr[0];
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
-              this.otherPlayerComp.poisonEffect(time * 1000, -arr[1] / time)
-            });
+                  break;
+                  //麻痹和冰冻一个效果 指的是skeleton
+                case 49:
+                case 50:
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+                    this.otherPlayerComp.palsyEffect(skillConfig.mabi * 1000);
+                  });
+                  break;
+                case 53:
+                  let stealHp = skillConfig.stealHp;
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+                    this.selfPlayerComp.hpRecoverEffect(attackNum * stealHp); //数值暂定，要算
+                  });
+                  break;
+                case 54:
+                  let stealMp = skillConfig.stealMp;
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+                    this.selfPlayerComp.mpRecoverEffect(Math.ceil(attackNum * stealMp))
+                  });
+                  break;
+                case 55:
+                  let recoverDown = skillConfig.recoverDown.split('-').map(Number);
+                  let recoverDownT = recoverDown[0],
+                    recoverDownPer = recoverDown[1];
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
+                  this.otherPlayerComp.changePerMp(recoverDownT * 1000, recoverDownPer)
+                  break;
+                case 59:
+                  let freezeTime = skillConfig.freeze * 1000
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+                    this.otherPlayerComp.freezedEffect(freezeTime);
+                  });
+                  break;
+                case 89:
+                  console.warn('--------释放人物技能89,让对方内力减少100点--------');
+                  let downMP = skillConfig.downMp;
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
+                  this.otherPlayerComp.MPComp.changeMP(-downMP);
+                  break;
+                  //命中后对手晕眩2秒
+                case 90:
+                  let dizzyT = skillConfig.dizziness * 1000;
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
+                    this.otherPlayerComp.dizzyEffect(dizzyT);
+                  });
+                  break;
+                default:
+                  this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
+                  break;
+              }
 
-            break;
-            //麻痹和冰冻一个效果 指的是skeleton
-          case 49:
-          case 50:
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
-              this.otherPlayerComp.palsyEffect(skillConfig.mabi * 1000);
-            });
-            break;
-          case 53:
-            let stealHp = skillConfig.stealHp;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
-              this.selfPlayerComp.hpRecoverEffect(attackNum * stealHp); //数值暂定，要算
-            });
-            break;
-          case 54:
-            let stealMp = skillConfig.stealMp;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
-              this.selfPlayerComp.mpRecoverEffect(Math.ceil(attackNum * stealMp))
-            });
-            break;
-          case 55:
-            let recoverDown = skillConfig.recoverDown.split('-').map(Number);
-            let recoverDownT = recoverDown[0],
-              recoverDownPer = recoverDown[1];
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
-            this.otherPlayerComp.changePerMp(recoverDownT * 1000, recoverDownPer)
-            break;
-          case 59:
-            let freezeTime = skillConfig.freeze * 1000
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
-              this.otherPlayerComp.freezedEffect(freezeTime);
-            });
-            break;
-          case 89:
-            console.warn('--------释放人物技能89,让对方内力减少100点--------');
-            let downMP = skillConfig.downMp;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, null);
-            this.otherPlayerComp.MPComp.changeMP(-downMP);
-            break;
-            //命中后对手晕眩2秒
-          case 90:
-            let dizzyT = skillConfig.dizziness * 1000;
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit, () => {
-              this.otherPlayerComp.dizzyEffect(dizzyT);
-            });
-            break;
-          default:
-            this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
-            break;
-        }
-
-      } else {
-        this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
-      }
+            } else {
+              this.otherPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
+            }
+            if(this.otherPlayerComp.stealHPSkill){
+              console.error(`-----吸星大法加血----`,attackNum*2)
+              this.otherPlayerComp.hpRecoverEffect(attackNum*2);
+            }
+            if(this.otherPlayerComp.bounceSkill&&!this.otherPlayerComp.killed){
+              console.error(`-----铁布衫反弹伤害----`,attackNum*2);
+              this.selfPlayerComp.injuredEffect(this.params.weaponType, -attackNum*2, isCrit)
+            }
     }
 
     if (this.isSelf) {
@@ -443,6 +442,7 @@ export default class Weapon extends PaoYa.Component {
       otherReduceHurt = this.calcReduceHurt(otherAttr),
       hurtPer = selfStrength - otherBone < 0 ? 1 : (selfStrength - otherBone) / selfStrength,
       skillHurtMulti = 1;
+      console.log(`---roleBone根骨---`,otherBone,selfAttr.roleBone)
     if (skillEffect) {
       console.warn('--------触发技能伤害，有莫有伤害倍数不知道--------'); //技能伤害百分比
       skillHurtMulti = (this.params.activeSkill.skillConfig.hurt) ? this.params.activeSkill.skillConfig.hurt : 1;
