@@ -29,8 +29,16 @@ export default class GradingControl extends PaoYa.Component {
                 PaoYa.AuthManager.auth({
                     scope: PaoYa.AuthManager.scope.userInfo,
                     isNecessary:false, //是否强制授权
+                    success(res){
+                        PaoYa.DataCenter.userInfoAuth=true;
+                        PaoYa.DataCenter.user.avstar=res.userInfo.avatarUrl;
+                        PaoYa.DataCenter.user.nickname=res.userInfo.nickName;
+                        PaoYa.NotificationCenter.postNotification(`AuthOK`);
+                        PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, () => {
+                            _this.gameRole(_this.owner.showDetail.roleId)
+                         })
+                    },
                     next() {
-                      console.log(`授权成功`)
                       _this.gameRole(_this.owner.showDetail.roleId)
                     },
                   });

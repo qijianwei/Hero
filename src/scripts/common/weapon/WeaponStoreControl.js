@@ -475,61 +475,61 @@ export default class WeaponStoreControl extends PaoYa.Component {
         let detail = this.currentBuyWeapDetail
         PaoYa.Request.POST(`martial_shop_buy`, { weaponId: detail.weaponId }, res => {
             owner.changeHB(res)
-        })
-
-
-        owner.showaniC.skin = this.isBuyChoiceWp.getChildByName(`wp`)._skin
-        owner.showaniType.skin = this.isBuyChoiceWp.getChildByName(`mark`)._skin
-        owner.showaniWrap.skin = this.isBuyChoiceWp.getChildByName(`bgwrap`)._skin
-        owner.showani.visible = true
-        owner.showani.x = 722 + this.isBuyChoiceWp.x + 71
-        owner.showani.y = this.isBuyChoiceWp.y + 116 + 71
-        owner.ware.visible = true
-        Laya.Tween.to(owner.showani, { x: 296, y: 652, scaleX: 0, scaleY: 0 }, 800, Laya.Ease.quintIn, Laya.Handler.create(this, () => {
-            owner.showani.visible = false
-            owner.showani.scale(1, 1)
-            Laya.Tween.to(owner.ware, { alpha: 0 }, 400, Laya.Ease.quintIn, Laya.Handler.create(this, () => {
-                owner.ware.visible = false
-                owner.ware.alpha = 1
+            owner.showaniC.skin = this.isBuyChoiceWp.getChildByName(`wp`)._skin
+            owner.showaniType.skin = this.isBuyChoiceWp.getChildByName(`mark`)._skin
+            owner.showaniWrap.skin = this.isBuyChoiceWp.getChildByName(`bgwrap`)._skin
+            owner.showani.visible = true
+            owner.showani.x = 722 + this.isBuyChoiceWp.x + 71
+            owner.showani.y = this.isBuyChoiceWp.y + 116 + 71
+            owner.ware.visible = true
+            Laya.Tween.to(owner.showani, { x: 296, y: 652, scaleX: 0, scaleY: 0 }, 800, Laya.Ease.quintIn, Laya.Handler.create(this, () => {
+                owner.showani.visible = false
+                owner.showani.scale(1, 1)
+                Laya.Tween.to(owner.ware, { alpha: 0 }, 400, Laya.Ease.quintIn, Laya.Handler.create(this, () => {
+                    owner.ware.visible = false
+                    owner.ware.alpha = 1
+                }));
             }));
-        }));
 
-        Laya.timer.once(100, this, () => {
-            this.buyList.splice(this.buyPresentIdx, 1)
-            this.buyPresentIdx = 0
-            let newDetail = null
-            switch (detail.weaponType) {
-                case 3:
-                    newDetail = `heavyList`
-                    break
-                case 2:
-                    newDetail = `middleList`
-                    break
-                case 1:
-                    newDetail = `lightList`
-                    break
-            }
-            let isNew = true
-            this[newDetail].forEach(element => {
-                if (element.weaponId == detail.weaponId && element.weaponLevel == detail.weaponLevel) {
-                    element.num++
-                    isNew = false
+            Laya.timer.once(100, this, () => {
+                this.buyList.splice(this.buyPresentIdx, 1)
+                this.buyPresentIdx = 0
+                let newDetail = null
+                switch (detail.weaponType) {
+                    case 3:
+                        newDetail = `heavyList`
+                        break
+                    case 2:
+                        newDetail = `middleList`
+                        break
+                    case 1:
+                        newDetail = `lightList`
+                        break
                 }
-            });
-            if (isNew) {
-                detail.num = 1
-                this[newDetail].push(detail)
-            }
-            if (this.buyList.length > 0) {
-                owner.weapon.visible = true
-                owner.buyBtn.visible = true
-                owner.sellBtn.visible = true
-            } else {
-                owner.weapon.visible = false
-                owner.buyBtn.visible = false
-                owner.sellBtn.visible = false
-            }
-            owner.buyList.array = this.buyList
+                let isNew = true
+                this[newDetail].forEach(element => {
+                    if (element.weaponId == detail.weaponId && element.weaponLevel == detail.weaponLevel) {
+                        element.num++
+                        isNew = false
+                    }
+                });
+                if (isNew) {
+                    detail.num = 1
+                    this[newDetail].push(detail)
+                }
+                if (this.buyList.length > 0) {
+                    owner.weapon.visible = true
+                    owner.buyBtn.visible = true
+                    owner.sellBtn.visible = true
+                } else {
+                    owner.weapon.visible = false
+                    owner.buyBtn.visible = false
+                    owner.sellBtn.visible = false
+                }
+                owner.buyList.array = this.buyList
+            })
+        }, val => {
+            this.navigator.popup("weapon/UnlockTips", val)
         })
     }
     //出售武装

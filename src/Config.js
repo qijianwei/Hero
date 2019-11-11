@@ -1,5 +1,5 @@
 const config = {
-    debug: true,
+    debug: false,
     version: '1.0',
     release: 10
 }

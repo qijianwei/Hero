@@ -65,9 +65,12 @@ class PrivateWeapon{
       console.error('-----机器人无cd时间------');
       this.cdTime = 0;   
   }
-   recoverCd(){
+  openCd(){
+    this.cdTime=this.originCdTime;
+  }
+/*    recoverCd(){
      this.cdTime=this.originCdTime;
-   }
+   } */
 }
 function deepMerge(...objs) {
     const result = Object.create(null);

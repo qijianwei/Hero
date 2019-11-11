@@ -41,11 +41,11 @@ export default class WheelControl extends PaoYa.Component {
                 if (owner.isRunning) {
                     return
                 }
-                if (PaoYa.DataCenter.user.diamond < 500) {
-                    SoundManager.ins.btn()
-                    this.navigator.popup("weapon/DiamondLack");
-                    return
-                }
+                // if (PaoYa.DataCenter.user.diamond < 500) {
+                //     SoundManager.ins.btn()
+                //     this.navigator.popup("weapon/DiamondLack");
+                //     return
+                // }
                 SoundManager.ins.btn()
                 this.addTimes()
                 break;
@@ -161,7 +161,7 @@ export default class WheelControl extends PaoYa.Component {
                 if (element.id == 24 || element.id == 25) {
                     localStorage.setItem(`wheelTime`, 0)
                 } else {
-                    localStorage.setItem(`wheelTime`, Number(localStorage.getItem(`wheelTime`)) + 1)
+                    localStorage.setItem(`wheelTime`, this.notGetLegendWp + 1)
                 }
                 this.notGetLegendWp = Number(localStorage.getItem(`wheelTime`))
             }

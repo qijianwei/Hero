@@ -72,6 +72,11 @@ export default class WeaponBar extends PaoYa.Component {
             GameControl.instance.showTips("游戏未开始");
             return;
         }
+        if(GameControl.instance.isSkilling){
+            console.error(`-----技能互斥-----`);
+            GameControl.instance.showTips("无法行动");
+            return;
+        }
         if(!GameControl.instance.selfPlayer.comp.canAction||GameControl.instance.selfPlayer.comp.dodge){
             GameControl.instance.showTips("无法行动");
             return;

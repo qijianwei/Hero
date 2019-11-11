@@ -1,1 +1,932 @@
-var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.defineProperties?Object.defineProperty:function(e,c,d){if(d.get||d.set)throw new TypeError("ES3 does not support getters and setters.");e!=Array.prototype&&e!=Object.prototype&&(e[c]=d.value)};$jscomp.getGlobal=function(e){return"undefined"!=typeof window&&window===e?e:"undefined"!=typeof global?global:e};$jscomp.global=$jscomp.getGlobal(this);$jscomp.SYMBOL_PREFIX="jscomp_symbol_";$jscomp.initSymbol=function(){$jscomp.initSymbol=function(){};$jscomp.global.Symbol||($jscomp.global.Symbol=$jscomp.Symbol)};$jscomp.symbolCounter_=0;$jscomp.Symbol=function(e){return $jscomp.SYMBOL_PREFIX+(e||"")+$jscomp.symbolCounter_++};$jscomp.initSymbolIterator=function(){$jscomp.initSymbol();var e=$jscomp.global.Symbol.iterator;e||(e=$jscomp.global.Symbol.iterator=$jscomp.global.Symbol("iterator"));"function"!=typeof Array.prototype[e]&&$jscomp.defineProperty(Array.prototype,e,{configurable:!0,writable:!0,value:function(){return $jscomp.arrayIterator(this)}});$jscomp.initSymbolIterator=function(){}};$jscomp.arrayIterator=function(e){var c=0;return $jscomp.iteratorPrototype(function(){return c<e.length?{done:!1,value:e[c++]}:{done:!0}})};$jscomp.iteratorPrototype=function(e){$jscomp.initSymbolIterator();e={next:e};e[$jscomp.global.Symbol.iterator]=function(){return this};return e};$jscomp.inherits=function(e,c){function d(){}d.prototype=c.prototype;e.prototype=new d;e.prototype.constructor=e;for(var b in c)if(Object.defineProperties){var a=Object.getOwnPropertyDescriptor(c,b);a&&Object.defineProperty(e,b,a)}else e[b]=c[b]};(function(e){function c(b){if(d[b])return d[b].exports;var a=d[b]={i:b,l:!1,exports:{}};e[b].call(a.exports,a,a.exports,c);a.l=!0;return a.exports}var d={};c.m=e;c.c=d;c.d=function(b,a,g){c.o(b,a)||Object.defineProperty(b,a,{enumerable:!0,get:g})};c.r=function(b){$jscomp.initSymbol();$jscomp.initSymbol();"undefined"!==typeof Symbol&&Symbol.toStringTag&&($jscomp.initSymbol(),Object.defineProperty(b,Symbol.toStringTag,{value:"Module"}));Object.defineProperty(b,"__esModule",{value:!0})};c.t=function(b,a){a&1&&(b=c(b));if(a&8||a&4&&"object"===typeof b&&b&&b.__esModule)return b;var g=Object.create(null);c.r(g);Object.defineProperty(g,"default",{enumerable:!0,value:b});if(a&2&&"string"!=typeof b)for(var d in b)c.d(g,d,function(a){return b[a]}.bind(null,d));return g};c.n=function(b){var a=b&&b.__esModule?function(){return b["default"]}:function(){return b};c.d(a,"a",a);return a};c.o=function(b,a){return Object.prototype.hasOwnProperty.call(b,a)};c.p="";return c(c.s=0)})([function(e,c,d){d.r(c);d.d(c,"default",function(){return f});var b=d(1),a=d(3),g=d(4),k=d(6),l=d(7),f=function(){};f.prototype.init=function(){wx.updateShareMenu({withShareTicket:!0,success:function(){},fail:function(){}});wx.showShareMenu({withShareTicket:!0,success:function(){},fail:function(){}})};f.prototype.getLaunchOptionsSync=function(){return wx.getLaunchOptionsSync()};f.prototype.login=function(a,b){g["default"].login(a,b)};f.prototype.auth=function(g){a["default"].auth(g)};f.prototype.isMiniGame=function(){return!0};f.prototype.getUserInfo=function(a){wx.getUserInfo(a)};f.prototype.onShow=function(a){wx.onShow(a)};f.prototype.offShow=function(){wx.offShow()};f.prototype.onHide=function(a){wx.onHide(a)};f.prototype.offHide=function(){wx.offHide()};f.prototype.onShareAppMessage=function(a){wx.aldOnShareAppMessage(a)};f.prototype.shareAppMessage=function(a){wx.aldShareAppMessage(a)};f.prototype.getShareInfo=function(a){wx.getShareInfo(a)};f.prototype.setKeepScreenOn=function(){wx.setKeepScreenOn({keepScreenOn:!0,success:function(){},fail:function(){}})};f.prototype.getSystemInfoSync=function(){return wx.getSystemInfoSync()};f.prototype.getUpdateManager=function(){return new b["default"]};f.prototype.navigateToMiniProgram=function(a){wx.navigateToMiniProgram(a)};f.prototype.exit=function(a){wx.exitMiniProgram({})};f.prototype.onAudioInterruptionBegin=function(a){wx.onAudioInterruptionBegin(a)};f.prototype.onAudioInterruptionEnd=function(a){wx.onAudioInterruptionEnd(a)};f.prototype.onNetworkStatusChange=function(a){wx.onNetworkStatusChange(a)};f.prototype.offNetworkStatusChange=function(a){wx.offNetworkStatusChange(a)};f.prototype.getNetworkType=function(a){wx.getNetworkType(a)};f.prototype.requestPayment=function(a){wx.requestMidasPayment({mode:"game",env:0,offerId:a.offerId,currencyType:"CNY",buyQuantity:a.buyQuantity,platform:"android",zoneId:"1",success:function(g){console.log("PAY | suc | "+JSON.stringify(g));a.success&&a.success()},fail:function(g){console.log("PAY | fail | "+JSON.stringify(g));g=g.errCode;a.fail&&a.fail(g)}})};f.prototype.showLoading=function(a){wx.showLoading(a)};f.prototype.hideLoading=function(a){wx.hideLoading()};f.prototype.showToast=function(a){wx.showToast(a)};f.prototype.hideToast=function(a){wx.hideToast()};f.prototype.showModal=function(a){wx.showModal(a)};f.prototype.showActionSheet=function(a){wx.showActionSheet(a)};f.prototype.createBannerAd=function(a){return new k["default"](a)};f.prototype.createRewardedVideoAd=function(a){return new l["default"](a)};f.prototype.setUserCloudStorage=function(a){wx.setUserCloudStorage(a)};f.prototype.openCustomerServiceConversation=function(){wx.openCustomerServiceConversation()};f.prototype.previewImage=function(a){wx.previewImage(a)};f.prototype.setClipboardData=function(a){wx.setClipboardData(a)};window.py=new f},function(e,c,d){d.r(c);d.d(c,"default",function(){return a});var b=d(2),a=function(){if(!Object(b["default"])("getUpdateManager"))return this;this.updateManager=wx.getUpdateManager()};a.prototype.onCheckForUpdate=function(a){if(this.updateManager)this.updateManager.onCheckForUpdate(a)};a.prototype.onUpdateReady=function(a){if(this.updateManager)this.updateManager.onUpdateReady(a)};a.prototype.onUpdateFailed=function(a){if(this.updateManager)this.updateManager.onUpdateFailed(a)};a.prototype.applyUpdate=function(){this.updateManager&&this.updateManager.applyUpdate()}},function(e,c,d){d.r(c);c["default"]=function(b){return"undefined"==typeof wx?!1:b?wx[b]:!0}},function(e,c,d){d.r(c);d.d(c,"default",function(){return b});var b=function(){};b.auth=function(a){var g=function(){wx.openSetting({success:function(b){b.authSetting[a.scope]?a.success&&a.success():a.alert&&a.alert(g)},fail:function(){a.fail&&a.fail()}})};wx.getSetting({success:function(c){c=c.authSetting[a.scope];void 0==c?a.scope==b.scope.userInfo?a.fail&&a.fail():wx.authorize({scope:a.scope,success:function(g){a.success&&a.success()},fail:function(){a.alert&&a.alert(g)},complete:function(){}}):c?a.success&&a.success():a.alert&&a.alert(g)}})};b.scope={userInfo:"scope.userInfo",userLocation:"scope.userLocation",address:"scope.address",invoiceTitle:"scope.invoiceTitle",werun:"scope.werun",record:"scope.record",writePhotosAlbum:"scope.writePhotosAlbum",camera:"scope.camera"}},function(e,c,d){d.r(c);d.d(c,"default",function(){return a});var b=d(3);d(5);var a=function(){};a.login=function(a,b){this.getCode(function(a){b({type:5,platform:5,js_code:a.code,device_info:wx.getSystemInfoSync()})})};a.getCode=function(a){wx.login({success:function(g){a&&a(g)},fail:function(){}})};a.auth=function(a){var g=this;b["default"].auth({scope:b["default"].scope.userInfo,success:function(){a.success&&a.success()},fail:function(){a.fail&&a.fail()},alert:function(a){g.showModal("\u63d0\u793a","\u9700\u8981\u60a8\u7684\u6388\u6743\u624d\u80fd\u6b63\u5e38\u4f7f\u7528","\u53bb\u8bbe\u7f6e",function(){a()})}})};a.checkSession=function(a){wx.checkSession({success:function(){a.success&&a.success()},fail:function(){a.fail&&a.fail()}})};a.getUserInfo=function(a){wx.getUserInfo({withCredentials:!0,lang:"zh_CN",success:function(g){a&&a(g)},fail:function(){}})};a.getUserInfoWithoutCredentials=function(a){wx.getUserInfo({lang:"zh_CN",withCredentials:!1,success:function(g){a&&a(g)},fail:function(){}})};a.showModal=function(a,b,c,d,e,h){d=void 0===d?null:d;e=void 0===e?"":e;h=void 0===h?null:h;wx.showModal({title:void 0===a?"\u63d0\u793a":a,content:void 0===b?"":b,showCancel:e?!0:!1,cancelColor:"#000000",confirmColor:"#3cc51f",cancelText:e,confirmText:void 0===c?"\u77e5\u9053\u4e86":c,success:function(a){a.confirm&&d&&d();a.cancel&&h&&h()},fail:function(){}})}},function(e,c,d){d.r(c);d.d(c,"default",function(){return b});var b=function(){Laya.Dialog.call(this);this.size(636,508);var a=new Laya.Image("local/auth/bg.png");this.addChild(a)};$jscomp.inherits(b,Laya.Dialog);b.prototype.onOpened=function(){var a=this,g=this.localToGlobal(new Laya.Point(26,400));this.showUserInfoButton({x:g.x,y:g.y,width:588,height:85},function(g){a.onReceiveUserInfo&&a.onReceiveUserInfo(g);a.close()})};b.prototype.showUserInfoButton=function(a,g){var b=Laya.Browser.width/Laya.stage.designWidth/Laya.Browser.pixelRatio,c=wx.createUserInfoButton({type:"image",image:"local/auth/button.png",style:{top:a.y*b,left:a.x*b,width:a.width*b,height:a.height*b,backgroundColor:"#ffffff",borderColor:"#ffffff",borderRadius:10,borderWidth:0,textAlign:"center",fontSize:24,lineHeight:10},withCredentials:!0,lang:"zh_CN"});c.onTap(function(a){a.userInfo&&(g(a),c.destroy())})}},function(e,c,d){d.r(c);d.d(c,"default",function(){return a});var b=d(2),a=function(a){if(!Object(b["default"])("createBannerAd"))return this;a.style.top=a.style.top||a.style.y;a.style.left=a.style.left||a.style.x;this.bannerAd=wx.createBannerAd(a)};a.prototype.show=function(){if(this.bannerAd)return this.bannerAd.show();console.error("\u5f53\u524d\u7248\u672c\u4e0d\u652f\u6301\u5e7f\u544a")};a.prototype.hide=function(){if(this.bannerAd)return this.bannerAd.hide();console.error("\u5f53\u524d\u7248\u672c\u4e0d\u652f\u6301\u5e7f\u544a")};a.prototype.destroy=function(){this.bannerAd&&this.bannerAd.destroy()};a.prototype.onResize=function(a){if(this.bannerAd)this.bannerAd.onResize(a)};a.prototype.offResize=function(a){this.bannerAd&&this.bannerAd.offResize(a)};a.prototype.onLoad=function(a){if(this.bannerAd)this.bannerAd.onLoad(a)};a.prototype.offLoad=function(a){this.bannerAd&&this.bannerAd.offLoad(a)};a.prototype.onError=function(a){if(this.bannerAd)this.bannerAd.onError(a)};a.prototype.offError=function(a){this.bannerAd&&this.bannerAd.offError(a)}},function(e,c,d){d.r(c);d.d(c,"default",function(){return a});var b=d(2),a=function(a){if(!Object(b["default"])("createRewardedVideoAd"))return this;this.videoAd=wx.createRewardedVideoAd(a)};a.prototype.load=function(){if(this.videoAd)return this.videoAd.load();console.error("\u5f53\u524d\u7248\u672c\u4e0d\u652f\u6301\u5e7f\u544a")};a.prototype.show=function(){if(this.videoAd)return this.videoAd.show();console.error("\u5f53\u524d\u7248\u672c\u4e0d\u652f\u6301\u5e7f\u544a")};a.prototype.onLoad=function(a){if(this.videoAd)this.videoAd.onLoad(a)};a.prototype.offLoad=function(a){this.videoAd&&this.videoAd.offLoad(a)};a.prototype.onError=function(a){if(this.videoAd)this.videoAd.onError(a)};a.prototype.offError=function(a){this.videoAd&&this.videoAd.offError(a)};a.prototype.onClose=function(a){if(this.videoAd)this.videoAd.onClose(a)};a.prototype.offClose=function(a){this.videoAd&&this.videoAd.offClose(a)}}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _updateManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _AuthManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _LoginManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _BannerAd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _RewardedVideoAd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
+/* harmony import */ var _InterstitialAd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8);
+
+
+
+
+
+
+var Platform = /** @class */ (function () {
+    function Platform() {
+    }
+    Platform.prototype.init = function () {
+        wx.updateShareMenu({
+            withShareTicket: true,
+            success: function () { },
+            fail: function () { }
+        });
+        wx.showShareMenu({
+            withShareTicket: true,
+            success: function () { },
+            fail: function () { }
+        });
+    };
+    Platform.prototype.getLaunchOptionsSync = function () {
+        return wx.getLaunchOptionsSync();
+    };
+    Platform.prototype.login = function (params, cb) {
+        _LoginManager__WEBPACK_IMPORTED_MODULE_2__["default"].login(params, cb);
+    };
+    Platform.prototype.auth = function (params) {
+        _AuthManager__WEBPACK_IMPORTED_MODULE_1__["default"].auth(params);
+    };
+    Platform.prototype.isMiniGame = function () {
+        return true;
+    };
+    Platform.prototype.getUserInfo = function (p) {
+        wx.getUserInfo(p);
+    };
+    /**生命周期 */
+    Platform.prototype.onShow = function (cb) {
+        /**@warn 这里可能需要针对第一次进行过滤 */
+        wx.onShow(cb);
+    };
+    Platform.prototype.offShow = function () {
+        wx.offShow();
+    };
+    Platform.prototype.onHide = function (cb) {
+        wx.onHide(cb);
+    };
+    Platform.prototype.offHide = function () {
+        wx.offHide();
+    };
+    /**分享 */
+    Platform.prototype.onShareAppMessage = function (listener) {
+        wx.onShareAppMessage(listener);
+    };
+    Platform.prototype.shareAppMessage = function (params) {
+        wx.shareAppMessage(params);
+    };
+    Platform.prototype.getShareInfo = function (params) {
+        wx.getShareInfo(params);
+    };
+    Platform.prototype.setKeepScreenOn = function () {
+        wx.setKeepScreenOn({
+            keepScreenOn: true,
+            success: function () { },
+            fail: function () { }
+        });
+    };
+    Platform.prototype.getSystemInfoSync = function () {
+        return wx.getSystemInfoSync();
+    };
+    Platform.prototype.getUpdateManager = function () {
+        return new _updateManager__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    };
+    /**小程序跳转 */
+    Platform.prototype.navigateToMiniProgram = function (params) {
+        wx.navigateToMiniProgram(params);
+    };
+    Platform.prototype.exit = function (params) {
+        wx.exitMiniProgram({});
+    };
+    /**声音 */
+    Platform.prototype.onAudioInterruptionBegin = function (listener) {
+        wx.onAudioInterruptionBegin(listener);
+    };
+    Platform.prototype.onAudioInterruptionEnd = function (listener) {
+        wx.onAudioInterruptionEnd(listener);
+    };
+    /**network */
+    Platform.prototype.onNetworkStatusChange = function (listener) {
+        wx.onNetworkStatusChange(listener);
+    };
+    Platform.prototype.offNetworkStatusChange = function (listener) {
+        wx.offNetworkStatusChange(listener);
+    };
+    Platform.prototype.getNetworkType = function (params) {
+        wx.getNetworkType(params);
+    };
+    /**支付 */
+    Platform.prototype.requestPayment = function (params) {
+        wx.requestMidasPayment({
+            mode: "game",
+            env: 0,
+            offerId: params.offerId,
+            currencyType: "CNY",
+            buyQuantity: params.buyQuantity,
+            platform: 'android',
+            zoneId: "1",
+            success: function (res) {
+                console.log("PAY | suc | " + JSON.stringify(res));
+                params.success && params.success();
+            },
+            fail: function (res) {
+                console.log("PAY | fail | " + JSON.stringify(res));
+                var msg = res.errMsg;
+                var code = res.errCode;
+                switch (code) {
+                    case -1:
+                        break;
+                    case -2:
+                        break;
+                    case -15001:
+                        break;
+                    case -15002:
+                        break;
+                    case -15003:
+                        break;
+                    case -15004:
+                        break;
+                    case -15005:
+                        break;
+                    case -15006:
+                        break;
+                    case -15007:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 1000:
+                        break;
+                    case 1003:
+                        break;
+                }
+                params.fail && params.fail(code);
+            }
+        });
+    };
+    /**Toast */
+    Platform.prototype.showLoading = function (params) {
+        wx.showLoading(params);
+    };
+    Platform.prototype.hideLoading = function (params) {
+        wx.hideLoading();
+    };
+    Platform.prototype.showToast = function (params) {
+        wx.showToast(params);
+    };
+    Platform.prototype.hideToast = function (params) {
+        wx.hideToast();
+    };
+    Platform.prototype.showModal = function (params) {
+        wx.showModal(params);
+    };
+    Platform.prototype.showActionSheet = function (params) {
+        wx.showActionSheet(params);
+    };
+    /**广告 */
+    Platform.prototype.createBannerAd = function (params) {
+        return new _BannerAd__WEBPACK_IMPORTED_MODULE_3__["default"](params);
+    };
+    Platform.prototype.createRewardedVideoAd = function (params) {
+        return new _RewardedVideoAd__WEBPACK_IMPORTED_MODULE_4__["default"](params);
+    };
+    Platform.prototype.createInterstitialAd = function (params) {
+        return new _InterstitialAd__WEBPACK_IMPORTED_MODULE_5__["default"](params);
+    };
+    /**微信特有方法 */
+    Platform.prototype.setUserCloudStorage = function (params) {
+        wx.setUserCloudStorage(params);
+    };
+    Platform.prototype.openCustomerServiceConversation = function () {
+        wx.openCustomerServiceConversation();
+    };
+    Platform.prototype.previewImage = function (params) {
+        wx.previewImage(params);
+    };
+    Platform.prototype.setClipboardData = function (params) {
+        wx.setClipboardData(params);
+    };
+    return Platform;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Platform);
+window['py'] = new Platform();
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _APIEnable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+var UpdateManager = /** @class */ (function () {
+    function UpdateManager() {
+        if (!Object(_APIEnable__WEBPACK_IMPORTED_MODULE_0__["default"])('getUpdateManager'))
+            return this;
+        var update = wx.getUpdateManager();
+        this.updateManager = update;
+    }
+    UpdateManager.prototype.onCheckForUpdate = function (cb) {
+        if (!this.updateManager)
+            return;
+        this.updateManager.onCheckForUpdate(cb);
+    };
+    UpdateManager.prototype.onUpdateReady = function (cb) {
+        if (!this.updateManager)
+            return;
+        this.updateManager.onUpdateReady(cb);
+    };
+    UpdateManager.prototype.onUpdateFailed = function (cb) {
+        if (!this.updateManager)
+            return;
+        this.updateManager.onUpdateFailed(cb);
+    };
+    UpdateManager.prototype.applyUpdate = function () {
+        if (!this.updateManager)
+            return;
+        this.updateManager.applyUpdate();
+    };
+    return UpdateManager;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (UpdateManager);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function APIEnable(method) {
+    if (typeof wx == 'undefined') {
+        return false;
+    }
+    if (method)
+        return wx[method];
+    return true;
+}
+/* harmony default export */ __webpack_exports__["default"] = (APIEnable);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+var AuthManager = /** @class */ (function () {
+    function AuthManager() {
+    }
+    /**
+     *
+     * @param scope 想要获取授权的标识，可以使用上面已经列举出来的权限
+     * @param suc   授权成功回调
+     * @param fail  授权失败回调
+     * @param alert 当需要打开用户设置界面时，用于可以修改弹窗内容，方便用户确认操作
+     */
+    AuthManager.auth = function (params) {
+        var _this = this;
+        params.alert = function (alertCb) {
+            _this.showModal('提示', '需要您的授权才能正常使用', '去设置', function () {
+                alertCb();
+            });
+        };
+        params.fail = function () {
+            Laya.Dialog.manager = null;
+            UIConfig.closeDialogOnSide = false;
+            var alert = new _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_0__["default"](params.isNecessary);
+            alert.onReceiveUserInfo = function (res) {
+                if (res.userInfo) {
+                    /*   DataCenter.userInfoAuth=true;
+                      DataCenter.user.avstar=res.userInfo.avatarUrl;
+                      DataCenter.user.nickname=res.userInfo.nickName;
+                      NotificationCenter.postNotification(`AuthOK`);
+                      PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, () => {
+                          params.next&&params.next();
+                       }) */
+                    params.success && params.success(res);
+                }
+                if (!params.isNecessary && !res.userInfo) {
+                    params.next && params.next();
+                }
+            };
+            alert.popup(true, false);
+        };
+        var okHandler = function () {
+            wx.openSetting({
+                success: function (res) {
+                    var result = res.authSetting[params.scope];
+                    //params.next && params.next();
+                    if (!params.isNecessary && !result) {
+                        params.next && params.next();
+                        return;
+                    }
+                    if (result) {
+                        AuthManager.getUserInfo(function (res) {
+                            /*  DataCenter.userInfoAuth=true;
+                             DataCenter.user.avstar=res.userInfo.avatarUrl;
+                             DataCenter.user.nickname=res.userInfo.nickName;
+                             NotificationCenter.postNotification(`AuthOK`);
+                             PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, () => {
+                                 params.next&&params.next();
+                              }) */
+                            params.success && params.success(res);
+                        });
+                    }
+                    else {
+                        params.alert && params.alert(okHandler);
+                    }
+                },
+                fail: function () {
+                    params.fail && params.fail();
+                }
+            });
+        };
+        wx.getSetting({
+            success: function (res) {
+                var result = res.authSetting[params.scope];
+                if (result == undefined) { //没有获取过权限
+                    /**如果请求用户权限失败，则直接return */
+                    if (params.scope == AuthManager.scope.userInfo) {
+                        params.fail && params.fail();
+                        return;
+                    }
+                    wx.authorize({
+                        scope: params.scope,
+                        success: function (res) {
+                            params.next && params.next();
+                        },
+                        fail: function () {
+                            params.alert && params.alert(okHandler);
+                        },
+                        complete: function () { }
+                    });
+                }
+                else if (!result) { //当前权限为否
+                    params.alert && params.alert(okHandler);
+                }
+                else {
+                    params.next && params.next();
+                }
+            }
+        });
+    };
+    /**调用微信获取用户信息接口 */
+    AuthManager.getUserInfo = function (cb) {
+        wx.getUserInfo({
+            withCredentials: true,
+            lang: "zh_CN",
+            success: function (res) {
+                cb && cb(res);
+            },
+            fail: function () { }
+        });
+    };
+    AuthManager.showModal = function (title, content, confirmText, confirmCallback, cancelText, cancelCallback) {
+        if (title === void 0) { title = '提示'; }
+        if (content === void 0) { content = ''; }
+        if (confirmText === void 0) { confirmText = '知道了'; }
+        if (confirmCallback === void 0) { confirmCallback = null; }
+        if (cancelText === void 0) { cancelText = ""; }
+        if (cancelCallback === void 0) { cancelCallback = null; }
+        var params = {
+            title: title,
+            content: content,
+            showCancel: cancelText ? true : false,
+            cancelColor: '#000000',
+            confirmColor: '#3cc51f',
+            cancelText: cancelText,
+            confirmText: confirmText,
+            success: function (res) {
+                if (res.confirm) {
+                    confirmCallback && confirmCallback();
+                }
+                if (res.cancel) {
+                    cancelCallback && cancelCallback();
+                }
+            },
+            fail: function () { }
+        };
+        wx.showModal(params);
+    };
+    AuthManager.scope = {
+        userInfo: "scope.userInfo",
+        userLocation: "scope.userLocation",
+        address: "scope.address",
+        invoiceTitle: "scope.invoiceTitle",
+        werun: "scope.werun",
+        record: "scope.record",
+        writePhotosAlbum: "scope.writePhotosAlbum",
+        camera: "scope.camera"
+    };
+    return AuthManager;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (AuthManager);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var AuthUserInfoDialog = /** @class */ (function (_super) {
+    __extends(AuthUserInfoDialog, _super);
+    function AuthUserInfoDialog(isNecessary) {
+        var _this = _super.call(this) || this;
+        if (isNecessary != undefined) {
+            _this.isNecessary = isNecessary;
+        }
+        else {
+            _this.isNecessary = false;
+        }
+        _this.size(636, 508);
+        var image = new Laya.Image('local/auth/bg.png');
+        _this.addChild(image);
+        return _this;
+    }
+    AuthUserInfoDialog.prototype.onOpened = function () {
+        var frame = {
+            x: 26,
+            y: 400,
+            width: 588,
+            height: 85
+        };
+        var pos = this.localToGlobal(new Laya.Point(frame.x, frame.y));
+        this.showUserInfoButton({
+            x: pos.x,
+            y: pos.y,
+            width: frame.width,
+            height: frame.height
+        });
+    };
+    AuthUserInfoDialog.prototype.showUserInfoButton = function (rect) {
+        var _this = this;
+        var stage = Laya.stage;
+        var screenWidth = Laya.Browser.width;
+        var screenHeight = Laya.Browser.height;
+        var width = stage.designWidth;
+        var height = stage.designHeight;
+        /* 这是竖版 */
+        /*  var scaleX = screenWidth / width; */
+        var scaleX = screenHeight / height;
+        var scale = scaleX / Laya.Browser.pixelRatio;
+        var style = {
+            top: rect.y * scale,
+            left: rect.x * scale,
+            width: rect.width * scale,
+            height: rect.height * scale,
+            backgroundColor: '#ffffff',
+            borderColor: '#ffffff',
+            borderRadius: 10,
+            borderWidth: 0,
+            textAlign: 'center',
+            fontSize: 24,
+            lineHeight: 10
+        };
+        var button = wx.createUserInfoButton({
+            type: 'image',
+            image: 'local/auth/button.png',
+            style: style,
+            withCredentials: true,
+            lang: 'zh_CN'
+        });
+        button.onTap(function (res) {
+            if (res.userInfo || !_this.isNecessary) {
+                _this.onReceiveUserInfo && _this.onReceiveUserInfo(res);
+            }
+            _this.close();
+            button.destroy();
+        });
+    };
+    return AuthUserInfoDialog;
+}(Laya.Dialog));
+/* harmony default export */ __webpack_exports__["default"] = (AuthUserInfoDialog);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var LoginManager = /** @class */ (function () {
+    function LoginManager() {
+    }
+    LoginManager.login = function (params, cb) {
+        //获取微信code，这是必须操作
+        this.getCode(function (res) {
+            var code = res.code;
+            cb({
+                type: 5,
+                platform: 5,
+                js_code: code,
+                device_info: wx.getSystemInfoSync(),
+            });
+        });
+    };
+    /**
+    * 调用微信登录
+    */
+    LoginManager.getCode = function (cb) {
+        wx.login({
+            success: function (res) {
+                cb && cb(res);
+            },
+            fail: function () { }
+        });
+    };
+    LoginManager.checkSession = function (o) {
+        wx.checkSession({
+            success: function () {
+                o.success && o.success();
+            },
+            fail: function () {
+                o.fail && o.fail();
+            }
+        });
+    };
+    /**调用微信获取用户信息接口 */
+    LoginManager.getUserInfo = function (cb) {
+        wx.getUserInfo({
+            withCredentials: true,
+            lang: "zh_CN",
+            success: function (res) {
+                cb && cb(res);
+            },
+            fail: function () { }
+        });
+    };
+    LoginManager.getUserInfoWithoutCredentials = function (cb) {
+        wx.getUserInfo({
+            lang: "zh_CN",
+            withCredentials: false,
+            success: function (res) {
+                cb && cb(res);
+            },
+            fail: function () { }
+        });
+    };
+    LoginManager.showModal = function (title, content, confirmText, confirmCallback, cancelText, cancelCallback) {
+        if (title === void 0) { title = '提示'; }
+        if (content === void 0) { content = ''; }
+        if (confirmText === void 0) { confirmText = '知道了'; }
+        if (confirmCallback === void 0) { confirmCallback = null; }
+        if (cancelText === void 0) { cancelText = ""; }
+        if (cancelCallback === void 0) { cancelCallback = null; }
+        var params = {
+            title: title,
+            content: content,
+            showCancel: cancelText ? true : false,
+            cancelColor: '#000000',
+            confirmColor: '#3cc51f',
+            cancelText: cancelText,
+            confirmText: confirmText,
+            success: function (res) {
+                if (res.confirm) {
+                    confirmCallback && confirmCallback();
+                }
+                if (res.cancel) {
+                    cancelCallback && cancelCallback();
+                }
+            },
+            fail: function () { }
+        };
+        wx.showModal(params);
+    };
+    return LoginManager;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (LoginManager);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _APIEnable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+var BannerAd = /** @class */ (function () {
+    function BannerAd(params) {
+        if (!Object(_APIEnable__WEBPACK_IMPORTED_MODULE_0__["default"])('createBannerAd'))
+            return this;
+        params.style.top = params.style.top || params.style.y;
+        params.style.left = params.style.left || params.style.x;
+        var bannerAd = wx.createBannerAd(params);
+        this.bannerAd = bannerAd;
+    }
+    /**显示 banner 广告 */
+    BannerAd.prototype.show = function () {
+        if (!this.bannerAd) {
+            console.error('当前版本不支持广告');
+            return;
+        }
+        return this.bannerAd.show();
+    };
+    /**隐藏 banner 广告 */
+    BannerAd.prototype.hide = function () {
+        if (!this.bannerAd) {
+            console.error('当前版本不支持广告');
+            return;
+        }
+        return this.bannerAd.hide();
+    };
+    /**销毁 banner 广告 */
+    BannerAd.prototype.destroy = function () {
+        if (!this.bannerAd)
+            return;
+        this.bannerAd.destroy();
+    };
+    /**监听 banner 广告尺寸变化事件 */
+    BannerAd.prototype.onResize = function (listener) {
+        if (!this.bannerAd)
+            return;
+        this.bannerAd.onResize(listener);
+    };
+    /**取消监听 banner 广告尺寸变化事件 */
+    BannerAd.prototype.offResize = function (listener) {
+        if (!this.bannerAd)
+            return;
+        this.bannerAd.offResize(listener);
+    };
+    /**监听 banner 广告加载事件 */
+    BannerAd.prototype.onLoad = function (listener) {
+        if (!this.bannerAd)
+            return;
+        this.bannerAd.onLoad(listener);
+    };
+    /**取消监听 banner 广告加载事件 */
+    BannerAd.prototype.offLoad = function (listener) {
+        if (!this.bannerAd)
+            return;
+        this.bannerAd.offLoad(listener);
+    };
+    /**监听 banner 广告错误事件 */
+    BannerAd.prototype.onError = function (listener) {
+        if (!this.bannerAd)
+            return;
+        this.bannerAd.onError(listener);
+    };
+    /**取消监听 banner 广告错误事件 */
+    BannerAd.prototype.offError = function (listener) {
+        if (!this.bannerAd)
+            return;
+        this.bannerAd.offError(listener);
+    };
+    return BannerAd;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (BannerAd);
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _APIEnable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+var RewardedVideoAd = /** @class */ (function () {
+    function RewardedVideoAd(params) {
+        if (!Object(_APIEnable__WEBPACK_IMPORTED_MODULE_0__["default"])('createRewardedVideoAd'))
+            return this;
+        var videoAd = wx.createRewardedVideoAd(params);
+        this.videoAd = videoAd;
+    }
+    /**隐藏激励视频广告 */
+    RewardedVideoAd.prototype.load = function () {
+        if (!this.videoAd) {
+            console.error('当前版本不支持广告');
+            return;
+        }
+        return this.videoAd.load();
+    };
+    /**显示激励视频广告。激励视频广告将从屏幕下方推入 */
+    RewardedVideoAd.prototype.show = function () {
+        if (!this.videoAd) {
+            console.error('当前版本不支持广告');
+            return;
+        }
+        return this.videoAd.show();
+    };
+    /**监听激励视频广告加载事件 */
+    RewardedVideoAd.prototype.onLoad = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.onLoad(listener);
+    };
+    /**取消监听激励视频广告加载事件 */
+    RewardedVideoAd.prototype.offLoad = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.offLoad(listener);
+    };
+    /**监听激励视频错误事件 */
+    RewardedVideoAd.prototype.onError = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.onError(listener);
+    };
+    /**取消监听激励视频错误事件 */
+    RewardedVideoAd.prototype.offError = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.offError(listener);
+    };
+    /**监听用户点击 关闭广告 按钮的事件 */
+    RewardedVideoAd.prototype.onClose = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.onClose(listener);
+    };
+    /**取消监听用户点击 关闭广告 按钮的事件 */
+    RewardedVideoAd.prototype.offClose = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.offClose(listener);
+    };
+    return RewardedVideoAd;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (RewardedVideoAd);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _APIEnable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
+var InterstitialAd = /** @class */ (function () {
+    function InterstitialAd(params) {
+        if (!Object(_APIEnable__WEBPACK_IMPORTED_MODULE_0__["default"])('createInterstitialAd'))
+            return this;
+        var videoAd = wx.createInterstitialAd(params);
+        this.videoAd = videoAd;
+    }
+    /**隐藏激励视频广告 */
+    InterstitialAd.prototype.load = function () {
+        if (!this.videoAd) {
+            console.error('当前版本不支持广告');
+            return;
+        }
+        return this.videoAd.load();
+    };
+    /**显示激励视频广告。激励视频广告将从屏幕下方推入 */
+    InterstitialAd.prototype.show = function () {
+        if (!this.videoAd) {
+            console.error('当前版本不支持广告');
+            return;
+        }
+        return this.videoAd.show();
+    };
+    /**监听激励视频广告加载事件 */
+    InterstitialAd.prototype.onLoad = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.onLoad(listener);
+    };
+    /**取消监听激励视频广告加载事件 */
+    InterstitialAd.prototype.offLoad = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.offLoad(listener);
+    };
+    /**监听激励视频错误事件 */
+    InterstitialAd.prototype.onError = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.onError(listener);
+    };
+    /**取消监听激励视频错误事件 */
+    InterstitialAd.prototype.offError = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.offError(listener);
+    };
+    /**监听用户点击 关闭广告 按钮的事件 */
+    InterstitialAd.prototype.onClose = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.onClose(listener);
+    };
+    /**取消监听用户点击 关闭广告 按钮的事件 */
+    InterstitialAd.prototype.offClose = function (listener) {
+        if (!this.videoAd)
+            return;
+        this.videoAd.offClose(listener);
+    };
+    InterstitialAd.prototype.listenerError = function () {
+    };
+    return InterstitialAd;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (InterstitialAd);
+
+
+/***/ })
+/******/ ]);

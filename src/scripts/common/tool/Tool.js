@@ -44,7 +44,7 @@ export default class Tool {
     }
 
     static showVideoAD(callBack, cancel, err, isAdventure, num) {
-        if (typeof wx == 'undefined') {
+        if (Laya.Browser.onPC) {
             callBack && callBack()
             return
         }
@@ -79,7 +79,7 @@ export default class Tool {
     }
 
     static inviteFriend(e, num) {
-        if (typeof wx == 'undefined') {
+        if (Laya.Browser.onPC) {
             return
         }
         // PaoYa.Request.POST(`manage_data`, { code: num })
@@ -91,7 +91,7 @@ export default class Tool {
     }
 
     static noADshare(suc) {
-        if (typeof wx == 'undefined') {
+        if (Laya.Browser.onPC) {
             suc && suc()
             return
         }

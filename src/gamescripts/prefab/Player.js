@@ -538,6 +538,9 @@ export default class Player extends PaoYa.Component {
     if(type==`recoverMP`){
       duration=1000;
       endPos.y=-100;
+    }else if(type==`recoverHP`){
+      duration=800;
+      endPos.y=-140;
     }
     var tween = new Laya.Tween();
     tween.to(hurt, {

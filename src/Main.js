@@ -21,10 +21,11 @@ export class Main extends GameMain {
 			debug: config.debug,
 			ignoreCmds: ['defeated', 'message'],
 			showBannerAdWhenDialogPopup: false,
-			adUnitId: 'adunit-f54386c29a35dd95',
+			adUnitId: window['wx']?'adunit-f54386c29a35dd95':'6624807',
 			interstitialUnitId: 'adunit-92a0cb233fbbaacb',
-			bannerUnitId: 'adunit-4bec7f17587df319', //bannerID
-			adUnitIdLong: 'adunit-e2f9bd1a37b91681',
+			bannerUnitId: window['wx']?'adunit-4bec7f17587df319':'6624804', //bannerID
+			adUnitIdLong: window['wx']?'adunit-e2f9bd1a37b91681':'6624807',
+			appSid:'c6ba39a9',
 			portrait: false,
 			loadNetworkRes: true,
 			is_config: 0
@@ -245,17 +246,17 @@ export class Main extends GameMain {
 new Main();
 Laya.UIConfig.closeDialogOnSide = false;
 
-if (!config.debug) {
+  if (!config.debug) {
  	console.log = function () { };
 	console.warn = function () { };
 	 console.error = function () { };  
-} else {
- 	if(window[`wx`]){
+}else {
+ 	if(window[`wx`]||typeof swan !=undefined){
 		console.log = function () { };
 	console.warn = function () { };
 	console.error = function () { };
 	} 
-	//console.log = function () { };
 	Laya.Stat.show();
 }
-
+   
+ 

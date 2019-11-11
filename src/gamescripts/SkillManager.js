@@ -13,10 +13,14 @@ export default class SkillManager extends Laya.Script{
     seletedSkill(){
       let skills=[];
       let curHp=0;
+      if(!GameControl.instance.otherPlayer.comp.canAction){/* 机器人不能动弹的时候技能不会触发 */
+        return null;
+      }
+      if(GameControl.instance.isSkilling){
+        console.error(`-----技能互斥2222-----`);    
+        return null;
+    }
       for(let i=0,len=this.skillList.length;i<len;i++){
-          if(!GameControl.instance.otherPlayer.comp.canAction){/* 机器人不能动弹的时候技能不会触发 */
-            return null;
-          }
           if(!this.skillList[i].freezeing&&this.skillList[i].limit){
               if(this.skillList[i].lifeValue){
                 curHp=GameControl.instance.otherPlayer.comp.HPComp.curHP;

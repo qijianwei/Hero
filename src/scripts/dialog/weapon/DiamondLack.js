@@ -16,6 +16,11 @@ export default class DiamondLack extends PaoYa.Dialog {
         this.tipTxt.scale(0.7, 0.7)
         this.tipTxt.pos(45, 12)
 
+        this.maskBg.on(Laya.Event.CLICK,this,()=>{
+            SoundManager.ins.btn()
+            this.close()
+        })
+
         this.btn.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
             this.close()

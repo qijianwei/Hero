@@ -43,7 +43,6 @@
             "compId":168,
             "child":[
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,rank",
                     "props":{"zOrder":9,"y":533,"x":217,"stateNum":"1","skin":"local/home/rangback.png","name":"rank","mouseEnabled":true},
@@ -57,7 +56,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,userInfo",
                     "props":{"y":0,"x":167,"name":"userInfo"},
@@ -124,7 +122,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnHerosHouse,btnHerosHouse",
                     "props":{"y":614,"x":170,"var":"btnHerosHouse","stateNum":"1","skin":"local/home/btn_heros_house.png","name":"btnHerosHouse"},
@@ -138,7 +135,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnWeaponHouse,btnWeaponHouse",
                     "props":{"y":615,"x":321,"var":"btnWeaponHouse","stateNum":"1","skin":"local/home/btn_weapon_house.png","name":"btnWeaponHouse"},
@@ -152,7 +148,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnRefiner,btnRefiner",
                     "props":{"y":614,"x":461,"var":"btnRefiner","stateNum":"1","skin":"local/home/btn_refiner.png","name":"btnRefiner"},
@@ -166,7 +161,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnWeaponStore",
                     "props":{"y":588,"x":1294,"stateNum":"1","skin":"local/home/btn_weapon_store.png","name":"btnWeaponStore"},
@@ -180,7 +174,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnRegister",
                     "props":{"y":470,"x":1332,"stateNum":"1","skin":"local/home/btn_register.png","name":"btnRegister"},
@@ -193,7 +186,6 @@
                     "compId":10,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,signDot",
                             "props":{"y":8,"x":88,"var":"signDot","texture":"local/common/dot.png"},
@@ -209,7 +201,6 @@
                     "$LOCKED":true
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnRoulette",
                     "props":{"y":248,"x":1332,"stateNum":"1","skin":"local/home/btn_roulette.png","name":"btnRoulette"},
@@ -223,7 +214,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnTask",
                     "props":{"y":130,"x":1332,"stateNum":"1","skin":"local/home/btn_task.png","name":"btnTask"},
@@ -236,7 +226,6 @@
                     "compId":12,
                     "child":[
                         {
-                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,taskDot",
                             "props":{"y":8,"x":88,"var":"taskDot","texture":"local/common/dot.png"},
@@ -251,7 +240,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnWeaponSpectrum",
                     "props":{"y":358,"x":1332,"stateNum":"1","skin":"local/home/btn_weapon_spectrum.png","name":"btnWeaponSpectrum"},
@@ -265,7 +253,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnStartGame",
                     "props":{"y":103,"x":880,"stateNum":"1","skin":"local/home/btn_start.png","name":"btnStartGame"},
@@ -280,7 +267,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnBattle",
                     "props":{"y":294,"x":880,"stateNum":"1","skin":"local/home/btn_battle.png","name":"btnBattle"},
@@ -294,7 +280,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnBoss",
                     "props":{"y":492,"x":880,"stateNum":"1","skin":"local/home/btn_boss.png","name":"btnBoss"},
@@ -308,7 +293,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lock",
                     "props":{"y":305,"x":885.5,"var":"lock"},
@@ -323,7 +307,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lock2",
                     "props":{"y":502,"x":889.5,"var":"lock2"},
@@ -338,7 +321,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":0,"x":813,"texture":"local/home/12.png"},
@@ -353,7 +335,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":269,"x":1187,"texture":"local/home/battle.png"},
@@ -367,7 +348,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":462,"x":1185,"texture":"local/home/boss.png"},
@@ -381,7 +361,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":422,"x":998,"texture":"local/home/unlock5.png"},
@@ -395,7 +374,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":615,"x":998,"texture":"local/home/unlock10.png"},
@@ -409,7 +387,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "selectedBox":109,
                     "selecteID":112,
@@ -490,7 +467,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "selectedBox":109,
                     "selecteID":112,
@@ -571,7 +547,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":142,"x":164,"texture":"local/home/rankbg.png","mouseEnabled":true},

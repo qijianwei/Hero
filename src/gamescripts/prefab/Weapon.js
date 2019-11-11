@@ -266,19 +266,21 @@ export default class Weapon extends PaoYa.Component {
   pause() {
     //console.error(`--------关闭抛物线定时器2-------`)
     Laya.timer.clear(this, this.startParabola);
-    this.pauseTime = (new Date()).valueOf();
-    this.playedTime = this.pauseTime - this.beginTime;
+    this.pauseTimeNode = (new Date()).valueOf();
+  //  this.playedTime = this.pauseTime - this.beginTime;
     this.currentAni && this.currentAni.stop();
   }
   //恢复动画
   resume() {
     let speed = this.speed;
-    this.beginTime = (new Date()).valueOf() - this.playedTime;
+   // this.beginTime = (new Date()).valueOf() - this.playedTime;
+    this.beginTime=this.beginTime+(new Date()).valueOf()-this.pauseTimeNode;
     Laya.timer.frameLoop(1, this, this.startParabola, [speed]);
     this.currentAni && this.currentAni.play(0, true);
   }
   //运动
   doMove(x, y, curAngle) {
+     //技能未完成释放阶段不判断碰撞
     if (this.isSelf) {
       this.newX = this.startPos.x + x;
     } else {
@@ -304,6 +306,7 @@ export default class Weapon extends PaoYa.Component {
       this.endMove();
       return;
     }
+ 
     if (this.doPolygonsIntersect(this.weaponPoint, this.otherPlayerComp.collidePoint)) {
             this.postNotification('collide');
             //如果对方闪避状态，无敌
@@ -413,8 +416,8 @@ export default class Weapon extends PaoYa.Component {
               this.otherPlayerComp.hpRecoverEffect(attackNum*2);
             }
             if(this.otherPlayerComp.bounceSkill&&!this.otherPlayerComp.killed){
-              console.error(`-----铁布衫反弹伤害----`,attackNum*2);
-              this.selfPlayerComp.injuredEffect(this.params.weaponType, -attackNum*2, isCrit)
+              console.error(`-----铁布衫反弹伤害----`,attackNum);
+              this.selfPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit)
             }
     }
 
@@ -440,8 +443,9 @@ export default class Weapon extends PaoYa.Component {
       refinerHurt = this.calcRefinerHurt(selfAttr),
       //减伤百分比
       otherReduceHurt = this.calcReduceHurt(otherAttr),
-      hurtPer = selfStrength - otherBone < 0 ? 1 : (selfStrength - otherBone) / selfStrength,
+      hurtPer = selfStrength - otherBone < 0 ? 0.1 : (selfStrength - otherBone) / selfStrength,
       skillHurtMulti = 1;
+      hurtPer=hurtPer<=0.2?0.2:hurtPer;
       console.log(`---roleBone根骨---`,otherBone,selfAttr.roleBone)
     if (skillEffect) {
       console.warn('--------触发技能伤害，有莫有伤害倍数不知道--------'); //技能伤害百分比

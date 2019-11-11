@@ -16,6 +16,8 @@ if(window.qq){
     loadLib("libs/platform.qq.js")
 }else if(window.wx){
     loadLib("libs/platform.wx.js")
+}else if((typeof swan !== 'undefined') && (typeof swanGlobal !== 'undefined')){
+    loadLib("libs/platform.bd.js")
 }else{
     loadLib("libs/platform.browser.js")
 }

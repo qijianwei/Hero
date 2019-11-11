@@ -219,20 +219,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(16);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BannerAd", function() { return _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_26__["default"]; });
 
-/* harmony import */ var _wx_ad_interstitialAd__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(36);
+/* harmony import */ var _wx_ad_interstitialAd__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(35);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "InterstitialAd", function() { return _wx_ad_interstitialAd__WEBPACK_IMPORTED_MODULE_27__["default"]; });
 
-/* harmony import */ var _wx_manager_AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(35);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthUserInfoDialog", function() { return _wx_manager_AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_28__["default"]; });
-
-/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(37);
-/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(_utils_Array__WEBPACK_IMPORTED_MODULE_29__);
-/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(38);
-/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_30___default = /*#__PURE__*/__webpack_require__.n(_utils_Date__WEBPACK_IMPORTED_MODULE_30__);
-/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(39);
-/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_31___default = /*#__PURE__*/__webpack_require__.n(_utils_Number__WEBPACK_IMPORTED_MODULE_31__);
-/* harmony import */ var _laya_laya__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(40);
-
+/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(36);
+/* harmony import */ var _utils_Array__WEBPACK_IMPORTED_MODULE_28___default = /*#__PURE__*/__webpack_require__.n(_utils_Array__WEBPACK_IMPORTED_MODULE_28__);
+/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(37);
+/* harmony import */ var _utils_Date__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(_utils_Date__WEBPACK_IMPORTED_MODULE_29__);
+/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(38);
+/* harmony import */ var _utils_Number__WEBPACK_IMPORTED_MODULE_30___default = /*#__PURE__*/__webpack_require__.n(_utils_Number__WEBPACK_IMPORTED_MODULE_30__);
+/* harmony import */ var _laya_laya__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(39);
 
 
 
@@ -2103,7 +2099,7 @@ var RewardedVideoAd = /** @class */ (function (_super) {
     }
     RewardedVideoAd.prototype.createAd = function (params) {
         var _this = this;
-        var videoAd = py.createRewardedVideoAd({ adUnitId: params.adUnitId });
+        var videoAd = py.createRewardedVideoAd({ adUnitId: params.adUnitId, appSid: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].appSid });
         videoAd.onLoad(function (res) {
             _this.isLoaded = true;
             _this.event(RewardedVideoAd.LOAD, res);
@@ -2152,12 +2148,12 @@ var RewardedVideoAd = /** @class */ (function (_super) {
         }
         if (isLong == undefined || !isLong) {
             if (!this.ad) {
-                this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId });
+                this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitId, appSid: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].appSid });
             }
         }
         else {
             if (!this.ad) {
-                this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitIdLong });
+                this.ad = new RewardedVideoAd({ adUnitId: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].adUnitIdLong, appSid: _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].appSid });
             }
         }
         var ad = this.ad;
@@ -3577,6 +3573,7 @@ var Game = /** @class */ (function (_super) {
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].interstitialUnitId = params.interstitialUnitId;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].adUnitIdLong = params.adUnitIdLong;
         _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].qqViewId = params.qqViewId || 1003;
+        _DataCenter__WEBPACK_IMPORTED_MODULE_0__["default"].appSid = params.appSid;
         _this.configNavigator();
         _this.setupConfig();
         _this.initLaunchOption();
@@ -4361,12 +4358,6 @@ Laya.ClassUtils.regClass('PaoYa.RoundImageView', RoundImageView);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
-/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
-
-
-
 var AuthManager = /** @class */ (function () {
     function AuthManager() {
     }
@@ -4378,94 +4369,7 @@ var AuthManager = /** @class */ (function () {
      * @param alert 当需要打开用户设置界面时，用于可以修改弹窗内容，方便用户确认操作
      */
     AuthManager.auth = function (params) {
-        var _this_1 = this;
-        var _this = this;
-        if (!window['wx']) {
-            params.next && params.next();
-            return;
-        }
-        params.alert = function (alertCb) {
-            _this_1.showModal('提示', '需要您的授权才能正常使用', '去设置', function () {
-                alertCb();
-            });
-        };
-        params.fail = function () {
-            Laya.Dialog.manager = null;
-            UIConfig.closeDialogOnSide = false;
-            var alert = new _AuthUserInfoDialog__WEBPACK_IMPORTED_MODULE_0__["default"](params.isNecessary);
-            alert.onReceiveUserInfo = function (res) {
-                if (res.userInfo) {
-                    _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].userInfoAuth = true;
-                    _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.avstar = res.userInfo.avatarUrl;
-                    _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.nickname = res.userInfo.nickName;
-                    _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification("AuthOK");
-                    PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, function () {
-                        params.next && params.next();
-                    });
-                }
-                if (!params.isNecessary && !res.userInfo) {
-                    params.next && params.next();
-                }
-            };
-            alert.popup(true, false);
-        };
-        var okHandler = function () {
-            wx.openSetting({
-                success: function (res) {
-                    var result = res.authSetting[params.scope];
-                    //params.next && params.next();
-                    if (!params.isNecessary && !result) {
-                        params.next && params.next();
-                        return;
-                    }
-                    if (result) {
-                        _this.getUserInfo(function (res) {
-                            _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].userInfoAuth = true;
-                            _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.avstar = res.userInfo.avatarUrl;
-                            _export__WEBPACK_IMPORTED_MODULE_1__["DataCenter"].user.nickname = res.userInfo.nickName;
-                            _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_2__["default"].postNotification("AuthOK");
-                            PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, function () {
-                                params.next && params.next();
-                            });
-                        });
-                    }
-                    else {
-                        params.alert && params.alert(okHandler);
-                    }
-                },
-                fail: function () {
-                    params.fail && params.fail();
-                }
-            });
-        };
-        wx.getSetting({
-            success: function (res) {
-                var result = res.authSetting[params.scope];
-                if (result == undefined) { //没有获取过权限
-                    /**如果请求用户权限失败，则直接return */
-                    if (params.scope == AuthManager.scope.userInfo) {
-                        params.fail && params.fail();
-                        return;
-                    }
-                    wx.authorize({
-                        scope: params.scope,
-                        success: function (res) {
-                            params.next && params.next();
-                        },
-                        fail: function () {
-                            params.alert && params.alert(okHandler);
-                        },
-                        complete: function () { }
-                    });
-                }
-                else if (!result) { //当前权限为否
-                    params.alert && params.alert(okHandler);
-                }
-                else {
-                    params.next && params.next();
-                }
-            }
-        });
+        py.auth(params);
     };
     /**调用微信获取用户信息接口 */
     AuthManager.getUserInfo = function (cb) {
@@ -4488,33 +4392,6 @@ var AuthManager = /** @class */ (function () {
             fail: function () { }
         });
     };
-    AuthManager.showModal = function (title, content, confirmText, confirmCallback, cancelText, cancelCallback) {
-        if (title === void 0) { title = '提示'; }
-        if (content === void 0) { content = ''; }
-        if (confirmText === void 0) { confirmText = '知道了'; }
-        if (confirmCallback === void 0) { confirmCallback = null; }
-        if (cancelText === void 0) { cancelText = ""; }
-        if (cancelCallback === void 0) { cancelCallback = null; }
-        var params = {
-            title: title,
-            content: content,
-            showCancel: cancelText ? true : false,
-            cancelColor: '#000000',
-            confirmColor: '#3cc51f',
-            cancelText: cancelText,
-            confirmText: confirmText,
-            success: function (res) {
-                if (res.confirm) {
-                    confirmCallback && confirmCallback();
-                }
-                if (res.cancel) {
-                    cancelCallback && cancelCallback();
-                }
-            },
-            fail: function () { }
-        };
-        wx.showModal(params);
-    };
     AuthManager.scope = {
         userInfo: "scope.userInfo",
         userLocation: "scope.userLocation",
@@ -4532,99 +4409,6 @@ var AuthManager = /** @class */ (function () {
 
 /***/ }),
 /* 35 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var AuthUserInfoDialog = /** @class */ (function (_super) {
-    __extends(AuthUserInfoDialog, _super);
-    function AuthUserInfoDialog(isNecessary) {
-        var _this = _super.call(this) || this;
-        if (isNecessary != undefined) {
-            _this.isNecessary = isNecessary;
-        }
-        else {
-            _this.isNecessary = false;
-        }
-        _this.size(636, 508);
-        var image = new Laya.Image('local/auth/bg.png');
-        _this.addChild(image);
-        return _this;
-    }
-    AuthUserInfoDialog.prototype.onOpened = function () {
-        var frame = {
-            x: 26,
-            y: 400,
-            width: 588,
-            height: 85
-        };
-        var pos = this.localToGlobal(new Laya.Point(frame.x, frame.y));
-        this.showUserInfoButton({
-            x: pos.x,
-            y: pos.y,
-            width: frame.width,
-            height: frame.height
-        });
-    };
-    AuthUserInfoDialog.prototype.showUserInfoButton = function (rect) {
-        var _this = this;
-        var stage = Laya.stage;
-        var screenWidth = Laya.Browser.width;
-        var screenHeight = Laya.Browser.height;
-        var width = stage.designWidth;
-        var height = stage.designHeight;
-        /* 这是竖版 */
-        /*  var scaleX = screenWidth / width; */
-        var scaleX = screenHeight / height;
-        var scale = scaleX / Laya.Browser.pixelRatio;
-        var style = {
-            top: rect.y * scale,
-            left: rect.x * scale,
-            width: rect.width * scale,
-            height: rect.height * scale,
-            backgroundColor: '#ffffff',
-            borderColor: '#ffffff',
-            borderRadius: 10,
-            borderWidth: 0,
-            textAlign: 'center',
-            fontSize: 24,
-            lineHeight: 10
-        };
-        var button = wx.createUserInfoButton({
-            type: 'image',
-            image: 'local/auth/button.png',
-            style: style,
-            withCredentials: true,
-            lang: 'zh_CN'
-        });
-        button.onTap(function (res) {
-            if (res.userInfo || !_this.isNecessary) {
-                _this.onReceiveUserInfo && _this.onReceiveUserInfo(res);
-            }
-            _this.close();
-            button.destroy();
-        });
-    };
-    return AuthUserInfoDialog;
-}(Laya.Dialog));
-/* harmony default export */ __webpack_exports__["default"] = (AuthUserInfoDialog);
-
-
-/***/ }),
-/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4654,7 +4438,7 @@ var InterstitialAd = /** @class */ (function (_super) {
     }
     InterstitialAd.prototype.createAd = function (params) {
         var _this = this;
-        var interstitialAd = wx.createInterstitialAd({ adUnitId: params.adUnitId });
+        var interstitialAd = py.createInterstitialAd({ adUnitId: params.adUnitId });
         interstitialAd.onLoad(function (res) {
             _this.isLoaded = true;
             _this.event(InterstitialAd.LOAD, res);
@@ -4703,10 +4487,10 @@ var InterstitialAd = /** @class */ (function (_super) {
         }
     };
     InterstitialAd.show = function (params) {
-        if (!window['wx']) {
-            params.onError && params.onError();
-            return;
-        }
+        /*  if(!window['wx']){
+             params.onError&&params.onError();
+             return;
+         } */
         if (window['wx'] && !_export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].interstitialUnitId) {
             console.error('请在Main中设置interstitialUnitId之后再观看广告');
             return;
@@ -4732,7 +4516,7 @@ var InterstitialAd = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /**返回数组中最后一个元素，如果数组为空，返回null */
@@ -4761,7 +4545,7 @@ Object.defineProperty(Array.prototype, "randomItem", {
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /**
@@ -4791,7 +4575,7 @@ Date.prototype.formatWithStyle = function (format) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports) {
 
 /**
@@ -4822,7 +4606,7 @@ Number.prototype.formatTime = function (format) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

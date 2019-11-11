@@ -105,7 +105,7 @@ export default class HomeControl extends PaoYa.Component {
         if (PaoYa.DataCenter.user.is_first_game == 1) {
             this.navigator.push('GameGuide', GameGuideData);
         }
-        // this.guideF(`btn3`)
+        // this.guideF(`btn2`)
         this.showRankList();
     }
     onAppear() {
@@ -290,8 +290,27 @@ export default class HomeControl extends PaoYa.Component {
                 SoundManager.ins.btn()
                 PaoYa.AuthManager.auth({
                     scope: PaoYa.AuthManager.scope.userInfo,
-                    isNecessary: true, //是否强制授权
+                    isNecessary: true, //是否强制授权,如果是强制，需要success函数记录用户信息
+                    success(res){
+                        console.log(`授权成功1`)
+                        PaoYa.DataCenter.userInfoAuth=true;
+                        PaoYa.DataCenter.user.avstar=res.userInfo.avatarUrl;
+                        PaoYa.DataCenter.user.nickname=res.userInfo.nickName;
+                        PaoYa.NotificationCenter.postNotification(`AuthOK`);
+                        PaoYa.Request.POST('update_profile', { icon_big: res.userInfo.avatarUrl, name: res.userInfo.nickName }, () => {
+                            _this.GET("ranking_list", {
+                                type: 1
+                            }, res => {
+                                //console.log(res)
+                                if (!res) {
+                                    return
+                                }
+                                _this.navigator.popup("common/Rank", res);
+                            })
+                         })
+                    },
                     next() {
+                        console.log(`授权成功2`)
                         _this.GET("ranking_list", {
                             type: 1
                         }, res => {

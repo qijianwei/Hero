@@ -27,14 +27,18 @@ export default class RobotSkill{
         if(skillConfig.cd!=undefined){
             this.cdTime=skillConfig.cd*1000;
         }
-        if(skillConfig.time!=undefined){
+        if(skillConfig.btime!=undefined){
             this.timeOK=false;
-            Laya.timer.once(skillConfig.time*1000,this,this.changeTimeStatus)
+            Laya.timer.once(skillConfig.btime*1000,this,this.changeTimeStatus)
         }
         if(skillConfig.perTime!=undefined){
             //this.perTime=skillConfig.perTime  
             this.perTimeOK=false;
             Laya.timer.loop(skillConfig.perTime*1000,this,this.changePerTimeStatus);
+        }
+        if(skillConfig.name!=undefined){
+            //this.perTime=skillConfig.perTime  
+            this.name=skillConfig.name;       
         }
       //  this.lifeValue=null;/* 生命限制条件 */
         return this;

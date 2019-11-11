@@ -79,8 +79,9 @@ export default class MatchView extends PaoYa.View{
         this.stopAni();
         this.otherStars.visible=true;
         this.otherName.text=this.params.robotNickName;
-        this.otherLadderInfo.texture=`local/common/badge_${this.otherLadderInfo.ladderId}.png`;
+        this.otherLadder.texture=`local/common/badge_${this.otherLadderInfo.ladderId}.png`;
         this.otherLadderName.text=PaoYa.Utils.formatName(this.otherLadderInfo.ladderName);  
+        this.otherAvstar.texture=`local/common/hero_${this.params.robotRoleId}.png`;
     }
     stopAni(){
         Laya.timer.clearAll(this);

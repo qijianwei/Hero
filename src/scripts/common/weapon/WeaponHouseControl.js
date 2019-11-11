@@ -50,6 +50,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 SoundManager.ins.btn()
                 owner.getWareBtnSkin(`light`)
                 owner.lightNew.visible = false
+                this.nowuseList=this.lightList
                 owner.warehouseList.array = this.lightList
                 // this.showWareList(this.lightList)
                 break;
@@ -58,6 +59,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 owner.getWareBtnSkin(`middle`)
                 owner.middleNew.visible = false
                 // this.showWareList(this.middleList)
+                this.nowuseList=this.middleList
                 owner.warehouseList.array = this.middleList
                 break;
             case `large`:
@@ -65,6 +67,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
                 owner.getWareBtnSkin(`large`)
                 owner.largeNew.visible = false
                 // this.showWareList(this.heavyList)
+                this.nowuseList=this.heavyList
                 owner.warehouseList.array = this.heavyList
                 break;
             case `benBack`:
@@ -92,10 +95,17 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
     //仓库武器渲染
     wareWeaponUpdateItem(cell, idx) {
+        console.log(cell._dataSource.weaponName, cell._dataSource.isUseringWeapon)
         cell.offAll()
         cell.on(Laya.Event.CLICK, this, () => {
             SoundManager.ins.btn()
             if (this.isWareChoiceWp) {
+                if(this.nowuseList){
+                    this.nowuseList.forEach(element => {
+                        element.isUserWeapon = false
+                        element.isUseringWeapon = false
+                    });
+                }
                 this.isWareChoiceWp.getChildByName(`beChioce`).visible = false
                 this.isWareChoiceWp.isUseringWeapon = false
                 this.isWareChoiceWp.skin = `local/common/frameBg.png`
@@ -303,7 +313,6 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
     //单个兵器图签
     singleWeapon(cell, idx, isUser) {
-       // console.log(cell, idx, isUser)
         cell.skin = `local/common/frameBg.png`
         cell.getChildByName(`beChioce`).visible = false
         if (!isUser) {
@@ -502,6 +511,7 @@ export default class WeaponHouseControl extends PaoYa.Component {
 
 
     showWareList(wareList) {
+        this.nowuseList = wareList
         this.owner.warehouseList.array = wareList
     }
 
