@@ -1167,7 +1167,7 @@ robotSkillLaunch(skillId) {
 }
 sportAni(skillId) {
     this.skillAni.x -= 10;
-    if (!this.skillAniCollide && this.skillAni.x < 220 && !this.selfPlayer.comp.dodge) {
+    if (!this.skillAniCollide && this.skillAni.x < 260 && !this.selfPlayer.comp.dodge) {
         //Laya.timer.clear(this, this.sportDragon);
         SoundManager.ins.injured();
         Laya.timer.clear(this, this.sportAni);
@@ -1213,6 +1213,7 @@ showRobotCommonSkill(skillId) {
         resUrl = `gamescenes/animations/robot_skill_${skillId}.ani`;
     } else {
         resUrl = `gamescenes/animations/recover_blood.ani`;
+        commonAni.zOrder=1001;
     }
     commonAni.loadAnimation(resUrl, Laya.Handler.create(this, (ani) => {
         if (skillId != 92) {

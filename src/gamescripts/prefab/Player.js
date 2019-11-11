@@ -244,6 +244,33 @@ export default class Player extends PaoYa.Component {
       }
     })
   }
+  /* 受击打但是没有受伤特效 */
+  injuredWithoutEffect(value, isCrit) {
+    if(this.killed){
+      return;
+   }
+    //机器人用 以防机器人选兵器打断受伤从而打断其他效果,比如中毒回调不执行
+    if (!this.isSelf) {
+      this.canAction = false;
+    } 
+    value=Math.round(value);
+    this.HPComp.changeHP(value);
+    if (isCrit) {
+      this.showFontEffect("暴击" + value, "crit")
+    } else {
+      this.showFontEffect(value, "hurt")
+    }
+
+    if (this.HPComp.curHP <= 0) {
+      console.warn(`---------------死亡结束---------------`)
+      Laya.timer.clearAll(this);
+      this.removeAllAni();
+      GameControl.instance.deathHandler(this.isSelf);
+      this.killed = true;
+      this.skeleton.play("death", false);
+      return;
+    }
+  }
   //死亡时候移除所有动效
   removeAllAni() {
     this.boxAniPoison.visible = false;

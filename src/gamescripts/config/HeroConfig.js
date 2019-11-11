@@ -87,6 +87,18 @@ var HeroConfig = {
       bomb: 0,
       templet: null
     },
+    npc_8: {
+      path:"remote/spine/npc/npc_8.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_9: {
+      path:"remote/spine/npc/npc_9.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
     scene1: {
       path: "remote/spine/scene/scene1.sk",
       templet: null,

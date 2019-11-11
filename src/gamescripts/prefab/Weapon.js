@@ -417,7 +417,7 @@ export default class Weapon extends PaoYa.Component {
             }
             if(this.otherPlayerComp.bounceSkill&&!this.otherPlayerComp.killed){
               console.error(`-----铁布衫反弹伤害----`,attackNum);
-              this.selfPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit)
+              this.selfPlayerComp.injuredWithoutEffect(-attackNum, isCrit)
             }
     }
 

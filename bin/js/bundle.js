@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: false,
+    debug: true,
     version: '1.0',
     release: 10
 };
@@ -379,7 +379,7 @@ GameConfig.scaleMode = "fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "scenes/dialog/weapon/UnlockTips.scene";
+GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;
@@ -1994,7 +1994,7 @@ var GameControl = function (_PaoYa$Component) {
         key: 'sportAni',
         value: function sportAni(skillId) {
             this.skillAni.x -= 10;
-            if (!this.skillAniCollide && this.skillAni.x < 220 && !this.selfPlayer.comp.dodge) {
+            if (!this.skillAniCollide && this.skillAni.x < 260 && !this.selfPlayer.comp.dodge) {
                 //Laya.timer.clear(this, this.sportDragon);
                 _SoundManager2.default.ins.injured();
                 Laya.timer.clear(this, this.sportAni);
@@ -2046,6 +2046,7 @@ var GameControl = function (_PaoYa$Component) {
                 resUrl = 'gamescenes/animations/robot_skill_' + skillId + '.ani';
             } else {
                 resUrl = 'gamescenes/animations/recover_blood.ani';
+                commonAni.zOrder = 1001;
             }
             commonAni.loadAnimation(resUrl, Laya.Handler.create(this, function (ani) {
                 if (skillId != 92) {
@@ -3214,6 +3215,18 @@ var HeroConfig = {
     },
     npc_7: {
       path: "remote/spine/npc/npc_7.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_8: {
+      path: "remote/spine/npc/npc_8.sk",
+      name: ['bomb'],
+      bomb: 0,
+      templet: null
+    },
+    npc_9: {
+      path: "remote/spine/npc/npc_9.sk",
       name: ['bomb'],
       bomb: 0,
       templet: null
@@ -6794,6 +6807,36 @@ var Player = function (_PaoYa$Component) {
         }
       });
     }
+    /* 受击打但是没有受伤特效 */
+
+  }, {
+    key: "injuredWithoutEffect",
+    value: function injuredWithoutEffect(value, isCrit) {
+      if (this.killed) {
+        return;
+      }
+      //机器人用 以防机器人选兵器打断受伤从而打断其他效果,比如中毒回调不执行
+      if (!this.isSelf) {
+        this.canAction = false;
+      }
+      value = Math.round(value);
+      this.HPComp.changeHP(value);
+      if (isCrit) {
+        this.showFontEffect("暴击" + value, "crit");
+      } else {
+        this.showFontEffect(value, "hurt");
+      }
+
+      if (this.HPComp.curHP <= 0) {
+        console.warn("---------------\u6B7B\u4EA1\u7ED3\u675F---------------");
+        Laya.timer.clearAll(this);
+        this.removeAllAni();
+        _GameControl2.default.instance.deathHandler(this.isSelf);
+        this.killed = true;
+        this.skeleton.play("death", false);
+        return;
+      }
+    }
     //死亡时候移除所有动效
 
   }, {
@@ -8111,7 +8154,7 @@ var Weapon = function (_PaoYa$Component) {
         }
         if (this.otherPlayerComp.bounceSkill && !this.otherPlayerComp.killed) {
           console.error("-----\u94C1\u5E03\u886B\u53CD\u5F39\u4F24\u5BB3----", attackNum);
-          this.selfPlayerComp.injuredEffect(this.params.weaponType, -attackNum, isCrit);
+          this.selfPlayerComp.injuredWithoutEffect(-attackNum, isCrit);
         }
       }
 
