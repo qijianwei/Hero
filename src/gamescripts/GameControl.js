@@ -1115,8 +1115,8 @@ hideMaskSkillAction() {
     this.allResume(false);
 }
 /* ------关闭技能start------- */
-recoverOriginBone(originRoleStrength) {
-    this.robotRole.roleStrength = originRoleStrength;
+recoverOriginBone(originRoleBone) {
+    this.robotRole.roleBone = originRoleBone;
     this.robotSkill = false;
     this.removeRobotCommonSkill();
 }

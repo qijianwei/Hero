@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var config = {
-    debug: true,
+    debug: false,
     version: '1.0',
     release: 10
 };
@@ -1925,8 +1925,8 @@ var GameControl = function (_PaoYa$Component) {
 
     }, {
         key: 'recoverOriginBone',
-        value: function recoverOriginBone(originRoleStrength) {
-            this.robotRole.roleStrength = originRoleStrength;
+        value: function recoverOriginBone(originRoleBone) {
+            this.robotRole.roleBone = originRoleBone;
             this.robotSkill = false;
             this.removeRobotCommonSkill();
         }
