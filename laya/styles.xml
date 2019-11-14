@@ -36,4 +36,5 @@
    <item name="remote/spine/scene/scene1.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/spine/scene/scene2.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
    <item name="remote/spine/scene/scene3.sk" type="SkeletonPlayer" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="remote/pass_result/btnAvenge.png" type="Button" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
 </res>

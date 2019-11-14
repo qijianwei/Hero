@@ -7,6 +7,7 @@ import {
     Global
 } from "./tool/Global";
 import SpeakMan from "../../gamescripts/gameGuide/SpeakMan";
+import White from "../prefab/White";
 let guideContainer,
     maskArea,
     interactionArea,
@@ -136,6 +137,12 @@ export default class HomeControl extends PaoYa.Component {
                 this.adventBox.visible = false;
             }
         })
+
+        if(!White.ins.isFirst&&White.ins.container){
+            White.ins.isFirst=true
+            White.ins.startTurn()
+        }
+
     }
     adventIconClick() {
         let res = this.adventParams;
@@ -174,6 +181,7 @@ export default class HomeControl extends PaoYa.Component {
     onDisappear() {
         this.player._templet && this.player.stop();
         this.adventAni && this.adventAni.stop();
+        White.ins.finishTurn()
     }
     onThrottleClick(e) {
         if (Global.isShowGrading) {

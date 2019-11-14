@@ -20,10 +20,10 @@ export class Main extends GameMain {
 			//ignoreCmds: [],
 			debug: config.debug,
 			ignoreCmds: ['defeated', 'message'],
-			showBannerAdWhenDialogPopup: false,
+			showBannerAdWhenDialogPopup: true,
 			adUnitId: window['wx']?'adunit-f54386c29a35dd95':'6624807',
 			interstitialUnitId: 'adunit-92a0cb233fbbaacb',
-			bannerUnitId: window['wx']?'adunit-4bec7f17587df319':'6624804', //bannerID
+			bannerUnitId: window['wx']?'adunit-c818aae4347d2e55':'6624804', //bannerID
 			adUnitIdLong: window['wx']?'adunit-e2f9bd1a37b91681':'6624807',
 			appSid:'c6ba39a9',
 			portrait: false,
@@ -244,7 +244,7 @@ export class Main extends GameMain {
 }
 //激活启动类
 new Main();
-Laya.UIConfig.closeDialogOnSide = false;
+ Laya.UIConfig.closeDialogOnSide = false;
 
   if (!config.debug) {
  	console.log = function () { };
@@ -257,6 +257,6 @@ Laya.UIConfig.closeDialogOnSide = false;
 	console.error = function () { };
 	} 
 	Laya.Stat.show();
-}
+} 
    
  

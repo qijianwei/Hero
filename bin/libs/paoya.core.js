@@ -1857,6 +1857,16 @@ var Utils = /** @class */ (function () {
         var measureResult = Laya.Utils.measureText(text, 'Arial');
         return measureResult.width;
     };
+    /** 随机 */
+    Utils.selectRandom = function (arr, selectNum) {
+        var selected = [];
+        var info = JSON.parse(JSON.stringify(arr));
+        for (var i = 0; i < selectNum; i++) {
+            var rand = Math.floor(Math.random() * info.length);
+            selected.push(info.splice(rand, 1)[0]);
+        }
+        return selected;
+    };
     return Utils;
 }());
 /* harmony default export */ __webpack_exports__["default"] = (Utils);
@@ -2224,7 +2234,15 @@ var BannerAd = /** @class */ (function (_super) {
             var screenWidth_1 = Laya.Browser.clientWidth, screenHeight_1 = Laya.Browser.clientHeight;
             ad.onResize(function (res) {
                 var bannerAd = ad['bannerAd'];
-                bannerAd.style.left = (screenWidth_1 - res.width) / 2;
+                if (params.style.align && params.style.align == 'left') {
+                    bannerAd.style.left = 0;
+                }
+                else if (params.style.align && params.style.align == 'right') {
+                    bannerAd.style.left = screenWidth_1 - res.width;
+                }
+                else {
+                    bannerAd.style.left = (screenWidth_1 - res.width) / 2;
+                }
                 if (!params.style.top) {
                     bannerAd.style.top = screenHeight_1 - res.height;
                 }
@@ -2377,7 +2395,7 @@ var Dialog = /** @class */ (function (_super) {
     __extends(Dialog, _super);
     function Dialog() {
         var _this = _super.call(this) || this;
-        _this.showBannerAdWhenDialogPopup = true;
+        _this.showBannerAdWhenDialogPopup = false;
         _this.createJSONView();
         return _this;
     }
@@ -2403,6 +2421,10 @@ var Dialog = /** @class */ (function (_super) {
         if (this.showBannerAdWhenDialogPopup && _export__WEBPACK_IMPORTED_MODULE_0__["DataCenter"].showBannerAdWhenDialogPopup) {
             this['bannerAd'] = _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].show({});
         }
+    };
+    Dialog.prototype.showBannerAd = function (params) {
+        if (params === void 0) { params = {}; }
+        this['bannerAd'] = _wx_ad_bannerAd__WEBPACK_IMPORTED_MODULE_1__["default"].show(params);
     };
     Dialog.prototype._hideBannerAd = function () {
         if (this['bannerAd']) {

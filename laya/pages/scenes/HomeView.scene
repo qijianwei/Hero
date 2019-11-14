@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":168,
+    "selecteID":305,
     "searchKey":"Scene",
     "props":{"width":1334,"sceneColor":"#000000","height":750},
     "nodeParent":-1,
-    "maxID":305,
+    "maxID":314,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -36,13 +36,14 @@
             "props":{"y":0,"x":-150,"width":1634,"name":"spriteBg","mouseEnabled":true,"height":750},
             "nodeParent":2,
             "label":"spriteBg",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":168,
             "child":[
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,rank",
                     "props":{"zOrder":9,"y":533,"x":217,"stateNum":"1","skin":"local/home/rangback.png","name":"rank","mouseEnabled":true},
@@ -56,6 +57,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,userInfo",
                     "props":{"y":0,"x":167,"name":"userInfo"},
@@ -122,9 +124,10 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnHerosHouse,btnHerosHouse",
-                    "props":{"y":614,"x":170,"var":"btnHerosHouse","stateNum":"1","skin":"local/home/btn_heros_house.png","name":"btnHerosHouse"},
+                    "props":{"y":626,"x":307.5,"var":"btnHerosHouse","stateNum":"1","skin":"local/home/btn_heros_house.png","name":"btnHerosHouse"},
                     "nodeParent":168,
                     "label":"btnHerosHouse",
                     "isDirectory":false,
@@ -135,9 +138,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnWeaponHouse,btnWeaponHouse",
-                    "props":{"y":615,"x":321,"var":"btnWeaponHouse","stateNum":"1","skin":"local/home/btn_weapon_house.png","name":"btnWeaponHouse"},
+                    "props":{"y":626,"x":433,"var":"btnWeaponHouse","stateNum":"1","skin":"local/home/btn_weapon_house.png","name":"btnWeaponHouse"},
                     "nodeParent":168,
                     "label":"btnWeaponHouse",
                     "isDirectory":false,
@@ -148,9 +152,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnRefiner,btnRefiner",
-                    "props":{"y":614,"x":461,"var":"btnRefiner","stateNum":"1","skin":"local/home/btn_refiner.png","name":"btnRefiner"},
+                    "props":{"y":626,"x":563,"var":"btnRefiner","stateNum":"1","skin":"local/home/btn_refiner.png","name":"btnRefiner"},
                     "nodeParent":168,
                     "label":"btnRefiner",
                     "isDirectory":false,
@@ -161,9 +166,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnWeaponStore",
-                    "props":{"y":588,"x":1294,"stateNum":"1","skin":"local/home/btn_weapon_store.png","name":"btnWeaponStore"},
+                    "props":{"y":588,"x":156.5,"stateNum":"1","skin":"local/home/btn_weapon_store.png","name":"btnWeaponStore"},
                     "nodeParent":168,
                     "label":"btnWeaponStore",
                     "isDirectory":false,
@@ -174,9 +180,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnRegister",
-                    "props":{"y":470,"x":1332,"stateNum":"1","skin":"local/home/btn_register.png","name":"btnRegister"},
+                    "props":{"y":431.5,"x":1342,"stateNum":"1","skin":"local/home/btn_register.png","name":"btnRegister"},
                     "nodeParent":168,
                     "label":"btnRegister",
                     "isOpen":true,
@@ -186,6 +193,7 @@
                     "compId":10,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,signDot",
                             "props":{"y":8,"x":88,"var":"signDot","texture":"local/common/dot.png"},
@@ -201,9 +209,10 @@
                     "$LOCKED":true
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnRoulette",
-                    "props":{"y":248,"x":1332,"stateNum":"1","skin":"local/home/btn_roulette.png","name":"btnRoulette"},
+                    "props":{"y":211,"x":1343,"stateNum":"1","skin":"local/home/btn_roulette.png","name":"btnRoulette"},
                     "nodeParent":168,
                     "label":"btnRoulette",
                     "isDirectory":false,
@@ -214,9 +223,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnTask",
-                    "props":{"y":130,"x":1332,"stateNum":"1","skin":"local/home/btn_task.png","name":"btnTask"},
+                    "props":{"y":107,"x":1343,"stateNum":"1","skin":"local/home/btn_task.png","name":"btnTask"},
                     "nodeParent":168,
                     "label":"btnTask",
                     "isOpen":true,
@@ -226,6 +236,7 @@
                     "compId":12,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite,taskDot",
                             "props":{"y":8,"x":88,"var":"taskDot","texture":"local/common/dot.png"},
@@ -240,9 +251,10 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnWeaponSpectrum",
-                    "props":{"y":358,"x":1332,"stateNum":"1","skin":"local/home/btn_weapon_spectrum.png","name":"btnWeaponSpectrum"},
+                    "props":{"y":326,"x":1342,"stateNum":"1","skin":"local/home/btn_weapon_spectrum.png","name":"btnWeaponSpectrum"},
                     "nodeParent":168,
                     "label":"btnWeaponSpectrum",
                     "isDirectory":false,
@@ -253,9 +265,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnStartGame",
-                    "props":{"y":103,"x":880,"stateNum":"1","skin":"local/home/btn_start.png","name":"btnStartGame"},
+                    "props":{"y":59.5,"x":887,"stateNum":"1","skin":"local/home/btn_start.png","scaleY":0.9,"scaleX":0.9,"name":"btnStartGame"},
                     "nodeParent":168,
                     "label":"btnStartGame",
                     "isOpen":true,
@@ -267,9 +280,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnBattle",
-                    "props":{"y":294,"x":880,"stateNum":"1","skin":"local/home/btn_battle.png","name":"btnBattle"},
+                    "props":{"y":231,"x":885,"stateNum":"1","skin":"local/home/btn_battle.png","scaleY":0.9,"scaleX":0.9,"name":"btnBattle"},
                     "nodeParent":168,
                     "label":"btnBattle",
                     "isDirectory":false,
@@ -280,9 +294,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Button",
                     "searchKey":"Button,btnBoss",
-                    "props":{"y":492,"x":880,"stateNum":"1","skin":"local/home/btn_boss.png","name":"btnBoss"},
+                    "props":{"y":413,"x":886,"stateNum":"1","skin":"local/home/btn_boss.png","scaleY":0.9,"scaleX":0.9,"name":"btnBoss"},
                     "nodeParent":168,
                     "label":"btnBoss",
                     "isDirectory":false,
@@ -293,9 +308,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lock",
-                    "props":{"y":305,"x":885.5,"var":"lock"},
+                    "props":{"y":241,"x":891,"var":"lock","skewY":0.9,"skewX":0.9,"scaleY":0.9,"scaleX":0.9},
                     "nodeParent":168,
                     "label":"lock",
                     "isOpen":true,
@@ -307,9 +323,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,lock2",
-                    "props":{"y":502,"x":889.5,"var":"lock2"},
+                    "props":{"y":420,"x":895,"var":"lock2","skewY":0.9,"skewX":0.9,"scaleY":0.9,"scaleX":0.9},
                     "nodeParent":168,
                     "label":"lock2",
                     "isOpen":true,
@@ -321,9 +338,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":0,"x":813,"texture":"local/home/12.png"},
+                    "props":{"y":-44,"x":818,"texture":"local/home/12.png","skewY":0.9,"skewX":0.9,"scaleY":0.9,"scaleX":0.9},
                     "nodeParent":168,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -335,9 +353,10 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":269,"x":1187,"texture":"local/home/battle.png"},
+                    "props":{"y":211,"x":1150,"texture":"local/home/battle.png","skewY":0.9,"skewX":0.9,"scaleY":0.9,"scaleX":0.9},
                     "nodeParent":168,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -348,9 +367,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":462,"x":1185,"texture":"local/home/boss.png"},
+                    "props":{"y":391.5,"x":1172,"texture":"local/home/boss.png","skewY":0.9,"skewX":0.9,"scaleY":0.9,"scaleX":0.9},
                     "nodeParent":168,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -361,11 +381,13 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":422,"x":998,"texture":"local/home/unlock5.png"},
+                    "props":{"y":344.5,"x":993.5,"texture":"local/home/unlock5.png","skewY":0.9,"skewX":0.9,"scaleY":0.9,"scaleX":0.9},
                     "nodeParent":168,
                     "label":"Sprite",
+                    "isOpen":false,
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
@@ -374,9 +396,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
-                    "props":{"y":615,"x":998,"texture":"local/home/unlock10.png"},
+                    "props":{"y":522,"x":993.5,"texture":"local/home/unlock10.png","skewY":0.9,"skewX":0.9,"scaleY":0.9,"scaleX":0.9},
                     "nodeParent":168,
                     "label":"Sprite",
                     "isDirectory":false,
@@ -387,6 +410,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "selectedBox":109,
                     "selecteID":112,
@@ -467,6 +491,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "selectedBox":109,
                     "selecteID":112,
@@ -547,6 +572,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":142,"x":164,"texture":"local/home/rankbg.png","mouseEnabled":true},
@@ -676,6 +702,86 @@
             "compId":143,
             "child":[
                 ]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "selectedBox":3,
+            "selecteID":4,
+            "searchKey":"Box",
+            "props":{"y":549,"x":539,"presetID":1,"preset":"laya/pages/scenes/prefab/White.prefab"},
+            "nodeParent":2,
+            "maxID":11,
+            "label":"Box(White)",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":305,
+            "child":[
+                {
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/scripts/prefab/White.js",
+                    "searchKey":"Script,White",
+                    "removeAble":true,
+                    "props":{"presetID":3,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                    "nodeParent":305,
+                    "label":"White",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":306,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Sprite",
+                    "searchKey":"Sprite",
+                    "props":{"presetID":4,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                    "nodeParent":305,
+                    "label":"Sprite(White)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":307,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Panel",
+                    "searchKey":"Panel",
+                    "props":{"presetID":10,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                    "nodeParent":305,
+                    "label":"container",
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":311,
+                    "child":[
+                        {
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"presetID":11,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                            "nodeParent":311,
+                            "label":"Sprite(White)",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":312,
+                            "child":[
+                                ]
+                        }]
+                }],
+            "animations":[
+                {
+                    "nodes":[
+                        ],
+                    "name":"ani1",
+                    "id":1,
+                    "frameRate":24,
+                    "action":0
+                }]
         }],
     "animations":[
         {

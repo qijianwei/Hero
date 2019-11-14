@@ -1,12 +1,19 @@
 import SoundManager from "../../../gamescripts/SoundManager";
 import Tool from "../tool/Tool";
 import { Global } from "../tool/Global";
+import HeroConfig from "../../../gamescripts/config/HeroConfig";
+import Cross from "../../../gamescripts/prefab/Cross";
 
 export default class WheelControl extends PaoYa.Component {
     constructor() {
         super();
         WheelControl.ins = this
-
+        this.showBannerAd({
+            style: {
+                width: 300,
+                align: 'right'  //广告位位置：middle ,left,right
+            }
+        })
         this.notGetLegendWp = localStorage.getItem(`wheelTime`) ? Number(localStorage.getItem(`wheelTime`)) : 0
 
         this.awardArr = [{ id: 18, weight: 200 },
@@ -24,7 +31,35 @@ export default class WheelControl extends PaoYa.Component {
     }
 
     onEnable() {
+        let crossPromise = new Promise((resolve, reject) => {
+            Laya.loader.create('gamescenes/prefab/Cross.json', Laya.Handler.create(this, (json) => {
+                // console.log(json);
+                if (json instanceof Laya.Prefab) {
+                    resolve(json.json)
+                } else {
+                    resolve(json);
+                }
 
+            }))
+        });
+        crossPromise.then((json) => {
+            this.initCrossIcon(json)
+        })
+    }
+
+    initCrossIcon(json) {
+        let crossInfo = PaoYa.Utils.selectRandom(HeroConfig.crossIcons, 1);
+
+        let crossView = new Laya.Prefab();
+        crossView.json = json;
+        this.crossView = crossView;
+        let view = Laya.Pool.getItemByCreateFun('CrossView', crossView.create, crossView);
+        let crossViewComp = view.getComponent(Cross);
+        crossViewComp.params = crossInfo[0];
+        crossViewComp.params.ani = true;
+        view.pos(1200, 220);
+        view.scale(0.7,0.7)
+        this.owner.addChild(view);
     }
 
     onThrottleClick(e) {

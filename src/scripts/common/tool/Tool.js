@@ -200,4 +200,35 @@ export default class Tool {
         // 在适合的场景显示 Banner 广告
         return bannerAd
     }
+    //obj ={ name: 游戏名字 , appId:appId}
+    static goToNewGame(obj) {
+        Global.dataPoints(`游戏推荐点击_${obj.name}`)
+        let params = obj
+        // if (!params.appId) {
+        //     console.error("必须指定appId");
+        //     return;
+        // }
+        console.log("跳转游戏", obj)
+        if (typeof wx == 'undefined') {
+            return;
+        }
+        if (wx.navigateToMiniProgram) {
+            wx.navigateToMiniProgram({
+                appId: params.appId,
+                path: params.path || "",
+                extraData: params.extraData || {},
+                envVersion: params.envVersion || "release",
+                success: function () {
+                    Global.dataPoints(`${obj.name}成功跳转`)
+                },
+                fail: function (res) {
+
+                }
+            });
+        }
+    }
+
+    static showGameNums(obj){
+        Global.dataPoints(`游戏推荐展示_${obj.name}`)
+    }
 }

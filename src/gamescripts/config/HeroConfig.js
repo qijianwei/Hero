@@ -18,6 +18,51 @@ var HeroConfig = {
   }, {
 
   }],
+  crossIcons:[
+    {
+      name:'熄灭火花',
+      skin:'remote/icon/1.png',
+      appId:'wxe01f9f77ddb96b19'
+    },
+    {
+      name:'跳一跳',
+      skin:'remote/icon/2.png',
+      appId:'wx79a2296d151ac183'
+    },{
+      name:'建筑反应堆',
+      skin:'remote/icon/3.png',
+      appId:'wxb4ac0c02cd5bbd13'
+    },{
+      name:'木兰射箭',
+      skin:'remote/icon/4.png',
+      appId:'wx84dbcda70a6e5385'
+    },
+    {
+      name:'决战地牢',
+      skin:'remote/icon/5.png',
+      appId:'wx325b44b8ed5ef472'
+    },
+    {
+      name:'飞刀大师',
+      skin:'remote/icon/6.png',
+      appId:'wxbc263a31f4a052e7'
+    },
+    {
+      name:'火力飙车',
+      skin:'remote/icon/7.png',
+      appId:'wxed5a853eb6f8c194'
+    },
+    {
+      name:'采油小怪',
+      skin:'remote/icon/8.png',
+      appId:'wxee32187228632dc8'
+    },
+    {
+      name:'开心消方块',
+      skin:'remote/icon/9.png',
+      appId:'wx169e4a2b116bdab6'
+    }
+  ],
   spineMap: {
     freeze: {
       path: "spine/freeze/freeze.sk",
@@ -114,7 +159,8 @@ var HeroConfig = {
   },
 
   /* 提供给外部获取动画的接口，输入动画名字即可 */
-  getSkeleton:function (spineName, index = 0,cb) {
+  getSkeleton:function (spineName, index ,cb) {
+    if(index==undefined){index=0;}
     var skeleton;
     if (this.spineMap[spineName].templet) {
       skeleton = this.spineMap[spineName].templet.buildArmature(index);

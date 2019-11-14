@@ -4,8 +4,10 @@ import AdventDialog5 from "./gamescripts/dialog/AdventDialog5"
 import AdventResultDialog from "./gamescripts/dialog/AdventResultDialog"
 import AdventResultDialog5 from "./gamescripts/dialog/AdventResultDialog5"
 import BattleResultDialog from "./gamescripts/dialog/BattleResultDialog"
+import White from "./scripts/prefab/White"
 import PassResultDialog from "./gamescripts/dialog/PassResultDialog"
 import WeaponBar from "./gamescripts/prefab/WeaponBar"
+import PassResultDialogLoseOne from "./gamescripts/dialog/PassResultDialogLoseOne"
 import GameGuide from "./gamescripts/GameGuide/GameGuide"
 import MPBar from "./gamescripts/prefab/MPBar"
 import HPBar from "./gamescripts/prefab/HPBar"
@@ -58,6 +60,7 @@ import UnlockFour from "./scripts/dialog/weapon/UnlockFour"
 import UnlockTips from "./scripts/dialog/weapon/UnlockTips"
 import BeanBox from "./scripts/prefab/BeanBox"
 import HomeControl from "./scripts/common/HomeControl"
+import Cross from "./gamescripts/prefab/Cross"
 import SpeakMan from "./gamescripts/gameGuide/SpeakMan"
 import Player from "./gamescripts/prefab/Player"
 import PreOpenView from "./gamescripts/preOpen/PreOpenView"
@@ -73,8 +76,10 @@ export default class GameConfig {
 		reg("gamescripts/dialog/AdventResultDialog.js",AdventResultDialog);
 		reg("gamescripts/dialog/AdventResultDialog5.js",AdventResultDialog5);
 		reg("gamescripts/dialog/BattleResultDialog.js",BattleResultDialog);
+		reg("scripts/prefab/White.js",White);
 		reg("gamescripts/dialog/PassResultDialog.js",PassResultDialog);
 		reg("gamescripts/prefab/WeaponBar.js",WeaponBar);
+		reg("gamescripts/dialog/PassResultDialogLoseOne.js",PassResultDialogLoseOne);
 		reg("gamescripts/GameGuide/GameGuide.js",GameGuide);
 		reg("gamescripts/prefab/MPBar.js",MPBar);
 		reg("gamescripts/prefab/HPBar.js",HPBar);
@@ -127,6 +132,7 @@ export default class GameConfig {
 		reg("scripts/dialog/weapon/UnlockTips.js",UnlockTips);
 		reg("scripts/prefab/BeanBox.js",BeanBox);
 		reg("scripts/common/HomeControl.js",HomeControl);
+		reg("gamescripts/prefab/Cross.js",Cross);
 		reg("gamescripts/gameGuide/SpeakMan.js",SpeakMan);
 		reg("gamescripts/prefab/Player.js",Player);
 		reg("gamescripts/preOpen/PreOpenView.js",PreOpenView);
@@ -140,7 +146,7 @@ GameConfig.scaleMode ="fixedwidth";
 GameConfig.screenMode = "horizontal";
 GameConfig.alignV = "top";
 GameConfig.alignH = "left";
-GameConfig.startScene = "gamescenes/dialog/AdventDialog.scene";
+GameConfig.startScene = "gamescenes/dialog/PassResultDialogLose2.scene";
 GameConfig.sceneRoot = "";
 GameConfig.debug = false;
 GameConfig.stat = false;

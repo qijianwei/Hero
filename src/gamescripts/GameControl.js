@@ -1617,7 +1617,11 @@ passOver(loserIsSelf) {
                 res.stageId = this.params.stageId;
                 if (JSON.stringify(res.encounter) == '{}') {
                     PaoYa.DataCenter.user.dailyTaskStatus = res.dailyTaskStatus;
-                    this.navigator.popup('/dialog/PassResultDialog', res);
+                    if(loserIsSelf){
+                        this.navigator.popup('/dialog/PassResultDialogLose1', res);
+                    }else{
+                        this.navigator.popup('/dialog/PassResultDialog', res);
+                    }         
                 } else {
                     switch (res.encounter.type) {
                         case 1:

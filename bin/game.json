@@ -6,5 +6,16 @@
     "connectSocket": 10000,
     "uploadFile": 10000,
     "downloadFile": 10000
-  }
+  },
+  "navigateToMiniProgramAppIdList": [
+    "wxe01f9f77ddb96b19",
+    "wx79a2296d151ac183",
+    "wxb4ac0c02cd5bbd13",
+    "wx84dbcda70a6e5385",
+    "wx325b44b8ed5ef472",
+    "wxbc263a31f4a052e7",
+    "wxed5a853eb6f8c194",
+    "wxee32187228632dc8",
+    "wx169e4a2b116bdab6"
+  ]
 }

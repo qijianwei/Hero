@@ -2,11 +2,11 @@
     "x":0,
     "type":"Dialog",
     "selectedBox":2,
-    "selecteID":94,
+    "selecteID":8,
     "searchKey":"Dialog",
     "props":{"width":1334,"sceneColor":"#000000","runtime":"gamescripts/dialog/BattleResultDialog.js","height":750},
     "nodeParent":-1,
-    "maxID":95,
+    "maxID":97,
     "label":"Dialog",
     "isOpen":true,
     "isDirectory":true,
@@ -89,7 +89,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,spBtn",
-            "props":{"y":601,"x":564.5,"var":"spBtn","texture":"remote/pass_result/btnMatch.png","mouseEnabled":true},
+            "props":{"y":606,"x":567.5,"var":"spBtn","texture":"remote/pass_result/btnMatch.png","mouseEnabled":true},
             "nodeParent":2,
             "label":"spBtn",
             "isOpen":true,
@@ -146,7 +146,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,btnHeroHouse",
-            "props":{"y":597.5,"x":166,"var":"btnHeroHouse","texture":"remote/pass_result/btnHerosHouse.png"},
+            "props":{"y":574,"x":242.5,"var":"btnHeroHouse","texture":"remote/pass_result/btnHerosHouse.png"},
             "nodeParent":2,
             "label":"btnHeroHouse",
             "isDirectory":false,
@@ -267,6 +267,91 @@
                     "compId":94,
                     "child":[
                         ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "selectedBox":17,
+            "selecteID":11,
+            "searchKey":"Box",
+            "props":{"y":469.5,"x":431.5,"scaleY":0.6,"scaleX":0.6,"presetID":1,"preset":"laya/pages/scenes/prefab/White.prefab"},
+            "nodeParent":2,
+            "maxID":19,
+            "label":"Box(White)",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":96,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Script",
+                    "switchAble":true,
+                    "source":"src/scripts/prefab/White.js",
+                    "searchKey":"Script,White",
+                    "removeAble":true,
+                    "props":{"presetID":3,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                    "nodeParent":96,
+                    "label":"White",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":10,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Panel",
+                    "searchKey":"Panel",
+                    "props":{"presetID":10,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                    "nodeParent":96,
+                    "label":"container",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":17,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"presetID":4,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                            "nodeParent":17,
+                            "label":"Sprite(White)",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":11,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Sprite",
+                            "searchKey":"Sprite",
+                            "props":{"presetID":11,"preset":"laya/pages/scenes/prefab/White.prefab"},
+                            "nodeParent":17,
+                            "label":"Sprite(White)",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":18,
+                            "child":[
+                                ]
+                        }]
+                }],
+            "animations":[
+                {
+                    "nodes":[
+                        ],
+                    "name":"ani1",
+                    "id":1,
+                    "frameRate":24,
+                    "action":0
                 }]
         }],
     "animations":[

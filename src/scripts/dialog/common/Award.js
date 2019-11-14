@@ -9,6 +9,12 @@ export default class Award extends PaoYa.Dialog {
 
     constructor() {
         super();
+        // this.showBannerAd({
+        //     style:{
+        //         width:300,
+        //         align:'middle'  //广告位位置：middle ,left,right
+        //     }
+        // })
     }
 
     onEnable() {
